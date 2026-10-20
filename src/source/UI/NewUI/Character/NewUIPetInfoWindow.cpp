@@ -2,6 +2,10 @@
 ////////////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
+#include "UI/NewUI/Character/ParisCompanionArt46.h"
+#include "UI/NewUI/Character/ParisControls.h"
+namespace { UI::Theme::ParisCompanionArt46 g_PetTabs; GLuint g_ParisPetPanel = BITMAP_UNKNOWN; }
+#include "UI/NewUI/Character/ClassicPanelFrame.h"
 #include "I18N/All.h"
 
 #include "UI/NewUI/Character/NewUIPetInfoWindow.h"
@@ -67,12 +71,12 @@ void CNewUIPetInfoWindow::InitButtons()
     // Tab Button
     m_BtnTab.CreateRadioGroup(2, IMAGE_PETINFO_TAB_BUTTON);
     m_BtnTab.ChangeRadioText(ltext);
-    m_BtnTab.ChangeRadioButtonInfo(true, m_Pos.x + 12.f, m_Pos.y + 48.f, 56, 22);
+    m_BtnTab.ChangeRadioButtonInfo(true, m_Pos.x + 12.f, m_Pos.y + 48.f, 82, 22);
     m_BtnTab.ChangeFrame(m_iNumCurOpenTab);
 
     // Exit Button
     m_BtnExit.ChangeButtonImgState(true, IMAGE_PETINFO_BTN_EXIT, false);
-    m_BtnExit.ChangeButtonInfo(m_Pos.x + 13, m_Pos.y + 392, 36, 29);
+    m_BtnExit.ChangeButtonInfo(m_Pos.x + 165, m_Pos.y + 24, 16, 20);
     m_BtnExit.ChangeToolTipText(&I18N::Game::Close388, true);	// 1002 "�ݱ�"
 }
 
@@ -80,8 +84,8 @@ void CNewUIPetInfoWindow::SetPos(int x, int y)
 {
     m_Pos.x = x;
     m_Pos.y = y;
-    m_BtnTab.ChangeRadioButtonInfo(true, m_Pos.x + 12.f, m_Pos.y + 48.f, 56, 22);
-    m_BtnExit.ChangeButtonInfo(m_Pos.x + 13, m_Pos.y + 392, 36, 29);
+    m_BtnTab.ChangeRadioButtonInfo(true, m_Pos.x + 12.f, m_Pos.y + 48.f, 82, 22);
+    m_BtnExit.ChangeButtonInfo(m_Pos.x + 165, m_Pos.y + 24, 16, 20);
 }
 
 bool CNewUIPetInfoWindow::UpdateMouseEvent()
@@ -118,67 +122,47 @@ bool CNewUIPetInfoWindow::Update()
 bool CNewUIPetInfoWindow::Render()
 {
     EnableAlphaTest();
-
-    g_pRenderText->SetFont(g_hFont);
-    g_pRenderText->SetTextColor(0xFFFFFFFF);
-
-    RenderImage(IMAGE_PETINFO_BACK, m_Pos.x, m_Pos.y, float(PETINFOWINDOW_WIDTH), float(PETINFOWINDOW_HEIGHT));
-    RenderImage(IMAGE_PETINFO_TOP, m_Pos.x, m_Pos.y, float(PETINFOWINDOW_WIDTH), 64.f);
-    RenderImage(IMAGE_PETINFO_LEFT, m_Pos.x, m_Pos.y + 64.f, 21.f, float(PETINFOWINDOW_HEIGHT) - 64.f - 45.f);
-    RenderImage(IMAGE_PETINFO_RIGHT, m_Pos.x + float(PETINFOWINDOW_WIDTH) - 21.f, m_Pos.y + 64.f, 21.f, float(PETINFOWINDOW_HEIGHT) - 64.f - 45.f);
-    RenderImage(IMAGE_PETINFO_BOTTOM, m_Pos.x, m_Pos.y + float(PETINFOWINDOW_HEIGHT) - 45.f, float(PETINFOWINDOW_WIDTH), 45.f);
-
-    g_pRenderText->SetFont(g_hFontBold);
-    g_pRenderText->RenderText(m_Pos.x + 60, m_Pos.y + 13, I18N::Game::Pet, 70, 0, RT3_SORT_CENTER);
-    g_pRenderText->SetFont(g_hFont);
-    m_BtnTab.Render();
-
-    PET_INFO* pPetInfo = NULL;
-
-    switch (m_iNumCurOpenTab)
-    {
-    case TAB_TYPE_DARKHORSE:
-    {
-        pPetInfo = Hero->GetEquipedPetInfo(PET_TYPE_DARK_HORSE);
-
-        if (pPetInfo->m_dwPetType == PET_TYPE_NONE)
-        {
-            g_pRenderText->SetTextColor(0xFF0000FF);
-            g_pRenderText->SetFont(g_hFontBold);
-            wchar_t szText[256] = { 0, };
-            mu_swprintf(szText, I18N::Game::NoS, I18N::Game::DarkHorse);
-            g_pRenderText->RenderText(m_Pos.x + 15, m_Pos.y + 100, szText, 160, 30, RT3_SORT_CENTER);
-        }
-        else
-        {
-            RenderDarkHorseInfo(pPetInfo);
-        }
-    }
-    break;
-    case TAB_TYPE_DARKSPIRIT:
-    {
-        pPetInfo = Hero->GetEquipedPetInfo(PET_TYPE_DARK_SPIRIT);
-
-        if (pPetInfo->m_dwPetType == PET_TYPE_NONE)
-        {
-            g_pRenderText->SetTextColor(0xFF0000FF);
-            g_pRenderText->SetFont(g_hFontBold);
-            g_pRenderText->RenderText(m_Pos.x + 15, m_Pos.y + 100, I18N::Game::NoPet, 160, 30, RT3_SORT_CENTER);
-        }
-        else
-        {
-            RenderDarkSpiritInfo(pPetInfo);
-        }
-    }
-    break;
-    }
-
-    // Exit Button
-    m_BtnExit.Render();
-
+    UI::Paris::Color(1, 1, 1, 1);
+    RenderPanel();
+    RenderSelectedPet();
     DisableAlphaBlend();
-
     return true;
+}
+
+void CNewUIPetInfoWindow::RenderPanel()
+{
+    if (g_ParisPetPanel != BITMAP_UNKNOWN)
+        UI::Character::ParisStyle::Panel(g_ParisPetPanel, m_Pos);
+    else
+        UI::Paris::Frame(m_Pos.x, m_Pos.y, PETINFOWINDOW_WIDTH, PETINFOWINDOW_HEIGHT);
+    g_pRenderText->SetFont(g_hFontBold);
+    g_pRenderText->SetTextColor(255, 220, 130, 255);
+    g_pRenderText->SetBgColor(0);
+    g_pRenderText->RenderText(m_Pos.x + 60, m_Pos.y + 37, I18N::Game::Pet, 70, 0, RT3_SORT_CENTER);
+    for (int i = 0; i < 2; ++i)
+    {
+        const int x = m_Pos.x + 12 + i * 83;
+        g_PetTabs.Tab(x, m_Pos.y + 48, 82, i + 3,
+            i == 0 ? I18N::Game::DarkHorse : I18N::Game::DarkRaven, i == m_iNumCurOpenTab);
+    }
+}
+
+void CNewUIPetInfoWindow::RenderSelectedPet()
+{
+    const bool horse = m_iNumCurOpenTab == TAB_TYPE_DARKHORSE;
+    PET_INFO* info = Hero->GetEquipedPetInfo(horse ? PET_TYPE_DARK_HORSE : PET_TYPE_DARK_SPIRIT);
+    if (info && info->m_dwPetType != PET_TYPE_NONE)
+    {
+        if (horse) RenderDarkHorseInfo(info);
+        else RenderDarkSpiritInfo(info);
+        return;
+    }
+    wchar_t text[256]{};
+    if (horse) mu_swprintf(text, I18N::Game::NoS, I18N::Game::DarkHorse);
+    else mu_swprintf(text, L"%ls", I18N::Game::NoPet);
+    g_pRenderText->SetTextColor(255, 48, 48, 255);
+    g_pRenderText->SetFont(g_hFontBold);
+    g_pRenderText->RenderText(m_Pos.x + 15, m_Pos.y + 100, text, 160, 30, RT3_SORT_CENTER);
 }
 
 bool CNewUIPetInfoWindow::RenderDarkHorseInfo(PET_INFO* pPetInfo)
@@ -187,7 +171,7 @@ bool CNewUIPetInfoWindow::RenderDarkHorseInfo(PET_INFO* pPetInfo)
 
     g_pRenderText->SetFont(g_hFont);
     g_pRenderText->SetTextColor(255, 255, 255, 255);
-    g_pRenderText->RenderText(m_Pos.x + 60, m_Pos.y + 25, I18N::Game::DarkHorse, 70, 0, RT3_SORT_CENTER);
+
 
     int iPosX = m_Pos.x + 12;
     int iPosY = m_Pos.y + 75;
@@ -223,7 +207,7 @@ bool CNewUIPetInfoWindow::RenderDarkSpiritInfo(PET_INFO* pPetInfo)
 
     g_pRenderText->SetFont(g_hFont);
     g_pRenderText->SetTextColor(255, 255, 255, 255);
-    g_pRenderText->RenderText(m_Pos.x + 60, m_Pos.y + 25, I18N::Game::DarkRaven, 70, 0, RT3_SORT_CENTER);
+
 
     int iGBox1PosX = m_Pos.x + 12;
     int iGBox1PosY = m_Pos.y + 75;
@@ -278,6 +262,11 @@ bool CNewUIPetInfoWindow::RenderDarkSpiritInfo(PET_INFO* pPetInfo)
 
 void CNewUIPetInfoWindow::RenderGroupBox(int iPosX, int iPosY, int iWidth, int iHeight, int iTitleWidth/* =60 */, int iTitleHeight/* =20  */)
 {
+    if (g_ParisPetPanel != BITMAP_UNKNOWN)
+    {
+        UI::Theme::Bevel(iPosX, iPosY, iWidth, iHeight, L"");
+        return;
+    }
     EnableAlphaTest();
 
     constexpr unsigned int TitleBackdropColor = 0xE6000000u;
@@ -366,6 +355,8 @@ void CNewUIPetInfoWindow::CalcDamage(int iNumTapButton)
 
 void CNewUIPetInfoWindow::LoadImages()
 {
+    g_PetTabs.Load();
+    g_ParisPetPanel = Bitmaps.LoadImage(L"Data\\Interface\\Paris_Pet.tga", GL_LINEAR, GL_CLAMP_TO_EDGE);
     LoadBitmap(L"Interface\\newui_msgbox_back.jpg", IMAGE_PETINFO_BACK, GL_LINEAR);
     LoadBitmap(L"Interface\\newui_item_back04.tga", IMAGE_PETINFO_TOP, GL_LINEAR);
     LoadBitmap(L"Interface\\newui_item_back02-L.tga", IMAGE_PETINFO_LEFT, GL_LINEAR);
@@ -394,6 +385,9 @@ void CNewUIPetInfoWindow::LoadImages()
 
 void CNewUIPetInfoWindow::UnloadImages()
 {
+    g_PetTabs.Unload();
+    if (g_ParisPetPanel != BITMAP_UNKNOWN) DeleteBitmap(g_ParisPetPanel);
+    g_ParisPetPanel = BITMAP_UNKNOWN;
     DeleteBitmap(IMAGE_PETINFO_BACK);
     DeleteBitmap(IMAGE_PETINFO_TOP);
     DeleteBitmap(IMAGE_PETINFO_LEFT);

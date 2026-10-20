@@ -13114,4 +13114,8 @@
   <data name="QuestRequirementBuff" xml:space="preserve">
     <value>Bonus: %ls</value>
   </data>
+<data name="MentorConnecting" xml:space="preserve"><value>Mentor-Daten werden vom Server geladen...</value></data>
+  
+<data name="MentorUnavailable" xml:space="preserve"><value>Keine Antwort vom Mentor-Server. Server-Patch aktualisieren und neu verbinden.</value></data>
+
 </root>

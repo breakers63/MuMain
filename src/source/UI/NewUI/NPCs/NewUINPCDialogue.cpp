@@ -3,6 +3,8 @@
 //*****************************************************************************
 
 #include "stdafx.h"
+#include "UI/NewUI/NPCs/ParisNpcSkin56.h"
+namespace { UI::Theme::ParisNpcSkin56 npcSkin; }
 #include "UI/NewUI/NPCs/NewUINPCDialogue.h"
 #include "I18N/All.h"
 
@@ -100,6 +102,13 @@ bool CNewUINPCDialogue::UpdateMouseEvent()
 
 bool CNewUINPCDialogue::ProcessBtns()
 {
+    if (SEASON3B::IsPress(VK_LBUTTON) && CheckMouseIn(m_Pos.x + 165, m_Pos.y + 24, 16, 20))
+    {
+        g_pNewUISystem->Hide(INTERFACE_NPC_DIALOGUE);
+        UI::Paris::ConsumeMouse();
+        return true;
+    }
+
     if (m_btnClose.UpdateMouseEvent())
     {
         g_pNewUISystem->Hide(SEASON3B::INTERFACE_NPC_DIALOGUE);
@@ -243,7 +252,7 @@ bool CNewUINPCDialogue::Render()
     if (!m_btnSelTextR.IsLock())
         m_btnSelTextR.Render();
 
-    m_btnClose.Render();
+    npcSkin.NativeButton(m_btnClose, true);
 
     ::DisableAlphaBlend();
 
@@ -252,13 +261,8 @@ bool CNewUINPCDialogue::Render()
 
 void CNewUINPCDialogue::RenderBackImage()
 {
-    RenderImage(IMAGE_ND_BACK, m_Pos.x, m_Pos.y, float(ND_WIDTH), float(ND_HEIGHT));
-    RenderImage(IMAGE_ND_TOP, m_Pos.x, m_Pos.y, float(ND_WIDTH), 64.f);
-    RenderImage(IMAGE_ND_LEFT, m_Pos.x, m_Pos.y + 64, 21.f, 320.f);
-    RenderImage(IMAGE_ND_RIGHT, m_Pos.x + ND_WIDTH - 21, m_Pos.y + 64, 21.f, 320.f);
-    RenderImage(IMAGE_ND_BOTTOM, m_Pos.x, m_Pos.y + ND_HEIGHT - 45, float(ND_WIDTH), 45.f);
-
-    RenderImage(IMAGE_ND_LINE, m_Pos.x + 1, m_Pos.y + 181, 188.f, 21.f);
+    npcSkin.Panel(m_Pos.x, m_Pos.y);
+    npcSkin.Separator(m_Pos.x + 14, m_Pos.y + 192, 162);
 }
 
 void CNewUINPCDialogue::RenderSelTextBlock()
@@ -280,7 +284,7 @@ void CNewUINPCDialogue::RenderSelTextBlock()
     for (i = nStartSelText; i < m_nSelSelText - 1; ++i)
         nBlockPosY += ND_TEXT_GAP * m_anSelTextLine[i];
 
-    constexpr unsigned int SelectionColor = 0x8080B34Du;
+    constexpr unsigned int SelectionColor = 0x40734C14u;
     ::RenderColorQuadARGB(m_Pos.x + 11, nBlockPosY, 168.f,
         ND_TEXT_GAP * m_anSelTextLine[m_nSelSelText - 1], SelectionColor);
 }
@@ -290,8 +294,8 @@ void CNewUINPCDialogue::RenderText()
     g_pRenderText->SetFont(g_hFontBold);
     g_pRenderText->SetBgColor(0);
 
-    g_pRenderText->SetTextColor(150, 255, 240, 255);
-    g_pRenderText->RenderText(m_Pos.x, m_Pos.y + 12, g_QuestMng.GetNPCName(), ND_WIDTH, 0, RT3_SORT_CENTER);
+    g_pRenderText->SetTextColor(255, 220, 130, 255);
+    g_pRenderText->RenderText(m_Pos.x, m_Pos.y + 37, g_QuestMng.GetNPCName(), ND_WIDTH, 0, RT3_SORT_CENTER);
 
     g_pRenderText->SetFont(g_hFont);
     g_pRenderText->SetTextColor(255, 230, 210, 255);
@@ -341,6 +345,7 @@ float CNewUINPCDialogue::GetLayerDepth()
 
 void CNewUINPCDialogue::LoadImages()
 {
+    npcSkin.Load();
     LoadBitmap(L"Interface\\newui_msgbox_back.jpg", IMAGE_ND_BACK, GL_LINEAR);
     LoadBitmap(L"Interface\\newui_item_back04.tga", IMAGE_ND_TOP, GL_LINEAR);
     LoadBitmap(L"Interface\\newui_item_back02-L.tga", IMAGE_ND_LEFT, GL_LINEAR);
@@ -356,6 +361,7 @@ void CNewUINPCDialogue::LoadImages()
 
 void CNewUINPCDialogue::UnloadImages()
 {
+    npcSkin.Unload();
     DeleteBitmap(IMAGE_ND_CONTRIBUTE_BG);
     DeleteBitmap(IMAGE_ND_BTN_CLOSE);
     DeleteBitmap(IMAGE_ND_BTN_R);

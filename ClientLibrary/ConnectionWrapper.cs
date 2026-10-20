@@ -8,6 +8,7 @@ using System;
 using System.Buffers;
 using System.Diagnostics;
 using System.IO.Pipelines;
+using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 using MUnique.OpenMU.Network;
@@ -18,6 +19,7 @@ using MUnique.OpenMU.Network;
 public sealed class ConnectionWrapper : IDisposable
 {
     private readonly int _handle;
+    private readonly Socket? _socket;
     private readonly Connection _connection;
     private readonly OutboundFlushLoop _outboundFlushLoop;
     private readonly bool _networkDiagnosticsEnabled = Environment.GetEnvironmentVariable("MU_NETWORK_DIAGNOSTICS") == "1";
@@ -52,9 +54,11 @@ public sealed class ConnectionWrapper : IDisposable
     /// The pointer to an unmanaged method which is called when the connection got disconnected.
     /// Parameter: handle.
     /// </param>
-    public unsafe ConnectionWrapper(int handle, Connection connection, delegate* unmanaged<int, int, byte*, void> onPacketReceived, delegate* unmanaged<int, void> onDisconnected)
+    /// <param name="socket">The connected socket used to measure latency.</param>
+    public unsafe ConnectionWrapper(int handle, Connection connection, delegate* unmanaged<int, int, byte*, void> onPacketReceived, delegate* unmanaged<int, void> onDisconnected, Socket? socket = null)
     {
         this._handle = handle;
+        this._socket = socket;
         this._connection = connection;
         this._onPacketReceived = onPacketReceived;
         this._onDisconnected = onDisconnected;
@@ -68,6 +72,10 @@ public sealed class ConnectionWrapper : IDisposable
     /// Gets the output pipe writer.
     /// </summary>
     internal PipeWriter Output => this._connection.Output;
+
+    /// <summary>Reads the existing socket latency.</summary>
+    /// <returns>Milliseconds, or -1 when unavailable.</returns>
+    internal int GetTcpPingMilliseconds() => TcpLatency.ReadMilliseconds(this._socket);
 
     /// <summary>
     /// Begins receiving packets from the client.

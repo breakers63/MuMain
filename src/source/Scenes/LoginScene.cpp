@@ -6,6 +6,7 @@
 #include "LoginScene.h"
 #include "Camera/CameraUtility.h"
 #include "Camera/CameraManager.h"
+#include "Camera/CameraConfig.h"
 #include "Camera/CameraMove.h"
 #include "Audio/DSPlaySound.h"
 #include "Render/Textures/ZzzOpenglUtil.h"
@@ -250,27 +251,17 @@ static void InterpolateCameraMovement()
 }
 
 /**
- * @brief Updates login scene camera animation along predefined waypoint path.
+ * @brief Applies the fixed camera supplied with the PARIS harbor scene.
  */
 void MoveCamera()
 {
-    if (CCameraMove::GetInstancePtr()->IsTourMode())
-    {
-        return;
-    }
-
-    if (g_loginCamera.currentCount == -1)
-    {
-        InitializeLoginCamera();
-    }
-
-    UpdateCameraWaypoint();
-    InterpolateCameraMovement();
-
-    g_Camera.FOV = 45.f;
-    vec3_t Position;
-    Vector(0.f, 0.f, 0.f, Position);
-    MoveCharacterCamera(Position, g_loginCamera.currentPosition, g_loginCamera.currentAngle);
+    g_Camera.Position[0] = LoginServerSceneCamera::POSITION_X;
+    g_Camera.Position[1] = LoginServerSceneCamera::POSITION_Y;
+    g_Camera.Position[2] = LoginServerSceneCamera::POSITION_Z;
+    g_Camera.Angle[0] = LoginServerSceneCamera::ANGLE_PITCH;
+    g_Camera.Angle[1] = 0;
+    g_Camera.Angle[2] = LoginServerSceneCamera::ANGLE_ROLL;
+    g_Camera.FOV = LoginServerSceneCamera::FIELD_OF_VIEW;
 }
 
 void CreateLogInScene()
@@ -304,11 +295,8 @@ void CreateLogInScene()
     InputNumber = 2;
     InputTextHide[1] = 1;
 
-    // FIX: Enable tour mode with offset correction
-    // Tour mode waypoints work well for movement, but need position offset
-    // Offset is applied in CCameraMove::GetCurrentCameraPos()
-    CCameraMove::GetInstancePtr()->PlayCameraWalk(Hero->Object.Position, 1000);
-    CCameraMove::GetInstancePtr()->SetTourMode(TRUE, FALSE, 0);  // Start from waypoint 0
+    // The harbor package supplies a fixed pose instead of the stock tour.
+    CCameraMove::GetInstancePtr()->SetTourMode(FALSE);
 
     MoveMainCamera();
 
@@ -436,7 +424,7 @@ bool NewRenderLogInScene(HDC hDC)
     EndSprite();
     BeginBitmap();
 
-    if (CCameraMove::GetInstancePtr()->IsTourMode())
+    if (gMapManager.WorldActive == WD_73NEW_LOGIN_SCENE)
     {
         g_fMULogoAlpha += 0.02f;
         if (g_fMULogoAlpha > 10.0f) g_fMULogoAlpha = 10.0f;

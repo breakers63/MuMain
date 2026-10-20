@@ -6,6 +6,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
+#include "GameLogic/Items/SmallCape.h"
+#include "World/Monsters/CustomMonsterModels.h"
+#include "Render/Models/CustomMonsterColorRenderer.h"
 #include <execution>
 #include <algorithm>
 #include <span>
@@ -58,6 +61,24 @@ static bool s_bShowCharacterPickBoxes = false;
 
 namespace
 {
+    bool IsGameMasterCharacterModel(const OBJECT* object);
+    void CreateSmallCapeDlCloth(CPhysicsCloth& cloth, OBJECT* owner)
+    {
+        constexpr int kCapeBone = 19;
+        constexpr int kCapeColumns = 6;
+        constexpr int kCapeRows = 8;
+        constexpr float kCapeWidth = 100.0f;
+        constexpr float kCapeHeight = 150.0f;
+        constexpr int kCollisionBone = 17;
+        // Preserve approximately 20-unit cloth links at the smaller cape width.
+        cloth.Create(owner, kCapeBone, 0.0f, 8.0f, 10.0f, kCapeColumns, kCapeRows, kCapeWidth, kCapeHeight,
+            GameLogic::Items::SmallCapeTexture, GameLogic::Items::SmallCapeTexture, PCT_CURVED | PCT_SHORT_SHOULDER | PCT_MASK_ALPHA);
+        cloth.AddCollisionSphere(-10.f, -10.0f, -10.0f, 25.0f, kCollisionBone);
+        cloth.AddCollisionSphere(10.f, -10.0f, -10.0f, 25.0f, kCollisionBone);
+        cloth.AddCollisionSphere(-10.f, -10.0f, 20.0f, 27.0f, kCollisionBone);
+        cloth.AddCollisionSphere(10.f, -10.0f, 20.0f, 27.0f, kCollisionBone);
+    }
+
     // Character selection screen: generous axis-aligned pick box dimensions.
     constexpr float CHARSCENE_PICK_MIN_HEIGHT = 300.0f;
     constexpr float CHARSCENE_PICK_HALF_WIDTH = 72.0f;
@@ -9434,7 +9455,7 @@ void RenderCharacter(CHARACTER* c, OBJECT* o, int Select)
             RenderParts(c);
         }
     }
-    else if (o->Kind == KIND_PLAYER && o->Type == MODEL_PLAYER && o->SubType == MODEL_GM_CHARACTER)
+    else if (IsGameMasterCharacterModel(o))
     {
         RenderPartObject(&c->Object, o->SubType, NULL, c->Light, o->Alpha, 0, 0, 0, false, false, Translate, Select);
 
@@ -9725,11 +9746,7 @@ void RenderCharacter(CHARACTER* c, OBJECT* o, int Select)
                 }
                 else if (c->Wing.Type == MODEL_SMALL_CAPE_OF_LORD)
                 {
-                    pCloth[2].Create(o, 19, 0.0f, 8.0f, 10.0f, 10, 10, 100.0f, 100.0f, BITMAP_ROBE + 7, BITMAP_ROBE + 7, PCT_CURVED | PCT_SHORT_SHOULDER | PCT_MASK_ALPHA);
-                    pCloth[2].AddCollisionSphere(-10.f, -10.0f, -10.0f, 25.0f, 17);
-                    pCloth[2].AddCollisionSphere(10.f, -10.0f, -10.0f, 25.0f, 17);
-                    pCloth[2].AddCollisionSphere(-10.f, -10.0f, 20.0f, 27.0f, 17);
-                    pCloth[2].AddCollisionSphere(10.f, -10.0f, 20.0f, 27.0f, 17);
+                    CreateSmallCapeDlCloth(pCloth[2], o);
                 }
                 else
                 {
@@ -11386,6 +11403,8 @@ void RenderCharacter(CHARACTER* c, OBJECT* o, int Select)
     }
     }
 
+    Render::Models::CustomMonsterColor::Render(c);
+
     if (SceneFlag == MAIN_SCENE)
     {
         if ((o->Kind == KIND_PLAYER
@@ -13022,6 +13041,12 @@ extern int HeroIndex;
 
 namespace
 {
+    bool IsGameMasterCharacterModel(const OBJECT* object)
+    {
+        return (object->Kind == KIND_PLAYER || object->Kind == KIND_NPC)
+            && object->Type == MODEL_PLAYER && object->SubType == MODEL_GM_CHARACTER;
+    }
+
     bool IsForcedNpcMonsterType(EMonsterType type)
     {
         const int rawType = static_cast<int>(type);
@@ -13032,6 +13057,7 @@ namespace
         case 375:
         case 376:
         case 377:
+        case MONSTER_GAMEMASTER:
         case 379:
         case 380:
         case 381:
@@ -13167,8 +13193,22 @@ void Setting_Monster(CHARACTER* c, EMonsterType Type, int PositionX, int Positio
     }
 }
 
+namespace
+{
+    CHARACTER* TryCreateConfiguredMonster(EMonsterType type, int x, int y, int key)
+    {
+        const auto* definition = World::Monsters::Custom::Find(static_cast<int>(type));
+        if (!definition) return nullptr;
+        auto* character = World::Monsters::Custom::Create(*definition, x, y, key);
+        if (!character) return nullptr;
+        Setting_Monster(character, type, x, y);
+        World::Monsters::Custom::Configure(*definition, character);
+        return character;
+    }
+}
 CHARACTER* CreateMonster(EMonsterType Type, int PositionX, int PositionY, int Key)
 {
+    if (auto* custom = TryCreateConfiguredMonster(Type, PositionX, PositionY, Key)) return custom;
     CHARACTER* c = NULL;
     OBJECT* o;
     int Level;

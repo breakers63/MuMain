@@ -29,7 +29,7 @@ namespace SEASON3B
         enum
         {
             // �߰��ÿ� MENU_MAX_INDEX�ø��� ������ �ڵ� ����
-            MENU_MAX_INDEX = 6,
+            MENU_MAX_INDEX = 7,
             STANDARD_POS_X = REFERENCE_WIDTH - 112,
             STANDARD_POS_Y = REFERENCE_HEIGHT - 156,
         };

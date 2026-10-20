@@ -202,6 +202,8 @@ namespace SEASON3B
         void RenderSetOption();
         void RenderSocketOption();
         void RenderEquippedItem();
+        void SetGoldEquipmentSlotInfo();
+        void RenderGoldButtons();
         void RenderButtons();
         void RenderInventoryDetails() const;
 

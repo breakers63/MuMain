@@ -2,6 +2,9 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
+#include "UI/NewUI/NPCs/ParisNpcSkin56.h"
+#include "UI/NewUI/NPCs/NpcTextBlock.h"
+namespace { UI::Theme::ParisNpcSkin56 titusSkin; UI::NPCs::NpcTextBlock titusIntroduction; }
 #include "UI/NewUI/Combat/NewUIDuelWatchWindow.h"
 #include "UI/NewUI/NewUISystem.h"
 #include "UI/NewUI/Dialogs/NewUICustomMessageBox.h"
@@ -142,12 +145,9 @@ bool CNewUIDuelWatchWindow::Render()
     POINT ptOrigin = { m_Pos.x, m_Pos.y + 50 };
     wchar_t szText[256];
 
-    g_pRenderText->SetFont(g_hFontBold);
-    g_pRenderText->RenderText(ptOrigin.x, ptOrigin.y, I18N::Game::SelectAnColosseumYouDLikeToWatch, 190, 0, RT3_SORT_CENTER);
-
-    RenderImage(IMAGE_DUELWATCHWINDOW_LINE, m_Pos.x + 1, m_Pos.y + 130, 188.f, 21.f);
-    RenderImage(IMAGE_DUELWATCHWINDOW_LINE, m_Pos.x + 1, m_Pos.y + 130 + 90, 188.f, 21.f);
-    RenderImage(IMAGE_DUELWATCHWINDOW_LINE, m_Pos.x + 1, m_Pos.y + 130 + 90 + 90, 188.f, 21.f);
+    const wchar_t* introduction[]{I18N::Game::SelectAnColosseumYouDLikeToWatch};
+    titusIntroduction.Render(introduction, m_Pos.x + 14, m_Pos.y + 36, 162, 29);
+    for (int row = 0; row < 3; ++row) titusSkin.Separator(m_Pos.x + 13, m_Pos.y + 137 + row * 90, 164);
 
     int i = 0;
     g_pRenderText->SetFont(g_hFontBold);
@@ -183,7 +183,7 @@ bool CNewUIDuelWatchWindow::Render()
 
     for (i = 0; i < 4; ++i)
     {
-        m_BtnChannel[i].Render();
+        titusSkin.NativeButton(m_BtnChannel[i]);
     }
 
     DisableAlphaBlend();
@@ -207,6 +207,7 @@ float CNewUIDuelWatchWindow::GetLayerDepth()
 
 void CNewUIDuelWatchWindow::LoadImages()
 {
+    titusSkin.Load();
     LoadBitmap(L"Interface\\newui_msgbox_back.jpg", IMAGE_DUELWATCHWINDOW_BACK, GL_LINEAR);
     LoadBitmap(L"Interface\\newui_item_back01.tga", IMAGE_DUELWATCHWINDOW_TOP, GL_LINEAR);
     LoadBitmap(L"Interface\\newui_item_back02-L.tga", IMAGE_DUELWATCHWINDOW_LEFT, GL_LINEAR);
@@ -218,6 +219,7 @@ void CNewUIDuelWatchWindow::LoadImages()
 
 void CNewUIDuelWatchWindow::UnloadImages()
 {
+    titusSkin.Unload();
     DeleteBitmap(IMAGE_DUELWATCHWINDOW_BOTTOM);
     DeleteBitmap(IMAGE_DUELWATCHWINDOW_RIGHT);
     DeleteBitmap(IMAGE_DUELWATCHWINDOW_LEFT);
@@ -229,11 +231,7 @@ void CNewUIDuelWatchWindow::UnloadImages()
 
 void CNewUIDuelWatchWindow::RenderFrame()
 {
-    RenderImage(IMAGE_DUELWATCHWINDOW_BACK, m_Pos.x, m_Pos.y, 190.f, 429.f);
-    RenderImage(IMAGE_DUELWATCHWINDOW_TOP, m_Pos.x, m_Pos.y, 190.f, 64.f);
-    RenderImage(IMAGE_DUELWATCHWINDOW_LEFT, m_Pos.x, m_Pos.y + 64, 21.f, 320.f);
-    RenderImage(IMAGE_DUELWATCHWINDOW_RIGHT, m_Pos.x + INVENTORY_WIDTH - 21, m_Pos.y + 64, 21.f, 320.f);
-    RenderImage(IMAGE_DUELWATCHWINDOW_BOTTOM, m_Pos.x, m_Pos.y + INVENTORY_HEIGHT - 45, 190.f, 45.f);
+    titusSkin.Panel(m_Pos.x, m_Pos.y, 190, 429, true, false);
 
     wchar_t szText[256] = { 0, };
     float fPos_x = m_Pos.x + 15.0f, fPos_y = m_Pos.y;
@@ -249,6 +247,13 @@ void CNewUIDuelWatchWindow::RenderFrame()
 
 bool CNewUIDuelWatchWindow::BtnProcess()
 {
+    if (SEASON3B::IsPress(VK_LBUTTON) && SEASON3B::CheckMouseIn(m_Pos.x + 165, m_Pos.y + 24, 16, 20))
+    {
+        g_pNewUISystem->Hide(SEASON3B::INTERFACE_DUELWATCH);
+        UI::Paris::ConsumeMouse();
+        return true;
+    }
+
     // Top-right corner close "X" (shared frame): hides + swallows the click.
     g_pNewUISystem->HandleFrameCornerClose(m_Pos, SEASON3B::INTERFACE_DUELWATCH);
 

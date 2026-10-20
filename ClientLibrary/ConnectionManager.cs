@@ -151,6 +151,13 @@ public unsafe partial class ConnectionManager
         }
     }
 
+    /// <summary>Gets the TCP round trip time for the existing connection.</summary>
+    /// <param name="handle">The active connection handle.</param>
+    /// <returns>Milliseconds, or -1 if unavailable.</returns>
+    [UnmanagedCallersOnly(EntryPoint = "ConnectionManager_GetTcpPing")]
+    public static int GetTcpPing(int handle)
+        => Connections.TryGetValue(handle, out var connection) ? connection.GetTcpPingMilliseconds() : -1;
+
     private static int ConnectInner(string host, int port, bool isEncrypted, delegate* unmanaged<int, int, byte*, void> onPacketReceived, delegate* unmanaged<int, void> onDisconnected)
     {
         var tcpClient = new TcpClient(host, port);
@@ -164,7 +171,7 @@ public unsafe partial class ConnectionManager
         var connection = new Connection(socketConnection, decryptor, encryptor, new NullLogger<Connection>());
 
         var handle = Interlocked.Increment(ref _maxHandle);
-        var wrapper = new ConnectionWrapper(handle, connection, onPacketReceived, onDisconnected);
+        var wrapper = new ConnectionWrapper(handle, connection, onPacketReceived, onDisconnected, tcpClient.Client);
         if (!Connections.TryAdd(handle, wrapper))
         {
             wrapper.Dispose();

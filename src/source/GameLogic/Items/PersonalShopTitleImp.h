@@ -220,7 +220,10 @@ inline void DrawPersonalShopTitleImp()
 //. CPersonalItemPriceTable
 class CPersonalItemPriceTable
 {
-    std::map<int, int> m_mapTable;
+public:
+    struct Price { int Amount; BYTE Currency; };
+private:
+    std::map<int, Price> m_mapTable;
 
     static CPersonalItemPriceTable* ms_pSeller;
     static CPersonalItemPriceTable* ms_pBuyer;
@@ -239,14 +242,9 @@ public:
         RemoveAllItemPrice();
     }
 
-    void AddItemPrice(int index, int price)
+    void AddItemPrice(int index, int price, BYTE currency = 0)
     {
-        auto mi = m_mapTable.find(index);
-        if (mi != m_mapTable.end())
-        {
-            m_mapTable.erase(mi);
-        }
-        m_mapTable.insert(std::map<int, int>::value_type(index, price));
+        m_mapTable.insert_or_assign(index, Price{price, currency});
     }
     void RemoveItemPrice(int index)
     {
@@ -263,13 +261,18 @@ public:
 
     bool GetItemPrice(int index, int& price)
     {
-        auto mi = m_mapTable.find(index);
-        if (mi != m_mapTable.end())
-        {
-            price = (*mi).second;
-            return true;
-        }
-        return false;
+        Price value{};
+        if (!GetItemPrice(index, value)) return false;
+        price = value.Amount;
+        return true;
+    }
+
+    bool GetItemPrice(int index, Price& price)
+    {
+        const auto found = m_mapTable.find(index);
+        if (found == m_mapTable.end()) return false;
+        price = found->second;
+        return true;
     }
 
     static bool CreatePersonalItemTable()
@@ -323,12 +326,12 @@ inline void ReleasePersonalItemTable()
     CPersonalItemPriceTable::ReleasePersonalItemTable();
 }
 
-inline void AddPersonalItemPrice(int index, int price, int type)
+inline void AddPersonalItemPrice(int index, int price, int type, BYTE currency = 0)
 {
     CPersonalItemPriceTable* pPersonalItemTable = CPersonalItemPriceTable::GetObjPtr(type);
     if (pPersonalItemTable)
     {
-        pPersonalItemTable->AddItemPrice(index, price);
+        pPersonalItemTable->AddItemPrice(index, price, currency);
     }
 }
 
@@ -373,6 +376,12 @@ inline bool CheckPriceIntegrity(const wchar_t* szZen, int size)
         }
     }
     return true;
+}
+
+inline bool GetPersonalItemPrice(int index, CPersonalItemPriceTable::Price& price, int type)
+{
+    auto* table = CPersonalItemPriceTable::GetObjPtr(type);
+    return table && table->GetItemPrice(index, price);
 }
 
 #endif // _PERSONALSHOPTITLEIMP_H_

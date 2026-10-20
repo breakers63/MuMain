@@ -106,6 +106,8 @@ namespace SEASON3B
         void UnloadImages();
 
         void InitButtons();
+        void RenderPanel();
+        void RenderSelectedPet();
         void RenderGroupBox(int iPosX, int iPosY, int iWidth, int iHeight, int iTitleWidth = 60, int iTitleHeight = 20);
         void CalcDamage(int iNumTapButton);
         bool RenderDarkHorseInfo(PET_INFO* pPetInfo);

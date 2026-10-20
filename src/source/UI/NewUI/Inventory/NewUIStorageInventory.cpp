@@ -1,8 +1,11 @@
-﻿//*****************************************************************************
+//*****************************************************************************
 // File: NewUIStorageInventory.cpp
 //*****************************************************************************
 
 #include "stdafx.h"
+#include "UI/NewUI/Inventory/VaultPanelArt.h"
+#include "UI/NewUI/Character/ParisControls.h"
+namespace { UI::Inventory::VaultPanelArt vaultArt; }
 #include "UI/NewUI/Inventory/NewUIStorageInventory.h"
 #include "I18N/All.h"
 
@@ -50,6 +53,7 @@ bool CNewUIStorageInventory::Create(CNewUIManager* pNewUIMng, int x, int y)
         return false;
     }
 
+    m_pNewInventoryCtrl->SetGoldTheme(true);
     SetPos(x, y);
 
     LoadImages();
@@ -92,17 +96,17 @@ void CNewUIStorageInventory::SetPos(int x, int y)
     m_Pos.y = y;
     if (m_pNewInventoryCtrl)
     {
-        m_pNewInventoryCtrl->SetPos(x + 15, y + 36);
+        m_pNewInventoryCtrl->SetPos(x + 15, y + 46);
     }
 
-    constexpr int xOffsetPerButton = 37;
-    constexpr int xFirstButton = 13;
+    constexpr int xOffsetPerButton = UI::Inventory::VaultPanelArt::ButtonSize;
+    constexpr int xFirstButton = UI::Inventory::VaultPanelArt::FirstActionLeft;
     for (int i = BTN_INSERT_ZEN; i < MAX_BTN; ++i)
     {
-        m_abtn[i].ChangeButtonInfo(x + xFirstButton + i * xOffsetPerButton, y + 391, 36, 29);
+        m_abtn[i].ChangeButtonInfo(x + xFirstButton + i * xOffsetPerButton, y + UI::Inventory::VaultPanelArt::FooterTop, xOffsetPerButton, xOffsetPerButton);
     }
 
-    m_BtnExpand.ChangeButtonInfo(x + xFirstButton + MAX_BTN * xOffsetPerButton, y + 391, 36, 29);
+    m_BtnExpand.ChangeButtonInfo(x + xFirstButton + MAX_BTN * xOffsetPerButton, y + UI::Inventory::VaultPanelArt::FooterTop, xOffsetPerButton, xOffsetPerButton);
 }
 
 bool CNewUIStorageInventory::UpdateMouseEvent()
@@ -173,36 +177,40 @@ bool CNewUIStorageInventory::Render()
     if (m_pNewInventoryCtrl)
         m_pNewInventoryCtrl->Render();
 
-    for (int i = BTN_INSERT_ZEN; i < MAX_BTN; ++i)
-        m_abtn[i].Render();
-
-    if (CharacterAttribute->IsVaultExtended > 0)
-    {
-        m_BtnExpand.Render();
-    }
+    RenderButtons();
 
     DisableAlphaBlend();
 
     return true;
 }
 
+void CNewUIStorageInventory::RenderButtons()
+{
+    using Icon = UI::Inventory::VaultPanelArt::Icon;
+    vaultArt.Close(m_Pos);
+    const Icon icons[] = {Icon::Deposit, Icon::Withdraw, m_bLock ? Icon::Locked : Icon::Unlocked};
+    const wchar_t* tips[] = {L"Guardar Zen", L"Retirar Zen", L"Bloquear / desbloquear"};
+    for (int i = BTN_INSERT_ZEN; i < MAX_BTN; ++i)
+    {
+        const auto position = m_abtn[i].GetPos();
+        vaultArt.Button(position, icons[i], !m_abtn[i].IsLock());
+        UI::Theme::HoverTip(position.x, position.y, UI::Inventory::VaultPanelArt::ButtonSize,
+            UI::Inventory::VaultPanelArt::ButtonSize, tips[i]);
+    }
+    if (CharacterAttribute->IsVaultExtended > 0)
+        vaultArt.Button(m_BtnExpand.GetPos(), Icon::Expand, !m_BtnExpand.IsLock());
+}
+
 void CNewUIStorageInventory::RenderBackImage()
 {
-    const auto x = static_cast<float>(m_Pos.x);
-    const auto y = static_cast<float>(m_Pos.y);
-    RenderImage(IMAGE_STORAGE_BACK, x, y, STORAGE_WIDTH, STORAGE_HEIGHT);
-    RenderImage(IMAGE_STORAGE_TOP, x, y, STORAGE_WIDTH, 64.f);
-    RenderImage(IMAGE_STORAGE_LEFT, x, y + 64, 21.f, 320.f);
-    RenderImage(IMAGE_STORAGE_RIGHT, x + STORAGE_WIDTH - 21, y + 64, 21.f, 320.f);
-    RenderImage(IMAGE_STORAGE_BOTTOM, x, y + STORAGE_HEIGHT - 45, STORAGE_WIDTH, 45.f);
-
-    RenderImage(IMAGE_STORAGE_MONEY, x + 10, y + 342, 170.f, 46.f);
+    vaultArt.Frame(m_Pos);
+    UI::Theme::Bevel(m_Pos.x + 10, m_Pos.y + 348, 170, 14, L"");
+    UI::Theme::Bevel(m_Pos.x + 10, m_Pos.y + 364, 170, 12, L"");
 }
 
 void CNewUIStorageInventory::RenderText()
 {
     wchar_t szTemp[128];
-    int nTempZen;
 
     g_pRenderText->SetFont(g_hFontBold);
     g_pRenderText->SetBgColor(0);
@@ -212,18 +220,25 @@ void CNewUIStorageInventory::RenderText()
     if (m_bLock)
         g_pRenderText->SetTextColor(240, 32, 32, 255);
     else
-        g_pRenderText->SetTextColor(216, 216, 216, 255);
+        g_pRenderText->SetTextColor(255, 220, 130, 255);
     g_pRenderText->RenderText(
-        m_Pos.x, m_Pos.y + 11, szTemp, STORAGE_WIDTH, 0, RT3_SORT_CENTER);
+        m_Pos.x, m_Pos.y + 37, szTemp, STORAGE_WIDTH, 0, RT3_SORT_CENTER);
 
-    nTempZen = CharacterMachine->StorageGold;
+    RenderBalances();
+}
+
+void CNewUIStorageInventory::RenderBalances()
+{
+    g_pRenderText->SetFont(g_hFont);
+    wchar_t szTemp[128];
+    int nTempZen = CharacterMachine->StorageGold;
     ConvertGold(nTempZen, szTemp);
     g_pRenderText->SetTextColor(getGoldColor(nTempZen));
     g_pRenderText->RenderText(
-        m_Pos.x + 168, m_Pos.y + 342 + 8, szTemp, 0, 0, RT3_WRITE_RIGHT_TO_LEFT);
+        m_Pos.x + 168, m_Pos.y + 350, szTemp, 0, 0, RT3_WRITE_RIGHT_TO_LEFT);
 
-    g_pRenderText->SetTextColor(240, 64, 64, 255);
-    g_pRenderText->RenderText(m_Pos.x + 10 + 15, m_Pos.y + 342 + 29, I18N::Game::StorageFee);
+    g_pRenderText->SetTextColor(255, 220, 150, 255);
+    g_pRenderText->RenderText(m_Pos.x + 18, m_Pos.y + 366, I18N::Game::StorageFee);
 
     __int64 iTotalLevel = (__int64)CharacterAttribute->Level + Master_Level_Data.nMLevel;
 
@@ -238,7 +253,7 @@ void CNewUIStorageInventory::RenderText()
 
     ConvertGold(nTempZen, szTemp);
     g_pRenderText->SetTextColor(255, 220, 150, 255);
-    g_pRenderText->RenderText(m_Pos.x + 168, m_Pos.y + 342 + 29, szTemp, 0, 0, RT3_WRITE_RIGHT_TO_LEFT);
+    g_pRenderText->RenderText(m_Pos.x + 168, m_Pos.y + 366, szTemp, 0, 0, RT3_WRITE_RIGHT_TO_LEFT);
 }
 
 float CNewUIStorageInventory::GetLayerDepth()
@@ -253,6 +268,7 @@ CNewUIInventoryCtrl* CNewUIStorageInventory::GetInventoryCtrl() const
 
 void CNewUIStorageInventory::LoadImages()
 {
+    vaultArt.Load();
     LoadBitmap(L"Interface\\newui_msgbox_back.jpg", IMAGE_STORAGE_BACK, GL_LINEAR);
     LoadBitmap(L"Interface\\newui_item_back01.tga", IMAGE_STORAGE_TOP, GL_LINEAR);
     LoadBitmap(L"Interface\\newui_item_back02-L.tga", IMAGE_STORAGE_LEFT, GL_LINEAR);
@@ -267,6 +283,7 @@ void CNewUIStorageInventory::LoadImages()
 
 void CNewUIStorageInventory::UnloadImages()
 {
+    vaultArt.Unload();
     DeleteBitmap(IMAGE_STORAGE_MONEY);
     DeleteBitmap(IMAGE_STORAGE_BTN_LOCK);
     DeleteBitmap(IMAGE_STORAGE_BTN_UNLOCK);
@@ -483,6 +500,12 @@ void CNewUIStorageInventory::SendRequestItemToStorage(ITEM* pItemObj, int nInven
 
 bool CNewUIStorageInventory::ProcessBtns()
 {
+    if (vaultArt.ClosePressed(m_Pos))
+    {
+        g_pNewUISystem->Hide(INTERFACE_STORAGE);
+        return true;
+    }
+
     if (CharacterAttribute->IsVaultExtended > 0 && m_BtnExpand.UpdateMouseEvent())
     {
         g_pNewUISystem->Toggle(INTERFACE_STORAGE_EXT);

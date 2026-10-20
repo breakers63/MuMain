@@ -1,4 +1,6 @@
 #include "stdafx.h"
+#include "UI/NewUI/HUD/ActiveInvasionPanel.h"
+#include "ActivityHistoryHooks.h"
 #include "I18N/All.h"
 
 #include "UI/NewUI/HUD/NewUIChatLogWindow.h"
@@ -268,6 +270,8 @@ void SEASON3B::CNewUIChatLogWindow::SetPosition(int x, int y)
 
 void SEASON3B::CNewUIChatLogWindow::AddText(const type_string& strID, const type_string& strText, MESSAGE_TYPE MsgType, MESSAGE_TYPE ErrMsgType /*= TYPE_ALL_MESSAGE*/)
 {
+    if (UI::Invasions::ConsumeMetadata(strText)) return;
+    UI::ActivityLogs::RecordPostedItem(strID, strText);
     if (strID.empty() && strText.empty())
     {
         return;

@@ -75,6 +75,7 @@ namespace SEASON3B
         bool InventoryProcess();
 
         void RenderFrame() const;
+        void RenderLockedExtension(int index) const;
         void RenderTexts() const;
     };
 }

@@ -34,6 +34,8 @@
 #include "D3D12Diagnostics.h"
 #include "DrawCommandHistory.h"
 #include "MuRenderer.h"
+#include "SdlGpuHdPostProcessor.h"
+#include "Data/GameConfig/GameConfig.h"
 #include "QuadTopology.h"
 #include "SdlGpuPixelFormat.h"
 #include "SdlGpuReplayState.h"
@@ -243,6 +245,7 @@ static SDL_Window* s_window = nullptr;
 static SDL_GPUCommandBuffer* s_cmdBuf = nullptr;
 static SDL_GPURenderPass* s_renderPass = nullptr;
 static SDL_GPUTexture* s_swapchainTexture = nullptr;
+static Render::Hd::SdlGpuHdPostProcessor s_hdPost;
 
 // Swapchain dimensions in physical pixels (from SDL_AcquireGPUSwapchainTexture).
 // Used for viewport calculations — distinct from logical window size on HiDPI/Retina.
@@ -1271,6 +1274,8 @@ public:
             return false;
         }
 
+        (void)s_hdPost.Initialize(s_device, SDL_GetGPUSwapchainTextureFormat(s_device, s_window), driverName);
+
         // Shaders are no longer needed after pipelines are created.
         ReleaseShaders();
 
@@ -1406,6 +1411,7 @@ public:
             return;
         }
 
+        s_hdPost.Release();
         ReleaseFrameReadbackTexture();
         s_frameReadbackState.Reset();
 
@@ -1817,9 +1823,12 @@ public:
             s_pendingFrameCaptureTextureId = 0u;
         }
 
-        SDL_GPUTexture* const frameColorTexture = s_frameReadbackTexture    ? s_frameReadbackTexture
+        SDL_GPUTexture* const finalColorTexture = s_frameReadbackTexture    ? s_frameReadbackTexture
                                                   : reconnectCaptureTexture ? reconnectCaptureTexture
                                                                             : s_swapchainTexture;
+        const auto& hdSettings = GameConfig::GetInstance().GetHdSettings();
+        SDL_GPUTexture* hdScene = hdSettings.Enabled ? s_hdPost.SceneTarget(s_swapW, s_swapH) : nullptr;
+        SDL_GPUTexture* const frameColorTexture = hdScene ? hdScene : finalColorTexture;
         bool renderPassCompleted = false;
         if (IsFrameTimingEnabled())
         {
@@ -1920,10 +1929,21 @@ public:
             renderPassCompleted = true;
         }
 
-        if (reconnectCaptureTexture && frameColorTexture != reconnectCaptureTexture)
+        if (hdScene && !s_hdPost.Apply(s_cmdBuf, finalColorTexture, hdSettings))
+        {
+            SDL_GPUBlitInfo fallback{};
+            fallback.source.texture = hdScene;
+            fallback.source.w = fallback.destination.w = s_swapW;
+            fallback.source.h = fallback.destination.h = s_swapH;
+            fallback.destination.texture = finalColorTexture;
+            fallback.load_op = SDL_GPU_LOADOP_DONT_CARE;
+            fallback.filter = SDL_GPU_FILTER_LINEAR;
+            SDL_BlitGPUTexture(s_cmdBuf, &fallback);
+        }
+        if (reconnectCaptureTexture && finalColorTexture != reconnectCaptureTexture)
         {
             SDL_GPUBlitInfo blit{};
-            blit.source.texture = frameColorTexture;
+            blit.source.texture = finalColorTexture;
             blit.source.w = s_swapW;
             blit.source.h = s_swapH;
             blit.destination.texture = reconnectCaptureTexture;
@@ -1935,9 +1955,9 @@ public:
             SDL_BlitGPUTexture(s_cmdBuf, &blit);
         }
 
-        if (frameColorTexture != s_swapchainTexture)
+        if (finalColorTexture != s_swapchainTexture)
         {
-            BlitTextureToSwapchain(s_cmdBuf, frameColorTexture);
+            BlitTextureToSwapchain(s_cmdBuf, finalColorTexture);
         }
 
         if (s_frameReadbackTexture)

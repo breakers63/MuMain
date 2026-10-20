@@ -13031,4 +13031,8 @@
   <data name="QuestRequirementBuff" xml:space="preserve">
     <value>Bonus: %ls</value>
   </data>
+<data name="MentorConnecting" xml:space="preserve"><value>Waiting for mentorship data from the server...</value></data>
+  
+<data name="MentorUnavailable" xml:space="preserve"><value>The mentorship server has not responded. Update the server patch and reconnect.</value></data>
+
 </root>

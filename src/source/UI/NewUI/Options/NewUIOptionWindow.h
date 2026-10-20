@@ -81,6 +81,10 @@ namespace SEASON3B
         int GetRenderLevel();
         void SetRenderAllEffects(bool bRenderAllEffects);
         bool GetRenderAllEffects();
+        bool GetReduceParticlesSprites();
+        bool GetReduceEnvironment();
+        bool GetReduceBoids();
+        bool GetReduceShadows();
 
     private:
         void LoadImages();

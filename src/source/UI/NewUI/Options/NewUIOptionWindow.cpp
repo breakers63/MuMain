@@ -10,6 +10,9 @@
 #include "Data/GameConfig/GameConfig.h"
 #include "Data/GameConfig/GameConfigConstants.h"
 #include "Audio/AudioPlayer.h"
+#include "GoldOptionPanel.h"
+#include "UI/NewUI/Dialogs/ParisCustomMenuWindow.h"
+#include "UI/NewUI/Character/ParisControls.h"
 #include <algorithm>
 #include <cstring>
 #include "I18N/All.h"
@@ -160,11 +163,11 @@ namespace
     // 70-wide bar starts at x+60. Y nudged down to keep it centered in its row.
     // Both the render (RenderButtons) and the hit test (HandleRenderLevelSlider)
     // read these, so size/position stay in sync.
-    constexpr int RENDER_SLIDER_X_LOCAL = 60;
-    constexpr int RENDER_SLIDER_Y_LOCAL = 191;
-    constexpr int RENDER_SLIDER_WIDTH = 70;
-    constexpr int RENDER_SLIDER_HEIGHT = 15;
-    constexpr float RENDER_LEVEL_MAX = 5.f;
+    constexpr int RENDER_SLIDER_X_LOCAL = 25;
+    constexpr int RENDER_SLIDER_Y_LOCAL = 195;
+    constexpr int RENDER_SLIDER_WIDTH = 140;
+    constexpr int RENDER_SLIDER_HEIGHT = 20;
+    constexpr float RENDER_LEVEL_MAX = 4.f;
     // Native size of the effect-bar sprite (the 5 numbered squares). Scaled down
     // to RENDER_SLIDER_WIDTH x HEIGHT via RenderImageStretch, so the whole bar
     // shrinks instead of cropping.
@@ -308,8 +311,8 @@ void SEASON3B::CNewUIOptionWindow::InitFontCombo()
 void SEASON3B::CNewUIOptionWindow::SetButtonInfo()
 {
     m_BtnClose.ChangeTextBackColor(RGBA(255, 255, 255, 0));
-    m_BtnClose.ChangeButtonImgState(true, IMAGE_OPTION_BTN_CLOSE, true);
-    m_BtnClose.ChangeButtonInfo(m_Pos.x + 68, m_Pos.y + 388, 54, 30);
+    m_BtnClose.ChangeButtonImgState(false, IMAGE_OPTION_BTN_CLOSE, true);
+    m_BtnClose.ChangeButtonInfo(m_Pos.x + UI::Options::Gold::CloseX, m_Pos.y + UI::Options::Gold::CloseY, UI::Options::Gold::CloseSize, UI::Options::Gold::CloseSize);
     m_BtnClose.ChangeImgColor(BUTTON_STATE_UP, RGBA(255, 255, 255, 255));
     m_BtnClose.ChangeImgColor(BUTTON_STATE_DOWN, RGBA(255, 255, 255, 255));
 }
@@ -327,8 +330,9 @@ void SEASON3B::CNewUIOptionWindow::Release()
 
 void SEASON3B::CNewUIOptionWindow::SetPos(int x, int y)
 {
-    m_Pos.x = x;
-    m_Pos.y = y;
+    m_Pos.x = (640 - UI::Options::Gold::Width) / 2;
+    m_Pos.y = (480 - UI::Options::Gold::Height) / 2;
+    SetButtonInfo();
     m_ResolutionCombo.SetPos(m_Pos.x + RES_COMBO_X_LOCAL, m_Pos.y + RES_COMBO_Y_LOCAL);
     m_LanguageCombo.SetPos(m_Pos.x + LANG_COMBO_X_LOCAL, m_Pos.y + LANG_COMBO_Y_LOCAL);
     m_FontCombo.SetPos(m_Pos.x + FONT_COMBO_X_LOCAL, m_Pos.y + FONT_COMBO_Y_LOCAL);
@@ -402,6 +406,12 @@ bool SEASON3B::CNewUIOptionWindow::UpdateMouseEvent()
         return false;
     }
 
+    if (UI::Options::Gold::HandleVisualSettings(m_Pos.x, m_Pos.y))
+    {
+        m_bSwallowClickHold = true;
+        return false;
+    }
+
     bool oldWindowedMode = m_bWindowedMode;
     HandleCheckboxInputs();
 
@@ -418,7 +428,7 @@ bool SEASON3B::CNewUIOptionWindow::UpdateMouseEvent()
 
     // Combo box already processed at the top. Just consume clicks inside the
     // option window itself so they don't fall through to the world.
-    if (CheckMouseIn(m_Pos.x, m_Pos.y, 190, 419))
+    if (CheckMouseIn(m_Pos.x, m_Pos.y, UI::Options::Gold::Width, UI::Options::Gold::Height))
         return false;
 
     return true;
@@ -431,7 +441,7 @@ void SEASON3B::CNewUIOptionWindow::HandleCheckboxInputs()
         {  43, &m_bAutoAttack        },
         {  65, &m_bWhisperSound      },
         { 155, &m_bSlideHelp         },
-        { 238, &m_bRenderAllEffects  },
+        { 217, &m_bRenderAllEffects  },
         { 356, &m_bWindowedMode      },
     };
 
@@ -550,6 +560,7 @@ bool SEASON3B::CNewUIOptionWindow::Render()
     EnableAlphaTest();
     RenderFrame();
     RenderContents();
+    UI::Options::Gold::VisualSettings(m_Pos.x, m_Pos.y);
     RenderButtons();
     DisableAlphaBlend();
     return true;
@@ -567,6 +578,7 @@ float SEASON3B::CNewUIOptionWindow::GetKeyEventOrder()	// 10.f;
 
 void SEASON3B::CNewUIOptionWindow::OpenningProcess()
 {
+    SEASON3B::CParisCustomMenuWindow::CloseAllOverlays();
     // Resync state that may have been changed externally while the window was hidden.
     m_bSwallowClickHold = false;   // drop any stale combo click-swallow latch
     InitResolutionCombo();
@@ -588,6 +600,7 @@ void SEASON3B::CNewUIOptionWindow::ClosingProcess()
 
 void SEASON3B::CNewUIOptionWindow::LoadImages()
 {
+    UI::Options::Gold::Load();
     LoadBitmap(L"Interface\\newui_button_close.tga", IMAGE_OPTION_BTN_CLOSE, GL_LINEAR);
     LoadBitmap(L"Interface\\newui_msgbox_back.jpg", IMAGE_OPTION_FRAME_BACK, GL_LINEAR);
     LoadBitmap(L"Interface\\newui_item_back03.tga", IMAGE_OPTION_FRAME_DOWN, GL_LINEAR);
@@ -605,6 +618,7 @@ void SEASON3B::CNewUIOptionWindow::LoadImages()
 
 void SEASON3B::CNewUIOptionWindow::UnloadImages()
 {
+    UI::Options::Gold::Unload();
     DeleteBitmap(IMAGE_OPTION_BTN_CLOSE);
     DeleteBitmap(IMAGE_OPTION_FRAME_BACK);
     DeleteBitmap(IMAGE_OPTION_FRAME_DOWN);
@@ -622,175 +636,39 @@ void SEASON3B::CNewUIOptionWindow::UnloadImages()
 
 void SEASON3B::CNewUIOptionWindow::RenderFrame()
 {
-    float x, y;
-    x = m_Pos.x;
-    y = m_Pos.y;
-    // Frame is composed of: 64px top + N*10px middle slats + 45px bottom. The
-    // slat count is tuned so the frame reaches the Close button (Y 388) plus the
-    // bottom border, after the Font/Language/Resolution/Windowed rows.
-    constexpr int SLAT_COUNT = 30;
-    constexpr float FRAME_HEIGHT = 64.f + SLAT_COUNT * 10.f + 45.f;
-    RenderImage(IMAGE_OPTION_FRAME_BACK, x, y, 190.f, FRAME_HEIGHT);
-    RenderImage(IMAGE_OPTION_FRAME_UP, x, y, 190.f, 64.f);
-    y += 64.f;
-    for (int i = 0; i < SLAT_COUNT; ++i)
-    {
-        RenderImage(IMAGE_OPTION_FRAME_LEFT, x, y, 21.f, 10.f);
-        RenderImage(IMAGE_OPTION_FRAME_RIGHT, x + 190 - 21, y, 21.f, 10.f);
-        y += 10.f;
-    }
-    RenderImage(IMAGE_OPTION_FRAME_DOWN, x, y, 190.f, 45.f);
-
-    y = m_Pos.y + 60.f;
-    RenderImage(IMAGE_OPTION_LINE, x + 18, y, 154.f, 2.f);     // after auto attack
-    y += 22.f;
-    RenderImage(IMAGE_OPTION_LINE, x + 18, y, 154.f, 2.f);     // after whisper
-
-    y = m_Pos.y + 150.f;
-    RenderImage(IMAGE_OPTION_LINE, x + 18, y, 154.f, 2.f);     // after music vol
-
-    y += 22.f;
-    RenderImage(IMAGE_OPTION_LINE, x + 18, y, 154.f, 2.f);     // after slide help
-
-    y += 39.f;
-    RenderImage(IMAGE_OPTION_LINE, x + 18, y, 154.f, 2.f);     // after render level
-
-    y += 25.f;
-    RenderImage(IMAGE_OPTION_LINE, x + 18, y, 154.f, 2.f);     // after render full effects
+    UI::Options::Gold::Frame(m_Pos.x, m_Pos.y);
 }
 
 void SEASON3B::CNewUIOptionWindow::RenderContents()
 {
-    float x, y;
-    x = m_Pos.x + 20.f;
-    y = m_Pos.y + 46.f;
-    RenderImage(IMAGE_OPTION_POINT, x, y, 10.f, 10.f);       // Auto Attack
-    y += 22.f;
-    RenderImage(IMAGE_OPTION_POINT, x, y, 10.f, 10.f);       // Whisper Sound
-    y += 22.f;
-    RenderImage(IMAGE_OPTION_POINT, x, y, 10.f, 10.f);       // Sound Volume
-    y += 28.f;
-    RenderImage(IMAGE_OPTION_POINT, x, y, 10.f, 10.f);       // Music Volume
-    y += 40.f;
-    RenderImage(IMAGE_OPTION_POINT, x, y, 10.f, 10.f);       // Slide Help
-    y += 22.f;
-    RenderImage(IMAGE_OPTION_POINT, x, y, 10.f, 10.f);       // Render Level
-
-    y += 39.f;
-    RenderImage(IMAGE_OPTION_POINT, x, y, 10.f, 10.f);       // Render Full Effects
-
+    struct Row { int Top; const wchar_t* Text; };
+    const Row rows[]{
+        {48, I18N::Game::AutomaticAttack}, {70, I18N::Game::BeepSoundForWhispering},
+        {92, I18N::Game::SoundVolume}, {120, I18N::Game::MusicVolume},
+        {160, I18N::Game::SlideHelp}, {180, I18N::Game::EffectLimitation},
+        {221, I18N::Game::RenderFullEffects}, {FONT_LABEL_Y_LOCAL, I18N::Game::Font},
+        {LANG_LABEL_Y_LOCAL, I18N::Game::Language}, {322, I18N::Game::Resolution},
+        {361, I18N::Game::WindowedMode}};
     g_pRenderText->SetFont(g_hFont);
     g_pRenderText->SetTextColor(255, 255, 255, 255);
-    g_pRenderText->SetBgColor(0);
-    g_pRenderText->RenderText(m_Pos.x + 40, m_Pos.y + 48, I18N::Game::AutomaticAttack);
-    g_pRenderText->RenderText(m_Pos.x + 40, m_Pos.y + 70, I18N::Game::BeepSoundForWhispering);
-    g_pRenderText->RenderText(m_Pos.x + 40, m_Pos.y + 92, I18N::Game::SoundVolume);
-    g_pRenderText->RenderText(m_Pos.x + 40, m_Pos.y + 120, I18N::Game::MusicVolume);
-    g_pRenderText->RenderText(m_Pos.x + 40, m_Pos.y + 160, I18N::Game::SlideHelp);
-    g_pRenderText->RenderText(m_Pos.x + 40, m_Pos.y + 182, I18N::Game::EffectLimitation);
-    g_pRenderText->RenderText(m_Pos.x + 40, m_Pos.y + 221, I18N::Game::RenderFullEffects);
-
-    y += 25.f;
-    RenderImage(IMAGE_OPTION_POINT, x, y, 10.f, 10.f);       // Font
-    g_pRenderText->RenderText(m_Pos.x + 40, m_Pos.y + FONT_LABEL_Y_LOCAL, I18N::Game::Font);
-
-    y += 39.f;
-    RenderImage(IMAGE_OPTION_POINT, x, y, 10.f, 10.f);       // Language
-    g_pRenderText->RenderText(m_Pos.x + 40, m_Pos.y + LANG_LABEL_Y_LOCAL, I18N::Game::Language);
-
-    y += 39.f;
-    RenderImage(IMAGE_OPTION_POINT, x, y, 10.f, 10.f);       // Resolution
-    g_pRenderText->RenderText(m_Pos.x + 40, m_Pos.y + 322, I18N::Game::Resolution);
-
-    y += 39.f;
-    RenderImage(IMAGE_OPTION_POINT, x, y, 10.f, 10.f);       // Windowed Mode
-    g_pRenderText->RenderText(m_Pos.x + 40, m_Pos.y + 361, I18N::Game::WindowedMode);
+    g_pRenderText->SetBgColor(0, 0, 0, 0);
+    for (const auto& row : rows)
+        g_pRenderText->RenderText(m_Pos.x + 24, m_Pos.y + row.Top, row.Text, 120);
 }
 
 void SEASON3B::CNewUIOptionWindow::RenderButtons()
 {
-    m_BtnClose.Render();
-
-    if (m_bAutoAttack)
-    {
-        RenderImage(IMAGE_OPTION_BTN_CHECK, m_Pos.x + 150, m_Pos.y + 43, 15, 15, 0, 0);
-    }
-    else
-    {
-        RenderImage(IMAGE_OPTION_BTN_CHECK, m_Pos.x + 150, m_Pos.y + 43, 15, 15, 0, 15.f);
-    }
-
-    if (m_bWhisperSound)
-    {
-        RenderImage(IMAGE_OPTION_BTN_CHECK, m_Pos.x + 150, m_Pos.y + 65, 15, 15, 0, 0);
-    }
-    else
-    {
-        RenderImage(IMAGE_OPTION_BTN_CHECK, m_Pos.x + 150, m_Pos.y + 65, 15, 15, 0, 15.f);
-    }
-
-    if (m_bSlideHelp)
-    {
-        RenderImage(IMAGE_OPTION_BTN_CHECK, m_Pos.x + 150, m_Pos.y + 155, 15, 15, 0, 0);
-    }
-    else
-    {
-        RenderImage(IMAGE_OPTION_BTN_CHECK, m_Pos.x + 150, m_Pos.y + 155, 15, 15, 0, 15.f);
-    }
-
-    RenderImage(IMAGE_OPTION_VOLUME_BACK, m_Pos.x + 33, m_Pos.y + 104, 124.f, 16.f);
-    if (m_iVolumeLevel > 0)
-    {
-        RenderImage(IMAGE_OPTION_VOLUME_COLOR, m_Pos.x + 33, m_Pos.y + 104, 124.f * 0.1f * (m_iVolumeLevel), 16.f);
-    }
-
-    // Music volume bar
-    RenderImage(IMAGE_OPTION_VOLUME_BACK, m_Pos.x + 33, m_Pos.y + 132, 124.f, 16.f);
-    if (m_iMusicLevel > 0)
-    {
-        RenderImage(IMAGE_OPTION_VOLUME_COLOR, m_Pos.x + 33, m_Pos.y + 132, 124.f * 0.1f * (m_iMusicLevel), 16.f);
-    }
-
-    RenderImageStretch(IMAGE_OPTION_EFFECT_BACK, m_Pos.x + RENDER_SLIDER_X_LOCAL, m_Pos.y + RENDER_SLIDER_Y_LOCAL,
-                       (float)RENDER_SLIDER_WIDTH, (float)RENDER_SLIDER_HEIGHT,
-                       0.f, 0.f, (float)EFFECT_BAR_SRC_WIDTH, (float)EFFECT_BAR_SRC_HEIGHT);
-    if (m_iRenderLevel >= 0)
-    {
-        // Reveal proportionally to the level: shrink both the dest width and the
-        // sampled source width by the same fraction so the squares stay aligned.
-        const float fill = 0.2f * (m_iRenderLevel + 1);
-        RenderImageStretch(IMAGE_OPTION_EFFECT_COLOR, m_Pos.x + RENDER_SLIDER_X_LOCAL, m_Pos.y + RENDER_SLIDER_Y_LOCAL,
-                           (float)RENDER_SLIDER_WIDTH * fill, (float)RENDER_SLIDER_HEIGHT,
-                           0.f, 0.f, (float)EFFECT_BAR_SRC_WIDTH * fill, (float)EFFECT_BAR_SRC_HEIGHT);
-    }
-
-    if (m_bRenderAllEffects)
-    {
-        RenderImage(IMAGE_OPTION_BTN_CHECK, m_Pos.x + 150, m_Pos.y + 217, 15, 15, 0, 0);
-    }
-    else
-    {
-        RenderImage(IMAGE_OPTION_BTN_CHECK, m_Pos.x + 150, m_Pos.y + 217, 15, 15, 0, 15.f);
-    }
-
-    if (m_bWindowedMode)
-    {
-        RenderImage(IMAGE_OPTION_BTN_CHECK, m_Pos.x + 150, m_Pos.y + 356, 15, 15, 0, 0);
-    }
-    else
-    {
-        RenderImage(IMAGE_OPTION_BTN_CHECK, m_Pos.x + 150, m_Pos.y + 356, 15, 15, 0, 15.f);
-    }
-
-    // Combo boxes drawn last so their expanded dropdowns sit on top of
-    // anything else in the window. Within the combo pair, render the
-    // closed one(s) first and any open dropdown last - otherwise a combo
-    // physically below an open one would draw its closed field on top of
-    // that open dropdown's list (since they overlap in screen space when
-    // the upper one expands downward).
-    CNewUIComboBox* combos[] = { &m_ResolutionCombo, &m_LanguageCombo, &m_FontCombo };
-    for (auto* c : combos) if (!c->IsOpen()) c->Render();
-    for (auto* c : combos) if (c->IsOpen())  c->Render();
+    constexpr int CheckboxX = 150;
+    const int checkY[]{43, 65, 155, 217, 356};
+    const bool checked[]{m_bAutoAttack, m_bWhisperSound, m_bSlideHelp, m_bRenderAllEffects, m_bWindowedMode};
+    for (int index = 0; index < 5; ++index)
+        UI::Theme::Check(m_Pos.x + CheckboxX, m_Pos.y + checkY[index], checked[index]);
+    UI::Options::Gold::Volume(m_Pos.x + SLIDER_X_LOCAL, m_Pos.y + 104, m_iVolumeLevel);
+    UI::Options::Gold::Volume(m_Pos.x + SLIDER_X_LOCAL, m_Pos.y + 132, m_iMusicLevel);
+    UI::Options::Gold::EffectLevels(m_Pos.x + RENDER_SLIDER_X_LOCAL, m_Pos.y + RENDER_SLIDER_Y_LOCAL, m_iRenderLevel);
+    CNewUIComboBox* combos[]{&m_ResolutionCombo, &m_LanguageCombo, &m_FontCombo};
+    for (auto* combo : combos) if (!combo->IsOpen()) combo->Render();
+    for (auto* combo : combos) if (combo->IsOpen()) combo->Render();
 }
 
 void SEASON3B::CNewUIOptionWindow::SetAutoAttack(bool bAuto)
@@ -840,6 +718,7 @@ void SEASON3B::CNewUIOptionWindow::SetRenderLevel(int iRender)
 
 int SEASON3B::CNewUIOptionWindow::GetRenderLevel()
 {
+    if (GameConfig::GetInstance().IsVisualReductionEnabled(Data::Graphics::VisualReduction::EquipmentGlow)) return 0;
     return m_iRenderLevel;
 }
 

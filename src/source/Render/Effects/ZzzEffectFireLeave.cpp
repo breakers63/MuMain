@@ -244,7 +244,7 @@ bool CreateLorenciaLeaf(PARTICLE* o)
 
 bool CreateHeavenRain(PARTICLE* o, int index)
 {
-    if (!g_pOption->GetRenderAllEffects())
+    if (!g_pOption->GetRenderAllEffects() || g_pOption->GetReduceEnvironment())
     {
         return false;
     }
@@ -420,7 +420,7 @@ void MoveEtcLeaf(PARTICLE* o)
 
 bool MoveLeaves()
 {
-    if (!g_pOption->GetRenderAllEffects())
+    if (!g_pOption->GetRenderAllEffects() || g_pOption->GetReduceEnvironment())
     {
         return false;
     }
@@ -516,7 +516,7 @@ bool MoveLeaves()
 
 void RenderLeaves()
 {
-    if (!g_pOption->GetRenderAllEffects())
+    if (!g_pOption->GetRenderAllEffects() || g_pOption->GetReduceEnvironment())
     {
         return;
     }

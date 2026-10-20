@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "UI/NewUI/NewUISystem.h"
+#include "UI/NewUI/Dialogs/ParisCustomMenuWindow.h"
 #include "UI/NewUI/Dialogs/NewUIMessageBox.h"
 #include "UI/Scaling/UITransform.h"
 
@@ -80,6 +81,7 @@ CNewUISystem::CNewUISystem()
     m_pNewBattleSoccerScore = nullptr;
     m_pNewCommandWindow = nullptr;
     m_pNewWindowMenu = nullptr;
+    m_pParisCustomMenuWindow = nullptr;
     m_pNewOptionWindow = nullptr;
     m_pNewHeroPositionInfo = nullptr;
     m_pNewHelpWindow = nullptr;
@@ -361,6 +363,12 @@ bool CNewUISystem::LoadMainSceneInterface()
         return false;
     }
 
+    m_pParisCustomMenuWindow = new CParisCustomMenuWindow;
+    if (m_pParisCustomMenuWindow->Create(m_pNewUIMng) == false)
+    {
+        return false;
+    }
+
     m_pNewHeroPositionInfo = new CNewUIHeroPositionInfo;
     if (m_pNewHeroPositionInfo->Create(m_pNewUIMng, 0, 0) == false)
     {
@@ -564,6 +572,7 @@ void CNewUISystem::UnloadMainSceneInterface()
     SAFE_DELETE(m_pNewItemExplanationWindow);
     SAFE_DELETE(m_pNewSetItemExplanation);
     SAFE_DELETE(m_pNewQuickCommandWindow);
+    SAFE_DELETE(m_pParisCustomMenuWindow);
     SAFE_DELETE(m_pNewWindowMenu);
     SAFE_DELETE(m_pNewBattleSoccerScore);
     SAFE_DELETE(m_pNewCatapultWindow);

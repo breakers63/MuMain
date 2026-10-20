@@ -132,6 +132,8 @@ namespace SEASON3B
         static void UI2DEffectCallback(LPVOID pClass, DWORD dwParamA, DWORD dwParamB);
 
     private:
+        bool UpdateGoldMouse();
+        bool RenderGoldSkills();
         void LoadImages();
         void UnloadImages();
         bool IsArrayUp(BYTE bySkill);
@@ -230,6 +232,7 @@ namespace SEASON3B
     private:
         void SetButtonInfo();
 
+        void RenderGoldHud();
         void LoadImages();
         void UnloadImages();
 

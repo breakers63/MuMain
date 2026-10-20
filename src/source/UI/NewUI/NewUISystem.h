@@ -41,6 +41,7 @@
 #include "UI/NewUI/Events/NewUIBattleSoccerScore.h"
 #include "UI/NewUI/HUD/NewUICommandWindow.h"
 #include "UI/NewUI/Dialogs/NewUIWindowMenu.h"
+#include "UI/NewUI/Dialogs/ParisCustomMenuWindow.h"
 #include "UI/NewUI/Options/NewUIOptionWindow.h"
 #include "UI/NewUI/HUD/NewUIHeroPositionInfo.h"
 #include "UI/NewUI/Dialogs/NewUIHelpWindow.h"
@@ -188,6 +189,7 @@ namespace SEASON3B
         CNewUICommandWindow* m_pNewCommandWindow;
         CNewUIHeroPositionInfo* m_pNewHeroPositionInfo;
         CNewUIWindowMenu* m_pNewWindowMenu;
+        CParisCustomMenuWindow* m_pParisCustomMenuWindow;
         CNewUIOptionWindow* m_pNewOptionWindow;
         CNewUIHelpWindow* m_pNewHelpWindow;
         CNewUIChatCommandWindow* m_pNewChatCommandWindow;

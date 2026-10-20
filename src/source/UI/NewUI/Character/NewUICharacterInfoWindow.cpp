@@ -2,6 +2,10 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
+#include "UI/NewUI/Quests/NewUICustomQuestCenter.h"
+#include "UI/NewUI/Character/ClassicPanelFrame.h"
+#include "UI/NewUI/Character/ParisFrameAssets.h"
+#include "UI/NewUI/Character/ParisStatsReference41.h"
 #include "UI/Chat/Chat.h"
 #include "UI/NewUI/Character/NewUICharacterInfoWindow.h"
 #include "UI/NewUI/NewUISystem.h"
@@ -24,6 +28,21 @@ using namespace SEASON3B;
 
 namespace
 {
+    UI::Theme::ParisFrameAssets statsArt;
+    UI::Character::ParisStatsReference41 statsParts;
+    GLuint statsBackground = BITMAP_UNKNOWN;
+    void RenderLevelAndPoints(const POINT& pos, const wchar_t* level)
+    {
+        g_pRenderText->SetFont(g_hFont);
+        g_pRenderText->SetBgColor(0);
+        g_pRenderText->SetTextColor(255, 225, 90, 255);
+        g_pRenderText->RenderText(pos.x + 18, pos.y + 58, level, 154);
+        statsParts.Points(pos.x + 16, pos.y + 68, 158, 12);
+        wchar_t points[64]{};
+        mu_swprintf(points, I18N::Game::PointD, CharacterAttribute->LevelUpPoint);
+        g_pRenderText->RenderText(pos.x + 20, pos.y + 70, points, 150, 0, RT3_SORT_CENTER);
+    }
+
     float GetMasterSkillValue(ActionSkillType skill)
     {
         return CharacterAttribute->MasterSkillInfo[skill].GetSkillValue();
@@ -113,20 +132,20 @@ void SEASON3B::CNewUICharacterInfoWindow::SetButtonInfo()
     m_BtnStat[STAT_CHARISMA].ChangeButtonInfo(m_Pos.x + 160, m_Pos.y + HEIGHT_CHARISMA + 2, 16, 15);
 
     m_BtnExit.ChangeButtonImgState(true, IMAGE_CHAINFO_BTN_EXIT, false);
-    m_BtnExit.ChangeButtonInfo(m_Pos.x + 13, m_Pos.y + 392, 36, 29);
+    m_BtnExit.ChangeButtonInfo(m_Pos.x + (statsBackground != BITMAP_UNKNOWN ? 18 : 13), m_Pos.y + (statsBackground != BITMAP_UNKNOWN ? 385 : 392), 32, 32);
     mu_swprintf(strText, I18N::Game::CloseS, L"C");
     m_BtnExit.ChangeToolTipText(strText, true);
     m_BtnQuest.ChangeButtonImgState(true, IMAGE_CHAINFO_BTN_QUEST, false);
-    m_BtnQuest.ChangeButtonInfo(m_Pos.x + 50, m_Pos.y + 392, 36, 29);
+    m_BtnQuest.ChangeButtonInfo(m_Pos.x + (statsBackground != BITMAP_UNKNOWN ? 58 : 50), m_Pos.y + (statsBackground != BITMAP_UNKNOWN ? 385 : 392), 32, 32);
     mu_swprintf(strText, L"%ls(%ls)", I18N::Game::Quest, L"T");
     m_BtnQuest.ChangeToolTipText(strText, true);
     m_BtnPet.ChangeButtonImgState(true, IMAGE_CHAINFO_BTN_PET, false);
-    m_BtnPet.ChangeButtonInfo(m_Pos.x + 87, m_Pos.y + 392, 36, 29);
+    m_BtnPet.ChangeButtonInfo(m_Pos.x + (statsBackground != BITMAP_UNKNOWN ? 98 : 87), m_Pos.y + (statsBackground != BITMAP_UNKNOWN ? 385 : 392), 32, 32);
     m_BtnPet.ChangeToolTipText(&I18N::Game::Pet, true);
 
     m_BtnMasterLevel.ChangeButtonImgState(true, IMAGE_CHAINFO_BTN_MASTERLEVEL, false);
-    m_BtnMasterLevel.ChangeButtonInfo(m_Pos.x + 124, m_Pos.y + 392, 36, 29);
-    m_BtnMasterLevel.ChangeToolTipText(&I18N::Game::MasterSkillTreeA, true);
+    m_BtnMasterLevel.ChangeButtonInfo(m_Pos.x + (statsBackground != BITMAP_UNKNOWN ? 138 : 124), m_Pos.y + (statsBackground != BITMAP_UNKNOWN ? 385 : 392), 32, 32);
+    m_BtnMasterLevel.ChangeToolTipText(L"Opciones visuales", true);
 }
 
 void SEASON3B::CNewUICharacterInfoWindow::Release()
@@ -163,6 +182,13 @@ bool SEASON3B::CNewUICharacterInfoWindow::UpdateMouseEvent()
 
 bool SEASON3B::CNewUICharacterInfoWindow::BtnProcess()
 {
+    if (statsBackground != BITMAP_UNKNOWN && IsPress(VK_LBUTTON)
+        && CheckMouseIn(m_Pos.x + 169, m_Pos.y + 24, 13, 12))
+    {
+        g_pNewUISystem->Hide(SEASON3B::INTERFACE_CHARACTER);
+        UI::Paris::ConsumeMouse();
+        return true;
+    }
     // Top-right corner close "X" (shared frame). Hides + swallows the click.
     if (g_pNewUISystem->HandleFrameCornerClose(m_Pos, SEASON3B::INTERFACE_CHARACTER))
         return true;
@@ -189,7 +215,7 @@ bool SEASON3B::CNewUICharacterInfoWindow::BtnProcess()
 
     if (m_BtnQuest.UpdateMouseEvent() == true)
     {
-        g_pNewUISystem->Toggle(SEASON3B::INTERFACE_MYQUEST);
+        if (g_pCustomQuestCenter) g_pCustomQuestCenter->OpenWindow();
         return true;
     }
 
@@ -201,9 +227,7 @@ bool SEASON3B::CNewUICharacterInfoWindow::BtnProcess()
 
     if (m_BtnMasterLevel.UpdateMouseEvent() == true)
     {
-        if (gCharacterManager.IsMasterLevel(Hero->Class)
-            && Hero->Class != CLASS_TEMPLENIGHT)
-            g_pNewUISystem->Toggle(SEASON3B::INTERFACE_MASTER_LEVEL);
+        g_pNewUISystem->Toggle(SEASON3B::INTERFACE_OPTION);
         return true;
     }
     return false;
@@ -230,46 +254,24 @@ bool SEASON3B::CNewUICharacterInfoWindow::Update()
     return true;
 }
 
+const POINT& SEASON3B::CNewUICharacterInfoWindow::GetPos() const
+{
+    return m_Pos;
+}
+
 void SEASON3B::CNewUICharacterInfoWindow::RenderFrame()
 {
-    RenderImage(IMAGE_CHAINFO_BACK, m_Pos.x, m_Pos.y, 190.f, 429.f);
-    RenderImage(IMAGE_CHAINFO_TOP, m_Pos.x, m_Pos.y, 190.f, 64.f);
-    RenderImage(IMAGE_CHAINFO_LEFT, m_Pos.x, m_Pos.y + 64, 21.f, 320.f);
-    RenderImage(IMAGE_CHAINFO_RIGHT, m_Pos.x + 190 - 21, m_Pos.y + 64, 21.f, 320.f);
-    RenderImage(IMAGE_CHAINFO_BOTTOM, m_Pos.x, m_Pos.y + 429 - 45, 190.f, 45.f);
-
-    constexpr unsigned int SummaryBackdropColor = 0x4D000000u;
-    RenderColorQuadARGB(m_Pos.x + 12, m_Pos.y + 48, 160, 66, SummaryBackdropColor);
-    RenderImage(IMAGE_CHAINFO_TABLE_TOP_LEFT, m_Pos.x + 12, m_Pos.y + 48, 14, 14);
-    RenderImage(IMAGE_CHAINFO_TABLE_TOP_RIGHT, m_Pos.x + 12 + 165 - 14, m_Pos.y + 48, 14, 14);
-    RenderImage(IMAGE_CHAINFO_TABLE_BOTTOM_LEFT, m_Pos.x + 12, m_Pos.y + 119 - 14, 14, 14);
-    RenderImage(IMAGE_CHAINFO_TABLE_BOTTOM_RIGHT, m_Pos.x + 12 + 165 - 14, m_Pos.y + 119 - 14, 14, 14);
-
-    for (int x = m_Pos.x + 12 + 14; x < m_Pos.x + 12 + 165 - 14; ++x)
+    if (statsBackground == BITMAP_UNKNOWN) UI::Paris::Frame(m_Pos.x, m_Pos.y);
+    else
     {
-        RenderImage(IMAGE_CHAINFO_TABLE_TOP_PIXEL, x, m_Pos.y + 48, 1, 14);
-        RenderImage(IMAGE_CHAINFO_TABLE_BOTTOM_PIXEL, x, m_Pos.y + 119 - 14, 1, 14);
+        UI::Paris::Color(1, 1, 1, 1);
+        RenderBitmap(statsBackground, m_Pos.x, m_Pos.y, CHAINFO_WINDOW_WIDTH, CHAINFO_WINDOW_HEIGHT, 0, 0, 1, 1);
     }
-
-    for (int x = m_Pos.x + 14; x < m_Pos.x + 12 + 165 - 4; ++x)
-    {
-        RenderImage(IMAGE_CHAINFO_TABLE_BOTTOM_PIXEL, x, m_Pos.y + 48 + 12, 1, 14);
-    }
-
-    for (int y = m_Pos.y + 48 + 14; y < m_Pos.y + 119 - 14; y++)
-    {
-        RenderImage(IMAGE_CHAINFO_TABLE_LEFT_PIXEL, m_Pos.x + 12, y, 14, 1);
-        RenderImage(IMAGE_CHAINFO_TABLE_RIGHT_PIXEL, m_Pos.x + 12 + 165 - 14, y, 14, 1);
-    }
-
-    RenderImage(IMAGE_CHAINFO_TEXTBOX, m_Pos.x + 11, m_Pos.y + HEIGHT_STRENGTH, 170.f, 21.f);
-    RenderImage(IMAGE_CHAINFO_TEXTBOX, m_Pos.x + 11, m_Pos.y + HEIGHT_DEXTERITY, 170.f, 21.f);
-    RenderImage(IMAGE_CHAINFO_TEXTBOX, m_Pos.x + 11, m_Pos.y + HEIGHT_VITALITY, 170.f, 21.f);
-    RenderImage(IMAGE_CHAINFO_TEXTBOX, m_Pos.x + 11, m_Pos.y + HEIGHT_ENERGY, 170.f, 21.f);
-    if (gCharacterManager.GetBaseClass(Hero->Class) == CLASS_DARK_LORD)
-    {
-        RenderImage(IMAGE_CHAINFO_TEXTBOX, m_Pos.x + 11, m_Pos.y + HEIGHT_CHARISMA, 170.f, 21.f);
-    }
+    if (!statsParts.Ready()) return;
+    statsParts.Information(m_Pos.x + 12, m_Pos.y + 55);
+    constexpr int AttributeTops[] = {HEIGHT_STRENGTH, HEIGHT_DEXTERITY, HEIGHT_VITALITY, HEIGHT_ENERGY, HEIGHT_CHARISMA};
+    for (int index = 0; index < StatButtonCount(); ++index)
+        statsParts.Attribute(m_Pos.x + 12, m_Pos.y + AttributeTops[index]);
 }
 
 bool SEASON3B::CNewUICharacterInfoWindow::Render()
@@ -299,7 +301,7 @@ void SEASON3B::CNewUICharacterInfoWindow::RenderSubjectTexts()
     g_pRenderText->SetFont(g_hFontBold);
     g_pRenderText->SetBgColor(20, 20, 20, 20);
     UI::Chat::SetPlayerColor(Hero->PK);
-    g_pRenderText->RenderText(m_Pos.x, m_Pos.y + 12, strID, 190, 0, RT3_SORT_CENTER);
+    g_pRenderText->RenderText(m_Pos.x, m_Pos.y + 31, strID, 190, 0, RT3_SORT_CENTER);
 
     wchar_t strServerName[MAX_TEXT_LENGTH];
 
@@ -310,9 +312,9 @@ void SEASON3B::CNewUICharacterInfoWindow::RenderSubjectTexts()
 
     float fAlpha = sinf(WorldTime * 0.001f) + 1.f;
     g_pRenderText->SetTextColor(255, 255, 255, 127 * (2.f - fAlpha));
-    g_pRenderText->RenderText(m_Pos.x, m_Pos.y + 27, strClassName, 190, 0, RT3_SORT_CENTER);
+    g_pRenderText->RenderText(m_Pos.x, m_Pos.y + 43, strClassName, 190, 0, RT3_SORT_CENTER);
     g_pRenderText->SetTextColor(255, 255, 255, 127 * fAlpha);
-    g_pRenderText->RenderText(m_Pos.x, m_Pos.y + 27, strServerName, 190, 0, RT3_SORT_CENTER);
+    g_pRenderText->RenderText(m_Pos.x, m_Pos.y + 43, strServerName, 190, 0, RT3_SORT_CENTER);
 }
 
 void SEASON3B::CNewUICharacterInfoWindow::RenderTableTexts()
@@ -347,31 +349,11 @@ void SEASON3B::CNewUICharacterInfoWindow::RenderTableTexts()
                     I18N::Game::StatPointsRemoved, 0, 0);
     }
 
-    g_pRenderText->SetFont(g_hFontBold);
-    g_pRenderText->SetTextColor(230, 230, 0, 255);
-    g_pRenderText->SetBgColor(0, 0, 0, 0);
-    g_pRenderText->RenderText(m_Pos.x + 18, m_Pos.y + 58, strLevel);
-
-    if (CharacterAttribute->LevelUpPoint > 0)
-    {
-        wchar_t strLevelUpPoint[128];
-
-        if (gCharacterManager.IsMasterLevel(CharacterAttribute->Class) == false || CharacterAttribute->LevelUpPoint > 0)
-        {
-            mu_swprintf(strLevelUpPoint, I18N::Game::PointD, CharacterAttribute->LevelUpPoint);
-        }
-        else
-            mu_swprintf(strLevelUpPoint, L"");
-        g_pRenderText->SetFont(g_hFontBold);
-        g_pRenderText->SetTextColor(255, 138, 0, 255);
-        g_pRenderText->SetBgColor(0, 0, 0, 0);
-        g_pRenderText->RenderText(m_Pos.x + 110, m_Pos.y + 58, strLevelUpPoint);
-    }
-
+    RenderLevelAndPoints(m_Pos, strLevel);
     g_pRenderText->SetFont(g_hFont);
-    g_pRenderText->SetTextColor(255, 255, 255, 255);
-    g_pRenderText->SetBgColor(0, 0, 0, 0);
-    g_pRenderText->RenderText(m_Pos.x + 18, m_Pos.y + 75, strExp);
+    g_pRenderText->SetTextColor(235, 235, 235, 255);
+    g_pRenderText->SetBgColor(0);
+    g_pRenderText->RenderText(m_Pos.x + 18, m_Pos.y + 83, strExp);
 
     int iAddPoint, iMinusPoint;
 
@@ -439,11 +421,11 @@ void SEASON3B::CNewUICharacterInfoWindow::RenderTableTexts()
     g_pRenderText->SetFont(g_hFont);
     g_pRenderText->SetTextColor(76, 197, 254, 255);
     g_pRenderText->SetBgColor(0, 0, 0, 0);
-    g_pRenderText->RenderText(m_Pos.x + 18, m_Pos.y + 88, strPointProbability);
+    g_pRenderText->RenderText(m_Pos.x + 18, m_Pos.y + 94, strPointProbability);
 
     g_pRenderText->SetTextColor(76, 197, 254, 255);
     g_pRenderText->SetBgColor(0, 0, 0, 0);
-    g_pRenderText->RenderText(m_Pos.x + 18, m_Pos.y + 101, strPoint);
+    g_pRenderText->RenderText(m_Pos.x + 18, m_Pos.y + 105, strPoint);
 }
 
 void SEASON3B::CNewUICharacterInfoWindow::RenderAttribute()
@@ -1521,14 +1503,32 @@ void SEASON3B::CNewUICharacterInfoWindow::RenderButtons()
     {
         for (int i = 0; i < iCount; ++i)
         {
-            m_BtnStat[i].Render();
+            if (statsParts.Ready())
+            {
+                constexpr int Rows[] = {HEIGHT_STRENGTH, HEIGHT_DEXTERITY, HEIGHT_VITALITY, HEIGHT_ENERGY, HEIGHT_CHARISMA};
+                statsParts.Plus(m_Pos.x + 160, m_Pos.y + Rows[i]);
+            }
+            else m_BtnStat[i].Render();
         }
     }
 
-    m_BtnExit.Render();
-    m_BtnQuest.Render();
-    m_BtnPet.Render();
-    m_BtnMasterLevel.Render();
+    if (statsBackground != BITMAP_UNKNOWN)
+    {
+        statsParts.FooterBackground(m_Pos.x + 12, m_Pos.y + 379);
+        constexpr int FooterX[]{18, 58, 98, 138};
+        for (int icon = 0; icon < 4; ++icon) statsParts.Footer(m_Pos.x + FooterX[icon], m_Pos.y + 385, icon);
+        return;
+    }
+    if (statsArt.buttons != BITMAP_UNKNOWN)
+    {
+        constexpr int FooterX[] = {13, 50, 87, 124};
+        for (int tile = 0; tile < 4; ++tile)
+            UI::Character::ParisStyle::Footer(statsArt.buttons, m_Pos.x + FooterX[tile], m_Pos.y + 392, tile);
+    }
+    else
+    {
+        m_BtnExit.Render(); m_BtnQuest.Render(); m_BtnPet.Render(); m_BtnMasterLevel.Render();
+    }
 }
 
 float SEASON3B::CNewUICharacterInfoWindow::GetLayerDepth()
@@ -1538,6 +1538,10 @@ float SEASON3B::CNewUICharacterInfoWindow::GetLayerDepth()
 
 void SEASON3B::CNewUICharacterInfoWindow::LoadImages()
 {
+    statsArt.Load();
+    statsParts.Load();
+    if (statsBackground == BITMAP_UNKNOWN)
+        statsBackground = Bitmaps.LoadImage(L"Data\\Interface\\Paris_StatsReference35.tga", GL_LINEAR, GL_CLAMP_TO_EDGE);
     LoadBitmap(L"Interface\\newui_msgbox_back.jpg", IMAGE_CHAINFO_BACK, GL_LINEAR);
     LoadBitmap(L"Interface\\newui_item_back04.tga", IMAGE_CHAINFO_TOP, GL_LINEAR);
     LoadBitmap(L"Interface\\newui_item_back02-L.tga", IMAGE_CHAINFO_LEFT, GL_LINEAR);
@@ -1564,6 +1568,10 @@ void SEASON3B::CNewUICharacterInfoWindow::LoadImages()
 
 void SEASON3B::CNewUICharacterInfoWindow::UnloadImages()
 {
+    statsArt.Unload();
+    statsParts.Unload();
+    if (statsBackground != BITMAP_UNKNOWN) DeleteBitmap(statsBackground);
+    statsBackground = BITMAP_UNKNOWN;
     DeleteBitmap(IMAGE_CHAINFO_BTN_MASTERLEVEL);
     DeleteBitmap(IMAGE_CHAINFO_BTN_PET);
     DeleteBitmap(IMAGE_CHAINFO_BTN_QUEST);
@@ -1592,18 +1600,7 @@ void SEASON3B::CNewUICharacterInfoWindow::OpenningProcess()
 {
     ResetEquipmentLevel();
 
-    if (gCharacterManager.IsMasterLevel(Hero->Class) == true && Hero->Class != CLASS_TEMPLENIGHT)
-    {
-        m_BtnMasterLevel.UnLock();
-        m_BtnMasterLevel.ChangeImgColor(BUTTON_STATE_UP, RGBA(255, 255, 255, 255));
-        m_BtnMasterLevel.ChangeTextColor(RGBA(255, 255, 255, 255));
-    }
-    else
-    {
-        m_BtnMasterLevel.Lock();
-        m_BtnMasterLevel.ChangeImgColor(BUTTON_STATE_UP, RGBA(100, 100, 100, 255));
-        m_BtnMasterLevel.ChangeTextColor(RGBA(100, 100, 100, 255));
-    }
+    m_BtnMasterLevel.UnLock();
 
     g_csItemOption.init();
 

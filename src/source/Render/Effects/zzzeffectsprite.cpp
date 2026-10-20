@@ -41,7 +41,7 @@ OBJECT Sprites[MAX_SPRITES];
 
 int CreateSprite(int Type, vec3_t Position, float Scale, vec3_t Light, OBJECT* Owner, float Rotation, int SubType)
 {
-    if (!g_pOption->GetRenderAllEffects())
+    if (!g_pOption->GetRenderAllEffects() || g_pOption->GetReduceParticlesSprites())
     {
         return false;
     }
@@ -134,7 +134,7 @@ void RenderSprite(OBJECT* o, OBJECT* Owner)
 
 void RenderSprites(BYTE byRenderOneMore)
 {
-    if (!g_pOption->GetRenderAllEffects())
+    if (!g_pOption->GetRenderAllEffects() || g_pOption->GetReduceParticlesSprites())
     {
         return;
     }
@@ -196,7 +196,7 @@ void RenderSprites(BYTE byRenderOneMore)
 
 void CheckSprites()
 {
-    if (!g_pOption->GetRenderAllEffects())
+    if (!g_pOption->GetRenderAllEffects() || g_pOption->GetReduceParticlesSprites())
     {
         return;
     }

@@ -1,7 +1,10 @@
-﻿// NewUIEnterBloodCastle.cpp: implementation of the CNewUIPartyInfo class.
+// NewUIEnterBloodCastle.cpp: implementation of the CNewUIPartyInfo class.
 //////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
+#include "UI/NewUI/NPCs/NpcTextBlock.h"
+#include "UI/NewUI/NPCs/ParisNpcSkin56.h"
+namespace { UI::Theme::ParisNpcSkin56 npcSkin; UI::NPCs::NpcTextBlock introduction; }
 #include "I18N/All.h"
 
 #include "UI/NewUI/Events/NewUIEnterDevilSquare.h"
@@ -149,31 +152,25 @@ bool CNewUIEnterDevilSquare::Render()
 {
     EnableAlphaTest();
 
-    RenderImage(IMAGE_ENTERDS_BASE_WINDOW_BACK, m_Pos.x, m_Pos.y, float(ENTERDS_BASE_WINDOW_WIDTH), float(ENTERDS_BASE_WINDOW_HEIGHT));
-    RenderImage(IMAGE_ENTERDS_BASE_WINDOW_TOP, m_Pos.x, m_Pos.y, float(ENTERDS_BASE_WINDOW_WIDTH), 64.f);
-    RenderImage(IMAGE_ENTERDS_BASE_WINDOW_LEFT, m_Pos.x, m_Pos.y + 64.f, 21.f, float(ENTERDS_BASE_WINDOW_HEIGHT) - 64.f - 45.f);
-    RenderImage(IMAGE_ENTERDS_BASE_WINDOW_RIGHT, m_Pos.x + float(ENTERDS_BASE_WINDOW_WIDTH) - 21.f, m_Pos.y + 64.f, 21.f, float(ENTERDS_BASE_WINDOW_HEIGHT) - 64.f - 45.f);
-    RenderImage(IMAGE_ENTERDS_BASE_WINDOW_BOTTOM, m_Pos.x, m_Pos.y + float(ENTERDS_BASE_WINDOW_HEIGHT) - 45.f, float(ENTERDS_BASE_WINDOW_WIDTH), 45.f);
+    npcSkin.Panel(m_Pos.x, m_Pos.y);
 
     g_pRenderText->SetFont(g_hFontBold);
-    g_pRenderText->SetTextColor(0xFFFFFFFF);
+    g_pRenderText->SetTextColor(255, 220, 130, 255);
     g_pRenderText->SetBgColor(0x00000000);
-    g_pRenderText->RenderText(m_Pos.x + 60, m_Pos.y + 12, I18N::Game::DevilSquare, 72, 0, RT3_SORT_CENTER);
-    g_pRenderText->SetFont(g_hFont);
-    g_pRenderText->RenderText(m_EnterUITextPos.x, m_EnterUITextPos.y, I18N::Game::YouVeBeenGivenAChanceToProveYourBravery, 190, 0, RT3_SORT_CENTER);
-    g_pRenderText->RenderText(m_EnterUITextPos.x, m_EnterUITextPos.y + 15, I18N::Game::NoOneHasEverEnteredTheDevilSquareYet, 190, 0, RT3_SORT_CENTER);
-    g_pRenderText->RenderText(m_EnterUITextPos.x, m_EnterUITextPos.y + 30, I18N::Game::NoHumanHasEverGoneThere, 190, 0, RT3_SORT_CENTER);
-    g_pRenderText->RenderText(m_EnterUITextPos.x, m_EnterUITextPos.y + 45, I18N::Game::DoNotBelieveAnythingYouSeeInThere, 190, 0, RT3_SORT_CENTER);
-    g_pRenderText->RenderText(m_EnterUITextPos.x, m_EnterUITextPos.y + 60, I18N::Game::OnlyTrustYourBraveryAndStrength, 190, 0, RT3_SORT_CENTER);
-    g_pRenderText->RenderText(m_EnterUITextPos.x, m_EnterUITextPos.y + 75, I18N::Game::OnlyYourBraveryAndStrengthWillKeepYouAlive, 190, 0, RT3_SORT_CENTER);
+    g_pRenderText->RenderText(m_Pos.x + 60, m_Pos.y + 37, I18N::Game::DevilSquare, 72, 0, RT3_SORT_CENTER);
+    const wchar_t* paragraphs[]{I18N::Game::YouVeBeenGivenAChanceToProveYourBravery,
+        I18N::Game::NoOneHasEverEnteredTheDevilSquareYet, I18N::Game::NoHumanHasEverGoneThere,
+        I18N::Game::DoNotBelieveAnythingYouSeeInThere, I18N::Game::OnlyTrustYourBraveryAndStrength,
+        I18N::Game::OnlyYourBraveryAndStrengthWillKeepYouAlive};
+    introduction.Render(paragraphs, m_Pos.x + 14, m_Pos.y + 52, 162, 99);
 
     for (int i = 0; i < MAX_ENTER_GRADE; i++)
     {
-        m_BtnEnter[i].Render();
+        npcSkin.NativeButton(m_BtnEnter[i]);
     }
 
     // Exit Button
-    m_BtnExit.Render();
+    npcSkin.NativeButton(m_BtnExit, true);
 
     DisableAlphaBlend();
 
@@ -184,6 +181,13 @@ bool CNewUIEnterDevilSquare::Render()
 // BtnProcess
 bool CNewUIEnterDevilSquare::BtnProcess()
 {
+    if (SEASON3B::IsPress(VK_LBUTTON) && SEASON3B::CheckMouseIn(m_Pos.x + 165, m_Pos.y + 24, 16, 20))
+    {
+        g_pNewUISystem->Hide(SEASON3B::INTERFACE_DEVILSQUARE);
+        UI::Paris::ConsumeMouse();
+        return true;
+    }
+
     // Top-right corner close "X" (shared frame). Hides + swallows the click.
     if (g_pNewUISystem->HandleFrameCornerClose(m_Pos, SEASON3B::INTERFACE_DEVILSQUARE))
         return true;
@@ -288,6 +292,7 @@ void CNewUIEnterDevilSquare::ClosingProcess()
 
 void CNewUIEnterDevilSquare::LoadImages()
 {
+    npcSkin.Load();
     LoadBitmap(L"Interface\\newui_msgbox_back.jpg", IMAGE_ENTERDS_BASE_WINDOW_BACK, GL_LINEAR);
     LoadBitmap(L"Interface\\newui_item_back01.tga", IMAGE_ENTERDS_BASE_WINDOW_TOP, GL_LINEAR);
     LoadBitmap(L"Interface\\newui_item_back02-L.tga", IMAGE_ENTERDS_BASE_WINDOW_LEFT, GL_LINEAR);
@@ -301,6 +306,7 @@ void CNewUIEnterDevilSquare::LoadImages()
 // UnloadImages
 void CNewUIEnterDevilSquare::UnloadImages()
 {
+    npcSkin.Unload();
     DeleteBitmap(IMAGE_ENTERDS_BASE_WINDOW_BACK);
     DeleteBitmap(IMAGE_ENTERDS_BASE_WINDOW_TOP);
     DeleteBitmap(IMAGE_ENTERDS_BASE_WINDOW_LEFT);

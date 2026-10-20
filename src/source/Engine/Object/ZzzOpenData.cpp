@@ -1,4 +1,5 @@
 ﻿#include "stdafx.h"
+#include "GameLogic/Items/SmallCape.h"
 #include "UI/Legacy/UIControls.h"
 #include "Render/Models/ZzzBMD.h"
 #include "Engine/Object/ZzzInfomation.h"
@@ -489,6 +490,7 @@ void OpenItems()
     }
     OpenItemEffectModels();
 
+    LoadBitmap(L"Item\\SmallCapeDL\\NBCcape.tga", GameLogic::Items::SmallCapeTexture);
     LoadBitmap(L"Item\\NCcape.tga", BITMAP_NCCAPE, GL_LINEAR, GL_REPEAT);
     LoadBitmap(L"Item\\monk_manto01.TGA", BITMAP_MANTO01, GL_LINEAR, GL_REPEAT);
     LoadBitmap(L"Item\\monke_manto.TGA", BITMAP_MANTOE, GL_LINEAR, GL_REPEAT);

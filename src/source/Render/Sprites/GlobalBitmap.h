@@ -102,8 +102,8 @@ class CGlobalBitmap
 {
     enum
     {
-        MAX_WIDTH = 1024,
-        MAX_HEIGHT = 1024,
+        MAX_WIDTH = 2048,
+        MAX_HEIGHT = 2048,
     };
 
     using BitmapPtr = std::unique_ptr<BITMAP_t>;

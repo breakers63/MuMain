@@ -13031,4 +13031,8 @@
   <data name="QuestRequirementBuff" xml:space="preserve">
     <value>Bonus: %ls</value>
   </data>
+<data name="MentorConnecting" xml:space="preserve"><value>正在等待伺服器的導師資料...</value></data>
+  
+<data name="MentorUnavailable" xml:space="preserve"><value>導師系統沒有回應。請更新伺服器補丁並重新連線。</value></data>
+
 </root>

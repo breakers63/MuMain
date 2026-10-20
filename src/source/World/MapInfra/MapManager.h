@@ -92,6 +92,9 @@ public:
     bool InBattleCastle(int iMap = -1);
     const wchar_t* GetMapName(int iMap);
 
+private:
+    int ResolveWorldFolder();
+
 public:
     int WorldActive;
 };

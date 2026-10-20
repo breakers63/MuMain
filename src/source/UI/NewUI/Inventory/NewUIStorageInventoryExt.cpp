@@ -3,6 +3,8 @@
 //*****************************************************************************
 
 #include "stdafx.h"
+#include "UI/NewUI/Inventory/VaultPanelArt.h"
+namespace { UI::Inventory::VaultPanelArt extendedVaultArt; }
 #include "UI/NewUI/Inventory/NewUIStorageInventoryExt.h"
 #include "I18N/All.h"
 
@@ -49,6 +51,7 @@ bool CNewUIStorageInventoryExt::Create(CNewUIManager* pNewUIMng, int x, int y)
         return false;
     }
 
+    m_pNewInventoryCtrl->SetGoldTheme(true);
     SetPos(x, y);
     LoadImages();
     m_BtnExit.ChangeButtonImgState(true, IMAGE_INVENTORY_EXIT_BTN, false);
@@ -77,7 +80,10 @@ void CNewUIStorageInventoryExt::SetPos(int x, int y)
 {
     m_Pos.x = x;
     m_Pos.y = y;
-    m_BtnExit.ChangeButtonInfo(m_Pos.x + 13, m_Pos.y + 391, 36, 29);
+    if (m_pNewInventoryCtrl) m_pNewInventoryCtrl->SetPos(x + 15, y + 46);
+    m_BtnExit.ChangeButtonInfo(x + UI::Inventory::VaultPanelArt::CloseLeft,
+        y + UI::Inventory::VaultPanelArt::FooterTop,
+        UI::Inventory::VaultPanelArt::ButtonSize, UI::Inventory::VaultPanelArt::ButtonSize);
 }
 
 bool CNewUIStorageInventoryExt::UpdateMouseEvent()
@@ -149,7 +155,7 @@ bool CNewUIStorageInventoryExt::Render()
         m_pNewInventoryCtrl->Render();
     }
 
-    m_BtnExit.Render();
+    extendedVaultArt.Close(m_Pos);
 
     DisableAlphaBlend();
 
@@ -158,20 +164,15 @@ bool CNewUIStorageInventoryExt::Render()
 
 void CNewUIStorageInventoryExt::RenderBackImage() const
 {
-    const auto x = static_cast<float>(m_Pos.x);
-    const auto y = static_cast<float>(m_Pos.y);
-    RenderImage(IMAGE_STORAGE_BACK, x, y, STORAGE_WIDTH, STORAGE_HEIGHT);
-    RenderImage(IMAGE_STORAGE_TOP, x, y, STORAGE_WIDTH, 64.f);
-    RenderImage(IMAGE_STORAGE_LEFT, x, y + 64, 21.f, 320.f);
-    RenderImage(IMAGE_STORAGE_RIGHT, x + STORAGE_WIDTH - 21, y + 64, 21.f, 320.f);
-    RenderImage(IMAGE_STORAGE_BOTTOM, x, y + STORAGE_HEIGHT - 45, STORAGE_WIDTH, 45.f);
+    extendedVaultArt.Frame(m_Pos);
 }
 
 void CNewUIStorageInventoryExt::RenderText() const
 {
     g_pRenderText->SetFont(g_hFontBold);
     g_pRenderText->SetBgColor(0);
-    g_pRenderText->RenderText(m_Pos.x, m_Pos.y + 11, I18N::Game::ExpandedVault, STORAGE_WIDTH, 0, RT3_SORT_CENTER);
+    g_pRenderText->SetTextColor(255, 220, 130, 255);
+    g_pRenderText->RenderText(m_Pos.x, m_Pos.y + 37, I18N::Game::ExpandedVault, STORAGE_WIDTH, 0, RT3_SORT_CENTER);
 }
 
 float CNewUIStorageInventoryExt::GetLayerDepth()
@@ -186,6 +187,7 @@ CNewUIInventoryCtrl* CNewUIStorageInventoryExt::GetInventoryCtrl() const
 
 void CNewUIStorageInventoryExt::LoadImages() const
 {
+    extendedVaultArt.Load();
     LoadBitmap(L"Interface\\newui_msgbox_back.jpg", IMAGE_STORAGE_BACK, GL_LINEAR);
     LoadBitmap(L"Interface\\newui_item_back01.tga", IMAGE_STORAGE_TOP, GL_LINEAR);
     LoadBitmap(L"Interface\\newui_item_back02-L.tga", IMAGE_STORAGE_LEFT, GL_LINEAR);
@@ -196,6 +198,7 @@ void CNewUIStorageInventoryExt::LoadImages() const
 
 void CNewUIStorageInventoryExt::UnloadImages()
 {
+    extendedVaultArt.Unload();
     DeleteBitmap(IMAGE_INVENTORY_EXIT_BTN);
     DeleteBitmap(IMAGE_STORAGE_BOTTOM);
     DeleteBitmap(IMAGE_STORAGE_RIGHT);
@@ -346,11 +349,9 @@ bool CNewUIStorageInventoryExt::ProcessMyInvenItemAutoMove(CNewUIInventoryCtrl* 
 
 bool CNewUIStorageInventoryExt::ProcessBtns() const
 {
-    // Top-right corner close "X" (shared frame): hides + swallows the click.
-    if (g_pNewUISystem->HandleFrameCornerClose(m_Pos, INTERFACE_STORAGE))
-        return true;
-
-    return false;
+    if (!extendedVaultArt.ClosePressed(m_Pos)) return false;
+    g_pNewUISystem->Hide(INTERFACE_STORAGE_EXT);
+    return true;
 }
 
 void CNewUIStorageInventoryExt::SetItemAutoMove(bool bItemAutoMove, int nSourceInvenIndex)

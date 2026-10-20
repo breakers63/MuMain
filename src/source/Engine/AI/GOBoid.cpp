@@ -1,4 +1,4 @@
-﻿//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
 //
 //  GOBoid.cpp
 //
@@ -1125,7 +1125,7 @@ void MoveTornado(OBJECT* o)
 
 void MoveBoidGroup(OBJECT* o, int index)
 {
-    if (!g_pOption->GetRenderAllEffects())
+    if (!g_pOption->GetRenderAllEffects() || g_pOption->GetReduceBoids())
     {
         return;
     }
@@ -1199,7 +1199,7 @@ void MoveBoidGroup(OBJECT* o, int index)
 
 void MoveBoids()
 {
-    if (!g_pOption->GetRenderAllEffects())
+    if (!g_pOption->GetRenderAllEffects() || g_pOption->GetReduceBoids())
     {
         return;
     }
@@ -1509,7 +1509,7 @@ void MoveBoids()
 
 void RenderBoids(bool bAfterCharacter)
 {
-    if (!g_pOption->GetRenderAllEffects())
+    if (!g_pOption->GetRenderAllEffects() || g_pOption->GetReduceBoids())
     {
         return;
     }
@@ -1610,7 +1610,7 @@ void RenderBoids(bool bAfterCharacter)
 
 void RenderFishs()
 {
-    if (!g_pOption->GetRenderAllEffects())
+    if (!g_pOption->GetRenderAllEffects() || g_pOption->GetReduceBoids())
     {
         return;
     }
@@ -1650,7 +1650,7 @@ void RenderFishs()
 
 void MoveFishs()
 {
-    if (!g_pOption->GetRenderAllEffects())
+    if (!g_pOption->GetRenderAllEffects() || g_pOption->GetReduceBoids())
     {
         return;
     }

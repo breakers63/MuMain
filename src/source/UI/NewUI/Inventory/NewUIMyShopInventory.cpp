@@ -2,10 +2,14 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
+#include "UI/NewUI/Character/ParisFrameAssets.h"
+#include "UI/NewUI/Character/ParisControls.h"
+#include "UI/NewUI/Character/ClassicPanelFrame.h"
 #include "UI/NewUI/Inventory/NewUIMyShopInventory.h"
 #include "Audio/DSPlaySound.h"
 #include "UI/NewUI/NewUISystem.h"
 #include "UI/NewUI/Dialogs/NewUICustomMessageBox.h"
+#include "UI/NewUI/Dialogs/PersonalShopOfflineDialog.h"
 #include "GameLogic/Items/PersonalShopTitleImp.h"
 #include "I18N/All.h"
 #include "GameLogic/Items/ShopRestrictions.h"
@@ -14,6 +18,7 @@ const int iMAX_SHOPTITLE_MULTI = 26;
 
 namespace
 {
+    UI::Theme::ParisFrameAssets shopArt;
     void RenderText(const wchar_t* text, int x, int y, int sx, int sy, DWORD color, DWORD backcolor, int sort, HFONT hFont = g_hFont)
     {
         g_pRenderText->SetFont(hFont);
@@ -66,6 +71,7 @@ bool SEASON3B::CNewUIMyShopInventory::Create(CNewUIManager* pNewUIMng, int x, in
         return false;
     }
 
+    m_pNewInventoryCtrl->SetGoldTheme(true);
     m_pNewInventoryCtrl->SetToolTipType(TOOLTIP_TYPE_MY_SHOP);
 
     m_Button = new CNewUIButton[MYSHOPINVENTORY_MAXBUTTONCOUNT];
@@ -82,10 +88,13 @@ bool SEASON3B::CNewUIMyShopInventory::Create(CNewUIManager* pNewUIMng, int x, in
     m_Button[MYSHOPINVENTORY_CLOSE].ChangeButtonInfo(m_Pos.x + 93, m_Pos.y + 391, 36, 29);
     m_Button[MYSHOPINVENTORY_CLOSE].ChangeToolTipText(&I18N::Game::Closed, true);
 
+    m_Button[MYSHOPINVENTORY_OFFLINE].ChangeButtonInfo(m_Pos.x + 133, m_Pos.y + 391, 36, 29);
+    m_Button[MYSHOPINVENTORY_OFFLINE].ChangeToolTipText(L"Activar tienda offline", true);
+
     m_EditBox = new CUITextInputBox;
 
-    m_EditBox->Init(g_hWnd, 200, 14, iMAX_SHOPTITLE_MULTI - 1);
-    m_EditBox->SetPosition(m_Pos.x + 50, m_Pos.y + 55);
+    m_EditBox->Init(g_hWnd, 86, 14, iMAX_SHOPTITLE_MULTI - 1);
+    m_EditBox->SetPosition(m_Pos.x + 84, m_Pos.y + 55);
     m_EditBox->SetTextColor(255, 255, 230, 210);
     m_EditBox->SetBackColor(0, 0, 0, 25);
     m_EditBox->SetFont(g_hFont);
@@ -115,6 +124,7 @@ void SEASON3B::CNewUIMyShopInventory::Release()
 
 void SEASON3B::CNewUIMyShopInventory::LoadImages()
 {
+    shopArt.Load();
     LoadBitmap(L"Interface\\newui_msgbox_back.jpg", IMAGE_MYSHOPINVENTORY_BACK, GL_LINEAR);
     LoadBitmap(L"Interface\\newui_item_back01.tga", IMAGE_MYSHOPINVENTORY_TOP, GL_LINEAR);
     LoadBitmap(L"Interface\\newui_item_back02-L.tga", IMAGE_MYSHOPINVENTORY_LEFT, GL_LINEAR);
@@ -128,6 +138,7 @@ void SEASON3B::CNewUIMyShopInventory::LoadImages()
 
 void SEASON3B::CNewUIMyShopInventory::UnloadImages()
 {
+    shopArt.Unload();
     DeleteBitmap(IMAGE_MYSHOPINVENTORY_CLOSE);
     DeleteBitmap(IMAGE_MYSHOPINVENTORY_OPEN);
     DeleteBitmap(IMAGE_MYSHOPINVENTORY_EDIT);
@@ -144,6 +155,7 @@ void SEASON3B::CNewUIMyShopInventory::SetPos(int x, int y)
     m_Pos.x = x;
     m_Pos.y = y;
 
+    if (m_EditBox) m_EditBox->SetPosition(m_Pos.x + 84, m_Pos.y + 55);
     if (m_pNewInventoryCtrl)
     {
         m_pNewInventoryCtrl->SetPos(m_Pos.x + 16, m_Pos.y + 90);
@@ -153,6 +165,7 @@ void SEASON3B::CNewUIMyShopInventory::SetPos(int x, int y)
         m_Button[MYSHOPINVENTORY_EXIT].SetPos(m_Pos.x + 13, m_Pos.y + 391);
         m_Button[MYSHOPINVENTORY_OPEN].SetPos(m_Pos.x + 53, m_Pos.y + 391);
         m_Button[MYSHOPINVENTORY_CLOSE].SetPos(m_Pos.x + 93, m_Pos.y + 391);
+        m_Button[MYSHOPINVENTORY_OFFLINE].SetPos(m_Pos.x + 133, m_Pos.y + 391);
     }
 }
 
@@ -421,6 +434,9 @@ bool SEASON3B::CNewUIMyShopInventory::UpdateMouseEvent()
         {
             switch (i)
             {
+            case MYSHOPINVENTORY_OFFLINE:
+                OpenOfflineStoreConfirmation();
+                return false;
             case 0:
             {
                 g_pNewUISystem->Hide(SEASON3B::INTERFACE_MYSHOP_INVENTORY);
@@ -471,6 +487,22 @@ bool SEASON3B::CNewUIMyShopInventory::UpdateMouseEvent()
     return true;
 }
 
+void SEASON3B::CNewUIMyShopInventory::OpenOfflineStoreConfirmation()
+{
+    if (!SocketClient || !SocketClient->IsConnected()) return;
+    if (m_EnablePersonalShop)
+    {
+        CreateMessageBox(MSGBOX_LAYOUT_CLASS(PersonalShopOfflineDialog));
+        return;
+    }
+    wchar_t title[MAX_SHOPTITLE + 1]{};
+    GetTitle(title);
+    if (!IsExistUndecidedPrice() && title[0] != L'\0')
+        CreateMessageBox(MSGBOX_LAYOUT_CLASS(CPersonalshopCreateMsgBoxLayout));
+    else
+        g_pSystemLogBox->AddText(I18N::Game::ThereSNoStoreNameOrItemPrice, TYPE_ERROR_MESSAGE);
+}
+
 bool SEASON3B::CNewUIMyShopInventory::WindowProcess()
 {
     if (CheckMouseIn(m_Pos.x, m_Pos.y, INVENTORY_WIDTH, INVENTORY_HEIGHT) == false)
@@ -500,16 +532,13 @@ bool SEASON3B::CNewUIMyShopInventory::Update()
 
 void SEASON3B::CNewUIMyShopInventory::RenderFrame()
 {
-    RenderImage(IMAGE_MYSHOPINVENTORY_BACK, m_Pos.x, m_Pos.y, INVENTORY_WIDTH, INVENTORY_HEIGHT);
-    RenderImage(IMAGE_MYSHOPINVENTORY_TOP, m_Pos.x, m_Pos.y, INVENTORY_WIDTH, 64.f);
-    RenderImage(IMAGE_MYSHOPINVENTORY_LEFT, m_Pos.x, m_Pos.y + 64, 21.f, 320.f);
-    RenderImage(IMAGE_MYSHOPINVENTORY_RIGHT, m_Pos.x + INVENTORY_WIDTH - 21, m_Pos.y + 64, 21.f, 320.f);
-    RenderImage(IMAGE_MYSHOPINVENTORY_BOTTOM, m_Pos.x, m_Pos.y + INVENTORY_HEIGHT - 45, INVENTORY_WIDTH, 45.f);
-    RenderImage(IMAGE_MYSHOPINVENTORY_EDIT, m_Pos.x + 12, m_Pos.y + 49, 169.f, 26.f);
-
-    wchar_t Text[100] = {};
-    mu_swprintf(Text, I18N::Game::PersonalStore);
-    RenderText(Text, m_Pos.x, m_Pos.y + 15, INVENTORY_WIDTH, 0, 0xFF49B0FF, 0x00000000, RT3_SORT_CENTER);
+    UI::Paris::Frame(m_Pos.x, m_Pos.y, INVENTORY_WIDTH, INVENTORY_HEIGHT);
+    shopArt.InventoryGrid(m_Pos.x + 16, m_Pos.y + 90);
+    RenderText(L"TIENDA PERSONAL", m_Pos.x + 10, m_Pos.y + 37, 170, 0,
+        RGBA(255,221,35,255), 0, RT3_SORT_CENTER, g_hFontBold);
+    RenderText(L"Nombre:", m_Pos.x + 12, m_Pos.y + 56, 65, 0,
+        RGBA(245,245,245,255), 0, RT3_SORT_CENTER, g_hFont);
+    UI::Theme::Bevel(m_Pos.x + 81, m_Pos.y + 52, 92, 20, L"");
 }
 
 void SEASON3B::CNewUIMyShopInventory::RenderTextInfo()
@@ -523,35 +552,35 @@ void SEASON3B::CNewUIMyShopInventory::RenderTextInfo()
 
     memset(&Text, 0, sizeof(wchar_t) * 100);
     mu_swprintf(Text, I18N::Game::Warning);
-    RenderText(Text, m_Pos.x + 30, m_Pos.y + 230, 0, 0, RGBA(255, 45, 47, 255), 0x00000000, RT3_SORT_LEFT, g_hFontBold);
+    RenderText(Text, m_Pos.x + 30, m_Pos.y + 230, 0, 0, RGBA(255, 221, 35, 255), 0x00000000, RT3_SORT_LEFT, g_hFontBold);
 
     memset(&Text, 0, sizeof(wchar_t) * 100);
     mu_swprintf(Text, I18N::Game::SellingPriceWhenOpeningTheStore);
-    RenderText(Text, m_Pos.x + 30, m_Pos.y + 250, 0, 0, RGBA(247, 206, 77, 255), 0x00000000, RT3_SORT_LEFT);
+    RenderText(Text, m_Pos.x + 30, m_Pos.y + 250, 0, 0, RGBA(245, 245, 245, 255), 0x00000000, RT3_SORT_LEFT);
 
     memset(&Text, 0, sizeof(wchar_t) * 100);
     mu_swprintf(Text, I18N::Game::PleaseVerify);
-    RenderText(Text, m_Pos.x + 30, m_Pos.y + 262, 0, 0, RGBA(247, 206, 77, 255), 0x00000000, RT3_SORT_LEFT);
+    RenderText(Text, m_Pos.x + 30, m_Pos.y + 262, 0, 0, RGBA(245, 245, 245, 255), 0x00000000, RT3_SORT_LEFT);
 
     memset(&Text, 0, sizeof(wchar_t) * 100);
     mu_swprintf(Text, I18N::Game::AlreadyInThePersonalStore);
-    RenderText(Text, m_Pos.x + 30, m_Pos.y + 274, 0, 0, RGBA(247, 206, 77, 255), 0x00000000, RT3_SORT_LEFT);
+    RenderText(Text, m_Pos.x + 30, m_Pos.y + 274, 0, 0, RGBA(245, 245, 245, 255), 0x00000000, RT3_SORT_LEFT);
 
     memset(&Text, 0, sizeof(wchar_t) * 100);
     mu_swprintf(Text, I18N::Game::CancelSoldItem);
-    RenderText(Text, m_Pos.x + 30, m_Pos.y + 286, 0, 0, RGBA(247, 206, 77, 255), 0x00000000, RT3_SORT_LEFT);
+    RenderText(Text, m_Pos.x + 30, m_Pos.y + 286, 0, 0, RGBA(245, 245, 245, 255), 0x00000000, RT3_SORT_LEFT);
 
     memset(&Text, 0, sizeof(wchar_t) * 100);
     mu_swprintf(Text, I18N::Game::CanTBeReturned);
-    RenderText(Text, m_Pos.x + 30, m_Pos.y + 298, 0, 0, RGBA(247, 206, 77, 255), 0x00000000, RT3_SORT_LEFT);
+    RenderText(Text, m_Pos.x + 30, m_Pos.y + 298, 0, 0, RGBA(245, 245, 245, 255), 0x00000000, RT3_SORT_LEFT);
 
     memset(&Text, 0, sizeof(wchar_t) * 100);
     mu_swprintf(Text, I18N::Game::AllItemTrading);
-    RenderText(Text, m_Pos.x + 30, m_Pos.y + 320, 0, 0, RGBA(255, 45, 47, 255), 0x00000000, RT3_SORT_LEFT, g_hFontBold);
+    RenderText(Text, m_Pos.x + 30, m_Pos.y + 320, 0, 0, RGBA(255, 221, 35, 255), 0x00000000, RT3_SORT_LEFT, g_hFontBold);
 
     memset(&Text, 0, sizeof(wchar_t) * 100);
-    mu_swprintf(Text, I18N::Game::CanOnlyBeDoneUsingZen);
-    RenderText(Text, m_Pos.x + 30, m_Pos.y + 332, 0, 0, RGBA(255, 45, 47, 255), 0x00000000, RT3_SORT_LEFT, g_hFontBold);
+    mu_swprintf(Text, L"Zen, Paris Coins y joyas");
+    RenderText(Text, m_Pos.x + 30, m_Pos.y + 332, 0, 0, RGBA(255, 221, 35, 255), 0x00000000, RT3_SORT_LEFT, g_hFontBold);
 }
 
 bool SEASON3B::CNewUIMyShopInventory::Render()
@@ -574,7 +603,7 @@ bool SEASON3B::CNewUIMyShopInventory::Render()
 
     for (int i = 0; i < MYSHOPINVENTORY_MAXBUTTONCOUNT; ++i)
     {
-        m_Button[i].Render();
+        shopArt.SpriteButton(m_Pos.x + 13 + i * 40, m_Pos.y + 391, 36, 29, i, true, true);
     }
 
     DisableAlphaBlend();

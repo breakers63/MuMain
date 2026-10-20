@@ -50,6 +50,7 @@ namespace SEASON3B
             MYSHOPINVENTORY_EXIT = 0,
             MYSHOPINVENTORY_OPEN,
             MYSHOPINVENTORY_CLOSE,
+            MYSHOPINVENTORY_OFFLINE,
             MYSHOPINVENTORY_MAXBUTTONCOUNT,
         };
 
@@ -120,6 +121,7 @@ namespace SEASON3B
     private:
         bool MyShopInventoryProcess();
         bool WindowProcess();
+        void OpenOfflineStoreConfirmation();
 
     private:
         void RenderFrame();

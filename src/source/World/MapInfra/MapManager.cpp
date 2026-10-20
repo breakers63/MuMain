@@ -1,4 +1,4 @@
-﻿// MapManager.cpp: implementation of the CMapManager class.
+// MapManager.cpp: implementation of the CMapManager class.
 //////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
@@ -1101,24 +1101,8 @@ void CMapManager::Load() // OK
     else
     {
         wchar_t DirName[32];
-        int iMapWorld = this->WorldActive + 1;
+        int iMapWorld = ResolveWorldFolder();
 
-        if (this->InBloodCastle() == true)
-        {
-            iMapWorld = WD_11BLOODCASTLE1 + 1;
-        }
-        else if (this->InChaosCastle() == true)
-        {
-            iMapWorld = WD_18CHAOS_CASTLE + 1;
-        }
-        else if (this->InHellas() == true)
-        {
-            iMapWorld = WD_24HELLAS + 1;
-        }
-        else if (gMapManager.IsCursedTemple())
-        {
-            iMapWorld = WD_45CURSEDTEMPLE_LV1 + 2;
-        }
 
         mu_swprintf(DirName, L"Data\\Object%d\\", iMapWorld);
         for (i = MODEL_WORLD_OBJECT; i < MAX_WORLD_OBJECTS; i++)
@@ -1175,6 +1159,17 @@ void CMapManager::Load() // OK
     }
 }
 
+int CMapManager::ResolveWorldFolder()
+{
+    constexpr int ParisLoginFolder = 95;
+    if (InBloodCastle()) return WD_11BLOODCASTLE1 + 1;
+    if (InHellas()) return WD_24HELLAS + 1;
+    if (InChaosCastle()) return WD_18CHAOS_CASTLE + 1;
+    if (IsCursedTemple()) return WD_45CURSEDTEMPLE_LV1 + 2;
+    if (WorldActive == WD_73NEW_LOGIN_SCENE) return ParisLoginFolder;
+    return WorldActive + 1;
+}
+
 void CMapManager::LoadWorld(int Map)
 {
     if (Map == 32 && this->WorldActive == 32)
@@ -1204,24 +1199,8 @@ void CMapManager::LoadWorld(int Map)
 
     wchar_t FileName[64];
     wchar_t WorldName[32];
-    int  iMapWorld = this->WorldActive + 1;
+    int iMapWorld = ResolveWorldFolder();
 
-    if (InBloodCastle(Map) == true)
-    {
-        iMapWorld = WD_11BLOODCASTLE1 + 1;
-    }
-    else if (gMapManager.InHellas(Map) == true)
-    {
-        iMapWorld = WD_24HELLAS + 1;
-    }
-    else if (InChaosCastle(Map) == true)
-    {
-        iMapWorld = WD_18CHAOS_CASTLE + 1;
-    }
-    else if (gMapManager.IsCursedTemple())
-    {
-        iMapWorld = WD_45CURSEDTEMPLE_LV1 + 2;
-    }
 
     battleCastle::Init();
 
@@ -1241,7 +1220,7 @@ void CMapManager::LoadWorld(int Map)
         return;
     }
 
-    if (this->WorldActive == WD_73NEW_LOGIN_SCENE)
+    if (this->WorldActive == WD_73NEW_LOGIN_SCENE && iMapWorld != 95)
     {
         mu_swprintf(FileName, L"Data\\%ls\\CWScript%d.cws", WorldName, iMapWorld);
         CCameraMove::GetInstancePtr()->LoadCameraWalkScript(FileName);
@@ -1503,7 +1482,7 @@ void CMapManager::LoadWorld(int Map)
         }
     }
 
-    if (iMapWorld != 74 && iMapWorld != 75)
+    if (iMapWorld != 74 && iMapWorld != 75 && iMapWorld != 95)
     {
         g_pNewUIMiniMap->UnloadImages();
         g_pNewUIMiniMap->LoadImages(WorldName);

@@ -42,6 +42,8 @@ namespace SEASON3B
 
         int m_iMixState;
         int m_iMixEffectTimer;
+        int m_recipeScroll = 0;
+        int m_recipeHeight = 180;
         float m_fInventoryColor[3];
         float m_fInventoryWarningColor[3];
 
@@ -86,6 +88,8 @@ namespace SEASON3B
         void UnloadImages();
 
         void RenderFrame();
+        void RenderRecipeDetails(float x, float y);
+        void RenderMixButton();
         bool InventoryProcess();
         // Items from the machine's own grid can always move; other items only
         // while the machine is ready and the item is a source of the recipe.

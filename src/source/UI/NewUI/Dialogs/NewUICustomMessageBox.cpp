@@ -1,4 +1,9 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
+#include "UI/NewUI/NPCs/ParisNpcSkin56.h"
+#include "UI/NewUI/NPCs/NpcTextBlock.h"
+#include "UI/NewUI/Character/ParisControls.h"
+#include "Network/Paris/PersonalShopPricing.h"
+#include "UI/NewUI/HUD/NewUIChatLogWindow.h"
 #include "UI/NewUI/Dialogs/NewUICustomMessageBox.h"
 #include "Audio/DSPlaySound.h"
 #include "UI/Legacy/UIControls.h"
@@ -103,6 +108,7 @@ bool SEASON3B::CNewUITextInputMsgBox::Create(DWORD dwMsgBoxType, DWORD dwInputTy
 
 void SEASON3B::CNewUITextInputMsgBox::Release()
 {
+    m_storePriceDialog.Close();
     CNewUIMessageBoxBase::Release();
 
     auto vi = m_MsgTextList.begin();
@@ -164,6 +170,14 @@ CALLBACK_RESULT SEASON3B::CNewUITextInputMsgBox::LButtonUp(class CNewUIMessageBo
     auto* pMsgBox = dynamic_cast<CNewUITextInputMsgBox*>(pOwner);
     if (pMsgBox)
     {
+        if (pMsgBox->m_storePriceDialog.IsVisible())
+        {
+            using Action = UI::Items::StorePriceDialog::Action;
+            const auto action = pMsgBox->m_storePriceDialog.Click();
+            if (action == Action::Confirm) g_MessageBox->SendEvent(pOwner, MSGBOX_EVENT_USER_COMMON_OK);
+            if (action == Action::Cancel) g_MessageBox->SendEvent(pOwner, MSGBOX_EVENT_USER_COMMON_CANCEL);
+            return CALLBACK_BREAK;
+        }
         switch (pMsgBox->GetMsgBoxType())
         {
         case MSGBOX_COMMON_TYPE_OK:
@@ -251,6 +265,7 @@ DWORD SEASON3B::CNewUITextInputMsgBox::GetMsgBoxType()
 
 bool SEASON3B::CNewUITextInputMsgBox::Update()
 {
+    if (m_storePriceDialog.IsVisible()) { m_storePriceDialog.Update(); return true; }
     switch (m_dwMsgBoxType)
     {
     case MSGBOX_COMMON_TYPE_OK:
@@ -281,6 +296,12 @@ bool SEASON3B::CNewUITextInputMsgBox::Update()
 
 bool SEASON3B::CNewUITextInputMsgBox::Render()
 {
+    if (m_storePriceDialog.IsVisible())
+    {
+        m_storePriceDialog.Render();
+        DisableAlphaBlend();
+        return true;
+    }
     float x, y, width, height;
 
     EnableAlphaTest();
@@ -2752,6 +2773,16 @@ void SEASON3B::CChaosCastleResultMsgBox::RenderFrame()
 
 //////////////////////////////////////////////////////////////////////////
 
+namespace
+{
+    UI::Theme::ParisNpcSkin56 chaosMenuSkin, trainerMenuSkin, trainerRecoverSkin;
+    UI::NPCs::NpcTextBlock chaosDescriptions[4];
+    void RenderChaosButton(SEASON3B::CNewUIMessageBoxButton& button, const wchar_t* caption)
+    {
+        UI::Theme::Bevel(button.GetPosX(), button.GetPosY(), button.GetWidth(), button.GetHeight(), caption,
+            button.GetEventState() != SEASON3B::CNewUIMessageBoxButton::EVENT_NONE);
+    }
+}
 SEASON3B::CChaosMixMenuMsgBox::CChaosMixMenuMsgBox()
 {
 }
@@ -2763,6 +2794,7 @@ SEASON3B::CChaosMixMenuMsgBox::~CChaosMixMenuMsgBox()
 
 bool SEASON3B::CChaosMixMenuMsgBox::Create(float fPriority)
 {
+    chaosMenuSkin.Load();
     int x, y, width, height;
 
     SetAddCallbackFunc();
@@ -2781,6 +2813,7 @@ bool SEASON3B::CChaosMixMenuMsgBox::Create(float fPriority)
 
 void SEASON3B::CChaosMixMenuMsgBox::Release()
 {
+    chaosMenuSkin.Unload();
     CNewUIMessageBoxBase::Release();
 }
 
@@ -2917,65 +2950,29 @@ void SEASON3B::CChaosMixMenuMsgBox::SetButtonInfo()
 
 void SEASON3B::CChaosMixMenuMsgBox::RenderFrame()
 {
-    float x, y, width, height;
-
-    x = GetPos().x; y = GetPos().y + 2.f, width = GetSize().cx - MSGBOX_BACK_BLANK_WIDTH; height = GetSize().cy - MSGBOX_BACK_BLANK_HEIGHT;
-    RenderImage(CNewUIMessageBoxMng::IMAGE_MSGBOX_BACK, x, y, width, height);
-
-    x = GetPos().x; y = GetPos().y, width = MSGBOX_WIDTH; height = MSGBOX_TOP_HEIGHT;
-    RenderImage(CNewUIMessageBoxMng::IMAGE_MSGBOX_TOP_TITLEBAR, x, y, width, height);
-
-    x = GetPos().x; y += MSGBOX_TOP_HEIGHT; width = MSGBOX_WIDTH; height = MSGBOX_MIDDLE_HEIGHT;
-    for (int i = 0; i < MIDDLE_COUNT; ++i)
-    {
-        RenderImage(CNewUIMessageBoxMng::IMAGE_MSGBOX_MIDDLE, x, y, width, height);
-        y += height;
-    }
-
-    x = GetPos().x; width = MSGBOX_WIDTH; height = MSGBOX_BOTTOM_HEIGHT;
-    RenderImage(CNewUIMessageBoxMng::IMAGE_MSGBOX_BOTTOM, x, y, width, height);
+    chaosMenuSkin.Panel(GetPos().x, GetPos().y, GetSize().cx, GetSize().cy, false, false);
 }
 
 void SEASON3B::CChaosMixMenuMsgBox::RenderTexts()
 {
-    wchar_t szText[256] = { 0, };
-    float fPos_x = GetPos().x + 10;
-    float fPos_y = GetPos().y + 10;
-
-    g_pRenderText->SetBgColor(0, 0, 0, 0);
-    g_pRenderText->SetTextColor(255, 128, 0, 255);
-    g_pRenderText->SetFont(g_hFontBold);
-    mu_swprintf(szText, I18N::Game::SelectMethodOfCombination);
-    g_pRenderText->RenderText(fPos_x, fPos_y, szText, MSGBOX_WIDTH - 20.0f, 0, RT3_SORT_CENTER);
-
-    fPos_y += 15;
-    g_pRenderText->SetTextColor(255, 255, 255, 255);
-    g_pRenderText->SetFont(g_hFont);
-
-    mu_swprintf(szText, I18N::Game::Wings7TypesFruitDevilSInvitation);
-    g_pRenderText->RenderText(fPos_x, fPos_y + 1 * 15, szText, MSGBOX_WIDTH - 20.0f, 0, RT3_SORT_CENTER);
-    mu_swprintf(szText, I18N::Game::Dinorant1015ItemsCloakOfInvisibility, Hero->ID);
-    g_pRenderText->RenderText(fPos_x, fPos_y + 2 * 15, szText, MSGBOX_WIDTH - 20.0f, 0, RT3_SORT_CENTER);
-    mu_swprintf(szText, I18N::Game::FenrirSHornScrollOfBloodCondorSFeather, Hero->ID);
-    g_pRenderText->RenderText(fPos_x, fPos_y + 3 * 15, szText, MSGBOX_WIDTH - 20.0f, 0, RT3_SORT_CENTER);
-
-    fPos_y += 100;
-    mu_swprintf(szText, I18N::Game::ChaosDragonAxeChaosLightningStaff, Hero->ID);
-    g_pRenderText->RenderText(fPos_x, fPos_y + 0 * 15, szText, MSGBOX_WIDTH - 20.0f, 0, RT3_SORT_CENTER);
-    mu_swprintf(szText, I18N::Game::ChaosNatureBow, Hero->ID);
-    g_pRenderText->RenderText(fPos_x, fPos_y + 1 * 15, szText, MSGBOX_WIDTH - 20.0f, 0, RT3_SORT_CENTER);
-
-    fPos_y += 85;
-    mu_swprintf(szText, I18N::Game::Add380ItemOption, Hero->ID);
-    g_pRenderText->RenderText(fPos_x, fPos_y + 0 * 15, szText, MSGBOX_WIDTH - 20.0f, 0, RT3_SORT_CENTER);
+    const int left = GetPos().x + 15, width = GetSize().cx - 30;
+    const wchar_t* title[]{I18N::Game::SelectMethodOfCombination};
+    const wchar_t* regular[]{I18N::Game::Wings7TypesFruitDevilSInvitation,
+        I18N::Game::Dinorant1015ItemsCloakOfInvisibility, I18N::Game::FenrirSHornScrollOfBloodCondorSFeather};
+    const wchar_t* chaos[]{I18N::Game::ChaosDragonAxeChaosLightningStaff, I18N::Game::ChaosNatureBow};
+    const wchar_t* option[]{I18N::Game::Add380ItemOption};
+    chaosDescriptions[0].Render(title, left, GetPos().y + 13, width, 25);
+    chaosDescriptions[1].Render(regular, left, GetPos().y + 40, width, 43);
+    chaosDescriptions[2].Render(chaos, left, GetPos().y + 122, width, 31);
+    chaosDescriptions[3].Render(option, left, GetPos().y + 202, width, 21);
 }
 
 void SEASON3B::CChaosMixMenuMsgBox::RenderButtons()
 {
-    m_BtnGeneralMix.Render();
-    m_BtnChaosMix.Render();
-    m_BtnMix380.Render();
-    m_BtnCancel.Render();
+    RenderChaosButton(m_BtnGeneralMix, I18N::Game::RegularCombination);
+    RenderChaosButton(m_BtnChaosMix, I18N::Game::ChaosWeaponCombination);
+    RenderChaosButton(m_BtnMix380, I18N::Game::ItemOptionCombination);
+    RenderChaosButton(m_BtnCancel, I18N::Game::Close388);
 }
 
 SEASON3B::CDialogMsgBox::CDialogMsgBox()
@@ -4360,6 +4357,7 @@ bool SEASON3B::CPersonalShopItemValueMsgBoxLayout::SetLayout()
 
     pMsgBox->SetInputBoxOption(UIOPTION_NUMBERONLY | UIOPTION_PAINTBACK);
     pMsgBox->AddMsg(I18N::Game::EnterSellingPrice);
+    pMsgBox->EnableStorePriceSelector();
     pMsgBox->AddCallbackFunc(CPersonalShopItemValueMsgBoxLayout::ReturnDown, MSGBOX_EVENT_PRESSKEY_RETURN);
     pMsgBox->AddCallbackFunc(CPersonalShopItemValueMsgBoxLayout::OkBtnDown, MSGBOX_EVENT_USER_COMMON_OK);
     pMsgBox->AddCallbackFunc(CPersonalShopItemValueMsgBoxLayout::CancelBtnDown, MSGBOX_EVENT_USER_COMMON_CANCEL);
@@ -4372,20 +4370,15 @@ CALLBACK_RESULT SEASON3B::CPersonalShopItemValueMsgBoxLayout::ProcessOk(class CN
 {
     auto* pMsgBox = dynamic_cast<CNewUITextInputMsgBox*>(pOwner);
 
-    wchar_t strText[MAX_TEXT_LENGTH] = { 0, };
-
-    pMsgBox->GetInputBoxText(strText);
-
-    if (wcslen(strText) == 0)
+    int iInputZen = 0;
+    BYTE currency = 0;
+    if (!pMsgBox || !pMsgBox->GetStorePriceInput(iInputZen, currency))
     {
+        g_pSystemLogBox->AddText(L"Indica un precio válido en una sola moneda. Las monedas adicionales requieren soporte del servidor.", TYPE_ERROR_MESSAGE);
         return CALLBACK_CONTINUE;
     }
-
-    int iInputZen = _wtoi(strText);
-    if (iInputZen == 0)
-    {
-        return CALLBACK_CONTINUE;
-    }
+    wchar_t strText[MAX_TEXT_LENGTH]{};
+    swprintf_s(strText, L"%d", iInputZen);
 
     CNewUIPickedItem* pPickedItem = CNewUIInventoryCtrl::GetPickedItem();
     ITEM* pItem = NULL;
@@ -4404,7 +4397,7 @@ CALLBACK_RESULT SEASON3B::CPersonalShopItemValueMsgBoxLayout::ProcessOk(class CN
     {
         DWORD dwItemValue = ItemValue(pItem, 2);
 
-        if (iInputZen < (int)dwItemValue)
+        if (currency == 0 && iInputZen < (int)dwItemValue)
         {
             bResult = true;
         }
@@ -4418,10 +4411,11 @@ CALLBACK_RESULT SEASON3B::CPersonalShopItemValueMsgBoxLayout::ProcessOk(class CN
         if (lpMsgBox)
         {
             wchar_t strText2[MAX_TEXT_LENGTH] = { 0, };
-            mu_swprintf(strText2, I18N::Game::SellingPriceSZen, strText);
+            mu_swprintf(strText2, L"Precio: %d %ls", iInputZen, Network::Paris::PersonalShopPricing::CurrencyName(currency));
             lpMsgBox->AddMsg(strText2, RGBA(255, 0, 0, 255), MSGBOX_FONT_BOLD);
             lpMsgBox->AddMsg(I18N::Game::DoYouWantToSellItemAtThisPrice);
             lpMsgBox->SetItemValue(iInputZen);
+            lpMsgBox->SetStorePriceCurrency(currency);
         }
     }
     else
@@ -4444,30 +4438,30 @@ CALLBACK_RESULT SEASON3B::CPersonalShopItemValueMsgBoxLayout::ProcessOk(class CN
 
             if (pPickedItem->GetOwnerInventory() == g_pMyInventory->GetInventoryCtrl())
             {
-                SocketClient->ToGameServer()->SendPlayerShopSetItemPrice(iSourceIndex, iInputZen);
+                if (!Network::Paris::PersonalShopPricing::Send(iSourceIndex, iInputZen, currency)) return CALLBACK_CONTINUE;
 
                 SendRequestEquipmentItem(STORAGE_TYPE::INVENTORY, iSourceIndex, pItemObj, STORAGE_TYPE::MYSHOP, iTargetIndex);
             }
             else if (pPickedItem->GetOwnerInventory() == nullptr)
             {
-                SocketClient->ToGameServer()->SendPlayerShopSetItemPrice(iSourceIndex, iInputZen);
+                if (!Network::Paris::PersonalShopPricing::Send(iSourceIndex, iInputZen, currency)) return CALLBACK_CONTINUE;
 
                 SendRequestEquipmentItem(STORAGE_TYPE::INVENTORY, iSourceIndex, pItemObj, STORAGE_TYPE::MYSHOP, iTargetIndex);
             }
             else if (pPickedItem->GetOwnerInventory() == g_pMyShopInventory->GetInventoryCtrl())
             {
-                SocketClient->ToGameServer()->SendPlayerShopSetItemPrice(iSourceIndex, iInputZen);
+                if (!Network::Paris::PersonalShopPricing::Send(iSourceIndex, iInputZen, currency)) return CALLBACK_CONTINUE;
 
                 SendRequestEquipmentItem(STORAGE_TYPE::MYSHOP, iSourceIndex, pItemObj, STORAGE_TYPE::MYSHOP, iTargetIndex);
             }
 
-            AddPersonalItemPrice(iTargetIndex, iInputZen, g_IsPurchaseShop);
+            AddPersonalItemPrice(iTargetIndex, iInputZen, g_IsPurchaseShop, currency);
         }
         else
         {
             iSourceIndex = g_pMyShopInventory->GetSourceIndex();
-            SocketClient->ToGameServer()->SendPlayerShopSetItemPrice(iSourceIndex, iInputZen);
-            AddPersonalItemPrice(iSourceIndex, iInputZen, g_IsPurchaseShop);
+            if (!Network::Paris::PersonalShopPricing::Send(iSourceIndex, iInputZen, currency)) return CALLBACK_CONTINUE;
+            AddPersonalItemPrice(iSourceIndex, iInputZen, g_IsPurchaseShop, currency);
         }
     }
 
@@ -5673,6 +5667,7 @@ SEASON3B::CTrainerMenuMsgBox::~CTrainerMenuMsgBox()
 
 bool SEASON3B::CTrainerMenuMsgBox::Create(float fPriority)
 {
+    trainerMenuSkin.Load();
     SetAddCallbackFunc();
 
     int x, y, width, height;
@@ -5689,6 +5684,7 @@ bool SEASON3B::CTrainerMenuMsgBox::Create(float fPriority)
 
 void SEASON3B::CTrainerMenuMsgBox::Release()
 {
+    trainerMenuSkin.Unload();
     CNewUIMessageBoxBase::Release();
 }
 
@@ -5804,23 +5800,7 @@ void SEASON3B::CTrainerMenuMsgBox::SetButtonInfo()
 
 void SEASON3B::CTrainerMenuMsgBox::RenderFrame()
 {
-    float x, y, width, height;
-
-    x = GetPos().x; y = GetPos().y + 2.f, width = GetSize().cx - MSGBOX_BACK_BLANK_WIDTH; height = GetSize().cy - MSGBOX_BACK_BLANK_HEIGHT;
-    RenderImage(CNewUIMessageBoxMng::IMAGE_MSGBOX_BACK, x, y, width, height);
-
-    x = GetPos().x; y = GetPos().y, width = MSGBOX_WIDTH; height = MSGBOX_TOP_HEIGHT;
-    RenderImage(CNewUIMessageBoxMng::IMAGE_MSGBOX_TOP_TITLEBAR, x, y, width, height);
-
-    x = GetPos().x; y += MSGBOX_TOP_HEIGHT; width = MSGBOX_WIDTH; height = MSGBOX_MIDDLE_HEIGHT;
-    for (int i = 0; i < m_iMiddleCount; ++i)
-    {
-        RenderImage(CNewUIMessageBoxMng::IMAGE_MSGBOX_MIDDLE, x, y, width, height);
-        y += height;
-    }
-
-    x = GetPos().x; width = MSGBOX_WIDTH; height = MSGBOX_BOTTOM_HEIGHT;
-    RenderImage(CNewUIMessageBoxMng::IMAGE_MSGBOX_BOTTOM, x, y, width, height);
+    trainerMenuSkin.Panel(GetPos().x, GetPos().y, GetSize().cx, GetSize().cy, false, false);
 }
 
 void SEASON3B::CTrainerMenuMsgBox::RenderTexts()
@@ -5845,9 +5825,9 @@ void SEASON3B::CTrainerMenuMsgBox::RenderTexts()
 
 void SEASON3B::CTrainerMenuMsgBox::RenderButtons()
 {
-    m_BtnRecover.Render();
-    m_BtnRevive.Render();
-    m_BtnExit.Render();
+    RenderChaosButton(m_BtnRecover, I18N::Game::RestoreLifeDurability);
+    RenderChaosButton(m_BtnRevive, I18N::Game::ResurrectSpirit);
+    RenderChaosButton(m_BtnExit, I18N::Game::Close388);
 }
 
 SEASON3B::CTrainerRecoverMsgBox::CTrainerRecoverMsgBox()
@@ -5862,6 +5842,7 @@ SEASON3B::CTrainerRecoverMsgBox::~CTrainerRecoverMsgBox()
 
 bool SEASON3B::CTrainerRecoverMsgBox::Create(float fPriority)
 {
+    trainerRecoverSkin.Load();
     SetAddCallbackFunc();
 
     int x, y, width, height;
@@ -5878,6 +5859,7 @@ bool SEASON3B::CTrainerRecoverMsgBox::Create(float fPriority)
 
 void SEASON3B::CTrainerRecoverMsgBox::Release()
 {
+    trainerRecoverSkin.Unload();
     CNewUIMessageBoxBase::Release();
 }
 
@@ -5996,23 +5978,7 @@ void SEASON3B::CTrainerRecoverMsgBox::SetButtonInfo()
 
 void SEASON3B::CTrainerRecoverMsgBox::RenderFrame()
 {
-    float x, y, width, height;
-
-    x = GetPos().x; y = GetPos().y + 2.f, width = GetSize().cx - MSGBOX_BACK_BLANK_WIDTH; height = GetSize().cy - MSGBOX_BACK_BLANK_HEIGHT;
-    RenderImage(CNewUIMessageBoxMng::IMAGE_MSGBOX_BACK, x, y, width, height);
-
-    x = GetPos().x; y = GetPos().y, width = MSGBOX_WIDTH; height = MSGBOX_TOP_HEIGHT;
-    RenderImage(CNewUIMessageBoxMng::IMAGE_MSGBOX_TOP_TITLEBAR, x, y, width, height);
-
-    x = GetPos().x; y += MSGBOX_TOP_HEIGHT; width = MSGBOX_WIDTH; height = MSGBOX_MIDDLE_HEIGHT;
-    for (int i = 0; i < m_iMiddleCount; ++i)
-    {
-        RenderImage(CNewUIMessageBoxMng::IMAGE_MSGBOX_MIDDLE, x, y, width, height);
-        y += height;
-    }
-
-    x = GetPos().x; width = MSGBOX_WIDTH; height = MSGBOX_BOTTOM_HEIGHT;
-    RenderImage(CNewUIMessageBoxMng::IMAGE_MSGBOX_BOTTOM, x, y, width, height);
+    trainerRecoverSkin.Panel(GetPos().x, GetPos().y, GetSize().cx, GetSize().cy, false, false);
 }
 
 void SEASON3B::CTrainerRecoverMsgBox::RenderTexts()
@@ -6041,9 +6007,9 @@ void SEASON3B::CTrainerRecoverMsgBox::RenderTexts()
 
 void SEASON3B::CTrainerRecoverMsgBox::RenderButtons()
 {
-    m_BtnRecoverDarkSpirit.Render();
-    m_BtnRecoverDarkHorse.Render();
-    m_BtnExit.Render();
+    RenderChaosButton(m_BtnRecoverDarkSpirit, I18N::Game::DarkRaven);
+    RenderChaosButton(m_BtnRecoverDarkHorse, I18N::Game::DarkHorse);
+    RenderChaosButton(m_BtnExit, I18N::Game::Close388);
 }
 
 SEASON3B::CElpisMsgBox::CElpisMsgBox()
@@ -7406,4 +7372,17 @@ void SEASON3B::CDelgardoMainMenuMsgBox::RenderButtons()
     m_BtnReg.Render();
     m_BtnExchange.Render();
     m_BtnExit.Render();
+}
+
+void SEASON3B::CNewUITextInputMsgBox::EnableStorePriceSelector()
+{
+    SetSize(UI::Items::StorePriceDialog::Width, UI::Items::StorePriceDialog::Height);
+    SetPos((SCREEN_WIDTH - GetSize().cx) / 2, (SCREEN_HEIGHT - GetSize().cy) / 2);
+    if (m_pInputBox) m_pInputBox->SetState(UISTATE_HIDE);
+    m_storePriceDialog.Open(GetPos().x, GetPos().y);
+}
+
+bool SEASON3B::CNewUITextInputMsgBox::GetStorePriceInput(int& amount, BYTE& currency) const
+{
+    return m_storePriceDialog.ReadPrice(amount, currency);
 }

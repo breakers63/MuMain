@@ -368,6 +368,13 @@ endif()
 message(STATUS "=== DEBUG: Runtime asset mode: ${ASSETS_MODE}")
 set(ASSETS_MODE_FILE "${CMAKE_CURRENT_BINARY_DIR}/.assets_mode")
 file(GENERATE OUTPUT "${ASSETS_MODE_FILE}" CONTENT "${ASSETS_MODE}\n")
+# Imported map files can have timestamps older than the previous copy stamp.
+# Track the file list and output directory as well, so new resources and a new
+# runtime folder always trigger a complete asset copy.
+set(ASSETS_MANIFEST "${CMAKE_CURRENT_BINARY_DIR}/.assets_manifest_$<CONFIG>.txt")
+string(JOIN "\n" ASSETS_FILE_LIST ${ASSET_FILES})
+file(GENERATE OUTPUT "${ASSETS_MANIFEST}"
+  CONTENT "${ASSETS_MODE}\n$<TARGET_FILE_DIR:Main>\n${ASSETS_FILE_LIST}\n")
 # $<CONFIG> in the stamp name keeps multi-config generators (Visual
 # Studio, Xcode) honest: each configuration's output directory needs
 # its own stamp, otherwise switching from Debug to Release would see
@@ -382,7 +389,7 @@ add_custom_command(
           "-DMU_COPY_RUNTIME_ASSETS=${MU_COPY_RUNTIME_ASSETS}"
           "-P" "${REPO_ROOT}/cmake/CopyRuntimeAssets.cmake"
   COMMAND ${CMAKE_COMMAND} -E touch "${ASSETS_STAMP}"
-  DEPENDS ${ASSET_FILES} "${ASSETS_MODE_FILE}"
+  DEPENDS ${ASSET_FILES} "${ASSETS_MODE_FILE}" "${ASSETS_MANIFEST}"
   COMMENT "Copying game assets (sources changed)"
   VERBATIM
 )

@@ -1,10 +1,13 @@
 #include "stdafx.h"
+#include "UI/NewUI/Character/ParisFrameAssets.h"
+#include "UI/NewUI/Character/ParisPanelReference.h"
 #include "UI/NewUI/Inventory/NewUIInventoryExtension.h"
 #include "I18N/All.h"
 
 #include "UI/NewUI/NewUISystem.h"
 
 using namespace SEASON3B;
+namespace { UI::Theme::ParisFrameAssets extensionArt; }
 
 // cppcheck-suppress uninitMemberVar
 CNewUIInventoryExtension::CNewUIInventoryExtension()
@@ -49,6 +52,7 @@ bool CNewUIInventoryExtension::Create(CNewUIManager* pNewUIMng, int x, int y)
         if (m_extension)
         {
             m_extension->SetToolTipType(TOOLTIP_TYPE_INVENTORY);
+            m_extension->SetGoldTheme(true);
         }
 
         i++;
@@ -193,7 +197,7 @@ bool CNewUIInventoryExtension::Render()
         }
     }
 
-    m_BtnExit.Render();
+    extensionArt.Exit(m_Pos.x + 13, m_Pos.y + 391);
 
     DisableAlphaBlend();
     return true;
@@ -201,30 +205,37 @@ bool CNewUIInventoryExtension::Render()
 
 void CNewUIInventoryExtension::RenderFrame() const
 {
-    const auto x = static_cast<float>(m_Pos.x);
-    const auto y = static_cast<float>(m_Pos.y);
+    UI::Paris::Frame(m_Pos.x, m_Pos.y, WIDTH, HEIGHT);
+    const int active = std::clamp(static_cast<int>(CharacterAttribute->InventoryExtensions), 0, MAX_INVENTORY_EXT_COUNT);
+    for (int i = 0; i < active; ++i)
+        extensionArt.InventoryGrid(m_Pos.x + 15, m_Pos.y + 45 + i * HEIGHT_PER_EXT, 8, 4);
+    for (int i = active; i < MAX_INVENTORY_EXT_COUNT; ++i)
+        RenderLockedExtension(i);
+}
 
-    RenderImage(IMAGE_NPCSHOP_BACK, x, y, WIDTH, HEIGHT);
-    RenderImage(IMAGE_NPCSHOP_TOP, x, y, WIDTH, 64.f);
-    RenderImage(IMAGE_NPCSHOP_LEFT, x, y + 64, 21.f, 320.f);
-    RenderImage(IMAGE_NPCSHOP_RIGHT, x + WIDTH - 21, y + 64, 21.f, 320.f);
-    RenderImage(IMAGE_NPCSHOP_BOTTOM, x, y + 429 - 45, WIDTH, 45.f);
-
-    for (int i = MAX_INVENTORY_EXT_COUNT - 1; i >= CharacterAttribute->InventoryExtensions; --i)
-    {
-        RenderImage(IMAGE_EXTENSION_TABLE, x + 11, y + 42 + i * HEIGHT_PER_EXT, 173, HEIGHT_PER_EXT);
-        RenderImage(IMAGE_EXTENSION_EMPTY, x + 15, y + 45 + i * HEIGHT_PER_EXT, 161, HEIGHT_PER_EXT - (EXT_BORDER * 2));
-        RenderImage(static_cast<GLuint>(IMAGE_EXTENSION_NO1 + i), x + 85, y + 71 + i * HEIGHT_PER_EXT, 25, 28);
-    }
+void CNewUIInventoryExtension::RenderLockedExtension(int index) const
+{
+    constexpr int GridLeft = 15, GridTop = 45, GridWidth = 160, GridHeight = 80;
+    constexpr unsigned int Border = 0xFF6D5427u, Background = 0xF00B0B0Bu;
+    constexpr const wchar_t* titles[]{L"AMPLIACIÓN 1", L"AMPLIACIÓN 2", L"AMPLIACIÓN 3", L"AMPLIACIÓN 4"};
+    const int x = m_Pos.x + GridLeft, y = m_Pos.y + GridTop + index * HEIGHT_PER_EXT;
+    RenderColorQuadARGB(x, y, GridWidth, GridHeight, Background);
+    RenderColorQuadARGB(x, y, GridWidth, 1, Border);
+    RenderColorQuadARGB(x, y + GridHeight - 1, GridWidth, 1, Border);
+    RenderColorQuadARGB(x, y, 1, GridHeight, Border);
+    RenderColorQuadARGB(x + GridWidth - 1, y, 1, GridHeight, Border);
+    UI::Character::ParisStyle::Label(x, y + 27, GridWidth, titles[index]);
+    g_pRenderText->SetTextColor(145, 135, 115, 255);
+    g_pRenderText->RenderText(x, y + 42, L"BLOQUEADA", GridWidth, 0, RT3_SORT_CENTER);
 }
 
 void CNewUIInventoryExtension::RenderTexts() const
 {
     g_pRenderText->SetFont(g_hFontBold);
     g_pRenderText->SetBgColor(0);
-    g_pRenderText->SetTextColor(220, 220, 220, 255);
+    g_pRenderText->SetTextColor(255, 221, 35, 255);
 
-    g_pRenderText->RenderText(m_Pos.x, m_Pos.y + 12, I18N::Game::ExpandedInventory, WIDTH, 0, RT3_SORT_CENTER);
+    g_pRenderText->RenderText(m_Pos.x, m_Pos.y + 37, I18N::Game::ExpandedInventory, WIDTH, 0, RT3_SORT_CENTER);
 }
 
 float CNewUIInventoryExtension::GetLayerDepth()
@@ -240,6 +251,7 @@ void CNewUIInventoryExtension::SetButtonInfo()
 
 void CNewUIInventoryExtension::LoadImages()
 {
+    extensionArt.Load();
     LoadBitmap(L"Interface\\newui_msgbox_back.jpg", IMAGE_NPCSHOP_BACK, GL_LINEAR);
     LoadBitmap(L"Interface\\newui_item_back04.tga", IMAGE_NPCSHOP_TOP, GL_LINEAR);
     LoadBitmap(L"Interface\\newui_item_back02-L.tga", IMAGE_NPCSHOP_LEFT, GL_LINEAR);
@@ -256,6 +268,7 @@ void CNewUIInventoryExtension::LoadImages()
 
 void CNewUIInventoryExtension::UnloadImages()
 {
+    extensionArt.Unload();
     DeleteBitmap(IMAGE_NPCSHOP_BACK);
     DeleteBitmap(IMAGE_NPCSHOP_TOP);
     DeleteBitmap(IMAGE_NPCSHOP_LEFT);

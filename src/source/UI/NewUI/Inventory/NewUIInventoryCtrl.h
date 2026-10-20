@@ -156,6 +156,9 @@ namespace SEASON3B
         EVENT_STATE	m_EventState;
         int	m_iPointedSquareIndex; // has m_nIndexOffset included
         bool m_bShow, m_bLock;
+        bool m_goldTheme = false;
+        void RenderSlotBorder(int column, int row);
+        void RenderTableBorder();
 
         TOOLTIP_TYPE	m_ToolTipType;
         ITEM* m_pToolTipItem;
@@ -236,6 +239,7 @@ namespace SEASON3B
         bool UpdateMouseEvent();
         bool Update();
 
+        void SetGoldTheme(bool enabled) { m_goldTheme = enabled; }
         void Render();
 
         void SetPos(int x, int y);

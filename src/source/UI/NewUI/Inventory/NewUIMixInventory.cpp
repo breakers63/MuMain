@@ -3,6 +3,13 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
+#include "UI/NewUI/NPCs/ParisNpcSkin56.h"
+namespace
+{
+UI::Theme::ParisNpcSkin56 npcSkin;
+constexpr int RecipeTop = 215, RecipeHeight = 163, RecipePitch = 12;
+constexpr int MixFooterTop = 386, MixButtonLeft = 79, MixButtonSize = 32;
+}
 #include "UI/NewUI/Inventory/NewUIMixInventory.h"
 #include "UI/NewUI/Inventory/HeldItemPlacement.h"
 #include "UI/NewUI/NewUISystem.h"
@@ -48,6 +55,7 @@ bool CNewUIMixInventory::Create(CNewUIManager* pNewUIMng, int x, int y)
         return false;
     }
 
+    m_pNewInventoryCtrl->SetGoldTheme(true);
     SetPos(x, y);
 
     LoadImages();
@@ -58,7 +66,7 @@ bool CNewUIMixInventory::Create(CNewUIManager* pNewUIMng, int x, int y)
     };
 
     m_BtnMix.ChangeButtonImgState(true, IMAGE_MIXINVENTORY_MIXBTN, false);
-    m_BtnMix.ChangeButtonInfo(m_Pos.x + INVENTORY_WIDTH * 0.5f - 22.f, m_Pos.y + 380, 44.f, 35.f);
+    m_BtnMix.ChangeButtonInfo(m_Pos.x + MixButtonLeft, m_Pos.y + MixFooterTop, MixButtonSize, MixButtonSize);
     m_BtnMix.ChangeToolTipText(&I18N::Game::Combining, true);
 
     m_pNewInventoryCtrl->GetSquareColorNormal(m_fInventoryColor);
@@ -182,11 +190,21 @@ void CNewUIMixInventory::SetPos(int x, int y)
     m_Pos.x = x;
     m_Pos.y = y;
 
-    m_pNewInventoryCtrl->SetPos(x + 15, y + 110);
+    m_pNewInventoryCtrl->SetPos(x + 15, y + 122);
+    m_BtnMix.ChangeButtonInfo(x + MixButtonLeft, y + MixFooterTop, MixButtonSize, MixButtonSize);
 }
 
 bool CNewUIMixInventory::UpdateMouseEvent()
 {
+    if (CheckMouseIn(m_Pos.x + 15, m_Pos.y + RecipeTop, 160, RecipeHeight) && MouseWheel != 0)
+    {
+        const int direction = MouseWheel > 0 ? -1 : 1;
+        m_recipeScroll = std::clamp(m_recipeScroll + direction * RecipePitch, 0,
+            std::max(0, m_recipeHeight - RecipeHeight));
+        MouseWheel = 0;
+        return false;
+    }
+
     if (m_pNewInventoryCtrl && false == m_pNewInventoryCtrl->UpdateMouseEvent())
         return false;
 
@@ -306,6 +324,7 @@ void CNewUIMixInventory::UI2DEffectCallback(LPVOID pClass, DWORD dwParamA, DWORD
 
 void CNewUIMixInventory::LoadImages()
 {
+    npcSkin.Load();
     LoadBitmap(L"Interface\\newui_msgbox_back.jpg", IMAGE_MIXINVENTORY_BACK, GL_LINEAR);
     LoadBitmap(L"Interface\\newui_item_back04.tga", IMAGE_MIXINVENTORY_TOP, GL_LINEAR);
     LoadBitmap(L"Interface\\newui_item_back02-L.tga", IMAGE_MIXINVENTORY_LEFT, GL_LINEAR);
@@ -321,6 +340,7 @@ void CNewUIMixInventory::LoadImages()
 }
 void CNewUIMixInventory::UnloadImages()
 {
+    npcSkin.Unload();
     DeleteBitmap(IMAGE_MIXINVENTORY_BOTTOM);
     DeleteBitmap(IMAGE_MIXINVENTORY_RIGHT);
     DeleteBitmap(IMAGE_MIXINVENTORY_LEFT);
@@ -337,11 +357,8 @@ void CNewUIMixInventory::UnloadImages()
 
 void CNewUIMixInventory::RenderFrame()
 {
-    RenderImage(IMAGE_MIXINVENTORY_BACK, m_Pos.x, m_Pos.y, 190.f, 429.f);
-    RenderImage(IMAGE_MIXINVENTORY_TOP, m_Pos.x, m_Pos.y, 190.f, 64.f);
-    RenderImage(IMAGE_MIXINVENTORY_LEFT, m_Pos.x, m_Pos.y + 64, 21.f, 320.f);
-    RenderImage(IMAGE_MIXINVENTORY_RIGHT, m_Pos.x + INVENTORY_WIDTH - 21, m_Pos.y + 64, 21.f, 320.f);
-    RenderImage(IMAGE_MIXINVENTORY_BOTTOM, m_Pos.x, m_Pos.y + INVENTORY_HEIGHT - 45, 190.f, 45.f);
+    npcSkin.Panel(m_Pos.x, m_Pos.y);
+    npcSkin.Close(m_Pos.x + 14, m_Pos.y + MixFooterTop);
 
     wchar_t szText[256] = { 0, };
     float fPos_x = m_Pos.x + 15.0f, fPos_y = m_Pos.y;
@@ -410,9 +427,9 @@ void CNewUIMixInventory::RenderFrame()
         mu_swprintf(szText, L"%ls", I18N::Game::Chaos);
         break;
     }
-    g_pRenderText->RenderText(fPos_x, fPos_y + fLine_y, szText, 160.0f, 0, RT3_SORT_CENTER);
+    g_pRenderText->RenderText(fPos_x, fPos_y + 37, szText, 160.0f, 0, RT3_SORT_CENTER);
 
-    fLine_y += 12;
+    fLine_y = 49;
     switch (g_MixRecipeMgr.GetMixInventoryType())
     {
     case SEASON3A::MIXTYPE_GOBLIN_NORMAL:
@@ -432,7 +449,8 @@ void CNewUIMixInventory::RenderFrame()
         return;
     }
 
-    fLine_y += 24;
+    fLine_y = 64;
+    g_pRenderText->SetFont(g_hFont);
     if (!g_MixRecipeMgr.IsReadyToMix())
         g_pRenderText->SetTextColor(255, 48, 48, 255);
     else
@@ -531,7 +549,15 @@ void CNewUIMixInventory::RenderFrame()
     break;
     }
 
-    fLine_y = 203;
+    RenderRecipeDetails(fPos_x, fPos_y);
+    RenderMixButton();
+}
+
+void CNewUIMixInventory::RenderRecipeDetails(float fPos_x, float fPos_y)
+{
+    wchar_t szText[256]{};
+    UI::Paris::Clip(static_cast<int>(fPos_x), static_cast<int>(fPos_y) + RecipeTop, 160, RecipeHeight);
+    const float fLine_y = RecipeTop - m_recipeScroll;
     int iTextPos_y = 0;
     if (g_MixRecipeMgr.GetMostSimilarRecipe() != NULL)
     {
@@ -550,7 +576,7 @@ void CNewUIMixInventory::RenderFrame()
                 if (i >= 2)
                     break;
 
-                g_pRenderText->RenderText(fPos_x, fPos_y + fLine_y + (iTextPos_y * 15), szTempText[i]);
+                g_pRenderText->RenderText(fPos_x, fPos_y + fLine_y + (iTextPos_y * RecipePitch), szTempText[i]);
                 iTextPos_y++;
             }
         }
@@ -570,7 +596,7 @@ void CNewUIMixInventory::RenderFrame()
                 if (i >= 2)
                     break;
 
-                g_pRenderText->RenderText(fPos_x, fPos_y + fLine_y + (iTextPos_y * 15), szTempText[i]);
+                g_pRenderText->RenderText(fPos_x, fPos_y + fLine_y + (iTextPos_y * RecipePitch), szTempText[i]);
                 iTextPos_y++;
             }
         }
@@ -593,7 +619,7 @@ void CNewUIMixInventory::RenderFrame()
         g_pRenderText->RenderText(fPos_x, fPos_y + fLine_y, szText);
 
         mu_swprintf(szText, I18N::Game::ImproperItemsForCombination);
-        g_pRenderText->RenderText(fPos_x, fPos_y + fLine_y + (++iTextPos_y) * 15, szText);
+        g_pRenderText->RenderText(fPos_x, fPos_y + fLine_y + (++iTextPos_y) * RecipePitch, szText);
     }
 
     ++iTextPos_y;
@@ -603,23 +629,30 @@ void CNewUIMixInventory::RenderFrame()
     if (g_MixRecipeMgr.IsReadyToMix())
     {
         if (g_MixRecipeMgr.GetCurRecipeDesc(szText, 1) == TRUE)
-            g_pRenderText->RenderText(fPos_x, fPos_y + fLine_y + (++iTextPos_y) * 15, szText);
+            g_pRenderText->RenderText(fPos_x, fPos_y + fLine_y + (++iTextPos_y) * RecipePitch, szText);
         if (g_MixRecipeMgr.GetCurRecipeDesc(szText, 2) == TRUE)
-            g_pRenderText->RenderText(fPos_x, fPos_y + fLine_y + (++iTextPos_y) * 15, szText);
+            g_pRenderText->RenderText(fPos_x, fPos_y + fLine_y + (++iTextPos_y) * RecipePitch, szText);
         if (g_MixRecipeMgr.GetCurRecipeDesc(szText, 3) == TRUE)
-            g_pRenderText->RenderText(fPos_x, fPos_y + fLine_y + (++iTextPos_y) * 15, szText);
+            g_pRenderText->RenderText(fPos_x, fPos_y + fLine_y + (++iTextPos_y) * RecipePitch, szText);
     }
     else if (g_MixRecipeMgr.GetMostSimilarRecipe() != NULL)
     {
         if (g_MixRecipeMgr.GetRecipeAdvice(szText, 1) == TRUE)
-            g_pRenderText->RenderText(fPos_x, fPos_y + fLine_y + (++iTextPos_y) * 15, szText);
+            g_pRenderText->RenderText(fPos_x, fPos_y + fLine_y + (++iTextPos_y) * RecipePitch, szText);
         if (g_MixRecipeMgr.GetRecipeAdvice(szText, 2) == TRUE)
-            g_pRenderText->RenderText(fPos_x, fPos_y + fLine_y + (++iTextPos_y) * 15, szText);
+            g_pRenderText->RenderText(fPos_x, fPos_y + fLine_y + (++iTextPos_y) * RecipePitch, szText);
         if (g_MixRecipeMgr.GetRecipeAdvice(szText, 3) == TRUE)
-            g_pRenderText->RenderText(fPos_x, fPos_y + fLine_y + (++iTextPos_y) * 15, szText);
+            g_pRenderText->RenderText(fPos_x, fPos_y + fLine_y + (++iTextPos_y) * RecipePitch, szText);
     }
 
-    RenderMixDescriptions(fPos_x, fPos_y);
+    RenderMixDescriptions(fPos_x, fPos_y - m_recipeScroll);
+    m_recipeHeight = std::max(180, (iTextPos_y + 2) * RecipePitch);
+    UI::Paris::ResetClip();
+}
+
+void CNewUIMixInventory::RenderMixButton()
+{
+
 
     switch (g_MixRecipeMgr.GetMixInventoryType())
     {
@@ -651,13 +684,22 @@ void CNewUIMixInventory::RenderFrame()
         m_BtnMix.ChangeToolTipText(&I18N::Game::Combining, true);
         break;
     }
-    m_BtnMix.Render();
+    npcSkin.ActionButton(m_BtnMix, UI::Theme::ParisNpcSkin56::ActionIcon::Mix);
 }
 
 bool CNewUIMixInventory::BtnProcess()
 {
+    if (SEASON3B::IsPress(VK_LBUTTON) && (SEASON3B::CheckMouseIn(m_Pos.x + 165, m_Pos.y + 24, 16, 20)
+        || CheckMouseIn(m_Pos.x + 14, m_Pos.y + MixFooterTop, MixButtonSize, MixButtonSize)))
+    {
+        g_pNewUISystem->Hide(SEASON3B::INTERFACE_MIXINVENTORY);
+        UI::Paris::ConsumeMouse();
+        return true;
+    }
+
     // Top-right corner close "X" (shared frame): hides + swallows the click.
-    g_pNewUISystem->HandleFrameCornerClose(m_Pos, SEASON3B::INTERFACE_MIXINVENTORY);
+    if (g_pNewUISystem->HandleFrameCornerClose(m_Pos, SEASON3B::INTERFACE_MIXINVENTORY))
+        return true;
 
     if (GetMixState() == MIX_FINISHED)
     {

@@ -1,0 +1,137 @@
+#pragma clang diagnostic ignored "-Wmissing-prototypes"
+#pragma clang diagnostic ignored "-Wmissing-braces"
+
+#include <metal_stdlib>
+#include <simd/simd.h>
+
+using namespace metal;
+
+template<typename T, size_t Num>
+struct spvUnsafeArray
+{
+    T elements[Num ? Num : 1];
+    
+    thread T& operator [] (size_t pos) thread
+    {
+        return elements[pos];
+    }
+    constexpr const thread T& operator [] (size_t pos) const thread
+    {
+        return elements[pos];
+    }
+    
+    device T& operator [] (size_t pos) device
+    {
+        return elements[pos];
+    }
+    constexpr const device T& operator [] (size_t pos) const device
+    {
+        return elements[pos];
+    }
+    
+    constexpr const constant T& operator [] (size_t pos) const constant
+    {
+        return elements[pos];
+    }
+    
+    threadgroup T& operator [] (size_t pos) threadgroup
+    {
+        return elements[pos];
+    }
+    constexpr const threadgroup T& operator [] (size_t pos) const threadgroup
+    {
+        return elements[pos];
+    }
+};
+
+struct Input
+{
+    float4 position;
+    float2 uv;
+};
+
+struct HdSettings
+{
+    float2 texel;
+    float sharpness;
+    float bloom;
+    float exposure;
+    float colorGrading;
+    float2 padding;
+};
+
+constant spvUnsafeArray<float2, 8> _201 = spvUnsafeArray<float2, 8>({ float2(1.0, 0.0), float2(-1.0, 0.0), float2(0.0, 1.0), float2(0.0, -1.0), float2(0.707099974155426025390625), float2(-0.707099974155426025390625, 0.707099974155426025390625), float2(0.707099974155426025390625, -0.707099974155426025390625), float2(-0.707099974155426025390625) });
+
+struct main0_out
+{
+    float4 _entryPointOutput [[color(0)]];
+};
+
+struct main0_in
+{
+    float2 input_uv [[user(locn0)]];
+};
+
+static inline __attribute__((always_inline))
+float3 SampleScene(thread const float2& uv, texture2d<float> sceneTexture, sampler sceneSampler)
+{
+    return sceneTexture.sample(sceneSampler, uv).xyz;
+}
+
+static inline __attribute__((always_inline))
+float3 Highlight(thread const float3& color)
+{
+    float luminance = dot(color, float3(0.2125999927520751953125, 0.715200006961822509765625, 0.072200000286102294921875));
+    return color * smoothstep(0.63999998569488525390625, 1.0, luminance);
+}
+
+static inline __attribute__((always_inline))
+float4 _main(thread const Input& _input, texture2d<float> sceneTexture, sampler sceneSampler, constant HdSettings& _74)
+{
+    float2 uv = _input.uv;
+    float4 center = sceneTexture.sample(sceneSampler, uv);
+    float2 param = uv + float2(0.0, -_74.texel.y);
+    float3 north = SampleScene(param, sceneTexture, sceneSampler);
+    float2 param_1 = uv + float2(0.0, _74.texel.y);
+    float3 south = SampleScene(param_1, sceneTexture, sceneSampler);
+    float2 param_2 = uv + float2(_74.texel.x, 0.0);
+    float3 east = SampleScene(param_2, sceneTexture, sceneSampler);
+    float2 param_3 = uv + float2(-_74.texel.x, 0.0);
+    float3 west = SampleScene(param_3, sceneTexture, sceneSampler);
+    float3 low = fast::min(center.xyz, fast::min(fast::min(north, south), fast::min(east, west)));
+    float3 high = fast::max(center.xyz, fast::max(fast::max(north, south), fast::max(east, west)));
+    float3 sharpened = center.xyz + ((center.xyz - ((((north + south) + east) + west) * 0.25)) * _74.sharpness);
+    float3 color = fast::clamp(sharpened, low - float3(0.02500000037252902984619140625), high + float3(0.02500000037252902984619140625));
+    if (_74.bloom > 0.0)
+    {
+        float3 param_4 = center.xyz;
+        float3 glow = Highlight(param_4) * 0.20000000298023223876953125;
+        for (int tap = 0; tap < 8; tap++)
+        {
+            float2 param_5 = uv + ((_201[tap] * _74.texel) * 4.0);
+            float3 param_6 = SampleScene(param_5, sceneTexture, sceneSampler);
+            glow += (Highlight(param_6) * 0.100000001490116119384765625);
+        }
+        color += ((glow * _74.bloom) * (float3(1.0) - fast::clamp(color, float3(0.0), float3(1.0))));
+    }
+    color *= _74.exposure;
+    if (_74.colorGrading > 0.0)
+    {
+        float luminance = dot(color, float3(0.2125999927520751953125, 0.715200006961822509765625, 0.072200000286102294921875));
+        color = mix(float3(luminance), color, float3(1.08000004291534423828125));
+        color = ((color - float3(0.5)) * 1.03499996662139892578125) + float3(0.5);
+    }
+    return float4(fast::clamp(color, float3(0.0), float3(1.0)), center.w);
+}
+
+fragment main0_out main0(main0_in in [[stage_in]], constant HdSettings& _74 [[buffer(0)]], texture2d<float> sceneTexture [[texture(0)]], sampler sceneSampler [[sampler(0)]], float4 gl_FragCoord [[position]])
+{
+    main0_out out = {};
+    Input _input;
+    _input.position = gl_FragCoord;
+    _input.uv = in.input_uv;
+    Input param = _input;
+    out._entryPointOutput = _main(param, sceneTexture, sceneSampler, _74);
+    return out;
+}
+

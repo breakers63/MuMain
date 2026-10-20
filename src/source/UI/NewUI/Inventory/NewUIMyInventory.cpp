@@ -1,7 +1,10 @@
-﻿// NewUIMyInventory.cpp: implementation of the CNewUIMyInventory class.
+// NewUIMyInventory.cpp: implementation of the CNewUIMyInventory class.
 //////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
+#include "UI/NewUI/Character/ClassicPanelFrame.h"
+#include "UI/NewUI/Character/ParisFrameAssets.h"
+#include "UI/NewUI/Inventory/ParisEquipmentHints.h"
 #include "UI/NewUI/Inventory/NewUIMyInventory.h"
 #include "UI/NewUI/NewUISystem.h"
 #include "I18N/All.h"
@@ -41,6 +44,7 @@ extern bool SelectFlag;
 #include "GameLogic/Items/TradeRestrictions.h"
 
 using namespace SEASON3B;
+namespace { UI::Theme::ParisFrameAssets inventoryArt; GLuint inventoryBackground = BITMAP_UNKNOWN; }
 
 CNewUIMyInventory::CNewUIMyInventory()
 {
@@ -83,11 +87,12 @@ bool CNewUIMyInventory::Create(CNewUIManager* pNewUIMng, CNewUI3DRenderMng* pNew
         return false;
     }
 
+    m_pNewInventoryCtrl->SetGoldTheme(true);
     m_ActionController.SetContext(this); 
 
     SetPos(x, y);
     LoadImages();
-    SetEquipmentSlotInfo();
+    SetPos(x, y);
     SetButtonInfo();
     Show(false);
     return true;
@@ -422,7 +427,7 @@ void CNewUIMyInventory::SetPos(int x, int y)
 
     SetEquipmentSlotInfo();
 
-    m_pNewInventoryCtrl->SetPos(x + 15, y + 200);
+    m_pNewInventoryCtrl->SetPos(x + 15, y + (inventoryBackground != BITMAP_UNKNOWN ? 190 : 200));
     m_BtnExit.SetPos(m_Pos.x + 13, m_Pos.y + 391);
     m_BtnRepair.SetPos(m_Pos.x + 50, m_Pos.y + 391);
     m_BtnMyShop.SetPos(m_Pos.x + 87, m_Pos.y + 391);
@@ -1096,6 +1101,11 @@ void CNewUIMyInventory::DeleteEquippingEffect()
 
 void CNewUIMyInventory::SetEquipmentSlotInfo()
 {
+    if (inventoryBackground != BITMAP_UNKNOWN)
+    {
+        SetGoldEquipmentSlotInfo();
+        return;
+    }
     m_EquipmentSlots[EQUIPMENT_HELPER].x = m_Pos.x + 15;
     m_EquipmentSlots[EQUIPMENT_HELPER].y = m_Pos.y + 44;
     m_EquipmentSlots[EQUIPMENT_HELPER].width = 46;
@@ -1190,6 +1200,10 @@ void CNewUIMyInventory::SetButtonInfo()
 
 void CNewUIMyInventory::LoadImages() const
 {
+    inventoryArt.Load();
+    if (inventoryBackground == BITMAP_UNKNOWN)
+        inventoryBackground = Bitmaps.LoadImage(L"Data\\Interface\\Paris_Inventory.tga", GL_LINEAR, GL_CLAMP_TO_EDGE);
+    UI::Inventory::EquipmentHints::Load();
     LoadBitmap(L"Interface\\newui_msgbox_back.jpg", IMAGE_INVENTORY_BACK, GL_LINEAR);
     LoadBitmap(L"Interface\\newui_item_back01.tga", IMAGE_INVENTORY_BACK_TOP, GL_LINEAR);
     LoadBitmap(L"Interface\\newui_item_back04.tga", IMAGE_INVENTORY_BACK_TOP2, GL_LINEAR);
@@ -1217,6 +1231,10 @@ void CNewUIMyInventory::LoadImages() const
 
 void CNewUIMyInventory::UnloadImages()
 {
+    inventoryArt.Unload();
+    if (inventoryBackground != BITMAP_UNKNOWN) DeleteBitmap(inventoryBackground);
+    inventoryBackground = BITMAP_UNKNOWN;
+    UI::Inventory::EquipmentHints::Unload();
     DeleteBitmap(IMAGE_INVENTORY_MYSHOP_CLOSE_BTN);
     DeleteBitmap(IMAGE_INVENTORY_MYSHOP_OPEN_BTN);
     DeleteBitmap(IMAGE_INVENTORY_REPAIR_BTN);
@@ -1244,14 +1262,14 @@ void CNewUIMyInventory::UnloadImages()
 
 void CNewUIMyInventory::RenderFrame() const
 {
-    const auto x = static_cast<float>(m_Pos.x);
-    const auto y = static_cast<float>(m_Pos.y);
-
-    RenderImage(IMAGE_INVENTORY_BACK, x, y, INVENTORY_WIDTH, INVENTORY_HEIGHT);
-    RenderImage(IMAGE_INVENTORY_BACK_TOP2, x, y, 190.f, 64.f);
-    RenderImage(IMAGE_INVENTORY_BACK_LEFT, x, y + 64, 21.f, 320.f);
-    RenderImage(IMAGE_INVENTORY_BACK_RIGHT, x + INVENTORY_WIDTH - 21, y + 64, 21.f, 320.f);
-    RenderImage(IMAGE_INVENTORY_BACK_BOTTOM, x, y + INVENTORY_HEIGHT - 45, 190.f, 45.f);
+    if (inventoryBackground == BITMAP_UNKNOWN)
+    {
+        UI::Paris::Frame(m_Pos.x, m_Pos.y, INVENTORY_WIDTH, INVENTORY_HEIGHT);
+        return;
+    }
+    UI::Paris::Color(1, 1, 1, 1);
+    RenderBitmap(inventoryBackground, m_Pos.x, m_Pos.y, INVENTORY_WIDTH, INVENTORY_HEIGHT, 0, 0, 1, 1);
+    UI::Inventory::EquipmentHints::RenderStorageFrames(m_Pos.x + 15, m_Pos.y + 190, m_Pos.x + 47, m_Pos.y + 358);
 }
 
 void CNewUIMyInventory::RenderEquippedItem()
@@ -1270,8 +1288,11 @@ void CNewUIMyInventory::RenderEquippedItem()
 
         EnableAlphaTest();
 
-        RenderImage(m_EquipmentSlots[i].dwBgImage, m_EquipmentSlots[i].x, m_EquipmentSlots[i].y,
+        UI::Inventory::EquipmentHints::RenderSlotFrame(m_EquipmentSlots[i].x, m_EquipmentSlots[i].y,
             m_EquipmentSlots[i].width, m_EquipmentSlots[i].height);
+        if (CharacterMachine->Equipment[i].Type == -1)
+            UI::Inventory::EquipmentHints::Render(i, m_EquipmentSlots[i].x, m_EquipmentSlots[i].y,
+                m_EquipmentSlots[i].width, m_EquipmentSlots[i].height);
         DisableAlphaBlend();
 
         ITEM* pEquipmentItemSlot = &CharacterMachine->Equipment[i];
@@ -1337,6 +1358,11 @@ void CNewUIMyInventory::RenderEquippedItem()
 
 void CNewUIMyInventory::RenderButtons()
 {
+    if (inventoryArt.inventoryButtons != BITMAP_UNKNOWN)
+    {
+        RenderGoldButtons();
+        return;
+    }
     EnableAlphaTest();
 
     if (AreShopButtonsShown())
@@ -1363,9 +1389,10 @@ void CNewUIMyInventory::RenderInventoryDetails() const
     g_pRenderText->SetFont(g_hFontBold);
     g_pRenderText->SetBgColor(0);
     g_pRenderText->SetTextColor(255, 255, 255, 255);
-    g_pRenderText->RenderText(m_Pos.x, m_Pos.y + 12, I18N::Game::Inventory, INVENTORY_WIDTH, 0, RT3_SORT_CENTER);
+    g_pRenderText->RenderText(m_Pos.x, m_Pos.y + (inventoryBackground != BITMAP_UNKNOWN ? 37 : 12), I18N::Game::Inventory, INVENTORY_WIDTH, 0, RT3_SORT_CENTER);
 
-    RenderImage(IMAGE_INVENTORY_MONEY, m_Pos.x + 11, m_Pos.y + 364, 170.f, 26.f);
+    if (inventoryBackground == BITMAP_UNKNOWN)
+        RenderImage(IMAGE_INVENTORY_MONEY, m_Pos.x + 11, m_Pos.y + 364, 170.f, 26.f);
 
     const DWORD dwZen = CharacterMachine->Gold;
 
@@ -1373,7 +1400,8 @@ void CNewUIMyInventory::RenderInventoryDetails() const
     ConvertGold(dwZen, Text);
 
     g_pRenderText->SetTextColor(getGoldColor(dwZen));
-    g_pRenderText->RenderText((int)m_Pos.x + 50, (int)m_Pos.y + 371, Text);
+    g_pRenderText->RenderText(m_Pos.x + (inventoryBackground != BITMAP_UNKNOWN ? 47 : 50),
+        m_Pos.y + (inventoryBackground != BITMAP_UNKNOWN ? 360 : 371), Text);
 
     g_pRenderText->SetFont(g_hFont);
 
@@ -1566,6 +1594,14 @@ bool CNewUIMyInventory::WindowProcess()
 
 bool CNewUIMyInventory::BtnProcess()
 {
+    if (inventoryBackground != BITMAP_UNKNOWN && IsPress(VK_LBUTTON)
+        && CheckMouseIn(m_Pos.x + 169, m_Pos.y + 24, 13, 12))
+    {
+        g_pNewUISystem->Hide(INTERFACE_INVENTORY);
+        UI::Paris::ConsumeMouse();
+        return true;
+    }
+
     // Top-right corner close "X" (shared frame): hides + swallows the click.
     if (g_pNewUISystem->HandleFrameCornerClose(m_Pos, INTERFACE_INVENTORY))
         return true;
@@ -1909,3 +1945,40 @@ BOOL SEASON3B::CNewUIMyInventory::IsInvenItem(const short sType)
     return bInvenItem;
 }
 #endif //LJH_ADD_SYSTEM_OF_EQUIPPING_ITEM_FROM_INVENTORY
+
+void CNewUIMyInventory::RenderGoldButtons()
+{
+    inventoryArt.SpriteButton(m_Pos.x + 13, m_Pos.y + 391, 36, 29, 0);
+    if (AreShopButtonsShown())
+    {
+        inventoryArt.SpriteButton(m_Pos.x + 50, m_Pos.y + 391, 36, 29, 1, m_bRepairEnableLevel);
+        inventoryArt.SpriteButton(m_Pos.x + 87, m_Pos.y + 391, 36, 29, 2, m_bMyShopOpen);
+    }
+    inventoryArt.SpriteButton(m_Pos.x + 124, m_Pos.y + 391, 36, 29, 3);
+}
+
+void CNewUIMyInventory::SetGoldEquipmentSlotInfo()
+{
+    // Equipment rectangles calibrated against the original OpenGL inventory artwork.
+    const auto setSlot = [this](int index, float x, float y, float width, float height, DWORD image)
+    {
+        auto& slot = m_EquipmentSlots[index];
+        slot.x = m_Pos.x + static_cast<int>(x);
+        slot.y = m_Pos.y + static_cast<int>(y);
+        slot.width = static_cast<int>(width);
+        slot.height = static_cast<int>(height);
+        slot.dwBgImage = image;
+    };
+        setSlot(EQUIPMENT_HELPER, 14.0f, 48.0f, 44.0f, 32.0f, IMAGE_INVENTORY_ITEM_FAIRY);
+        setSlot(EQUIPMENT_HELM, 72.0f, 48.0f, 46.0f, 32.0f, IMAGE_INVENTORY_ITEM_HELM);
+        setSlot(EQUIPMENT_WING, 130.0f, 48.0f, 46.0f, 32.0f, IMAGE_INVENTORY_ITEM_WING);
+        setSlot(EQUIPMENT_WEAPON_RIGHT, 14.0f, 85.0f, 44.0f, 59.0f, IMAGE_INVENTORY_ITEM_RIGHT);
+        setSlot(EQUIPMENT_ARMOR, 72.0f, 85.0f, 46.0f, 59.0f, IMAGE_INVENTORY_ITEM_ARMOR);
+        setSlot(EQUIPMENT_WEAPON_LEFT, 130.0f, 85.0f, 46.0f, 59.0f, IMAGE_INVENTORY_ITEM_LEFT);
+        setSlot(EQUIPMENT_GLOVES, 14.0f, 149.0f, 44.0f, 32.0f, IMAGE_INVENTORY_ITEM_GLOVES);
+        setSlot(EQUIPMENT_PANTS, 72.0f, 149.0f, 46.0f, 32.0f, IMAGE_INVENTORY_ITEM_PANTS);
+        setSlot(EQUIPMENT_BOOTS, 130.0f, 149.0f, 46.0f, 32.0f, IMAGE_INVENTORY_ITEM_BOOT);
+        setSlot(EQUIPMENT_AMULET, 59.0f, 85.0f, 12.0f, 17.0f, IMAGE_INVENTORY_ITEM_NECKLACE);
+        setSlot(EQUIPMENT_RING_RIGHT, 59.0f, 149.0f, 12.0f, 17.0f, IMAGE_INVENTORY_ITEM_RING);
+        setSlot(EQUIPMENT_RING_LEFT, 118.0f, 149.0f, 12.0f, 17.0f, IMAGE_INVENTORY_ITEM_RING);
+}

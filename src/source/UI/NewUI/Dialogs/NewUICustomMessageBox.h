@@ -6,6 +6,7 @@
 #include "UI/NewUI/Dialogs/NewUIMessageBox.h"
 #include "UI/NewUI/Dialogs/NewUICommonMessageBox.h"
 #include "UI/Legacy/UIControls.h"
+#include "UI/NewUI/Dialogs/StorePriceDialog.h"
 
 namespace SEASON3B
 {
@@ -69,6 +70,8 @@ namespace SEASON3B
         void SetInputBoxOption(int iOption);
         void SetInputBoxPosition(int x, int y);
         void SetInputBoxSize(int width, int height);
+        void EnableStorePriceSelector();
+        bool GetStorePriceInput(int& amount, BYTE& currency) const;
 
     private:
         int SeparateText(const type_string& strMsg, DWORD dwColor, BYTE byFontType);
@@ -79,6 +82,7 @@ namespace SEASON3B
 
         DWORD m_dwMsgBoxType;
         DWORD m_dwInputType;
+        UI::Items::StorePriceDialog m_storePriceDialog;
 
         CUITextInputBox* m_pInputBox;
         type_vector_msgdata m_MsgTextList;

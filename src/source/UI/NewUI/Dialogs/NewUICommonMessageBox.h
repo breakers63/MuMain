@@ -157,6 +157,7 @@ namespace SEASON3B
         bool Render();
 
         void LockOkButton();
+        void EnableGoldStyle() { m_goldStyle = true; }
 #ifdef PBG_ADD_NAMETOPMSGBOX
     protected:
 #else //PBG_ADD_NAMETOPMSGBOX
@@ -178,6 +179,7 @@ namespace SEASON3B
         void RenderTexts();
         void RenderButtons();
 
+        bool m_goldStyle = false;
         DWORD m_dwType;
         type_vector_msgdata m_MsgDataList;
 
@@ -209,6 +211,9 @@ namespace SEASON3B
         void Set3DItem(ITEM* pItem);
         void SetItemValue(int iValue);
         int GetItemValue();
+        void EnableStorePriceStyle() { m_storePriceStyle = true; }
+        void SetStorePriceCurrency(BYTE value) { m_storePriceCurrency = value; }
+        BYTE GetStorePriceCurrency() const { return m_storePriceCurrency; }
 
         static CALLBACK_RESULT LButtonUp(class CNewUIMessageBoxBase* pOwner, const leaf::xstreambuf& xParam);
         static CALLBACK_RESULT Close(class CNewUIMessageBoxBase* pOwner, const leaf::xstreambuf& xParam);
@@ -233,6 +238,8 @@ namespace SEASON3B
         DWORD m_dwType;
         ITEM m_Item;
         int m_iItemValue;
+        BYTE m_storePriceCurrency = 0;
+        bool m_storePriceStyle = false;
 
         type_vector_msgdata m_MsgDataList;
 

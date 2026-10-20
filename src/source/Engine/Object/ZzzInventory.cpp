@@ -1,7 +1,8 @@
-﻿///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
+#include "Network/Paris/PersonalShopPricing.h"
 #include "UI/Legacy/UIManager.h"
 #include "Render/Textures/ZzzOpenglUtil.h"
 #include "Render/Renderer/MuRenderer.h"
@@ -37,6 +38,7 @@
 #include "GameLogic/Items/ChangeRingManager.h"
 #include "GameLogic/Items/ItemCategories.h"
 #include "Render/Items/ItemDisplay.h"
+#include "UI/NewUI/Inventory/ParisItemPreview.h"
 #include "Data/GameData/ItemData/ItemModelSlots.h"
 #include "UI/Scaling/UITransform.h"
 #include "GameLogic/Items/ShopRestrictions.h"
@@ -2006,20 +2008,20 @@ void RenderItemInfo(int sx, int sy, ITEM* ip, bool Sell, int Inventype, bool bIt
         && !GameLogic::Items::IsPersonalShopBan(ip))
     {
         {
-            int price = 0;
+            CPersonalItemPriceTable::Price price{};
             int indexInv = g_pMyShopInventory->GetInventoryCtrl()->GetIndexByItem(ip);
             wchar_t Text[100];
 
             if (GetPersonalItemPrice(indexInv, price, g_IsPurchaseShop))
             {
-                ConvertGold(price, Text);
-                mu_swprintf(TextList[TextNum], I18N::Game::SellingPriceS, Text);
+                ConvertGold(price.Amount, Text);
+                mu_swprintf(TextList[TextNum], L"Precio: %ls %ls", Text, Network::Paris::PersonalShopPricing::CurrencyName(price.Currency));
 
-                if (price >= 10000000)
+                if (price.Amount >= 10000000)
                     TextListColor[TextNum] = TEXT_COLOR_RED;
-                else if (price >= 1000000)
+                else if (price.Amount >= 1000000)
                     TextListColor[TextNum] = TEXT_COLOR_YELLOW;
-                else if (price >= 100000)
+                else if (price.Amount >= 100000)
                     TextListColor[TextNum] = TEXT_COLOR_GREEN;
                 else
                     TextListColor[TextNum] = TEXT_COLOR_WHITE;
@@ -2029,7 +2031,7 @@ void RenderItemInfo(int sx, int sy, ITEM* ip, bool Sell, int Inventype, bool bIt
 
                 DWORD gold = CharacterMachine->Gold;
 
-                if ((int)gold < price && g_IsPurchaseShop == PSHOPWNDTYPE_PURCHASE)
+                if (price.Currency == 0 && (int)gold < price.Amount && g_IsPurchaseShop == PSHOPWNDTYPE_PURCHASE)
                 {
                     TextListColor[TextNum] = TEXT_COLOR_RED;
                     TextBold[TextNum] = true;
@@ -6785,7 +6787,7 @@ void RenderObjectScreen(int Type, int ItemLevel, int excellentFlags, int ancient
     CameraProjection::WorldToScreen(g_Camera, Position, &ScreenPos_X, &ScreenPos_Y);
 #endif //PBG_ADD_ITEMRESIZE
 
-    o->Scale = Scale;
+    o->Scale = Scale * Render::Items::ParisPreview::Scale();
 
     VectorCopy(Position, o->Position);
 
@@ -6807,7 +6809,8 @@ void RenderItem3D(float sx, float sy, float Width, float Height, int Type, int L
     const bool Success = UI::Items::ShouldAnimatePreview(SEASON3B::CheckMouseIn(sx, sy, Width, Height),
                                                          g_pPickedItem != nullptr, PickUp);
 
-    const Render::Items::Display::Anchor anchor = Render::Items::Display::GetInventoryAnchor(Type, Level);
+    const Render::Items::Display::Anchor anchor = Render::Items::ParisPreview::Centered()
+        ? Render::Items::Display::Anchor{.5f, .5f} : Render::Items::Display::GetInventoryAnchor(Type, Level);
     sx += Width * anchor.x;
     sy += Height * anchor.y;
 

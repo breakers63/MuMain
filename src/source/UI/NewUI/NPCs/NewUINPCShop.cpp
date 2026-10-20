@@ -2,6 +2,9 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
+#include "UI/NewUI/NPCs/ParisNpcSkin56.h"
+#include "UI/NewUI/NPCs/NpcTextBlock.h"
+namespace { UI::Theme::ParisNpcSkin56 merchantSkin; UI::NPCs::NpcTextBlock merchantTax; }
 #include "UI/NewUI/NPCs/NewUINPCShop.h"
 #include "I18N/All.h"
 
@@ -95,6 +98,13 @@ void SEASON3B::CNewUINPCShop::SetPos(int x, int y)
 
 bool SEASON3B::CNewUINPCShop::UpdateMouseEvent()
 {
+    if (SEASON3B::IsPress(VK_LBUTTON) && SEASON3B::CheckMouseIn(m_Pos.x + 165, m_Pos.y + 24, 16, 20))
+    {
+        g_pNewUISystem->Hide(SEASON3B::INTERFACE_NPCSHOP);
+        UI::Paris::ConsumeMouse();
+        return false;
+    }
+
     if (m_pNewInventoryCtrl)
     {
         if (false == m_pNewInventoryCtrl->UpdateMouseEvent())
@@ -227,11 +237,7 @@ bool SEASON3B::CNewUINPCShop::Render()
 
 void SEASON3B::CNewUINPCShop::RenderFrame()
 {
-    RenderImage(IMAGE_NPCSHOP_BACK, m_Pos.x, m_Pos.y, 190.f, 429.f);
-    RenderImage(IMAGE_NPCSHOP_TOP, m_Pos.x, m_Pos.y, 190.f, 64.f);
-    RenderImage(IMAGE_NPCSHOP_LEFT, m_Pos.x, m_Pos.y + 64, 21.f, 320.f);
-    RenderImage(IMAGE_NPCSHOP_RIGHT, m_Pos.x + 190 - 21, m_Pos.y + 64, 21.f, 320.f);
-    RenderImage(IMAGE_NPCSHOP_BOTTOM, m_Pos.x, m_Pos.y + 429 - 45, 190.f, 45.f);
+    merchantSkin.Panel(m_Pos.x, m_Pos.y, 190, 429, true, false);
 }
 
 void SEASON3B::CNewUINPCShop::RenderTexts()
@@ -244,15 +250,16 @@ void SEASON3B::CNewUINPCShop::RenderTexts()
 
     wchar_t strText[256];
     mu_swprintf(strText, I18N::Game::TaxRateDChangedInRealTime, m_iTaxRate);
-    g_pRenderText->RenderText(m_Pos.x, m_Pos.y + 27, strText, NPCSHOP_WIDTH, 0, RT3_SORT_CENTER);
+    const wchar_t* paragraphs[]{strText};
+    merchantTax.Render(paragraphs, m_Pos.x + 12, m_Pos.y + 29, 142, 19);
 }
 
 void SEASON3B::CNewUINPCShop::RenderButton()
 {
     if (m_bRepairShop)
     {
-        m_BtnRepair.Render();
-        m_BtnRepairAll.Render();
+        merchantSkin.NativeButton(m_BtnRepair);
+        merchantSkin.NativeButton(m_BtnRepairAll);
     }
 }
 
@@ -279,6 +286,7 @@ float SEASON3B::CNewUINPCShop::GetLayerDepth()
 
 void SEASON3B::CNewUINPCShop::LoadImages()
 {
+    merchantSkin.Load();
     LoadBitmap(L"Interface\\newui_msgbox_back.jpg", IMAGE_NPCSHOP_BACK, GL_LINEAR);
     LoadBitmap(L"Interface\\newui_item_back04.tga", IMAGE_NPCSHOP_TOP, GL_LINEAR);
     LoadBitmap(L"Interface\\newui_item_back02-L.tga", IMAGE_NPCSHOP_LEFT, GL_LINEAR);
@@ -290,10 +298,11 @@ void SEASON3B::CNewUINPCShop::LoadImages()
 
 void SEASON3B::CNewUINPCShop::UnloadImages()
 {
+    merchantSkin.Unload();
     DeleteBitmap(IMAGE_NPCSHOP_BACK);
     DeleteBitmap(IMAGE_NPCSHOP_TOP);
     DeleteBitmap(IMAGE_NPCSHOP_LEFT);
-    DeleteBitmap(IMAGE_NPCSHOP_LEFT);
+    DeleteBitmap(IMAGE_NPCSHOP_RIGHT);
     DeleteBitmap(IMAGE_NPCSHOP_BOTTOM);
     DeleteBitmap(IMAGE_NPCSHOP_BTN_REPAIR);
     DeleteBitmap(IMAGE_NPCSHOP_REPAIR_MONEY);

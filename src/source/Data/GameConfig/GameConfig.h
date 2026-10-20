@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 #include "Core/Platform/WinCompat.h"
+#include "VisualReduction.h"
+#include "HdGraphicsSettings.h"
 
 class GameConfig
 {
@@ -91,6 +93,10 @@ public:
     bool GetSortParticleDraws() const { return m_sortParticleDraws; }
     bool GetVSyncEnabled() const { return m_vsyncEnabled; }
     void SetVSyncEnabled(bool enabled);
+    bool IsVisualReductionEnabled(Data::Graphics::VisualReduction option) const;
+    void SetVisualReductionEnabled(Data::Graphics::VisualReduction option, bool enabled);
+    const Data::Graphics::HdGraphicsSettings& GetHdSettings() const { return m_hdSettings; }
+    void SetHdSettings(Data::Graphics::HdGraphicsSettings settings);
 
     // Helpers
     static std::wstring BinaryToHex(const BYTE* data, DWORD size);
@@ -131,6 +137,12 @@ private:
     int m_zoom;
     bool m_sortParticleDraws;
     bool m_vsyncEnabled;
+    std::array<bool, Data::Graphics::VisualReductionCount> m_visualReductions{};
+    void LoadVisualReductions();
+    void SaveVisualReductions();
+    Data::Graphics::HdGraphicsSettings m_hdSettings;
+    void LoadHdSettings();
+    void SaveHdSettings();
 
     int ReadInt(const wchar_t* section, const wchar_t* key, int defaultValue);
     void WriteInt(const wchar_t* section, const wchar_t* key, int value);

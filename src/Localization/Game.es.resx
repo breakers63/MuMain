@@ -13031,4 +13031,8 @@
   <data name="QuestRequirementBuff" xml:space="preserve">
     <value>Bonus: %ls</value>
   </data>
+<data name="MentorConnecting" xml:space="preserve"><value>Esperando los datos de Mentoría del servidor...</value></data>
+  
+<data name="MentorUnavailable" xml:space="preserve"><value>Mentoría no recibió respuesta. Actualiza el parche del servidor y vuelve a conectar.</value></data>
+  
 </root>

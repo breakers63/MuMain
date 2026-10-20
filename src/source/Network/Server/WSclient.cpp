@@ -1,4 +1,8 @@
 #include "stdafx.h"
+#include "UI/NewUI/HUD/ActiveInvasionPanel.h"
+#include "World/Monsters/CustomMonsterModels.h"
+#include "Network/Server/MonsterViewportType.h"
+#include "UI/NewUI/HUD/ActivityHistoryHooks.h"
 #include "App/Control/ControlTaps.h"
 #include "Core/Utilities/Log/MuLogger.h"
 #include "UI/Chat/Chat.h"
@@ -51,6 +55,11 @@
 #include "World/MapInfra/MapManager.h"
 #include "UI/Legacy/UIGuardsMan.h"
 #include "UI/NewUI/NewUISystem.h"
+#include "UI/NewUI/Dialogs/ParisQuestWindow.h"
+#include "UI/NewUI/Inventory/ParisJewelBankWindow.h"
+#include "Network/Paris/ParisPacketDispatch.h"
+#include "Network/Paris/EventTimerState.h"
+#include "Network/Paris/StatServerLimits.h"
 #include "UI/NewUI/Dialogs/NewUICommonMessageBox.h"
 #include "UI/NewUI/Dialogs/NewUICustomMessageBox.h"
 #include "UI/NewUI/Inventory/NewUIInventoryCtrl.h"
@@ -1854,6 +1863,13 @@ void ReceiveChat(const BYTE* ReceiveBuffer)
         CMultiLanguage::ConvertFromUtf8(Text, Data->ChatText);
         Text[MAX_CHAT_SIZE] = L'\0';
 
+        if (UI::Invasions::ConsumeMetadata(Text)) return;
+
+    if (CParisJewelBankWindow::ReceiveText(Text))
+        {
+            return;
+        }
+
         // The prefix the branches below consume is what says which channel
         // this line belongs to; it is read before they shift it away.
         const char* chatKind = Text[0] == L'~'                        ? "party"
@@ -2023,9 +2039,16 @@ void ReceiveChatKey(const BYTE* ReceiveBuffer)
 
 void ReceiveNotice(const BYTE* ReceiveBuffer)
 {
+    static_assert(offsetof(PRECEIVE_NOTICE, Notice) == 13, "PARIS notice metadata requires the Season 6 header.");
     auto Data = (LPPRECEIVE_NOTICE)ReceiveBuffer;
     wchar_t Text[256]{};
     CMultiLanguage::ConvertFromUtf8(Text, Data->Notice);
+
+    if (UI::Invasions::ConsumeMetadata(Text)) return;
+
+    if (CParisJewelBankWindow::ReceiveText(Text)
+        || Network::Paris::EventTimers.Receive(Text, timeGetTime())
+        || Network::Paris::ServerLimits::Receive(Text)) return;
 
     if (Data->Result == 0)
     {
@@ -2951,6 +2974,14 @@ void AppearMonster(CHARACTER* c)
     }
 }
 
+namespace
+{
+    EMonsterType MonsterViewportType(const PCREATE_MONSTER& record)
+    {
+        return static_cast<EMonsterType>(Network::Viewport::ResolveMonsterType(record.TypeH, record.TypeL,
+            [](int id) { return World::Monsters::Custom::Find(id) != nullptr; }));
+    }
+}
 void ReceiveCreateMonsterViewport(const BYTE* ReceiveBuffer)
 {
     auto Data = (LPPWHEADER_DEFAULT_WORD)ReceiveBuffer;
@@ -2962,7 +2993,7 @@ void ReceiveCreateMonsterViewport(const BYTE* ReceiveBuffer)
 
         BYTE bMyMob = (Data2->TypeH) & 0x80;
         BYTE byBuildTime = (Data2->TypeH & 0x70) >> 4;
-        auto Type = (EMonsterType)(((WORD)(Data2->TypeH & 0x03) << 8) + Data2->TypeL);
+        const auto Type = MonsterViewportType(*Data2);
 
         if (Type != 106)
             int a = 0;
@@ -5960,11 +5991,15 @@ void FallingStartCharacter(CHARACTER* c, OBJECT* o)
 
 void ReceiveDie(const BYTE* ReceiveBuffer, int Size)
 {
+    if (!ReceiveBuffer || Size < sizeof(PHEADER_DEFAULT_DIE)) return;
+    UI::ActivityLogs::RecordPlayerDeath(ReceiveBuffer, Size);
     auto Data = (LPPHEADER_DEFAULT_DIE)ReceiveBuffer;
 
     int Key = ((int)(Data->KeyH) << 8) + Data->KeyL;
 
     int Index = FindCharacterIndex(Key);
+
+    if (Index < 0 || Index >= MAX_CHARACTERS_CLIENT) return;
 
     CHARACTER* c = &CharactersClient[Index];
     OBJECT* o = &c->Object;
@@ -6305,13 +6340,13 @@ BOOL ReceiveEquipmentItemExtended(std::span<const BYTE> ReceiveBuffer)
 
         if (iSourceIndex >= MAX_MY_INVENTORY_EX_INDEX)
         {
-            int price = 0;
+            CPersonalItemPriceTable::Price price{};
             if (GetPersonalItemPrice(iSourceIndex, price, g_IsPurchaseShop))
             {
                 RemovePersonalItemPrice(iSourceIndex, g_IsPurchaseShop);
                 if (Data->Index >= MAX_MY_INVENTORY_EX_INDEX)
                 {
-                    AddPersonalItemPrice(Data->Index, price, g_IsPurchaseShop);
+                    AddPersonalItemPrice(Data->Index, price.Amount, g_IsPurchaseShop, price.Currency);
                 }
             }
         }
@@ -9441,7 +9476,7 @@ void ReceivePersonalShopItemList(std::span<const BYTE> ReceiveBuffer)
             if (pShopItem->MoneyPrice > 0)
             {
                 g_pPurchaseShopInventory->InsertItem(pShopItem->ItemSlot, itemData);
-                AddPersonalItemPrice(pShopItem->ItemSlot, pShopItem->MoneyPrice, PSHOPWNDTYPE_PURCHASE);
+                AddPersonalItemPrice(pShopItem->ItemSlot, pShopItem->MoneyPrice, PSHOPWNDTYPE_PURCHASE, static_cast<BYTE>(pShopItem->PriceItemType));
             }
             else
             {
@@ -9514,7 +9549,7 @@ void ReceiveRefreshItemList(std::span<const BYTE> ReceiveBuffer)
             itemData = itemData.subspan(0, length);
 
             g_pMyShopInventory->InsertItem(pShopItem->ItemSlot, itemData);
-            AddPersonalItemPrice(pShopItem->ItemSlot, pShopItem->MoneyPrice, PSHOPWNDTYPE_SALE);
+            AddPersonalItemPrice(pShopItem->ItemSlot, pShopItem->MoneyPrice, PSHOPWNDTYPE_SALE, static_cast<BYTE>(pShopItem->PriceItemType));
 
             Offset += length;
         }
@@ -9546,7 +9581,7 @@ void ReceiveRefreshItemList(std::span<const BYTE> ReceiveBuffer)
             itemData = itemData.subspan(0, length);
 
             g_pPurchaseShopInventory->InsertItem(pShopItem->ItemSlot, itemData);
-            AddPersonalItemPrice(pShopItem->ItemSlot, pShopItem->MoneyPrice, PSHOPWNDTYPE_PURCHASE);
+            AddPersonalItemPrice(pShopItem->ItemSlot, pShopItem->MoneyPrice, PSHOPWNDTYPE_PURCHASE, static_cast<BYTE>(pShopItem->PriceItemType));
 
             Offset += length;
         }
@@ -14934,6 +14969,10 @@ static void ProcessPacket(const BYTE* ReceiveBuffer, int32_t Size)
     case 0xAE:
         // Received mu helper config from server
         ReceiveMuHelperConfigurationData(received_span);
+        break;
+    case 0xED:
+    case 0xFA:
+        Network::Paris::Dispatch(ReceiveBuffer, Size);
         break;
     default:
         break;

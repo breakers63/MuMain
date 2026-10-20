@@ -1,6 +1,8 @@
-﻿// NewUICommonMessageBox.cpp: implementation of the NewUICommonMessageBox class.
+// NewUICommonMessageBox.cpp: implementation of the NewUICommonMessageBox class.
 //////////////////////////////////////////////////////////////////////
 #include "stdafx.h"
+#include "Network/Paris/PersonalShopPricing.h"
+#include "UI/NewUI/Character/ParisControls.h"
 #include "UI/NewUI/Dialogs/NewUICommonMessageBox.h"
 #include "UI/NewUI/Dialogs/NewUICustomMessageBox.h"
 #include "Guild/NewUIGuildMakeWindow.h"
@@ -537,6 +539,12 @@ bool SEASON3B::CNewUICommonMessageBox::Render()
 
 void SEASON3B::CNewUICommonMessageBox::RenderFrame()
 {
+    if (m_goldStyle)
+    {
+        UI::Paris::GoldBorder(GetPos().x, GetPos().y, GetSize().cx, GetSize().cy);
+        return;
+    }
+
     float x, y, width, height;
 
     x = GetPos().x; y = GetPos().y + 2.f, width = GetSize().cx - MSGBOX_BACK_BLANK_WIDTH; height = GetSize().cy - MSGBOX_BACK_BLANK_HEIGHT;
@@ -593,6 +601,14 @@ void SEASON3B::CNewUICommonMessageBox::RenderTexts()
 
 void SEASON3B::CNewUICommonMessageBox::RenderButtons()
 {
+    if (m_goldStyle)
+    {
+        UI::Theme::Bevel(m_BtnOk.GetPosX(), m_BtnOk.GetPosY(), m_BtnOk.GetWidth(), m_BtnOk.GetHeight(), L"ACEPTAR", m_BtnOk.IsMouseIn());
+        if (m_dwType == MSGBOX_COMMON_TYPE_OKCANCEL)
+            UI::Theme::Bevel(m_BtnCancel.GetPosX(), m_BtnCancel.GetPosY(), m_BtnCancel.GetWidth(), m_BtnCancel.GetHeight(), L"CANCELAR", m_BtnCancel.IsMouseIn());
+        return;
+    }
+
     switch (m_dwType)
     {
     case MSGBOX_COMMON_TYPE_OK:
@@ -934,6 +950,11 @@ bool SEASON3B::CNewUI3DItemCommonMsgBox::IsVisible() const
 
 void SEASON3B::CNewUI3DItemCommonMsgBox::RenderFrame()
 {
+    if (m_storePriceStyle)
+    {
+        UI::Paris::GoldBorder(GetPos().x, GetPos().y, GetSize().cx, GetSize().cy);
+        return;
+    }
     float x, y, width, height;
 
     x = GetPos().x; y = GetPos().y + 2.f, width = GetSize().cx - MSGBOX_BACK_BLANK_WIDTH; height = GetSize().cy - MSGBOX_BACK_BLANK_HEIGHT;
@@ -992,6 +1013,12 @@ void SEASON3B::CNewUI3DItemCommonMsgBox::RenderTexts()
 
 void SEASON3B::CNewUI3DItemCommonMsgBox::RenderButtons()
 {
+    if (m_storePriceStyle)
+    {
+        UI::Theme::Bevel(m_BtnOk.GetPosX(), m_BtnOk.GetPosY(), m_BtnOk.GetWidth(), m_BtnOk.GetHeight(), L"ACEPTAR", m_BtnOk.IsMouseIn());
+        UI::Theme::Bevel(m_BtnCancel.GetPosX(), m_BtnCancel.GetPosY(), m_BtnCancel.GetWidth(), m_BtnCancel.GetHeight(), L"CANCELAR", m_BtnCancel.IsMouseIn());
+        return;
+    }
     switch (m_dwType)
     {
     case MSGBOX_COMMON_TYPE_OK:
@@ -2647,6 +2674,8 @@ bool SEASON3B::CPersonalShopItemValueCheckMsgBoxLayout::SetLayout()
     if (false == pMsgBox->Create(MSGBOX_COMMON_TYPE_OKCANCEL))
         return false;
 
+    pMsgBox->EnableStorePriceStyle();
+
     CNewUIPickedItem* pPickedItem = CNewUIInventoryCtrl::GetPickedItem();
 
     ITEM* pItemObj = NULL;
@@ -2701,14 +2730,16 @@ CALLBACK_RESULT SEASON3B::CPersonalShopItemValueCheckMsgBoxLayout::OkBtnDown(cla
         if (pPickedItem->GetOwnerInventory() == g_pMyInventory->GetInventoryCtrl())
         {
             int iItemPrice = pMsgBox->GetItemValue();
-            SocketClient->ToGameServer()->SendPlayerShopSetItemPrice(iSourceIndex, iItemPrice);
+            if (!Network::Paris::PersonalShopPricing::Send(iSourceIndex, iItemPrice, pMsgBox->GetStorePriceCurrency()))
+                return CALLBACK_CONTINUE;
             SendRequestEquipmentItem(STORAGE_TYPE::INVENTORY, iSourceIndex, pItemObj, STORAGE_TYPE::MYSHOP, iTargetIndex);
         }
         else if (pPickedItem->GetOwnerInventory() == NULL)
         {
             int iItemPrice = pMsgBox->GetItemValue();
             BYTE byIndex = iSourceIndex;
-            SocketClient->ToGameServer()->SendPlayerShopSetItemPrice(iSourceIndex, iItemPrice);
+            if (!Network::Paris::PersonalShopPricing::Send(iSourceIndex, iItemPrice, pMsgBox->GetStorePriceCurrency()))
+                return CALLBACK_CONTINUE;
 
             SendRequestEquipmentItem(STORAGE_TYPE::INVENTORY, iSourceIndex, pItemObj, STORAGE_TYPE::MYSHOP, iTargetIndex);
         }
@@ -2716,12 +2747,13 @@ CALLBACK_RESULT SEASON3B::CPersonalShopItemValueCheckMsgBoxLayout::OkBtnDown(cla
         {
             int iItemPrice = pMsgBox->GetItemValue();
             BYTE byIndex = MAX_MY_INVENTORY_EX_INDEX + iSourceIndex;
-            SocketClient->ToGameServer()->SendPlayerShopSetItemPrice(iSourceIndex, iItemPrice);
+            if (!Network::Paris::PersonalShopPricing::Send(iSourceIndex, iItemPrice, pMsgBox->GetStorePriceCurrency()))
+                return CALLBACK_CONTINUE;
 
             SendRequestEquipmentItem(STORAGE_TYPE::MYSHOP, iSourceIndex, pItemObj, STORAGE_TYPE::MYSHOP, iTargetIndex);
         }
 
-        AddPersonalItemPrice(iTargetIndex, pMsgBox->GetItemValue(), g_IsPurchaseShop);
+        AddPersonalItemPrice(iTargetIndex, pMsgBox->GetItemValue(), g_IsPurchaseShop, pMsgBox->GetStorePriceCurrency());
     }
     else
     {
@@ -2732,8 +2764,9 @@ CALLBACK_RESULT SEASON3B::CPersonalShopItemValueCheckMsgBoxLayout::OkBtnDown(cla
             if (iSourceIndex >= 0)
             {
                 int iItemPrice = pMsgBox->GetItemValue();
-                SocketClient->ToGameServer()->SendPlayerShopSetItemPrice(iSourceIndex, iItemPrice);
-                AddPersonalItemPrice(iSourceIndex, iItemPrice, g_IsPurchaseShop);
+                if (!Network::Paris::PersonalShopPricing::Send(iSourceIndex, iItemPrice, pMsgBox->GetStorePriceCurrency()))
+                return CALLBACK_CONTINUE;
+                AddPersonalItemPrice(iSourceIndex, iItemPrice, g_IsPurchaseShop, pMsgBox->GetStorePriceCurrency());
             }
         }
     }

@@ -1323,21 +1323,13 @@ void MuApplyWindowResolution(unsigned int width, unsigned int height, bool windo
     }
     else
     {
-        // Pick the closest real fullscreen mode so the monitor switches
-        // resolution; fall back to borderless desktop if none matches.
-        SDL_DisplayMode mode;
-        const SDL_DisplayID display = SDL_GetDisplayForWindow(g_sdlWindow);
-        if (SDL_GetClosestFullscreenDisplayMode(display, w, h, 0.0f, false, &mode))
-            SDL_SetWindowFullscreenMode(g_sdlWindow, &mode);
-        else
-            SDL_SetWindowFullscreenMode(g_sdlWindow, nullptr);
-        SDL_SetWindowSize(g_sdlWindow, w, h);
+        // Desktop fullscreen fills wide displays without switching to a 4:3 monitor mode.
+        SDL_SetWindowFullscreenMode(g_sdlWindow, nullptr);
         SDL_SetWindowFullscreen(g_sdlWindow, true);
     }
 
-    // The request is not a guarantee: the closest fullscreen mode can differ
-    // from what was asked, the borderless fallback is desktop-sized, and mode
-    // switches are asynchronous on some window managers. Settle the request,
+    // Fullscreen uses the desktop size, while windowed mode uses the requested
+    // dimensions. Mode switches are asynchronous on some window managers. Settle the request,
     // then resize the game to the size the window really got - callers persist
     // WindowWidth/Height, and config must record what happened, not what was
     // asked for. Logical size, matching what SDL_EVENT_WINDOW_RESIZED carries.

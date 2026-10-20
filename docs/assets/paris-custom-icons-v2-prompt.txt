@@ -1,0 +1,5 @@
+Herramienta: image_gen integrada (habilidad imagegen), no CLI.
+Referencia: maqueta CUSTOM adjunta por el usuario; único recurso disponible.
+Prompt: Extract/reconstruct ONLY the twelve small richly rendered antique gold icons of the supplied MU Online CUSTOM/SISTEMAS PARIS mockup. Transparent atlas, regular 2 columns by 6 rows, no borders/cards/text. Reading order: gold armored chestplate (Stats), paw (Mascotas), treasure chest (Inventario), market stall (Tienda personal), market stall with goods (Market), crown (VIP), star shield (Battle Pass), trophy (Rank User), circular reset arrows (Reset), alchemy flask with purple liquid (Chaos Mix), scroll and quill (Quest), gold/blue/purple gems (Jewel Bank). Keep antique gold shaded game-icon look and central 65% occupancy, aspect 1:3.
+
+El PNG generado se conservó; se convirtió a OZT BGRA32 de 256x768, filas de abajo arriba. La textura se rellena a 256x1024 por el cargador, con UV de 1/2 por columna y 1/8 por fila.

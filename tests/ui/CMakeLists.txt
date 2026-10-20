@@ -5,6 +5,14 @@ mu_add_test(
 )
 
 mu_add_test(
+    NAME paris_latest_customs_tests
+    SOURCES
+        test_paris_latest_customs.cpp
+        ${CMAKE_SOURCE_DIR}/src/source/GameLogic/Social/PostedItemRecord.cpp
+        ${CMAKE_SOURCE_DIR}/src/source/Data/GameConfig/HdGraphicsSettings.cpp
+)
+
+mu_add_test(
     NAME text_search_tests
     SOURCES
         test_text_search.cpp
@@ -69,3 +77,5 @@ mu_add_test(
     SOURCES test_character_name_lifecycle.cpp
     LINK_LIBS MuClient
 )
+
+mu_add_test(NAME skill_icon_selection_tests SOURCES test_skill_icon_selection.cpp)

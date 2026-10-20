@@ -112,6 +112,8 @@ namespace SEASON3B
 
         void RenderBackImage();
         void RenderText();
+        void RenderBalances();
+        void RenderButtons();
 
         void ChangeLockBtnImage();
         void DeleteAllItems();

@@ -1,8 +1,9 @@
-﻿//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
 // NewUIInventoryCtrl.cpp: implementation of the CNewUIInventoryCtrl class.
 //////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
+#include "UI/NewUI/Character/ClassicPanelFrame.h"
 #include "UI/NewUI/Inventory/NewUIInventoryCtrl.h"
 #include "UI/NewUI/Inventory/NewUIItemMng.h"
 #include "UI/NewUI/NewUISystem.h"
@@ -1084,29 +1085,11 @@ void SEASON3B::CNewUIInventoryCtrl::Render()
                 EndRenderColor();
             }
 
-            EnableAlphaTest();
-            RenderImage(IMAGE_ITEM_SQUARE, m_Pos.x + (x * INVENTORY_SQUARE_WIDTH),
-                        m_Pos.y + (y * INVENTORY_SQUARE_HEIGHT), 21, 21);
+            RenderSlotBorder(x, y);
         }
     }
 
-    EnableAlphaTest();
-    RenderImage(IMAGE_ITEM_TABLE_TOP_LEFT, m_Pos.x - WND_LEFT_EDGE, m_Pos.y - WND_TOP_EDGE, 14, 14);
-    RenderImage(IMAGE_ITEM_TABLE_TOP_RIGHT, m_Pos.x + m_Size.cx - WND_RIGHT_EDGE, m_Pos.y - WND_TOP_EDGE, 14, 14);
-    RenderImage(IMAGE_ITEM_TABLE_BOTTOM_LEFT, m_Pos.x - WND_LEFT_EDGE, m_Pos.y + m_Size.cy - WND_BOTTOM_EDGE, 14, 14);
-    RenderImage(IMAGE_ITEM_TABLE_BOTTOM_RIGHT, m_Pos.x + m_Size.cx - WND_RIGHT_EDGE,
-                m_Pos.y + m_Size.cy - WND_BOTTOM_EDGE, 14, 14);
-
-    for (x = m_Pos.x - WND_LEFT_EDGE + 14; x < m_Pos.x + m_Size.cx - WND_RIGHT_EDGE; x++)
-    {
-        RenderImage(IMAGE_ITEM_TABLE_TOP_PIXEL, x, m_Pos.y - WND_TOP_EDGE, 1, 14);
-        RenderImage(IMAGE_ITEM_TABLE_BOTTOM_PIXEL, x, m_Pos.y + m_Size.cy - WND_BOTTOM_EDGE, 1, 14);
-    }
-    for (y = m_Pos.y - WND_TOP_EDGE + 14; y < m_Pos.y + m_Size.cy - WND_BOTTOM_EDGE; y++)
-    {
-        RenderImage(IMAGE_ITEM_TABLE_LEFT_PIXEL, m_Pos.x - WND_LEFT_EDGE, y, 14, 1);
-        RenderImage(IMAGE_ITEM_TABLE_RIGHT_PIXEL, m_Pos.x + m_Size.cx - WND_RIGHT_EDGE, y, 14, 1);
-    }
+    RenderTableBorder();
 
     if (ms_pPickedItem)
     {
@@ -1922,4 +1905,41 @@ bool SEASON3B::CNewUIInventoryCtrl::CanUpgradeItem(ITEM* pSourceItem, ITEM* pTar
     }
 
     return false;
+}
+
+void SEASON3B::CNewUIInventoryCtrl::RenderSlotBorder(int column, int row)
+{
+    const int x = m_Pos.x + column * INVENTORY_SQUARE_WIDTH;
+    const int y = m_Pos.y + row * INVENTORY_SQUARE_HEIGHT;
+    EnableAlphaTest();
+    if (!m_goldTheme) { RenderImage(IMAGE_ITEM_SQUARE, x, y, 21, 21); return; }
+    constexpr unsigned int Border = 0xCC755C2Au;
+    RenderColorQuadARGB(x, y, INVENTORY_SQUARE_WIDTH, 1, Border);
+    RenderColorQuadARGB(x, y, 1, INVENTORY_SQUARE_HEIGHT, Border);
+    RenderColorQuadARGB(x + INVENTORY_SQUARE_WIDTH, y, 1, INVENTORY_SQUARE_HEIGHT, Border);
+    RenderColorQuadARGB(x, y + INVENTORY_SQUARE_HEIGHT, INVENTORY_SQUARE_WIDTH, 1, Border);
+}
+
+void SEASON3B::CNewUIInventoryCtrl::RenderTableBorder()
+{
+    if (m_goldTheme) return;
+    int x, y;
+    EnableAlphaTest();
+    RenderImage(IMAGE_ITEM_TABLE_TOP_LEFT, m_Pos.x - WND_LEFT_EDGE, m_Pos.y - WND_TOP_EDGE, 14, 14);
+    RenderImage(IMAGE_ITEM_TABLE_TOP_RIGHT, m_Pos.x + m_Size.cx - WND_RIGHT_EDGE, m_Pos.y - WND_TOP_EDGE, 14, 14);
+    RenderImage(IMAGE_ITEM_TABLE_BOTTOM_LEFT, m_Pos.x - WND_LEFT_EDGE, m_Pos.y + m_Size.cy - WND_BOTTOM_EDGE, 14, 14);
+    RenderImage(IMAGE_ITEM_TABLE_BOTTOM_RIGHT, m_Pos.x + m_Size.cx - WND_RIGHT_EDGE,
+                m_Pos.y + m_Size.cy - WND_BOTTOM_EDGE, 14, 14);
+
+    for (x = m_Pos.x - WND_LEFT_EDGE + 14; x < m_Pos.x + m_Size.cx - WND_RIGHT_EDGE; x++)
+    {
+        RenderImage(IMAGE_ITEM_TABLE_TOP_PIXEL, x, m_Pos.y - WND_TOP_EDGE, 1, 14);
+        RenderImage(IMAGE_ITEM_TABLE_BOTTOM_PIXEL, x, m_Pos.y + m_Size.cy - WND_BOTTOM_EDGE, 1, 14);
+    }
+    for (y = m_Pos.y - WND_TOP_EDGE + 14; y < m_Pos.y + m_Size.cy - WND_BOTTOM_EDGE; y++)
+    {
+        RenderImage(IMAGE_ITEM_TABLE_LEFT_PIXEL, m_Pos.x - WND_LEFT_EDGE, y, 14, 1);
+        RenderImage(IMAGE_ITEM_TABLE_RIGHT_PIXEL, m_Pos.x + m_Size.cx - WND_RIGHT_EDGE, y, 14, 1);
+    }
+
 }

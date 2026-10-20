@@ -1,4 +1,13 @@
 mu_add_test(
+    NAME test_paris_jewel_bank
+    SOURCES
+        test_paris_jewel_bank.cpp
+        test_paris_advanced_stats.cpp
+        ${CMAKE_SOURCE_DIR}/src/source/Network/Paris/JewelBankProtocol.cpp
+        ${CMAKE_SOURCE_DIR}/src/source/GameLogic/Character/AdvancedStatsSummary.cpp
+)
+
+mu_add_test(
     NAME test_server_config_validation
     SOURCES
         test_server_config_validation.cpp
@@ -107,3 +116,20 @@ if(DOTNET_EXECUTABLE)
     )
     set_tests_properties(outbound_flush_loop PROPERTIES TIMEOUT 30)
 endif()
+
+mu_add_test(
+    NAME test_paris_server_metadata
+    SOURCES
+        test_paris_server_metadata.cpp
+        test_paris_stat_allocation.cpp
+        ${CMAKE_SOURCE_DIR}/src/source/Network/Paris/EventTimerState.cpp
+        ${CMAKE_SOURCE_DIR}/src/source/Network/Paris/StatServerLimits.cpp
+        ${CMAKE_SOURCE_DIR}/src/source/GameLogic/Character/StatAllocationState.cpp
+)
+
+mu_add_test(
+    NAME custom_monster_viewport_tests
+    SOURCES test_custom_monster_viewport.cpp
+)
+
+mu_add_test(NAME active_invasion_state_tests SOURCES test_active_invasion_state.cpp ${CMAKE_SOURCE_DIR}/src/source/GameLogic/Events/ActiveInvasionState.cpp)

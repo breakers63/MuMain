@@ -51,6 +51,16 @@ constexpr float RENDER_DISTANCE_MULTIPLIER = 1.4f;
  * DefaultCamera snaps to them directly, OrbitalCamera uses them as a ray-cast origin
  * to compute where to place the orbit pivot.
  */
+namespace LoginServerSceneCamera
+{
+    constexpr float POSITION_X = 24475.80f;
+    constexpr float POSITION_Y = 7581.581f;
+    constexpr float POSITION_Z = 1834.540f;
+    constexpr float ANGLE_PITCH = -84.0f;
+    constexpr float ANGLE_ROLL = -45.0f;
+    constexpr float FIELD_OF_VIEW = 70.0f;
+}
+
 namespace CharacterSceneCamera
 {
     constexpr float POSITION_X = 9758.93f;
