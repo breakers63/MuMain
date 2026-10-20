@@ -2,6 +2,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
+#include "Render/Items/ItemPreviewFit.h"
 #include "UI/Placement/WindowPlacement.h"
 #include "UI/Core/UIManager.h"
 #include "Render/Textures/ZzzOpenglUtil.h"
@@ -5251,7 +5252,8 @@ static void RenderItemInfo(const UI::Scaling::Transform& screen, int sx, int sy,
             TextNum,
             UI::Scaling::PositionX(screen, static_cast<float>(sx)),
             UI::Scaling::PositionY(screen, static_cast<float>(sy)),
-            bItemTextListBoxUse ? UI::Tooltip::Placement::Above : UI::Tooltip::Placement::Below);
+            bItemTextListBoxUse ? UI::Tooltip::Placement::Above : UI::Tooltip::Placement::Below,
+            UI::Tooltip::ItemInfoOwner(), ip);
     }
 }
 
@@ -6623,6 +6625,7 @@ void RenderObjectScreen(int Type, int ItemLevel, int excellentFlags, int ancient
     o->Scale = Scale;
 
     VectorCopy(Position, o->Position);
+    Render::Items::Preview::FitPosedModel(b, o);
 
     vec3_t Light;
     float  alpha = o->Alpha;

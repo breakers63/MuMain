@@ -1,4 +1,5 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
+#include "UI/Chat/ParisChatStyle.h"
 #include "I18N/All.h"
 
 #include "Render/Text/CUIRenderTextSDLTtf.h"
@@ -10,6 +11,7 @@
 #include "Audio/DSPlaySound.h"
 #include "UI/Social/SocialWindowBase.h"
 #include "Engine/Object/ZzzInterface.h"
+#include "GameLogic/Social/ActivityHistoryUpdates.h"
 
 // RmlUi migration -- see ChatLogRmlModel (ChatLogWindow.h).
 #include "Render/RmlUi/RmlUiRuntime.h"
@@ -106,6 +108,7 @@ void mu::ui::window::CChatLogWindow::Release()
 
 void mu::ui::window::CChatLogWindow::AddText(const type_string& strID, const type_string& strText, MESSAGE_TYPE MsgType, MESSAGE_TYPE ErrMsgType /*= TYPE_ALL_MESSAGE*/)
 {
+    GameLogic::Social::ActivityHistoryUpdates::RecordPostedItem(strID, strText);
     if (strID.empty() && strText.empty())
     {
         return;
@@ -777,7 +780,7 @@ void mu::ui::window::CChatLogWindow::RebuildLineModel()
         }
 
         ChatLogLineEntry entry;
-        entry.kind = slug;
+        entry.kind = UI::Chat::IsPostMessage(pMsgText->GetID(), pMsgText->GetText()) ? "post" : slug;
         entry.hasId = !pMsgText->GetID().empty();
         const type_string composed = entry.hasId
             ? pMsgText->GetID() + L" : " + pMsgText->GetText()

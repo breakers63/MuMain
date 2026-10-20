@@ -10,6 +10,8 @@ namespace UI::Notices
 struct NoticeLineEntry
 {
     Rml::String text;
+    Rml::String foreground;
+    Rml::String background;
     Rml::String kind; // "gold", "gold-dim" (the blink's half-alpha phase), "green", or "" when empty
 
     bool operator==(const NoticeLineEntry& other) const = default;

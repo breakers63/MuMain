@@ -1,4 +1,4 @@
-/* Modern theme for CChatLogWindow. Same geometry as legacy (native's own 281 width / 15 line
+﻿/* Modern theme for CChatLogWindow. Same geometry as legacy (native's own 281 width / 15 line
    pitch / 4 side edges / 5 top inset -- see legacy/chat_log.rcss for where those come from), but
    the per-type colours are restated in this theme's token palette instead of native's saturated
    RGBA pairs.
@@ -126,3 +126,8 @@
 	background-color: token(surface-control);
 	color: token(text-primary);
 }
+
+/* Paris /post uses the OpenGL party palette, independently of the sender's GM status. */
+.chat-line--post { background-color: rgba(0, 200, 255, 150); color: rgb(0, 0, 0); font-weight: normal; }
+#panel.framed .chat-line--post { background-color: rgba(0, 200, 255, 150); }
+.chat-line--post.chat-line--pointed { background-color: rgba(30, 30, 30, 180); color: rgb(255, 128, 255); }

@@ -1,0 +1,12 @@
+{
+  "source_cube_sha256": "53b8c14fe4685a852fe71f89a3ba551be518212d71d56823ae5479efadf1b9ac",
+  "source_cube_size": 33,
+  "export_cube_size": 32,
+  "sky_faces": 36,
+  "ultra": {
+    "exposure": 1.1,
+    "contrast": 1.18,
+    "saturation": 1.1,
+    "lut": 0.2
+  }
+}

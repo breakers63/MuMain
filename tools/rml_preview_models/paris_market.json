@@ -1,0 +1,55 @@
+{
+  "status": "Publicaciones actualizadas",
+  "query": "",
+  "category": 255,
+  "currency": 255,
+  "sort": 0,
+  "selected": 0,
+  "has_selection": true,
+  "selected_name": "Jewel of Bless +0",
+  "selected_seller": "loki",
+  "selected_price": "100 WCoin",
+  "empty": false,
+  "offer_count": 5,
+  "page": 1,
+  "page_count": 1,
+  "listings": [
+    {
+      "seller": "loki",
+      "name": "Jewel of Bless +0",
+      "price": "100",
+      "currency": "WCoin",
+      "index": 0
+    },
+    {
+      "seller": "loki",
+      "name": "Jewel of Soul +0",
+      "price": "200",
+      "currency": "WCoin",
+      "index": 1
+    },
+    {
+      "seller": "loki",
+      "name": "Excellent Sword +0",
+      "price": "300",
+      "currency": "WCoin",
+      "index": 2
+    },
+    {
+      "seller": "loki",
+      "name": "Wings of Condor +0",
+      "price": "400",
+      "currency": "WCoin",
+      "index": 3
+    },
+    {
+      "seller": "loki",
+      "name": "Jewel of Chaos +0",
+      "price": "500",
+      "currency": "WCoin",
+      "index": 4
+    }
+  ],
+  "selected_detail": "Joyas - +0",
+  "seller_initial": "l"
+}

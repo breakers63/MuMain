@@ -5,14 +5,17 @@
 #include "Core/Utilities/Log/MuLogger.h"
 #include "Render/PostProcessing/ColorGradingTable.h"
 #include "Render/Renderer/MuRenderer.h"
+#include "Render/Weather/WeatherSettings.h"
+#include "Render/Weather/WeatherRenderer.h"
 
 #include <optional>
+#include <tuple>
 
 namespace Render::PostProcessing
 {
 namespace
 {
-std::optional<int> s_selectedMap;
+std::optional<std::tuple<int, bool, int>> s_selection;
 
 void ApplyTable(const GradingTableLoad& table, int mapNumber, const std::filesystem::path& path)
 {
@@ -40,13 +43,18 @@ void ApplyTable(const GradingTableLoad& table, int mapNumber, const std::filesys
 
 void SelectMapColorGrading(int mapNumber)
 {
-    if (s_selectedMap == mapNumber)
+    const auto& options = Render::Weather::Options();
+    const bool pegasus = options.naturalColors && Render::Weather::Current().outdoor;
+    const auto selection = std::tuple{mapNumber, pegasus, options.quality};
+    if (s_selection == selection)
     {
         return;
     }
-    s_selectedMap = mapNumber;
+    s_selection = selection;
 
-    const std::filesystem::path path = GetGradingTablePath(mapNumber);
+    const auto path = pegasus
+        ? std::filesystem::path("Data/Grading/Pegasus") / (options.quality == 2 ? "ultra.png" : "modern.png")
+        : GetGradingTablePath(mapNumber);
     ApplyTable(LoadGradingTable(path), mapNumber, path);
 }
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "stdafx.h"
+#include "Core/Utilities/Log/MuLogger.h"
 #include <RmlUi/Core/Context.h>
 #include <RmlUi/Core/DataModelHandle.h>
 #include <RmlUi/Core/DataTypeRegister.h>
@@ -58,12 +59,18 @@ public:
         // register only once its model exists: a failed Create() must not free the register a
         // model created earlier still points to.
         auto typeRegister = std::make_unique<Rml::DataTypeRegister>();
+        mu::log::Get("ui")->info("Rml model create begin: {}", modelName);
         Rml::DataModelConstructor constructor = context->CreateDataModel(modelName, typeRegister.get());
         if (!constructor)
+        {
+            mu::log::Get("ui")->error("Rml model create rejected: {}", modelName);
             return false;
+        }
 
         m_TypeRegister = std::move(typeRegister);
+        mu::log::Get("ui")->info("Rml model fields begin: {}", modelName);
         registerFields(constructor, m_Model);
+        mu::log::Get("ui")->info("Rml model fields done: {}", modelName);
         m_Handle = constructor.GetModelHandle();
         m_Context = context;
         m_ModelName = modelName;
@@ -79,9 +86,11 @@ public:
     void Destroy(Rml::Context* context)
     {
         if (m_ModelName.empty()) return;
+        mu::log::Get("ui")->info("Rml model destroy begin: {}", m_ModelName);
         if (context)
             context->RemoveDataModel(m_ModelName);
         m_TypeRegister.reset(); // after the model, which holds a raw pointer to it
+        mu::log::Get("ui")->info("Rml model destroy done");
         m_Model = Model{};
         m_Handle = Rml::DataModelHandle{};
         m_Context = nullptr;

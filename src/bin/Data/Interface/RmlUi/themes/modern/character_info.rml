@@ -4,6 +4,7 @@
 	<link type="text/rcss" href="base.rcss"/>
 	<link type="text/rcss" href="docked_panel_frame.rcss"/>
 	<link type="text/rcss" href="character_info.rcss"/>
+    <link type="text/rcss" href="paris_stat_allocation.rcss"/>
 </head>
 <body>
 	<!-- Modern theme's own copy of CCharacterInfoWindow's frame -- matches CMyInventory's own
@@ -35,7 +36,7 @@
 
 		<div class="summary-fill"></div>
 		<span class="level-text">{{level_text}}</span>
-		<span class="levelup-point-text" data-class-hidden="!can_level_up">{{levelup_point_text}}</span>
+		<span class="levelup-point-text native-fit">{{levelup_point_text}}</span>
 		<span class="exp-text">{{exp_text}}</span>
 		<span class="point-probability-text">{{point_probability_text}}</span>
 		<span class="point-text">{{point_text}}</span>
@@ -99,11 +100,31 @@
 		<div id="btn_pet" class="modern-icon-btn-px chainfo-btn-pet" data-event-click="chainfo_click_pet" data-attr-data-hint="pet_tooltip">
 			<span class="modern-icon-btn-glyph-px">P</span>
 		</div>
-		<div id="btn_masterlevel" class="modern-icon-btn-px chainfo-btn-masterlevel" data-class-locked="!master_level_enabled"
-		     data-event-click="chainfo_click_masterlevel" data-attr-data-hint="masterlevel_tooltip">
-			<span class="modern-icon-btn-glyph-px">M</span>
+		<div id="btn_visual_options" class="modern-icon-btn-px chainfo-btn-masterlevel"
+		     data-event-click="chainfo_click_visual_options" data-attr-data-hint="visual_options_tooltip">
+			<span class="modern-icon-btn-glyph-px">&#9881;</span>
 		</div>
 		<div id="frame_corner_close" data-event-click="window_close"></div>
+
+        <div class="allocation-panel" data-if="allocation_open" data-class-percent="allocation_percent">
+            <div class="allocation-close" data-event-click="allocation_close"></div>
+            <div class="allocation-title counter-scaled" data-style-font-size="text_px + 'px'">REPARTIR PUNTOS</div>
+            <div class="allocation-available"><div class="allocation-art art-available"><div class="allocation-art-fill"></div><div class="allocation-art-tl"></div><div class="allocation-art-tr"></div><div class="allocation-art-bl"></div><div class="allocation-art-br"></div><div class="allocation-art-top"></div><div class="allocation-art-bottom"></div><div class="allocation-art-left"></div><div class="allocation-art-right"></div></div><span class="allocation-caption counter-scaled" data-style-font-size="text_px + 'px'">Puntos disponibles: <strong>{{allocation_available}}</strong></span></div>
+            <div class="allocation-rows">
+                <div class="allocation-row" data-for="row : allocation_rows" data-class-disabled="!row.enabled">
+                    <span class="allocation-label counter-scaled" data-style-font-size="text_px + 'px'">{{row.name}}</span>
+                    <div class="allocation-input-art"><div class="allocation-art art-input"><div class="allocation-art-fill"></div><div class="allocation-art-tl"></div><div class="allocation-art-tr"></div><div class="allocation-art-bl"></div><div class="allocation-art-br"></div><div class="allocation-art-top"></div><div class="allocation-art-bottom"></div><div class="allocation-art-left"></div><div class="allocation-art-right"></div></div></div><span class="allocation-dark-lord counter-scaled" data-style-font-size="text_px + 'px'" data-if="!row.enabled">Solo DL</span><input class="allocation-input counter-scaled" data-style-font-size="text_px + 'px'" data-if="row.enabled" type="text" maxlength="5" data-value="row.amount" data-attrif-disabled="!row.enabled || allocation_busy || allocation_auto"/>
+                    <span class="allocation-percent-label counter-scaled" data-style-font-size="text_px + 'px'" data-if="allocation_percent">%</span>
+                    <div class="allocation-full" data-if="!allocation_percent" data-event-click="allocation_full(row.index)"><div class="allocation-checkbox" data-class-checked="row.full"><span data-if="row.full">✓</span></div><span class="allocation-full-label counter-scaled" data-style-font-size="text_px + 'px'">Lleno</span></div>
+                </div>
+            </div>
+            <div class="allocation-mode allocation-amounts" data-class-selected="!allocation_percent" data-event-click="allocation_mode(false)"><div class="allocation-art art-tab"><div class="allocation-art-fill"></div><div class="allocation-art-tl"></div><div class="allocation-art-tr"></div><div class="allocation-art-bl"></div><div class="allocation-art-br"></div><div class="allocation-art-top"></div><div class="allocation-art-bottom"></div><div class="allocation-art-left"></div><div class="allocation-art-right"></div></div><span class="allocation-caption counter-scaled" data-style-font-size="text_px + 'px'">Cantidades</span></div>
+            <div class="allocation-mode allocation-percent" data-class-selected="allocation_percent" data-event-click="allocation_mode(true)"><div class="allocation-art art-tab"><div class="allocation-art-fill"></div><div class="allocation-art-tl"></div><div class="allocation-art-tr"></div><div class="allocation-art-bl"></div><div class="allocation-art-br"></div><div class="allocation-art-top"></div><div class="allocation-art-bottom"></div><div class="allocation-art-left"></div><div class="allocation-art-right"></div></div><span class="allocation-caption counter-scaled" data-style-font-size="text_px + 'px'">Porcentajes</span></div>
+            <div class="allocation-automatic" data-event-click="allocation_automatic"><div class="allocation-checkbox" data-class-checked="allocation_auto"><span data-if="allocation_auto">✓</span></div><span class="allocation-auto-label counter-scaled" data-style-font-size="text_px + 'px'">Añadir automaticamente</span></div>
+            <div class="allocation-status counter-scaled" data-style-font-size="text_px + 'px'">{{allocation_status}}</div>
+            <div class="allocation-button allocation-apply" data-event-click="allocation_apply"><div class="allocation-art art-assign"><div class="allocation-art-fill"></div><div class="allocation-art-tl"></div><div class="allocation-art-tr"></div><div class="allocation-art-bl"></div><div class="allocation-art-br"></div><div class="allocation-art-top"></div><div class="allocation-art-bottom"></div><div class="allocation-art-left"></div><div class="allocation-art-right"></div></div><span class="allocation-caption counter-scaled" data-style-font-size="text_px + 'px'">ASIGNAR</span></div>
+            <div class="allocation-button allocation-cancel" data-event-click="allocation_close"><div class="allocation-art art-close"><div class="allocation-art-fill"></div><div class="allocation-art-tl"></div><div class="allocation-art-tr"></div><div class="allocation-art-bl"></div><div class="allocation-art-br"></div><div class="allocation-art-top"></div><div class="allocation-art-bottom"></div><div class="allocation-art-left"></div><div class="allocation-art-right"></div></div><span class="allocation-caption counter-scaled" data-style-font-size="text_px + 'px'" data-if="allocation_busy">DETENER</span><span class="allocation-caption counter-scaled" data-style-font-size="text_px + 'px'" data-if="!allocation_busy">CERRAR</span></div>
+        </div>
 	</div>
 </body>
 </rml>

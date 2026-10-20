@@ -3,6 +3,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
+#include "Render/Weather/WeatherRenderer.h"
 #include "App/Control/ControlTaps.h"
 #include "Engine/Object/EditObjects.h"
 #include "UI/Chat/Chat.h"
@@ -719,6 +720,7 @@ bool RenderMainScene()
     // HUD it was gating alongside, see CSystem::SyncMainSceneHudVisibility) would otherwise
     // sit on top of the real scene about to render below.
     HideLoadingSceneOverlay();
+    Render::Weather::UpdateWorld(gMapManager.WorldActive);
 
     // Per-camera fog default: Orbital uses fog (noticeable at longer view distances),
     // Default camera's fog zone sits at/beyond its far clip and reads as visual noise,
@@ -761,7 +763,9 @@ bool RenderMainScene()
 
     SetupMainSceneViewport(width, height, byWaterMap, cameraPos);
     AddFrameHistoryLights();
+    Render::Weather::DrawSky();
     RenderGameWorld(byWaterMap, width, height);
+    Render::Weather::DrawWorld();
 
 #ifdef _EDITOR
     // Render spectated camera frustum wireframe when in FreeFly mode - but not

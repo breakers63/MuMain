@@ -1,0 +1,40 @@
+/* Original GM artwork: cropped outer photographic border; fixed aspect above the HUD. */
+@spritesheet gm-art { src: "../../../Paris_GmPanelV31.tga"; gm-panel:85px 0px 602.5px 470px; }
+#panel.paris-gm-events { position:absolute;left:50%;top:0;margin-left:-260dp;width:520dp;height:405.64dp;decorator:image(gm-panel);pointer-events:auto;font-family:"token(font-body)";font-size:7dp;color:#f4ead5; }
+.paris-gm-events div,.paris-gm-events span { box-sizing:border-box; }
+.paris-gm-events input { position:absolute;background-color:transparent;border:0;color:white;font-size:7dp;padding:0; }
+.paris-gm-events button { position:absolute;display:block;background-color:transparent;border:0;padding:0;cursor:pointer; }
+.paris-gm-events button:hover,.gm-event:hover {background-color:#ffd96520;}
+.paris-gm-events button:disabled {cursor:default;background-color:#00000048;}
+.gm-events {position:absolute;overflow:hidden auto;}
+.gm-event {display:block;position:relative;height:23.73dp;cursor:pointer;}
+.gm-event.selected {background-color:#d5ad3730;}
+.gm-event span {display:block;position:absolute;left:18%;top:0;width:80%;height:100%;line-height:23.73dp;font-size:7.3dp;}
+.gm-event.selected span,.gm-name {color:#f4d486;font-weight:bold;}
+.gm-placeholder {position:absolute;pointer-events:none;color:#ddd;}
+.gm-name,.gm-phase,.gm-participants,.gm-countdown,.gm-duration,.gm-map,.gm-requirement,.gm-status,.gm-last {position:absolute;line-height:10dp;}
+.gm-phase {color:#f8d883;text-align:center;font-size:6.5dp;}
+.gm-participants,.gm-countdown,.gm-duration {color:#f8d883;font-weight:bold;text-align:center;}
+.gm-close,.gm-exit,.gm-refresh {position:absolute;cursor:pointer;}
+.gm-close {left:91.286307%;top:8.297872%;width:3.734440%;height:4.787234%;}
+.gm-search {left:6.639004%;top:26.063830%;width:32.365145%;height:2.659574%;}
+.gm-placeholder {left:6.639004%;top:26.063830%;width:32.365145%;height:2.659574%;}
+.gm-events {left:5.643154%;top:30.000000%;width:34.439834%;height:58.510638%;}
+.gm-name {left:57.593361%;top:22.659574%;width:36.514523%;height:3.191489%;}
+.gm-phase {left:62.655602%;top:27.553191%;width:21.410788%;height:3.085106%;}
+.gm-participants {left:59.834025%;top:35.851064%;width:7.219917%;height:3.191489%;}
+.gm-countdown {left:71.369295%;top:35.851064%;width:8.298755%;height:3.191489%;}
+.gm-duration {left:82.655602%;top:35.851064%;width:10.373444%;height:3.191489%;}
+.gm-map {left:49.792531%;top:41.914894%;width:17.842324%;height:3.191489%;}
+.gm-requirement {left:73.443983%;top:41.914894%;width:20.082988%;height:3.191489%;}
+.gm-register {left:51.784232%;top:50.000000%;width:34.522822%;height:5.638298%;}
+.gm-start {left:51.784232%;top:56.702128%;width:34.522822%;height:5.744681%;}
+.gm-stop {left:51.784232%;top:63.510638%;width:34.522822%;height:6.170213%;}
+.gm-announcement {left:49.875519%;top:75.638298%;width:29.709544%;height:2.978723%;}
+.gm-announce {left:81.908714%;top:74.468085%;width:11.701245%;height:5.106383%;}
+.gm-status {left:51.452282%;top:85.319149%;width:40.663900%;height:2.872340%;}
+.gm-last {left:51.452282%;top:88.510638%;width:40.663900%;height:2.872340%;}
+.gm-refresh {left:37.344398%;top:92.553191%;width:24.481328%;height:4.787234%;}
+.gm-exit {left:81.908714%;top:92.872340%;width:12.116183%;height:4.255319%;}
+
+.gm-event {position:absolute;left:0;width:100%;height:10%;}

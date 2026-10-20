@@ -2,6 +2,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
+#include "Render/Weather/WeatherRenderer.h"
 #include "ZzzOpenglUtil.h"
 #include "ZzzTexture.h"
 #include "Render/Renderer/MuRenderer.h"
@@ -343,7 +344,7 @@ void DisableAlphaBlend()
         TextureEnable = true;
         mu::GetRenderer().SetTexture2D(true);
     }
-    if (FogEnable)
+    if (FogEnable || Render::Weather::WantsFog())
         mu::GetRenderer().SetFogEnabled(true);
 }
 
@@ -367,7 +368,7 @@ void EnableAlphaTest(bool DepthMask)
         TextureEnable = true;
         mu::GetRenderer().SetTexture2D(true);
     }
-    if (FogEnable)
+    if (FogEnable || Render::Weather::WantsFog())
         mu::GetRenderer().SetFogEnabled(true);
 }
 
@@ -390,7 +391,7 @@ void EnableAlphaBlend()
         TextureEnable = true;
         mu::GetRenderer().SetTexture2D(true);
     }
-    if (FogEnable)
+    if (FogEnable || Render::Weather::WantsFog())
         mu::GetRenderer().SetFogEnabled(false);
 }
 
@@ -413,7 +414,7 @@ void EnableAlphaBlendMinus()
         TextureEnable = true;
         mu::GetRenderer().SetTexture2D(true);
     }
-    if (FogEnable)
+    if (FogEnable || Render::Weather::WantsFog())
         mu::GetRenderer().SetFogEnabled(true);
 }
 
@@ -436,7 +437,7 @@ void EnableAlphaBlend2()
         TextureEnable = true;
         mu::GetRenderer().SetTexture2D(true);
     }
-    if (FogEnable)
+    if (FogEnable || Render::Weather::WantsFog())
         mu::GetRenderer().SetFogEnabled(true);
 }
 
@@ -459,7 +460,7 @@ void EnableAlphaBlend3()
         TextureEnable = true;
         mu::GetRenderer().SetTexture2D(true);
     }
-    if (FogEnable)
+    if (FogEnable || Render::Weather::WantsFog())
         mu::GetRenderer().SetFogEnabled(true);
 }
 
@@ -482,7 +483,7 @@ void EnableAlphaBlend4()
         TextureEnable = true;
         mu::GetRenderer().SetTexture2D(true);
     }
-    if (FogEnable)
+    if (FogEnable || Render::Weather::WantsFog())
         mu::GetRenderer().SetFogEnabled(true);
 }
 
@@ -505,7 +506,7 @@ void EnableLightMap()
         TextureEnable = true;
         mu::GetRenderer().SetTexture2D(true);
     }
-    if (FogEnable)
+    if (FogEnable || Render::Weather::WantsFog())
         mu::GetRenderer().SetFogEnabled(true);
 }
 
@@ -648,7 +649,7 @@ void BeginOpenglForTarget(int width, int height)
     DepthMaskEnable = true;
     mu::GetRenderer().SetDepthFunc(GL_LEQUAL);
     mu::GetRenderer().SetAlphaFunc(GL_GREATER, 0.25f);
-    if (FogEnable)
+    if (FogEnable || Render::Weather::WantsFog())
     {
         // Fog scales dynamically with view distance (g_Camera.ViewFar) so it
         // stays at consistent percentages when zooming. The actual GL far clip
@@ -679,6 +680,7 @@ void BeginOpenglForTarget(int width, int height)
         fogParams.color[1] = FogColor[1];
         fogParams.color[2] = FogColor[2];
         fogParams.color[3] = FogColor[3];
+        Render::Weather::AdjustFog(fogParams);
         mu::GetRenderer().SetFog(fogParams);
     }
     else

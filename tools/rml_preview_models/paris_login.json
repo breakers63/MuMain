@@ -1,0 +1,51 @@
+{
+  "server_name": "MuParis-1 · Servidor",
+  "account_label": "Cuenta",
+  "password_label": "Contraseña",
+  "remember_me_label": "Recordar cuenta",
+  "save_password_label": "Guardar contraseña",
+  "trust_warning": "Guarda contraseñas solo en un equipo de confianza.",
+  "remember_me_checked": true,
+  "save_password_checked": true,
+  "username": "Cuenta01",
+  "password": "demonstration",
+  "saved_account_count": "5 / 5",
+  "account_status": "Selecciona una cuenta para completar tus datos.",
+  "saved_accounts": [
+    {
+      "index": 0,
+      "label": "Cuenta 01",
+      "occupied": true,
+      "selected": true,
+      "password_saved": true
+    },
+    {
+      "index": 1,
+      "label": "Cuenta 02",
+      "occupied": true,
+      "selected": false,
+      "password_saved": true
+    },
+    {
+      "index": 2,
+      "label": "Cuenta 03",
+      "occupied": true,
+      "selected": false,
+      "password_saved": true
+    },
+    {
+      "index": 3,
+      "label": "Cuenta 04",
+      "occupied": true,
+      "selected": false,
+      "password_saved": true
+    },
+    {
+      "index": 4,
+      "label": "Cuenta 05",
+      "occupied": true,
+      "selected": false,
+      "password_saved": true
+    }
+  ]
+}

@@ -4,6 +4,8 @@
 
 #include "Core/Utilities/Log/MuLogger.h"
 #include "Render/Look/LookProfileSetting.h"
+#include "Render/Weather/WeatherSettings.h"
+#include "Render/Weather/WeatherRenderer.h"
 #include "Render/Renderer/MuRenderer.h"
 
 namespace Render::PostProcessing
@@ -56,9 +58,15 @@ bool SetPostProcessingView(std::wstring_view name)
 void SubmitPostProcessingLook()
 {
     using Data::Maps::LookValue;
-    mu::GetRenderer().SetPostProcessingLook({Render::Look::Value(LookValue::BloomStrength),
+    const auto& weather = Render::Weather::Options();
+    const bool outdoor = Render::Weather::Current().outdoor;
+    const float bloom = weather.bloomEnabled ? Render::Look::Value(LookValue::BloomStrength) + (outdoor ? weather.bloom * 0.01f : 0.0f) : 0.f;
+    const bool pegasusColor = outdoor && weather.naturalColors;
+    mu::GetRenderer().SetPostProcessingLook({bloom,
                                              Render::Look::Value(LookValue::BloomLevelFalloff),
-                                             Render::Look::Value(LookValue::GradingStrength)});
+                                             pegasusColor ? 1.f : Render::Look::Value(LookValue::GradingStrength),
+                                             outdoor ? weather.sharpness * 0.002667f : 0.0f,
+                                             0.0f});
 }
 
 } // namespace Render::PostProcessing

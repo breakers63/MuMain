@@ -3,6 +3,7 @@
 	<title>Generic Menu Dialog</title>
 	<link type="text/rcss" href="base.rcss"/>
 	<link type="text/rcss" href="generic_menu_dialog.rcss"/>
+    <link type="text/rcss" href="npc_actions.rcss"/>
 	<link type="text/template" href="window_shell.rml"/>
 </head>
 <!-- Modern theme's own copy of the generic menu dialog -- per-theme file since window_shell.rml's
@@ -14,7 +15,7 @@
 
      The in-game system menu (is_system_menu) fills the screen instead, like the options screen:
      its own heading and close action, the buttons as a list (generic_menu_dialog.rcss). -->
-<body template="window_shell" data-model="generic_menu_dialog" data-class-system-menu="is_system_menu">
+<body template="window_shell" data-model="generic_menu_dialog" data-class-system-menu="is_system_menu" data-class-npc-actions="kind == 'trainer-menu' || kind == 'trainer-recover' || kind == 'chaos-mix'" data-class-paris-npc="kind == 'trainer-menu' || kind == 'trainer-recover' || kind == 'chaos-mix'" data-class-native-frame="kind != ''" data-attr-data-kind="kind">
 	<div class="gmd-sys-header" data-class-hidden="!is_system_menu">
 		<div class="gmd-sys-title">{{system_menu_label}}</div>
 		<div class="gmd-sys-close" data-event-click="gmd_cancel">
@@ -39,7 +40,7 @@
 				     exists (bordered elements with children don't paint a complete box in this
 				     engine) and why .gmd-btn-label needs position:relative. -->
 				<div class="gmd-btn-fill"></div>
-				<div class="gmd-btn-label">{{button.label}}</div>
+				<div class="npc-action-art"><div class="npc-art-fill"></div><div class="npc-art-tl"></div><div class="npc-art-tr"></div><div class="npc-art-bl"></div><div class="npc-art-br"></div><div class="npc-art-top"></div><div class="npc-art-bottom"></div><div class="npc-art-left"></div><div class="npc-art-right"></div></div><div class="gmd-btn-label">{{button.label}}</div>
 			</div>
 		</div>
 	</div>
@@ -48,5 +49,7 @@
 			<span class="gmd-sys-keycap">Esc</span><span class="gmd-sys-footer-label">{{close_label}}</span>
 		</div>
 	</div>
+    <div class="npc-bottom-close" data-class-hidden="kind != 'trainer-menu' &amp;&amp; kind != 'trainer-recover' &amp;&amp; kind != 'chaos-mix'" data-event-click="gmd_cancel"></div>
+    <div class="npc-corner-close" data-class-hidden="kind != 'trainer-menu' &amp;&amp; kind != 'trainer-recover'" data-event-click="gmd_cancel"></div>
 </body>
 </rml>

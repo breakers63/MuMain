@@ -1,0 +1,16 @@
+﻿/* Paris helper: compact 207x20 HUD units, top-left. Legacy remains in its own theme. */
+#panel.workspace-placed { transform-origin: left top; }
+#panel { position: absolute; width: 207dp; height: 20dp; box-sizing: border-box;
+ background-color: #0b0b09; border: 1dp #ad8437; border-radius: 3dp;
+ font-family: "token(font-body)"; font-size: 10dp; pointer-events: auto; }
+#seg_a, #seg_b, #seg_c, .dot { display: none; }
+#text { position: absolute; left: 7dp; top: 3dp; width: 140dp; height: 14dp;
+ line-height: 14dp; color: #f0d28c; text-align: center; white-space: nowrap; overflow: hidden; }
+.mu-btn { position: absolute; top: 3dp; width: 18dp; height: 14dp; box-sizing: border-box;
+ border: 1dp #997329; border-radius: 2dp; background-color: #17130b; color: #f1cb6a;
+ cursor: pointer; pointer-events: auto; text-align: center; }
+#btn_config { left: 153dp; }
+#btn_start, #btn_stop { left: 175dp; }
+.helper-label { display: block; line-height: 12dp; font-size: 11dp; pointer-events: none; }
+.mu-btn:hover { background-color: #3b2b0f; border-color: #efd584; color: #fff1ba; }
+#btn_stop { color: #ffb66a; }

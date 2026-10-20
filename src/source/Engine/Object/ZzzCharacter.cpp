@@ -40,6 +40,9 @@
 #include "Engine/Physics/PhysicsManager.h"
 #include "Engine/AI/GOBoid.h"
 #include "GameLogic/Items/CSItemOption.h"
+#include "GameLogic/Items/SmallCape.h"
+#include "World/Monsters/CustomMonsterModels.h"
+#include "Render/Models/CustomMonsterColorRenderer.h"
 
 // Phase 5: Camera system includes for 3D frustum culling
 #include "Camera/CameraManager.h"
@@ -58,6 +61,27 @@ static bool s_bShowCharacterPickBoxes = false;
 
 namespace
 {
+    bool UsesGameMasterAppearance(const OBJECT& object)
+    {
+        const bool characterKind = object.Kind == KIND_PLAYER || object.Kind == KIND_NPC;
+        return characterKind && object.Type == MODEL_PLAYER && object.SubType == MODEL_GM_CHARACTER;
+    }
+
+    void CreateSmallCapeDlCloth(CPhysicsCloth& cloth, OBJECT* owner)
+    {
+        constexpr int CapeBone = 19;
+        constexpr int CapeColumns = 6;
+        constexpr int CapeRows = 8;
+        constexpr int CollisionBone = 17;
+        cloth.Create(owner, CapeBone, 0.0f, 8.0f, 10.0f, CapeColumns, CapeRows, 100.0f, 150.0f,
+            GameLogic::Items::SmallCapeTexture, GameLogic::Items::SmallCapeTexture,
+            PCT_CURVED | PCT_SHORT_SHOULDER | PCT_MASK_ALPHA);
+        cloth.AddCollisionSphere(-10.f, -10.0f, -10.0f, 25.0f, CollisionBone);
+        cloth.AddCollisionSphere(10.f, -10.0f, -10.0f, 25.0f, CollisionBone);
+        cloth.AddCollisionSphere(-10.f, -10.0f, 20.0f, 27.0f, CollisionBone);
+        cloth.AddCollisionSphere(10.f, -10.0f, 20.0f, 27.0f, CollisionBone);
+    }
+
     // Character selection screen: generous axis-aligned pick box dimensions.
     constexpr float CHARSCENE_PICK_MIN_HEIGHT = 300.0f;
     constexpr float CHARSCENE_PICK_HALF_WIDTH = 72.0f;
@@ -9436,7 +9460,7 @@ void RenderCharacter(CHARACTER* c, OBJECT* o, int Select)
             RenderParts(c);
         }
     }
-    else if (o->Kind == KIND_PLAYER && o->Type == MODEL_PLAYER && o->SubType == MODEL_GM_CHARACTER)
+    else if (UsesGameMasterAppearance(*o))
     {
         RenderPartObject(&c->Object, o->SubType, NULL, c->Light, o->Alpha, 0, 0, 0, false, false, Translate, Select);
 
@@ -9726,13 +9750,7 @@ void RenderCharacter(CHARACTER* c, OBJECT* o, int Select)
                     pCloth[2].AddCollisionSphere(10.f, -10.0f, 20.0f, 27.0f, 17);
                 }
                 else if (c->Wing.Type == MODEL_SMALL_CAPE_OF_LORD)
-                {
-                    pCloth[2].Create(o, 19, 0.0f, 8.0f, 10.0f, 10, 10, 100.0f, 100.0f, BITMAP_ROBE + 7, BITMAP_ROBE + 7, PCT_CURVED | PCT_SHORT_SHOULDER | PCT_MASK_ALPHA);
-                    pCloth[2].AddCollisionSphere(-10.f, -10.0f, -10.0f, 25.0f, 17);
-                    pCloth[2].AddCollisionSphere(10.f, -10.0f, -10.0f, 25.0f, 17);
-                    pCloth[2].AddCollisionSphere(-10.f, -10.0f, 20.0f, 27.0f, 17);
-                    pCloth[2].AddCollisionSphere(10.f, -10.0f, 20.0f, 27.0f, 17);
-                }
+                    CreateSmallCapeDlCloth(pCloth[2], o);
                 else
                 {
                     //
@@ -11399,6 +11417,7 @@ void RenderCharacter(CHARACTER* c, OBJECT* o, int Select)
         }
     }
 
+    Render::Models::CustomMonsterColor::Render(c);
     giPetManager::RenderPet(c);
 
     if (gCharacterManager.GetBaseClass(c->Class) == CLASS_SUMMONER)
@@ -13037,6 +13056,7 @@ namespace
         case 375:
         case 376:
         case 377:
+        case 378:
         case 379:
         case 380:
         case 381:
@@ -13174,6 +13194,15 @@ void Setting_Monster(CHARACTER* c, EMonsterType Type, int PositionX, int Positio
 
 CHARACTER* CreateMonster(EMonsterType Type, int PositionX, int PositionY, int Key)
 {
+    if (const auto* definition = World::Monsters::Custom::Find(static_cast<int>(Type)))
+    {
+        CHARACTER* custom = World::Monsters::Custom::Create(*definition, PositionX, PositionY, Key);
+        if (custom == nullptr) return nullptr;
+        Setting_Monster(custom, Type, PositionX, PositionY);
+        World::Monsters::Custom::Configure(*definition, custom);
+        return custom;
+    }
+
     CHARACTER* c = NULL;
     OBJECT* o;
     int Level;

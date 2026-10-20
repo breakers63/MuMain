@@ -30,6 +30,12 @@
 		<div id="gauge_frame"></div>
 	</div>
 
+	<div id="hud_coordinates" class="hud-part"><span>{{coordinate_x}}</span><span>{{coordinate_y}}</span></div>
+    <div id="hud_performance" class="hud-part">
+        <div class="hud-performance-bar hud-fps" data-style-background-color="fps_color" data-attr-data-hint="fps_tooltip"></div>
+        <div class="hud-performance-bar hud-ping" data-style-background-color="ping_color" data-attr-data-hint="ping_tooltip"></div>
+    </div>
+
 	<!-- Each gauge carries its readout twice, current value (.value-current) and current/max
 	     (.value-full); a theme shows one. -->
 	<div id="gauges_left" class="hud-part">

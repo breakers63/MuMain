@@ -144,7 +144,9 @@ def find_texture(path):
     candidates = {suffix, alternatives.get(suffix, suffix)} - {""}
     directory = path.parent
     if directory.is_dir():
-        for entry in directory.iterdir():
+        # The runtime loads the packed counterpart, even if the source TGA is present.
+        entries = sorted(directory.iterdir(), key=lambda entry: entry.suffix.lower() != alternatives.get(suffix))
+        for entry in entries:
             if entry.stem.lower() == path.stem.lower() and entry.suffix.lower() in candidates and entry.is_file():
                 return entry
     return None
@@ -231,6 +233,8 @@ class Textures:
             return self.images[source]
         data = source.read_bytes()
         suffix = source.suffix.lower()
+        scale = (data[3] if suffix in (".ozt", ".ozj") and data[:3] == b"MUX"
+                 and len(data) >= 4 and data[3] in (2, 4) else 1)
         if suffix == ".ozt":
             data = data[4:]
         elif suffix == ".ozj":
@@ -249,7 +253,8 @@ class Textures:
         name = f"{source.stem.lower()}{extension}"
         (self.out_dir / "img" / name).write_bytes(data)
         uri = f"data:{mime};base64,{base64.b64encode(data).decode()}"
-        self.images[source] = (f"img/{name}", width, height, uri)
+        # Preserve full-resolution pixels but expose the same logical dimensions as the client.
+        self.images[source] = (f"img/{name}", width // scale, height // scale, uri)
         return self.images[source]
 
     def crop(self, path, rect):

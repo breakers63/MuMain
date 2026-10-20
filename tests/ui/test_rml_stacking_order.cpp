@@ -138,3 +138,10 @@ TEST_CASE("scene messages cover scene windows and remain below blocking overlays
     CHECK(Depth("msg_win.rml") < Depth("loading.rml"));
     CHECK(Depth("msg_win.rml") < Depth("reconnect_dialog.rml"));
 }
+
+TEST_CASE("active invasion stays in the world when returning to server selection [ui][stacking]")
+{
+    CHECK(SceneForDocument("active_invasion.rml") == DocumentScene::Main);
+    CHECK(Depth("active_invasion.rml") < Depth("my_inventory.rml"));
+    CHECK_FALSE(StackingDepthOutsideMainScene("active_invasion.rml").has_value());
+}

@@ -320,3 +320,8 @@
 #pet_skill_row .skill-cell:nth-child(2) { left: 0dp; }
 #pet_skill_row .skill-cell:nth-child(3) { left: 32dp; }
 #pet_skill_row .skill-cell:nth-child(4) { left: 64dp; }
+
+/* Coordinate readout belongs to the Paris HUD composition. */
+#hud_coordinates {display:none;}
+
+#hud_performance {display:none;}

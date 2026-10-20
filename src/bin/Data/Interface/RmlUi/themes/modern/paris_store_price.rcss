@@ -1,0 +1,52 @@
+/* OpenGL sell dialog: a centered modal, 300:430, over the player's inventory. */
+@spritesheet price-details { src: "../../../Paris_SellDetails.tga"; price-publish: 0px 0px 282px 77px; price-cancel: 300px 0px 260px 77px; price-zen: 581px 0px 45px 43px; price-crest: 650px 0px 152px 89px; price-heading: 0px 100px 391px 44px; }
+@spritesheet price-paris { src: "../../../Paris_EiffelCoin.tga"; price-paris: 0px 0px 64px 80px; }
+@spritesheet price-frame { src: "../../../Paris_Stats.tga";
+ price-tl: 0.0px 0.0px 20.0px 20.0px;
+ price-t: 20.0px 0.0px 208.0px 20.0px;
+ price-tr: 228.0px 0.0px 20.0px 20.0px;
+ price-l: 0.0px 20.0px 20.0px 484.0px;
+ price-stone: 20.0px 20.0px 208.0px 484.0px;
+ price-r: 228.0px 20.0px 20.0px 484.0px;
+ price-bl: 0.0px 504.0px 20.0px 20.0px;
+ price-b: 20.0px 504.0px 208.0px 20.0px;
+ price-br: 228.0px 504.0px 20.0px 20.0px;
+}
+#panel.store-price-panel { position: absolute; left: 50%; top: 0; margin-left: -150dp; width: 300dp; height: 430dp; pointer-events: auto; color: #f3ead1; font-family: "token(font-body)"; font-size: .95rem; background-color: #090909; }
+.price-stone { position: absolute; left: 0; top: 0; width: 100%; height: 100%; decorator: image(price-stone); }
+.price-frame { position: absolute; pointer-events: none; }
+.price-frame-tl, .price-frame-bl { left: 0; width: 5.3333%; } .price-frame-tr, .price-frame-br { right: 0; width: 5.3333%; }
+.price-frame-tl, .price-frame-t, .price-frame-tr { top: 0; height: 3.7209%; } .price-frame-bl, .price-frame-b, .price-frame-br { bottom: 0; height: 3.7209%; }
+.price-frame-t, .price-frame-b { left: 5.3333%; width: 89.3333%; } .price-frame-l, .price-frame-r { top: 3.7209%; height: 92.5581%; width: 5.3333%; } .price-frame-l { left: 0; } .price-frame-r { right: 0; }
+.price-crest { position: absolute; left: 38.6667%; top: -4.4186%; width: 22.6667%; height: 9.3023%; decorator: image(price-crest); }
+.price-heading { position: absolute; left: 20.6667%; top: 6.2791%; width: 58.6667%; height: 4.6512%; decorator: image(price-heading); }
+.price-header-line { position: absolute; left: 10.6667%; top: 12.7907%; width: 78.6667%; height: 1dp; background-color: #8c712d; }
+.price-close { position: absolute; left: 88.6667%; top: 3.0233%; width: 7.3333%; height: 5.1163%; color: #eac76c; border: 1dp #ba922c; text-align: center; line-height: 22dp; font-size: 1.8rem; background-color: #070807; cursor: pointer; }
+.price-item-frame { position: absolute; left: 34%; top: 13.9535%; width: 32%; height: 22.3256%; border: 3dp #a6822c; background-color: #030403; box-sizing: border-box; }
+#price-item { position: absolute; left: 5%; top: 5%; width: 90%; height: 90%; pointer-events: none; }
+.price-rows { position: absolute; left: 4%; top: 38.1395%; width: 92%; height: 47.2093%; }
+.price-row { display: block; position: relative; width: 100%; height: 14.2857%; box-sizing: border-box; border-bottom: 1dp #53482b; }
+.price-row.selected { background-color: #30240d; }
+.price-row.disabled { opacity: .45; }
+.price-label { position: absolute; left: 17.3913%; top: 5dp; width: 27.5362%; height: 18dp; }
+.price-row input { position: absolute; left: 48.5507%; top: 3dp; width: 37.6812%; height: 23dp; box-sizing: border-box; background-color: black; border: 2dp #776342; padding: 0 3dp; color: white; font-size: 1rem; }
+.price-row button { position: absolute; right: 2.1739%; width: 6.8841%; height: 11dp; line-height: 11dp; padding: 0; border: 1dp #8a7444; color: #ebd493; background-color: #211b0b; font-size: .85rem; }
+.price-up { top: 3dp; } .price-down { top: 16dp; }
+.price-currency-icon { position: absolute; left: 5%; top: 0; width: 20dp; height: 26dp; }
+.zen .price-currency-icon { decorator: image(price-zen); height: 22dp; } .paris .price-currency-icon { decorator: image(price-paris); }
+.price-status { position: absolute; left: 8%; top: 85.3488%; width: 84%; text-align: center; color: #ffd376; font-size: .9rem; }
+.price-publish, .price-cancel { position: absolute; top: 88.8372%; height: 7.907%; cursor: pointer; }
+.price-publish { left: 8%; width: 41.3333%; decorator: image(price-publish); } .price-cancel { left: 54.6667%; width: 37.3333%; decorator: image(price-cancel); }
+.price-publish:hover, .price-cancel:hover { opacity: .85; }
+.price-frame-tl { decorator: image(price-tl); }
+.price-frame-t { decorator: image(price-t); }
+.price-frame-tr { decorator: image(price-tr); }
+.price-frame-l { decorator: image(price-l); }
+.price-frame-r { decorator: image(price-r); }
+.price-frame-bl { decorator: image(price-bl); }
+.price-frame-b { decorator: image(price-b); }
+.price-frame-br { decorator: image(price-br); }
+
+.price-row button { display: flex; align-items: center; justify-content: center; text-align: center; }
+
+.price-row button > span { position: absolute; left: 0; top: 0; width: 100%; height: 100%; line-height: 11dp; color: #ebd493; font-size: 6.5dp; text-align: center; pointer-events: none; }

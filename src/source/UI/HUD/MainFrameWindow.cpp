@@ -1,9 +1,12 @@
 
 #include "stdafx.h"
+#include "UI/Core/WindowCommon.h"
 #include <algorithm>
 #include "I18N/All.h"
 
 #include "UI/HUD/MainFrameWindow.h"	// self
+#include "UI/HUD/PerformanceQuality.h"
+#include "UI/HUD/ResourceGauge.h"
 #include "UI/Options/OptionWindow.h"
 #include "UI/Core/WindowSystem.h"
 #include "UI/Widgets/UIBaseDef.h"
@@ -118,6 +121,13 @@ SlotBox SlotBoxInReference(Rml::Element* element)
 
 void mu::ui::window::CMainFrameWindow::BindRmlModel(Rml::DataModelConstructor& c, MainFrameRmlModel& model)
 {
+    c.Bind("fps_color", &model.fpsColor);
+    c.Bind("ping_color", &model.pingColor);
+    c.Bind("fps_tooltip", &model.fpsTooltip);
+    c.Bind("ping_tooltip", &model.pingTooltip);
+    c.BindFunc("coordinate_x", [](Rml::Variant& value) { value = Hero ? static_cast<int>(Hero->PositionX) : 0; });
+    c.BindFunc("coordinate_y", [](Rml::Variant& value) { value = Hero ? static_cast<int>(Hero->PositionY) : 0; });
+
 
     c.Bind("hp_fraction", &model.hpFraction);
     c.Bind("mp_fraction", &model.mpFraction);
@@ -402,7 +412,7 @@ bool mu::ui::window::CMainFrameWindow::Update()
     if (m_bRmlWindowClicked)
     {
         m_bRmlWindowClicked = false;
-        g_pNewUISystem->Toggle(mu::ui::window::INTERFACE_WINDOW_MENU);
+        mu::ui::window::ShowParisCustomMenuDialog();
         PlayBuffer(SOUND_CLICK01);
     }
 #ifdef PBG_ADD_INGAMESHOP_UI_MAINFRAME
@@ -450,9 +460,26 @@ bool mu::ui::window::CMainFrameWindow::Update()
     return true;
 }
 
+void mu::ui::window::CMainFrameWindow::SyncPerformanceModel()
+{
+    const auto now = GetTickCount64();
+    if (now < m_nextPerformanceSample) return;
+    constexpr unsigned SampleMilliseconds = 1000;
+    m_nextPerformanceSample = now + SampleMilliseconds;
+    const int ping = SocketClient ? SocketClient->GetTcpPingMilliseconds() : -1;
+    auto& model = m_RmlView.GetModel();
+    model.fpsColor = UI::HUD::Performance::FpsColor(FPS_AVG);
+    model.pingColor = UI::HUD::Performance::PingColor(ping);
+    model.fpsTooltip = "FPS " + std::to_string(static_cast<int>(std::lround(FPS_AVG)));
+    model.pingTooltip = ping < 0 ? "Ping --" : "Ping " + std::to_string(ping) + " ms";
+    for (const char* name : {"fps_color", "ping_color", "fps_tooltip", "ping_tooltip"})
+        m_RmlView.MarkDirty(name);
+}
+
 void mu::ui::window::CMainFrameWindow::SyncRmlModel()
 {
     if (!m_RmlView.Document()) return;
+    SyncPerformanceModel();
 
     auto& model = m_RmlView.GetModel();
 
@@ -486,40 +513,33 @@ void mu::ui::window::CMainFrameWindow::SyncRmlModel()
         syncText(field, boundName, StringUtils::WideToNarrow(text));
     };
 
+    static int lastCoordinateX = -1, lastCoordinateY = -1;
+    const int coordinateX = Hero->PositionX, coordinateY = Hero->PositionY;
+    if (lastCoordinateX != coordinateX) { lastCoordinateX = coordinateX; m_RmlView.MarkDirty("coordinate_x"); }
+    if (lastCoordinateY != coordinateY) { lastCoordinateY = coordinateY; m_RmlView.MarkDirty("coordinate_y"); }
     m_ItemHotKey.SyncSlotIcons(m_RmlView.Document());
 
     // HP/MP -- legacy RenderLifeMana(). fLife/fMana there are the EMPTY fraction; store filled.
-    DWORD wLifeMax, wLife, wManaMax, wMana;
-    if (gCharacterManager.IsMasterLevel(Hero->Class) == true)
-    {
-        wLifeMax = Master_Level_Data.wMaxLife;
-        wLife = std::min<int>(std::max<int>(0, CharacterAttribute->Life), wLifeMax);
-        wManaMax = Master_Level_Data.wMaxMana;
-        wMana = std::min<int>(std::max<int>(0, CharacterAttribute->Mana), wManaMax);
-    }
-    else
-    {
-        wLifeMax = CharacterAttribute->LifeMax;
-        wLife = std::min<int>(std::max<int>(0, CharacterAttribute->Life), wLifeMax);
-        wManaMax = CharacterAttribute->ManaMax;
-        wMana = std::min<int>(std::max<int>(0, CharacterAttribute->Mana), wManaMax);
-    }
+    const auto hp = UI::HUD::MakeResourceGauge(CharacterAttribute->Life, CharacterAttribute->LifeMax);
+    const auto mp = UI::HUD::MakeResourceGauge(CharacterAttribute->Mana, CharacterAttribute->ManaMax);
+    const DWORD wLifeMax = hp.maximum, wLife = hp.current;
+    const DWORD wManaMax = mp.maximum, wMana = mp.current;
     if (wLifeMax > 0 && wLife > 0 && (wLife / (float)wLifeMax) < 0.2f)
         PlayBuffer(SOUND_HEART);
 
-    syncFloat(&MainFrameRmlModel::hpFraction, "hp_fraction", wLifeMax > 0 ? wLife / (float)wLifeMax : 0.f);
-    syncFloat(&MainFrameRmlModel::mpFraction, "mp_fraction", wManaMax > 0 ? wMana / (float)wManaMax : 0.f);
+    syncFloat(&MainFrameRmlModel::hpFraction, "hp_fraction", hp.fraction);
+    syncFloat(&MainFrameRmlModel::mpFraction, "mp_fraction", mp.fraction);
     syncBool(&MainFrameRmlModel::poisoned, "poisoned", g_isCharacterBuff((&Hero->Object), eDeBuff_Poison));
 
     // "X / Y" (current/max), not just "X" -- shared model field, both themes.
     wchar_t szNum[32] = {};
-    mu_swprintf(szNum, L"%d / %d", wLife, wLifeMax);
+    mu_swprintf(szNum, L"%u / %u", wLife, wLifeMax);
     syncWide(&MainFrameRmlModel::hpText, "hp_text", szNum);
-    mu_swprintf(szNum, L"%d / %d", wMana, wManaMax);
+    mu_swprintf(szNum, L"%u / %u", wMana, wManaMax);
     syncWide(&MainFrameRmlModel::mpText, "mp_text", szNum);
-    mu_swprintf(szNum, L"%d", wLife);
+    mu_swprintf(szNum, L"%u", wLife);
     syncWide(&MainFrameRmlModel::hpCurrentText, "hp_current_text", szNum);
-    mu_swprintf(szNum, L"%d", wMana);
+    mu_swprintf(szNum, L"%u", wMana);
     syncWide(&MainFrameRmlModel::mpCurrentText, "mp_current_text", szNum);
 
     wchar_t szTip[256] = {};
@@ -529,41 +549,27 @@ void mu::ui::window::CMainFrameWindow::SyncRmlModel()
     syncWide(&MainFrameRmlModel::mpTooltip, "mp_tooltip", szTip);
 
     // AG (stamina/skill-mana) -- legacy RenderGuageAG().
-    DWORD dwMaxSkillMana, dwSkillMana;
-    if (gCharacterManager.IsMasterLevel(Hero->Class) == true)
-    {
-        dwMaxSkillMana = std::max<int>(1, Master_Level_Data.wMaxBP);
-        dwSkillMana = std::min<int>(dwMaxSkillMana, CharacterAttribute->SkillMana);
-    }
-    else
-    {
-        dwMaxSkillMana = std::max<int>(1, CharacterAttribute->SkillManaMax);
-        dwSkillMana = std::min<int>(dwMaxSkillMana, CharacterAttribute->SkillMana);
-    }
-    syncFloat(&MainFrameRmlModel::agFraction, "ag_fraction", dwSkillMana / (float)dwMaxSkillMana);
-    mu_swprintf(szNum, L"%d / %d", dwSkillMana, dwMaxSkillMana);
+    const DWORD agMaximum = CharacterAttribute->SkillManaMax > 0 ? CharacterAttribute->SkillManaMax
+        : (gCharacterManager.IsMasterLevel(Hero->Class) ? Master_Level_Data.wMaxBP : 0);
+    const auto ag = UI::HUD::MakeResourceGauge(CharacterAttribute->SkillMana, agMaximum);
+    const DWORD dwMaxSkillMana = ag.maximum, dwSkillMana = ag.current;
+    syncFloat(&MainFrameRmlModel::agFraction, "ag_fraction", ag.fraction);
+    mu_swprintf(szNum, L"%u / %u", dwSkillMana, dwMaxSkillMana);
     syncWide(&MainFrameRmlModel::agText, "ag_text", szNum);
-    mu_swprintf(szNum, L"%d", dwSkillMana);
+    mu_swprintf(szNum, L"%u", dwSkillMana);
     syncWide(&MainFrameRmlModel::agCurrentText, "ag_current_text", szNum);
     mu_swprintf(szTip, I18N::Game::AGDD, dwSkillMana, dwMaxSkillMana);
     syncWide(&MainFrameRmlModel::agTooltip, "ag_tooltip", szTip);
 
     // SD (shield) -- legacy RenderGuageSD().
-    DWORD wMaxShield, wShield;
-    if (gCharacterManager.IsMasterLevel(Hero->Class) == true)
-    {
-        wMaxShield = std::max<int>(1, Master_Level_Data.wMaxShield);
-        wShield = std::min<int>(wMaxShield, CharacterAttribute->Shield);
-    }
-    else
-    {
-        wMaxShield = std::max<int>(1, CharacterAttribute->ShieldMax);
-        wShield = std::min<int>(wMaxShield, CharacterAttribute->Shield);
-    }
-    syncFloat(&MainFrameRmlModel::sdFraction, "sd_fraction", wShield / (float)wMaxShield);
-    mu_swprintf(szNum, L"%d / %d", wShield, wMaxShield);
+    const DWORD sdMaximum = CharacterAttribute->ShieldMax > 0 ? CharacterAttribute->ShieldMax
+        : (gCharacterManager.IsMasterLevel(Hero->Class) ? Master_Level_Data.wMaxShield : 0);
+    const auto sd = UI::HUD::MakeResourceGauge(CharacterAttribute->Shield, sdMaximum);
+    const DWORD wMaxShield = sd.maximum, wShield = sd.current;
+    syncFloat(&MainFrameRmlModel::sdFraction, "sd_fraction", sd.fraction);
+    mu_swprintf(szNum, L"%u / %u", wShield, wMaxShield);
     syncWide(&MainFrameRmlModel::sdText, "sd_text", szNum);
-    mu_swprintf(szNum, L"%d", wShield);
+    mu_swprintf(szNum, L"%u", wShield);
     syncWide(&MainFrameRmlModel::sdCurrentText, "sd_current_text", szNum);
     mu_swprintf(szTip, I18N::Game::SDDD, wShield, wMaxShield);
     syncWide(&MainFrameRmlModel::sdTooltip, "sd_tooltip", szTip);

@@ -1,0 +1,35 @@
+<rml>
+<head>
+    <title>Rank User</title>
+    <link type="text/rcss" href="base.rcss" />
+    <link type="text/rcss" href="docked_panel_frame.rcss" />
+    <link type="text/rcss" href="paris_panel.rcss" />
+    <link type="text/rcss" href="paris_rank_user.rcss" />
+</head>
+<body data-model="paris_rank_user">
+    <div id="panel" class="paris-rank-user">
+        <div class="frame-piece frame-top"></div>
+        <div class="frame-piece frame-left"></div>
+        <div class="frame-piece frame-right"></div>
+        <div class="frame-piece frame-bottom"></div>
+        <span id="title" class="sharp-text">RANK USER</span>
+        <div id="frame_corner_close" data-event-click="paris_rank_close"></div>
+        <div class="rank-identity"><div class="rank-name sharp-text">{{name}}</div><div class="rank-class sharp-text">{{character_class}}</div><div class="rank-title sharp-text">{{rank}}</div></div>
+        <div class="rank-status sharp-text">{{status}}</div>
+        <div class="rank-summary">
+            <div><span>Nivel</span><strong>{{level}}</strong></div>
+            <div><span>Reset</span><strong>{{resets}}</strong></div>
+            <div><span>Total Stats</span><strong>{{total_stats}}</strong></div>
+        </div>
+        <div class="rank-account">Cuenta: <strong>{{account}}</strong></div>
+        <div class="rank-attributes">
+            <div><span>Fuerza</span><strong>{{strength}}</strong></div>
+            <div><span>Agilidad</span><strong>{{agility}}</strong></div>
+            <div><span>Vitalidad</span><strong>{{vitality}}</strong></div>
+            <div><span>Energía</span><strong>{{energy}}</strong></div>
+            <div><span>Comando</span><strong>{{command}}</strong></div>
+        </div>
+        <div class="rank-refresh" data-event-click="paris_rank_refresh">Actualizar</div>
+    </div>
+</body>
+</rml>

@@ -63,7 +63,10 @@
         "es": "Cuerno de Uniria",
         "pt": "Chifre de Uniria"
       },
-      "tags": ["mount", "hornMount"],
+      "tags": [
+        "mount",
+        "hornMount"
+      ],
       "width": 1,
       "height": 1,
       "slot": "pet",
@@ -91,7 +94,12 @@
         "es": "Cuerno de Dinorant",
         "pt": "Chifre de Dinorant"
       },
-      "tags": ["mount", "hornMount", "flying", "valuable"],
+      "tags": [
+        "mount",
+        "hornMount",
+        "flying",
+        "valuable"
+      ],
       "width": 1,
       "height": 1,
       "slot": "pet",
@@ -120,7 +128,12 @@
         "es": "Caballo Oscuro",
         "pt": "Cavalo negro"
       },
-      "tags": ["mount", "flying", "darkLordPet", "valuable"],
+      "tags": [
+        "mount",
+        "flying",
+        "darkLordPet",
+        "valuable"
+      ],
       "width": 1,
       "height": 1,
       "slot": "pet",
@@ -143,7 +156,10 @@
         "es": "Cuervo Oscuro",
         "pt": "Corvo negro"
       },
-      "tags": ["darkLordPet", "valuable"],
+      "tags": [
+        "darkLordPet",
+        "valuable"
+      ],
       "width": 1,
       "height": 1,
       "slot": "offHand",
@@ -352,7 +368,9 @@
         "es": "Pluma de Loch",
         "pt": "Pena de Loch"
       },
-      "tags": ["valuable"],
+      "tags": [
+        "valuable"
+      ],
       "width": 1,
       "height": 2,
       "level": 78,
@@ -378,7 +396,9 @@
         "es": "Fruto",
         "pt": "Fruta"
       },
-      "tags": ["valuable"],
+      "tags": [
+        "valuable"
+      ],
       "width": 1,
       "height": 1,
       "repairable": false,
@@ -400,9 +420,11 @@
         "es": "Rollo de Arcángel",
         "pt": "Pergaminho do arcanjo"
       },
-      "tags": ["bloodCastleTicketPart"],
+      "tags": [
+        "bloodCastleTicketPart"
+      ],
       "width": 1,
-      "height": 2,
+      "height": 1,
       "durability": 128,
       "repairable": false,
       "classRequirements": {
@@ -423,7 +445,9 @@
         "es": "Hueso Sangriento",
         "pt": "Osso de sangue"
       },
-      "tags": ["bloodCastleTicketPart"],
+      "tags": [
+        "bloodCastleTicketPart"
+      ],
       "width": 1,
       "height": 2,
       "durability": 128,
@@ -468,7 +492,9 @@
         "es": "Arma Absoluta de Arcángel",
         "pt": "Arma absoluta do arcanjo"
       },
-      "tags": ["valuable"],
+      "tags": [
+        "valuable"
+      ],
       "width": 1,
       "height": 2,
       "durability": 255,
@@ -776,7 +802,10 @@
         "es": "Capa de Señor",
         "pt": "Capa do Lorde"
       },
-      "tags": ["cape", "valuable"],
+      "tags": [
+        "cape",
+        "valuable"
+      ],
       "width": 2,
       "height": 3,
       "slot": "wings",
@@ -798,7 +827,9 @@
         "es": "Espíritu",
         "pt": "Espírito"
       },
-      "tags": ["valuable"],
+      "tags": [
+        "valuable"
+      ],
       "width": 1,
       "height": 1,
       "classRequirements": {
@@ -857,7 +888,9 @@
         "es": "Garra de Bestia",
         "pt": "Garra da besta"
       },
-      "tags": ["valuable"],
+      "tags": [
+        "valuable"
+      ],
       "width": 1,
       "height": 1,
       "durability": 1,
@@ -880,7 +913,9 @@
         "es": "Fragmento de Cuerno",
         "pt": "Fragmento de chifre"
       },
-      "tags": ["valuable"],
+      "tags": [
+        "valuable"
+      ],
       "width": 1,
       "height": 1,
       "durability": 1,
@@ -903,7 +938,9 @@
         "es": "Cuerno Partido",
         "pt": "Chifre quebrado"
       },
-      "tags": ["valuable"],
+      "tags": [
+        "valuable"
+      ],
       "width": 2,
       "height": 2,
       "durability": 1,
@@ -926,7 +963,12 @@
         "es": "Cuerno de Fenrir",
         "pt": "Chifre de Fenrir"
       },
-      "tags": ["mount", "hornMount", "flying", "valuable"],
+      "tags": [
+        "mount",
+        "hornMount",
+        "flying",
+        "valuable"
+      ],
       "width": 2,
       "height": 2,
       "slot": "pet",
@@ -1099,7 +1141,9 @@
         "es": "Sello de Ascensión",
         "pt": "Selo da ascensão"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "slot": "ring",
@@ -1127,7 +1171,9 @@
         "es": "Sello de Riqueza",
         "pt": "Selo da riqueza"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "slot": "ring",
@@ -1155,7 +1201,9 @@
         "es": "Sello de Sustento",
         "pt": "Selo do sustento"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "slot": "ring",
@@ -1183,7 +1231,9 @@
         "es": "Boleto de la Plaza del Diablo",
         "pt": "Bilhete da Praça do Diabo"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "durability": 10,
@@ -1210,7 +1260,9 @@
         "es": "Boleto al Castillo Sangriento",
         "pt": "Bilhete do Castelo de Sangue"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "durability": 10,
@@ -1237,7 +1289,9 @@
         "es": "Boleto de Kalima",
         "pt": "Bilhete de Kalima"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "durability": 10,
@@ -1306,8 +1360,8 @@
         "es": "Rollo de Sangre",
         "pt": "Pergaminho de sangue"
       },
-      "width": 2,
-      "height": 2,
+      "width": 1,
+      "height": 1,
       "durability": 1,
       "repairable": false,
       "classRequirements": {
@@ -1328,7 +1382,9 @@
         "es": "Llama de Cóndor",
         "pt": "Chama do Condor"
       },
-      "tags": ["valuable"],
+      "tags": [
+        "valuable"
+      ],
       "width": 1,
       "height": 2,
       "classRequirements": {
@@ -1349,7 +1405,9 @@
         "es": "Pluma de Cóndor",
         "pt": "Pena do Condor"
       },
-      "tags": ["valuable"],
+      "tags": [
+        "valuable"
+      ],
       "width": 1,
       "height": 2,
       "classRequirements": {
@@ -1370,7 +1428,9 @@
         "es": "Reiniciar Fruto de Fuerza",
         "pt": "Reiniciar força da fruta"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "durability": 100,
@@ -1397,7 +1457,9 @@
         "es": "Reiniciar Fruto de Rapidez",
         "pt": "Reiniciar rapidez da fruta"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "durability": 100,
@@ -1424,7 +1486,9 @@
         "es": "Reiniciar Fruto de Salud",
         "pt": "Reiniciar saúde da Fruta"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "durability": 100,
@@ -1451,7 +1515,9 @@
         "es": "Reiniciar Fruto de Energía",
         "pt": "Reiniciar energia da fruta"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "durability": 100,
@@ -1478,7 +1544,9 @@
         "es": "Reiniciar Fruto de Control",
         "pt": "Reiniciar controle da fruta"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "durability": 100,
@@ -1505,7 +1573,9 @@
         "es": "Sello de Movilidad",
         "pt": "Selo da mobilidade"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -1531,7 +1601,9 @@
         "es": "Indulgencia",
         "pt": "Indulgência"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 2,
       "tradable": false,
@@ -1557,7 +1629,9 @@
         "es": "Boleto al Templo de Ilusión",
         "pt": "Bilhete do Templo da Ilusão"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "durability": 10,
@@ -1584,7 +1658,9 @@
         "es": "Sello de Curación",
         "pt": "Selo da cura"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -1610,7 +1686,9 @@
         "es": "Sello de Divinidad",
         "pt": "Selo da divindade"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -1636,7 +1714,11 @@
         "es": "Demonio",
         "pt": "Demônio"
       },
-      "tags": ["guardianPet", "cashShop", "valuable"],
+      "tags": [
+        "guardianPet",
+        "cashShop",
+        "valuable"
+      ],
       "width": 1,
       "height": 1,
       "slot": "pet",
@@ -1669,7 +1751,11 @@
         "es": "Espír. Guardián",
         "pt": "Espír. Guardião"
       },
-      "tags": ["guardianPet", "cashShop", "valuable"],
+      "tags": [
+        "guardianPet",
+        "cashShop",
+        "valuable"
+      ],
       "width": 1,
       "height": 1,
       "slot": "pet",
@@ -1778,7 +1864,9 @@
         "es": "Talismán de Resurrección",
         "pt": "Talismã da ressurreição"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -1804,7 +1892,9 @@
         "es": "Talismán de Movilidad",
         "pt": "Talismã da mobilidade"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "durability": 2,
@@ -1831,7 +1921,9 @@
         "es": "Espada/Maza/Jabalina",
         "pt": "Espada/Maça/Lança"
       },
-      "tags": ["gambleItem"],
+      "tags": [
+        "gambleItem"
+      ],
       "width": 2,
       "height": 3,
       "slot": "pet",
@@ -1855,7 +1947,9 @@
         "es": "Báculo",
         "pt": "Bastão"
       },
-      "tags": ["gambleItem"],
+      "tags": [
+        "gambleItem"
+      ],
       "width": 2,
       "height": 3,
       "slot": "pet",
@@ -1879,7 +1973,9 @@
         "es": "Arco/Ballesta",
         "pt": "Arco/Besta"
       },
-      "tags": ["gambleItem"],
+      "tags": [
+        "gambleItem"
+      ],
       "width": 2,
       "height": 3,
       "slot": "pet",
@@ -1903,7 +1999,9 @@
         "es": "Cetro",
         "pt": "Cetro"
       },
-      "tags": ["gambleItem"],
+      "tags": [
+        "gambleItem"
+      ],
       "width": 2,
       "height": 3,
       "slot": "pet",
@@ -1927,7 +2025,9 @@
         "es": "Vara",
         "pt": "Cajado"
       },
-      "tags": ["gambleItem"],
+      "tags": [
+        "gambleItem"
+      ],
       "width": 2,
       "height": 3,
       "slot": "pet",
@@ -1951,7 +2051,10 @@
         "es": "Anillo Panda",
         "pt": "Anel do Panda"
       },
-      "tags": ["pandaOrSkeleton", "valuable"],
+      "tags": [
+        "pandaOrSkeleton",
+        "valuable"
+      ],
       "width": 1,
       "height": 1,
       "slot": "ring",
@@ -1984,7 +2087,10 @@
         "es": "Mascota Panda",
         "pt": "Animal de estimação Panda"
       },
-      "tags": ["pandaOrSkeleton", "valuable"],
+      "tags": [
+        "pandaOrSkeleton",
+        "valuable"
+      ],
       "width": 1,
       "height": 1,
       "slot": "pet",
@@ -2017,7 +2123,9 @@
         "es": "Talismán de Guardián",
         "pt": "Talismã do Guardião"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -2043,7 +2151,9 @@
         "es": "Talismán Protección de Ítems",
         "pt": "Talismã de Proteção de Item"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -2299,7 +2409,9 @@
         "es": "Sello Maestro de Ascensión",
         "pt": "Selo Mestre da Ascensão"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -2326,7 +2438,9 @@
         "es": "Sello Maestro de Riqueza",
         "pt": "Selo Mestre da Riqueza"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -2428,7 +2542,9 @@
         "es": "Rollo EXP de Participación",
         "pt": "Pergaminho de EXP de grupo"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -2454,7 +2570,9 @@
         "es": "Aura de Aumento de Máx AG",
         "pt": "Aura de aumento de AG máx"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -2480,7 +2598,9 @@
         "es": "Aura de Aumento de Máx SD",
         "pt": "Aura de aumento de SD máx"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -2506,7 +2626,9 @@
         "es": "Unicornio",
         "pt": "Unic. Est."
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "slot": "pet",
@@ -2539,7 +2661,9 @@
         "es": "Anillo Letal de Mago",
         "pt": "Anel do Mago Letal"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "slot": "ring",
@@ -2568,7 +2692,11 @@
         "es": "Anillo de Zafiro",
         "pt": "Anel de safira"
       },
-      "tags": ["cashShop", "gemJewelry", "valuable"],
+      "tags": [
+        "cashShop",
+        "gemJewelry",
+        "valuable"
+      ],
       "width": 1,
       "height": 1,
       "slot": "ring",
@@ -2596,7 +2724,11 @@
         "es": "Anillo de Rubí",
         "pt": "Anel de rubi"
       },
-      "tags": ["cashShop", "gemJewelry", "valuable"],
+      "tags": [
+        "cashShop",
+        "gemJewelry",
+        "valuable"
+      ],
       "width": 1,
       "height": 1,
       "slot": "ring",
@@ -2624,7 +2756,11 @@
         "es": "Anillo de Topacio",
         "pt": "Anel de topázio"
       },
-      "tags": ["cashShop", "gemJewelry", "valuable"],
+      "tags": [
+        "cashShop",
+        "gemJewelry",
+        "valuable"
+      ],
       "width": 1,
       "height": 1,
       "slot": "ring",
@@ -2652,7 +2788,11 @@
         "es": "Anillo de Amatista",
         "pt": "Anel de ametista"
       },
-      "tags": ["cashShop", "gemJewelry", "valuable"],
+      "tags": [
+        "cashShop",
+        "gemJewelry",
+        "valuable"
+      ],
       "width": 1,
       "height": 1,
       "slot": "ring",
@@ -2680,7 +2820,11 @@
         "es": "Collar de Rubíes",
         "pt": "Colar de rubi"
       },
-      "tags": ["cashShop", "gemJewelry", "valuable"],
+      "tags": [
+        "cashShop",
+        "gemJewelry",
+        "valuable"
+      ],
       "width": 1,
       "height": 1,
       "slot": "pendant",
@@ -2708,7 +2852,11 @@
         "es": "Collar de Esmeraldas",
         "pt": "Colar de esmeralda"
       },
-      "tags": ["cashShop", "gemJewelry", "valuable"],
+      "tags": [
+        "cashShop",
+        "gemJewelry",
+        "valuable"
+      ],
       "width": 1,
       "height": 1,
       "slot": "pendant",
@@ -2736,7 +2884,11 @@
         "es": "Collar de Zafiros",
         "pt": "Colar de safira"
       },
-      "tags": ["cashShop", "gemJewelry", "valuable"],
+      "tags": [
+        "cashShop",
+        "gemJewelry",
+        "valuable"
+      ],
       "width": 1,
       "height": 1,
       "slot": "pendant",
@@ -2764,7 +2916,9 @@
         "es": "Sello de Riqueza",
         "pt": "Selo da riqueza"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "slot": "ring",
@@ -2871,7 +3025,9 @@
         "es": "Boleto Abierto; Castillo Caos",
         "pt": "Bilhete Ac. Livre Cast. Caos"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "durability": 10,
@@ -2898,7 +3054,10 @@
         "es": "Aro Mutación de Esqueleto",
         "pt": "Anel Transf. de Esqueleto"
       },
-      "tags": ["pandaOrSkeleton", "valuable"],
+      "tags": [
+        "pandaOrSkeleton",
+        "valuable"
+      ],
       "width": 1,
       "height": 1,
       "slot": "ring",
@@ -2931,7 +3090,10 @@
         "es": "Mascota Esqueleto",
         "pt": "Mascote esqueleto"
       },
-      "tags": ["pandaOrSkeleton", "valuable"],
+      "tags": [
+        "pandaOrSkeleton",
+        "valuable"
+      ],
       "width": 1,
       "height": 1,
       "slot": "pet",
@@ -2964,7 +3126,9 @@
         "es": "Boleto Canal de Acceso Pago",
         "pt": "Bilhete Ac. a Canal Pago"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -2990,7 +3154,9 @@
         "es": "Boleto Acceso a Doppenganger",
         "pt": "Bilhete Ac. Livre Doppeganger"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "durability": 10,
@@ -3017,7 +3183,9 @@
         "es": "Boleto Acceso a Varka",
         "pt": "Bilhete Ac. Livre Varka"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "durability": 10,
@@ -3044,7 +3212,9 @@
         "es": "Boleto Acceso Mapa 7 de Varka",
         "pt": "Bil. Ac. Livre Mapa 7 Varka"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "durability": 3,
@@ -3225,7 +3395,9 @@
         "es": "1er Boleto Armadura de la Suerte",
         "pt": "1º Bilhete de Armadura da Sorte"
       },
-      "tags": ["luckyItemTicket"],
+      "tags": [
+        "luckyItemTicket"
+      ],
       "width": 1,
       "height": 1,
       "durability": 255,
@@ -3251,7 +3423,9 @@
         "es": "1er Boleto Pantalones de la Suerte",
         "pt": "1º Bilhete de Calças da Sorte"
       },
-      "tags": ["luckyItemTicket"],
+      "tags": [
+        "luckyItemTicket"
+      ],
       "width": 1,
       "height": 1,
       "durability": 255,
@@ -3277,7 +3451,9 @@
         "es": "1er Boleto Yelmo de la Suerte",
         "pt": "1º Bilhete de Elmo da Sorte"
       },
-      "tags": ["luckyItemTicket"],
+      "tags": [
+        "luckyItemTicket"
+      ],
       "width": 1,
       "height": 1,
       "durability": 255,
@@ -3303,7 +3479,9 @@
         "es": "1er Boleto Guantes de la Suerte",
         "pt": "1º Bilhete de Luvas da Sorte"
       },
-      "tags": ["luckyItemTicket"],
+      "tags": [
+        "luckyItemTicket"
+      ],
       "width": 1,
       "height": 1,
       "durability": 255,
@@ -3329,7 +3507,9 @@
         "es": "1er Boleto Botas de la Suerte",
         "pt": "1º Bilhete de Botas da Sorte"
       },
-      "tags": ["luckyItemTicket"],
+      "tags": [
+        "luckyItemTicket"
+      ],
       "width": 1,
       "height": 1,
       "durability": 255,
@@ -3355,7 +3535,9 @@
         "es": "2º Boleto Armadura de la Suerte",
         "pt": "2º Bilhete de Armadura da Sorte"
       },
-      "tags": ["luckyItemTicket"],
+      "tags": [
+        "luckyItemTicket"
+      ],
       "width": 1,
       "height": 1,
       "durability": 255,
@@ -3381,7 +3563,9 @@
         "es": "2º Boleto Pantalones de la Suerte",
         "pt": "2º Bilhete de Calças da Sorte"
       },
-      "tags": ["luckyItemTicket"],
+      "tags": [
+        "luckyItemTicket"
+      ],
       "width": 1,
       "height": 1,
       "durability": 255,
@@ -3407,7 +3591,9 @@
         "es": "2º Boleto Yelmo de la Suerte",
         "pt": "2º Bilhete de Elmo da Sorte"
       },
-      "tags": ["luckyItemTicket"],
+      "tags": [
+        "luckyItemTicket"
+      ],
       "width": 1,
       "height": 1,
       "durability": 255,
@@ -3433,7 +3619,9 @@
         "es": "2º Boleto Guantes de la Suerte",
         "pt": "2º Bilhete de Luvas da Sorte"
       },
-      "tags": ["luckyItemTicket"],
+      "tags": [
+        "luckyItemTicket"
+      ],
       "width": 1,
       "height": 1,
       "durability": 255,
@@ -3459,7 +3647,9 @@
         "es": "2º Boleto Botas de la Suerte",
         "pt": "2º Bilhete de Botas da Sorte"
       },
-      "tags": ["luckyItemTicket"],
+      "tags": [
+        "luckyItemTicket"
+      ],
       "width": 1,
       "height": 1,
       "durability": 255,

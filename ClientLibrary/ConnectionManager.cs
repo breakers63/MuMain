@@ -164,7 +164,7 @@ public unsafe partial class ConnectionManager
         var connection = new Connection(socketConnection, decryptor, encryptor, new NullLogger<Connection>());
 
         var handle = Interlocked.Increment(ref _maxHandle);
-        var wrapper = new ConnectionWrapper(handle, connection, onPacketReceived, onDisconnected);
+        var wrapper = new ConnectionWrapper(handle, connection, onPacketReceived, onDisconnected, tcpClient.Client);
         if (!Connections.TryAdd(handle, wrapper))
         {
             wrapper.Dispose();

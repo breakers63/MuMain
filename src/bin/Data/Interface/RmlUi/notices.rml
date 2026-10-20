@@ -13,6 +13,7 @@
 		<div id="notice_lines" class="sharp-text sharp-flow" data-style-font-size="text_px + 'px'"
 		     data-style---line-px="line_height_px + 'px'">
 			<div class="notice-row" data-for="line : lines"><span data-if="line.kind != ''"
+			     data-style-color="line.foreground" data-style-background-color="line.background"
 			     data-attr-class="'notice-text notice-text--' + line.kind">{{line.text}}</span></div>
 		</div>
 	</div>

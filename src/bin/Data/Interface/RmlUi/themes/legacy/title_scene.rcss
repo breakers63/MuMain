@@ -1,18 +1,8 @@
-/* Legacy theme for TitleSceneUI's splash-screen loading bar -- RmlUi's own <progress> element, the
-   last CGaugeBar consumer. left/top/width/height are pushed from C++ rather than set as dp here:
-   the still-native background sprites around this bar scale via fScaleX/fScaleY (800x600-
-   reference, unclamped per axis), which doesn't match dp's own formula (640x480-reference, one
-   clamped/damped factor) except at the 640x480 reference size. */
+/* Paris artwork supplied by the user. Crop only the desktop title bar in markup.
+   The screenshot's progress interior is covered by the real progress element. */
+body {width:100%;height:100%;margin:0;background-color:#08090b;}
+.paris-loading-art {decorator:image(paris-loading-background);position:absolute;left:0;top:0;width:100%;height:100%;}
+.gauge-fill {position:absolute;left:8.8%;top:89.9%;width:82.1%;height:2.9%;background-color:#151719;border:1px #555b63;border-radius:12px;fill-image:paris-loading-silver;}
+@spritesheet paris-loading-silver-sheet {src:"../paris-gold/paris-loading-reference.tga";paris-loading-silver:120px 500px 20px 14.5px;}
 
-/* lo_lo.jpg is a 4x15px tileable strip the legacy renderer stretched via GL_REPEAT -- fill-image
-   stretching it the same way matches main_frame.rcss's own tiny gauge-fill textures. */
-@spritesheet title-gauge-fill-sheet { src: "../../../lo_lo.jpg"; title-gauge-fill: 0px 0px 4px 15px; }
-
-/* position:absolute is load-bearing, not just placement -- unstyled elements default to
-   `display:inline` (which ignores width/height) in this engine; position:absolute forces
-   block-level sizing regardless. */
-.gauge-fill {
-	position: absolute;
-	/* left/top/width/height pushed from C++ -- see this file's own header comment. */
-	fill-image: title-gauge-fill;
-}
+@spritesheet paris-loading-background-sheet {src:"../paris-gold/paris-loading-reference.tga";paris-loading-background:0px 17.5px 710.5px 536px;}

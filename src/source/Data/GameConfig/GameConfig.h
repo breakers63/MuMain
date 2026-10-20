@@ -5,6 +5,7 @@
 #include <vector>
 #include "Core/Platform/WinCompat.h"
 #include "Data/GameConfig/GameConfigValidation.h"
+#include "Data/GameConfig/SavedLoginAccount.h"
 
 class GameConfig
 {
@@ -165,6 +166,9 @@ public:
 
     void DecryptCredentials(wchar_t* outUser, wchar_t* outPass, size_t userBufSize, size_t passBufSize);
     void EncryptAndSaveCredentials(const wchar_t* user, const wchar_t* pass);
+    SavedLoginAccount ReadSavedLoginAccount(std::size_t slot);
+    bool SaveLoginAccount(std::size_t slot, const SavedLoginAccount& account, bool savePassword);
+    void DeleteLoginAccount(std::size_t slot);
 
 private:
     GameConfig();

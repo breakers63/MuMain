@@ -68,6 +68,8 @@ struct PostProcessingLook
     float bloomStrength = 0.0f;
     float bloomLevelFalloff = 0.5f;
     float gradingStrength = 1.0f;
+    float sharpness = 0.0f;
+    float naturalColors = 0.0f;
 };
 
 // ---------------------------------------------------------------------------

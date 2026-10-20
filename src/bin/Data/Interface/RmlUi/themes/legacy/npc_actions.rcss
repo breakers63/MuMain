@@ -1,0 +1,54 @@
+/* Empty ornate action bands shared by Trainer, Chaos and Charon. */
+@spritesheet npc-action-sheet {src:"../paris-gold/Paris_AllocationControls47.tga";
+npc-fill:24px 324px 24px 20px; npc-tl:0px 300px 24px 24px; npc-tr:367px 300px 24px 24px;
+npc-bl:0px 362px 24px 24px; npc-br:367px 362px 24px 24px;
+npc-top:24px 300px 343px 8px; npc-bottom:24px 378px 343px 8px;
+npc-left:0px 324px 8px 38px; npc-right:383px 324px 8px 38px;}
+@spritesheet npc-exit-sheet {src:"../paris-gold/stats-close.tga";npc-exit:0px 0px 74px 64px;}
+.npc-action-art {display:none;position:absolute;left:0;right:0;top:0;bottom:0;pointer-events:none;}
+.npc-action-art > div {position:absolute;pointer-events:none;}
+.npc-art-fill {left:0;right:0;top:0;bottom:0;decorator:image(npc-fill);}
+.npc-art-tl,.npc-art-tr,.npc-art-bl,.npc-art-br {width:4dp;height:4dp;}
+.npc-art-tl {left:0;top:0;decorator:image(npc-tl);}.npc-art-tr {right:0;top:0;decorator:image(npc-tr);}
+.npc-art-bl {left:0;bottom:0;decorator:image(npc-bl);}.npc-art-br {right:0;bottom:0;decorator:image(npc-br);}
+.npc-art-top {left:4dp;right:4dp;top:0;height:1.3dp;decorator:image(npc-top);}
+.npc-art-bottom {left:4dp;right:4dp;bottom:0;height:1.3dp;decorator:image(npc-bottom);}
+.npc-art-left {left:0;top:4dp;bottom:4dp;width:1.3dp;decorator:image(npc-left);}
+.npc-art-right {right:0;top:4dp;bottom:4dp;width:1.3dp;decorator:image(npc-right);}
+.npc-bottom-close,.npc-corner-close {display:none;}
+#panel.npc-actions[data-kind="trainer-menu"],#panel.npc-actions[data-kind="trainer-recover"],#panel.npc-actions[data-kind="chaos-mix"] {width:230dp;margin-left:-115dp;height:260dp;pointer-events:auto;}
+#panel.npc-actions[data-kind="chaos-mix"] {height:360dp;}
+#panel.npc-actions.native-frame .window-shell-content.has-title {position:absolute;left:0;right:0;top:0;bottom:0;margin:0;padding:0;}
+#panel.npc-actions .window-shell-header-title {top:31dp;left:8dp;right:8dp;height:18dp;line-height:18dp;font-size:7.5dp;color:#f9d769;}
+#panel.npc-actions .gmd-lines {position:absolute;left:8dp;right:8dp;top:63dp;width:auto;line-height:18dp;}
+#panel.npc-actions .gmd-line {font-size:7dp;line-height:15dp;}
+#panel.npc-actions .gmd-button-row {position:absolute;left:0;right:0;top:0;bottom:0;width:auto;margin:0;overflow:visible;}
+#panel.npc-actions .gmd-button-cell {position:absolute;left:0;right:0;width:auto;margin:0;}
+#panel.npc-actions .gmd-button-cell.compact {display:none;}
+#panel.npc-actions .gmd-btn {position:relative;width:128dp;height:28dp;min-height:28dp;margin:0;border:0;background-color:transparent;decorator:none;}
+#panel.npc-actions .gmd-btn:hover,#panel.npc-actions .gmd-btn:active {decorator:none;background-color:transparent;}
+#panel.npc-actions .gmd-btn .npc-action-art {display:block;}
+#panel.npc-actions .gmd-btn:hover .npc-action-art {filter:brightness(1.2);}
+#panel.npc-actions .gmd-btn-label {position:relative;z-index:1;line-height:13dp;font-size:7dp;color:#f9da70;}
+#panel.npc-actions[data-kind="trainer-menu"] .gmd-button-cell:nth-child(1) {top:113dp;}
+#panel.npc-actions[data-kind="trainer-menu"] .gmd-button-cell:nth-child(2) {top:153dp;}
+#panel.npc-actions[data-kind="trainer-recover"] .gmd-button-cell:nth-child(1) {top:92dp;}
+#panel.npc-actions[data-kind="trainer-recover"] .gmd-button-cell:nth-child(2) {top:153dp;}
+#panel.npc-actions[data-kind="trainer-recover"] .gmd-button-cell.lines-below {flex-direction:column-reverse;}
+#panel.npc-actions[data-kind="trainer-recover"] .gmd-button-cell .gmd-line {height:15dp;line-height:15dp;}
+#panel.npc-actions[data-kind="chaos-mix"] .gmd-button-cell:nth-child(1) {top:64dp;}
+#panel.npc-actions[data-kind="chaos-mix"] .gmd-button-cell:nth-child(2) {top:165dp;}
+#panel.npc-actions[data-kind="chaos-mix"] .gmd-button-cell:nth-child(3) {top:250dp;}
+#panel.npc-actions .npc-bottom-close {display:block;position:absolute;left:14dp;bottom:15dp;width:28dp;height:31dp;decorator:image(npc-exit);pointer-events:auto;cursor:pointer;z-index:20;}
+#panel.npc-actions .npc-corner-close {display:block;position:absolute;right:10dp;top:20dp;width:16dp;height:18dp;pointer-events:auto;cursor:pointer;z-index:20;}
+.entry-btn .npc-action-art {display:block;}
+.entry-btn .entry-btn-art {decorator:none;background-color:transparent;border:0;}
+.entry-btn.enabled:hover .entry-btn-art,.entry-btn.enabled:active .entry-btn-art {decorator:none;background-color:transparent;border:0;filter:brightness(1.2);}
+.entry-label {color:#888679;font-weight:normal;}.entry-btn.enabled .entry-label {color:#f7d65b;}
+
+#panel.npc-actions .npc-bottom-close.hidden,#panel.npc-actions .npc-corner-close.hidden {display:none;}
+
+@spritesheet npc-frame-sheet {src:"../paris-gold/paris-frame.tga";npc-frame:0px 0px 512px 1024px;}
+#panel.npc-actions {decorator:image(npc-frame);background-color:transparent;border:0;}
+
+#panel.npc-actions .window-shell-sprite-back,#panel.npc-actions .window-shell-sprite-top,#panel.npc-actions .window-shell-sprite-middle,#panel.npc-actions .window-shell-sprite-bottom,#panel.npc-actions .window-shell-header-rail {display:none;}

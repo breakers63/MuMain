@@ -1,0 +1,10 @@
+@spritesheet paris-dialog-frame-sheet {
+ resolution:4x;
+ src: "../../../ParisLogin/dialog-frame.tga";
+ paris-dialog-full: 8px 88px 778px 314px;
+ paris-dialog-inner: 40px 120px 714px 250px;
+}
+#panel { decorator:ninepatch(paris-dialog-full, paris-dialog-inner, 1.0); }
+.dialog-heading-line { position:absolute; top:36rem; width:48rem; height:1rem; background-color:#8d713e; pointer-events:none; }
+.dialog-heading-left { left:35rem; }
+.dialog-heading-right { right:35rem; }

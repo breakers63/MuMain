@@ -20,6 +20,7 @@
 #include "Render/Text/CUIRenderText.h"
 
 #include <RmlUi/Core/ElementDocument.h>
+#include <cstdio>
 
 namespace
 {
@@ -32,6 +33,7 @@ namespace
         wchar_t Text[NOTICE_TEXT_MAX];
         int     LifeTime;
         BYTE    Color;
+        Network::Paris::NoticeStyle Style;
     };
 
     int    s_count = 0;
@@ -48,6 +50,8 @@ namespace
         auto line = c.RegisterStruct<UI::Notices::NoticeLineEntry>();
         line.RegisterMember("text", &UI::Notices::NoticeLineEntry::text);
         line.RegisterMember("kind", &UI::Notices::NoticeLineEntry::kind);
+        line.RegisterMember("foreground", &UI::Notices::NoticeLineEntry::foreground);
+        line.RegisterMember("background", &UI::Notices::NoticeLineEntry::background);
         c.RegisterArray<std::vector<UI::Notices::NoticeLineEntry>>();
         c.Bind("lines", &model.lines);
     }
@@ -67,8 +71,7 @@ namespace
             s_count = MAX_NOTICE - 1;
             for (int i = 1; i < MAX_NOTICE; i++)
             {
-                s_notices[i - 1].Color = s_notices[i].Color;
-                wcscpy(s_notices[i - 1].Text, s_notices[i].Text);
+                s_notices[i - 1] = s_notices[i];
             }
         }
     }
@@ -83,16 +86,18 @@ namespace UI::Notices
 
     void Clear()
     {
-        memset(s_notices, 0, sizeof(s_notices));
+        std::fill(std::begin(s_notices), std::end(s_notices), Notice{});
+        s_count = 0;
     }
 
-    void Create(const wchar_t* text, int color)
+    void Create(const wchar_t* text, int color, const Network::Paris::NoticeStyle* style)
     {
         g_pRenderText->SetFont(g_hFontBold);
         const SIZE size = g_pRenderText->MeasureText(text, lstrlen(text));
 
         Scroll();
         s_notices[s_count].Color = color;
+        s_notices[s_count].Style = style ? *style : Network::Paris::NoticeStyle{};
         if (size.cx < NOTICE_TEXT_MAX)
         {
             CopyText(s_notices[s_count++].Text, text);
@@ -105,6 +110,7 @@ namespace UI::Notices
             CopyText(s_notices[s_count++].Text, topText);
             Scroll();
             s_notices[s_count].Color = color;
+        s_notices[s_count].Style = style ? *style : Network::Paris::NoticeStyle{};
             CopyText(s_notices[s_count++].Text, bottomText);
         }
         s_time = NOTICE_LIFETIME;
@@ -130,6 +136,22 @@ namespace UI::Notices
     // The original's per-line draw: RenderText(320, 300 + i * 13) centred, bold, on a
     // half-transparent black box sized to the text; empty lines draw nothing. The theme stacks
     // the rows.
+    Rml::String CssColor(unsigned red, unsigned green, unsigned blue, unsigned alpha)
+    {
+        char color[48]{};
+        std::snprintf(color, sizeof(color), "rgba(%u,%u,%u,%u)", red, green, blue, alpha);
+        return color;
+    }
+
+    void ApplyServerStyle(const Network::Paris::NoticeStyle& style, NoticeLineEntry& line)
+    {
+        const unsigned alpha = (style.rgba & 255) / (style.blink && int(s_blinkPhase) % 10 < 5 ? 2 : 1);
+        line.kind = "server";
+        line.foreground = CssColor((style.rgba >> 24) & 255, (style.rgba >> 16) & 255, (style.rgba >> 8) & 255, alpha);
+        line.background = CssColor(((style.background >> 11) & 31) * 255 / 31,
+            ((style.background >> 5) & 63) * 255 / 63, (style.background & 31) * 255 / 31, style.backgroundAlpha);
+    }
+
     void SyncView(bool visible)
     {
         UI::RmlBridge::SyncDocumentVisibility(s_view.Document(), visible);
@@ -155,7 +177,9 @@ namespace UI::Notices
             if (n.Text[0] != L'\0')
             {
                 line.text = StringUtils::WideToNarrow(n.Text);
-                if (n.Color == 0)
+                if (n.Style.enabled)
+                    ApplyServerStyle(n.Style, line);
+                else if (n.Color == 0)
                     line.kind = (int)s_blinkPhase % 10 < 5 ? "gold-dim" : "gold";
                 else
                     line.kind = "green";
@@ -174,7 +198,16 @@ namespace UI::Notices
         for (int i = 0; i < MAX_NOTICE; i++)
         {
             Notice* n = &s_notices[i];
-            if (n->Color == 0)
+            if (n->Style.enabled)
+            {
+                const auto& style = n->Style;
+                const auto alpha = (style.rgba & 255) / (style.blink && int(s_blinkPhase) % 10 < 5 ? 2 : 1);
+                g_pRenderText->SetFont(g_hFont);
+                g_pRenderText->SetTextColor((style.rgba >> 24) & 255, (style.rgba >> 16) & 255, (style.rgba >> 8) & 255, alpha);
+                g_pRenderText->SetBgColor(((style.background >> 11) & 31) * 255 / 31,
+                    ((style.background >> 5) & 63) * 255 / 63, (style.background & 31) * 255 / 31, style.backgroundAlpha);
+            }
+            else if (n->Color == 0)
             {
                 g_pRenderText->SetBgColor(0, 0, 0, 128);
                 if ((int)s_blinkPhase % 10 < 5)

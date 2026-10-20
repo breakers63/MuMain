@@ -6,6 +6,9 @@ namespace Core::Platform
 {
 // The file the game window's icon comes from.
 inline constexpr char GameWindowIconFile[] = "MuMainIcon.png";
+inline constexpr char GameWindowTitle[] = "MU PARIS CLIENTE VULKAN";
+
+SDL_Window* CreateGameWindow(int width, int height, bool fullscreen);
 
 // The game's window, as set when it was created; before that (and in tests)
 // the window SDL opened first, as the editor's own windows come later and SDL

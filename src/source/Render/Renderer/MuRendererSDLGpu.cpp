@@ -5203,12 +5203,26 @@ private:
     // post-processing picks the draws that feed the bloom by it.
     void RecordDrawState(RenderCmd& command) const
     {
+        ApplySurfaceFogPolicy(command);
         command.blendMode = m_activeBlendMode;
         command.blendEnabled = m_blendEnabled;
         command.depthTestEnabled = m_depthTestEnabled;
         command.depthMaskEnabled = m_depthMaskEnabled;
         command.cullFaceEnabled = m_cullFaceEnabled;
         command.bloomExcluded = s_bloomExclusionDepth > 0;
+    }
+
+    void ApplySurfaceFogPolicy(RenderCmd& command) const
+    {
+        // Surface fog replaces distant RGB with the fog colour. Light/sprite
+        // blend equations use black (or white for light maps) as transparency,
+        // so that replacement reveals their entire rectangular support. As in
+        // the legacy glow path, keep these effects out of surface fog. This
+        // applies to both Classic and Enhanced fog without changing their alpha.
+        const bool surface = !m_blendEnabled || m_activeBlendMode == BlendMode::Alpha ||
+                             m_activeBlendMode == BlendMode::InverseColor;
+        if (!surface)
+            command.fogUniform.fogEnabled = 0;
     }
 
     // -----------------------------------------------------------------------

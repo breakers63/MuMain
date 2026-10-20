@@ -16,6 +16,13 @@
 	font-size: 12dp;
 	color: token(text-primary);
 }
+#panel[data-kind="paris-custom"] {
+	width: 360dp;
+	height: 432dp;
+}
+#panel[data-kind="paris-custom"] .gmd-button-cell.cols-2 { width: 150dp; margin: 0 2dp 6dp 2dp; }
+#panel[data-kind="paris-custom"] .gmd-btn.cols-2 { width: 150dp; }
+#panel[data-kind="paris-custom"] .gmd-btn.cols-2 .gmd-btn-label { white-space: nowrap; }
 
 .gmd-line {
 	display: block;
@@ -337,3 +344,46 @@
 	#panel.system-menu .gmd-btn { height: 36dp; line-height: 36dp; font-size: 13dp; }
 	.gmd-sys-footer { height: 36dp; }
 }
+
+/* These controls are spliced inside #content; compensate its inset to hit the frame's X. */
+#panel.paris-custom .window-shell-content,
+#panel.paris-feature.paris-feature.paris-feature .window-shell-content { overflow: visible; }
+#panel.paris-custom .paris-custom-close { top: -30dp; right: -3dp; pointer-events: auto; z-index: 10; }
+#panel.paris-feature .paris-feature-close { top: -31dp; right: -4dp; pointer-events: auto; z-index: 10; }
+
+/* Leave clear space below the top ornament while keeping the frame close hitbox fixed. */
+#panel.paris-custom .window-shell-header-title {top:34dp;}
+#panel.paris-custom .window-shell-content {top:61dp;}
+#panel.paris-custom .paris-custom-close {top:-40dp;}
+
+/* Override the native titled-content inset, then lower the complete launcher grid. */
+#panel.paris-custom.native-frame .window-shell-content.has-title {position:absolute;top:48dp;left:13dp;right:13dp;bottom:16dp;margin:0;padding:0;}
+#panel.paris-custom .window-shell-header-title {top:31dp;height:13dp;line-height:13dp;}
+#panel.paris-custom .gmd-lines {top:0;height:13dp;line-height:13dp;}
+#panel.paris-custom .gmd-line {line-height:13dp;}
+#panel.paris-custom .gmd-button-row {top:20dp;height:288dp;}
+#panel.paris-custom .paris-custom-footer {top:310dp;}
+#panel.paris-custom .paris-custom-close {top:-27dp;}
+#panel.paris-custom .gmd-btn,#panel.paris-custom .gmd-btn:hover,#panel.paris-custom .gmd-btn:active {background-color:#000000;box-shadow:none;}
+#panel.paris-custom .gmd-btn:hover {border-color:#f7da65;}
+
+/* NPC menus share Paris artwork while retaining their existing server actions. */
+#panel.paris-npc { width:250dp;margin-left:-125dp;decorator:image(paris-custom-frame);background-color:transparent;color:#eee4cf; }
+#panel.paris-npc .window-shell-sprite-back,#panel.paris-npc .window-shell-sprite-top,#panel.paris-npc .window-shell-sprite-middle,#panel.paris-npc .window-shell-sprite-bottom,#panel.paris-npc .window-shell-header-rail {display:none;}
+#panel.paris-npc .window-shell-header-title {top:30dp;height:18dp;line-height:18dp;font-size:.95rem;color:#f4d16e;}
+#panel.paris-npc .gmd-btn {decorator:none;background-color:#211907;border:1dp #9c7a28;color:#f3e2b6;box-sizing:border-box;}
+#panel.paris-npc .gmd-btn:hover {decorator:none;background-color:#443315;border-color:#f7d778;}
+#panel.paris-npc .gmd-btn:active {decorator:none;background-color:#140e05;}
+#panel.paris-npc .gmd-btn-label {white-space:normal;line-height:13dp;font-size:.85rem;}
+#panel.paris-npc .gmd-btn {display:flex;align-items:center;justify-content:center;}
+#panel.paris-npc[data-kind="npc-menu"],#panel.paris-npc[data-kind="trainer-recover"] {height:255dp;}
+#panel.paris-npc[data-kind="npc-menu"] .gmd-lines,#panel.paris-npc[data-kind="trainer-recover"] .gmd-lines {top:57dp;}
+#panel.paris-npc[data-kind="npc-menu"] .gmd-button-cell:nth-child(1) {top:105dp;}
+#panel.paris-npc[data-kind="npc-menu"] .gmd-button-cell:nth-child(2) {top:145dp;}
+#panel.paris-npc[data-kind="trainer-recover"] .gmd-button-cell:nth-child(1) {top:84dp;}
+#panel.paris-npc[data-kind="trainer-recover"] .gmd-button-cell:nth-child(2) {top:140dp;}
+#panel.paris-npc[data-kind="chaos-mix"] {height:345dp;}
+#panel.paris-npc[data-kind="chaos-mix"] .gmd-button-cell:nth-child(1) {top:62dp;}
+#panel.paris-npc[data-kind="chaos-mix"] .gmd-button-cell:nth-child(2) {top:151dp;}
+#panel.paris-npc[data-kind="chaos-mix"] .gmd-button-cell:nth-child(3) {top:229dp;}
+#panel.paris-npc[data-kind="chaos-mix"] .gmd-line {font-size:.78rem;}

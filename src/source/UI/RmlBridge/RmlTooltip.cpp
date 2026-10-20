@@ -29,6 +29,7 @@ namespace UI::RmlBridge::Tooltip
         struct TooltipLineEntry
         {
             Rml::String text;
+            Rml::String customColor, customBackground;
             bool colorBlue = false;
             bool colorGray = false;
             bool colorRed = false;
@@ -59,6 +60,7 @@ namespace UI::RmlBridge::Tooltip
             // theme's tooltip.rml binds these to match RenderTipTextList(); others may ignore them.
             float textPx = 0.0f;
             float borderPx = 0.0f;
+            Rml::String borderColor;
             float paddingPx = 0.0f;
             float fixedWidthPx = 0.0f;
             // The native renderer's line heights, which the theme spaces the rows from.
@@ -86,6 +88,9 @@ namespace UI::RmlBridge::Tooltip
             model.textPx = UI::Scaling::NativeTextPixelSize(UI::Scaling::FontRole::Normal, transform);
             model.buttonHint = (config.box == Config::Box::ButtonHint);
             model.borderPx = model.buttonHint ? 0.0f : kNativeBorderUnits * transform.scaleX;
+            if (config.borderWidth)
+                model.borderPx = *config.borderWidth * transform.scaleX;
+            model.borderColor = config.borderColor;
             model.paddingPx = (model.buttonHint ? kButtonHintPaddingUnits : kNativePaddingUnits) * transform.scaleX;
 
             // The native line height follows the active transform: measure under the chosen one.
@@ -120,6 +125,8 @@ namespace UI::RmlBridge::Tooltip
         {
             auto line = c.RegisterStruct<TooltipLineEntry>();
             line.RegisterMember("text", &TooltipLineEntry::text);
+            line.RegisterMember("custom_color", &TooltipLineEntry::customColor);
+            line.RegisterMember("custom_background", &TooltipLineEntry::customBackground);
             line.RegisterMember("color_blue", &TooltipLineEntry::colorBlue);
             line.RegisterMember("color_gray", &TooltipLineEntry::colorGray);
             line.RegisterMember("color_red", &TooltipLineEntry::colorRed);
@@ -144,6 +151,7 @@ namespace UI::RmlBridge::Tooltip
             c.Bind("center_text", &model.centerText);
             c.Bind("text_px", &model.textPx);
             c.Bind("border_px", &model.borderPx);
+            c.Bind("border_color", &model.borderColor);
             c.Bind("padding_px", &model.paddingPx);
             c.Bind("fixed_width_px", &model.fixedWidthPx);
             c.Bind("line_height_px", &model.lineHeightPx);
@@ -170,6 +178,8 @@ namespace UI::RmlBridge::Tooltip
         {
             TooltipLineEntry entry;
             entry.text = line.text;
+            entry.customColor = line.customColor;
+            entry.customBackground = line.customBackground;
             entry.bold = line.bold;
             entry.isHalfSpacer = (line.kind == Line::Kind::HalfSpacer);
             entry.isFullSpacer = (line.kind == Line::Kind::FullSpacer);
@@ -209,6 +219,7 @@ namespace UI::RmlBridge::Tooltip
             assign(model.centerText, next.centerText, "center_text");
             assign(model.textPx, next.textPx, "text_px");
             assign(model.borderPx, next.borderPx, "border_px");
+            assign(model.borderColor, std::move(next.borderColor), "border_color");
             assign(model.paddingPx, next.paddingPx, "padding_px");
             assign(model.fixedWidthPx, next.fixedWidthPx, "fixed_width_px");
             assign(model.lineHeightPx, next.lineHeightPx, "line_height_px");

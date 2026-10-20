@@ -7,6 +7,7 @@
 #include "Render/Terrain/ZzzLodTerrain.h"
 #include "Render/Textures/ZzzTexture.h"
 #include "Engine/Object/ZzzOpenData.h"
+#include "GameLogic/Items/SmallCape.h"
 #include "Engine/AI/ZzzAI.h"
 #include "Engine/Object/ZzzInventory.h"
 #include "Audio/DSPlaySound.h"
@@ -304,6 +305,7 @@ void OpenPlayerTextures()
     LoadBitmap(L"Item\\msword03.tga", BITMAP_ROBE + 8);
     LoadBitmap(L"Item\\dl_redwings02.tga", BITMAP_ROBE + 9);
     LoadBitmap(L"Item\\dl_redwings03.tga", BITMAP_ROBE + 10);
+    LoadBitmap(L"Item\\SmallCapeDL\\NBCcape.tga", GameLogic::Items::SmallCapeTexture);
 
     int nIndex;
 

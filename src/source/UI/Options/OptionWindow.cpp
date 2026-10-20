@@ -1,5 +1,6 @@
 
 #include "stdafx.h"
+#include "UI/Options/WeatherOptionsBinding.h"
 #include "UI/Options/OptionWindow.h"
 #include "UI/Core/WindowSystem.h"
 #include "UI/RmlBridge/RmlPointer.h"
@@ -265,6 +266,7 @@ bool mu::ui::window::COptionWindow::Create(CManager* pNewUIMng)
 
 void mu::ui::window::COptionWindow::BindRmlModel(Rml::DataModelConstructor& c, OptionRmlModel& model)
 {
+    UI::Options::Weather::Bind(c,[this](const char* name){m_RmlView.MarkDirty(name);});
     c.Bind("positioned", &model.positioned);
     c.Bind("root_x", &model.rootX);
     c.Bind("root_y", &model.rootY);
@@ -646,7 +648,8 @@ void mu::ui::window::COptionWindow::ClosingProcess()
 
 void mu::ui::window::COptionWindow::RmlClickSelectTab(int nTab)
 {
-    if (nTab < 0 || nTab > 4)
+    constexpr int LastOptionsTab = 6;
+    if (nTab < 0 || nTab > LastOptionsTab)
         return;
     m_iActiveTab = nTab;
     PlayBuffer(SOUND_CLICK01);

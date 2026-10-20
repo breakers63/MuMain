@@ -1,8 +1,8 @@
 /* Legacy theme for CWindowMenu, reproducing the original's RenderFrame()/RenderTexts()/
    RenderArrow(): the message-box fill, the command frame (top, four middle tiles, bottom), the
-   five separator lines, six white labels, and on the hovered row a yellow label with the two
+   six separator lines, seven white labels, and on the hovered row a yellow label with the two
    arrows. Every coordinate is the original's, in reference px relative to the menu's top-left
-   (528, 284) -- #screen carries the HUD board's scale, see window_menu.rml. Sprite rectangles
+   (528, 264) -- #screen carries the HUD board's scale, see window_menu.rml. Sprite rectangles
    are the texels each RenderImage()/RenderBitmap() call covered. */
 
 @spritesheet wmenu-back-sheet { src: "../../../newui_msgbox_back.jpg"; wmenu-back: 0px 0px 112px 145px; }
@@ -22,18 +22,18 @@
 #panel {
 	position: absolute;
 	left: 528px;
-	top: 284px;
+	top: 264px;
 	width: 112px;
-	height: 146px;
+	height: 166px;
 	font-family: "token(font-body)";
 	pointer-events: auto;
 }
 
-#back { position: absolute; left: 0; top: 0; width: 112px; height: 145px; decorator: image(wmenu-back); }
+#back { position: absolute; left: 0; top: 0; width: 112px; height: 166px; decorator: image(wmenu-back); }
 #frame_up { position: absolute; left: 0; top: 0; width: 112px; height: 45px; decorator: image(wmenu-up); }
 .frame-middle { position: absolute; left: 0; width: 112px; height: 15px; decorator: image(wmenu-middle); }
 /* Drawn at REFERENCE_HEIGHT - 50 - 45, over the last middle tile. */
-#frame_down { position: absolute; left: 0; top: 101px; width: 112px; height: 45px; decorator: image(wmenu-down); }
+#frame_down { position: absolute; left: 0; top: 121px; width: 112px; height: 45px; decorator: image(wmenu-down); }
 .line { position: absolute; left: 15px; width: 82px; height: 2px; decorator: image(wmenu-line); }
 
 /* Rows start 20 below the top, 20 tall each, the full 112 wide -- the original's hover boxes. */
@@ -83,8 +83,10 @@
 .frame-middles .frame-middle:nth-child(2) { top: 60px; }
 .frame-middles .frame-middle:nth-child(3) { top: 75px; }
 .frame-middles .frame-middle:nth-child(4) { top: 90px; }
+.frame-middles .frame-middle:nth-child(5) { top: 105px; }
 .lines .line:nth-child(1) { top: 33px; }
 .lines .line:nth-child(2) { top: 53px; }
 .lines .line:nth-child(3) { top: 73px; }
 .lines .line:nth-child(4) { top: 93px; }
 .lines .line:nth-child(5) { top: 113px; }
+.lines .line:nth-child(6) { top: 133px; }

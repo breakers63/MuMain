@@ -1,4 +1,4 @@
-
+﻿
 #include "stdafx.h"
 #include "UI/HUD/MuHelperBar.h"
 #include "I18N/All.h"
@@ -60,6 +60,7 @@ bool CMuHelperBar::Create(CManager* pNewUIMng)
 void CMuHelperBar::BindRmlModel(Rml::DataModelConstructor& c, MuHelperBarRmlModel& model)
 {
     c.Bind("position_text", &model.positionText);
+    c.Bind("coordinates_text", &model.coordinatesText);
     c.Bind("mu_helper_active", &model.muHelperActive);
     c.Bind("config_hint", &model.configHint);
     c.Bind("start_hint", &model.startHint);
@@ -140,20 +141,32 @@ bool CMuHelperBar::Render()
     return true;
 }
 
+void CMuHelperBar::SyncPositionModel()
+{
+    auto& model = m_RmlView.GetModel();
+    const int world = gMapManager.WorldActive;
+    if (model.positionX == m_CurHeroPosition.x && model.positionY == m_CurHeroPosition.y && model.world == world)
+        return;
+
+    model.positionX = m_CurHeroPosition.x;
+    model.positionY = m_CurHeroPosition.y;
+    model.world = world;
+    wchar_t text[255]{};
+    mu_swprintf(text, L"%ls (%d , %d)", gMapManager.GetMapName(world), model.positionX, model.positionY);
+    model.positionText = StringUtils::WideToNarrow(text);
+    m_RmlView.MarkDirty("position_text");
+    mu_swprintf(text, L"%d  %d", model.positionX, model.positionY);
+    model.coordinatesText = StringUtils::WideToNarrow(text);
+    m_RmlView.MarkDirty("coordinates_text");
+}
+
 void CMuHelperBar::SyncRmlModel()
 {
-    if (!m_RmlView.Document()) return;
+    if (!m_RmlView.Document() || !IsVisible()) return;
 
     auto& model = m_RmlView.GetModel();
 
-    wchar_t szText[255] = {};
-    mu_swprintf(szText, L"%ls (%d , %d)", gMapManager.GetMapName(gMapManager.WorldActive), m_CurHeroPosition.x, m_CurHeroPosition.y);
-    const std::string positionUtf8 = StringUtils::WideToNarrow(szText);
-    if (model.positionText != positionUtf8)
-    {
-        model.positionText = positionUtf8;
-        m_RmlView.MarkDirty("position_text");
-    }
+    SyncPositionModel();
 
     const bool active = MUHelper::g_MuHelper.IsActive();
     if (model.muHelperActive != active)

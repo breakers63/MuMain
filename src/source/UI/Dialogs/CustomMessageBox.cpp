@@ -1,8 +1,22 @@
 ﻿#include "stdafx.h"
+#include "UI/Dialogs/ParisSoulWindow.h"
 #include "UI/RmlBridge/RmlNativeTextSize.h"
 #include "UI/Dialogs/CustomMessageBox.h"
 #include "UI/Dialogs/GenericConfirmDialog.h"
 #include "UI/Dialogs/GenericMenuDialog.h"
+#include "Network/Paris/AuctionProtocol.h"
+#include "Network/Paris/GmEventsProtocol.h"
+#include "Network/Paris/MentorProtocol.h"
+#include "UI/Dialogs/ParisMentorWindow.h"
+#include "Network/Paris/ParisBattlePassProtocol.h"
+#include "Network/Paris/ParisRequests.h"
+#include "UI/Dialogs/ParisBattlePassWindow.h"
+#include "UI/Dialogs/ParisGmEventsWindow.h"
+#include "Network/Paris/ResetProtocol.h"
+#include "Network/Paris/SoulProtocol.h"
+#include "Network/Paris/VipProtocol.h"
+#include "Network/Server/SocketSystem.h"
+#include "Network/Server/WSclient.h"
 #include "Audio/DSPlaySound.h"
 #include "UI/Social/SocialWindowBase.h"
 #include "Render/Models/ZzzBMD.h"
@@ -110,6 +124,8 @@ std::vector<MessageBoxView::Line> MessageLines(const type_vector_msgdata& messag
 // A progress notice's MessageBoxView (CProgressMsgBox, CCursedTempleProgressMsgBox): their
 // RenderFrame() -- a middle strip per line past two --, RenderTexts() and RenderProgress() -- the
 // elapsed fraction.
+void ShowParisFeatureNotice(const wchar_t* title, const wchar_t* message);
+
 void SyncProgressView(MessageBoxView& view, const type_vector_msgdata& messages, DWORD startTime, DWORD elapseTime)
 {
     const int middles = messages.size() > 2 ? static_cast<int>(messages.size()) - 2 : 0;
@@ -117,6 +133,316 @@ void SyncProgressView(MessageBoxView& view, const type_vector_msgdata& messages,
     const float fraction = static_cast<float>(timeGetTime() - startTime) / static_cast<float>(elapseTime);
     view.SetProgress(fraction);
     view.Sync(MessageLines(messages), {});
+}
+
+void ShowParisFeatureNotice(const wchar_t* title, const wchar_t* message)
+{
+    if (!g_pGenericMenuDialog)
+        return;
+
+    GenericMenuConfig cfg;
+    cfg.kind = "paris-feature";
+    cfg.title = title;
+    cfg.lines.push_back({message, false});
+    const auto resetSnapshot = Network::Paris::Reset::GetSnapshot();
+    if (std::wstring_view(title) == L"RESET")
+    {
+        for (const std::wstring& line : resetSnapshot.first.Lines)
+            cfg.lines.push_back({line, false});
+    }
+    else if (std::wstring_view(title) == L"VIP")
+    {
+        const auto& data = Network::Paris::Vip::Data;
+        for (const std::wstring& line : data.Lines)
+            cfg.lines.push_back({line, false});
+        if (Network::Paris::Vip::Received != 0)
+            cfg.lines.push_back({std::wstring(L"Nivel actual: ") + std::to_wstring(data.CurrentTier)
+                + L" | días restantes: " + std::to_wstring(data.RemainingDays), true});
+        for (int plan = 1; plan <= 3; ++plan)
+        {
+            GenericMenuConfig::MenuButton tier;
+            tier.label = std::wstring(L"Consultar VIP ") + std::to_wstring(plan);
+            tier.onClick = [plan]
+            {
+                if (Network::Paris::RequestVip(plan, false, 0))
+                    ShowParisFeatureNotice(L"VIP", L"Plan actualizado desde el servidor.");
+                else
+                    ShowParisFeatureNotice(L"VIP", L"No se pudo consultar el servidor.");
+            };
+            cfg.buttons.push_back(std::move(tier));
+        }
+        if (data.CanBuy && data.Quote != 0)
+        {
+            const int plan = data.RequestedPlan;
+            const std::uint64_t quote = data.Quote;
+            GenericMenuConfig::MenuButton purchase;
+            purchase.label = std::wstring(L"Comprar VIP ") + std::to_wstring(plan);
+            purchase.onClick = [plan, quote]
+            {
+                GenericDialogConfig confirm;
+                confirm.title = L"Confirmar compra VIP";
+                confirm.lines.push_back({L"El servidor validará el costo y los requisitos antes de aplicar la compra.", false});
+                confirm.primaryLabel = L"Comprar";
+                confirm.showCancel = true;
+                confirm.cancelLabel = L"Cancelar";
+                confirm.onPrimary = [plan, quote]
+                {
+                    if (!Network::Paris::RequestVip(plan, true, quote))
+                        ShowParisFeatureNotice(L"VIP", L"No se pudo enviar la compra al servidor.");
+                };
+                if (g_pGenericConfirmDialog)
+                    g_pGenericConfirmDialog->Show(std::move(confirm));
+            };
+            cfg.buttons.push_back(std::move(purchase));
+        }
+    }
+    else if (std::wstring_view(title) == L"MENTORÍA")
+    {
+        const auto& data = Network::Paris::Mentor::Data;
+        if (!data.Name.empty())
+            cfg.lines.push_back({std::wstring(L"Personaje: ") + data.Name, true});
+        cfg.lines.push_back({std::wstring(L"Relaciones: ") + std::to_wstring(data.Relations.size())
+            + L" | mentores: " + std::to_wstring(data.Mentors.size())
+            + L" | ofertas: " + std::to_wstring(data.Offers.size()), false});
+        if (!data.Message.empty())
+            cfg.lines.push_back({data.Message, false});
+        if (Network::Paris::Mentor::Received != 0)
+        {
+            for (const auto& relation : data.Relations)
+            {
+                if (!relation.Incoming || relation.Accepted || relation.Graduated || relation.Id.empty())
+                    continue;
+                GenericMenuConfig::MenuButton accept;
+                accept.label = std::wstring(L"Aceptar mentoría de ") + relation.Name;
+                accept.onClick = [identity = relation.Id]
+                {
+                    Network::Paris::Mentor::Request(3, static_cast<BYTE>(Network::Paris::Mentor::Data.Tab),
+                        static_cast<BYTE>(Network::Paris::Mentor::Data.Page), identity);
+                };
+                cfg.buttons.push_back(std::move(accept));
+
+                GenericMenuConfig::MenuButton reject;
+                reject.label = std::wstring(L"Rechazar mentoría de ") + relation.Name;
+                reject.onClick = [identity = relation.Id]
+                {
+                    Network::Paris::Mentor::Request(4, static_cast<BYTE>(Network::Paris::Mentor::Data.Tab),
+                        static_cast<BYTE>(Network::Paris::Mentor::Data.Page), identity);
+                };
+                cfg.buttons.push_back(std::move(reject));
+            }
+
+            if (data.Enabled)
+            {
+                for (const auto& mentor : data.Mentors)
+                {
+                    if (!mentor.Id.empty() && !mentor.Accepted)
+                    {
+                        const BYTE action = data.LinkIncoming ? 3 : 5;
+                        GenericMenuConfig::MenuButton link;
+                        link.label = std::wstring(data.LinkIncoming ? L"Aceptar invitación de " : L"Enviar vínculo a ")
+                            + mentor.Name;
+                        link.onClick = [identity = mentor.Id, action]
+                        {
+                            const auto& current = Network::Paris::Mentor::Data;
+                            Network::Paris::Mentor::Request(action, static_cast<BYTE>(current.Tab),
+                                static_cast<BYTE>(current.Page), identity);
+                        };
+                        cfg.buttons.push_back(std::move(link));
+                    }
+                    else if (data.CanRequest && mentor.Novices < mentor.Maximum)
+                    {
+                        GenericMenuConfig::MenuButton request;
+                        request.label = std::wstring(L"Solicitar mentor: ") + mentor.Name;
+                        request.onClick = [name = mentor.Name]
+                        {
+                            const auto& current = Network::Paris::Mentor::Data;
+                            Network::Paris::Mentor::Request(1, static_cast<BYTE>(current.Tab),
+                                static_cast<BYTE>(current.Page), {}, name.c_str());
+                        };
+                        cfg.buttons.push_back(std::move(request));
+                    }
+                }
+            }
+        }
+    }
+    else if (std::wstring_view(title) == L"PANEL GM")
+    {
+        cfg.lines.push_back({Network::Paris::GmEvents::Authorized
+            ? L"Permiso de administración: confirmado" : L"Permiso de administración: no confirmado", true});
+        for (std::size_t index = 0; index < Network::Paris::GmEvents::Events.size(); ++index)
+        {
+            const auto& event = Network::Paris::GmEvents::Events[index];
+            if (!event.Name.empty())
+            {
+                cfg.lines.push_back({event.Name + L" — " + (event.Enabled ? L"activo" : L"inactivo"), false});
+                if (!Network::Paris::GmEvents::Authorized || !event.Enabled)
+                    continue;
+
+                int action = -1;
+                const wchar_t* actionLabel = L"";
+                if (event.Phase == 0) { action = 1; actionLabel = L"Iniciar "; }
+                else if (event.Phase == 1) { action = 2; actionLabel = L"Inscribirse en "; }
+                else { action = 3; actionLabel = L"Detener "; }
+                GenericMenuConfig::MenuButton eventAction;
+                eventAction.label = std::wstring(actionLabel) + event.Name;
+                eventAction.onClick = [action, index]
+                {
+                    Network::Paris::GmEvents::Request(static_cast<BYTE>(action), static_cast<BYTE>(index));
+                    ShowParisFeatureNotice(L"PANEL GM", L"Solicitud enviada; vuelve a consultar el evento para ver el resultado.");
+                };
+                cfg.buttons.push_back(std::move(eventAction));
+            }
+        }
+    }
+    else if (std::wstring_view(title) == L"SOUL SYSTEM")
+    {
+        const auto& data = Network::Paris::Soul::Data;
+        cfg.lines.push_back({data.Enabled ? L"Sistema habilitado" : L"Sistema no habilitado por el servidor", true});
+        cfg.lines.push_back({std::wstring(L"Puntos: ") + std::to_wstring(data.Total) + L" | usados: " + std::to_wstring(data.Spent), false});
+        for (int i = 0; i < Network::Paris::Soul::AbilityCount; ++i)
+            if (!data.Abilities[i].Name.empty())
+            {
+                cfg.lines.push_back({data.Abilities[i].Name + L" — rango " + std::to_wstring(data.Ranks[i]), false});
+                const auto& ability = data.Abilities[i];
+                if (data.Enabled && ability.Enabled && data.Ranks[i] < ability.MaximumRank
+                    && data.Total - data.Spent >= ability.Cost)
+                {
+                    GenericMenuConfig::MenuButton increase;
+                    increase.label = std::wstring(L"Aumentar: ") + ability.Name;
+                    increase.onClick = [i]
+                    {
+                        auto ranks = Network::Paris::Soul::Data.Ranks;
+                        ++ranks[i];
+                        if (!Network::Paris::Soul::Request(1, static_cast<BYTE>(i / 4), ranks))
+                            ShowParisFeatureNotice(L"SOUL SYSTEM", L"No se pudo enviar el cambio de rango.");
+                    };
+                    cfg.buttons.push_back(std::move(increase));
+                }
+                if (data.Enabled && data.AllowReallocation && data.Ranks[i] > 0)
+                {
+                    GenericMenuConfig::MenuButton decrease;
+                    decrease.label = std::wstring(L"Reducir: ") + ability.Name;
+                    decrease.onClick = [i]
+                    {
+                        auto ranks = Network::Paris::Soul::Data.Ranks;
+                        if (ranks[i] > 0)
+                            --ranks[i];
+                        if (!Network::Paris::Soul::Request(1, static_cast<BYTE>(i / 4), ranks))
+                            ShowParisFeatureNotice(L"SOUL SYSTEM", L"No se pudo enviar el cambio de rango.");
+                    };
+                    cfg.buttons.push_back(std::move(decrease));
+                }
+            }
+        if (data.Enabled && data.AllowReset && data.Spent > 0 && data.Token != 0)
+        {
+            GenericMenuConfig::MenuButton resetSoul;
+            resetSoul.label = std::wstring(L"Reiniciar puntos Soul — costo ") + std::to_wstring(data.ResetFee);
+            resetSoul.onClick = []
+            {
+                GenericDialogConfig confirm;
+                confirm.title = L"Reiniciar Soul System";
+                confirm.lines.push_back({L"El servidor validará el costo y el saldo antes de reiniciar los puntos.", false});
+                confirm.primaryLabel = L"Reiniciar";
+                confirm.showCancel = true;
+                confirm.cancelLabel = L"Cancelar";
+                confirm.onPrimary = []
+                {
+                    std::array<int, Network::Paris::Soul::AbilityCount> ranks{};
+                    if (!Network::Paris::Soul::Request(2, 0, ranks))
+                        ShowParisFeatureNotice(L"SOUL SYSTEM", L"No se pudo enviar el reinicio.");
+                };
+                if (g_pGenericConfirmDialog)
+                    g_pGenericConfirmDialog->Show(std::move(confirm));
+            };
+            cfg.buttons.push_back(std::move(resetSoul));
+        }
+    }
+    else if (std::wstring_view(title) == L"SUBASTAS")
+    {
+        const auto& data = Network::Paris::Auctions::Data;
+        cfg.lines.push_back({data.Enabled ? L"Subastas habilitadas" : L"Subastas no habilitadas por el servidor", true});
+        for (const auto& row : data.Rows)
+            cfg.lines.push_back({row.Name + L" — " + row.Seller + L" — " + std::to_wstring(row.Price), false});
+        for (const auto& row : data.Rows)
+        {
+            if (data.Tab == 3 && !row.DeliveryId.empty())
+            {
+                GenericMenuConfig::MenuButton collect;
+                collect.label = std::wstring(L"Recoger entrega: ") + row.Name;
+                collect.onClick = [row]
+                {
+                    if (!Network::Paris::Auctions::Request(5, 3, static_cast<BYTE>(Network::Paris::Auctions::Data.Page),
+                            static_cast<BYTE>(Network::Paris::Auctions::Data.SubTab), L"", 255, &row))
+                        ShowParisFeatureNotice(L"SUBASTAS", L"No se pudo solicitar la entrega.");
+                };
+                cfg.buttons.push_back(std::move(collect));
+            }
+            else if (data.Tab == 4 && row.CanCancel && !row.Id.empty())
+            {
+                GenericMenuConfig::MenuButton cancel;
+                cancel.label = std::wstring(L"Cancelar publicación: ") + row.Name;
+                cancel.onClick = [row]
+                {
+                    if (!Network::Paris::Auctions::Request(4, 4, static_cast<BYTE>(Network::Paris::Auctions::Data.Page),
+                            static_cast<BYTE>(Network::Paris::Auctions::Data.SubTab), L"", 255, &row))
+                        ShowParisFeatureNotice(L"SUBASTAS", L"No se pudo cancelar la publicación.");
+                };
+                cfg.buttons.push_back(std::move(cancel));
+            }
+            else if (data.Tab == 0 && data.Enabled && !row.Owned && row.BuyNow > 0 && !row.Id.empty())
+            {
+                GenericMenuConfig::MenuButton buy;
+                buy.label = std::wstring(L"Comprar ahora: ") + row.Name + L" — " + std::to_wstring(row.BuyNow);
+                buy.onClick = [row]
+                {
+                    GenericDialogConfig confirm;
+                    confirm.title = L"Confirmar compra de subasta";
+                    confirm.lines.push_back({row.Name + L" — " + std::to_wstring(row.BuyNow), false});
+                    confirm.primaryLabel = L"Comprar";
+                    confirm.showCancel = true;
+                    confirm.cancelLabel = L"Cancelar";
+                    confirm.onPrimary = [row]
+                    {
+                        if (!Network::Paris::Auctions::Request(3, 0, static_cast<BYTE>(Network::Paris::Auctions::Data.Page),
+                                static_cast<BYTE>(Network::Paris::Auctions::Data.SubTab), L"", 255, &row, 0, 0))
+                            ShowParisFeatureNotice(L"SUBASTAS", L"No se pudo enviar la compra.");
+                    };
+                    if (g_pGenericConfirmDialog)
+                        g_pGenericConfirmDialog->Show(std::move(confirm));
+                };
+                cfg.buttons.push_back(std::move(buy));
+            }
+        }
+    }
+    if (std::wstring_view(title) == L"RESET" && resetSnapshot.first.CanReset)
+    {
+        GenericMenuConfig::MenuButton reset;
+        reset.label = L"Confirmar reset";
+        const auto token = resetSnapshot.first.Token;
+        reset.onClick = [token]
+        {
+            GenericDialogConfig confirm;
+            confirm.title = L"Confirmar reset";
+            confirm.lines.push_back({L"Se aplicará el reset autorizado por el servidor.", false});
+            confirm.primaryLabel = L"Reiniciar";
+            confirm.showCancel = true;
+            confirm.cancelLabel = L"Volver";
+            confirm.onPrimary = [token]
+            {
+                if (!Network::Paris::RequestReset(true, token))
+                    ShowParisFeatureNotice(L"RESET", L"No se pudo enviar la solicitud al servidor.");
+            };
+            if (g_pGenericConfirmDialog)
+                g_pGenericConfirmDialog->Show(std::move(confirm));
+        };
+        cfg.buttons.push_back(std::move(reset));
+    }
+    GenericMenuConfig::MenuButton close;
+    close.label = L"Cerrar";
+    close.compact = true;
+    close.dismiss = true;
+    cfg.buttons.push_back(std::move(close));
+    g_pGenericMenuDialog->Show(std::move(cfg));
 }
 
 // A click on the OK button RmlUi reported, sent as the box's OK event.
@@ -452,6 +778,83 @@ void mu::ui::window::ShowSystemMenuDialog()
     g_pGenericMenuDialog->Show(std::move(cfg));
 }
 
+void mu::ui::window::ShowParisCustomMenuDialog()
+{
+    GenericMenuConfig cfg;
+    cfg.kind = "paris-custom";
+    cfg.title = L"CUSTOM";
+    cfg.lines.push_back({L"SISTEMAS PARIS", true});
+    cfg.columns = 2;
+
+    struct Entry
+    {
+        const wchar_t* label;
+        std::function<void()> action;
+    };
+    const Entry entries[] = {
+        {L"Add Stats (S)", [] { if (g_pCharacterInfoWindow) g_pCharacterInfoWindow->OpenPointAllocation(); }},
+        {L"Jewel Bank (Ctrl+J)", []
+            {
+                if (g_pNewUISystem)
+                {
+                    if (g_pNewUISystem->IsVisible(INTERFACE_CHARACTER))
+                        g_pNewUISystem->Hide(INTERFACE_CHARACTER);
+                    if (!g_pNewUISystem->IsVisible(INTERFACE_INVENTORY))
+                        g_pNewUISystem->Show(INTERFACE_INVENTORY);
+                }
+                if (g_pParisJewelBankWindow) g_pParisJewelBankWindow->OpenWindow();
+            }},
+        {L"Reset (Y)", []
+            {
+                mu::log::Get("ui")->info("Paris custom reset click begin");
+                if (g_pNewUISystem && !g_pNewUISystem->IsVisible(INTERFACE_CHARACTER))
+                    g_pNewUISystem->Show(INTERFACE_CHARACTER);
+                mu::log::Get("ui")->info("Paris custom reset stats ready");
+                if (g_pParisResetWindow) g_pParisResetWindow->OpenWindow();
+                mu::log::Get("ui")->info("Paris custom reset click done");
+            }},
+        {L"Eventos (H)", [] { if (g_pParisEventsWindow) g_pParisEventsWindow->OpenWindow(); }},
+        {L"Info PJ (Ctrl+I)", []
+            {
+                if (g_pParisAdvancedStatsWindow) g_pParisAdvancedStatsWindow->OpenWindow();
+            }},
+        {L"Market (O)", [] { if (g_pParisMarketWindow) g_pParisMarketWindow->OpenWindow(); }},
+        {L"Rank User (F7)", [] { if (g_pParisRankingWindow) g_pParisRankingWindow->OpenWindow(); }},
+        {L"VIP (Ctrl+V)", []
+            {
+                if (g_pNewUISystem && !g_pNewUISystem->IsVisible(INTERFACE_CHARACTER))
+                    g_pNewUISystem->Show(INTERFACE_CHARACTER);
+                if (g_pParisVipWindow) g_pParisVipWindow->OpenWindow();
+            }},
+        {L"Battle Pass (Ctrl+B)", [] { if (g_pParisBattlePassWindow) g_pParisBattlePassWindow->OpenWindow(); }},
+        {L"Guias", [] { g_pNewUISystem->Show(INTERFACE_HELP); }},
+        {L"Kill Log (Ctrl+K)", [] { if (g_pParisActivityLogWindow) g_pParisActivityLogWindow->OpenWindow(true); }},
+        {L"Post Items (Ctrl+P)", [] { if (g_pParisActivityLogWindow) g_pParisActivityLogWindow->OpenWindow(false); }},
+        {L"Mentoria", [] { if (g_pParisMentorWindow) g_pParisMentorWindow->OpenWindow(); }},
+        {L"Panel GM", [] { if (g_pParisGmEventsWindow) g_pParisGmEventsWindow->OpenWindow(); }},
+        {L"Soul System", [] { if (g_pParisSoulWindow) g_pParisSoulWindow->OpenWindow(); }},
+        {L"Subastas", [] { if (g_pParisAuctionWindow) g_pParisAuctionWindow->OpenWindow(); }},
+    };
+
+    for (const Entry& entry : entries)
+    {
+        GenericMenuConfig::MenuButton button;
+        button.label = entry.label;
+        button.enabled = static_cast<bool>(entry.action);
+        button.tooltip = L"Abrir sistema";
+        button.onClick = entry.action;
+        cfg.buttons.push_back(std::move(button));
+    }
+
+    g_pGenericMenuDialog->Show(std::move(cfg));
+}
+
+void mu::ui::window::ShowParisEventsDialog()
+{
+    if (g_pParisEventsWindow)
+        g_pParisEventsWindow->OpenWindow();
+}
+
 mu::ui::window::CBloodCastleResultMsgBox::CBloodCastleResultMsgBox()
 {
 }
@@ -652,34 +1055,34 @@ void mu::ui::window::ShowChaosMixMenuDialog()
     GenericMenuConfig cfg;
     // Native CChaosMixMenuMsgBox: lines 15 apart, each recipe's lines above its button.
     cfg.kind = "chaos-mix";
-    cfg.title = I18N::Game::SelectMethodOfCombination;
+    cfg.title = L"Seleccione el método de combinación";
     cfg.highlightTitle = true;
     // No shared summary lines -- native interleaves each recipe's own blurb directly above its
     // button instead of grouping all the body text above the whole list; see MenuButton::lines.
 
     GenericMenuConfig::MenuButton btnGeneralMix;
-    btnGeneralMix.label = I18N::Game::RegularCombination;
-    mu_swprintf(szText, I18N::Game::Wings7TypesFruitDevilSInvitation);
+    btnGeneralMix.label = L"Combinación regular";
+    mu_swprintf(szText, L"Alas (7 tipos), Fruta, Invitación del Diablo");
     btnGeneralMix.lines.push_back({ szText, false });
-    mu_swprintf(szText, I18N::Game::Dinorant1015ItemsCloakOfInvisibility, Hero->ID);
+    mu_swprintf(szText, L"Dinorant, +10, +15 artículos, Capa de invisibilidad", Hero->ID);
     btnGeneralMix.lines.push_back({ szText, false });
-    mu_swprintf(szText, I18N::Game::FenrirSHornScrollOfBloodCondorSFeather, Hero->ID);
+    mu_swprintf(szText, L"Cuerno de Fenrir, Pergamino de sangre, Pluma de cóndor", Hero->ID);
     btnGeneralMix.lines.push_back({ szText, false });
     btnGeneralMix.onClick = [] { g_MixRecipeMgr.SetMixType(0); };
     cfg.buttons.push_back(std::move(btnGeneralMix));
 
     GenericMenuConfig::MenuButton btnChaosMix;
-    btnChaosMix.label = I18N::Game::ChaosWeaponCombination;
-    mu_swprintf(szText, I18N::Game::ChaosDragonAxeChaosLightningStaff, Hero->ID);
+    btnChaosMix.label = L"Combinación de armas del caos";
+    mu_swprintf(szText, L"Hacha del Dragón del Caos, Bastón del Rayo del Caos", Hero->ID);
     btnChaosMix.lines.push_back({ szText, false });
-    mu_swprintf(szText, I18N::Game::ChaosNatureBow, Hero->ID);
+    mu_swprintf(szText, L"Arco de la naturaleza del caos", Hero->ID);
     btnChaosMix.lines.push_back({ szText, false });
     btnChaosMix.onClick = [] { g_MixRecipeMgr.SetMixType(1); };
     cfg.buttons.push_back(std::move(btnChaosMix));
 
     GenericMenuConfig::MenuButton btnMix380;
-    btnMix380.label = I18N::Game::ItemOptionCombination;
-    mu_swprintf(szText, I18N::Game::Add380ItemOption, Hero->ID);
+    btnMix380.label = L"Combinación de opciones de artículos";
+    mu_swprintf(szText, L"Agregar opción de 380 elementos", Hero->ID);
     btnMix380.lines.push_back({ szText, false });
     btnMix380.onClick = [] { g_MixRecipeMgr.SetMixType(2); };
     cfg.buttons.push_back(std::move(btnMix380));
@@ -1421,21 +1824,21 @@ void mu::ui::window::ShowLuckyTradeMenuDialog()
 void mu::ui::window::ShowTrainerMenuDialog()
 {
     GenericMenuConfig cfg;
-    cfg.kind = "npc-menu";
-    cfg.title = I18N::Game::Trainer;
-    cfg.lines.push_back({ I18N::Game::Hi, false });
+    cfg.kind = "trainer-menu";
+    cfg.title = L"Entrenador";
+    cfg.lines.push_back({ L"Hola", false });
 
     wchar_t szText[256] = { 0, };
-    mu_swprintf(szText, I18N::Game::SWhatIsYourCommand, Hero->ID);
+    mu_swprintf(szText, L"%ls ¿Cuál es tu comando?", Hero->ID);
     cfg.lines.push_back({ szText, false });
 
     GenericMenuConfig::MenuButton btnRecover;
-    btnRecover.label = I18N::Game::RestoreLifeDurability;
+    btnRecover.label = L"Restaurar la vida (durabilidad)";
     btnRecover.onClick = [] { mu::ui::window::ShowTrainerRecoverDialog(); };
     cfg.buttons.push_back(std::move(btnRecover));
 
     GenericMenuConfig::MenuButton btnRevive;
-    btnRevive.label = I18N::Game::ResurrectSpirit;
+    btnRevive.label = L"Espíritu resucitado";
     btnRevive.onClick = []
     {
         g_MixRecipeMgr.SetMixType(SEASON3A::MIXTYPE_TRAINER);
@@ -1458,8 +1861,8 @@ void mu::ui::window::ShowTrainerRecoverDialog()
 {
     GenericMenuConfig cfg;
     cfg.kind = "trainer-recover";
-    cfg.title = I18N::Game::Trainer;
-    cfg.lines.push_back({ I18N::Game::SelectThePetToRecoverLife, false });
+    cfg.title = L"Entrenador";
+    cfg.lines.push_back({ L"Selecciona la mascota para recuperar vida.", false });
 
     // Native positions each pet's own recovery-cost/status sentence (from CalcRecoveryZen)
     // directly under that pet's own button, in its muted gold -- attached to each MenuButton's own
@@ -1469,16 +1872,18 @@ void mu::ui::window::ShowTrainerRecoverDialog()
     auto exitFn = [] { SocketClient->ToGameServer()->SendCloseNpcRequest(); };
 
     GenericMenuConfig::MenuButton btnDarkHorse;
-    btnDarkHorse.label = I18N::Game::DarkHorse;
+    btnDarkHorse.label = L"Caballo oscuro";
     npcBreeder::CalcRecoveryZen(REVIVAL_DARKHORSE, costText);
+    if (wcscmp(costText, I18N::Game::PetIsNotEquipped) == 0) wcscpy_s(costText, L"La mascota no está equipada.");
     btnDarkHorse.lines.push_back({costText, false, statusColor});
     btnDarkHorse.linesBelow = true;
     btnDarkHorse.onClick = [] { npcBreeder::RecoverPet(REVIVAL_DARKHORSE); SocketClient->ToGameServer()->SendCloseNpcRequest(); };
     cfg.buttons.push_back(std::move(btnDarkHorse));
 
     GenericMenuConfig::MenuButton btnDarkSpirit;
-    btnDarkSpirit.label = I18N::Game::DarkRaven;
+    btnDarkSpirit.label = L"Cuervo oscuro";
     npcBreeder::CalcRecoveryZen(REVIVAL_DARKSPIRIT, costText);
+    if (wcscmp(costText, I18N::Game::PetIsNotEquipped) == 0) wcscpy_s(costText, L"La mascota no está equipada.");
     btnDarkSpirit.lines.push_back({costText, false, statusColor});
     btnDarkSpirit.linesBelow = true;
     btnDarkSpirit.onClick = [] { npcBreeder::RecoverPet(REVIVAL_DARKSPIRIT); SocketClient->ToGameServer()->SendCloseNpcRequest(); };

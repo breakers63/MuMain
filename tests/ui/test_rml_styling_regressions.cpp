@@ -7,6 +7,56 @@
 #include <RmlUi/Core/Mesh.h>
 #include <RmlUi/Core/TextShapingContext.h>
 
+TEST_CASE("range thumb follows a bound size after initial layout and remains movable [ui][styling]")
+{
+    UI::Tests::RmlLayoutFixture fixture;
+    float fraction = 1.f;
+    int page = 0;
+    auto model = fixture.context->CreateDataModel("dynamic_thumb");
+    REQUIRE(model);
+    model.Bind("fraction", &fraction);
+    model.Bind("page", &page);
+    auto* document = fixture.LoadMarkup(R"(<rml><head><style>
+        input { width:496px; height:10px; }
+        slidertrack { height:5px; }
+        sliderbar { width:var(--thumb-width,24%); height:5px; }
+        sliderarrowdec, sliderarrowinc { width:0; height:0; }
+        </style></head><body data-model="dynamic_thumb">
+        <input id="range" type="range" min="0" max="19" step="1" data-value="page"
+            data-style---thumb-width="(fraction * 100) + '%'"/></body></rml>)");
+    REQUIRE(document);
+    auto* range = document->GetElementById("range");
+    REQUIRE(range);
+    Rml::Element* thumb = nullptr;
+    for (int index = 0; index < range->GetNumChildren(true); ++index)
+        if (range->GetChild(index)->GetTagName() == "sliderbar") thumb = range->GetChild(index);
+    REQUIRE(thumb);
+    CHECK(thumb->GetBox().GetSize().x == doctest::Approx(496.f));
+    auto handle = model.GetModelHandle();
+    for (float share : {.24f, .5f})
+    {
+        fraction = share;
+        handle.DirtyVariable("fraction");
+        fixture.Refresh();
+        fixture.Refresh();
+        CHECK(range->GetBox().GetSize().x == doctest::Approx(496.f));
+        CHECK(thumb->GetBox().GetSize().x == doctest::Approx(496.f * share));
+    }
+    REQUIRE(range->Focus());
+    fixture.context->ProcessKeyDown(Rml::Input::KI_RIGHT, 0);
+    fixture.Refresh();
+    CHECK(page == 1);
+    CHECK(thumb->GetRelativeOffset().x > 0.f);
+    const auto start = thumb->GetAbsoluteOffset() + thumb->GetBox().GetSize() * .5f;
+    const auto end = range->GetAbsoluteOffset() + Rml::Vector2f{range->GetBox().GetSize().x - 1.f, 3.f};
+    fixture.context->ProcessMouseMove(static_cast<int>(start.x), static_cast<int>(start.y), 0);
+    fixture.context->ProcessMouseButtonDown(0, 0);
+    fixture.context->ProcessMouseMove(static_cast<int>(end.x), static_cast<int>(end.y), 0);
+    fixture.context->ProcessMouseButtonUp(0, 0);
+    fixture.Refresh();
+    CHECK(page == 19);
+}
+
 namespace
 {
 Rml::DecoratorTiled::Tile AtlasTile(Rml::DecoratorTiled::TileFitMode mode)
@@ -102,4 +152,36 @@ TEST_CASE("chat fill respects theme insets independently of modal backdrop style
         CHECK(fill->GetBox().GetSize(Rml::BoxArea::Border).y == doctest::Approx(90.f));
         document->Close();
     }
+}
+
+TEST_CASE("conditional disabled bindings keep editable fields and ranges live [ui][styling]")
+{
+    UI::Tests::RmlLayoutFixture fixture;
+    bool busy = false;
+    Rml::String amount = "0";
+    auto model = fixture.context->CreateDataModel("conditional_disabled");
+    REQUIRE(model);
+    model.Bind("busy", &busy);
+    model.Bind("amount", &amount);
+    auto* document = fixture.LoadMarkup(R"(<rml><body data-model="conditional_disabled">
+        <input id="amount" type="text" data-value="amount" data-attrif-disabled="busy"/>
+        <input id="range" type="range" data-attrif-disabled="busy"/>
+        </body></rml>)");
+    REQUIRE(document);
+    auto* input = document->GetElementById("amount");
+    auto* range = document->GetElementById("range");
+    REQUIRE(input);
+    REQUIRE(range);
+    CHECK_FALSE(input->HasAttribute("disabled"));
+    CHECK_FALSE(range->HasAttribute("disabled"));
+    busy = true;
+    model.GetModelHandle().DirtyVariable("busy");
+    fixture.Refresh();
+    CHECK(input->HasAttribute("disabled"));
+    CHECK(range->HasAttribute("disabled"));
+    busy = false;
+    model.GetModelHandle().DirtyVariable("busy");
+    fixture.Refresh();
+    CHECK_FALSE(input->HasAttribute("disabled"));
+    CHECK_FALSE(range->HasAttribute("disabled"));
 }

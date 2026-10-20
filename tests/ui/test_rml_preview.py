@@ -164,6 +164,24 @@ class TextureTest(unittest.TestCase):
         self.assertEqual(struct.unpack_from(">II", png, 16), (2, 1))
 
 
+class HDTextureTest(unittest.TestCase):
+    def test_packed_hd_art_keeps_pixels_and_uses_logical_sprite_coordinates(self):
+        with tempfile.TemporaryDirectory() as temp:
+            out = pathlib.Path(temp)
+            header = bytearray(18)
+            header[2] = 2
+            struct.pack_into("<HHBB", header, 12, 4, 4, 32, 0x28)
+            tga = bytes(header) + bytes((20, 30, 40, 255)) * 16
+            (out / "skin.tga").write_bytes(tga)
+            packed = out / "skin.OZT"
+            packed.write_bytes(b"MUX\x02" + tga)
+            self.assertEqual(rml_preview.find_texture(out / "skin.tga"), packed)
+            loaded = rml_preview.Textures(out).load(out / "skin.tga")
+            self.assertEqual(loaded[1:3], (2, 2))
+            png = (out / loaded[0]).read_bytes()
+            self.assertEqual(struct.unpack_from(">II", png, 16), (4, 4))
+
+
 class DocumentTest(unittest.TestCase):
     def test_example_model_renders_in_every_theme(self):
         states = rml_preview.load_states(ROOT / "tools/rml_preview_models/generic_confirm_dialog.json")

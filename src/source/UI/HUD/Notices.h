@@ -1,11 +1,12 @@
 #pragma once
+#include "Network/Paris/NoticeStyle.h"
 
 // On-screen notice banner: the scrolling system messages drawn over the HUD
 // (events, server announcements, etc.). Extracted from ZzzInterface.cpp.
 namespace UI::Notices
 {
     // Push a notice line. Long text is split across two lines automatically.
-    void Create(const wchar_t* text, int color);
+    void Create(const wchar_t* text, int color, const Network::Paris::NoticeStyle* style = nullptr);
 
     // Drop all current notices.
     void Clear();

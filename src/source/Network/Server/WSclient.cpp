@@ -1,4 +1,5 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
+#include "Network/Server/ViewportMonsterType.h"
 #include "App/Control/ControlTaps.h"
 #include "Core/Utilities/Log/MuLogger.h"
 #include "UI/Chat/Chat.h"
@@ -39,6 +40,7 @@
 #include "Scenes/SceneCore.h"
 #include "Network/Reconnect/ReconnectManager.h"
 #include "Network/IncomingPacketQueue.h"
+#include "Network/Paris/ParisPacketDispatch.h"
 #include "I18N/All.h"
 
 #include "Audio/DSPlaySound.h"
@@ -47,6 +49,7 @@
 #include "Engine/AI/GOBoid.h"
 #include "GameLogic/Quests/CSQuest.h"
 #include "GameLogic/Items/PersonalShopTitleImp.h"
+#include "GameLogic/Social/ActivityHistoryUpdates.h"
 #include "GameLogic/NPCs/npcBreeder.h"
 #include "GameLogic/Pets/GIPetManager.h"
 #include "GameLogic/Pets/w_PetProcess.h"
@@ -1800,6 +1803,9 @@ void ReceiveChat(const BYTE* ReceiveBuffer)
         CMultiLanguage::ConvertFromUtf8(Text, Data->ChatText);
         Text[MAX_CHAT_SIZE] = L'\0';
 
+        if (Network::Paris::DispatchText(Text))
+            return;
+
         // The prefix the branches below consume is what says which channel
         // this line belongs to; it is read before they shift it away.
         const char* chatKind = Text[0] == L'~'                        ? "party"
@@ -1872,8 +1878,8 @@ void ReceiveChat(const BYTE* ReceiveBuffer)
             {
                 CHARACTER* c = &CharactersClient[i];
                 OBJECT* o = &c->Object;
-                if (o->Live && o->Kind == KIND_PLAYER && g_isCharacterBuff((&c->Object), eBuff_GMEffect) ||
-                    (c->CtlCode == CTLCODE_20OPERATOR) || (c->CtlCode == CTLCODE_08OPERATOR))
+                if (o->Live && o->Kind == KIND_PLAYER && (g_isCharacterBuff((&c->Object), eBuff_GMEffect) ||
+                    (c->CtlCode == CTLCODE_20OPERATOR) || (c->CtlCode == CTLCODE_08OPERATOR)))
                 {
                     if (wcscmp(c->ID, ID) == 0)
                     {
@@ -1972,6 +1978,19 @@ void ReceiveNotice(const BYTE* ReceiveBuffer)
     auto Data = (LPPRECEIVE_NOTICE)ReceiveBuffer;
     wchar_t Text[256]{};
     CMultiLanguage::ConvertFromUtf8(Text, Data->Notice);
+
+    if (Network::Paris::DispatchText(Text))
+        return;
+
+    static_assert(offsetof(PRECEIVE_NOTICE, Notice) == 13);
+    Network::Paris::NoticeStyle style;
+    if (Network::Paris::DecodeNoticeStyle(Data->Result, Data->Count, Data->Delay, Data->Color, Data->Speed, style))
+    {
+        UI::Notices::Create(Text, 0, &style);
+        if (Data->Result == 2)
+            UI::Guild::AddNotice(Text);
+        return;
+    }
 
     if (Data->Result == 0)
     {
@@ -2906,7 +2925,7 @@ void ReceiveCreateMonsterViewport(const BYTE* ReceiveBuffer)
 
         BYTE bMyMob = (Data2->TypeH) & 0x80;
         BYTE byBuildTime = (Data2->TypeH & 0x70) >> 4;
-        auto Type = (EMonsterType)(((WORD)(Data2->TypeH & 0x03) << 8) + Data2->TypeL);
+        auto Type = static_cast<EMonsterType>(Network::Viewport::DecodeMonsterType(Data2->TypeH, Data2->TypeL));
 
         if (Type != 106)
             int a = 0;
@@ -5900,6 +5919,7 @@ void FallingStartCharacter(CHARACTER* c, OBJECT* o)
 
 void ReceiveDie(const BYTE* ReceiveBuffer, int Size)
 {
+    GameLogic::Social::ActivityHistoryUpdates::RecordPlayerDeath(ReceiveBuffer, Size);
     auto Data = (LPPHEADER_DEFAULT_DIE)ReceiveBuffer;
 
     int Key = ((int)(Data->KeyH) << 8) + Data->KeyL;
@@ -13232,6 +13252,10 @@ static void ProcessPacket(const BYTE* ReceiveBuffer, int32_t Size)
     }
     switch (HeadCode)
     {
+    case 0xED:
+    case 0xFA:
+        Network::Paris::Dispatch(ReceiveBuffer, Size);
+        break;
     case 0xF1:
     {
         auto Data = (LPPHEADER_DEFAULT_SUBCODE)ReceiveBuffer;

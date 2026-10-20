@@ -5,6 +5,7 @@
 #include "Core/Utilities/StringUtils.h"
 #include "Engine/Object/ZzzInventory.h"
 #include "UI/RmlBridge/RmlTooltip.h"
+#include "UI/Inventory/ItemRarityTooltip.h"
 
 #include <utility>
 #include <vector>
@@ -56,6 +57,7 @@ std::vector<UI::RmlBridge::Tooltip::Line> BuildLines(int lineCount)
             line.text = StringUtils::WideToNarrow(TextList[i]);
             line.bold = TextBold[i] != 0;
             line.color = ConvertColor(TextListColor[i]);
+            line.sourceColor = TextListColor[i];
         }
         lines.push_back(std::move(line));
     }
@@ -69,7 +71,8 @@ const void* ItemInfoOwner()
     return &token;
 }
 
-void ShowLegacyTextList(int lineCount, float anchorX, float anchorY, Placement placement, const void* owner)
+void ShowLegacyTextList(int lineCount, float anchorX, float anchorY, Placement placement, const void* owner,
+                        const tagITEM* item)
 {
     UI::RmlBridge::Tooltip::Config config;
     config.lines = BuildLines(lineCount);
@@ -81,6 +84,8 @@ void ShowLegacyTextList(int lineCount, float anchorX, float anchorY, Placement p
     config.textAlign = UI::RmlBridge::Tooltip::Config::TextAlign::Center;
     // Every item information tooltip is drawn from its window's Render() while the item is hovered.
     config.refreshEachFrame = owner == ItemInfoOwner();
+    if (item)
+        UI::Items::RarityTooltip::Decorate(config, *item);
     UI::RmlBridge::Tooltip::Show(config, owner);
 }
 

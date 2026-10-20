@@ -761,7 +761,7 @@ bool CMyInventory::UpdateKeyEvent()
         }
     }
 
-    if (CanOpenMyShopInterface() == true && IsPress('S'))
+    if (CanOpenMyShopInterface() == true && (IsPress(VK_CONTROL) || IsRepeat(VK_CONTROL)) && IsPress('S'))
     {
         if (m_bMyShopOpen)
         {

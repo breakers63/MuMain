@@ -13,6 +13,13 @@
 #include "DotNetMessageFormat.h"
 #include "Core/Utilities/Log/MuLogger.h"
 
+int32_t Connection::GetTcpPingMilliseconds() const
+{
+    using GetTcpPing = int32_t(CORECLR_DELEGATE_CALLTYPE*)(int32_t);
+    static const auto getPing = LoadManagedSymbol<GetTcpPing>("ConnectionManager_GetTcpPing");
+    return _handle > 0 && getPing ? getPing(_handle) : -1;
+}
+
 // Full definitions required: Connection.cpp allocates these types (new PacketFunctions_*()).
 // Connection.h uses only forward declarations to avoid include-order failures in TUs
 // that pull it in transitively through WSclient.h.

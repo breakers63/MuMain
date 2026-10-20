@@ -32,3 +32,6 @@ body { pointer-events: none; }
 .notice-text--gold { color: rgb(255, 200, 80); }
 .notice-text--gold-dim { color: rgba(255, 200, 80, 128); }
 .notice-text--green { color: rgb(100, 255, 200); }
+
+/* Colours and background come from the server Custom Notice metadata. */
+.notice-text--server { font-weight: normal; }

@@ -1,0 +1,26 @@
+/* Match the OpenGL overlay; the document stays non-modal over the world. */
+.invasion-launcher {position:absolute;left:10dp;top:18dp;width:78dp;height:21dp;background-color:#110609;border:1dp #9a1924;border-radius:3dp;pointer-events:auto;cursor:pointer;}
+.invasion-symbol {position:absolute;left:2dp;top:0;width:20dp;height:20dp;line-height:20dp;color:#f52238;font-size:18dp;text-align:center;pointer-events:none;}
+.invasion-label {position:absolute;left:22dp;right:2dp;top:0;height:21dp;line-height:21dp;text-align:center;color:#e78789;font-size:5.5dp;pointer-events:none;}
+#panel.invasion-panel {position:absolute;left:100dp;top:50dp;width:120dp;height:148dp;background-color:rgba(0,0,0,210);pointer-events:auto;color:#dddddd;font-size:6.8dp;font-family:"token(font-body)";}
+.invasion-title {position:absolute;left:5dp;right:12dp;top:6dp;height:13dp;line-height:13dp;text-align:center;color:#f3d063;font-size:8dp;font-weight:bold;pointer-events:none;}
+.invasion-close {position:absolute;right:5dp;top:5dp;width:10dp;height:12dp;line-height:12dp;background-color:#291408;color:#f1d99c;text-align:center;pointer-events:auto;cursor:pointer;}
+.invasion-time {position:absolute;left:5dp;right:5dp;top:27dp;height:10dp;line-height:10dp;text-align:center;color:#f2e3a3;pointer-events:none;}
+.invasion-rows {position:absolute;left:9dp;right:9dp;top:44dp;bottom:8dp;overflow:hidden auto;}
+.invasion-row {display:block;position:relative;height:11dp;}
+.invasion-name {position:absolute;left:0;right:28dp;top:0;height:11dp;line-height:11dp;white-space:nowrap;overflow:hidden;}
+.invasion-count {position:absolute;right:0;top:0;width:28dp;height:11dp;line-height:11dp;text-align:right;}
+
+@spritesheet invasion-on-sheet {src:"../../../ascend_on.tga";invasion-on:0px 0px 231px 60px;}
+@spritesheet invasion-off-sheet {src:"../../../ascend_off.tga";invasion-off:0px 0px 231px 60px;}
+.invasion-launcher {background-color:transparent;border:0;decorator:image(invasion-off);}
+.invasion-launcher:hover,.invasion-launcher.open {decorator:image(invasion-on);}
+
+.invasion-rows {bottom:22dp;}
+.invasion-summary {position:absolute;left:5dp;right:5dp;bottom:5dp;height:11dp;line-height:11dp;text-align:center;color:#f3d063;pointer-events:none;}
+.invasion-row:hover {background-color:#6a502455;}
+.invasion-preview {position:absolute;left:100%;margin-left:7dp;top:30dp;width:108dp;height:148dp;background-color:#0b0b0bf0;border:1dp #7d6538;pointer-events:none;}
+.invasion-preview.hidden {display:none;}
+.invasion-preview-name {position:absolute;left:4dp;right:4dp;top:7dp;height:18dp;line-height:9dp;text-align:center;color:#f3d063;white-space:normal;}
+.invasion-preview-image {position:absolute;left:7dp;top:26dp;width:94dp;height:98dp;pointer-events:none;}
+.invasion-preview-count {position:absolute;left:2dp;right:2dp;bottom:7dp;height:12dp;line-height:12dp;text-align:center;color:#f2e3a3;}

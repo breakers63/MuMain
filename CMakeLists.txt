@@ -2,6 +2,12 @@ cmake_minimum_required(VERSION 3.25)
 
 project(MuMain LANGUAGES CXX)
 
+# Keep Ninja's header parser in sync with explicitly selected Spanish MSVC output.
+# A cached, misdecoded localized prefix otherwise drops header dependencies.
+if(MSVC AND "$ENV{VSLANG}" STREQUAL "3082")
+    set(CMAKE_CL_SHOWINCLUDES_PREFIX "Nota: inclusión del archivo: ")
+endif()
+
 if(MINGW)
     add_compile_options(-Wa,-mbig-obj)
 endif()

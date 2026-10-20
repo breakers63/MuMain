@@ -109,3 +109,9 @@
 	color: token(text-secondary);
 	white-space: normal;
 }
+
+
+/* Match the approved restrained buttons while keeping the server list layout. */
+.group-btn { width: 120rem; height: 30rem; line-height: 30rem; }
+.server-row { width: 220rem; height: 30rem; line-height: 30rem; }
+.server-gauge-slot { left: 6%; top: 26rem; width: 87%; height: 2rem; }

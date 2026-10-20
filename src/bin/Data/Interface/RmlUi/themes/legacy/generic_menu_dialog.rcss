@@ -24,6 +24,115 @@
 	font-size: 1rem;
 	color: token(text-primary);
 }
+#panel.paris-custom {
+	top: 24dp;
+	left: 50%;
+	margin-left: -180dp;
+	width: 360dp;
+	height: 432dp;
+}
+
+/* Generic action/result pages (Mentor, Soul, GM notices and confirmations) use the Paris frame
+   without inheriting the launcher grid. Long server lists scroll independently from their actions. */
+#panel.paris-feature {
+	top: 18dp;
+	left: 50%;
+	margin-left: -135dp;
+	width: 270dp;
+	height: 470dp;
+	min-height: 0;
+	decorator: image(paris-custom-frame);
+	background-color: transparent;
+	font-family: "token(font-body)";
+	font-size: .82rem;
+	color: token(text-primary);
+}
+#panel.paris-feature .window-shell-sprite-back,
+#panel.paris-feature .window-shell-sprite-top,
+#panel.paris-feature .window-shell-sprite-middle,
+#panel.paris-feature .window-shell-sprite-bottom,
+#panel.paris-feature .window-shell-header-rail { display: none; }
+#panel.paris-feature .window-shell-header-title {
+	top: 24dp;
+	color: #ffdc48;
+	font-size: .95rem;
+	text-shadow: 1dp 1dp 1dp #000000;
+}
+#panel.paris-feature.paris-feature.paris-feature .window-shell-content {
+	top: 51dp;
+	left: 14dp;
+	right: 14dp;
+	bottom: 14dp;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: stretch;
+	gap: 5dp;
+	overflow: hidden;
+}
+#panel.paris-feature.paris-feature .gmd-lines {
+	position: relative;
+	top: auto;
+	left: auto;
+	right: auto;
+	width: auto;
+	max-height: 150dp;
+	flex: 0 1 auto;
+	overflow: hidden auto;
+	text-align: center;
+}
+#panel.paris-feature.paris-feature .gmd-line {
+	color: #e2dccd;
+	font-size: .76rem;
+	line-height: 15dp;
+	margin-bottom: 4dp;
+}
+#panel.paris-feature.paris-feature .gmd-line.bold { color: #ffdc48; }
+#panel.paris-feature.paris-feature .gmd-button-row {
+	position: relative;
+	top: auto;
+	left: auto;
+	right: auto;
+	width: auto;
+	min-height: 50dp;
+	flex: 1 1 auto;
+	align-content: flex-start;
+	justify-content: center;
+	gap: 2dp;
+	overflow: hidden auto;
+}
+#panel.paris-feature .gmd-button-cell { margin-bottom: 2dp; }
+#panel.paris-feature .gmd-btn {
+	width: 100%;
+	min-height: 29dp;
+	border: 1dp #a98122;
+	background-color: rgba(4, 4, 4, 220);
+	decorator: none;
+	color: #ffdc48;
+}
+#panel.paris-feature .gmd-btn:hover,
+#panel.paris-feature .gmd-btn:active { background-color: rgba(70, 48, 10, 235); }
+#panel.paris-feature .paris-feature-close {
+	position: absolute;
+	top: 21dp;
+	right: 10dp;
+	width: 18dp;
+	height: 18dp;
+	background-color: transparent;
+	cursor: pointer;
+}
+#panel.paris-custom .window-shell-content {
+	top: 42dp;
+	bottom: 16dp;
+	left: 14dp;
+	right: 14dp;
+}
+#panel.paris-custom .gmd-button-row { overflow: hidden auto; }
+#panel.paris-custom .gmd-button-cell.cols-2 { width: 150dp; margin: 0 2dp 6dp 2dp; }
+#panel.paris-custom .gmd-btn.cols-2 { width: 150dp; }
+#panel.paris-custom .gmd-btn.cols-2 .gmd-btn-label { white-space: nowrap; }
 #panel.window-shell-positioned { margin-left: 0; }
 /* Below the dialog canvas offset (RmlDialogCanvas.h). */
 #panel { margin-top: var(--canvas-top, 0dp); }
@@ -297,3 +406,249 @@
 	line-height: 15dp;
 }
 #panel[data-kind="chaos-mix"] .gmd-button-cell:nth-child(-n+3) .gmd-btn { margin-top: 3dp; }
+
+/* Paris' 16-system launcher follows the OpenGL menu: one compact gold-framed panel, two icon
+   columns, and a single short label per card. Keep these rules scoped to this menu kind so NPC,
+   Chaos and Trainer dialogs continue using their native stone frame and buttons. */
+@spritesheet paris-custom-frame-sheet
+{
+	src: "../paris-gold/paris-frame.tga";
+	paris-custom-frame: 0px 0px 512px 1024px;
+}
+@spritesheet paris-custom-icons-sheet
+{
+	src: "../../../Paris_CustomIconsV2.tga";
+	paris-custom-add-stats: 0px 0px 128px 128px;
+	paris-custom-market: 128px 128px 128px 128px;
+	paris-custom-vip: 128px 256px 128px 128px;
+	paris-custom-battle-pass: 0px 384px 128px 128px;
+	paris-custom-rank-user: 128px 384px 128px 128px;
+	paris-custom-reset: 0px 512px 128px 128px;
+	paris-custom-jewel-bank: 128px 640px 128px 128px;
+}
+@spritesheet paris-custom-events-sheet
+{
+	src: "../../../Paris_MenuEvents61.tga";
+	paris-custom-events: 51px 31px 154px 131px;
+}
+@spritesheet paris-custom-info-sheet
+{
+	src: "../../../Paris_MenuInfo61.tga";
+	paris-custom-info: 51px 31px 154px 131px;
+}
+@spritesheet paris-custom-guides-sheet
+{
+	src: "../../../Paris_MenuGuides61.tga";
+	paris-custom-guides: 51px 31px 154px 131px;
+}
+@spritesheet paris-custom-extra-sheet
+{
+	src: "../../../Paris_MenuExtraV36.tga";
+	paris-custom-kill-log: 102px 61px 307px 251px;
+	paris-custom-post-items: 614px 61px 307px 251px;
+	paris-custom-mentor: 102px 573px 307px 251px;
+	paris-custom-gm-panel: 614px 573px 307px 251px;
+}
+@spritesheet paris-custom-feature-sheet
+{
+	src: "../../../Paris_MenuFeatures50.tga";
+	paris-custom-soul-system: 51px 25px 112px 120px;
+	paris-custom-auctions: 307px 25px 112px 120px;
+}
+
+#panel.paris-custom {
+	top: 0dp;
+	left: 50%;
+	margin-left: -110dp;
+	width: 220dp;
+	height: 425dp;
+	min-height: 0;
+	decorator: image(paris-custom-frame);
+	background-color: transparent;
+	font-size: .72rem;
+}
+#panel.paris-custom .window-shell-sprite-back,
+#panel.paris-custom .window-shell-sprite-top,
+#panel.paris-custom .window-shell-sprite-middle,
+#panel.paris-custom .window-shell-sprite-bottom,
+#panel.paris-custom .window-shell-header-rail { display: none; }
+#panel.paris-custom .window-shell-header-title {
+	top: 24dp;
+	color: #ffdc48;
+	font-size: .95rem;
+	text-shadow: 1dp 1dp 1dp #000000;
+}
+#panel.paris-custom .window-shell-content {
+	top: 51dp;
+	left: 13dp;
+	right: 13dp;
+	bottom: 35dp;
+	padding: 0;
+	margin: 0;
+	display: block;
+}
+#panel.paris-custom .gmd-lines {
+	position: absolute;
+	top: 30dp;
+	left: 0;
+	right: 0;
+	height: 16dp;
+}
+#panel.paris-custom .gmd-line {
+	margin: 0;
+	line-height: 16dp;
+	color: #d6d0c2;
+	font-size: .68rem;
+	letter-spacing: .03rem;
+}
+#panel.paris-custom .gmd-divider { display: none; }
+#panel.paris-custom .gmd-button-row {
+	position: absolute;
+	top: 50dp;
+	left: 0;
+	right: 0;
+	width: auto;
+	height: 288dp;
+	justify-content: center;
+	align-content: flex-start;
+	align-items: flex-start;
+	flex-wrap: wrap;
+	gap: 0;
+	overflow: hidden;
+}
+#panel.paris-custom .gmd-button-cell,
+#panel.paris-custom .gmd-button-cell.cols-2 {
+	position: relative;
+	left: auto;
+	top: auto;
+	right: auto;
+	bottom: auto;
+	flex: 0 0 92dp;
+	width: 92dp;
+	height: 34dp;
+	margin: 0;
+	padding: 0 2dp 2dp;
+	align-items: center;
+	justify-content: center;
+}
+#panel.paris-custom .gmd-button-cell .gmd-line { display: none; }
+#panel.paris-custom .gmd-btn,
+#panel.paris-custom .gmd-btn.cols-2 {
+	position: relative;
+	width: 88dp;
+	height: 34dp;
+	border: 1dp #a98122;
+	background-color: rgba(4, 4, 4, 199);
+	decorator: none;
+	box-shadow: inset 0 0 3dp rgba(250, 184, 35, 46);
+	color: #ffdc48;
+}
+#panel.paris-custom .gmd-btn:hover,
+#panel.paris-custom .gmd-btn:active { background-color: rgba(70, 48, 10, 235); }
+#panel.paris-custom .gmd-custom-icon {
+	position: absolute;
+	display: block;
+	top: 2dp;
+	left: 50%;
+	margin-left: -10dp;
+	width: 20dp;
+	height: 20dp;
+	pointer-events: none;
+}
+#panel.paris-custom .gmd-button-cell:nth-child(1) .gmd-custom-icon { decorator: image(paris-custom-add-stats); }
+#panel.paris-custom .gmd-button-cell:nth-child(2) .gmd-custom-icon { decorator: image(paris-custom-jewel-bank); }
+#panel.paris-custom .gmd-button-cell:nth-child(3) .gmd-custom-icon { decorator: image(paris-custom-reset); }
+#panel.paris-custom .gmd-button-cell:nth-child(4) .gmd-custom-icon { decorator: image(paris-custom-events); }
+#panel.paris-custom .gmd-button-cell:nth-child(5) .gmd-custom-icon { decorator: image(paris-custom-info); }
+#panel.paris-custom .gmd-button-cell:nth-child(6) .gmd-custom-icon { decorator: image(paris-custom-market); }
+#panel.paris-custom .gmd-button-cell:nth-child(7) .gmd-custom-icon { decorator: image(paris-custom-rank-user); }
+#panel.paris-custom .gmd-button-cell:nth-child(7) .gmd-custom-icon { top: 1dp; }
+#panel.paris-custom .gmd-button-cell:nth-child(8) .gmd-custom-icon { decorator: image(paris-custom-vip); }
+#panel.paris-custom .gmd-button-cell:nth-child(9) .gmd-custom-icon { decorator: image(paris-custom-battle-pass); }
+#panel.paris-custom .gmd-button-cell:nth-child(10) .gmd-custom-icon { decorator: image(paris-custom-guides); }
+#panel.paris-custom .gmd-button-cell:nth-child(11) .gmd-custom-icon { decorator: image(paris-custom-kill-log); }
+#panel.paris-custom .gmd-button-cell:nth-child(12) .gmd-custom-icon { decorator: image(paris-custom-post-items); }
+#panel.paris-custom .gmd-button-cell:nth-child(13) .gmd-custom-icon { decorator: image(paris-custom-mentor); }
+#panel.paris-custom .gmd-button-cell:nth-child(14) .gmd-custom-icon { decorator: image(paris-custom-gm-panel); }
+#panel.paris-custom .gmd-button-cell:nth-child(15) .gmd-custom-icon { decorator: image(paris-custom-soul-system); }
+#panel.paris-custom .gmd-button-cell:nth-child(16) .gmd-custom-icon { decorator: image(paris-custom-auctions); }
+#panel.paris-custom .gmd-btn-label {
+	position: absolute;
+	left: 1dp;
+	right: 1dp;
+	top: 22dp;
+	width: auto;
+	text-align: center;
+	white-space: nowrap;
+	color: #ffdc48;
+	font-size: .64rem;
+	font-weight: bold;
+	line-height: 11dp;
+}
+#panel.paris-custom .paris-custom-footer {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 334dp;
+	text-align: center;
+	color: #c7c3b8;
+	font-size: .72rem;
+	line-height: 15dp;
+}
+#panel.paris-custom .paris-custom-shortcuts {
+	color: #bcb7ab;
+	font-size: .62rem;
+}
+#panel.paris-custom .paris-custom-close {
+	position: absolute;
+	top: 21dp;
+	right: 10dp;
+	width: 18dp;
+	height: 18dp;
+	border: none;
+	background-color: transparent;
+	cursor: pointer;
+}
+
+/* These controls are spliced inside #content; compensate its inset to hit the frame's X. */
+#panel.paris-custom .window-shell-content,
+#panel.paris-feature.paris-feature.paris-feature .window-shell-content { overflow: visible; }
+#panel.paris-custom .paris-custom-close { top: -30dp; right: -3dp; pointer-events: auto; z-index: 10; }
+#panel.paris-feature .paris-feature-close { top: -31dp; right: -4dp; pointer-events: auto; z-index: 10; }
+
+/* Leave clear space below the top ornament while keeping the frame close hitbox fixed. */
+#panel.paris-custom .window-shell-header-title {top:34dp;}
+#panel.paris-custom .window-shell-content {top:61dp;}
+#panel.paris-custom .paris-custom-close {top:-40dp;}
+
+/* Override the native titled-content inset, then lower the complete launcher grid. */
+#panel.paris-custom.native-frame .window-shell-content.has-title {position:absolute;top:48dp;left:13dp;right:13dp;bottom:16dp;margin:0;padding:0;}
+#panel.paris-custom .window-shell-header-title {top:31dp;height:13dp;line-height:13dp;}
+#panel.paris-custom .gmd-lines {top:0;height:13dp;line-height:13dp;}
+#panel.paris-custom .gmd-line {line-height:13dp;}
+#panel.paris-custom .gmd-button-row {top:20dp;height:288dp;}
+#panel.paris-custom .paris-custom-footer {top:310dp;}
+#panel.paris-custom .paris-custom-close {top:-27dp;}
+#panel.paris-custom .gmd-btn,#panel.paris-custom .gmd-btn:hover,#panel.paris-custom .gmd-btn:active {background-color:#000000;box-shadow:none;}
+#panel.paris-custom .gmd-btn:hover {border-color:#f7da65;}
+
+/* NPC menus share Paris artwork while retaining their existing server actions. */
+#panel.paris-npc { width:250dp;margin-left:-125dp;decorator:image(paris-custom-frame);background-color:transparent;color:#eee4cf; }
+#panel.paris-npc .window-shell-sprite-back,#panel.paris-npc .window-shell-sprite-top,#panel.paris-npc .window-shell-sprite-middle,#panel.paris-npc .window-shell-sprite-bottom,#panel.paris-npc .window-shell-header-rail {display:none;}
+#panel.paris-npc .window-shell-header-title {top:30dp;height:18dp;line-height:18dp;font-size:.95rem;color:#f4d16e;}
+#panel.paris-npc .gmd-btn {decorator:none;background-color:#211907;border:1dp #9c7a28;color:#f3e2b6;box-sizing:border-box;}
+#panel.paris-npc .gmd-btn:hover {decorator:none;background-color:#443315;border-color:#f7d778;}
+#panel.paris-npc .gmd-btn:active {decorator:none;background-color:#140e05;}
+#panel.paris-npc .gmd-btn-label {white-space:normal;line-height:13dp;font-size:.85rem;}
+#panel.paris-npc .gmd-btn {display:flex;align-items:center;justify-content:center;}
+#panel.paris-npc[data-kind="npc-menu"],#panel.paris-npc[data-kind="trainer-recover"] {height:255dp;}
+#panel.paris-npc[data-kind="npc-menu"] .gmd-lines,#panel.paris-npc[data-kind="trainer-recover"] .gmd-lines {top:57dp;}
+#panel.paris-npc[data-kind="npc-menu"] .gmd-button-cell:nth-child(1) {top:105dp;}
+#panel.paris-npc[data-kind="npc-menu"] .gmd-button-cell:nth-child(2) {top:145dp;}
+#panel.paris-npc[data-kind="trainer-recover"] .gmd-button-cell:nth-child(1) {top:84dp;}
+#panel.paris-npc[data-kind="trainer-recover"] .gmd-button-cell:nth-child(2) {top:140dp;}
+#panel.paris-npc[data-kind="chaos-mix"] {height:345dp;}
+#panel.paris-npc[data-kind="chaos-mix"] .gmd-button-cell:nth-child(1) {top:62dp;}
+#panel.paris-npc[data-kind="chaos-mix"] .gmd-button-cell:nth-child(2) {top:151dp;}
+#panel.paris-npc[data-kind="chaos-mix"] .gmd-button-cell:nth-child(3) {top:229dp;}
+#panel.paris-npc[data-kind="chaos-mix"] .gmd-line {font-size:.78rem;}

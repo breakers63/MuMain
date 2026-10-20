@@ -1,4 +1,4 @@
-/* Legacy theme for CChatLogWindow. Every colour below is lifted from the native
+﻿/* Legacy theme for CChatLogWindow. Every colour below is lifted from the native
    RenderMessages()/RenderBackground() it replaces (ChatLogWindow.cpp) -- per-type background and
    text RGBA pairs, not an approximation.
 
@@ -145,3 +145,8 @@
 	background-color: rgba(30, 30, 30, 180);
 	color: rgb(255, 128, 255);
 }
+
+/* Paris /post uses the OpenGL party palette, independently of the sender's GM status. */
+.chat-line--post { background-color: rgba(0, 200, 255, 150); color: rgb(0, 0, 0); font-weight: normal; }
+#panel.framed .chat-line--post { background-color: rgba(0, 200, 255, 150); }
+.chat-line--post.chat-line--pointed { background-color: rgba(30, 30, 30, 180); color: rgb(255, 128, 255); }

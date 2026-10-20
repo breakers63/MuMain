@@ -39,6 +39,9 @@ namespace
     // Same cap the native password box was given (SetTextLimit(20)). Set on #msgwin_input from C++
     // so it stays one rule rather than a literal duplicated per theme.
     constexpr int kResidentPasswordMaxLength = 20;
+    constexpr wchar_t kAcceptLabel[] = L"ACEPTAR";
+    constexpr wchar_t kCancelLabel[] = L"CANCELAR";
+    constexpr wchar_t kDisconnectedMessage[] = L"Has sido desconectado del servidor.";
 }
 
 CMsgWin g_MsgWin;
@@ -231,8 +234,8 @@ void CMsgWin::SyncRmlModel()
     syncBool(&MsgWinRmlModel::modeOkOnly, "mode_ok_only", m_eType == MWT_BTN_OK);
     syncBool(&MsgWinRmlModel::modeBoth, "mode_both", m_eType == MWT_BTN_BOTH);
     syncBool(&MsgWinRmlModel::modeInput, "mode_input", m_eType == MWT_STR_INPUT);
-    syncLabel(&MsgWinRmlModel::okLabel, "ok_label", I18N::Game::OK);
-    syncLabel(&MsgWinRmlModel::cancelLabel, "cancel_label", I18N::Game::Cancel);
+    syncLabel(&MsgWinRmlModel::okLabel, "ok_label", kAcceptLabel);
+    syncLabel(&MsgWinRmlModel::cancelLabel, "cancel_label", kCancelLabel);
 }
 
 void CMsgWin::SetMsg(MSG_WIN_TYPE eType, std::wstring lpszMsg, std::wstring lpszMsg2)
@@ -280,7 +283,7 @@ void CMsgWin::PopUp(int nMsgCode, wchar_t* pszMsg)
         lpszMsg = I18N::Game::TheServerIsFull;
         break;
     case MESSAGE_SERVER_LOST:
-        lpszMsg = I18N::Game::YouAreDisconnectedFromTheServer;
+        lpszMsg = kDisconnectedMessage;
         break;
     case MESSAGE_VERSION:
     case RECEIVE_LOG_IN_FAIL_VERSION:

@@ -108,6 +108,7 @@ protected:
     float m_fSettingZoom;
     float m_fCurrentZoom;
     BOOL m_bIsWebzenMail;
+    std::uint64_t m_previewTick = 0;
     // Last, so it is destroyed first and its drawer never runs against a half-destroyed viewer.
     UI::RmlBridge::RenderTarget m_Target;
 

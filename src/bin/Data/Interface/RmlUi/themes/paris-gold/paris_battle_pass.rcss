@@ -1,0 +1,77 @@
+/* Original OpenGL Battle Pass artwork and 540 x 380 layout. */
+@spritesheet bp-panel-sheet { src: "../../../../Custom/Interface/BattlePass/panel.tga"; bp-panel: 0px 0px 810px 570px; }
+@spritesheet bp-free-sheet { src: "../../../../Custom/Interface/BattlePass/free_line.tga"; bp-free: 0px 0px 30px 140px; }
+@spritesheet bp-premium-sheet { src: "../../../../Custom/Interface/BattlePass/premium_line.tga"; bp-premium: 0px 0px 30px 140px; }
+@spritesheet bp-locked-sheet { src: "../../../../Custom/Interface/BattlePass/icon_locked.tga"; bp-locked: 0px 0px 140px 140px; }
+@spritesheet bp-checked-sheet { src: "../../../../Custom/Interface/BattlePass/icon_checked.tga"; bp-checked: 0px 0px 140px 140px; }
+@spritesheet bp-zen-sheet { src: "../../../../Custom/Interface/BattlePass/zen_coins.tga"; bp-zen: 0px 0px 140px 140px; }
+@spritesheet bp-coins-sheet { src: "../../../../Custom/Interface/BattlePass/w_coins.tga"; bp-coins: 0px 0px 140px 140px; }
+@spritesheet bp-ruud-sheet { src: "../../../../Custom/Interface/BattlePass/ruud_coins.tga"; bp-ruud: 0px 0px 140px 140px; }
+@spritesheet bp-progress-bg-sheet { src: "../../../../Custom/Interface/BattlePass/bar_bg.tga"; bp-progress-bg: 0px 0px 271px 18px; }
+@spritesheet bp-progress-sheet { src: "../../../../Custom/Interface/BattlePass/bar.tga"; bp-progress: 0px 0px 261px 8px; }
+#panel.paris-battle-pass { position: absolute; pointer-events: auto; left: 50%; top: 50%; margin-left: -270dp; margin-top: -200dp; width: 540dp; height: 380dp; decorator: image(bp-panel); font-family: "token(font-body)"; color: #e5d49b; font-size: .95rem; }
+.bp-level { position: absolute; left: 20dp; top: 80dp; width: 180dp; height: 12dp; }
+.bp-progress { position: absolute; left: 20dp; top: 91dp; width: 180dp; height: 12dp; decorator: image(bp-progress-bg); }
+.bp-progress-interior { position: absolute; left: 3dp; top: 4dp; width: 174dp; height: 5dp; }
+.bp-progress-fill { height: 5dp; decorator: image(bp-progress); }
+.bp-points { position: absolute; left: 20dp; top: 94dp; width: 180dp; text-align: center; font-size: .7rem; }
+.bp-free-label, .bp-premium-label { position: absolute; left: 5dp; width: 14dp; height: 70dp; }
+.bp-free-label { top: 156dp; decorator: image(bp-free); }
+.bp-premium-label { top: 250dp; decorator: image(bp-premium); }
+.bp-reward { position: absolute; top: 156dp; width: 70dp; height: 70dp; box-sizing: border-box; background-color: #090909; border: 1dp transparent; cursor: pointer; }
+.bp-reward.premium { top: 250dp; }
+.bp-reward:hover { background-color: #1f1a0d; border-color: #f2c240; }
+.bp-caption { position: absolute; left: 0; top: -14dp; width: 70dp; height: 12dp; text-align: center; }
+.bp-checked, .bp-locked { position: absolute; right: 0; top: 0; width: 13dp; height: 13dp; }
+.bp-checked { decorator: image(bp-checked); }
+.bp-locked { decorator: image(bp-locked); }
+.bp-coin { position: absolute; left: 18dp; top: 18dp; width: 35dp; height: 35dp; }
+.bp-coin.zen { decorator: image(bp-zen); }
+.bp-coin.coins { decorator: image(bp-coins); }
+.bp-coin.ruud { decorator: image(bp-ruud); }
+.bp-item-icon { position: absolute; left: 18dp; top: 18dp; width: 34dp; height: 34dp; pointer-events: none; }
+.bp-amount { position: absolute; left: 4dp; top: 5dp; width: 45dp; font-weight: bold; }
+.bp-status { position: absolute; left: 25dp; top: 210dp; width: 490dp; text-align: center; }
+.bp-scroll { position: absolute; left: 22dp; top: 332dp; width: 496dp; height: 10dp; padding: 0; border: 0; background-color: transparent; }
+.bp-scroll slidertrack { height: 5dp; margin-top: 4dp; background-color: #040404; }
+.bp-scroll sliderbar { width: var(--thumb-width, 24%); min-width: 20dp; max-width: 496dp; height: 5dp; margin-top: 4dp; background-color: #595959; cursor: pointer; }
+.bp-scroll sliderarrowdec, .bp-scroll sliderarrowinc { width: 0; height: 0; }
+.bp-button { position: absolute; top: 348dp; height: 19dp; line-height: 19dp; text-align: center; color: #1a1204; font-weight: bold; cursor: pointer; border: 1dp #9b7528; decorator: vertical-gradient(#c4a457 #78602b); }
+.bp-button:hover { color: #fff0b0; }
+.bp-activate { left: 22dp; width: 120dp; }
+.bp-close { left: 448dp; width: 70dp; color: #ffffff; border-color: #9a342c; decorator: vertical-gradient(#8f2921 #4f1310); }
+.bp-message { position: absolute; left: 153dp; top: 352dp; width: 290dp; height: 16dp; overflow: hidden; text-align: center; color: #ffdc73; font-size: .7rem; }
+.bp-overlay { position: absolute; left: 0; top: 0; width: 540dp; height: 380dp; background-color: rgba(0,0,0,166); }
+.bp-dialog { position: absolute; left: 160dp; top: 15dp; width: 220dp; height: 318dp; border: 1dp #b39959; background-color: #101010; }
+.bp-dialog-title { position: absolute; left: 15dp; top: 12dp; width: 190dp; text-align: center; }
+.bp-requirements-title { position: absolute; left: 26dp; top: 38dp; width: 168dp; height: 17dp; line-height: 17dp; text-align: center; font-weight: bold; background-color: #2b2106; }
+.bp-requirements-box { position: absolute; left: 26dp; top: 57dp; width: 168dp; height: 72dp; background-color: #060604; }
+#premium-item { position: absolute; left: 95dp; top: 76dp; width: 30dp; height: 30dp; }
+.bp-requirement { position: absolute; left: 28dp; top: 117dp; width: 164dp; text-align: center; color: #ff4b41; font-size: .7rem; }
+.bp-dialog-separator { position: absolute; left: 26dp; top: 143dp; width: 168dp; height: 1dp; background-color: #9e7a14; }
+.bp-premium-status { position: absolute; left: 20dp; top: 151dp; width: 180dp; text-align: center; color: #46ffdc; }
+.bp-expires-label { position: absolute; left: 26dp; top: 172dp; width: 70dp; font-weight: bold; }
+.bp-expires { position: absolute; left: 98dp; top: 172dp; width: 96dp; text-align: right; }
+.bp-dialog-button { position: absolute; top: 260dp; width: 72dp; height: 22dp; line-height: 22dp; text-align: center; color: #0f0f0f; cursor: pointer; font-weight: bold; decorator: vertical-gradient(#858578 #58584f); }
+.bp-ok { left: 32dp; }
+.bp-cancel { left: 116dp; }
+
+.bp-reward.column-0 { left: 31dp; }
+.bp-reward.column-1 { left: 115dp; }
+.bp-reward.column-2 { left: 199dp; }
+.bp-reward.column-3 { left: 283dp; }
+.bp-reward.column-4 { left: 367dp; }
+.bp-reward.column-5 { left: 451dp; }
+
+.paris-battle-pass.pending .bp-reward { cursor: default; }
+
+@spritesheet bp-stone-sheet { src: "../paris-gold/paris-frame.tga"; bp-stone: 50px 180px 390px 500px; }
+.bp-dialog-stone { position: absolute; left: 3dp; right: 3dp; top: 3dp; bottom: 3dp; decorator: image(bp-stone); pointer-events: none; }
+
+.bp-scroll sliderprogress { background-color: transparent; height: 0; }
+
+/* Original OpenGL controls: white normal-weight captions, no extra border. */
+.bp-button { box-sizing:border-box; border:0; color:#ffffff; font-weight:normal; decorator:vertical-gradient(#c7910a #503a04); }
+.bp-button:hover { color:#ffffff; decorator:vertical-gradient(#ffbd0d #8b6507); }
+.bp-close { color:#ffffff; border:0; decorator:vertical-gradient(#a60906 #420906); }
+.bp-close:hover { color:#ffffff; decorator:vertical-gradient(#d70906 #730906); }

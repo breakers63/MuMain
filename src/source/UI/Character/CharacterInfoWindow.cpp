@@ -1,7 +1,8 @@
-
+﻿
 #include "stdafx.h"
 #include "UI/Chat/Chat.h"
 #include "UI/Character/CharacterInfoWindow.h"
+#include "UI/Character/ParisStatAllocationController.h"
 #include "UI/Core/WindowSystem.h"
 #include "UI/Core/WindowGeometry.h"
 #include "Character/CharacterManager.h"
@@ -90,6 +91,7 @@ namespace
 mu::ui::window::CCharacterInfoWindow::CCharacterInfoWindow()
 {
     m_pNewUIMng = NULL;
+    m_allocation = std::make_unique<UI::Character::ParisStatAllocationController>();
 }
 
 mu::ui::window::CCharacterInfoWindow::~CCharacterInfoWindow()
@@ -134,6 +136,8 @@ void mu::ui::window::CCharacterInfoWindow::BindRmlModel(Rml::DataModelConstructo
     c.Bind("servername_opacity", &model.serverNameOpacity);
 
     c.Bind("level_text", &model.levelText);
+    c.Bind("level_value", &model.levelValue);
+    c.Bind("points_value", &model.pointsValue);
     c.Bind("levelup_point_text", &model.levelUpPointText);
     c.Bind("exp_text", &model.expText);
     c.Bind("point_probability_text", &model.pointProbabilityText);
@@ -164,26 +168,14 @@ void mu::ui::window::CCharacterInfoWindow::BindRmlModel(Rml::DataModelConstructo
     c.Bind("vit_lines", &model.vitLines);
     c.Bind("ene_lines", &model.eneLines);
 
-    c.Bind("master_level_enabled", &model.masterLevelEnabled);
 
     c.Bind("exit_tooltip", &model.exitTooltip);
     c.Bind("quest_tooltip", &model.questTooltip);
     c.Bind("pet_tooltip", &model.petTooltip);
-    c.Bind("masterlevel_tooltip", &model.masterLevelTooltip);
+    c.Bind("visual_options_tooltip", &model.visualOptionsTooltip);
 
-    c.BindEventCallback("chainfo_increase_stat",
-        [this](Rml::DataModelHandle, Rml::Event&, const Rml::VariantList& arguments)
-        {
-            if (arguments.size() == 1)
-                RmlClickIncreaseStat(arguments[0].Get<int>(-1));
-        });
-    UI::RmlBridge::BindWindowClose(c, mu::ui::window::INTERFACE_CHARACTER);
-    c.BindEventCallback("chainfo_click_quest",
-        [this](Rml::DataModelHandle, Rml::Event&, const Rml::VariantList&) { RmlClickQuest(); });
-    c.BindEventCallback("chainfo_click_pet",
-        [this](Rml::DataModelHandle, Rml::Event&, const Rml::VariantList&) { RmlClickPet(); });
-    c.BindEventCallback("chainfo_click_masterlevel",
-        [this](Rml::DataModelHandle, Rml::Event&, const Rml::VariantList&) { RmlClickMasterLevel(); });
+    m_allocation->Bind(c);
+    BindRmlActions(c);
     model.strLabel = StringUtils::WideToNarrow(I18N::Game::STR);
     model.agiLabel = StringUtils::WideToNarrow(I18N::Game::AGI);
     model.vitLabel = StringUtils::WideToNarrow(I18N::Game::STA);
@@ -196,7 +188,24 @@ void mu::ui::window::CCharacterInfoWindow::BindRmlModel(Rml::DataModelConstructo
     mu_swprintf(strText, L"%ls(%ls)", I18N::Game::Quest, L"T");
     model.questTooltip = StringUtils::WideToNarrow(strText);
     model.petTooltip = StringUtils::WideToNarrow(I18N::Game::Pet);
-    model.masterLevelTooltip = StringUtils::WideToNarrow(I18N::Game::MasterSkillTreeA);
+    model.visualOptionsTooltip = "Opciones visuales";
+}
+
+void mu::ui::window::CCharacterInfoWindow::BindRmlActions(Rml::DataModelConstructor& c)
+{
+    c.BindEventCallback("chainfo_increase_stat",
+        [this](Rml::DataModelHandle, Rml::Event&, const Rml::VariantList& arguments)
+        {
+            if (arguments.size() == 1)
+                RmlClickIncreaseStat(arguments[0].Get<int>(-1));
+        });
+    UI::RmlBridge::BindWindowClose(c, mu::ui::window::INTERFACE_CHARACTER);
+    c.BindEventCallback("chainfo_click_quest",
+        [this](Rml::DataModelHandle, Rml::Event&, const Rml::VariantList&) { RmlClickQuest(); });
+    c.BindEventCallback("chainfo_click_pet",
+        [this](Rml::DataModelHandle, Rml::Event&, const Rml::VariantList&) { RmlClickPet(); });
+    c.BindEventCallback("chainfo_click_visual_options",
+        [this](Rml::DataModelHandle, Rml::Event&, const Rml::VariantList&) { RmlClickVisualOptions(); });
 }
 
 void mu::ui::window::CCharacterInfoWindow::BuildRmlUi()
@@ -220,6 +229,7 @@ void mu::ui::window::CCharacterInfoWindow::Release()
 
 void mu::ui::window::CCharacterInfoWindow::Show(bool bShow)
 {
+    if (!bShow) m_allocation->Hide();
     mu::ui::window::CObject::Show(bShow);
     if (m_RmlView.Document())
     {
@@ -277,10 +287,6 @@ void mu::ui::window::CCharacterInfoWindow::OpenningProcess()
 {
     ResetEquipmentLevel();
 
-    const bool masterLevelEnabled = gCharacterManager.IsMasterLevel(Hero->Class) == true && Hero->Class != CLASS_TEMPLENIGHT;
-    SyncField(m_RmlView.Binder(), &CharacterInfoRmlModel::masterLevelEnabled, "master_level_enabled",
-              masterLevelEnabled);
-
     g_csItemOption.init();
 
     if (CharacterMachine->IsZeroDurability())
@@ -298,6 +304,21 @@ void mu::ui::window::CCharacterInfoWindow::OpenningProcess()
         }
     }
 }
+
+void mu::ui::window::CCharacterInfoWindow::TogglePointAllocation()
+{
+    if (m_allocation->IsOpen()) m_allocation->Hide();
+    else OpenPointAllocation();
+}
+
+void mu::ui::window::CCharacterInfoWindow::OpenPointAllocation()
+{
+    if (g_pNewUISystem && !IsVisible()) g_pNewUISystem->Show(INTERFACE_CHARACTER);
+    BuildRmlUi();
+    m_allocation->Open();
+}
+
+void mu::ui::window::CCharacterInfoWindow::UpdatePointAllocation() { m_allocation->Tick(); }
 
 void mu::ui::window::CCharacterInfoWindow::RmlClickIncreaseStat(int stat)
 {
@@ -323,10 +344,9 @@ void mu::ui::window::CCharacterInfoWindow::RmlClickPet()
     g_pNewUISystem->Toggle(mu::ui::window::INTERFACE_PET);
 }
 
-void mu::ui::window::CCharacterInfoWindow::RmlClickMasterLevel()
+void mu::ui::window::CCharacterInfoWindow::RmlClickVisualOptions()
 {
-    if (gCharacterManager.IsMasterLevel(Hero->Class) && Hero->Class != CLASS_TEMPLENIGHT)
-        g_pNewUISystem->Toggle(mu::ui::window::INTERFACE_MASTER_LEVEL);
+    g_pNewUISystem->Toggle(mu::ui::window::INTERFACE_OPTION);
 }
 
 void mu::ui::window::CCharacterInfoWindow::LoadImages()
@@ -408,6 +428,8 @@ void mu::ui::window::CCharacterInfoWindow::SyncRmlModel()
     SyncField(m_RmlView.Binder(), &CharacterInfoRmlModel::showCharisma, "show_charisma",
               gCharacterManager.GetBaseClass(Hero->Class) == CLASS_DARK_LORD);
 
+    SyncField(m_RmlView.Binder(), &CharacterInfoRmlModel::levelValue, "level_value", static_cast<int>(CharacterAttribute->Level));
+    SyncField(m_RmlView.Binder(), &CharacterInfoRmlModel::pointsValue, "points_value", static_cast<int>(CharacterAttribute->LevelUpPoint));
     BuildSubjectTexts();
     BuildTableTexts();
     BuildAttributeLines();
@@ -438,6 +460,14 @@ void mu::ui::window::CCharacterInfoWindow::BuildSubjectTexts()
     SyncField(m_RmlView.Binder(), &CharacterInfoRmlModel::classNameOpacity, "classname_opacity",
               (127 * (2.f - fAlpha)) / 255.f);
     SyncField(m_RmlView.Binder(), &CharacterInfoRmlModel::serverNameOpacity, "servername_opacity", (127 * fAlpha) / 255.f);
+}
+
+void mu::ui::window::CCharacterInfoWindow::SyncLevelUpPoints()
+{
+    wchar_t text[128]{};
+    mu_swprintf(text, I18N::Game::PointD, CharacterAttribute->LevelUpPoint);
+    SyncField(m_RmlView.Binder(), &CharacterInfoRmlModel::levelUpPointText,
+              "levelup_point_text", StringUtils::WideToNarrow(text));
 }
 
 void mu::ui::window::CCharacterInfoWindow::BuildTableTexts()
@@ -477,16 +507,7 @@ void mu::ui::window::CCharacterInfoWindow::BuildTableTexts()
 
     SyncField(m_RmlView.Binder(), &CharacterInfoRmlModel::levelText, "level_text", StringUtils::WideToNarrow(strLevel));
 
-    // Empty when there is nothing to spend, which is what the else branch used to clear it to.
-    Rml::String levelUpPointText;
-    if (CharacterAttribute->LevelUpPoint > 0)
-    {
-        wchar_t strLevelUpPoint[128];
-        mu_swprintf(strLevelUpPoint, I18N::Game::PointD, CharacterAttribute->LevelUpPoint);
-        levelUpPointText = StringUtils::WideToNarrow(strLevelUpPoint);
-    }
-    SyncField(m_RmlView.Binder(), &CharacterInfoRmlModel::levelUpPointText, "levelup_point_text",
-              std::move(levelUpPointText));
+    SyncLevelUpPoints();
 
     SyncField(m_RmlView.Binder(), &CharacterInfoRmlModel::expText, "exp_text", StringUtils::WideToNarrow(strExp));
 

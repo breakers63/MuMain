@@ -104,6 +104,8 @@ namespace mu::ui::window
 
         // Shows now if idle, otherwise queues (see class comment).
         void Show(GenericMenuConfig cfg);
+        bool IsCustomMenu() const { return m_bActive && m_Active.kind == "paris-custom"; }
+        void CloseCustomMenu();
 
         bool Render() override;
         bool Update() override;
@@ -181,6 +183,8 @@ namespace mu::ui::window
 
         bool m_bButtonClicked = false;
         int m_iClickedButtonIndex = -1;
+        std::function<void()> m_PendingAction;
+        int m_PendingActionFrames = 0;
 
         std::deque<GenericMenuConfig> m_Queue;
         GenericMenuConfig m_Active;

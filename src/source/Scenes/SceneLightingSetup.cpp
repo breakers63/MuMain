@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "Render/Weather/WeatherRenderer.h"
 
 #include "Scenes/SceneLightingSetup.h"
 
@@ -53,6 +54,7 @@ void SubmitSceneLighting()
     lighting.cameraPosition[2] = g_Camera.Position[2];
     Render::Lighting::ApplyTuning(lighting);
     lighting.highlightKnee = Render::Lighting::LightMood::Active().highlightKnee;
+    Render::Weather::AdjustLighting(lighting);
     mu::GetRenderer().SetSceneLighting(lighting);
 }
 

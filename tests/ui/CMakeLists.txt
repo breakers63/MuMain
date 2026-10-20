@@ -3,6 +3,19 @@ add_test(
     COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/test_rml_contracts.py"
 )
 
+mu_add_test(
+    NAME saved_login_account_slots_tests
+    SOURCES test_saved_login_account_slots.cpp
+)
+
+mu_add_test(
+    NAME rml_password_field_tests
+    SOURCES
+        test_rml_password_field.cpp
+        ${CMAKE_SOURCE_DIR}/src/source/UI/RmlBridge/RmlPasswordField.cpp
+    LINK_LIBS RmlUi::Core
+)
+
 # The mistakes RmlUi only reports at runtime, or not at all, in every shipped document and stylesheet.
 add_test(
     NAME rml_rcss_syntax
@@ -381,3 +394,5 @@ target_compile_definitions(rml_styling_regression_tests PRIVATE
     MU_RMLUI_DIR="${CMAKE_SOURCE_DIR}/src/bin/Data/Interface/RmlUi"
     MU_FONT_DIR="${CMAKE_SOURCE_DIR}/src/bin/fonts"
 )
+# Paris HUD values and quality thresholds are independent of the renderer.
+mu_add_test(NAME test_hud_resource_gauge SOURCES test_hud_resource_gauge.cpp)

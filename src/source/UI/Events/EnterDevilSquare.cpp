@@ -179,12 +179,12 @@ void CEnterDevilSquare::OpenningProcess()
     wchar_t sztext[255] = { 0, };
     for (int i = 0; i < MAX_ENTER_GRADE - 1; i++)
     {
-        mu_swprintf(sztext, I18N::Game::TheDSquareDDLevel, i + 1,
+        mu_swprintf(sztext, L"El cuadrado %d (nivel %d-%d)", i + 1,
                     m_iDevilSquareLimitLevel[(iLimitLVIndex * MAX_ENTER_GRADE) + i][0],
                     m_iDevilSquareLimitLevel[(iLimitLVIndex * MAX_ENTER_GRADE) + i][1]);
         buttons[i].label = sztext;
     }
-    mu_swprintf(sztext, I18N::Game::SquareNoDMasterLevel, 7);
+    mu_swprintf(sztext, L"Cuadrado no. %d (Nivel Maestro)", 7);
     buttons[MAX_ENTER_GRADE - 1].label = sztext;
     buttons[m_iNumActiveBtn].enabled = true;
 
@@ -199,15 +199,13 @@ void CEnterDevilSquare::ClosingProcess()
 
 void CEnterDevilSquare::SetViewContent(const std::vector<EventEntryView::Button>& buttons)
 {
-    // Keep all six translated fragments in their original order.
     const std::vector<std::wstring> lines = {
-        I18N::Game::YouVeBeenGivenAChanceToProveYourBravery,
-        I18N::Game::NoOneHasEverEnteredTheDevilSquareYet,
-        I18N::Game::NoHumanHasEverGoneThere,
-        I18N::Game::DoNotBelieveAnythingYouSeeInThere,
-        I18N::Game::OnlyTrustYourBraveryAndStrength,
-        I18N::Game::OnlyYourBraveryAndStrengthWillKeepYouAlive,
+        L"Se te ha dado la oportunidad de demostrar tu valentía.",
+        L"Nadie ha entrado todavía en la Plaza del Diablo.",
+        L"Ningún humano ha ido jamás allí.",
+        L"No creas nada de lo que veas allí.",
+        L"Sólo confía en tu valentía y fuerza.",
+        L"Sólo tu valentía y fuerza te mantendrán con vida.",
     };
-
-    m_View.SetContent(I18N::Game::DevilSquare, lines, buttons);
+    m_View.SetContent(L"Plaza del Diablo", lines, buttons);
 }

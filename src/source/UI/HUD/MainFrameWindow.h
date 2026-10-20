@@ -91,6 +91,8 @@ namespace mu::ui::window
 
     private:
         void SyncRmlModel();
+        void SyncPerformanceModel();
+        std::uint64_t m_nextPerformanceSample = 0;
         void BuildRmlUi();
 
     public:
@@ -112,6 +114,7 @@ namespace mu::ui::window
 
         struct MainFrameRmlModel
         {
+            Rml::String fpsColor, pingColor, fpsTooltip, pingTooltip;
             float hpFraction = 0.f, mpFraction = 0.f, agFraction = 0.f, sdFraction = 0.f;
             Rml::String hpText, mpText, agText, sdText;
 

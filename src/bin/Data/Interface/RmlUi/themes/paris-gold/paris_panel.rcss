@@ -1,0 +1,6 @@
+/* Original Paris frame, in the inherited window's own workspace box. */
+@spritesheet paris-panel-frame-sheet { src: "paris-frame.tga"; paris-panel-frame: 0px 0px 512px 1024px; }
+#panel { decorator: image(paris-panel-frame); }
+.bg-fill, .bg-top, .bg-left, .bg-right, .bg-bottom { visibility: hidden; }
+#title { top: 30px; color: token(text-heading); }
+#frame_corner_close { position: absolute; right: 9px; top: 22px; width: 16px; height: 18px; cursor: pointer; pointer-events: auto; }

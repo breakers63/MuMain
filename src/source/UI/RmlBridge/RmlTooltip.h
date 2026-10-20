@@ -63,6 +63,9 @@ namespace UI::RmlBridge::Tooltip
         LineColor color = LineColor::White;
         bool bold = false;
         Kind kind = Kind::Text;
+        int sourceColor = -1;
+        std::string customColor;
+        std::string customBackground;
     };
 
     // Where the tooltip is anchored before edge-clamping: BelowLeft grows down-right from
@@ -130,6 +133,8 @@ namespace UI::RmlBridge::Tooltip
         // first frame nothing shows it again, so it goes when the window that drew it closes, or
         // stops drawing it, without a Hide() of its own on that path.
         bool refreshEachFrame = false;
+        std::string borderColor;
+        std::optional<float> borderWidth;
     };
 
     // Show()'s edge-clamping always wins over `anchor`/`centerHorizontally`'s preferred direction:

@@ -26,6 +26,15 @@
 #include <RmlUi/Core/Element.h>
 #include <RmlUi/Core/Event.h>
 
+namespace
+{
+    constexpr wchar_t kMenuTitle[] = L"MENÚ";
+    constexpr wchar_t kExitGameLabel[] = L"SALIR DEL JUEGO";
+    constexpr wchar_t kSelectServerLabel[] = L"CAMBIAR SERVIDOR";
+    constexpr wchar_t kOptionsLabel[] = L"OPCIONES";
+    constexpr wchar_t kCloseLabel[] = L"CERRAR";
+}
+
 extern EGameScene  SceneFlag;
 extern bool LogOut;
 
@@ -160,9 +169,9 @@ void CSysMenuWin::SyncRmlModel()
             m_RmlView.MarkDirty(boundName);
         }
     };
-    syncLabel(&SysMenuRmlModel::systemMenuLabel, "system_menu_label", I18N::Game::SystemMenu);
-    syncLabel(&SysMenuRmlModel::exitGameLabel, "exit_game_label", I18N::Game::ExitGame);
-    syncLabel(&SysMenuRmlModel::selectServerLabel, "select_server_label", I18N::Game::SelectServer);
-    syncLabel(&SysMenuRmlModel::optionLabel, "option_label", I18N::Game::Option385);
-    syncLabel(&SysMenuRmlModel::closeLabel, "close_label", I18N::Game::Close388);
+    syncLabel(&SysMenuRmlModel::systemMenuLabel, "system_menu_label", kMenuTitle);
+    syncLabel(&SysMenuRmlModel::exitGameLabel, "exit_game_label", kExitGameLabel);
+    syncLabel(&SysMenuRmlModel::selectServerLabel, "select_server_label", kSelectServerLabel);
+    syncLabel(&SysMenuRmlModel::optionLabel, "option_label", kOptionsLabel);
+    syncLabel(&SysMenuRmlModel::closeLabel, "close_label", kCloseLabel);
 }

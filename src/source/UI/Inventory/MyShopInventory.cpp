@@ -10,6 +10,9 @@
 #include "UI/Core/WindowCommon.h" // g_IsPurchaseShop
 #include "UI/Inventory/ShopUpdates.h"
 #include "GameLogic/Items/PersonalShopCurrency.h"
+#include "GameLogic/Items/MarketPrice.h"
+#include "Network/Paris/MarketProtocol.h"
+#include "UI/Dialogs/ParisStorePriceWindow.h"
 #include "GameLogic/Items/PersonalShopTitleImp.h"
 #include "I18N/All.h"
 #include "GameLogic/Items/ShopRestrictions.h"
@@ -31,19 +34,25 @@ using namespace mu::ui::window;
 
 namespace
 {
-// Sends the price of an item of the own personal shop. Zen prices use the original packet, so
-// they work with every server.
-void SendItemPrice(int itemSlot, const GameLogic::PersonalShop::ItemPrice& price)
+// Paris negotiates its currency packet; ordinary servers retain their stock price packets.
+bool SendItemPrice(int itemSlot, const GameLogic::PersonalShop::ItemPrice& price)
 {
+    if (!SocketClient || !SocketClient->IsConnected()) return false;
+    if (Network::Paris::Market::Data.supported && Network::Paris::Market::Data.currencyPricing)
+    {
+        const auto currency = GameLogic::Items::MarketPrice::Currency(price);
+        return currency && Network::Paris::Market::RequestSetPrice(itemSlot, *currency, price.Amount);
+    }
     if (price.Kind == GameLogic::PersonalShop::PriceKind::Zen)
     {
         SocketClient->ToGameServer()->SendPlayerShopSetItemPrice(itemSlot, price.Amount);
-        return;
+        return true;
     }
 
     const auto encoded = GameLogic::PersonalShop::EncodeExtendedPrice(price);
     SocketClient->ToGameServer()->SendPlayerShopSetItemPriceExtended(encoded.MoneyPrice, encoded.PriceItemType,
                                                                      encoded.RequiredItemAmount, itemSlot);
+    return true;
 }
 
 // Sends the price of the item which is moved into or within the own shop, or whose price is
@@ -62,8 +71,7 @@ void ApplyPersonalShopItemPrice(const GameLogic::PersonalShop::ItemPrice& price,
         if (sourceIndex >= 0)
         {
             UI::Shop::RememberReplacedOwnShopPrice(sourceIndex);
-            SendItemPrice(sourceIndex, price);
-            AddPersonalItemPrice(sourceIndex, price, g_IsPurchaseShop);
+            if (SendItemPrice(sourceIndex, price)) AddPersonalItemPrice(sourceIndex, price, g_IsPurchaseShop);
         }
 
         // The slot is consumed: a stale source index would poison TransferSourceIndex()'s
@@ -80,7 +88,12 @@ void ApplyPersonalShopItemPrice(const GameLogic::PersonalShop::ItemPrice& price,
     const bool isFromShop = pOwnerInventory == g_pMyShopInventory->GetInventoryCtrl();
     if (isFromInventory || isFromShop)
     {
-        SendItemPrice(iSourceIndex, price);
+        if (!SendItemPrice(iSourceIndex, price))
+        {
+            CInventoryCtrl::BackupPickedItem();
+            g_pMyShopInventory->ChangeSourceIndex(-1);
+            return;
+        }
         const STORAGE_TYPE sourceStorage = isFromShop ? STORAGE_TYPE::MYSHOP : STORAGE_TYPE::INVENTORY;
         SendRequestEquipmentItem(sourceStorage, iSourceIndex, pItemObj, STORAGE_TYPE::MYSHOP, iTargetIndex);
     }
@@ -255,6 +268,35 @@ void mu::ui::window::ShowPersonalShopItemValueDialog()
 {
     // Numeric Mode::Text price entry. See MyShopInventory.h's own declaration comment for why
     // this is a free function shared across all 4 call sites instead of duplicated per site.
+    ITEM* item = FindPricedItem();
+    if (item && g_pParisStorePriceWindow)
+    {
+        const DWORD itemKey = item->Key;
+        const int source = g_pMyShopInventory->GetSourceIndex();
+        const auto apply = [itemKey, source](std::uint8_t currency, int amount)
+        {
+            ITEM* current = FindPricedItem();
+            if (!current || current->Key != itemKey || g_pMyShopInventory->GetSourceIndex() != source)
+            {
+                g_pMyShopInventory->SetInputValueTextBox(false);
+                g_pMyShopInventory->ChangeSourceIndex(-1);
+                return;
+            }
+            const auto price = GameLogic::Items::MarketPrice::ToPrice(currency, amount);
+            if (!price) return;
+            if (currency == 0 && amount < static_cast<int>(ItemValue(current, 2)))
+                ShowZenPriceConfirmation(*current, std::to_wstring(amount).c_str(), *price);
+            else ApplyPersonalShopItemPrice(*price, source);
+            g_pMyShopInventory->SetInputValueTextBox(false);
+        };
+        const auto cancel = []
+        {
+            CInventoryCtrl::BackupPickedItem();
+            g_pMyShopInventory->SetInputValueTextBox(false);
+            g_pMyShopInventory->ChangeSourceIndex(-1);
+        };
+        if (g_pParisStorePriceWindow->OpenWindow(item, apply, cancel)) return;
+    }
     ShowItemPriceDialog({}, {});
 }
 
@@ -720,6 +762,15 @@ bool mu::ui::window::CMyShopInventory::Update()
 void mu::ui::window::CMyShopInventory::SyncRmlModel()
 {
     m_ItemTarget.Sync(m_RmlView.Document() ? m_RmlView.Document()->GetElementById("item_view") : nullptr, IsVisible());
+    auto& liveModel = m_RmlView.GetModel();
+    static const Rml::String ExtendedInstruction = "Zen, Paris Coins y joyas.";
+    static const Rml::String ZenInstruction = StringUtils::WideToNarrow(I18N::Game::CanOnlyBeDoneUsingZen);
+    const auto& instruction = Network::Paris::Market::Data.currencyPricing ? ExtendedInstruction : ZenInstruction;
+    if (liveModel.canOnlyBeDoneUsingZenText != instruction)
+    {
+        liveModel.canOnlyBeDoneUsingZenText = instruction;
+        m_RmlView.MarkDirty("can_only_be_done_using_zen_text");
+    }
     if (!m_RmlView.Document()) return;
     UI::RmlBridge::SyncDocumentVisibility(m_RmlView.Document(), IsVisible());
     if (!IsVisible())

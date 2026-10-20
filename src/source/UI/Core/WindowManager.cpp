@@ -1,4 +1,5 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
+#include "UI/HUD/ParisCustomShortcuts.h"
 #include "UI/Core/WindowManager.h"
 #include "UI/Scaling/UITransform.h"
 #include "Render/RmlUi/RmlUiRuntime.h"
@@ -161,6 +162,7 @@ bool mu::ui::window::CManager::UpdateKeyEvent()
 {
     const UI::Scaling::ScopedActiveTransform units(MeasuringUnits());
     m_pActiveKeyUIObj = NULL;
+    if (UI::Shortcuts::Handle()) return false;
     std::sort(m_vecUI.begin(), m_vecUI.end(), CompareKeyEventOrder);
 
     auto vecUI = m_vecUI;

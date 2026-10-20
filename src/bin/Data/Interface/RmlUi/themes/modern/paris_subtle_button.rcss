@@ -1,0 +1,16 @@
+/* Approved compact black leather button, fine gold edges and small corner filigree.
+   The HD source is marked 4x; this sprite uses the client's logical coordinates. */
+@spritesheet paris-subtle-button-sheet {
+ src: "../../../ParisLogin/subtle-button.tga";
+ paris-subtle-button: 46px 45px 453px 83px;
+}
+.paris-small-button, .paris-small-button:hover, .paris-small-button:active,
+.paris-small-button.checked, .paris-small-button.checked:hover, .paris-small-button.checked:active {
+ decorator: image(paris-subtle-button);
+ background-color: transparent;
+ border-width: 0;
+ font-family: "token(font-login-display)";
+ color: #e9c77e;
+}
+.paris-small-button:hover, .paris-small-button.checked { color: #fff0bd; }
+.paris-small-button:active { color: #d3b16e; }

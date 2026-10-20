@@ -1,6 +1,14 @@
 #include "stdafx.h"
+#include "Render/Weather/WeatherAudio.h"
+#include "UI/Events/ActiveInvasionWindow.h"
+#include <array>
+#include "UI/Dialogs/GenericMenuDialog.h"
+#include "Render/RmlUi/RmlUiRuntime.h"
 #include "UI/Core/WindowSystem.h"
 #include "UI/Dialogs/MessageBox.h"
+#include "UI/Dialogs/ParisMentorWindow.h"
+#include "UI/Dialogs/ParisSoulWindow.h"
+#include "UI/Dialogs/ParisStorePriceWindow.h"
 #include "UI/RmlBridge/RmlTheme.h"
 #include "UI/Scaling/UITransform.h"
 
@@ -19,6 +27,29 @@ using namespace mu::ui::window;
 
 namespace
 {
+    std::unique_ptr<CParisMentorWindow> parisMentorWindow;
+    std::unique_ptr<CParisSoulWindow> parisSoulWindow;
+    std::unique_ptr<CActiveInvasionWindow> activeInvasionWindow;
+    std::unique_ptr<CParisStorePriceWindow> parisStorePriceWindow;
+
+    bool HasVisibleCustomPanel(const std::array<CObject*, 14>& panels)
+    {
+        return (g_pGenericMenuDialog && g_pGenericMenuDialog->IsCustomMenu())
+            || std::any_of(panels.begin(), panels.end(), [](const CObject* panel)
+                { return panel && panel->IsVisible(); });
+    }
+
+    bool HandleCustomPanelShortcut(const std::array<CObject*, 14>& panels, CObject* hotkey)
+    {
+        const bool customVisible = HasVisibleCustomPanel(panels);
+        const bool nativeShortcut = IsPress('C') || IsPress('I') || IsPress('V')
+            || IsPress('T') || IsPress('P') || IsPress('G');
+        if (customVisible && nativeShortcut && !RmlUiRuntime::Instance().IsTextInputActive()
+            && !g_pChatInputBox->HaveFocus() && hotkey)
+            return !hotkey->UpdateKeyEvent();
+        return false;
+    }
+
     bool IsHeroPositionLayoutInterface(DWORD dwKey)
     {
         switch (dwKey)
@@ -119,6 +150,18 @@ CSystem::CSystem()
     m_pNewGensRanking = nullptr;
 #endif //PBG_ADD_GENSRANKING
     m_pNewUnitedMarketPlaceWindow = nullptr;
+    m_pParisJewelBankWindow = nullptr;
+    m_pParisMarketWindow = nullptr;
+    m_pParisAuctionWindow = nullptr;
+    m_pParisRankUserWindow = nullptr;
+    m_pParisRankingWindow = nullptr;
+    m_pParisActivityLogWindow = nullptr;
+    m_pParisResetWindow = nullptr;
+    m_pParisVipWindow = nullptr;
+    m_pParisBattlePassWindow = nullptr;
+    m_pParisEventsWindow = nullptr;
+    m_pParisAdvancedStatsWindow = nullptr;
+    m_pParisGmEventsWindow = nullptr;
 }
 
 CSystem::~CSystem()
@@ -158,6 +201,7 @@ bool CSystem::Create()
 
 void CSystem::Release()
 {
+    Render::Weather::StopAudio();
     if (m_pNewUIMng == nullptr)
     {
         return;
@@ -536,6 +580,77 @@ bool CSystem::LoadMainSceneInterface()
     m_pGenericMenuDialog->Create(m_pNewUIMng);
     g_pGenericMenuDialog = m_pGenericMenuDialog;
 
+    m_pParisJewelBankWindow = new CParisJewelBankWindow;
+    if (!m_pParisJewelBankWindow->Create(m_pNewUIMng))
+        return false;
+    g_pParisJewelBankWindow = m_pParisJewelBankWindow;
+
+    m_pParisMarketWindow = new CParisMarketWindow;
+    if (!m_pParisMarketWindow->Create(m_pNewUIMng))
+        return false;
+    g_pParisMarketWindow = m_pParisMarketWindow;
+
+    parisMentorWindow = std::make_unique<CParisMentorWindow>();
+    if (!parisMentorWindow->Create(m_pNewUIMng)) return false;
+    g_pParisMentorWindow = parisMentorWindow.get();
+    parisSoulWindow = std::make_unique<CParisSoulWindow>();
+    if (!parisSoulWindow->Create(m_pNewUIMng)) return false;
+    g_pParisSoulWindow = parisSoulWindow.get();
+    parisStorePriceWindow = std::make_unique<CParisStorePriceWindow>();
+    if (!parisStorePriceWindow->Create(m_pNewUIMng)) return false;
+    g_pParisStorePriceWindow = parisStorePriceWindow.get();
+
+    m_pParisAuctionWindow = new CParisAuctionWindow;
+    if (!m_pParisAuctionWindow->Create(m_pNewUIMng))
+        return false;
+    g_pParisAuctionWindow = m_pParisAuctionWindow;
+
+    m_pParisRankUserWindow = new CParisRankUserWindow;
+    if (!m_pParisRankUserWindow->Create(m_pNewUIMng))
+        return false;
+    g_pParisRankUserWindow = m_pParisRankUserWindow;
+
+    m_pParisRankingWindow = new CParisRankingWindow;
+    if (!m_pParisRankingWindow->Create(m_pNewUIMng))
+        return false;
+    g_pParisRankingWindow = m_pParisRankingWindow;
+
+    m_pParisActivityLogWindow = new CParisActivityLogWindow;
+    if (!m_pParisActivityLogWindow->Create(m_pNewUIMng))
+        return false;
+    g_pParisActivityLogWindow = m_pParisActivityLogWindow;
+
+    m_pParisResetWindow = new CParisResetWindow;
+    if (!m_pParisResetWindow->Create(m_pNewUIMng))
+        return false;
+    g_pParisResetWindow = m_pParisResetWindow;
+
+    m_pParisVipWindow = new CParisVipWindow;
+    if (!m_pParisVipWindow->Create(m_pNewUIMng))
+        return false;
+    g_pParisVipWindow = m_pParisVipWindow;
+
+    m_pParisBattlePassWindow = new CParisBattlePassWindow;
+    if (!m_pParisBattlePassWindow->Create(m_pNewUIMng))
+        return false;
+    g_pParisBattlePassWindow = m_pParisBattlePassWindow;
+
+    m_pParisEventsWindow = new CParisEventsWindow;
+    if (!m_pParisEventsWindow->Create(m_pNewUIMng))
+        return false;
+    g_pParisEventsWindow = m_pParisEventsWindow;
+    activeInvasionWindow = std::make_unique<CActiveInvasionWindow>();
+    if (!activeInvasionWindow->Create(m_pNewUIMng)) return false;
+
+    m_pParisAdvancedStatsWindow = new CParisAdvancedStatsWindow;
+    if (!m_pParisAdvancedStatsWindow->Create(m_pNewUIMng))
+        return false;
+
+    m_pParisGmEventsWindow = new CParisGmEventsWindow;
+    if (!m_pParisGmEventsWindow->Create(m_pNewUIMng))
+        return false;
+    g_pParisGmEventsWindow = m_pParisGmEventsWindow;
+
     m_pMuHelperConfig = new CMuHelperConfigWindow;
     if (m_pMuHelperConfig->Create(m_pNewUIMng) == false)
         return false;
@@ -555,6 +670,7 @@ bool CSystem::LoadMainSceneInterface()
         UI::Placement::RegisterWindow(windowId, slotName, [&window]() -> CObject* { return window; }, document);
     };
     slot(INTERFACE_CHARACTER, "character", m_pNewCharacterInfoWindow, "character_info.rml");
+    slot(CParisAdvancedStatsWindow::InterfaceId, "advanced_stats", m_pParisAdvancedStatsWindow, "paris_advanced_stats.rml");
     slot(INTERFACE_MUHELPER, "mu_helper", m_pMuHelperConfig, "mu_helper_config.rml");
     slot(INTERFACE_MUHELPER_EXT, "mu_helper_detail", m_pMuHelperDetail, "mu_helper_detail.rml");
     slot(INTERFACE_PARTY, "party", m_pNewPartyInfoWindow, "party_info.rml");
@@ -713,6 +829,37 @@ void CSystem::UnloadMainSceneInterface()
     SAFE_DELETE(m_pNewUILuckyItemWnd);
 #endif // LEM_FIX_LUCKYITEM_UICLASS_SAFEDELETE
     g_pGenericConfirmDialog = nullptr;
+    g_pParisJewelBankWindow = nullptr;
+    g_pParisMarketWindow = nullptr;
+    g_pParisMentorWindow = nullptr;
+    parisMentorWindow.reset();
+    g_pParisSoulWindow = nullptr;
+    activeInvasionWindow.reset();
+    parisSoulWindow.reset();
+    g_pParisStorePriceWindow = nullptr;
+    parisStorePriceWindow.reset();
+    g_pParisAuctionWindow = nullptr;
+    g_pParisRankUserWindow = nullptr;
+    g_pParisRankingWindow = nullptr;
+    g_pParisActivityLogWindow = nullptr;
+    g_pParisResetWindow = nullptr;
+    g_pParisVipWindow = nullptr;
+    g_pParisBattlePassWindow = nullptr;
+    g_pParisEventsWindow = nullptr;
+    g_pParisAdvancedStatsWindow = nullptr;
+    g_pParisGmEventsWindow = nullptr;
+    SAFE_DELETE(m_pParisResetWindow);
+    SAFE_DELETE(m_pParisVipWindow);
+    SAFE_DELETE(m_pParisBattlePassWindow);
+    SAFE_DELETE(m_pParisEventsWindow);
+    SAFE_DELETE(m_pParisAdvancedStatsWindow);
+    SAFE_DELETE(m_pParisGmEventsWindow);
+    SAFE_DELETE(m_pParisActivityLogWindow);
+    SAFE_DELETE(m_pParisRankUserWindow);
+    SAFE_DELETE(m_pParisRankingWindow);
+    SAFE_DELETE(m_pParisMarketWindow);
+    SAFE_DELETE(m_pParisAuctionWindow);
+    SAFE_DELETE(m_pParisJewelBankWindow);
     SAFE_DELETE(m_pGenericConfirmDialog);
 
     g_pGenericMenuDialog = nullptr;
@@ -741,6 +888,18 @@ void CSystem::Show(DWORD dwKey)
     {
         return;
     }
+
+    // A requested native window replaces any full custom panel that would cover it.
+    const std::array<CObject*, 14> customPanels = {
+        m_pParisJewelBankWindow, m_pParisMarketWindow, m_pParisAuctionWindow,
+        m_pParisRankUserWindow, m_pParisRankingWindow, m_pParisActivityLogWindow,
+        m_pParisResetWindow, m_pParisVipWindow, m_pParisBattlePassWindow,
+        m_pParisEventsWindow, m_pParisAdvancedStatsWindow, m_pParisGmEventsWindow,
+        parisMentorWindow.get(), parisSoulWindow.get()};
+    for (auto* panel : customPanels)
+        if (panel && panel->IsVisible()) panel->Show(false);
+
+    if (g_pGenericMenuDialog) g_pGenericMenuDialog->CloseCustomMenu();
 
     UI::Placement::CloseForOpening(dwKey);
 
@@ -1524,6 +1683,17 @@ void CSystem::Hide(DWORD dwKey)
 
 void CSystem::Toggle(DWORD dwKey)
 {
+    const std::array<CObject*, 14> customPanels = {
+        m_pParisJewelBankWindow, m_pParisMarketWindow, m_pParisAuctionWindow,
+        m_pParisRankUserWindow, m_pParisRankingWindow, m_pParisActivityLogWindow,
+        m_pParisResetWindow, m_pParisVipWindow, m_pParisBattlePassWindow,
+        m_pParisEventsWindow, m_pParisAdvancedStatsWindow, m_pParisGmEventsWindow,
+        parisMentorWindow.get(), parisSoulWindow.get()};
+    if (HasVisibleCustomPanel(customPanels))
+    {
+        Show(dwKey);
+        return;
+    }
     IsVisible(dwKey) ? Hide(dwKey) : Show(dwKey);
 }
 
@@ -1754,6 +1924,7 @@ bool CSystem::Update()
     // Before any window syncs its document: see ResumeMainSceneDocuments().
     UI::RmlBridge::ResumeMainSceneDocuments();
     UI::Placement::Update();
+    if (m_pNewCharacterInfoWindow) m_pNewCharacterInfoWindow->UpdatePointAllocation();
 
     if (m_pNewItemMng)
     {
@@ -1779,7 +1950,15 @@ bool CSystem::Update()
             m_mouseInputCaptured = true;
         }
 
-        m_pNewUIMng->UpdateKeyEvent();
+        bool nativeShortcutHandled = false;
+        const std::array<CObject*, 14> customPanels = {
+            m_pParisJewelBankWindow, m_pParisMarketWindow, m_pParisAuctionWindow,
+            m_pParisRankUserWindow, m_pParisRankingWindow, m_pParisActivityLogWindow,
+            m_pParisResetWindow, m_pParisVipWindow, m_pParisBattlePassWindow,
+            m_pParisEventsWindow, m_pParisAdvancedStatsWindow, m_pParisGmEventsWindow,
+            parisMentorWindow.get(), parisSoulWindow.get()};
+        nativeShortcutHandled = HandleCustomPanelShortcut(customPanels, m_pNewUIHotKey);
+        if (!nativeShortcutHandled) m_pNewUIMng->UpdateKeyEvent();
         result = m_pNewUIMng->Update();
     }
 

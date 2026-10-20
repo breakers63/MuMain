@@ -1,4 +1,4 @@
-
+﻿
 #pragma once
 
 #include "UI/Core/WindowObject.h"
@@ -56,6 +56,8 @@ namespace mu::ui::window
     private:
         struct MuHelperBarRmlModel
         {
+            Rml::String coordinatesText;
+            int positionX = -1, positionY = -1, world = -1;
             Rml::String positionText;   // "MapName (x, y)"
             bool muHelperActive = false; // drives which of Start/Stop is shown
             Rml::String configHint;
@@ -73,6 +75,7 @@ namespace mu::ui::window
 
         // The hovered button's hint (0 config, 1 start, 2 stop), in the shared tooltip.
 
+        void SyncPositionModel();
         void SyncRmlModel();
         void BuildRmlUi();
     };

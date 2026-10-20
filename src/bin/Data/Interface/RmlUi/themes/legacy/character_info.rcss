@@ -203,3 +203,7 @@
 .attr-lines.attr-lines-agi span { height: calc(13px * var(--root-scale)); }
 .attr-lines.attr-lines-vit span { height: calc(13px * var(--root-scale)); }
 .attr-lines.attr-lines-ene span { height: calc(13px * var(--root-scale)); }
+
+/* Paris shortcut: visual options are available to every class. */
+.info-btn-masterlevel { decorator: none; background-color: #17130b; border: 1px #b9943c; text-align: center; color: #ffdc48; }
+.visual-options-glyph { display: block; font-size: 22px; }

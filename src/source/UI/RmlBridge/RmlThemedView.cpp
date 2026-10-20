@@ -2,6 +2,7 @@
 #include "UI/RmlBridge/RmlThemedView.h"
 
 #include "Render/RmlUi/RmlUiRuntime.h"
+#include "Core/Utilities/Log/MuLogger.h"
 #include "UI/RmlBridge/RmlStackingOrder.h"
 #include "UI/RmlBridge/RmlTheme.h"
 
@@ -112,6 +113,8 @@ bool ThemedDocuments::Ensure()
     if (m_Built)
         return true;
 
+    mu::log::Get("ui")->info("Rml view ensure begin: {}", m_ModelName);
+
     if (!m_Registered)
     {
         ThemeReloadRegistry::Register(this, [this] { Reload(); }, [this] { return Document(); });
@@ -136,7 +139,10 @@ bool ThemedDocuments::Ensure()
     if (!m_ModelCreated)
     {
         if (!CreateModel(contexts.front()))
+        {
+            mu::log::Get("ui")->error("Rml view model failed: {}", m_ModelName);
             return false;
+        }
         m_ModelCreated = true;
         m_ModelContext = contexts.front();
     }
@@ -152,11 +158,15 @@ bool ThemedDocuments::Ensure()
                                                          "data-model=\"" + m_Options.modelPlaceholder + "\"",
                                                          "data-model=\"" + m_ModelName + "\"");
         if (slot.document == nullptr)
+        {
+            mu::log::Get("ui")->error("Rml document load failed: {}", slot.spec.path);
             return false;
+        }
         slot.context = contexts[i];
     }
 
     m_Built = true;
+    mu::log::Get("ui")->info("Rml view ensure done: {}", m_ModelName);
     if (m_Options.afterBuild)
         m_Options.afterBuild();
     return true;
