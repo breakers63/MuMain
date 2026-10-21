@@ -1,4 +1,4 @@
-﻿/* Paris helper: compact 207x20 HUD units, top-left. Legacy remains in its own theme. */
+/* Paris helper: compact 207x20 HUD units, top-left. Legacy remains in its own theme. */
 #panel.workspace-placed { transform-origin: left top; }
 #panel { position: absolute; width: 207dp; height: 20dp; box-sizing: border-box;
  background-color: #0b0b09; border: 1dp #ad8437; border-radius: 3dp;

@@ -321,3 +321,32 @@ TEST_CASE("Both themes' workspaces place docked windows on the original columns 
     Rml::Shutdown();
     Rml::SetRenderInterface(nullptr);
 }
+
+TEST_CASE("Invasion launcher clears the compact helper header [ui][window-placement]")
+{
+    NullRenderer renderer;
+    Rml::SetRenderInterface(&renderer);
+    REQUIRE(Rml::Initialise());
+    auto* context = Rml::CreateContext("invasion-spacing", {1024, 768});
+    REQUIRE(context != nullptr);
+    for (const float scale : {1.f, 1.6f})
+    {
+        context->SetDensityIndependentPixelRatio(scale);
+        for (const char* theme : {"legacy", "modern"})
+        {
+            const std::string css = ReadFile(std::string(MU_RMLUI_DIR) + "/themes/" + theme + "/active_invasion.rcss");
+            auto* document = context->LoadDocumentFromMemory("<rml><head><style>" + css + "</style></head><body><div id=\"invasion\" class=\"invasion-launcher\"></div></body></rml>");
+            REQUIRE(document != nullptr);
+            document->UpdateDocument();
+            auto* button = document->GetElementById("invasion");
+            REQUIRE(button != nullptr);
+            constexpr float HeaderHeight = 20.f, Clearance = 8.f;
+            CHECK(button->GetAbsoluteOffset().y >= (HeaderHeight + Clearance) * scale - 0.1f);
+            context->UnloadDocument(document);
+            context->Update();
+        }
+    }
+    Rml::RemoveContext("invasion-spacing");
+    Rml::Shutdown();
+    Rml::SetRenderInterface(nullptr);
+}

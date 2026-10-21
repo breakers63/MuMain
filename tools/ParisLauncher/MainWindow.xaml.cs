@@ -18,7 +18,7 @@ public partial class MainWindow : Window
     private CancellationTokenSource? updateCancellation;
     private bool initialized;
     private bool ready;
-    private long lastProgress;
+    private const int ProgressRefreshMilliseconds = 150;
 
     public MainWindow()
     {
@@ -92,19 +92,25 @@ public partial class MainWindow : Window
         try
         {
             cancellation.Token.ThrowIfCancellationRequested();
-            var progress = new Progress<UpdateProgress>(p =>
+            var progress = new LatestProgress();
+            var timer = new System.Windows.Threading.DispatcherTimer(System.Windows.Threading.DispatcherPriority.Background)
             {
-                if (cancellation.IsCancellationRequested) return;
-                long now = Environment.TickCount64;
-                if (now - lastProgress < 100 && !p.Indeterminate && p.Percent < 95) return;
-                lastProgress = now;
-                UpdateStatus.Text = p.Message;
-                UpdateBar.IsIndeterminate = p.Indeterminate;
-                UpdateBar.Value = p.Percent;
-                UpdatePercent.Text = p.Indeterminate ? "" : $"{p.Percent:0}%";
-            });
+                Interval = TimeSpan.FromMilliseconds(ProgressRefreshMilliseconds)
+            };
+            timer.Tick += (_, _) =>
+            {
+                if (!cancellation.IsCancellationRequested && progress.Take() is { } value) ApplyUpdateProgress(value);
+            };
+            string manifestUrl = settings.ManifestUrl;
+            bool classic = Classic.IsChecked == true;
             var service = new UpdateService(http, root, EnsureClientClosed);
-            string status = await service.RunAsync(settings.ManifestUrl, Classic.IsChecked == true, progress, cancellation.Token, both: true);
+            string status;
+            timer.Start();
+            try
+            {
+                status = await Task.Run(() => service.RunAsync(manifestUrl, classic, progress, cancellation.Token, both: true));
+            }
+            finally { timer.Stop(); }
             cancellation.Token.ThrowIfCancellationRequested();
             UpdateStatus.Text = status;
             UpdateBar.IsIndeterminate = false;
@@ -139,6 +145,14 @@ public partial class MainWindow : Window
             cancellation.Dispose();
             if (ReferenceEquals(updateCancellation, cancellation)) updateCancellation = null;
         }
+    }
+
+    private void ApplyUpdateProgress(UpdateProgress progress)
+    {
+        UpdateStatus.Text = progress.Message;
+        UpdateBar.IsIndeterminate = progress.Indeterminate;
+        UpdateBar.Value = progress.Percent;
+        UpdatePercent.Text = progress.Indeterminate ? "" : $"{progress.Percent:0}%";
     }
 
     private static string DescribeUpdateError(Exception error) => error switch

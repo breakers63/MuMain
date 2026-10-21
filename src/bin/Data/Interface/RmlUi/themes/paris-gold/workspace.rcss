@@ -1,4 +1,4 @@
-﻿/* Window placement for the legacy theme. The game reads where each open slot lands; nothing here is drawn. */
+/* Window placement for the legacy theme. The game reads where each open slot lands; nothing here is drawn. */
 
 body {
 	width: 100%;

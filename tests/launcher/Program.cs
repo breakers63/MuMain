@@ -34,6 +34,28 @@ if (args.Length == 2 && args[0] == "--create-shortcut")
     return;
 }
 
+if (args.Length == 3 && args[0] == "--install-release")
+{
+    string releaseRoot = Path.GetFullPath(args[1]);
+    string installRoot = Path.GetFullPath(args[2]);
+    if (Directory.Exists(installRoot)) throw new IOException("Fresh-install test requires a new directory.");
+    Directory.CreateDirectory(installRoot);
+    using var transport = new LocalRelease(releaseRoot);
+    using var client = new HttpClient(transport);
+    var watch = System.Diagnostics.Stopwatch.StartNew();
+    var reporter = new Progress<UpdateProgress>(p => { if (p.Percent >= 95) Console.WriteLine(p.Message); });
+    string result = await new UpdateService(client, installRoot, () => { }).RunAsync("https://release.test/windows/manifest.json", false, reporter, default, both: true);
+    var manifest = JsonSerializer.Deserialize<UpdateManifest>(File.ReadAllText(Path.Combine(releaseRoot, "manifest.json")), LauncherSettings.JsonOptions)!;
+    foreach (var file in manifest.Files)
+    {
+        if (!await UpdateService.Matches(Path.Combine(installRoot, file.Path), file, default)) throw new Exception("Installed hash mismatch: " + file.Path);
+        foreach (var alias in file.ClassicAliases)
+            if (!await UpdateService.Matches(Path.Combine(installRoot, alias), file, default)) throw new Exception("Installed alias mismatch: " + alias);
+    }
+    Console.WriteLine($"FRESH_INSTALL_PASS: {manifest.Files.Count} files and all Classic aliases verified in {watch.Elapsed.TotalSeconds:0.0}s. {result}");
+    return;
+}
+
 if (args.Length == 2 && args[0] == "--verify-release")
 {
     string releaseRoot = Path.GetFullPath(args[1]);
@@ -120,6 +142,37 @@ try
     Check(File.ReadAllText(Path.Combine(root, entry.Path)) == "recovered", "Restart recovers an interrupted commit");
     var duplicate = new UpdateManifest { Version = "x", Files = [entry, FileEntry("CLASSIC/Data/shared.txt", "x")] };
     Reject(() => service.ValidateManifest(duplicate, true), "Reject duplicate aliases across manifest entries");
+    workspace = transaction.Prepare();
+    var atomicFiles = new List<(UpdateFile File, string Staged)>();
+    for (int index = 0; index < 4; index++)
+    {
+        string pending = Path.Combine(workspace, $"atomic-{index}.part");
+        File.WriteAllText(pending, "new");
+        atomicFiles.Add((FileEntry($"batch/{index}.txt", "new"), pending));
+    }
+    int applied = 0;
+    bool fullPlanPersisted = true;
+    transaction.Commit(atomicFiles, (done, total, path) =>
+    {
+        applied = done;
+        var pendingPlan = JsonSerializer.Deserialize<List<UpdateJournalEntry>>(File.ReadAllText(Path.Combine(workspace, "journal.json")))!;
+        fullPlanPersisted &= pendingPlan.Count == atomicFiles.Count;
+    });
+    Check(applied == atomicFiles.Count && fullPlanPersisted, "Commit persists the complete recovery plan once and reports each installed file");
+    Check(!File.Exists(Path.Combine(workspace, "journal.json")), "Successful commit removes the recovery plan");
+
+    workspace = transaction.Prepare();
+    string rollbackStage = Path.Combine(workspace, "rollback.part");
+    File.WriteAllText(rollbackStage, "changed");
+    bool callbackFailed = false;
+    try { transaction.Commit([(entry, rollbackStage)], (_, _, _) => throw new IOException("Simulated interruption after replacement")); }
+    catch (IOException) { callbackFailed = true; }
+    Check(callbackFailed && File.ReadAllText(Path.Combine(root, entry.Path)) == "recovered", "Published recovery plan restores an already replaced original after failure");
+    var boundedProgress = new LatestProgress();
+    const int ProgressBurst = 100000;
+    Parallel.For(0, ProgressBurst, index => boundedProgress.Report(new("working", index)));
+    boundedProgress.Report(new("latest", 100));
+    Check(boundedProgress.Take()?.Message == "latest" && boundedProgress.Take() == null, "Progress bursts retain only the latest update without queuing callbacks");
     var cards = GpuDetector.Detect();
     Check(cards.Count != 0 && cards.All(c => c.Name.Length > 0), "Native DXGI detects physical graphics adapters");
     foreach (var card in cards) Console.WriteLine("GPU: " + card.Name + " · " + card.MemoryLabel);
@@ -146,12 +199,18 @@ sealed class FakeDownloads(UpdateManifest manifest, Dictionary<string, string> f
 
 sealed class LocalRelease(string root) : HttpMessageHandler
 {
+    private readonly UpdateManifest releaseManifest = JsonSerializer.Deserialize<UpdateManifest>(File.ReadAllText(Path.Combine(root, "manifest.json")), LauncherSettings.JsonOptions)!;
     public int FileDownloads;
     protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
     {
         string path = Uri.UnescapeDataString(request.RequestUri!.AbsolutePath.Replace("/windows/", ""));
         if (path != "manifest.json") Interlocked.Increment(ref FileDownloads);
-        return Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK) { Content = new StreamContent(System.IO.File.OpenRead(Path.Combine(root, path))) });
+        string localPath = path;
+        if (path != "manifest.json")
+        {
+            localPath = releaseManifest.Files.First(f => Uri.UnescapeDataString(f.Url.Length == 0 ? f.Path : f.Url) == path).Path;
+        }
+        return Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK) { Content = new StreamContent(System.IO.File.OpenRead(Path.Combine(root, localPath))) });
     }
 }
 

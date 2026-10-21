@@ -28,29 +28,45 @@ public sealed class UpdateTransaction(string root)
         File.Delete(Journal);
     }
 
-    public void Commit(IReadOnlyList<(UpdateFile File, string Staged)> files)
+    public void Commit(IReadOnlyList<(UpdateFile File, string Staged)> files, Action<int, int, string>? report = null)
     {
-        var journal = new List<UpdateJournalEntry>();
+        if (files.Count == 0) return;
         try
         {
-            foreach (var (file, staged) in files)
+            // Back up every original before publishing the complete recovery plan.
+            // A crash can then restore both applied and not-yet-applied entries safely.
+            var journal = PrepareJournal(files);
+            WriteJournal(journal);
+            for (int index = 0; index < files.Count; index++)
             {
+                var (file, staged) = files[index];
                 string target = UpdatePaths.Resolve(root, file.Path);
-                Directory.CreateDirectory(Path.GetDirectoryName(target)!);
-                bool hadOriginal = File.Exists(target);
-                string backup = Guid.NewGuid().ToString("N") + ".bak";
-                if (hadOriginal) File.Copy(target, Path.Combine(Workspace, backup));
-                journal.Add(new(file.Path, backup, hadOriginal));
-                WriteJournal(journal);
                 File.Move(staged, target, overwrite: true);
+                report?.Invoke(index + 1, files.Count, file.Path);
             }
-            if (File.Exists(Journal)) File.Delete(Journal);
+            File.Delete(Journal);
         }
         catch
         {
             Recover();
             throw;
         }
+    }
+
+    private List<UpdateJournalEntry> PrepareJournal(IReadOnlyList<(UpdateFile File, string Staged)> files)
+    {
+        var journal = new List<UpdateJournalEntry>(files.Count);
+        foreach (var (file, staged) in files)
+        {
+            if (!File.Exists(staged)) throw new FileNotFoundException("Falta el archivo preparado: " + file.Path, staged);
+            string target = UpdatePaths.Resolve(root, file.Path);
+            Directory.CreateDirectory(Path.GetDirectoryName(target)!);
+            bool hadOriginal = File.Exists(target);
+            string backup = Guid.NewGuid().ToString("N") + ".bak";
+            if (hadOriginal) File.Copy(target, Path.Combine(Workspace, backup));
+            journal.Add(new(file.Path, backup, hadOriginal));
+        }
+        return journal;
     }
 
     public string Prepare()

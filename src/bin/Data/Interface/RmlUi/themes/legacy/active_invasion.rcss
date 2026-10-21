@@ -1,5 +1,5 @@
 /* Match the OpenGL overlay; the document stays non-modal over the world. */
-.invasion-launcher {position:absolute;left:10dp;top:18dp;width:78dp;height:21dp;background-color:#110609;border:1dp #9a1924;border-radius:3dp;pointer-events:auto;cursor:pointer;}
+.invasion-launcher {position:absolute;left:10dp;top:28dp;width:78dp;height:21dp;background-color:#110609;border:1dp #9a1924;border-radius:3dp;pointer-events:auto;cursor:pointer;}
 .invasion-symbol {position:absolute;left:2dp;top:0;width:20dp;height:20dp;line-height:20dp;color:#f52238;font-size:18dp;text-align:center;pointer-events:none;}
 .invasion-label {position:absolute;left:22dp;right:2dp;top:0;height:21dp;line-height:21dp;text-align:center;color:#e78789;font-size:5.5dp;pointer-events:none;}
 #panel.invasion-panel {position:absolute;left:100dp;top:50dp;width:120dp;height:148dp;background-color:rgba(0,0,0,210);pointer-events:auto;color:#dddddd;font-size:6.8dp;font-family:"token(font-body)";}

@@ -6,9 +6,14 @@ La instalación incluye Clásico (OpenGL de 32 bits) y Moderno (Vulkan o DirectX
 
 ## Instalar y jugar
 
-1. Descargar `https://patch.hispanogaming.com/windows/Launcher.exe?v=2026.10.19.2` y abrirlo.
-2. Una descarga nueva prepara `%LOCALAPPDATA%\ParisProject\Client`. Para elegir otra
+1. Descargar `https://patch.hispanogaming.com/windows/Launcher.exe?v=1.0.4` y abrirlo.
+2. Una descarga nueva prepara `C:\PARIS PROJECT`. Para elegir otra
    ubicación, usar **Opciones del launcher → Carpeta de instalación**.
+   El instalador ofrece una exclusión opcional de Microsoft Defender, desactivada
+   por defecto. Aceptarla requiere permisos de administrador y deja toda esa carpeta
+   sin análisis de Defender; rechazarla permite continuar con la protección habitual.
+   Se puede retirar después desde Seguridad de Windows → Exclusiones. No modifica
+   otros antivirus ni desactiva la protección general.
 3. Esperar a que termine la barra. La instalación inicial incluye ambos modos.
 4. Usar el acceso directo **Paris Project** del escritorio, elegir el modo y pulsar
    **JUGAR**. El acceso directo usa el icono dorado de Paris Project y abre el launcher.
@@ -121,3 +126,13 @@ la ruta proporcionada por el propio ejecutable. Esta condición impedía iniciar
 una instalación nueva. Pasan 35 comprobaciones, incluidas las rutas terminadas
 en barra o barra doble y ocho descargas reales desde R2 con esa misma condición.
 Cerrar el launcher anterior y descargar la versión nueva para aplicar la corrección.
+
+## Instalación interrumpida en 95%
+
+La versión 1.0.3 muestra el número de archivos instalados durante la fase final y guarda un único plan de recuperación completo. Si una instalación anterior quedó incompleta, cerrar el juego y volver a abrir el launcher actualizado en la misma carpeta. El launcher recupera el estado anterior y verifica los archivos antes de habilitar JUGAR. No borrar manualmente `.launcher-update` mientras contiene una recuperación pendiente.
+
+## Equipos con pocos recursos
+
+La versión 1.0.4 ejecuta la actualización fuera del hilo de la ventana y conserva solo el último aviso de progreso, mostrado cada 150 ms. Usa dos descargas simultáneas en equipos de hasta cuatro procesadores lógicos y cuatro en los demás. Reutiliza los búferes de descarga y calcula SHA-256 mientras recibe los datos para evitar una segunda lectura del disco. No elimina la comprobación de archivos ni la recuperación.
+
+El ejecutable distribuido sigue incluyendo .NET para funcionar sin instalar ese componente por separado. Su tamaño de descarga no equivale a su consumo de memoria durante la actualización.

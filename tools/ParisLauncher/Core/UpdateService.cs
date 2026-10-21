@@ -1,4 +1,5 @@
 using System.IO;
+using System.Buffers;
 using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text.Json;
@@ -16,14 +17,14 @@ public sealed class UpdateService(HttpClient http, string root, Action ensureCli
     {
         ensureClientClosed();
         var transaction = new UpdateTransaction(root);
-        transaction.Recover();
+        await Task.Run(transaction.Recover, cancellation);
         if (string.IsNullOrWhiteSpace(manifestUrl)) return "Actualizaciones sin configurar · Puedes jugar";
         if (!Uri.TryCreate(manifestUrl, UriKind.Absolute, out var uri) || uri.Scheme != "https" || !string.IsNullOrEmpty(uri.UserInfo))
             throw new InvalidDataException("Configura una dirección HTTPS válida para las actualizaciones.");
         progress.Report(new("Buscando actualizaciones…", 0, true));
         UpdateManifest manifest = await FetchManifest(uri, cancellation);
         var files = ValidateManifest(manifest, classic, both);
-        string workspace = transaction.Prepare();
+        string workspace = await Task.Run(transaction.Prepare, cancellation);
         var changed = await FindChanges(files, progress, cancellation);
         var downloads = new ConcurrentBag<(UpdateFile File, string Staged)>();
         long total = changed.Sum(f => f.Size), completed = 0;
@@ -32,7 +33,7 @@ public sealed class UpdateService(HttpClient http, string root, Action ensureCli
         long backups = changed.Where(f => System.IO.File.Exists(UpdatePaths.Resolve(root, f.Path))).Sum(f => new FileInfo(UpdatePaths.Resolve(root, f.Path)).Length);
         if (drive.AvailableFreeSpace < total + backups + FreeSpaceMargin)
             throw new IOException("No hay espacio suficiente en la unidad para completar la instalación.");
-        await Parallel.ForEachAsync(changed, new ParallelOptions { MaxDegreeOfParallelism = 8, CancellationToken = cancellation }, async (file, token) =>
+        await Parallel.ForEachAsync(changed, new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount <= 4 ? 2 : 4, CancellationToken = cancellation }, async (file, token) =>
         {
             string temp = Path.Combine(workspace, Guid.NewGuid().ToString("N") + ".part");
             long previous = 0;
@@ -47,12 +48,28 @@ public sealed class UpdateService(HttpClient http, string root, Action ensureCli
         });
         var staged = downloads.ToList();
         if (classic || both)
-            await StageClassicAliases(files, staged, workspace, cancellation);
+            await Task.Run(() => StageClassicAliases(files, staged, workspace, cancellation), cancellation);
         cancellation.ThrowIfCancellationRequested();
         ensureClientClosed();
         progress.Report(new("Instalando actualización…", 95));
-        await Task.Run(() => transaction.Commit(staged));
+        await Task.Run(() => CommitWithProgress(transaction, staged, progress));
         return changed.Count == 0 ? $"Cliente al día · Versión {manifest.Version}" : $"Actualización completa · Versión {manifest.Version}";
+    }
+
+    private static void CommitWithProgress(UpdateTransaction transaction, List<(UpdateFile File, string Staged)> staged, IProgress<UpdateProgress> progress)
+    {
+        const int ProgressIntervalMilliseconds = 100;
+        const double InstallStartPercent = 95;
+        const double InstallPercentRange = 4;
+        long previousReport = 0;
+        transaction.Commit(staged, (completed, total, path) =>
+        {
+            long now = Environment.TickCount64;
+            if (completed != total && now - previousReport < ProgressIntervalMilliseconds) return;
+            previousReport = now;
+            double percent = InstallStartPercent + InstallPercentRange * completed / total;
+            progress.Report(new($"Instalando {completed:N0}/{total:N0}: {path}", percent));
+        });
     }
 
     private async Task<UpdateManifest> FetchManifest(Uri uri, CancellationToken cancellation)
@@ -157,25 +174,35 @@ public sealed class UpdateService(HttpClient http, string root, Action ensureCli
         response.EnsureSuccessStatusCode();
         if (response.Content.Headers.ContentLength is long length && length != file.Size) throw new InvalidDataException("Tamaño de descarga incorrecto: " + file.Path);
         await using var input = await response.Content.ReadAsStreamAsync(cancellation);
-        await using (var output = new FileStream(destination, FileMode.CreateNew, FileAccess.Write, FileShare.None, BufferBytes, useAsync: true))
+        using var hash = IncrementalHash.CreateHash(HashAlgorithmName.SHA256);
+        byte[] buffer = ArrayPool<byte>.Shared.Rent(BufferBytes);
+        try
         {
-            byte[] buffer = new byte[BufferBytes];
-            long received = 0;
-            long lastReport = 0;
-            int count;
-            while ((count = await input.ReadAsync(buffer, cancellation)) > 0)
-            {
-                received += count;
-                if (received > file.Size) throw new InvalidDataException("La descarga supera el tamaño esperado: " + file.Path);
-                await output.WriteAsync(buffer.AsMemory(0, count), cancellation);
-                if (Environment.TickCount64 - lastReport >= 100)
-                {
-                    report(received);
-                    lastReport = Environment.TickCount64;
-                }
-            }
+            await using var output = new FileStream(destination, FileMode.CreateNew, FileAccess.Write, FileShare.None, BufferBytes, useAsync: true);
+            await CopyDownload(input, output, file, buffer, hash, report, cancellation);
         }
-        if (!await Matches(destination, file, cancellation)) throw new InvalidDataException("La descarga no pasó la verificación SHA-256: " + file.Path);
+        finally { ArrayPool<byte>.Shared.Return(buffer); }
+        if (!Convert.ToHexString(hash.GetHashAndReset()).Equals(file.Sha256, StringComparison.OrdinalIgnoreCase))
+            throw new InvalidDataException("La descarga no pasó la verificación SHA-256: " + file.Path);
         report(file.Size);
+    }
+
+    private static async Task CopyDownload(Stream input, Stream output, UpdateFile file, byte[] buffer, IncrementalHash hash, Action<long> report, CancellationToken cancellation)
+    {
+        const int ReportIntervalMilliseconds = 150;
+        long received = 0;
+        long lastReport = 0;
+        int count;
+        while ((count = await input.ReadAsync(buffer.AsMemory(0, BufferBytes), cancellation)) > 0)
+        {
+            received += count;
+            if (received > file.Size) throw new InvalidDataException("La descarga supera el tamaño esperado: " + file.Path);
+            hash.AppendData(buffer, 0, count);
+            await output.WriteAsync(buffer.AsMemory(0, count), cancellation);
+            if (Environment.TickCount64 - lastReport < ReportIntervalMilliseconds) continue;
+            report(received);
+            lastReport = Environment.TickCount64;
+        }
+        if (received != file.Size) throw new InvalidDataException("Descarga incompleta: " + file.Path);
     }
 }

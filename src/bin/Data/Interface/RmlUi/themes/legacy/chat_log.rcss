@@ -1,4 +1,4 @@
-﻿/* Legacy theme for CChatLogWindow. Every colour below is lifted from the native
+/* Legacy theme for CChatLogWindow. Every colour below is lifted from the native
    RenderMessages()/RenderBackground() it replaces (ChatLogWindow.cpp) -- per-type background and
    text RGBA pairs, not an approximation.
 
