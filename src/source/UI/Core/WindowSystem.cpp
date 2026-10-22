@@ -32,14 +32,14 @@ namespace
     std::unique_ptr<CActiveInvasionWindow> activeInvasionWindow;
     std::unique_ptr<CParisStorePriceWindow> parisStorePriceWindow;
 
-    bool HasVisibleCustomPanel(const std::array<CObject*, 14>& panels)
+    bool HasVisibleCustomPanel(const std::array<CObject*, 15>& panels)
     {
         return (g_pGenericMenuDialog && g_pGenericMenuDialog->IsCustomMenu())
             || std::any_of(panels.begin(), panels.end(), [](const CObject* panel)
                 { return panel && panel->IsVisible(); });
     }
 
-    bool HandleCustomPanelShortcut(const std::array<CObject*, 14>& panels, CObject* hotkey)
+    bool HandleCustomPanelShortcut(const std::array<CObject*, 15>& panels, CObject* hotkey)
     {
         const bool customVisible = HasVisibleCustomPanel(panels);
         const bool nativeShortcut = IsPress('C') || IsPress('I') || IsPress('V')
@@ -160,6 +160,7 @@ CSystem::CSystem()
     m_pParisVipWindow = nullptr;
     m_pParisBattlePassWindow = nullptr;
     m_pParisEventsWindow = nullptr;
+    m_pGestureWheelWindow = nullptr;
     m_pParisAdvancedStatsWindow = nullptr;
     m_pParisGmEventsWindow = nullptr;
 }
@@ -635,6 +636,10 @@ bool CSystem::LoadMainSceneInterface()
         return false;
     g_pParisBattlePassWindow = m_pParisBattlePassWindow;
 
+    m_pGestureWheelWindow = new CGestureWheelWindow;
+    if (!m_pGestureWheelWindow->Create(m_pNewUIMng)) return false;
+    g_pGestureWheelWindow = m_pGestureWheelWindow;
+
     m_pParisEventsWindow = new CParisEventsWindow;
     if (!m_pParisEventsWindow->Create(m_pNewUIMng))
         return false;
@@ -846,6 +851,8 @@ void CSystem::UnloadMainSceneInterface()
     g_pParisVipWindow = nullptr;
     g_pParisBattlePassWindow = nullptr;
     g_pParisEventsWindow = nullptr;
+    g_pGestureWheelWindow = nullptr;
+    SAFE_DELETE(m_pGestureWheelWindow);
     g_pParisAdvancedStatsWindow = nullptr;
     g_pParisGmEventsWindow = nullptr;
     SAFE_DELETE(m_pParisResetWindow);
@@ -890,12 +897,12 @@ void CSystem::Show(DWORD dwKey)
     }
 
     // A requested native window replaces any full custom panel that would cover it.
-    const std::array<CObject*, 14> customPanels = {
+    const std::array<CObject*, 15> customPanels = {
         m_pParisJewelBankWindow, m_pParisMarketWindow, m_pParisAuctionWindow,
         m_pParisRankUserWindow, m_pParisRankingWindow, m_pParisActivityLogWindow,
         m_pParisResetWindow, m_pParisVipWindow, m_pParisBattlePassWindow,
         m_pParisEventsWindow, m_pParisAdvancedStatsWindow, m_pParisGmEventsWindow,
-        parisMentorWindow.get(), parisSoulWindow.get()};
+        parisMentorWindow.get(), parisSoulWindow.get(), m_pGestureWheelWindow};
     for (auto* panel : customPanels)
         if (panel && panel->IsVisible()) panel->Show(false);
 
@@ -1683,12 +1690,12 @@ void CSystem::Hide(DWORD dwKey)
 
 void CSystem::Toggle(DWORD dwKey)
 {
-    const std::array<CObject*, 14> customPanels = {
+    const std::array<CObject*, 15> customPanels = {
         m_pParisJewelBankWindow, m_pParisMarketWindow, m_pParisAuctionWindow,
         m_pParisRankUserWindow, m_pParisRankingWindow, m_pParisActivityLogWindow,
         m_pParisResetWindow, m_pParisVipWindow, m_pParisBattlePassWindow,
         m_pParisEventsWindow, m_pParisAdvancedStatsWindow, m_pParisGmEventsWindow,
-        parisMentorWindow.get(), parisSoulWindow.get()};
+        parisMentorWindow.get(), parisSoulWindow.get(), m_pGestureWheelWindow};
     if (HasVisibleCustomPanel(customPanels))
     {
         Show(dwKey);
@@ -1951,12 +1958,12 @@ bool CSystem::Update()
         }
 
         bool nativeShortcutHandled = false;
-        const std::array<CObject*, 14> customPanels = {
+        const std::array<CObject*, 15> customPanels = {
             m_pParisJewelBankWindow, m_pParisMarketWindow, m_pParisAuctionWindow,
             m_pParisRankUserWindow, m_pParisRankingWindow, m_pParisActivityLogWindow,
             m_pParisResetWindow, m_pParisVipWindow, m_pParisBattlePassWindow,
             m_pParisEventsWindow, m_pParisAdvancedStatsWindow, m_pParisGmEventsWindow,
-            parisMentorWindow.get(), parisSoulWindow.get()};
+            parisMentorWindow.get(), parisSoulWindow.get(), m_pGestureWheelWindow};
         nativeShortcutHandled = HandleCustomPanelShortcut(customPanels, m_pNewUIHotKey);
         if (!nativeShortcutHandled) m_pNewUIMng->UpdateKeyEvent();
         result = m_pNewUIMng->Update();

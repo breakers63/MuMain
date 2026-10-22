@@ -1,6 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
+#include "Render/Terrain/GrassBurn.h"
 #include "Camera/CameraMove.h"
 #include "Render/Textures/ZzzOpenglUtil.h"
 #include "Render/Models/ZzzBMD.h"
@@ -2669,6 +2670,14 @@ void RenderObject(OBJECT* o, bool Translate, int Select, int ExtraMon)
 {
     // Split only for map objects; characters' parts come through here too.
     const bool mapObject = FrameProfiler::CurrentPass() == FrameProfiler::Pass::Objects;
+    constexpr int LorenciaGrassModelCount=8;
+    constexpr float BurnedGrassThreshold=.8f;
+    if (mapObject && gMapManager.WorldActive==WD_0LORENCIA &&
+        o->Type>=MODEL_GRASS01 && o->Type<MODEL_GRASS01+LorenciaGrassModelCount &&
+        Render::Terrain::GrassBurn::Amount(static_cast<int>(o->Position[0]/TERRAIN_SCALE),
+                                         static_cast<int>(o->Position[1]/TERRAIN_SCALE))>BurnedGrassThreshold)
+        return;
+
     {
         std::optional<FrameProfiler::Scope> animate;
         if (mapObject)

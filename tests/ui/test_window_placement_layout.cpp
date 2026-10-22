@@ -350,3 +350,35 @@ TEST_CASE("Invasion launcher clears the compact helper header [ui][window-placem
     Rml::Shutdown();
     Rml::SetRenderInterface(nullptr);
 }
+
+TEST_CASE("Gesture wheel remains square centred and visible across resolutions and UI scales")
+{
+    NullRenderer renderer;
+    Rml::SetRenderInterface(&renderer);
+    REQUIRE(Rml::Initialise());
+    auto* context = Rml::CreateContext("gestures", {1024, 768});
+    REQUIRE(context);
+    for (auto size : {Rml::Vector2i(800,600), Rml::Vector2i(1024,768), Rml::Vector2i(1920,1080), Rml::Vector2i(3440,1440)})
+    for (float scale : {.75f,1.f,1.5f})
+    for (const char* theme : {"legacy", "modern"})
+    {
+        CAPTURE(size.x); CAPTURE(size.y); CAPTURE(scale); CAPTURE(theme);
+        context->SetDimensions(size);
+        context->SetDensityIndependentPixelRatio(scale);
+        const std::string root = std::string(MU_RMLUI_DIR) + "/";
+        auto css=ReadFile(root+"themes/"+theme+"/gesture_wheel.rcss");
+        auto* document=context->LoadDocumentFromMemory("<rml><head><style>body {width:100%;height:100%;margin:0;}"+css+"</style></head><body><div id=\"gesture-overlay\"><div id=\"wheel\"></div></div></body></rml>");
+        REQUIRE(document);
+        document->Show();context->Update();
+        auto* wheel=document->GetElementById("wheel");REQUIRE(wheel);
+        auto bounds=wheel->GetBox().GetSize();auto at=wheel->GetAbsoluteOffset();
+        CHECK(bounds.x == doctest::Approx(bounds.y));
+        CHECK(bounds.x > 0);
+        CHECK(at.x >= 0);CHECK(at.y >= 0);
+        CHECK(at.x+bounds.x <= size.x);CHECK(at.y+bounds.y <= size.y);
+        CHECK(at.x+bounds.x/2 == doctest::Approx(size.x/2.f));
+        CHECK(at.y+bounds.y/2 == doctest::Approx(size.y/2.f));
+        context->UnloadDocument(document);context->Update();
+    }
+    Rml::RemoveContext("gestures");Rml::Shutdown();
+}

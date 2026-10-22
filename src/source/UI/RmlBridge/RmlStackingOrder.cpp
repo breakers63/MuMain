@@ -151,6 +151,7 @@ constexpr DocumentPlacement Placements[] = {
     // The original drew each tooltip at its owner's depth (item tooltips at 5.5), where the
     // chat log, the friends window, the full map and the HUD hid its rows: an original
     // defect. Every tooltip draws above the windows instead, still under the message boxes.
+    {"gesture_wheel.rml", 10.68f, MainScene},
     {"tooltip.rml", TooltipDepth, MainScene},
     {"message_box_view.rml", MessageBoxDepth, MainScene},
     // New-only dialogs that replace message boxes.

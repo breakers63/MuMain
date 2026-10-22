@@ -1,5 +1,6 @@
 
 #include "stdafx.h"
+#include "Core/Input/KeyState.h"
 #include "UI/Core/WindowCommon.h"
 #include <algorithm>
 #include "I18N/All.h"
@@ -286,6 +287,18 @@ void mu::ui::window::CMainFrameWindow::BindRmlModel(Rml::DataModelConstructor& c
         [this](Rml::DataModelHandle, Rml::Event&, const Rml::VariantList&) { RmlClickMyInven(); });
     c.BindEventCallback("mainframe_friend_click",
         [this](Rml::DataModelHandle, Rml::Event&, const Rml::VariantList&) { RmlClickFriend(); });
+    c.BindEventCallback("mainframe_pvp_click",
+        [this](Rml::DataModelHandle, Rml::Event&, const Rml::VariantList&)
+        {
+            Core::Input::TogglePvpLock();
+            if(auto* document=m_RmlView.Document())
+                if(auto* button=document->GetElementById("btn_pvp"))
+                {
+                    const bool active=Core::Input::IsPvpLocked();
+                    button->SetClass("active",active);
+                    button->SetAttribute("data-hint",active ? "Auto PVP ON" : "Auto PVP OFF");
+                }
+        });
     c.BindEventCallback("mainframe_window_click",
         [this](Rml::DataModelHandle, Rml::Event&, const Rml::VariantList&) { RmlClickWindow(); });
 }

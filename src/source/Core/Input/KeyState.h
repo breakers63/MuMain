@@ -13,6 +13,8 @@ void ClearLeftMouseButtonPressEdge();
 // state. The argument is a Win32 virtual-key code (VK_*) or an ASCII letter
 // or digit, matching what the existing call sites already pass.
 bool IsKeyDown(int virtualKey);
+bool IsPvpLocked();
+void TogglePvpLock();
 
 #ifdef _EDITOR
 // Whether a key or button (a virtual-key code as IsKeyDown takes) is with a

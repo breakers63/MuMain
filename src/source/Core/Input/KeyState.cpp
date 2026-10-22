@@ -6,6 +6,10 @@
 
 namespace Core::Input
 {
+    namespace { bool pvpLocked=false; }
+    bool IsPvpLocked() { return pvpLocked; }
+    void TogglePvpLock() { pvpLocked=!pvpLocked; }
+
     namespace
     {
         bool g_leftMouseButtonPressEdge = false;
@@ -40,6 +44,7 @@ namespace Core::Input
             case VK_SPACE:   return SDL_SCANCODE_SPACE;
             case VK_RETURN:  return SDL_SCANCODE_RETURN;
             case VK_ESCAPE:  return SDL_SCANCODE_ESCAPE;
+            case 0xC0: return SDL_SCANCODE_GRAVE; // physical key above Tab, left of 1
             case VK_TAB:     return SDL_SCANCODE_TAB;
             case VK_BACK:    return SDL_SCANCODE_BACKSPACE;
             case VK_F1:      return SDL_SCANCODE_F1;

@@ -1,7 +1,8 @@
-﻿///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
+#include "Render/Terrain/GrassBurn.h"
 #include "Render/Textures/ZzzOpenglUtil.h"
 #include "Render/Models/ZzzBMD.h"
 #include "Engine/Object/ZzzInfomation.h"
@@ -754,6 +755,7 @@ void CreateEffect(int Type, vec3_t Position, vec3_t Angle, vec3_t Light, int Sub
             case BITMAP_FLAME:
                 if (o->SubType == 0)
                 {
+                    Render::Terrain::GrassBurn::Ignite(o->Position[0], o->Position[1]);
                     o->LifeTime = 40;
                     o->Weapon = CharacterMachine->PacketSerial;
                 }

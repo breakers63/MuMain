@@ -15,6 +15,13 @@ public:
     void Load();
     void Save();
 
+    bool GetHidePlayerNames() const;
+    bool GetShowPlayerHP() const;
+    bool GetHideMonsterHP() const;
+    void SetShowPlayerHP(bool shown);
+    void SetHideMonsterHP(bool hidden);
+    void SetHidePlayerNames(bool hidden);
+
     // Window
     int  GetWindowWidth()  const { return m_windowWidth; }
     int  GetWindowHeight() const { return m_windowHeight; }

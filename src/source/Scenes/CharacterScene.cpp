@@ -3,6 +3,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
+#include "Character/SelectionGreeting.h"
 #include "CharacterScene.h"
 #include "SceneCore.h"
 #include "Character/CharacterManager.h"
@@ -136,6 +137,7 @@ bool StartGameWithSlot(int slot)
 
 void CreateCharacterScene()
 {
+    CharacterSelection::Greeting::Reset();
     g_pNewUIMng->ResetActiveUIObj();
 
     EnableMainRender = true;
@@ -221,6 +223,7 @@ void NewMoveCharacterScene()
 
     // Now check character visibility with updated frustum
     MoveCharactersClient();
+    CharacterSelection::Greeting::Update();
     MoveCharacterClient(&CharacterView);
 
     MoveEffects();
@@ -286,6 +289,7 @@ void NewMoveCharacterScene()
             SelectedHero = -1;
         else
             SelectedHero = SelectedCharacter;
+        CharacterSelection::Greeting::Click(SelectedHero);
         g_CharSelMainWin.UpdateDisplay();
     }
 

@@ -3,6 +3,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
+#include "UI/SocialMusic/SocialMusic.h"
 #include "Render/Weather/WeatherRenderer.h"
 #include "App/Control/ControlTaps.h"
 #include "Engine/Object/EditObjects.h"
@@ -555,6 +556,7 @@ static void RenderGameWorld(BYTE& byWaterMap, int width, int height)
     }
 
     { FRAME_PROFILE(Characters); RenderCharactersClient(); }
+    UI::SocialMusic::RenderWorld();
 
     if (EditFlag != EDIT_NONE && renderTerrain)
     {

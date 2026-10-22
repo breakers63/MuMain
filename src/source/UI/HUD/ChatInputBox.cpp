@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 #include "UI/Chat/ChatInput.h"
 #include "UI/HUD/ChatInputBox.h"
 #include "Core/Input/SyntheticInput.h"
@@ -195,6 +195,7 @@ bool mu::ui::window::CChatInputBox::UpdateMouseEvent()
 
 bool mu::ui::window::CChatInputBox::UpdateKeyEvent()
 {
+    if (HandleCommandCompletionKey()) return false;
     if (mu::ui::window::IsPress(VK_F2))
     {
         m_bShowMessageElseNormal = !m_bShowMessageElseNormal;
@@ -460,6 +461,7 @@ bool mu::ui::window::CChatInputBox::Update()
 {
     BuildRmlUi();
     SyncRmlModel();
+    SyncCommandCompletion();
     return true;
 }
 
@@ -472,6 +474,17 @@ bool mu::ui::window::CChatInputBox::Render()
 
 void mu::ui::window::CChatInputBox::BindRmlModel(Rml::DataModelConstructor& c, ChatInputRmlModel& model)
 {
+    auto command = c.RegisterStruct<ChatInputRmlModel::Suggestion>();
+    command.RegisterMember("name", &ChatInputRmlModel::Suggestion::name);
+    command.RegisterMember("description", &ChatInputRmlModel::Suggestion::description);
+    command.RegisterMember("usage", &ChatInputRmlModel::Suggestion::usage);
+    command.RegisterMember("index", &ChatInputRmlModel::Suggestion::index);
+    command.RegisterMember("selected", &ChatInputRmlModel::Suggestion::selected);
+    c.RegisterArray<std::vector<ChatInputRmlModel::Suggestion>>();
+    c.Bind("commands", &model.commands);
+    c.Bind("show_commands", &model.showCommands);
+    c.BindEventCallback("chat_complete", [this](Rml::DataModelHandle, Rml::Event& event, const Rml::VariantList& args)
+    { event.StopImmediatePropagation(); if (!args.empty()) AcceptCommand(args[0].Get<int>(-1)); });
     c.Bind("chat_text", &model.chatText);
     c.Bind("whisper_id", &model.whisperId);
     c.Bind("input_msg_type", &model.inputMsgType);
@@ -712,4 +725,45 @@ void mu::ui::window::CChatInputBox::UpdateWhisperTargetFromRightClick()
     }
 
     SetWhsprID(character->ID);
+}
+
+void mu::ui::window::CChatInputBox::SyncCommandCompletion()
+{
+    type_string text; GetChatText(text);
+    const bool gm = Hero && (Hero->CtlCode == CTLCODE_08OPERATOR || Hero->CtlCode == CTLCODE_20OPERATOR);
+    const bool changed = completion.Sync(text, gm, IsVisible() && IsFieldFocused("chat_field"));
+    if (!changed && !completionDirty) return;
+    completionDirty = false;
+    auto& model = m_RmlView.GetModel();
+    const bool show = completion.Count() > 0;
+    if (model.showCommands != show) { model.showCommands = show; m_RmlView.MarkDirty("show_commands"); }
+    std::vector<ChatInputRmlModel::Suggestion> rows;
+    if (show)
+        for (int i = completion.First(); i < std::min(completion.Count(), completion.First() + UI::Chat::CommandCompletion::VisibleRows); ++i)
+        {
+            const auto& row = completion.Row(i);
+            rows.push_back({StringUtils::WideToNarrow(row.name), StringUtils::WideToNarrow(row.description),
+                StringUtils::WideToNarrow(row.usage), i, i == completion.Selected()});
+        }
+    if (model.commands != rows) { model.commands = std::move(rows); m_RmlView.MarkDirty("commands"); }
+}
+void mu::ui::window::CChatInputBox::AcceptCommand(int index)
+{
+    SetFieldText("chat_field", completion.Complete(index));
+    FocusField("chat_field");
+    SyncCommandCompletion();
+}
+bool mu::ui::window::CChatInputBox::HandleCommandCompletionKey()
+{
+    if (!IsVisible() || !IsFieldFocused("chat_field")) return false;
+    SyncCommandCompletion();
+    if (!completion.Count()) return false;
+    if (IsPress(VK_UP) || IsPress(VK_DOWN))
+    {
+        completion.Move(IsPress(VK_UP) ? -1 : 1);
+        completionDirty = true;
+        SyncCommandCompletion();
+        return true;
+    }
+    return false;
 }

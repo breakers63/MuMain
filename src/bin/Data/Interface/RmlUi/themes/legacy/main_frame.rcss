@@ -310,11 +310,11 @@
 /* The original's zig-zag around the first cell, by each cell's place in the list (--i): the first
    fourteen alternate right and left of it, the next four continue left, and the rest form a second
    row above, heading right. */
-#skill_grid .skill-cell { top: 0dp; }
-#skill_grid .skill-cell:nth-child(2n+1):nth-child(-n+13) { left: calc(var(--i, 0) * 16dp); }
-#skill_grid .skill-cell:nth-child(2n):nth-child(-n+14) { left: calc(var(--i, 0) * -16dp - 16dp); }
-#skill_grid .skill-cell:nth-child(n+15):nth-child(-n+18) { left: calc(192dp - var(--i, 0) * 32dp); }
-#skill_grid .skill-cell:nth-child(n+19) { left: calc(var(--i, 0) * 32dp - 928dp); top: -38dp; }
+
+
+
+
+
 #pet_skill_row .skill-cell { top: -38dp; }
 #pet_skill_row .skill-cell:nth-child(1) { left: -32dp; }
 #pet_skill_row .skill-cell:nth-child(2) { left: 0dp; }
@@ -325,3 +325,168 @@
 #hud_coordinates {display:none;}
 
 #hud_performance {display:none;}
+
+/* Keep every learned skill reachable instead of extending the second row offscreen. */
+
+
+
+#skill_grid {position:absolute;left:0;top:auto;bottom:0;width:576dp;height:38dp;pointer-events:none;}
+#skill_grid .skill-cell {position:absolute;width:32dp;height:38dp;box-sizing:border-box;}
+#skill_grid .skill-cell:nth-child(1) {left:0dp;top:0dp;}
+#skill_grid .skill-cell:nth-child(2) {left:32dp;top:0dp;}
+#skill_grid .skill-cell:nth-child(3) {left:64dp;top:0dp;}
+#skill_grid .skill-cell:nth-child(4) {left:96dp;top:0dp;}
+#skill_grid .skill-cell:nth-child(5) {left:128dp;top:0dp;}
+#skill_grid .skill-cell:nth-child(6) {left:160dp;top:0dp;}
+#skill_grid .skill-cell:nth-child(7) {left:192dp;top:0dp;}
+#skill_grid .skill-cell:nth-child(8) {left:224dp;top:0dp;}
+#skill_grid .skill-cell:nth-child(9) {left:256dp;top:0dp;}
+#skill_grid .skill-cell:nth-child(10) {left:288dp;top:0dp;}
+#skill_grid .skill-cell:nth-child(11) {left:320dp;top:0dp;}
+#skill_grid .skill-cell:nth-child(12) {left:352dp;top:0dp;}
+#skill_grid .skill-cell:nth-child(13) {left:384dp;top:0dp;}
+#skill_grid .skill-cell:nth-child(14) {left:416dp;top:0dp;}
+#skill_grid .skill-cell:nth-child(15) {left:448dp;top:0dp;}
+#skill_grid .skill-cell:nth-child(16) {left:480dp;top:0dp;}
+#skill_grid .skill-cell:nth-child(17) {left:512dp;top:0dp;}
+#skill_grid .skill-cell:nth-child(18) {left:544dp;top:0dp;}
+#skill_grid .skill-cell:nth-child(19) {left:0dp;top:-38dp;}
+#skill_grid .skill-cell:nth-child(20) {left:32dp;top:-38dp;}
+#skill_grid .skill-cell:nth-child(21) {left:64dp;top:-38dp;}
+#skill_grid .skill-cell:nth-child(22) {left:96dp;top:-38dp;}
+#skill_grid .skill-cell:nth-child(23) {left:128dp;top:-38dp;}
+#skill_grid .skill-cell:nth-child(24) {left:160dp;top:-38dp;}
+#skill_grid .skill-cell:nth-child(25) {left:192dp;top:-38dp;}
+#skill_grid .skill-cell:nth-child(26) {left:224dp;top:-38dp;}
+#skill_grid .skill-cell:nth-child(27) {left:256dp;top:-38dp;}
+#skill_grid .skill-cell:nth-child(28) {left:288dp;top:-38dp;}
+#skill_grid .skill-cell:nth-child(29) {left:320dp;top:-38dp;}
+#skill_grid .skill-cell:nth-child(30) {left:352dp;top:-38dp;}
+#skill_grid .skill-cell:nth-child(31) {left:384dp;top:-38dp;}
+#skill_grid .skill-cell:nth-child(32) {left:416dp;top:-38dp;}
+#skill_grid .skill-cell:nth-child(33) {left:448dp;top:-38dp;}
+#skill_grid .skill-cell:nth-child(34) {left:480dp;top:-38dp;}
+#skill_grid .skill-cell:nth-child(35) {left:512dp;top:-38dp;}
+#skill_grid .skill-cell:nth-child(36) {left:544dp;top:-38dp;}
+#skill_grid .skill-cell:nth-child(37) {left:0dp;top:-76dp;}
+#skill_grid .skill-cell:nth-child(38) {left:32dp;top:-76dp;}
+#skill_grid .skill-cell:nth-child(39) {left:64dp;top:-76dp;}
+#skill_grid .skill-cell:nth-child(40) {left:96dp;top:-76dp;}
+#skill_grid .skill-cell:nth-child(41) {left:128dp;top:-76dp;}
+#skill_grid .skill-cell:nth-child(42) {left:160dp;top:-76dp;}
+#skill_grid .skill-cell:nth-child(43) {left:192dp;top:-76dp;}
+#skill_grid .skill-cell:nth-child(44) {left:224dp;top:-76dp;}
+#skill_grid .skill-cell:nth-child(45) {left:256dp;top:-76dp;}
+#skill_grid .skill-cell:nth-child(46) {left:288dp;top:-76dp;}
+#skill_grid .skill-cell:nth-child(47) {left:320dp;top:-76dp;}
+#skill_grid .skill-cell:nth-child(48) {left:352dp;top:-76dp;}
+#skill_grid .skill-cell:nth-child(49) {left:384dp;top:-76dp;}
+#skill_grid .skill-cell:nth-child(50) {left:416dp;top:-76dp;}
+#skill_grid .skill-cell:nth-child(51) {left:448dp;top:-76dp;}
+#skill_grid .skill-cell:nth-child(52) {left:480dp;top:-76dp;}
+#skill_grid .skill-cell:nth-child(53) {left:512dp;top:-76dp;}
+#skill_grid .skill-cell:nth-child(54) {left:544dp;top:-76dp;}
+#skill_grid .skill-cell:nth-child(55) {left:0dp;top:-114dp;}
+#skill_grid .skill-cell:nth-child(56) {left:32dp;top:-114dp;}
+#skill_grid .skill-cell:nth-child(57) {left:64dp;top:-114dp;}
+#skill_grid .skill-cell:nth-child(58) {left:96dp;top:-114dp;}
+#skill_grid .skill-cell:nth-child(59) {left:128dp;top:-114dp;}
+#skill_grid .skill-cell:nth-child(60) {left:160dp;top:-114dp;}
+#skill_grid .skill-cell:nth-child(61) {left:192dp;top:-114dp;}
+#skill_grid .skill-cell:nth-child(62) {left:224dp;top:-114dp;}
+#skill_grid .skill-cell:nth-child(63) {left:256dp;top:-114dp;}
+#skill_grid .skill-cell:nth-child(64) {left:288dp;top:-114dp;}
+#skill_grid .skill-cell:nth-child(65) {left:320dp;top:-114dp;}
+#skill_grid .skill-cell:nth-child(66) {left:352dp;top:-114dp;}
+#skill_grid .skill-cell:nth-child(67) {left:384dp;top:-114dp;}
+#skill_grid .skill-cell:nth-child(68) {left:416dp;top:-114dp;}
+#skill_grid .skill-cell:nth-child(69) {left:448dp;top:-114dp;}
+#skill_grid .skill-cell:nth-child(70) {left:480dp;top:-114dp;}
+#skill_grid .skill-cell:nth-child(71) {left:512dp;top:-114dp;}
+#skill_grid .skill-cell:nth-child(72) {left:544dp;top:-114dp;}
+#skill_grid .skill-cell:nth-child(73) {left:0dp;top:-152dp;}
+#skill_grid .skill-cell:nth-child(74) {left:32dp;top:-152dp;}
+#skill_grid .skill-cell:nth-child(75) {left:64dp;top:-152dp;}
+#skill_grid .skill-cell:nth-child(76) {left:96dp;top:-152dp;}
+#skill_grid .skill-cell:nth-child(77) {left:128dp;top:-152dp;}
+#skill_grid .skill-cell:nth-child(78) {left:160dp;top:-152dp;}
+#skill_grid .skill-cell:nth-child(79) {left:192dp;top:-152dp;}
+#skill_grid .skill-cell:nth-child(80) {left:224dp;top:-152dp;}
+#skill_grid .skill-cell:nth-child(81) {left:256dp;top:-152dp;}
+#skill_grid .skill-cell:nth-child(82) {left:288dp;top:-152dp;}
+#skill_grid .skill-cell:nth-child(83) {left:320dp;top:-152dp;}
+#skill_grid .skill-cell:nth-child(84) {left:352dp;top:-152dp;}
+#skill_grid .skill-cell:nth-child(85) {left:384dp;top:-152dp;}
+#skill_grid .skill-cell:nth-child(86) {left:416dp;top:-152dp;}
+#skill_grid .skill-cell:nth-child(87) {left:448dp;top:-152dp;}
+#skill_grid .skill-cell:nth-child(88) {left:480dp;top:-152dp;}
+#skill_grid .skill-cell:nth-child(89) {left:512dp;top:-152dp;}
+#skill_grid .skill-cell:nth-child(90) {left:544dp;top:-152dp;}
+#skill_grid .skill-cell:nth-child(91) {left:0dp;top:-190dp;}
+#skill_grid .skill-cell:nth-child(92) {left:32dp;top:-190dp;}
+#skill_grid .skill-cell:nth-child(93) {left:64dp;top:-190dp;}
+#skill_grid .skill-cell:nth-child(94) {left:96dp;top:-190dp;}
+#skill_grid .skill-cell:nth-child(95) {left:128dp;top:-190dp;}
+#skill_grid .skill-cell:nth-child(96) {left:160dp;top:-190dp;}
+#skill_grid .skill-cell:nth-child(97) {left:192dp;top:-190dp;}
+#skill_grid .skill-cell:nth-child(98) {left:224dp;top:-190dp;}
+#skill_grid .skill-cell:nth-child(99) {left:256dp;top:-190dp;}
+#skill_grid .skill-cell:nth-child(100) {left:288dp;top:-190dp;}
+#skill_grid .skill-cell:nth-child(101) {left:320dp;top:-190dp;}
+#skill_grid .skill-cell:nth-child(102) {left:352dp;top:-190dp;}
+#skill_grid .skill-cell:nth-child(103) {left:384dp;top:-190dp;}
+#skill_grid .skill-cell:nth-child(104) {left:416dp;top:-190dp;}
+#skill_grid .skill-cell:nth-child(105) {left:448dp;top:-190dp;}
+#skill_grid .skill-cell:nth-child(106) {left:480dp;top:-190dp;}
+#skill_grid .skill-cell:nth-child(107) {left:512dp;top:-190dp;}
+#skill_grid .skill-cell:nth-child(108) {left:544dp;top:-190dp;}
+#skill_grid .skill-cell:nth-child(109) {left:0dp;top:-228dp;}
+#skill_grid .skill-cell:nth-child(110) {left:32dp;top:-228dp;}
+#skill_grid .skill-cell:nth-child(111) {left:64dp;top:-228dp;}
+#skill_grid .skill-cell:nth-child(112) {left:96dp;top:-228dp;}
+#skill_grid .skill-cell:nth-child(113) {left:128dp;top:-228dp;}
+#skill_grid .skill-cell:nth-child(114) {left:160dp;top:-228dp;}
+#skill_grid .skill-cell:nth-child(115) {left:192dp;top:-228dp;}
+#skill_grid .skill-cell:nth-child(116) {left:224dp;top:-228dp;}
+#skill_grid .skill-cell:nth-child(117) {left:256dp;top:-228dp;}
+#skill_grid .skill-cell:nth-child(118) {left:288dp;top:-228dp;}
+#skill_grid .skill-cell:nth-child(119) {left:320dp;top:-228dp;}
+#skill_grid .skill-cell:nth-child(120) {left:352dp;top:-228dp;}
+#skill_grid .skill-cell:nth-child(121) {left:384dp;top:-228dp;}
+#skill_grid .skill-cell:nth-child(122) {left:416dp;top:-228dp;}
+#skill_grid .skill-cell:nth-child(123) {left:448dp;top:-228dp;}
+#skill_grid .skill-cell:nth-child(124) {left:480dp;top:-228dp;}
+#skill_grid .skill-cell:nth-child(125) {left:512dp;top:-228dp;}
+#skill_grid .skill-cell:nth-child(126) {left:544dp;top:-228dp;}
+#skill_grid .skill-cell:nth-child(127) {left:0dp;top:-266dp;}
+#skill_grid .skill-cell:nth-child(128) {left:32dp;top:-266dp;}
+#skill_grid .skill-cell:nth-child(129) {left:64dp;top:-266dp;}
+#skill_grid .skill-cell:nth-child(130) {left:96dp;top:-266dp;}
+#skill_grid .skill-cell:nth-child(131) {left:128dp;top:-266dp;}
+#skill_grid .skill-cell:nth-child(132) {left:160dp;top:-266dp;}
+#skill_grid .skill-cell:nth-child(133) {left:192dp;top:-266dp;}
+#skill_grid .skill-cell:nth-child(134) {left:224dp;top:-266dp;}
+#skill_grid .skill-cell:nth-child(135) {left:256dp;top:-266dp;}
+#skill_grid .skill-cell:nth-child(136) {left:288dp;top:-266dp;}
+#skill_grid .skill-cell:nth-child(137) {left:320dp;top:-266dp;}
+#skill_grid .skill-cell:nth-child(138) {left:352dp;top:-266dp;}
+#skill_grid .skill-cell:nth-child(139) {left:384dp;top:-266dp;}
+#skill_grid .skill-cell:nth-child(140) {left:416dp;top:-266dp;}
+#skill_grid .skill-cell:nth-child(141) {left:448dp;top:-266dp;}
+#skill_grid .skill-cell:nth-child(142) {left:480dp;top:-266dp;}
+#skill_grid .skill-cell:nth-child(143) {left:512dp;top:-266dp;}
+#skill_grid .skill-cell:nth-child(144) {left:544dp;top:-266dp;}
+#skill_grid .skill-cell:nth-child(145) {left:0dp;top:-304dp;}
+#skill_grid .skill-cell:nth-child(146) {left:32dp;top:-304dp;}
+#skill_grid .skill-cell:nth-child(147) {left:64dp;top:-304dp;}
+#skill_grid .skill-cell:nth-child(148) {left:96dp;top:-304dp;}
+#skill_grid .skill-cell:nth-child(149) {left:128dp;top:-304dp;}
+#skill_grid .skill-cell:nth-child(150) {left:160dp;top:-304dp;}
+
+/* Anchor the expanded list to the screen centre, not the active-skill socket. */
+#skill_list {left:50%;margin-left:-288dp;bottom:90dp;width:576dp;height:38dp;}
+
+#btn_pvp {position:absolute;right:17dp;bottom:8dp;width:49dp;height:16dp;line-height:16dp;text-align:center;z-index:10;pointer-events:auto;cursor:pointer;background-color:transparent;border:0px;}
+#btn_pvp.active {background-color:transparent;}
+#btn_pvp .pvp-fill {position:absolute;left:3dp;right:3dp;top:3dp;bottom:3dp;pointer-events:none;background-color:transparent;}
+#btn_pvp.active .pvp-fill {background-color:transparent;}

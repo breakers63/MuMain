@@ -1,5 +1,7 @@
 
 #include "stdafx.h"
+#include <algorithm>
+#include "Data/GameConfig/GameConfig.h"
 #include "UI/Scaling/UITransform.h"
 #include "UI/Chat/Chat.h"
 #include "UI/Character/NameWindow.h"
@@ -31,6 +33,41 @@ using namespace mu::ui::window;
 
 namespace
 {
+
+void KeepLocalCharacterNameVisible()
+{
+    if (GameConfig::GetInstance().GetHidePlayerNames()) return;
+    if (!Hero || Hero->Dead || !Hero->Object.Live || !Hero->Object.Visible)
+        return;
+    // Chaos Castle deliberately hides character identities.
+    if (gMapManager.InChaosCastle() || IsShopTitleVisible(Hero))
+        return;
+    UI::Chat::CreateChat(Hero->ID, L"", Hero);
+}
+
+void DrawOpenGLStyleHealthBar(int centerX,int screenY,bool player,float health,float shield)
+{
+    constexpr float PlayerWidth=38.f,MonsterWidth=42.f;
+    constexpr float LifeHeight=4.f,ShieldHeight=3.f,Spacing=1.f,Border=1.f;
+    constexpr float VerticalAdjustment=4.f;
+    const float width=player?PlayerWidth:MonsterWidth;
+    const bool hasShield=player && shield>=0.f;
+    const float height=LifeHeight+(hasShield?Spacing+ShieldHeight:0.f);
+    const float x=centerX-width*.5f,y=screenY+VerticalAdjustment;
+    const float hp=std::clamp(health<0.f?1.f:health,0.f,1.f);
+    EnableAlphaTest();
+    RenderColorQuadARGB(x-Border,y-Border,width+2*Border,height+2*Border,0xff000000u);
+    RenderColorQuadARGB(x,y,width,LifeHeight,0xff4d0000u);
+    if(hp>0.f)RenderColorQuadARGB(x,y,width*hp,LifeHeight,0xffff0503u);
+    if(hasShield)
+    {
+        const float sy=y+LifeHeight+Spacing;
+        RenderColorQuadARGB(x,sy,width,ShieldHeight,0xff572600u);
+        const float sd=std::clamp(shield,0.f,1.f);
+        if(sd>0.f)RenderColorQuadARGB(x,sy,width*sd,ShieldHeight,0xffffb805u);
+    }
+    DisableAlphaBlend();
+}
 
 // Draws a segmented monster HP bar centered on centerX/topY; steps sets segment count, scale compresses width.
 void DrawHealthBar(int centerX, int topY, float health, int steps, float scale)
@@ -135,7 +172,7 @@ bool mu::ui::window::CNameWindow::UpdateKeyEvent()
 
     if (mu::ui::window::IsPress(VK_F8) == true)
     {
-        m_bShowMonsterHealthBar = !m_bShowMonsterHealthBar;
+        GameConfig::GetInstance().SetHideMonsterHP(!GameConfig::GetInstance().GetHideMonsterHP());
     }
 
     return true;
@@ -214,6 +251,7 @@ void mu::ui::window::CNameWindow::RenderLabels()
 
 void mu::ui::window::CNameWindow::RenderName()
 {
+    KeepLocalCharacterNameVisible();
     if (g_bGMObservation == true)
     {
         for (int i = 0; i < MAX_CHARACTERS_CLIENT; i++)
@@ -256,7 +294,7 @@ void mu::ui::window::CNameWindow::RenderName()
                 g_pRenderText->SetBgColor(100, 0, 0, 255);
                 g_pRenderText->RenderText(320, 2, c->ID, 0, 0, RT3_WRITE_CENTER);
 
-                if (UI::Combat::HealthBar::ShouldRenderSelected(c->HealthStatus))
+                if (!GameConfig::GetInstance().GetHideMonsterHP() && UI::Combat::HealthBar::ShouldRenderSelected(c->HealthStatus))
                 {
                     // Full-width bar centered under the selected monster's name.
                     DrawHealthBar(320, 15, c->HealthStatus, 20, 1.f);
@@ -311,19 +349,23 @@ void mu::ui::window::CNameWindow::RenderName()
 
 void mu::ui::window::CNameWindow::RenderMonsterHealthBars()
 {
-    if (!m_bShowMonsterHealthBar)
-        return;
+    const auto& hpConfig=GameConfig::GetInstance();
+    if (hpConfig.GetHideMonsterHP() && !hpConfig.GetShowPlayerHP()) return;
 
     for (int i = 0; i < MAX_CHARACTERS_CLIENT; i++)
     {
         CHARACTER* c = &CharactersClient[i];
         OBJECT* o = &c->Object;
 
-        if (!o->Live || !o->Visible || o->Alpha <= 0.f || c->Dead > 0 || o->Kind != KIND_MONSTER)
+        if (!o->Live || !o->Visible || o->Alpha <= 0.f || c->Dead > 0)
+            continue;
+        const bool player=o->Kind==KIND_PLAYER;
+        const bool monster=o->Kind==KIND_MONSTER;
+        if ((!player && !monster) || (player && !hpConfig.GetShowPlayerHP()) || (monster && hpConfig.GetHideMonsterHP()))
             continue;
 
         vec3_t Position;
-        Vector(o->Position[0], o->Position[1], o->Position[2] + o->BoundingBoxMax[2] + 60.f, Position);
+        Vector(o->Position[0], o->Position[1], o->Position[2] + o->BoundingBoxMax[2] + (player ? 100.f : 60.f), Position);
 
         int ScreenX, ScreenY;
         vec3_t transformPos;
@@ -339,7 +381,19 @@ void mu::ui::window::CNameWindow::RenderMonsterHealthBars()
             continue;
 
         // Fixed at ~3/7 width with 8 segments so each stays close to the original thickness.
-        DrawHealthBar(ScreenX, ScreenY, c->HealthStatus, 8, 3.f / 7.f);
+        float health=c->HealthStatus;
+        float shield=player?c->ShieldStatus:-1.f;
+        if(c==Hero && CharacterAttribute)
+        {
+            health=CharacterAttribute->LifeMax>0?static_cast<float>(CharacterAttribute->Life)/CharacterAttribute->LifeMax:1.f;
+            shield=CharacterAttribute->ShieldMax>0?static_cast<float>(CharacterAttribute->Shield)/CharacterAttribute->ShieldMax:-1.f;
+        }
+        else if(health<=0.f)
+        {
+            health=1.f;
+            if(player)shield=1.f;
+        }
+        DrawOpenGLStyleHealthBar(ScreenX,ScreenY,player,health,shield);
     }
 }
 

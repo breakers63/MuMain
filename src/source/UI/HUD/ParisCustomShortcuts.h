@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include "UI/HUD/ParisShortcutBindings.h"
 #include "UI/Core/WindowSystem.h"
 #include "UI/Dialogs/GenericConfirmDialog.h"
@@ -61,6 +61,11 @@ inline bool Handle()
         || RmlUiRuntime::Instance().IsTextInputActive() || !g_MessageBox->IsEmpty()
         || mu::ui::window::g_pGenericConfirmDialog->IsVisible() || mu::ui::window::g_pGenericMenuDialog->IsVisible())
         return false;
+    if (mu::ui::window::IsPress(0xC0) && mu::ui::window::g_pGestureWheelWindow)
+    {
+        mu::ui::window::g_pGestureWheelWindow->Toggle();
+        return true;
+    }
     const Action action = Pressed();
     if (action == Action::None) return false;
     Execute(action);

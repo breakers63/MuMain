@@ -96,6 +96,7 @@
 #include "UI/Dialogs/ParisVipWindow.h"
 #include "UI/Dialogs/ParisBattlePassWindow.h"
 #include "UI/Dialogs/ParisEventsWindow.h"
+#include "UI/Dialogs/GestureWheelWindow.h"
 #include "UI/Dialogs/ParisAdvancedStatsWindow.h"
 #include "UI/Dialogs/ParisGmEventsWindow.h"
 
@@ -250,6 +251,7 @@ namespace mu::ui::window
         CParisVipWindow* m_pParisVipWindow;
         CParisBattlePassWindow* m_pParisBattlePassWindow;
         CParisEventsWindow* m_pParisEventsWindow;
+        CGestureWheelWindow* m_pGestureWheelWindow;
         CParisAdvancedStatsWindow* m_pParisAdvancedStatsWindow;
         CParisGmEventsWindow* m_pParisGmEventsWindow;
 

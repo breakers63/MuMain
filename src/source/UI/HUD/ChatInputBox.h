@@ -4,6 +4,7 @@
 #pragma once
 
 #include "UI/Core/WindowObject.h"
+#include "UI/Chat/CommandCompletion.h"
 #include "UI/RmlBridge/RmlThemedView.h"
 
 #pragma warning(disable : 4786)
@@ -27,6 +28,15 @@ namespace mu::ui::window
     // keyboard handling, which runs while one of its fields is focused (TakesTypingFrom()).
     struct ChatInputRmlModel
     {
+        struct Suggestion
+        {
+            Rml::String name, description, usage;
+            int index = 0;
+            bool selected = false;
+            bool operator==(const Suggestion&) const = default;
+        };
+        std::vector<Suggestion> commands;
+        bool showCommands = false;
         Rml::String chatText;
         Rml::String whisperId;
 
@@ -89,6 +99,11 @@ namespace mu::ui::window
 
         void BuildRmlUi();
         void SyncRmlModel();
+        void SyncCommandCompletion();
+        void AcceptCommand(int index);
+        bool HandleCommandCompletionKey();
+        UI::Chat::CommandCompletion completion;
+        bool completionDirty = true;
         // Focus/value access for the two <input>s, so the key handler below never has to know they
         // are RmlUi elements.
         Rml::Element* GetField(const char* id) const;

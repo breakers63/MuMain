@@ -1,4 +1,6 @@
 #include "stdafx.h"
+#include "Data/GameConfig/GameConfig.h"
+#include "UI/SocialMusic/SocialMusic.h"
 #include "Core/Text/TextLineWrap.h"
 #include "UI/Chat/Chat.h"
 #include "Character/CharacterManager.h" // gCharacterManager
@@ -257,6 +259,9 @@ void RenderBoolean(int x, int y, CHAT* c)
         g_pRenderText->SetTextColor(GetGuildRelationShipTextColor(c->Owner->GuildRelationShip));
     }
 
+    const bool hideName=c->Owner->Object.Kind==KIND_PLAYER && GameConfig::GetInstance().GetHidePlayerNames();
+    if (!hideName)
+    {
     if (c->Union && c->Union[0])
     {
         g_pRenderText->RenderText(RenderPos.x, RenderPos.y, c->Union, RenderBoxSize.cx, iLineHeight, RT3_SORT_LEFT);
@@ -298,6 +303,8 @@ void RenderBoolean(int x, int y, CHAT* c)
     {
         g_pRenderText->RenderText(RenderPos.x, RenderPos.y, c->ID, RenderBoxSize.cx, iLineHeight, RT3_SORT_LEFT);
         RenderPos.y += iLineHeight;
+    }
+
     }
 
     if (c->GuildColor == 0)
@@ -447,6 +454,7 @@ void AddGuildName(CHAT* c, CHARACTER* Owner)
 
 void CreateChat(wchar_t* character_name, const wchar_t* chat_text, CHARACTER* Owner, int Flag, int SetColor)
 {
+    if (UI::SocialMusic::ReceiveEmoji(Owner, chat_text)) return;
     OBJECT* o = &Owner->Object;
     if (!o->Live || !o->Visible) return;
 
@@ -626,6 +634,10 @@ void RenderBooleans()
                 {
                     Vector(o->Position[0], o->Position[1], o->Position[2] + o->BoundingBoxMax[2] + 20.f, Position);
                 }
+                // Leave room below the name balloon for the player's HP/SD rows.
+                constexpr float PlayerNameHeightWithBars=110.f;
+                if(o->Kind==KIND_PLAYER && GameConfig::GetInstance().GetShowPlayerHP())
+                    Position[2]=o->Position[2]+o->BoundingBoxMax[2]+PlayerNameHeightWithBars;
                 CameraProjection::WorldToScreen(g_Camera, Position, &ScreenX, &ScreenY);
             }
             else

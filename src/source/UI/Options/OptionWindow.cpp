@@ -1,5 +1,6 @@
 
 #include "stdafx.h"
+#include "Data/GameConfig/GameConfig.h"
 #include "UI/Options/WeatherOptionsBinding.h"
 #include "UI/Options/OptionWindow.h"
 #include "UI/Core/WindowSystem.h"
@@ -287,6 +288,27 @@ void mu::ui::window::COptionWindow::BindRmlModel(Rml::DataModelConstructor& c, O
 
     c.Bind("open_dropdown", &model.openDropdown);
 
+    static bool showPlayerHP=true,hideMonsterHP=false;
+    showPlayerHP=GameConfig::GetInstance().GetShowPlayerHP();
+    hideMonsterHP=GameConfig::GetInstance().GetHideMonsterHP();
+    c.Bind("show_player_hp",&showPlayerHP);
+    c.Bind("hide_monster_hp",&hideMonsterHP);
+    c.BindEventCallback("option_toggle_player_hp",
+        [this](Rml::DataModelHandle,Rml::Event&,const Rml::VariantList&)
+        {showPlayerHP=!showPlayerHP;GameConfig::GetInstance().SetShowPlayerHP(showPlayerHP);m_RmlView.MarkDirty("show_player_hp");});
+    c.BindEventCallback("option_toggle_monster_hp",
+        [this](Rml::DataModelHandle,Rml::Event&,const Rml::VariantList&)
+        {hideMonsterHP=!hideMonsterHP;GameConfig::GetInstance().SetHideMonsterHP(hideMonsterHP);m_RmlView.MarkDirty("hide_monster_hp");});
+    static bool hideNames=false;
+    hideNames=GameConfig::GetInstance().GetHidePlayerNames();
+    c.Bind("hide_player_names",&hideNames);
+    c.BindEventCallback("option_toggle_hide_names",
+        [this](Rml::DataModelHandle, Rml::Event&, const Rml::VariantList&)
+        {
+            hideNames=!hideNames;
+            GameConfig::GetInstance().SetHidePlayerNames(hideNames);
+            m_RmlView.MarkDirty("hide_player_names");
+        });
     c.Bind("auto_attack", &model.autoAttack);
     c.Bind("auto_attack_label", &model.autoAttackLabel);
     c.Bind("whisper_sound", &model.whisperSound);

@@ -257,7 +257,7 @@ int mu::ui::window::CSkillList::GetSkillIndex(int iSkillType)
     }
 
     int iReturn = -1;
-    for (int i = 0; i < MAX_MAGIC; ++i)
+    for (int i = 0; i < MAX_SKILLS; ++i)
     {
         if (CharacterAttribute->Skill[i] == iSkillType)
         {
@@ -739,11 +739,11 @@ void mu::ui::window::CSkillList::RebuildGridSnapshot()
     if (CharacterAttribute->SkillNumber == 0)
         return;
 
-    for (int i = 0; i < MAX_MAGIC; ++i)
+    for (int i = 0; i < MAX_SKILLS; ++i)
     {
         int iSkillType = CharacterAttribute->Skill[i];
 
-        if (iSkillType == 0 || (iSkillType >= AT_SKILL_STUN && iSkillType <= AT_SKILL_REMOVAL_BUFF))
+        if (iSkillType <= 0 || iSkillType >= MAX_SKILLS || (iSkillType >= AT_SKILL_STUN && iSkillType <= AT_SKILL_REMOVAL_BUFF))
             continue;
 
         BYTE bySkillUseType = SkillAttribute[iSkillType].SkillUseType;

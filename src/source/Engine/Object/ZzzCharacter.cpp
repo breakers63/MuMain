@@ -6,6 +6,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
+#include "Render/Terrain/GrassBurn.h"
+#include "UI/SocialMusic/SocialMusic.h"
 #include <execution>
 #include <algorithm>
 #include <span>
@@ -4507,6 +4509,7 @@ void MoveCharacter(CHARACTER* c, OBJECT* o)
             Position[0] = (float)(c->SkillX + 0.5f) * TERRAIN_SCALE;
             Position[1] = (float)(c->SkillY + 0.5f) * TERRAIN_SCALE;
             Position[2] = RequestTerrainHeight(Position[0], Position[1]);
+            Render::Terrain::GrassBurn::Ignite(Position[0], Position[1]);
             CreateEffect(BITMAP_FLAME, Position, o->Angle, o->Light, 0, o, o->PKKey, FindHotKey(AT_SKILL_FLAME));
 
             if (c == Hero)
@@ -6499,6 +6502,7 @@ void MoveCharacterClient(CHARACTER* cc)
 
 void MoveCharactersClient()
 {
+    UI::SocialMusic::Update();
     for (int i = 0; i < TERRAIN_SIZE * TERRAIN_SIZE; i++)
     {
         if ((TerrainWall[i] & TW_CHARACTER) == TW_CHARACTER) TerrainWall[i] -= TW_CHARACTER;
@@ -11434,6 +11438,7 @@ void RenderCharactersClient()
 #endif
 
     WaitCharactersAnimation();
+    UI::SocialMusic::PrepareCharacterPose();
 
     // Characters keep their Classic look with post-processing on: their bodies,
     // equipment, wings and glow parts never feed the bloom.
@@ -15293,6 +15298,7 @@ bool RenderCharacterBackItem(CHARACTER* c, OBJECT* o, bool bTranslate)
 
         for (int i = 0; i < 2; ++i)
         {
+            if (c == Hero && UI::SocialMusic::HasInstrument()) continue;
             int iType = c->Weapon[i].Type;
             int iLevel = c->Weapon[i].Level;
             int iOption1 = c->Weapon[i].ExcellentFlags;

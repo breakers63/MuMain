@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "ParisWindowGroup.h"
+#include "GestureWheelWindow.h"
 #include "GenericMenuDialog.h"
 #include <array>
 #include "ParisJewelBankWindow.h"
@@ -21,7 +22,7 @@ namespace mu::ui::window
 {
     void CloseOtherParisWindows(CObject* opening)
     {
-        const std::array<CObject*, 14> panels = {
+        const std::array<CObject*, 15> panels = {
             g_pParisJewelBankWindow,
             g_pParisMarketWindow,
             g_pParisAuctionWindow,
@@ -35,7 +36,7 @@ namespace mu::ui::window
             g_pParisAdvancedStatsWindow,
             g_pParisGmEventsWindow,
             g_pParisMentorWindow,
-            g_pParisSoulWindow};
+            g_pParisSoulWindow, g_pGestureWheelWindow};
         for (auto* panel : panels)
             if (panel && panel != opening && panel->IsVisible()) panel->Show(false);
         if (g_pGenericMenuDialog && opening != g_pGenericMenuDialog)

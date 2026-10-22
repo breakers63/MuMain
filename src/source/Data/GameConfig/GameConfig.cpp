@@ -53,8 +53,30 @@ GameConfig::GameConfig()
     Load();
 }
 
+namespace
+{
+bool hidePlayerNames=false;
+bool showPlayerHP=true;
+bool hideMonsterHP=false;
+constexpr const wchar_t* NameVisibilitySection=L"UI";
+constexpr const wchar_t* NameVisibilityKey=L"HidePlayerNames";
+}
+bool GameConfig::GetHidePlayerNames() const { return hidePlayerNames; }
+void GameConfig::SetHidePlayerNames(bool hidden)
+{
+    hidePlayerNames=hidden;
+    WriteBool(NameVisibilitySection,NameVisibilityKey,hidden);
+}
+
+bool GameConfig::GetShowPlayerHP() const { return showPlayerHP; }
+bool GameConfig::GetHideMonsterHP() const { return hideMonsterHP; }
+void GameConfig::SetShowPlayerHP(bool shown) { showPlayerHP=shown; WriteBool(L"UI",L"ShowPlayerHP",shown); }
+void GameConfig::SetHideMonsterHP(bool hidden) { hideMonsterHP=hidden; WriteBool(L"UI",L"HideMonsterHP",hidden); }
 void GameConfig::Load()
 {
+    showPlayerHP=ReadBool(L"UI",L"ShowPlayerHP",true);
+    hideMonsterHP=ReadBool(L"UI",L"HideMonsterHP",false);
+    hidePlayerNames=ReadBool(NameVisibilitySection,NameVisibilityKey,false);
     using namespace CfgSections;
     using namespace CfgKeys;
     using namespace CfgDefaults;
@@ -129,6 +151,7 @@ void GameConfig::Load()
 
 void GameConfig::Save()
 {
+    WriteBool(NameVisibilitySection,NameVisibilityKey,hidePlayerNames);
     using namespace CfgSections;
     using namespace CfgKeys;
 
