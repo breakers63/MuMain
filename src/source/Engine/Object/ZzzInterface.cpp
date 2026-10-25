@@ -1095,6 +1095,18 @@ void SetCharacterPos(CHARACTER* c, BYTE posX, BYTE posY, vec3_t position)
     SendCharacterMove(c->Key, c->Object.Angle[2], 1, PathX, PathY, PathX[0], PathY[0]);
 }
 
+namespace
+{
+    // Sent on the same ordered connection before every attack, including after reconnect.
+    void SendParisPvpIntent()
+    {
+        if (!SocketClient || !SocketClient->IsConnected()) return;
+        const bool enabled = Core::Input::IsPvpLocked() || Core::Input::IsKeyDown(VK_CONTROL);
+        BYTE request[] = {0xC1, 6, 0xFA, 0xCA, 1, static_cast<BYTE>(enabled)};
+        SocketClient->Send(request, sizeof(request));
+    }
+}
+
 void SendRequestMagic(int Type, int Key)
 {
     if (!IsCanBCSkill(Type))
@@ -1105,6 +1117,7 @@ void SendRequestMagic(int Type, int Key)
         g_dwLatestMagicTick = GetTickCount();
         if(Type==AT_SKILL_SOUL_BARRIER||Type==AT_SKILL_SOUL_BARRIER_STR||Type==AT_SKILL_SOUL_BARRIER_PROFICIENCY)
             mu::log::Get("combat")->info("SoulBarrier send: skill={} target={} hero={}",Type,Key,HeroKey);
+        SendParisPvpIntent();
         SocketClient->ToGameServer()->SendTargetedSkill(Type, Key);
         g_ConsoleDebug->Write(MCD_SEND, L"0x19 [SendRequestMagic(%d %d)]", Type, Key);
     }
@@ -1128,7 +1141,8 @@ void SendRequestMagicContinue(int Type, int x, int y, int Angle, BYTE Dest, BYTE
 {
     CurrentSkill = Type;
 
-    SocketClient->ToGameServer()->SendAreaSkill(Type, x, y, Angle, TKey, MakeSkillSerialNumber(pSkillSerial));
+    SendParisPvpIntent();
+        SocketClient->ToGameServer()->SendAreaSkill(Type, x, y, Angle, TKey, MakeSkillSerialNumber(pSkillSerial));
 
     g_ConsoleDebug->Write(MCD_SEND, L"0x1E [SendRequestMagicContinue]");
 }
@@ -1304,6 +1318,7 @@ void Action(CHARACTER* c, OBJECT* o, bool Now)
         c->TargetCharacter = ActionTarget;
         int Dir = ((BYTE)((Hero->Object.Angle[2] + 22.5f) / 360.f * 8.f + 1.f) % 8);
         c->Skill = 0;
+        SendParisPvpIntent();
         SocketClient->ToGameServer()->SendHitRequest(CharactersClient[ActionTarget].Key, AT_ATTACK1, Dir);
     }
     break;

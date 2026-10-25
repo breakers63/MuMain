@@ -14,6 +14,7 @@
 #include "Network/Paris/SoulProtocol.h"
 #include "Network/Paris/VipProtocol.h"
 #include "Network/Paris/ItemRarityProtocol.h"
+#include "Network/Paris/WarpRequirements.h"
 
 #include <mutex>
 #include <unordered_map>
@@ -127,6 +128,9 @@ void Dispatch(const std::uint8_t* packet, int size)
         // then reopen without losing the response that arrived while the player was elsewhere.
         switch (subcode)
         {
+        case 0xC1:
+            (void)Warp::Receive(std::span<const std::uint8_t>(packet, size));
+            break;
         case 0xE1: (void)PartyFinder::Receive(packet, size); break;
         case 0xB1:
             if (auto snapshot = BattlePass::Decode(std::span<const BYTE>(packet, static_cast<std::size_t>(size))))

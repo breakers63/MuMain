@@ -1,0 +1,180 @@
+/* Legacy theme for CMoveCommandWindow -- the left-docked warp list. Every colour below is lifted
+   from the native RenderFrame()/Render() it replaces (MoveCommandWindow.cpp): the two
+   RenderColorQuadARGB() fills and each SetTextColor() call, verbatim. RenderColorQuadARGB takes a
+   genuine ARGB word (ZzzOpenglUtil.cpp), so 0xCC000000 is black at alpha 204 and 0xFF990000 is
+   opaque #990000 -- not the A<<24|B<<16|G<<8|R packing the engine's *text* colours use.
+
+   Coordinates are plain reference px, not dp: #panel is placed at its slot's scale (see
+   move_command.rml's header comment for why this window is authored that way). This window has no
+   frame art of its own -- native drew a flat translucent rectangle, nothing more -- so there is no
+   sprite chrome here and nothing to share with docked_panel_frame.rcss. */
+
+/* The dock's height less its top unit (the original's window started at y 1). */
+#panel {
+	position: absolute;
+	transform-origin: left top;
+	width: 230px;
+	height: 431px;
+	/* RenderFrame()'s window fill, 0xCC000000. */
+	background-color: rgba(0, 0, 0, 204);
+	font-family: "token(font-body)";
+	/* The panel itself must claim the cursor: native's UpdateMouseEvent() consumed every event
+	   inside its own rectangle, so a click on the list never reached the world underneath. */
+	pointer-events: auto;
+}
+
+/* g_hFontBold, SetTextColor(255, 204, 26). Centred on the panel's own midpoint (115) -- the
+   width/margin pair in the RML plus transform-origin: center top is what keeps that midpoint
+   fixed once the leaf counter-scales itself out of #panel. */
+#title {
+	display: block;
+	position: absolute;
+	left: 0;
+	top: 4px;
+	text-align: center;
+	transform-origin: center top;
+	color: rgb(255, 204, 26);
+	font-weight: bold;
+}
+
+/* Column headers, SetTextColor(127, 178, 255), one native text height below the title's baseline
+   (RenderFrame() draws them at m_StartUISubjectName.y + 20). */
+#head {
+	position: absolute;
+	left: 2px;
+	top: 24px;
+	transform-origin: left top;
+	color: rgb(127, 178, 255);
+}
+
+/* The scrollbar keeps .scroll-pane's own dp width rather than a reference-px one. #list's net
+   render transform is identity (#panel's scale times #list's counter-scale), so everything inside
+   it is already laid out in real pixels -- a scrollbar sized in reference units would be the one
+   part of this window that grew with the panel while its neighbours did not. It follows the
+   player's UI-scale setting instead, same as every other .scroll-pane consumer. */
+/* Between the header (native's kListOffsetY) and the close bar. */
+#list_box {
+	position: absolute;
+	left: 2px;
+	right: 3px;
+	top: 38px;
+	bottom: 22px;
+}
+#list {
+	position: absolute;
+	left: 0;
+	top: 0;
+	transform-origin: left top;
+	/* Native drew the track at every list length, also when every row fits (large windows). */
+	overflow: hidden scroll;
+}
+
+/* With nothing to scroll native drew the disabled thumb (newui_scroll_off) at the track's top. */
+@spritesheet mc-thumb-off-sheet
+{
+	src: "../../../newui_scroll_off.tga";
+	mc-thumb-off: 0px 0px 15px 30px;
+	mc-thumb-off-inner: 0px 14px 15px 2px;
+}
+#list.no-scroll scrollbarvertical sliderbar {
+	decorator: ninepatch(mc-thumb-off, mc-thumb-off-inner);
+}
+
+/* Native gives each row's text the TOP of its slot (RenderText(x, itemY)), so the row carries a
+   height and the cells sit at its top -- a line-height would split the slack above and below
+   instead, the same distinction character_info.rcss's .attr-lines already records. */
+.mc-row {
+	position: relative;
+	/* Explicit, not incidental: a data-for <div> is inline without it in this build, and every row
+	   then lands on the same line. .quest-row/.party-row/.chat-line all declare it for the same
+	   reason. */
+	display: block;
+	color: rgb(164, 39, 17);
+	pointer-events: auto;
+}
+/* A row is its text's line height plus 2 reference px, as native's rows were. */
+.mc-strut { display: inline; }
+.mc-row.can-move { color: rgb(255, 255, 255); }
+
+/* Each cell reproduces RT3_WRITE_CENTER exactly: native passed no box width, so the text renderer
+   centred the MEASURED width on the given x. A zero-offset percentage plus translateX(-50%) is
+   the same thing -- centred on a point, natural width, no box to overflow. The four points are
+   native's own 20/62/119/159 relative to the panel, restated against the row's own left edge
+   (panel + 2) and expressed as a fraction of row_width so they need no per-frame binding. */
+.col {
+	position: absolute;
+	top: 0;
+	white-space: nowrap;
+	transform: translateX(-50%);
+}
+.col-strife { left: 8.654%; }
+.col-map    { left: 28.846%; }
+.col-level  { left: 56.250%; }
+.col-zen    { left: 75.481%; }
+
+/* Only a reachable destination highlights, matching native's own `if (_bCanMove)` guard around
+   setting _bSelected. Native painted this quad AFTER the row text (so the tint sat over the
+   glyphs); as a background it sits behind them, which reads the same but cleaner. 0x99CCCC1A. */
+.mc-row.can-move:hover {
+	background-color: rgba(204, 204, 26, 153);
+}
+
+/* An unmet requirement brightens only the cell that is unmet, and only on a row that is already
+   unreachable -- native's SetTextColor(255, 51, 26) inside the !_bCanMove branch. */
+.mc-row .col.unmet { color: rgb(255, 51, 26); }
+.mc-row.can-move .col.unmet { color: rgb(255, 255, 255); }
+
+/* RenderFrame()'s second fill, 0xFF990000, with the label one unit down (closeTop + 1). */
+#close_bar {
+	position: absolute;
+	left: 2px;
+	right: 3px;
+	bottom: 6px;
+	height: 16px;
+	background-color: rgb(153, 0, 0);
+	pointer-events: auto;
+	cursor: pointer;
+}
+#close_label { position: absolute; white-space: nowrap; color: rgb(255, 255, 255); }
+
+/* A theme's data-fit="fill" slot sizes #panel (class fill-placement), its border included. */
+#panel.fill-placement { box-sizing: border-box; }
+
+/* Lengths inside counter-scaled layers: reference px times the panel's --root-scale. The rows
+   leave 17 reference px at the pane's right for the scrollbar; #head spans the rows' width. */
+#title { width: calc(100% * var(--root-scale)); margin-left: calc(50% - 50% * var(--root-scale)); }
+#head { width: calc(100% * var(--root-scale) - 22px * var(--root-scale)); }
+#list { width: calc(100% * var(--root-scale)); height: calc(100% * var(--root-scale)); }
+.mc-row { width: calc(100% - 17px * var(--root-scale)); padding-bottom: calc(2px * var(--root-scale)); }
+
+/* Four destination columns share the same row and header bounds. */
+.col-strife {display:none;}
+.col-map {left:25%;}
+.col-level {left:49%;}
+.col-zen {left:69%;}
+.col-resets {left:80%;width:20%;transform:none;text-align:center;}
+
+/* Paris uses the same gold scrollbar artwork as the Windows OpenGL move list. */
+@spritesheet paris-move-scroll {
+ src: "../../../Paris_ExactScroll.png";
+ paris-move-track: 14px 72px 42px 230px;
+ paris-move-track-inner: 14px 100px 42px 1px;
+ paris-move-thumb: 1px 244px 67px 120px;
+ paris-move-up: 12px 0px 46px 48px;
+ paris-move-down: 12px 1388px 46px 49px;
+}
+#panel {background-color:#080808;border:1px #9e791f;box-sizing:border-box;}
+#title {top:7px;height:calc(18px * var(--root-scale));overflow:hidden;white-space:nowrap;}
+#head {top:26px;}
+#list_box {left:4px;right:5px;top:40px;bottom:26px;}
+#list {overflow:hidden scroll;}
+#list scrollbarvertical {width:16dp;margin:0;}
+#list scrollbarvertical slidertrack {decorator:ninepatch(paris-move-track,paris-move-track-inner);}
+#list scrollbarvertical sliderbar,
+#list.no-scroll scrollbarvertical sliderbar {height:30dp;decorator:image(paris-move-thumb);}
+#list.no-scroll scrollbarvertical sliderbar {filter:brightness(0.55);}
+#list scrollbarvertical sliderarrowdec,
+#list scrollbarvertical sliderarrowinc {width:100%;height:12dp;pointer-events:auto;}
+#list scrollbarvertical sliderarrowdec {decorator:image(paris-move-up);}
+#list scrollbarvertical sliderarrowinc {decorator:image(paris-move-down);}
+#close_bar {left:4px;right:5px;bottom:5px;height:17px;}

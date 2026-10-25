@@ -343,3 +343,27 @@ TEST_CASE("Short skill rows stay centered and Dark Spirit has no separate upper 
     CHECK(first->IsVisible(true));
 }
 
+
+TEST_CASE("Gold move list keeps reset requirements and scrollbar inside its panel [ui][move]")
+{
+    UI::Tests::RmlLayoutFixture fixture;
+    fixture.Configure({1024,768},100);
+    auto* document=fixture.Load("paris-gold","move_command");
+    auto* panel=document->GetElementById("panel");
+    auto* list=document->GetElementById("list");
+    REQUIRE(panel); REQUIRE(list);
+    std::string rows;
+    for(int i=0;i<40;++i) rows+="<div class='mc-row can-move'><span class='mc-strut'>x</span><span class='col col-map'>Lorencia</span><span class='col col-level'>200</span><span class='col col-zen'>5000</span><span class='col col-resets'>Min. 10</span></div>";
+    list->SetInnerRML(rows);
+    fixture.Refresh();fixture.Refresh();
+    auto* resets=list->GetChild(0)->QuerySelector(".col-resets");
+    REQUIRE(resets);
+    CHECK(resets->IsVisible(true));
+    CHECK(list->GetScrollHeight()>list->GetClientHeight());
+    CHECK(list->GetAbsoluteOffset().x>=panel->GetAbsoluteOffset().x);
+    CHECK(list->GetAbsoluteOffset().x+list->GetBox().GetSize().x<=panel->GetAbsoluteOffset().x+panel->GetBox().GetSize().x+1);
+    CHECK(resets->GetAbsoluteOffset().x>=list->GetAbsoluteOffset().x);
+    CHECK(resets->GetAbsoluteOffset().x+resets->GetBox().GetSize().x<=list->GetAbsoluteOffset().x+list->GetClientWidth()+1);
+    list->SetScrollTop(100.f);fixture.Refresh();
+    CHECK(list->GetScrollTop()>0.f);
+}
