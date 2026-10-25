@@ -1,0 +1,11 @@
+/* Same black leather and gold frame as the login cancel button. */
+body { width: 100%; height: 100%; margin: 0; pointer-events: none; }
+#panel { position: absolute; font-family: "token(font-login-display)"; }
+.btn-icon { position: absolute; width: 110rem; height: 30rem; border-width: 0; padding: 0; background-color: transparent; decorator: none; pointer-events: auto; cursor: pointer; }
+#btn_menu { left: 0; top: 0; }
+#btn_credit { right: 0; top: 0; }
+.btn-icon:hover { decorator: none; background-color: #bd8f3b33; }
+.paris-button-caption { display: block; position: absolute; left: 0; top: 0; width: 100%; height: 100%; text-align: center; line-height: 30rem; color: #f5d18a; font-family: "token(font-login-display)"; font-size: 14rem; pointer-events: none; }
+.btn-icon:hover .paris-button-caption { color: #fff3c6; }
+
+body { font-size: 0.625dp; }

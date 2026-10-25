@@ -4,6 +4,7 @@
 
 #include "stdafx.h"
 #include "ServerListManager.h"
+#include "ServerListScript.h"
 #include "I18N/All.h"
 
 CServerListManager::CServerListManager()
@@ -71,7 +72,12 @@ void CServerListManager::LoadServerListScript()
     while (0 != ::fread(&sServerGroupScript, nSize, 1, fp))
     {
         BuxConvert((BYTE*)&sServerGroupScript, nSize);
-        ::fread(szDescript, sServerGroupScript.m_nDescriptLen, 1, fp);
+        if (!Network::ServerListScript::ReadDescription(fp, sServerGroupScript.m_nDescriptLen, szDescript))
+        {
+            g_ErrorReport.Write(L"Invalid or truncated server-list description.\r\n");
+            break;
+        }
+        sServerGroupScript.m_szName[SLM_MAX_SERVER_NAME_LENGTH - 1] = '\0';
         BuxConvert((BYTE*)szDescript, sServerGroupScript.m_nDescriptLen);
 
         CMultiLanguage::ConvertFromUtf8(sServerGroupInfo.m_szName, sServerGroupScript.m_szName);
@@ -123,7 +129,10 @@ void CServerListManager::InsertServerGroup(int iConnectIndex, int iServerPercent
         pServerGroup = new CServerGroup;
 
         if (MakeServerGroup(iConnectIndex / MAX_SERVER_PER_GROUP, pServerGroup) == false)
+        {
+            delete pServerGroup;
             return;
+        }
 
         m_mapServerGroup.insert(type_mapServerGroup::value_type(pServerGroup->m_iSequence, pServerGroup));
     }
@@ -204,6 +213,9 @@ void CServerListManager::InsertServer(CServerGroup* pServerGroup, int iConnectIn
         break;
     }
 
+    if (iConnectIndex == Network::ServerListScript::CrossplayServerId)
+        mu_swprintf(pServerInfo->m_bName, L"%ls %ls", Network::ServerListScript::CrossplayName, I18N::Game::Lookup(iTextIndex));
+
     pServerGroup->InsertServerInfo(pServerInfo);
 }
 
@@ -248,7 +260,7 @@ CServerGroup* CServerListManager::GetServerGroupByBtnPos(int iBtnPos)
     return NULL;
 }
 
-void CServerListManager::SetSelectServerInfo(wchar_t* pszName, int iIndex, BYTE byNonPvP)
+void CServerListManager::SetSelectServerInfo(const wchar_t* pszName, int iIndex, BYTE byNonPvP)
 {
     wcscpy(m_szSelectServerName, pszName);
     m_iSelectServerIndex = iIndex;

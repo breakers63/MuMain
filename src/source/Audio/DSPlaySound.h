@@ -996,6 +996,7 @@ enum ESound
     SOUND_KARUTAN_KARDAMAHAL_ENV, // Kardamahal_entrance_env.wav
 #endif                            // ASG_ADD_MAP_KARUTAN
 
+    SOUND_PARIS_RAIN, SOUND_PARIS_STORM, SOUND_PARIS_DAY, SOUND_PARIS_NIGHT, SOUND_PARIS_THUNDER,
     MAX_BUFFER
 };
 

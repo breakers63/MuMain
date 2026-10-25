@@ -1,0 +1,58 @@
+/* Paris Project approved login skin. The art owns all ornament and field chrome;
+   live inputs and buttons occupy the matching wells. Five explicit row positions avoid
+   depending on browser block defaults, which are not RmlUi's element defaults. */
+body { width: 100%; height: 100%; margin: 0; pointer-events: none; font-family: "token(font-login-display)"; }
+#panel { position: absolute; left: 50%; bottom: 8%; width: 76%; max-width: 1050rem; height: 57%; max-height: 640rem; transform: translateX(-50%); color: #f2deb7; font-size: 15rem; pointer-events: auto; }
+.paris-login-frame { position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; }
+.label-server { position: absolute; left: 25%; top: 21.5%; width: 50%; text-align: center; font-size: 13rem; color: #f4e4be; }
+.section-title { position: absolute; top: 29.4%; color: #f5d18a; font-weight: bold; font-size: 16rem; white-space: nowrap; }
+.title-credentials { left: 14.7%; width: 30%; }
+.title-accounts { left: 52.8%; width: 29%; }
+.account-count { position: absolute; left: 84%; top: 29.7%; width: 4.8%; text-align: right; font-size: 13rem; }
+.label-account, .label-password { position: absolute; left: 14.8%; font-size: 14rem; }
+.label-account { top: 33.2%; }
+.label-password { top: 44.7%; }
+.login-field { position: absolute; left: 18.3%; width: 27.7%; height: 5%; box-sizing: border-box; padding: 0 2rem; background-color: transparent; border-width: 0; border-radius: 0; decorator: none; color: #fff2d5; font-family: "token(font-login-display)"; font-size: 16rem; pointer-events: auto; }
+.login-field:focus { border-width: 0; decorator: none; background-color: transparent; }
+.login-field-account { top: 38.1%; }
+.login-field-password { top: 49.4%; width: 24%; }
+.password-eye { position: absolute; left: 43.4%; top: 49.3%; width: 3.7%; height: 5.5%; padding: 0; border-width: 0; decorator: none; background-color: transparent; cursor: pointer; pointer-events: auto; }
+.checkbox-row { position: absolute; left: 14.8%; width: 31%; height: 4.2%; cursor: pointer; pointer-events: auto; }
+.checkbox-remember-me { top: 57.7%; }
+.checkbox-save-password { top: 62.9%; }
+.checkbox-label { position: absolute; left: 10.7%; top: 10%; margin: 0; font-size: 14rem; white-space: nowrap; }
+.checkbox-cover { position: absolute; left: 0.8%; top: 13%; width: 5.8%; height: 65%; background-color: #08090b; pointer-events: none; }
+.checkbox-cover.checked { background-color: transparent; }
+.login-action { position: absolute; padding: 0; border-width: 0; decorator: none; background-color: transparent; color: #ffe1a2; font-family: "token(font-login-display)"; font-size: 17rem; font-weight: bold; text-align: center; cursor: pointer; pointer-events: auto; }
+.login-action:hover { decorator: none; background-color: #ffd16b18; color: #fff5d9; }
+.login-action:active { decorator: none; background-color: #00000045; }
+.btn-enter { left: 11.4%; top: 69%; width: 35.8%; height: 8.7%; line-height: 35rem; color: #fff1c3; font-size: 20rem; font-effect: outline(1rem #4a260b); }
+.btn-cancel { left: 15.4%; top: 79.6%; width: 27.6%; height: 6.1%; line-height: 25rem; font-size: 15rem; font-weight: normal; }
+.btn-save { left: 61.8%; top: 75.4%; width: 24.5%; height: 6.8%; line-height: 28rem; font-size: 15rem; font-weight: normal; }
+.account-row { display: block; position: absolute; left: 52.7%; width: 35.7%; height: 7%; box-sizing: border-box; pointer-events: auto; }
+.account-row.row-0 { top: 33.7%; }
+.account-row.row-1 { top: 41.8%; }
+.account-row.row-2 { top: 49.9%; }
+.account-row.row-3 { top: 58%; }
+.account-row.row-4 { top: 66.1%; }
+.account-row.selected { background-color: #dba24c22; }
+.account-row:hover { background-color: #f8ca6b18; }
+.account-select { position: absolute; left: 0; top: 0; width: 89%; height: 100%; padding: 0; border-width: 0; decorator: none; background-color: transparent; color: #f8ecd2; font-family: "token(font-login-display)"; pointer-events: auto; cursor: pointer; }
+.account-name { position: absolute; left: 17%; top: 50%; transform: translateY(-50%); white-space: nowrap; font-size: 15rem; }
+.account-row.empty .account-name { color: #a99d83; font-size: 13rem; }
+.account-delete { position: absolute; right: 3%; top: 13%; width: 9%; height: 72%; border-width: 0; padding: 0; decorator: none; background-color: transparent; pointer-events: auto; cursor: pointer; }
+.account-delete:hover { background-color: #e98b5733; }
+.account-lock-cover { position: absolute; left: 79.1%; top: 24%; width: 4.7%; height: 54%; background-color: #090a0c; pointer-events: none; }
+.account-delete-cover { position: absolute; left: 89.6%; top: 24%; width: 6.4%; height: 54%; background-color: #090a0c; pointer-events: none; }
+body { font-size: 0.625dp; }
+
+/* Keep both input baselines in the center of their art wells. */
+.login-field { text-align: center; line-height: 21rem; font-size: 15rem; }
+.login-field-account { top: 40.8%; transform: translateY(-50%); }
+.login-field-password { top: 52.3%; transform: translateY(-50%); }
+/* Begin entry immediately after the account and padlock icons. */
+.login-field { text-align: left; left: 18.3%; }
+.login-field.password-hidden { display: none; }
+
+/* Plain text below the frame: no rectangular plate and no ornament behind the message. */
+.account-status { display: block; position: absolute; left: 12%; top: 100%; width: 76%; height: 18rem; padding: 0; border-width: 0; background-color: transparent; decorator: none; color: #e9c98c; font-size: 11rem; line-height: 18rem; text-align: center; pointer-events: none; }

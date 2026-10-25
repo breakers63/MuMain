@@ -1,0 +1,85 @@
+/* Modern theme for CChatInputBox. Geometry is identical to legacy's and traced to native's own
+   constants there -- see legacy/chat_input.rcss rather than repeating the derivation. What differs
+   is that this theme draws no sprite art at all: legacy's background bitmap carries every button's
+   OFF state, so an unlit button is invisible-but-present there, whereas here each button needs a
+   visible resting state of its own. */
+
+#panel.workspace-placed { bottom: auto; transform-origin: left top; }
+#panel {
+	position: absolute;
+	left: 0;
+	bottom: 51dp;
+	width: 281dp;
+	height: 47dp;
+	background-color: token(surface-panel);
+	border: 1dp token(metal-edge);
+	border-radius: token(radius-sm)px;
+	font-family: "token(font-body)";
+	font-size: 1rem;
+	/* The bar takes the pointer, so a click on it never walks the character. */
+	pointer-events: auto;
+}
+
+/* Unlike legacy, the resting state is drawn here -- there is no background art underneath to
+   supply it. `.on` is the lit state, not the only state. */
+.cib-btn {
+	position: absolute;
+	top: 3dp;
+	width: 24dp;
+	height: 20dp;
+	background-color: token(metal-rail-dark);
+	border-radius: token(radius-sm)px;
+	pointer-events: auto;
+	cursor: pointer;
+}
+.cib-btn:hover { background-color: token(metal-edge); }
+.cib-btn.on { background-color: token(accent-gold); }
+.cib-btn:active { filter: brightness(0.75); }
+
+.cib-btn-normal  { left: 2dp; }
+.cib-btn-party   { left: 29dp; }
+.cib-btn-guild   { left: 56dp; }
+.cib-btn-gens    { left: 83dp; }
+.cib-btn-whisper { left: 116dp; }
+.cib-btn-system  { left: 143dp; }
+.cib-btn-chatlog { left: 170dp; }
+.cib-btn-frame   { left: 203dp; }
+.cib-btn-size    { left: 230dp; }
+.cib-btn-alpha   { left: 257dp; }
+
+.cib-whisper-field {
+	position: absolute;
+	left: 5dp;
+	top: 30dp;
+	width: 50dp;
+	height: 14dp;
+	font-size: 11dp;
+}
+.cib-chat-field {
+	position: absolute;
+	left: 72dp;
+	top: 30dp;
+	width: 176dp;
+	height: 14dp;
+	font-size: 11dp;
+}
+
+.cib-whisper-field:disabled { color: token(text-disabled); }
+#whisper_block {
+	position: absolute;
+	left: 2dp;
+	top: 28dp;
+	width: 61dp;
+	height: 17dp;
+	background-color: rgba(128, 51, 51, 51);
+	border-radius: token(radius-sm)px;
+	pointer-events: none;
+}
+
+/* Slash commands belong to this input bar, immediately above its button row. */
+.chat-completions { position: absolute; left: 68dp; bottom: 100%; width: 330dp; max-width: 75vw; background-color: #100e0bea; border: 1dp #80682e; padding: 2dp; pointer-events: auto; }
+.chat-completion { position: relative; height: 19dp; padding: 1dp 3dp; color: #d7d2c6; font-size: 8dp; cursor: pointer; overflow: hidden; }
+.chat-completion.selected, .chat-completion:hover { background-color: #8a6d273f; }
+.command-name { display: inline-block; width: 83dp; color: #f2c955; font-weight: bold; }
+.command-description { display: inline-block; width: 235dp; white-space: nowrap; overflow: hidden; }
+.command-usage { display: block; margin-left: 83dp; color: #a9a38e; font-size: 6.5dp; }

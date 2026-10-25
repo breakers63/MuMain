@@ -6530,7 +6530,7 @@
     <comment>legacy_id=1747</comment>
   </data>
   <data name="EXP:%I64d / %I64d" xml:space="preserve">
-    <value>經驗：%I64d / %I64d</value>
+    <value>經驗：%llu / %llu</value>
     <comment>legacy_id=1748</comment>
   </data>
   <data name="Master skill tree (A)" xml:space="preserve">
@@ -13031,8 +13031,47 @@
   <data name="QuestRequirementBuff" xml:space="preserve">
     <value>Bonus: %ls</value>
   </data>
-<data name="MentorConnecting" xml:space="preserve"><value>正在等待伺服器的導師資料...</value></data>
-  
-<data name="MentorUnavailable" xml:space="preserve"><value>導師系統沒有回應。請更新伺服器補丁並重新連線。</value></data>
-
+  <data name="PartyFinderTitle" xml:space="preserve"><value>尋找隊伍</value></data>
+  <data name="PartyFinderRandom" xml:space="preserve"><value>隨機加入隊伍</value></data>
+  <data name="PartyFinderPublicList" xml:space="preserve"><value>公開隊伍</value></data>
+  <data name="PartyFinderJoin" xml:space="preserve"><value>加入</value></data>
+  <data name="PartyFinderRefresh" xml:space="preserve"><value>重新整理</value></data>
+  <data name="PartyFinderPublish" xml:space="preserve"><value>建立公開隊伍</value></data>
+  <data name="PartyFinderPublic" xml:space="preserve"><value>公開</value></data>
+  <data name="PartyFinderPrivate" xml:space="preserve"><value>私人</value></data>
+  <data name="PartyFinderMakePublic" xml:space="preserve"><value>設為公開</value></data>
+  <data name="PartyFinderMakePrivate" xml:space="preserve"><value>設為私人</value></data>
+  <data name="PartyFinderTravel" xml:space="preserve"><value>前往隊長</value></data>
+  <data name="PartyFinderFollow" xml:space="preserve"><value>跟隨</value></data>
+  <data name="PartyFinderStop" xml:space="preserve"><value>停止跟隨</value></data>
+  <data name="PartyFinderEmpty" xml:space="preserve"><value>目前沒有公開隊伍</value></data>
+  <data name="PartyFinderWaiting" xml:space="preserve"><value>等候伺服器回應...</value></data>
+  <data name="PartyFinderUnavailable" xml:space="preserve"><value>目前無法執行此操作</value></data>
+  <data name="PartyFinderDenied" xml:space="preserve"><value>您沒有執行此操作的權限</value></data>
+  <data name="PartyFinderFull" xml:space="preserve"><value>沒有合適且有空位的隊伍</value></data>
+  <data name="PartyFinderMissing" xml:space="preserve"><value>隊員目前無法使用</value></data>
+  <data name="PartyFinderRestricted" xml:space="preserve"><value>未達目的地條件</value></data>
+  <data name="PartyFinderBlocked" xml:space="preserve"><value>沒有有效的抵達位置</value></data>
+  <data name="PartyFinderMembersTab" xml:space="preserve"><value>隊員</value></data>
+  <data name="PartyFinderSearchTab" xml:space="preserve"><value>搜尋</value></data>
+  <data name="PartyFinderSettingsTab" xml:space="preserve"><value>設定</value></data>
+  <data name="PartyFinderAllowFollow" xml:space="preserve"><value>允許跟隨</value></data>
+  <data name="PartyFinderDisableFollow" xml:space="preserve"><value>停用跟隨</value></data>
+  <data name="PartyFinderFollowEnabled" xml:space="preserve"><value>已允許跟隨</value></data>
+  <data name="PartyFinderFollowDisabled" xml:space="preserve"><value>已停用跟隨</value></data>
+  <data name="PartyFinderLeaderOnly" xml:space="preserve"><value>只有隊長可以更改設定</value></data>
+  <data name="PartyFinderJoinBlocked" xml:space="preserve"><value>請先離隊再加入其他隊伍</value></data>
+  <data name="PartyFinderPassLeader" xml:space="preserve"><value>轉移隊長</value></data>
+  <data name="PartyFinderNoParty" xml:space="preserve"><value>請先加入或建立隊伍</value></data>
+  <data name="PartyFinderVisibility" xml:space="preserve"><value>隊伍公開設定</value></data>
+  <data name="PartyFinderIntro" xml:space="preserve"><value>與隨機玩家組隊，結識新的戰鬥夥伴。</value></data>
+  <data name="PartyFinderListHelp" xml:space="preserve"><value>顯示的地圖是隊長所在的地圖。</value></data>
+  <data name="PartyFinderAutoAcceptParty" xml:space="preserve"><value>自動接受組隊</value></data>
+  <data name="PartyFinderAutoAcceptEnable" xml:space="preserve"><value>啟用自動接受組隊</value></data>
+  <data name="PartyFinderAutoAcceptDisable" xml:space="preserve"><value>停用自動接受組隊</value></data>
+  <data name="PartyFinderAutoAcceptEnabled" xml:space="preserve"><value>自動接受組隊：已啟用</value></data>
+  <data name="PartyFinderAutoAcceptDisabled" xml:space="preserve"><value>自動接受組隊：已停用</value></data>
+  <data name="PartyFinderShowBuffs" xml:space="preserve"><value>顯示隊伍增益效果</value></data>
+  <data name="PartyFinderBlockSummon" xml:space="preserve"><value>拒絕聖導師召喚</value></data>
+  <data name="PartyFinderLevelResets" xml:space="preserve"><value>等級: %d | 重置: %d</value></data>
 </root>

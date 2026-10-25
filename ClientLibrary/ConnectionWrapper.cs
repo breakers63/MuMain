@@ -1,4 +1,4 @@
-﻿// <copyright file="ConnectionWrapper.cs" company="MUnique">
+// <copyright file="ConnectionWrapper.cs" company="MUnique">
 // Licensed under the MIT License. See LICENSE file in the project root for full license information.
 // </copyright>
 
@@ -19,8 +19,8 @@ using MUnique.OpenMU.Network;
 public sealed class ConnectionWrapper : IDisposable
 {
     private readonly int _handle;
-    private readonly Socket? _socket;
     private readonly Connection _connection;
+    private readonly Socket? _socket;
     private readonly OutboundFlushLoop _outboundFlushLoop;
     private readonly bool _networkDiagnosticsEnabled = Environment.GetEnvironmentVariable("MU_NETWORK_DIAGNOSTICS") == "1";
 
@@ -54,12 +54,12 @@ public sealed class ConnectionWrapper : IDisposable
     /// The pointer to an unmanaged method which is called when the connection got disconnected.
     /// Parameter: handle.
     /// </param>
-    /// <param name="socket">The connected socket used to measure latency.</param>
+    /// <param name="socket">The existing TCP socket used for latency measurements.</param>
     public unsafe ConnectionWrapper(int handle, Connection connection, delegate* unmanaged<int, int, byte*, void> onPacketReceived, delegate* unmanaged<int, void> onDisconnected, Socket? socket = null)
     {
         this._handle = handle;
-        this._socket = socket;
         this._connection = connection;
+        this._socket = socket;
         this._onPacketReceived = onPacketReceived;
         this._onDisconnected = onDisconnected;
         this._outboundFlushLoop = new OutboundFlushLoop(this.FlushOutputAsync, this.OnSendFailed);
@@ -73,9 +73,9 @@ public sealed class ConnectionWrapper : IDisposable
     /// </summary>
     internal PipeWriter Output => this._connection.Output;
 
-    /// <summary>Reads the existing socket latency.</summary>
-    /// <returns>Milliseconds, or -1 when unavailable.</returns>
-    internal int GetTcpPingMilliseconds() => TcpLatency.ReadMilliseconds(this._socket);
+    /// <summary>Gets the existing TCP connection's round trip time in milliseconds.</summary>
+    /// <returns>The measured latency, or -1 when unavailable.</returns>
+    internal int GetTcpPingMilliseconds() => SocketLatency.Read(this._socket);
 
     /// <summary>
     /// Begins receiving packets from the client.

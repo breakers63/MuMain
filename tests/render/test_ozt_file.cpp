@@ -10,6 +10,7 @@
 #include <doctest.h>
 
 #include "Render/Textures/OztFile.h"
+#include "Render/Textures/UpscaleMarker.h"
 
 namespace
 {
@@ -196,4 +197,18 @@ TEST_CASE("no shipped OZT file is too small [render][ozt_file]")
         ++checked;
     }
     CHECK(checked > 0);
+}
+
+TEST_CASE("party finder HD assets pass the runtime texture limits [render][party]")
+{
+    for (const char* name : {"buttons-v1.OZT", "ornaments-v1.OZT", "list-controls-v1.OZT"})
+    {
+        const auto file = ReadFile(DataDirectory / "Interface" / "ParisPartyFinder" / name);
+        const int scale = Render::Textures::Upscale::ReadMarkedScale(file);
+        REQUIRE(scale == 2);
+        const auto header = Ozt::ReadHeader(file, MaxSize * scale, MaxSize * scale);
+        CHECK(header.status == Ozt::Status::Valid);
+        CHECK(header.width / scale <= MaxSize);
+        CHECK(header.height / scale <= MaxSize);
+    }
 }

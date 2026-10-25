@@ -6530,7 +6530,7 @@
     <comment>legacy_id=1747</comment>
   </data>
   <data name="EXP:%I64d / %I64d" xml:space="preserve">
-    <value>EXP:%I64d / %I64d</value>
+    <value>EXP:%llu / %llu</value>
     <comment>legacy_id=1748</comment>
   </data>
   <data name="Master skill tree (A)" xml:space="preserve">
@@ -13031,8 +13031,47 @@
   <data name="QuestRequirementBuff" xml:space="preserve">
     <value>Bonus: %ls</value>
   </data>
-<data name="MentorConnecting" xml:space="preserve"><value>Waiting for mentorship data from the server...</value></data>
-  
-<data name="MentorUnavailable" xml:space="preserve"><value>The mentorship server has not responded. Update the server patch and reconnect.</value></data>
-
+  <data name="PartyFinderTitle" xml:space="preserve"><value>Maghanap ng Party</value></data>
+  <data name="PartyFinderRandom" xml:space="preserve"><value>Sumali sa random na party</value></data>
+  <data name="PartyFinderPublicList" xml:space="preserve"><value>Mga pampublikong party</value></data>
+  <data name="PartyFinderJoin" xml:space="preserve"><value>Sumali</value></data>
+  <data name="PartyFinderRefresh" xml:space="preserve"><value>I-refresh</value></data>
+  <data name="PartyFinderPublish" xml:space="preserve"><value>Gumawa ng pampublikong party</value></data>
+  <data name="PartyFinderPublic" xml:space="preserve"><value>Pampubliko</value></data>
+  <data name="PartyFinderPrivate" xml:space="preserve"><value>Pribado</value></data>
+  <data name="PartyFinderMakePublic" xml:space="preserve"><value>Gawing pampubliko</value></data>
+  <data name="PartyFinderMakePrivate" xml:space="preserve"><value>Gawing pribado</value></data>
+  <data name="PartyFinderTravel" xml:space="preserve"><value>Pumunta sa lider</value></data>
+  <data name="PartyFinderFollow" xml:space="preserve"><value>Sundan</value></data>
+  <data name="PartyFinderStop" xml:space="preserve"><value>Itigil ang pagsunod</value></data>
+  <data name="PartyFinderEmpty" xml:space="preserve"><value>Walang pampublikong party</value></data>
+  <data name="PartyFinderWaiting" xml:space="preserve"><value>Naghihintay sa server...</value></data>
+  <data name="PartyFinderUnavailable" xml:space="preserve"><value>Hindi magagamit ang aksiyon ngayon</value></data>
+  <data name="PartyFinderDenied" xml:space="preserve"><value>Wala kang pahintulot</value></data>
+  <data name="PartyFinderFull" xml:space="preserve"><value>Walang angkop na party na may puwang</value></data>
+  <data name="PartyFinderMissing" xml:space="preserve"><value>Hindi available ang kasama</value></data>
+  <data name="PartyFinderRestricted" xml:space="preserve"><value>Hindi natugunan ang kailangan ng mapa</value></data>
+  <data name="PartyFinderBlocked" xml:space="preserve"><value>Walang wastong lugar ng pagdating</value></data>
+  <data name="PartyFinderMembersTab" xml:space="preserve"><value>Miyembro</value></data>
+  <data name="PartyFinderSearchTab" xml:space="preserve"><value>Hanapin</value></data>
+  <data name="PartyFinderSettingsTab" xml:space="preserve"><value>Mga opsyon</value></data>
+  <data name="PartyFinderAllowFollow" xml:space="preserve"><value>Payagan ang pagsunod</value></data>
+  <data name="PartyFinderDisableFollow" xml:space="preserve"><value>Huwag payagan ang pagsunod</value></data>
+  <data name="PartyFinderFollowEnabled" xml:space="preserve"><value>Pinapayagan ang pagsunod</value></data>
+  <data name="PartyFinderFollowDisabled" xml:space="preserve"><value>Hindi pinapayagan ang pagsunod</value></data>
+  <data name="PartyFinderLeaderOnly" xml:space="preserve"><value>Lider lang ang makakabago ng opsyon</value></data>
+  <data name="PartyFinderJoinBlocked" xml:space="preserve"><value>Umalis sa party para sumali sa iba</value></data>
+  <data name="PartyFinderPassLeader" xml:space="preserve"><value>Ipasa ang pamumuno</value></data>
+  <data name="PartyFinderNoParty" xml:space="preserve"><value>Sumali o gumawa muna ng party</value></data>
+  <data name="PartyFinderVisibility" xml:space="preserve"><value>Pagkakita sa party</value></data>
+  <data name="PartyFinderIntro" xml:space="preserve"><value>Sumali sa random na party at makilala ang mga bagong kasama sa labanan.</value></data>
+  <data name="PartyFinderListHelp" xml:space="preserve"><value>Mapa ng lider ang ipinapakita.</value></data>
+  <data name="PartyFinderAutoAcceptParty" xml:space="preserve"><value>Awtomatikong Tanggap sa Party</value></data>
+  <data name="PartyFinderAutoAcceptEnable" xml:space="preserve"><value>Paganahin ang awtomatikong tanggap</value></data>
+  <data name="PartyFinderAutoAcceptDisable" xml:space="preserve"><value>Itigil ang awtomatikong tanggap</value></data>
+  <data name="PartyFinderAutoAcceptEnabled" xml:space="preserve"><value>Awtomatikong tanggap: bukas</value></data>
+  <data name="PartyFinderAutoAcceptDisabled" xml:space="preserve"><value>Awtomatikong tanggap: sarado</value></data>
+  <data name="PartyFinderShowBuffs" xml:space="preserve"><value>Ipakita ang buffs ng Party</value></data>
+  <data name="PartyFinderBlockSummon" xml:space="preserve"><value>Harangin ang summon ng Dark Lord</value></data>
+  <data name="PartyFinderLevelResets" xml:space="preserve"><value>Level: %d | R: %d</value></data>
 </root>

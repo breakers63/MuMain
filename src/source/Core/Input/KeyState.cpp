@@ -6,9 +6,19 @@
 
 namespace Core::Input
 {
+    namespace { bool pvpLocked=false; }
+    bool IsPvpLocked() { return pvpLocked; }
+    void TogglePvpLock() { pvpLocked=!pvpLocked; }
+
     namespace
     {
         bool g_leftMouseButtonPressEdge = false;
+
+#ifdef _EDITOR
+        OtherWindowQuery g_otherWindowQuery = nullptr;
+#endif
+
+        } // namespace
 
         // Map a Win32 virtual-key code (or ASCII letter/digit) to an SDL
         // scancode. Returns SDL_SCANCODE_UNKNOWN for keys we don't translate.
@@ -21,6 +31,10 @@ namespace Core::Input
 
             switch (vk)
             {
+            case 0xBB:       return SDL_SCANCODE_EQUALS; // main keyboard + / =
+            case 0xBD:       return SDL_SCANCODE_MINUS;
+            case 0x6B:       return SDL_SCANCODE_KP_PLUS;
+            case 0x6D:       return SDL_SCANCODE_KP_MINUS;
             case VK_UP:      return SDL_SCANCODE_UP;
             case VK_DOWN:    return SDL_SCANCODE_DOWN;
             case VK_LEFT:    return SDL_SCANCODE_LEFT;
@@ -34,6 +48,7 @@ namespace Core::Input
             case VK_SPACE:   return SDL_SCANCODE_SPACE;
             case VK_RETURN:  return SDL_SCANCODE_RETURN;
             case VK_ESCAPE:  return SDL_SCANCODE_ESCAPE;
+            case 0xC0: return SDL_SCANCODE_GRAVE; // physical key above Tab, left of 1
             case VK_TAB:     return SDL_SCANCODE_TAB;
             case VK_BACK:    return SDL_SCANCODE_BACKSPACE;
             case VK_F1:      return SDL_SCANCODE_F1;
@@ -52,7 +67,6 @@ namespace Core::Input
             default:         return SDL_SCANCODE_UNKNOWN;
             }
         }
-    }
 
     void RecordLeftMouseButtonPressEdge()
     {
@@ -72,6 +86,12 @@ namespace Core::Input
         {
             return true;
         }
+#ifdef _EDITOR
+        if (g_otherWindowQuery != nullptr && g_otherWindowQuery(virtualKey))
+        {
+            return false;
+        }
+#endif
 
         // Poll live input from SDL on every platform. The Win32 path used
         // GetAsyncKeyState because the old child EDIT controls stole keyboard
@@ -98,4 +118,11 @@ namespace Core::Input
         const bool* state = SDL_GetKeyboardState(nullptr);
         return state != nullptr && state[sc];
     }
+
+#ifdef _EDITOR
+    void SetOtherWindowQuery(OtherWindowQuery query)
+    {
+        g_otherWindowQuery = query;
+    }
+#endif
 }

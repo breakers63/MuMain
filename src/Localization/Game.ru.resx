@@ -6530,7 +6530,7 @@
     <comment>legacy_id=1747</comment>
   </data>
   <data name="EXP:%I64d / %I64d" xml:space="preserve">
-    <value>Опыт:%I64d / %I64d</value>
+    <value>Опыт:%llu / %llu</value>
     <comment>legacy_id=1748</comment>
   </data>
   <data name="Master skill tree (A)" xml:space="preserve">
@@ -13031,8 +13031,47 @@
   <data name="QuestRequirementBuff" xml:space="preserve">
     <value>Bonus: %ls</value>
   </data>
-<data name="MentorConnecting" xml:space="preserve"><value>Waiting for mentorship data from the server...</value></data>
-  
-<data name="MentorUnavailable" xml:space="preserve"><value>The mentorship server has not responded. Update the server patch and reconnect.</value></data>
-
+  <data name="PartyFinderTitle" xml:space="preserve"><value>Поиск группы</value></data>
+  <data name="PartyFinderRandom" xml:space="preserve"><value>Вступить в случайную группу</value></data>
+  <data name="PartyFinderPublicList" xml:space="preserve"><value>Открытые группы</value></data>
+  <data name="PartyFinderJoin" xml:space="preserve"><value>Вступить</value></data>
+  <data name="PartyFinderRefresh" xml:space="preserve"><value>Обновить</value></data>
+  <data name="PartyFinderPublish" xml:space="preserve"><value>Создать открытую группу</value></data>
+  <data name="PartyFinderPublic" xml:space="preserve"><value>Открытая</value></data>
+  <data name="PartyFinderPrivate" xml:space="preserve"><value>Закрытая</value></data>
+  <data name="PartyFinderMakePublic" xml:space="preserve"><value>Открыть группу</value></data>
+  <data name="PartyFinderMakePrivate" xml:space="preserve"><value>Закрыть группу</value></data>
+  <data name="PartyFinderTravel" xml:space="preserve"><value>К лидеру</value></data>
+  <data name="PartyFinderFollow" xml:space="preserve"><value>Следовать</value></data>
+  <data name="PartyFinderStop" xml:space="preserve"><value>Прекратить</value></data>
+  <data name="PartyFinderEmpty" xml:space="preserve"><value>Нет открытых групп</value></data>
+  <data name="PartyFinderWaiting" xml:space="preserve"><value>Ожидание сервера...</value></data>
+  <data name="PartyFinderUnavailable" xml:space="preserve"><value>Действие сейчас недоступно</value></data>
+  <data name="PartyFinderDenied" xml:space="preserve"><value>Недостаточно прав</value></data>
+  <data name="PartyFinderFull" xml:space="preserve"><value>Нет подходящей группы с местом</value></data>
+  <data name="PartyFinderMissing" xml:space="preserve"><value>Участник недоступен</value></data>
+  <data name="PartyFinderRestricted" xml:space="preserve"><value>Не выполнены требования карты</value></data>
+  <data name="PartyFinderBlocked" xml:space="preserve"><value>Нет допустимого места прибытия</value></data>
+  <data name="PartyFinderMembersTab" xml:space="preserve"><value>Участники</value></data>
+  <data name="PartyFinderSearchTab" xml:space="preserve"><value>Поиск</value></data>
+  <data name="PartyFinderSettingsTab" xml:space="preserve"><value>Настройки</value></data>
+  <data name="PartyFinderAllowFollow" xml:space="preserve"><value>Разрешить следование</value></data>
+  <data name="PartyFinderDisableFollow" xml:space="preserve"><value>Запретить следование</value></data>
+  <data name="PartyFinderFollowEnabled" xml:space="preserve"><value>Следование разрешено</value></data>
+  <data name="PartyFinderFollowDisabled" xml:space="preserve"><value>Следование запрещено</value></data>
+  <data name="PartyFinderLeaderOnly" xml:space="preserve"><value>Настройки меняет только лидер</value></data>
+  <data name="PartyFinderJoinBlocked" xml:space="preserve"><value>Выйдите из группы для вступления</value></data>
+  <data name="PartyFinderPassLeader" xml:space="preserve"><value>Передать лидерство</value></data>
+  <data name="PartyFinderNoParty" xml:space="preserve"><value>Сначала вступите или создайте группу</value></data>
+  <data name="PartyFinderVisibility" xml:space="preserve"><value>Видимость группы</value></data>
+  <data name="PartyFinderIntro" xml:space="preserve"><value>Вступайте в случайную группу и находите новых соратников.</value></data>
+  <data name="PartyFinderListHelp" xml:space="preserve"><value>Показана карта лидера группы.</value></data>
+  <data name="PartyFinderAutoAcceptParty" xml:space="preserve"><value>Автоприём в группу</value></data>
+  <data name="PartyFinderAutoAcceptEnable" xml:space="preserve"><value>Включить автоприём</value></data>
+  <data name="PartyFinderAutoAcceptDisable" xml:space="preserve"><value>Выключить автоприём</value></data>
+  <data name="PartyFinderAutoAcceptEnabled" xml:space="preserve"><value>Автоприём: включён</value></data>
+  <data name="PartyFinderAutoAcceptDisabled" xml:space="preserve"><value>Автоприём: выключен</value></data>
+  <data name="PartyFinderShowBuffs" xml:space="preserve"><value>Показывать баффы группы</value></data>
+  <data name="PartyFinderBlockSummon" xml:space="preserve"><value>Блокировать призыв Dark Lord</value></data>
+  <data name="PartyFinderLevelResets" xml:space="preserve"><value>Уровень: %d | Р: %d</value></data>
 </root>

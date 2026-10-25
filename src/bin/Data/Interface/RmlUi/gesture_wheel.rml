@@ -1,0 +1,45 @@
+<rml><head><title>Gestos</title><link type="text/rcss" href="base.rcss"/><link type="text/rcss" href="gesture_wheel.rcss"/></head>
+<body data-model="gesture_wheel"><div id="gesture-overlay" data-event-click="gesture_close"><div id="wheel" data-if="wheel" data-event-mousemove="gesture_hover" data-event-click="gesture_pick"><img class="wheel-art" src="../../../Paris_GestureWheel.tga"/>
+<span class="gesture-label gesture-0" data-class-active="selected == 0">Hi</span>
+<span class="gesture-label gesture-1" data-class-active="selected == 1">Bye</span>
+<span class="gesture-label gesture-2" data-class-active="selected == 2">Clap</span>
+<span class="gesture-label gesture-3" data-class-active="selected == 3">Yay</span>
+<span class="gesture-label gesture-4" data-class-active="selected == 4">^^</span>
+<span class="gesture-label gesture-5" data-class-active="selected == 5">T_T</span>
+<span class="gesture-label gesture-6" data-class-active="selected == 6">Bow</span>
+<span class="gesture-label gesture-7" data-class-active="selected == 7">o7</span>
+<span class="gesture-label gesture-8" data-class-active="selected == 8">Win</span>
+<span class="gesture-label gesture-9" data-class-active="selected == 9">Hey</span>
+<span class="gesture-label gesture-10" data-class-active="selected == 10">-&gt;</span>
+<span class="gesture-label gesture-11" data-class-active="selected == 11">?</span>
+<span class="gesture-label gesture-12" data-class-active="selected == 12">;</span>
+<span class="gesture-label gesture-13" data-class-active="selected == 13">-_-</span>
+<span class="gesture-label gesture-14" data-class-active="selected == 14">Zzz</span>
+<span class="gesture-label gesture-15" data-class-active="selected == 15">Brr</span>
+<span class="gesture-label gesture-16" data-class-active="selected == 16">Agn</span>
+<span class="gesture-label gesture-17" data-class-active="selected == 17">Go!</span>
+<span class="gesture-label gesture-18" data-class-active="selected == 18">Sci</span>
+<span class="gesture-label gesture-19" data-class-active="selected == 19">Rck</span>
+<span class="gesture-label gesture-20" data-class-active="selected == 20">Ppr</span>
+<span class="gesture-label gesture-21" data-class-active="selected == 21">Hus</span>
+<span class="gesture-label gesture-22" data-class-active="selected == 22">Prv</span>
+<span class="gesture-label gesture-23" data-class-active="selected == 23">Look</span>
+<span class="gesture-label gesture-24" data-class-active="selected == 24">Chr</span>
+<img class="gesture-label emoji-label gesture-25" src="../../../Emoji_0.tga"/>
+<img class="gesture-label emoji-label gesture-26" src="../../../Emoji_1.tga"/>
+<img class="gesture-label emoji-label gesture-27" src="../../../Emoji_2.tga"/>
+<img class="gesture-label emoji-label gesture-28" src="../../../Emoji_3.tga"/>
+<img class="gesture-label emoji-label gesture-29" src="../../../Emoji_4.tga"/>
+<img class="gesture-label emoji-label gesture-30" src="../../../Emoji_5.tga"/>
+<img class="gesture-label emoji-label gesture-31" src="../../../Emoji_6.tga"/>
+<span class="gesture-label gesture-32">Gtr</span>
+<span class="gesture-label gesture-33">Flt</span>
+<span class="gesture-label gesture-34">Oca</span>
+<span class="gesture-label gesture-35">Hrp</span>
+<span class="gesture-label gesture-36">Drm</span>
+<span class="gesture-caption">{{caption}}</span><span class="gesture-help">Clic para elegir · ESC para cerrar</span></div><div id="music-panel" data-if="music" data-event-click="music_capture"><h2>Instrumento · {{caption}}</h2><div class="music-song">{{song}}</div>
+<div class="music-time">{{time}}</div><div class="music-buttons">
+<button data-event-click="music_action(0)">Cargar MIDI</button><button data-event-click="music_action(1)">Tocar</button>
+<button data-event-click="music_action(2)">Pausa</button><button data-event-click="music_action(3)">Detener</button>
+<button data-event-click="music_action(4)" data-class-active="loop">Repetir</button><button data-event-click="music_action(5)">Guardar instrumento</button></div>
+<div class="music-status">{{status}}</div><div class="music-note">Audio local. MIDI de hasta 2 MB y 30 minutos.</div></div></div></body></rml>

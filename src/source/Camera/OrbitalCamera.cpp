@@ -3,6 +3,8 @@
 #include "stdafx.h"
 #include "OrbitalCamera.h"
 #include "CameraManager.h"
+#include "Core/Input/KeyState.h"
+#include "Render/RmlUi/RmlUiRuntime.h"
 #include "Render/Textures/ZzzOpenglUtil.h"
 #include "Engine/Object/ZzzCharacter.h"
 #include <cmath>
@@ -10,6 +12,7 @@
 #include "UI/Scaling/UITransform.h"
 #include "Data/GameConfig/GameConfig.h"
 #include "CameraDebugLog.h"
+#include "Render/Text/CUIRenderText.h"
 
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
@@ -464,8 +467,31 @@ bool OrbitalCamera::DescribeState(wchar_t* text, std::size_t textSize) const
     return true;
 }
 
+void OrbitalCamera::HandleKeyboardInput()
+{
+    const unsigned now = timeGetTime();
+    const float dt = m_Input.LastKeyboardTick ? std::min(now - m_Input.LastKeyboardTick, 100u) / 1000.f : 0.f;
+    m_Input.LastKeyboardTick = now;
+    if (SceneFlag != MAIN_SCENE || RmlUiRuntime::Instance().IsTextInputActive()) return;
+    constexpr float YawDegreesPerSecond = 80.f, PitchDegreesPerSecond = 45.f;
+    const int horizontal = int(Core::Input::IsKeyDown(VK_RIGHT)) - int(Core::Input::IsKeyDown(VK_LEFT));
+    const int vertical = int(Core::Input::IsKeyDown(VK_UP)) - int(Core::Input::IsKeyDown(VK_DOWN));
+    constexpr int MainPlusKey = 0xBB, MainMinusKey = 0xBD, NumpadPlusKey = 0x6B, NumpadMinusKey = 0x6D;
+    constexpr float ZoomUnitsPerSecond = 650.f;
+    const int zoomIn = int(Core::Input::IsKeyDown(MainPlusKey) || Core::Input::IsKeyDown(NumpadPlusKey));
+    const int zoomOut = int(Core::Input::IsKeyDown(MainMinusKey) || Core::Input::IsKeyDown(NumpadMinusKey));
+    if (zoomIn != zoomOut)
+    {
+        m_Radius = std::clamp(m_Radius + (zoomOut - zoomIn) * ZoomUnitsPerSecond * dt, MIN_RADIUS, MAX_RADIUS);
+        UpdateConfigForView(); UpdateFrustum();
+    }
+    m_DeltaYaw = std::fmod(m_DeltaYaw + horizontal * YawDegreesPerSecond * dt, 360.f);
+    m_DeltaPitch = std::clamp(m_DeltaPitch + vertical * PitchDegreesPerSecond * dt, MIN_PITCH - m_BasePitch, MAX_PITCH - m_BasePitch);
+}
+
 void OrbitalCamera::HandleInput()
 {
+    HandleKeyboardInput();
     // Mouse wheel zoom. Always consume the wheel even when locked so a
     // tick received while F10-locked doesn't leak through on unlock.
     if (MouseWheel != 0)

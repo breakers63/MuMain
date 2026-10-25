@@ -1,6 +1,4 @@
 #include "stdafx.h"
-#include "UI/NewUI/Character/ClassicPanelFrame.h"
-#include "UI/Legacy/UIControls.h"
 #include "MentorProtocol.h"
 #include "Network/Server/WSclient.h"
 #include "../../../ThirdParty/json.hpp"

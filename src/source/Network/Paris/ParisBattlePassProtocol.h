@@ -29,6 +29,8 @@ namespace Network::Paris::BattlePass
         std::wstring Name,Message;
         std::vector<Reward> Rewards;
     };
+    inline Snapshot Data;
+    inline DWORD Received = 0;
     inline int U16(const BYTE* p) { return p[0]|(p[1]<<8); }
     template<class T> inline T Number(const BYTE* p) { T value;std::memcpy(&value,p,sizeof(value));return value; }
     inline bool Utf8(const BYTE* text,int length,std::wstring& target)

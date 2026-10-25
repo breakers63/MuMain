@@ -1,0 +1,190 @@
+/* The OpenGL allocation overlay occupies the same 190x429 reference box as Stats. */
+@spritesheet allocation-frame-sheet { src: "../paris-gold/paris-frame.tga"; allocation-frame: 0px 0px 512px 1024px; }
+@spritesheet allocation-controls-sheet { src: "../paris-gold/Paris_AllocationControls47.tga";
+allocation-input: 0px 0px 272px 78px;
+allocation-available: 0px 100px 561px 88px;
+allocation-checkbox: 0px 220px 64px 63px;
+allocation-tab: 0px 300px 391px 86px;
+allocation-selected: 0px 420px 389px 86px;
+allocation-assign: 0px 540px 378px 96px;
+allocation-close: 0px 680px 376px 96px;
+}
+.allocation-panel { font-family: "token(font-body)"; position: absolute; left: 0; top: 0; width: 190px; height: 429px; decorator: image(allocation-frame); z-index: 20; pointer-events: auto; color: #f5f5f5; font-size: 7.75px; }
+.allocation-close { position: absolute; right: 9px; top: 22px; width: 16px; height: 18px; cursor: pointer; z-index: 5; }
+.allocation-title { position: absolute; left: 12px; top: 37px; width: 166px; text-align: center; color: #ffdd23; font-weight: bold; }
+.allocation-available { position: absolute; left: 14px; top: 56px; width: 162px; height: 20px; line-height: 20px; text-align: center; decorator: image(allocation-available); }
+.allocation-available strong { color: #ffdd23; }
+.allocation-rows { position: absolute; left: 0; top: 112px; width: 190px; }
+.allocation-row { display: block; position: relative; height: 38px; width: 190px; }
+.allocation-label { position: absolute; left: 16px; top: 6px; text-align: center; width: 48px; }
+.allocation-input { position: absolute; left: 72px; top: 0; width: 55px; height: 22px; padding: 0; line-height: 22px; background-color: transparent; border: 0; text-align: center; color: #ffffff; font-size: 7.75px; decorator: image(allocation-input); }
+.allocation-row.disabled { color: #7a7565; }
+.allocation-input:disabled { color: #7a7565; }
+.allocation-percent-label { position: absolute; left: 136px; top: 5px; width: 20px; text-align: center; }
+.allocation-full { position: absolute; left: 136px; top: 3px; height: 16px; width: 40px; cursor: pointer; }
+.allocation-full > span { position: absolute; left: 15px; top: 3px; }
+.allocation-checkbox { display: inline-block; position: relative; width: 12px; height: 12px; decorator: image(allocation-checkbox); }
+.allocation-checkbox span { display: block; text-align: center; line-height: 12px; color: #ffdd23; font-size: 10px; }
+.allocation-mode { position: absolute; top: 310px; width: 79px; height: 22px; line-height: 22px; text-align: center; cursor: pointer; decorator: image(allocation-tab); }
+.allocation-mode.selected { decorator: image(allocation-selected); color: #ffdd23; }
+.allocation-amounts { left: 12px; }.allocation-percent { left: 99px; }
+.allocation-automatic { position: absolute; left: 14px; top: 343px; height: 18px; width: 157px; cursor: pointer; }
+.allocation-automatic > span { position: absolute; left: 47px; top: 3px; }
+.allocation-status { position: absolute; left: 12px; top: 365px; width: 166px; height: 16px; text-align: center; color: #ffdd23; font-size: 7.25px; }
+.allocation-button { position: absolute; top: 384px; width: 79px; height: 24px; line-height: 24px; text-align: center; cursor: pointer; color: #ffe169; font-weight: bold; }
+.allocation-apply { left: 12px; decorator: image(allocation-assign); }.allocation-cancel { left: 99px; decorator: image(allocation-close); }
+.paris-points-box { pointer-events: auto; cursor: pointer; }
+
+/* Only sample the empty interiors and ornate edges; atlas captions are replaced by live text. */
+.allocation-available, .allocation-input, .allocation-mode, .allocation-mode.selected, .allocation-button { decorator: none; }
+.allocation-input-art { position: absolute; left: 72px; top: 0; width: 55px; height: 22px; pointer-events: none; }
+.allocation-caption { position: relative; z-index: 1; }
+.allocation-input { z-index: 1; }
+.allocation-art { position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; }
+.allocation-art > div { position: absolute; pointer-events: none; }
+.allocation-art-fill { left: 0; top: 0; width: 100%; height: 100%; }
+.allocation-art-tl, .allocation-art-tr, .allocation-art-bl, .allocation-art-br { width: 4px; height: 4px; }
+.allocation-art-tl { left: 0; top: 0; }.allocation-art-tr { right: 0; top: 0; }.allocation-art-bl { left: 0; bottom: 0; }.allocation-art-br { right: 0; bottom: 0; }
+.allocation-art-top, .allocation-art-bottom { left: 4px; right: 4px; height: 2px; }
+.allocation-art-top { top: 0; }.allocation-art-bottom { bottom: 0; }
+.allocation-art-left, .allocation-art-right { top: 4px; bottom: 4px; width: 2px; }
+.allocation-art-left { left: 0; }.allocation-art-right { right: 0; }
+@spritesheet allocation-input-parts { src: "../paris-gold/Paris_AllocationControls47.tga";
+a-input-fill: 24px 24px 24px 20px;
+a-input-tl: 0px 0px 24px 24px;
+a-input-tr: 248px 0px 24px 24px;
+a-input-bl: 0px 54px 24px 24px;
+a-input-br: 248px 54px 24px 24px;
+a-input-top: 24px 0px 224px 8px;
+a-input-bottom: 24px 70px 224px 8px;
+a-input-left: 0px 24px 8px 30px;
+a-input-right: 264px 24px 8px 30px;
+}
+.art-input .allocation-art-fill { decorator: image(a-input-fill); }
+.art-input .allocation-art-tl { decorator: image(a-input-tl); }
+.art-input .allocation-art-tr { decorator: image(a-input-tr); }
+.art-input .allocation-art-bl { decorator: image(a-input-bl); }
+.art-input .allocation-art-br { decorator: image(a-input-br); }
+.art-input .allocation-art-top { decorator: image(a-input-top); }
+.art-input .allocation-art-bottom { decorator: image(a-input-bottom); }
+.art-input .allocation-art-left { decorator: image(a-input-left); }
+.art-input .allocation-art-right { decorator: image(a-input-right); }
+@spritesheet allocation-available-parts { src: "../paris-gold/Paris_AllocationControls47.tga";
+a-available-fill: 24px 124px 24px 20px;
+a-available-tl: 0px 100px 24px 24px;
+a-available-tr: 537px 100px 24px 24px;
+a-available-bl: 0px 164px 24px 24px;
+a-available-br: 537px 164px 24px 24px;
+a-available-top: 24px 100px 513px 8px;
+a-available-bottom: 24px 180px 513px 8px;
+a-available-left: 0px 124px 8px 40px;
+a-available-right: 553px 124px 8px 40px;
+}
+.art-available .allocation-art-fill { decorator: image(a-available-fill); }
+.art-available .allocation-art-tl { decorator: image(a-available-tl); }
+.art-available .allocation-art-tr { decorator: image(a-available-tr); }
+.art-available .allocation-art-bl { decorator: image(a-available-bl); }
+.art-available .allocation-art-br { decorator: image(a-available-br); }
+.art-available .allocation-art-top { decorator: image(a-available-top); }
+.art-available .allocation-art-bottom { decorator: image(a-available-bottom); }
+.art-available .allocation-art-left { decorator: image(a-available-left); }
+.art-available .allocation-art-right { decorator: image(a-available-right); }
+@spritesheet allocation-tab-parts { src: "../paris-gold/Paris_AllocationControls47.tga";
+a-tab-fill: 24px 444px 24px 20px;
+a-tab-tl: 0px 420px 24px 24px;
+a-tab-tr: 365px 420px 24px 24px;
+a-tab-bl: 0px 482px 24px 24px;
+a-tab-br: 365px 482px 24px 24px;
+a-tab-top: 24px 420px 341px 8px;
+a-tab-bottom: 24px 498px 341px 8px;
+a-tab-left: 0px 444px 8px 38px;
+a-tab-right: 381px 444px 8px 38px;
+}
+.art-tab .allocation-art-fill { decorator: image(a-tab-fill); }
+.art-tab .allocation-art-tl { decorator: image(a-tab-tl); }
+.art-tab .allocation-art-tr { decorator: image(a-tab-tr); }
+.art-tab .allocation-art-bl { decorator: image(a-tab-bl); }
+.art-tab .allocation-art-br { decorator: image(a-tab-br); }
+.art-tab .allocation-art-top { decorator: image(a-tab-top); }
+.art-tab .allocation-art-bottom { decorator: image(a-tab-bottom); }
+.art-tab .allocation-art-left { decorator: image(a-tab-left); }
+.art-tab .allocation-art-right { decorator: image(a-tab-right); }
+@spritesheet allocation-selected-parts { src: "../paris-gold/Paris_AllocationControls47.tga";
+a-selected-fill: 24px 324px 24px 20px;
+a-selected-tl: 0px 300px 24px 24px;
+a-selected-tr: 367px 300px 24px 24px;
+a-selected-bl: 0px 362px 24px 24px;
+a-selected-br: 367px 362px 24px 24px;
+a-selected-top: 24px 300px 343px 8px;
+a-selected-bottom: 24px 378px 343px 8px;
+a-selected-left: 0px 324px 8px 38px;
+a-selected-right: 383px 324px 8px 38px;
+}
+.allocation-mode.selected .art-tab .allocation-art-fill { decorator: image(a-selected-fill); }
+.allocation-mode.selected .art-tab .allocation-art-tl { decorator: image(a-selected-tl); }
+.allocation-mode.selected .art-tab .allocation-art-tr { decorator: image(a-selected-tr); }
+.allocation-mode.selected .art-tab .allocation-art-bl { decorator: image(a-selected-bl); }
+.allocation-mode.selected .art-tab .allocation-art-br { decorator: image(a-selected-br); }
+.allocation-mode.selected .art-tab .allocation-art-top { decorator: image(a-selected-top); }
+.allocation-mode.selected .art-tab .allocation-art-bottom { decorator: image(a-selected-bottom); }
+.allocation-mode.selected .art-tab .allocation-art-left { decorator: image(a-selected-left); }
+.allocation-mode.selected .art-tab .allocation-art-right { decorator: image(a-selected-right); }
+@spritesheet allocation-assign-parts { src: "../paris-gold/Paris_AllocationControls47.tga";
+a-assign-fill: 24px 564px 24px 20px;
+a-assign-tl: 0px 540px 24px 24px;
+a-assign-tr: 354px 540px 24px 24px;
+a-assign-bl: 0px 612px 24px 24px;
+a-assign-br: 354px 612px 24px 24px;
+a-assign-top: 24px 540px 330px 8px;
+a-assign-bottom: 24px 628px 330px 8px;
+a-assign-left: 0px 564px 8px 48px;
+a-assign-right: 370px 564px 8px 48px;
+}
+.art-assign .allocation-art-fill { decorator: image(a-assign-fill); }
+.art-assign .allocation-art-tl { decorator: image(a-assign-tl); }
+.art-assign .allocation-art-tr { decorator: image(a-assign-tr); }
+.art-assign .allocation-art-bl { decorator: image(a-assign-bl); }
+.art-assign .allocation-art-br { decorator: image(a-assign-br); }
+.art-assign .allocation-art-top { decorator: image(a-assign-top); }
+.art-assign .allocation-art-bottom { decorator: image(a-assign-bottom); }
+.art-assign .allocation-art-left { decorator: image(a-assign-left); }
+.art-assign .allocation-art-right { decorator: image(a-assign-right); }
+@spritesheet allocation-close-parts { src: "../paris-gold/Paris_AllocationControls47.tga";
+a-close-fill: 24px 704px 24px 20px;
+a-close-tl: 0px 680px 24px 24px;
+a-close-tr: 352px 680px 24px 24px;
+a-close-bl: 0px 752px 24px 24px;
+a-close-br: 352px 752px 24px 24px;
+a-close-top: 24px 680px 328px 8px;
+a-close-bottom: 24px 768px 328px 8px;
+a-close-left: 0px 704px 8px 48px;
+a-close-right: 368px 704px 8px 48px;
+}
+.art-close .allocation-art-fill { decorator: image(a-close-fill); }
+.art-close .allocation-art-tl { decorator: image(a-close-tl); }
+.art-close .allocation-art-tr { decorator: image(a-close-tr); }
+.art-close .allocation-art-bl { decorator: image(a-close-bl); }
+.art-close .allocation-art-br { decorator: image(a-close-br); }
+.art-close .allocation-art-top { decorator: image(a-close-top); }
+.art-close .allocation-art-bottom { decorator: image(a-close-bottom); }
+.art-close .allocation-art-left { decorator: image(a-close-left); }
+.art-close .allocation-art-right { decorator: image(a-close-right); }
+
+.allocation-dark-lord {position:absolute;left:72px;top:6px;width:55px;text-align:center;color:#aaa69a;font-size:7.75px;z-index:1;}
+.allocation-row.disabled { color: #f5f5f5; }
+
+/* Rasterise text at its final pixel size instead of magnifying small glyphs with the panel. */
+.allocation-title { width:calc(166px * var(--root-scale, 1)); margin-left:calc(83px - 83px * var(--root-scale, 1)); transform-origin:center top; }
+.allocation-label { width:calc(48px * var(--root-scale, 1)); margin-left:calc(24px - 24px * var(--root-scale, 1)); transform-origin:center top; font-weight:normal; color:#ffffff; }
+.allocation-caption { position:absolute; left:0; top:0; width:calc(100% * var(--root-scale, 1)); margin-left:calc(50% - 50% * var(--root-scale, 1)); transform-origin:center top; line-height:calc(22px * var(--root-scale, 1)); white-space:nowrap; }
+.allocation-available .allocation-caption { line-height:calc(20px * var(--root-scale, 1)); }
+.allocation-button .allocation-caption { line-height:calc(24px * var(--root-scale, 1)); }
+.allocation-input, .allocation-input:disabled { width:calc(55px * var(--root-scale, 1)); height:calc(22px * var(--root-scale, 1)); line-height:calc(22px * var(--root-scale, 1)); transform-origin:left top; color:#ffffff; opacity:1; font-weight:normal; }
+.allocation-dark-lord { width:calc(55px * var(--root-scale, 1)); margin-left:calc(27.5px - 27.5px * var(--root-scale, 1)); transform-origin:center top; color:#ffffff; }
+.allocation-full-label { width:calc(24px * var(--root-scale, 1)); transform-origin:left top; color:#ffffff; }
+.allocation-percent-label { width:calc(20px * var(--root-scale, 1)); margin-left:calc(10px - 10px * var(--root-scale, 1)); transform-origin:center top; color:#ffffff; }
+.allocation-auto-label { width:calc(110px * var(--root-scale, 1)); transform-origin:left top; color:#ffffff; }
+.allocation-status { width:calc(166px * var(--root-scale, 1)); margin-left:calc(83px - 83px * var(--root-scale, 1)); transform-origin:center top; }
+
+/* Repartir puntos sits beside its character sheet rather than covering it. */
+.allocation-panel {left:-194px;}

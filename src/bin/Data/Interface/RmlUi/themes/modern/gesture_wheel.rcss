@@ -1,0 +1,52 @@
+#gesture-overlay { position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: auto; }
+#wheel { position: absolute; left: 0; right: 0; top: 0; bottom: 0; width: 70vh; height: 70vh; max-width: 350dp; max-height: 350dp; margin: auto; color: #eee8d5; font-family: "token(font-body)"; font-size: 9dp; }
+.wheel-art { position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; }
+.gesture-label { position: absolute; width: 14%; height: 5%; margin-left: -7%; margin-top: -2.5%; text-align: center; pointer-events: none; }
+.gesture-label.active { color: #ffcf62; font-weight: bold; }
+.gesture-caption { position: absolute; left: 40%; top: 46%; width: 20%; height: 9%; text-align: center; color: #f2cc77; font-size: 8dp; pointer-events: none; }
+.gesture-help { position: absolute; top: 101%; width: 100%; text-align: center; color: #e8d59e; font-size: 8dp; pointer-events: none; }
+.gesture-0 {left:50.0000%;top:36.1205%;}
+.gesture-1 {left:58.9216%;top:39.3677%;}
+.gesture-2 {left:63.6686%;top:47.5899%;}
+.gesture-3 {left:62.0200%;top:56.9397%;}
+.gesture-4 {left:54.7471%;top:63.0425%;}
+.gesture-5 {left:45.2529%;top:63.0425%;}
+.gesture-6 {left:37.9800%;top:56.9398%;}
+.gesture-7 {left:36.3314%;top:47.5899%;}
+.gesture-8 {left:41.0784%;top:39.3677%;}
+.gesture-9 {left:50.0000%;top:24.6760%;}
+.gesture-10 {left:59.6911%;top:26.6037%;}
+.gesture-11 {left:67.9068%;top:32.0932%;}
+.gesture-12 {left:73.3963%;top:40.3089%;}
+.gesture-13 {left:75.3240%;top:50.0000%;}
+.gesture-14 {left:73.3963%;top:59.6911%;}
+.gesture-15 {left:67.9068%;top:67.9068%;}
+.gesture-16 {left:59.6911%;top:73.3963%;}
+.gesture-17 {left:50.0000%;top:75.3240%;}
+.gesture-18 {left:40.3089%;top:73.3963%;}
+.gesture-19 {left:32.0932%;top:67.9068%;}
+.gesture-20 {left:26.6037%;top:59.6911%;}
+.gesture-21 {left:24.6760%;top:50.0000%;}
+.gesture-22 {left:26.6037%;top:40.3089%;}
+.gesture-23 {left:32.0932%;top:32.0932%;}
+.gesture-24 {left:40.3089%;top:26.6037%;}
+.gesture-25 {left:50.0000%;top:14.2055%;}
+.gesture-26 {left:77.9853%;top:27.6825%;}
+.gesture-27 {left:84.8971%;top:57.9650%;}
+.gesture-28 {left:65.5307%;top:82.2497%;}
+.gesture-29 {left:34.4693%;top:82.2497%;}
+.gesture-30 {left:15.1029%;top:57.9650%;}
+.gesture-31 {left:22.0147%;top:27.6825%;}
+.gesture-32 {left:50.0000%;top:5.4395%;}
+.gesture-33 {left:92.3796%;top:36.2300%;}
+.gesture-34 {left:76.1920%;top:86.0502%;}
+.gesture-35 {left:23.8080%;top:86.0502%;}
+.gesture-36 {left:7.6204%;top:36.2300%;}
+.emoji-label {width:8%;height:8%;margin-left:-4%;margin-top:-4%;}
+#music-panel {position:absolute;right:10dp;top:20%;width:270dp;padding:12dp;background-color:#14120ff5;border:2dp #cba14c;color:#eee4c9;font-family:"token(font-body)";font-size:10dp;pointer-events:auto;}
+#music-panel h2 {color:#f1cb68;font-size:14dp;margin-bottom:12dp;}
+.music-song,.music-time,.music-status,.music-note {display:block;margin-bottom:10dp;}
+.music-note {color:#b5ad96;font-size:8dp;}
+.music-buttons {display:flex;flex-wrap:wrap;gap:6dp;margin-bottom:12dp;}
+.music-buttons button {padding:6dp;background-color:#30291d;border:1dp #b28b42;color:#e9d99a;cursor:pointer;}
+.music-buttons button.active {background-color:#66501d;}

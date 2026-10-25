@@ -1545,12 +1545,9 @@ bool RenderGoldenOrSilverBox(BMD* b, OBJECT* o, int Type, float Alpha, int Rende
 
 bool RenderSmallCapeOfLord(BMD* b, OBJECT* o, int Type, float Alpha, int RenderType)
 {
-    if (b->BodyLight[0] == 1 && b->BodyLight[1] == 1 && b->BodyLight[2] == 1)
-    {
-        Vector(1.f, 1.f, 1.f, b->BodyLight);
-        b->RenderBody(RENDER_TEXTURE, o->Alpha, o->BlendMesh, o->BlendMeshLight, o->BlendMeshTexCoordU,
-                      o->BlendMeshTexCoordV, o->HiddenMesh);
-    }
+    // Lighting is an input to the model draw, not a visibility condition.
+    b->RenderBody(RENDER_TEXTURE, o->Alpha, o->BlendMesh, o->BlendMeshLight, o->BlendMeshTexCoordU,
+                  o->BlendMeshTexCoordV, o->HiddenMesh);
     return true;
 }
 

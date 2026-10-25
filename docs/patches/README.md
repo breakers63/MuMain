@@ -1,0 +1,1 @@
+The RmlUi submodule has two local slider fixes used by the tested Windows build. After initializing the pinned submodule, apply rmlui-widget-slider-20261025.patch inside src/ThirdParty/RmlUi with git apply. The source snapshot also includes the two exact patched files. Do not claim a pristine submodule build reproduces these local fixes without the patch.

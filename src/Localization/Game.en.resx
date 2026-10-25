@@ -1433,6 +1433,114 @@
   <data name="Windowed mode" xml:space="preserve">
     <value>Windowed mode</value>
   </data>
+  <data name="Enhanced graphics" xml:space="preserve">
+    <value>Enhanced graphics</value>
+  </data>
+  <data name="Gameplay" xml:space="preserve">
+    <value>Gameplay</value>
+  </data>
+  <data name="Audio" xml:space="preserve">
+    <value>Audio</value>
+  </data>
+  <data name="Video" xml:space="preserve">
+    <value>Video</value>
+  </data>
+  <data name="Graphics" xml:space="preserve">
+    <value>Graphics</value>
+  </data>
+  <data name="UI" xml:space="preserve">
+    <value>UI</value>
+  </data>
+  <data name="Display" xml:space="preserve">
+    <value>Display</value>
+  </data>
+  <data name="Interface" xml:space="preserve">
+    <value>Interface</value>
+  </data>
+  <data name="Quality" xml:space="preserve">
+    <value>Quality</value>
+  </data>
+  <data name="Effects" xml:space="preserve">
+    <value>Effects</value>
+  </data>
+  <data name="Shadows" xml:space="preserve">
+    <value>Shadows</value>
+  </data>
+  <data name="Enhanced Lighting" xml:space="preserve">
+    <value>Enhanced lighting</value>
+  </data>
+  <data name="Dynamic Lights" xml:space="preserve">
+    <value>Dynamic lights</value>
+  </data>
+  <data name="Light Mood" xml:space="preserve">
+    <value>Darker map light</value>
+  </data>
+  <data name="Bloom And Colour Grading" xml:space="preserve">
+    <value>Bloom and colour grading</value>
+  </data>
+  <data name="VSync" xml:space="preserve">
+    <value>VSync</value>
+  </data>
+  <data name="FPS Limit" xml:space="preserve">
+    <value>FPS Limit</value>
+  </data>
+  <data name="Disable Effects" xml:space="preserve">
+    <value>Disable Effects</value>
+  </data>
+  <data name="Disable Particles" xml:space="preserve">
+    <value>Disable Particles</value>
+  </data>
+  <data name="Disable Skill Effect Models" xml:space="preserve">
+    <value>Disable Skill Effects</value>
+  </data>
+  <data name="Disable Ambient Wildlife" xml:space="preserve">
+    <value>Disable Wildlife</value>
+  </data>
+  <data name="Disable Wing Shadow" xml:space="preserve">
+    <value>Disable Wing Shadow</value>
+  </data>
+  <data name="Disable Shadows" xml:space="preserve">
+    <value>Disable Shadows</value>
+  </data>
+  <data name="Show FPS Counter" xml:space="preserve">
+    <value>Show FPS Counter</value>
+  </data>
+  <data name="Show Debug Info" xml:space="preserve">
+    <value>Show Debug Info</value>
+  </data>
+  <data name="UI Theme" xml:space="preserve">
+    <value>UI Theme</value>
+  </data>
+  <data name="UI Scale" xml:space="preserve">
+    <value>UI Scale</value>
+  </data>
+  <data name="UI Scale Tooltip" xml:space="preserve">
+    <value>Multiplier on top of the automatic fit to the window size</value>
+  </data>
+  <data name="Legacy" xml:space="preserve">
+    <value>Legacy</value>
+  </data>
+  <data name="Modern" xml:space="preserve">
+    <value>Modern</value>
+  </data>
+  <data name="Uncapped" xml:space="preserve">
+    <value>Uncapped</value>
+  </data>
+  <data name="Off" xml:space="preserve">
+    <value>Off</value>
+  </data>
+  <data name="Anti-aliasing" xml:space="preserve">
+    <value>Anti-aliasing</value>
+  </data>
+  <data name="Anti-aliasing Tooltip" xml:space="preserve">
+    <value>Smooths edges in the Enhanced look; Classic always renders without it</value>
+  </data>
+  <data name="Anisotropic filtering" xml:space="preserve">
+    <value>Anisotropic filtering</value>
+  </data>
+  <data name="Anisotropic Filtering Tooltip" xml:space="preserve">
+    <value>Keeps textures sharp at a slant: world textures in the Enhanced look, upscaled textures in both looks</value>
+  </data>
   <data name="Close388" xml:space="preserve">
     <value>Close</value>
     <comment>legacy_id=388,1002</comment>
@@ -6550,7 +6658,7 @@
     <comment>legacy_id=1747</comment>
   </data>
   <data name="EXP:%I64d / %I64d" xml:space="preserve">
-    <value>EXP:%I64d / %I64d</value>
+    <value>EXP:%llu / %llu</value>
     <comment>legacy_id=1748</comment>
   </data>
   <data name="Master skill tree (A)" xml:space="preserve">
@@ -13117,8 +13225,62 @@
   <data name="QuestRequirementBuff" xml:space="preserve">
     <value>Bonus: %ls</value>
   </data>
-<data name="MentorConnecting" xml:space="preserve"><value>Waiting for mentorship data from the server...</value></data>
-  
-<data name="MentorUnavailable" xml:space="preserve"><value>The mentorship server has not responded. Update the server patch and reconnect.</value></data>
-  
+  <data name="W Coin(C)" xml:space="preserve">
+    <value>W Coin(C)</value>
+  </data>
+  <data name="Goblin Points" xml:space="preserve">
+    <value>Goblin Points</value>
+  </data>
+  <data name="Currency" xml:space="preserve">
+    <value>Currency</value>
+  </data>
+  <data name="Currency: %ls" xml:space="preserve">
+    <value>Currency: %ls</value>
+  </data>
+  <data name="Other items" xml:space="preserve">
+    <value>Other items</value>
+  </data>
+  <data name="PartyFinderTitle" xml:space="preserve"><value>Find Party</value></data>
+  <data name="PartyFinderRandom" xml:space="preserve"><value>Join random party</value></data>
+  <data name="PartyFinderPublicList" xml:space="preserve"><value>Public parties</value></data>
+  <data name="PartyFinderJoin" xml:space="preserve"><value>Join</value></data>
+  <data name="PartyFinderRefresh" xml:space="preserve"><value>Refresh</value></data>
+  <data name="PartyFinderPublish" xml:space="preserve"><value>Create public party</value></data>
+  <data name="PartyFinderPublic" xml:space="preserve"><value>Public</value></data>
+  <data name="PartyFinderPrivate" xml:space="preserve"><value>Private</value></data>
+  <data name="PartyFinderMakePublic" xml:space="preserve"><value>Make public</value></data>
+  <data name="PartyFinderMakePrivate" xml:space="preserve"><value>Make private</value></data>
+  <data name="PartyFinderTravel" xml:space="preserve"><value>Go to leader</value></data>
+  <data name="PartyFinderFollow" xml:space="preserve"><value>Follow</value></data>
+  <data name="PartyFinderStop" xml:space="preserve"><value>Stop following</value></data>
+  <data name="PartyFinderEmpty" xml:space="preserve"><value>No public parties available</value></data>
+  <data name="PartyFinderWaiting" xml:space="preserve"><value>Waiting for server...</value></data>
+  <data name="PartyFinderUnavailable" xml:space="preserve"><value>Action unavailable now</value></data>
+  <data name="PartyFinderDenied" xml:space="preserve"><value>You do not have permission</value></data>
+  <data name="PartyFinderFull" xml:space="preserve"><value>No suitable party with space</value></data>
+  <data name="PartyFinderMissing" xml:space="preserve"><value>Companion unavailable</value></data>
+  <data name="PartyFinderRestricted" xml:space="preserve"><value>Destination requirements not met</value></data>
+  <data name="PartyFinderBlocked" xml:space="preserve"><value>No valid arrival position</value></data>
+  <data name="PartyFinderMembersTab" xml:space="preserve"><value>Members</value></data>
+  <data name="PartyFinderSearchTab" xml:space="preserve"><value>Search</value></data>
+  <data name="PartyFinderSettingsTab" xml:space="preserve"><value>Settings</value></data>
+  <data name="PartyFinderAllowFollow" xml:space="preserve"><value>Allow following</value></data>
+  <data name="PartyFinderDisableFollow" xml:space="preserve"><value>Disable following</value></data>
+  <data name="PartyFinderFollowEnabled" xml:space="preserve"><value>Following enabled</value></data>
+  <data name="PartyFinderFollowDisabled" xml:space="preserve"><value>Following disabled</value></data>
+  <data name="PartyFinderLeaderOnly" xml:space="preserve"><value>Only the leader can change settings</value></data>
+  <data name="PartyFinderJoinBlocked" xml:space="preserve"><value>Leave your party to join another</value></data>
+  <data name="PartyFinderPassLeader" xml:space="preserve"><value>Pass leadership</value></data>
+  <data name="PartyFinderNoParty" xml:space="preserve"><value>Join or create a party first</value></data>
+  <data name="PartyFinderVisibility" xml:space="preserve"><value>Party visibility</value></data>
+  <data name="PartyFinderIntro" xml:space="preserve"><value>Join a party with random players and meet new battle companions.</value></data>
+  <data name="PartyFinderListHelp" xml:space="preserve"><value>The map shown is the party leader’s map.</value></data>
+  <data name="PartyFinderAutoAcceptParty" xml:space="preserve"><value>Auto Accept Party</value></data>
+  <data name="PartyFinderAutoAcceptEnable" xml:space="preserve"><value>Enable Auto Accept Party</value></data>
+  <data name="PartyFinderAutoAcceptDisable" xml:space="preserve"><value>Disable Auto Accept Party</value></data>
+  <data name="PartyFinderAutoAcceptEnabled" xml:space="preserve"><value>Auto Accept Party: enabled</value></data>
+  <data name="PartyFinderAutoAcceptDisabled" xml:space="preserve"><value>Auto Accept Party: disabled</value></data>
+  <data name="PartyFinderShowBuffs" xml:space="preserve"><value>Show Party buffs</value></data>
+  <data name="PartyFinderBlockSummon" xml:space="preserve"><value>Block Dark Lord summon</value></data>
+  <data name="PartyFinderLevelResets" xml:space="preserve"><value>Level: %d | R: %d</value></data>
 </root>

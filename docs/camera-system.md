@@ -31,6 +31,9 @@ automatically returns you to Default.
 | **F11** | Reset the active camera. Default returns to its starting zoom rung; Orbital also resets rotation. |
 | **Mouse wheel** | Zoom in / out (when zoom is unlocked). |
 | **Middle-mouse drag** | Rotate the Orbital camera. |
+| **Left / Right arrows** | Rotate around the character while Orbital is active. |
+| **+ / -** | Smooth Orbital zoom in/out, including the numeric keypad, while not typing. |
+| **Up / Down arrows** | Raise/lower the Orbital viewing angle, within the existing safe pitch range. |
 
 Tip: F10 is "global" - toggling it once unlocks the wheel for whichever
 camera is active, and it stays unlocked through camera switches until you
@@ -69,3 +72,10 @@ If you want the architecture, code layout, or tuning sliders, see
 [`dev-editor.md`](dev-editor.md) and the merged PRs that introduced this:
 [#335](https://github.com/sven-n/MuMain/pull/335) (3D camera rework) and
 [#364](https://github.com/sven-n/MuMain/pull/364) (zoom controls).
+
+
+### Paris login cinematic
+
+The login cinematic follows the authored waypoint positions while its heading turns smoothly. Camera smoothing must not integrate a separate positional path: doing so accumulates sideways drift at every corner and loop. Map coordinate corrections are applied once when exporting the camera pose, and the login view uses zero additional lateral yaw.
+
+Arrow rotation is inactive in Default camera and while typing. It uses elapsed time so speed does not depend on FPS. F11 restores the original view.

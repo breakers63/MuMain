@@ -1,0 +1,46 @@
+<rml>
+<head>
+    <title>Reset Paris</title>
+    <link type="text/rcss" href="base.rcss" />
+    <link type="text/rcss" href="docked_panel_frame.rcss" />
+    <link type="text/rcss" href="paris_panel.rcss" />
+    <link type="text/rcss" href="paris_reset.rcss" />
+</head>
+<body data-model="paris_reset">
+    <div id="panel" class="paris-reset">
+        <div class="frame-piece frame-top"></div><div class="frame-piece frame-left"></div>
+        <div class="frame-piece frame-right"></div><div class="frame-piece frame-bottom"></div>
+        <span id="title" class="sharp-text">RESET SYSTEM</span>
+        <div id="frame_corner_close" data-event-click="paris_reset_close"></div>
+        <div class="reset-count sharp-text" data-event-click="paris_reset_refresh">Reset: {{reset_count}}</div>
+
+        <div class="reset-section information-section">
+            <div class="reset-section-title sharp-text">INFORMACIÓN</div>
+            <div class="reset-section-rows sharp-text" data-if="has_information">
+                <div class="reset-line" data-for="line : information">◆ <span data-class-good="line.state == 'good'" data-class-bad="line.state == 'bad'">{{line.text}}</span></div>
+            </div>
+            <div class="reset-empty sharp-text" data-if="!has_information">{{status}}</div>
+        </div>
+
+        <div class="reset-section requirements-section">
+            <div class="reset-section-title sharp-text">REQUISITOS</div>
+            <div class="reset-section-rows sharp-text" data-if="has_requirements">
+                <div class="reset-line" data-for="line : requirements">◆ <span data-class-good="line.state == 'good'" data-class-bad="line.state == 'bad'">{{line.text}}</span></div>
+            </div>
+            <div class="reset-empty sharp-text" data-if="has_data && !has_requirements">No hay requisitos adicionales.</div>
+        </div>
+
+        <div class="reset-section rewards-section">
+            <div class="reset-section-title sharp-text">RECOMPENSA</div>
+            <div class="reset-section-rows sharp-text" data-if="has_rewards">
+                <div class="reset-line" data-for="line : rewards">◆ <span>{{line.text}}</span></div>
+            </div>
+            <div class="reset-empty sharp-text" data-if="has_data && !has_rewards">No hay recompensas adicionales.</div>
+        </div>
+
+        <div class="reset-result sharp-text" data-class-pending="pending">{{result}}</div>
+        <div class="reset-close-button" data-event-click="paris_reset_close">✕</div>
+        <div class="reset-button primary" data-class-disabled="!can_reset" data-event-click="paris_reset_confirm">REINICIAR AHORA</div>
+    </div>
+</body>
+</rml>

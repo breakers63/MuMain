@@ -4,8 +4,8 @@
 #include <string>
 #include <vector>
 #include "Core/Platform/WinCompat.h"
-#include "VisualReduction.h"
-#include "HdGraphicsSettings.h"
+#include "Data/GameConfig/GameConfigValidation.h"
+#include "Data/GameConfig/SavedLoginAccount.h"
 
 class GameConfig
 {
@@ -14,6 +14,13 @@ public:
 
     void Load();
     void Save();
+
+    bool GetHidePlayerNames() const;
+    bool GetShowPlayerHP() const;
+    bool GetHideMonsterHP() const;
+    void SetShowPlayerHP(bool shown);
+    void SetHideMonsterHP(bool hidden);
+    void SetHidePlayerNames(bool hidden);
 
     // Window
     int  GetWindowWidth()  const { return m_windowWidth; }
@@ -70,6 +77,18 @@ public:
     std::wstring GetFontSelection() const { return m_fontSelection; }
     void SetFontSelection(const std::wstring& font);
 
+    // Active RmlUi theme name ("legacy"/"modern") -- see UI::RmlBridge::RmlTheme.
+    std::wstring GetRmlTheme() const { return m_rmlTheme; }
+    void SetRmlTheme(const std::wstring& theme);
+
+    // Global RmlUi UI scale, as a percentage (100 = normal). Drives RmlUiRuntime's
+    // Context::SetDensityIndependentPixelRatio() call; only RCSS authored in `dp` responds. The
+    // setter clamps to [CfgDefaults::CfgMinUIScalePercent, CfgDefaults::CfgMaxUIScalePercent];
+    // a value read from disk is taken as-is, so a hand-edited config.ini stays authoritative
+    // until something writes the setting back.
+    int GetUIScalePercent() const { return m_uiScalePercent; }
+    void SetUIScalePercent(int percent);
+
     // Chat commands - the favourites and the named templates of the command
     // window. They belong to the installation, not to a character.
     // A template is stored as "name|command|value|value|...".
@@ -93,10 +112,60 @@ public:
     bool GetSortParticleDraws() const { return m_sortParticleDraws; }
     bool GetVSyncEnabled() const { return m_vsyncEnabled; }
     void SetVSyncEnabled(bool enabled);
-    bool IsVisualReductionEnabled(Data::Graphics::VisualReduction option) const;
-    void SetVisualReductionEnabled(Data::Graphics::VisualReduction option, bool enabled);
-    const Data::Graphics::HdGraphicsSettings& GetHdSettings() const { return m_hdSettings; }
-    void SetHdSettings(Data::Graphics::HdGraphicsSettings settings);
+    // The look preset ([Render] Look).
+    LookPreset GetLook() const
+    {
+        return m_look;
+    }
+    void SetLook(LookPreset look);
+    int GetAnisotropy() const
+    {
+        return m_anisotropy;
+    }
+    void SetAnisotropy(int anisotropy);
+    // Samples per pixel: 0 (off), 2, 4 or 8.
+    int GetAntialiasing() const
+    {
+        return m_antialiasing;
+    }
+    void SetAntialiasing(int samples);
+    bool GetEnhancedLighting() const { return m_enhancedLighting; }
+    void SetEnhancedLighting(bool enabled) { m_enhancedLighting = enabled; }
+    bool GetDynamicLights() const { return m_dynamicLights; }
+    void SetDynamicLights(bool enabled) { m_dynamicLights = enabled; }
+    bool GetLightMood() const { return m_lightMood; }
+    void SetLightMood(bool enabled) { m_lightMood = enabled; }
+    bool GetPostProcessing() const { return m_postProcessing; }
+    void SetPostProcessing(bool enabled) { m_postProcessing = enabled; }
+
+    // DXP-23's per-system effect-cost toggles, promoted from console-only ($effects ...)
+    // diagnostics to persisted, in-game-options-exposed settings -- see MainScene.h's
+    // SetDisableEffects/SetDisableParticles/SetDisableSkillEffectModels/SetDisableBoids/
+    // SetDisableWingShadow for what each one actually gates.
+    bool GetDisableEffects() const { return m_disableEffects; }
+    void SetDisableEffects(bool disabled);
+    bool GetDisableParticles() const { return m_disableParticles; }
+    void SetDisableParticles(bool disabled);
+    bool GetDisableSkillEffectModels() const { return m_disableSkillEffectModels; }
+    void SetDisableSkillEffectModels(bool disabled);
+    bool GetDisableBoids() const { return m_disableBoids; }
+    void SetDisableBoids(bool disabled);
+    bool GetDisableWingShadow() const { return m_disableWingShadow; }
+    void SetDisableWingShadow(bool disabled);
+    bool GetDisableBodyShadows() const { return m_disableBodyShadows; }
+    void SetDisableBodyShadows(bool disabled);
+
+    // User-chosen FPS cap when VSync is off; -1 = uncapped. Same promotion story as the toggles
+    // above, this time for the console-only `$fps <N>` diagnostic (SceneManager::SetTargetFps).
+    int GetFpsCap() const { return m_fpsCap; }
+    void SetFpsCap(int fps);
+
+    // GPU backend override -- "default"/"vulkan"/"direct3d12"/"metal". Manual config.ini edit
+    // only, same as GetSortParticleDraws() above: no setter, no in-game options-window exposure.
+    std::wstring GetRenderBackend() const { return m_renderBackend; }
+
+    // [UI] EnableAnimationTaskPool: manual config.ini edit only, like the two above.
+    bool GetEnableAnimationTaskPool() const { return m_enableAnimationTaskPool; }
 
     // Helpers
     static std::wstring BinaryToHex(const BYTE* data, DWORD size);
@@ -104,6 +173,9 @@ public:
 
     void DecryptCredentials(wchar_t* outUser, wchar_t* outPass, size_t userBufSize, size_t passBufSize);
     void EncryptAndSaveCredentials(const wchar_t* user, const wchar_t* pass);
+    SavedLoginAccount ReadSavedLoginAccount(std::size_t slot);
+    bool SaveLoginAccount(std::size_t slot, const SavedLoginAccount& account, bool savePassword);
+    void DeleteLoginAccount(std::size_t slot);
 
 private:
     GameConfig();
@@ -133,21 +205,33 @@ private:
 
     std::wstring m_uiLocale;
     std::wstring m_fontSelection;
+    std::wstring m_rmlTheme;
+    int m_uiScalePercent;
+    bool m_enableAnimationTaskPool;
 
     int m_zoom;
     bool m_sortParticleDraws;
     bool m_vsyncEnabled;
-    std::array<bool, Data::Graphics::VisualReductionCount> m_visualReductions{};
-    void LoadVisualReductions();
-    void SaveVisualReductions();
-    Data::Graphics::HdGraphicsSettings m_hdSettings;
-    void LoadHdSettings();
-    void SaveHdSettings();
+    LookPreset m_look;
+    int m_anisotropy;
+    int m_antialiasing;
+    bool m_enhancedLighting;
+    bool m_dynamicLights;
+    bool m_lightMood;
+    bool m_postProcessing;
+    std::wstring m_renderBackend;
+    bool m_disableEffects;
+    bool m_disableParticles;
+    bool m_disableSkillEffectModels;
+    bool m_disableBoids;
+    bool m_disableWingShadow;
+    bool m_disableBodyShadows;
+    int m_fpsCap;
 
-    int ReadInt(const wchar_t* section, const wchar_t* key, int defaultValue);
+    int ReadInt(const wchar_t* section, const wchar_t* key, int defaultValue) const;
     void WriteInt(const wchar_t* section, const wchar_t* key, int value);
 
-    bool ReadBool(const wchar_t* section, const wchar_t* key, bool defaultValue);
+    bool ReadBool(const wchar_t* section, const wchar_t* key, bool defaultValue) const;
     void WriteBool(const wchar_t* section, const wchar_t* key, bool value);
 
     std::vector<std::wstring> ReadStringList(const wchar_t* section, const wchar_t* keyPrefix);
@@ -161,3 +245,6 @@ private:
     std::wstring DecryptSetting(const std::wstring& hexInput);
     std::wstring EncryptSetting(const wchar_t* input);
 };
+
+// The [Render] Look of a config.ini as GameConfig::Load reads it.
+LookPreset ReadLookPreset(const std::filesystem::path& configFile);

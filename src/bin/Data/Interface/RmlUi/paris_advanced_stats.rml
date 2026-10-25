@@ -1,0 +1,19 @@
+<rml>
+<head>
+    <title>Info PJ</title>
+    <link type="text/rcss" href="base.rcss" />
+    <link type="text/rcss" href="paris_advanced_stats.rcss" />
+</head>
+<body data-model="paris_advanced_stats">
+    <div id="panel" class="paris-advanced-stats">
+        <div class="title counter-scaled" data-style-font-size="text_px + 'px'">Informacion del personaje</div>
+        <div class="close" data-event-click="info_stats_close"></div>
+        <div class="rows">
+            <div class="row" data-for="row : rows" data-class-section="row.section" data-class-alternate="row.alternate">
+                <span class="row-label counter-scaled" data-style-font-size="text_px + 'px'">{{row.label}}</span><span class="row-value counter-scaled" data-style-font-size="text_px + 'px'">{{row.value}}</span>
+            </div>
+        </div>
+        <div class="summary"><strong class="counter-scaled" data-style-font-size="text_px + 'px'">{{totalPower}}</strong><span class="counter-scaled" data-style-font-size="text_px + 'px'">{{totalDefense}}</span></div>
+    </div>
+</body>
+</rml>

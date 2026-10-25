@@ -6412,7 +6412,7 @@
     <comment>legacy_id=1747</comment>
   </data>
   <data name="EXP:%I64d / %I64d" xml:space="preserve">
-    <value>経験値：%I64d / %I64d</value>
+    <value>経験値：%llu / %llu</value>
     <comment>legacy_id=1748</comment>
   </data>
   <data name="Master skill tree (A)" xml:space="preserve">
@@ -11109,8 +11109,47 @@
   <data name="QuestRequirementBuff" xml:space="preserve">
     <value>Bonus: %ls</value>
   </data>
-<data name="MentorConnecting" xml:space="preserve"><value>Waiting for mentorship data from the server...</value></data>
-  
-<data name="MentorUnavailable" xml:space="preserve"><value>The mentorship server has not responded. Update the server patch and reconnect.</value></data>
-
+  <data name="PartyFinderTitle" xml:space="preserve"><value>パーティー検索</value></data>
+  <data name="PartyFinderRandom" xml:space="preserve"><value>ランダム参加</value></data>
+  <data name="PartyFinderPublicList" xml:space="preserve"><value>公開パーティー</value></data>
+  <data name="PartyFinderJoin" xml:space="preserve"><value>参加</value></data>
+  <data name="PartyFinderRefresh" xml:space="preserve"><value>更新</value></data>
+  <data name="PartyFinderPublish" xml:space="preserve"><value>公開パーティー作成</value></data>
+  <data name="PartyFinderPublic" xml:space="preserve"><value>公開</value></data>
+  <data name="PartyFinderPrivate" xml:space="preserve"><value>非公開</value></data>
+  <data name="PartyFinderMakePublic" xml:space="preserve"><value>公開にする</value></data>
+  <data name="PartyFinderMakePrivate" xml:space="preserve"><value>非公開にする</value></data>
+  <data name="PartyFinderTravel" xml:space="preserve"><value>リーダーの元へ</value></data>
+  <data name="PartyFinderFollow" xml:space="preserve"><value>追従</value></data>
+  <data name="PartyFinderStop" xml:space="preserve"><value>追従をやめる</value></data>
+  <data name="PartyFinderEmpty" xml:space="preserve"><value>公開パーティーはありません</value></data>
+  <data name="PartyFinderWaiting" xml:space="preserve"><value>サーバー応答待ち...</value></data>
+  <data name="PartyFinderUnavailable" xml:space="preserve"><value>現在この操作はできません</value></data>
+  <data name="PartyFinderDenied" xml:space="preserve"><value>この操作の権限がありません</value></data>
+  <data name="PartyFinderFull" xml:space="preserve"><value>空きのある対象がありません</value></data>
+  <data name="PartyFinderMissing" xml:space="preserve"><value>メンバーが利用できません</value></data>
+  <data name="PartyFinderRestricted" xml:space="preserve"><value>移動先の条件を満たしていません</value></data>
+  <data name="PartyFinderBlocked" xml:space="preserve"><value>有効な到着地点がありません</value></data>
+  <data name="PartyFinderMembersTab" xml:space="preserve"><value>メンバー</value></data>
+  <data name="PartyFinderSearchTab" xml:space="preserve"><value>検索</value></data>
+  <data name="PartyFinderSettingsTab" xml:space="preserve"><value>設定</value></data>
+  <data name="PartyFinderAllowFollow" xml:space="preserve"><value>追従を許可</value></data>
+  <data name="PartyFinderDisableFollow" xml:space="preserve"><value>追従を禁止</value></data>
+  <data name="PartyFinderFollowEnabled" xml:space="preserve"><value>追従は許可されています</value></data>
+  <data name="PartyFinderFollowDisabled" xml:space="preserve"><value>追従は禁止されています</value></data>
+  <data name="PartyFinderLeaderOnly" xml:space="preserve"><value>設定を変更できるのはリーダーのみ</value></data>
+  <data name="PartyFinderJoinBlocked" xml:space="preserve"><value>他へ参加するには現在のグループを脱退</value></data>
+  <data name="PartyFinderPassLeader" xml:space="preserve"><value>リーダーを交代</value></data>
+  <data name="PartyFinderNoParty" xml:space="preserve"><value>先に参加または作成してください</value></data>
+  <data name="PartyFinderVisibility" xml:space="preserve"><value>パーティーの公開設定</value></data>
+  <data name="PartyFinderIntro" xml:space="preserve"><value>ランダムな仲間とパーティーを組み、新たな戦友を見つけましょう。</value></data>
+  <data name="PartyFinderListHelp" xml:space="preserve"><value>表示されるマップはリーダーの現在地です。</value></data>
+  <data name="PartyFinderAutoAcceptParty" xml:space="preserve"><value>パーティー自動承認</value></data>
+  <data name="PartyFinderAutoAcceptEnable" xml:space="preserve"><value>自動承認を有効化</value></data>
+  <data name="PartyFinderAutoAcceptDisable" xml:space="preserve"><value>自動承認を無効化</value></data>
+  <data name="PartyFinderAutoAcceptEnabled" xml:space="preserve"><value>自動承認：有効</value></data>
+  <data name="PartyFinderAutoAcceptDisabled" xml:space="preserve"><value>自動承認：無効</value></data>
+  <data name="PartyFinderShowBuffs" xml:space="preserve"><value>パーティーバフを表示</value></data>
+  <data name="PartyFinderBlockSummon" xml:space="preserve"><value>ダークロードの召喚を拒否</value></data>
+  <data name="PartyFinderLevelResets" xml:space="preserve"><value>レベル: %d | R: %d</value></data>
 </root>

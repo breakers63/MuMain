@@ -1,0 +1,25 @@
+body { width:100%; height:100%; pointer-events:none; }
+#panel { position:absolute; width:440rem; height:170rem; font-family:"token(font-login-display)"; font-size:14rem; color:#f3deb4; pointer-events:auto; }
+#panel.mode-input { height:215rem; }
+.message-title { position:absolute; left:20rem; right:20rem; top:24rem; height:24rem; line-height:24rem; text-align:center; font-size:20rem; color:#e5bf73; pointer-events:none; }
+#panel .dialog-heading-left { left:110rem; }
+#panel .dialog-heading-right { right:110rem; }
+.msg-line { position:absolute; left:24rem; right:24rem; line-height:20rem; text-align:center; white-space:normal; pointer-events:none; }
+#msg_line1 { top:70rem; }
+#msg_line1.multi-line { top:60rem; }
+#msg_line2 { top:82rem; }
+.no-buttons #msg_line1 { top:80rem; }
+.no-buttons #msg_line1.multi-line { top:68rem; }
+.no-buttons #msg_line2 { top:90rem; }
+#input_frame { display:none; position:absolute; left:60rem; top:112rem; width:320rem; height:30rem; background-color:#090909; border:1rem #8d713e; pointer-events:none; }
+.mode-input #input_frame { display:block; }
+.msgwin-input-field { position:absolute; left:70rem; top:117rem; width:300rem; height:20rem; line-height:20rem; padding:0; color:#f3deb4; font-size:14rem; background-color:transparent; border-width:0; box-shadow:none; decorator:none; }
+#panel .btn { display:none; position:absolute; width:150rem; height:30rem; line-height:30rem; top:120rem; text-align:center; font-family:"token(font-login-display)"; font-size:13rem; cursor:pointer; pointer-events:auto; }
+#btn_ok, #btn_cancel { left:145rem; }
+.mode-ok-only #btn_ok, .mode-both #btn_ok, .mode-input #btn_ok { display:block; }
+.mode-cancel-only #btn_cancel, .mode-both #btn_cancel, .mode-input #btn_cancel { display:block; }
+.mode-both #btn_ok, .mode-input #btn_ok { left:61rem; }
+.mode-both #btn_cancel, .mode-input #btn_cancel { left:229rem; }
+.mode-input #btn_ok, .mode-input #btn_cancel { top:165rem; }
+
+body { font-size:0.625dp; }

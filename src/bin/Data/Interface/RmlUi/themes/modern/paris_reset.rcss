@@ -1,0 +1,30 @@
+#panel.paris-reset { right: 182dp; top: -10dp; width: 190dp; height: 429dp; color: token(text-primary); font-family: "token(font-body)"; }
+@spritesheet paris-reset-controls-sheet {
+	src: "../paris-gold/Paris_Controls51.tga";
+	paris-reset-button-primary: 0px 300px 364px 80px;
+}
+#panel.paris-reset #title { position: absolute; top: 47dp; left: 0; width: 100%; text-align: center; color: token(text-heading); font-size: 1rem; font-weight: bold; }
+#panel.paris-reset #frame_corner_close { top: 5.128%; right: 4.737%; width: 8.421%; height: 4.196%; pointer-events: auto; z-index: 10; }
+.reset-count { position: absolute; top: 61dp; left: 15dp; right: 15dp; height: 14dp; text-align: center; color: token(text-heading); font-size: .9rem; cursor: pointer; }
+.reset-status { position: absolute; top: 359dp; left: 20dp; right: 20dp; height: 14dp; text-align: center; color: token(text-muted); font-size: .68rem; }
+.reset-status.pending { color: token(text-heading); }
+.reset-section { position: absolute; left: 13dp; width: 164dp; border: 1dp token(border-control); background-color: rgba(4,5,5,.76); }
+.information-section { top: 69dp; height: 102dp; }
+.requirements-section { top: 178dp; height: 96dp; }
+.rewards-section { top: 280dp; height: 88dp; }
+.reset-section-title { position: absolute; top: 5dp; left: 0; right: 0; height: 16dp; text-align: center; color: token(text-heading); font-size: .92rem; font-weight: bold; border-bottom: 1dp token(border-gold); }
+.reset-section-rows { position: absolute; top: 25dp; left: 8dp; right: 5dp; bottom: 4dp; overflow: hidden; }
+.reset-line { height: 14dp; line-height: 14dp; white-space: nowrap; overflow: hidden; color: token(text-heading); font-size: .9rem; }
+.reset-line span { color: token(text-primary); }
+.reset-line span.good { color: #60e77a; }
+.reset-line span.bad { color: #ff7777; }
+.reset-empty { position: absolute; top: 29dp; left: 7dp; right: 7dp; text-align: center; color: token(text-muted); font-size: .86rem; }
+.reset-result { position: absolute; top: 359dp; left: 20dp; right: 20dp; height: 14dp; line-height: 14dp; text-align: center; color: token(text-heading); font-size: .84rem; }
+.reset-result.pending { color: token(text-muted); }
+.reset-button { position: absolute; left: 40dp; bottom: 19dp; width: 137dp; height: 30dp; line-height: 28dp; text-align: center; color: token(text-heading); background-color: transparent; border: none; decorator: image(paris-reset-button-primary); cursor: pointer; font-size: .9rem; font-weight: bold; }
+.reset-button.disabled { color: token(text-muted); }
+.reset-button:hover { filter: brightness(1.2); }
+
+.reset-close-button { position: absolute; left: 12dp; bottom: 18dp; width: 24dp; height: 24dp; line-height: 22dp; text-align: center; color: token(text-heading); background-color: rgba(20,17,12,.94); border: 1dp token(border-gold); cursor: pointer; font-size: .82rem; }
+
+#panel.paris-reset .reset-close-button {display:block;pointer-events:auto;z-index:30;}

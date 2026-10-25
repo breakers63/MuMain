@@ -1,0 +1,41 @@
+<rml>
+<head>
+    <title>VIP Paris</title>
+    <link type="text/rcss" href="base.rcss" />
+    <link type="text/rcss" href="docked_panel_frame.rcss" />
+    <link type="text/rcss" href="paris_panel.rcss" />
+    <link type="text/rcss" href="paris_vip.rcss" />
+</head>
+<body data-model="paris_vip">
+    <div id="panel" class="paris-vip">
+        <div class="frame-piece frame-top"></div><div class="frame-piece frame-left"></div>
+        <div class="frame-piece frame-right"></div><div class="frame-piece frame-bottom"></div>
+        <span id="title" class="sharp-text">VIP SYSTEM</span>
+        <div id="frame_corner_close" data-event-click="paris_vip_close"></div>
+        <div class="vip-account sharp-text"><span>Estado Cuenta:</span><strong>{{current_tier}}</strong></div>
+        <div class="vip-plans">
+            <div class="vip-plan" data-class-selected="plan == 1" data-event-click="paris_vip_plan(1)"><span class="vip-plan-icon vip-icon-1"></span><span class="vip-plan-label sharp-text">VIP 1</span></div>
+            <div class="vip-plan" data-class-selected="plan == 2" data-event-click="paris_vip_plan(2)"><span class="vip-plan-icon vip-icon-2"></span><span class="vip-plan-label sharp-text">VIP 2</span></div>
+            <div class="vip-plan" data-class-selected="plan == 3" data-event-click="paris_vip_plan(3)"><span class="vip-plan-icon vip-icon-3"></span><span class="vip-plan-label sharp-text">VIP 3</span></div>
+        </div>
+        <div class="vip-divider vip-divider-tabs"></div>
+        <div class="vip-details" data-if="has_data">
+            <div class="vip-plan-name sharp-text">{{plan_name}}</div>
+            <div class="vip-meta sharp-text"><span>Tiempo restante: {{selected_days}} días</span><span>Duración: {{duration}}</span></div>
+            <div class="vip-divider vip-divider-benefits"></div>
+            <div class="vip-section-title sharp-text">BENEFICIOS</div>
+            <div class="vip-benefits">
+                <div class="vip-line" data-for="line : benefits"><span class="vip-benefit-label sharp-text">{{line.label}}</span><strong class="vip-benefit-value sharp-text">{{line.value}}</strong></div>
+            </div>
+            <div class="vip-divider vip-divider-costs"></div>
+            <div class="vip-section-title cost-title sharp-text" data-if="!empty">COSTO</div>
+            <div class="vip-cost sharp-text" data-for="line : costs">{{line.text}}</div>
+            <div class="vip-empty sharp-text" data-if="empty">El servidor no envió detalles para este plan.</div>
+        </div>
+        <div class="vip-wait sharp-text" data-if="!has_data" data-event-click="paris_vip_refresh">{{status}}</div>
+        <div class="vip-actions">
+            <div class="vip-button primary" data-if="has_data" data-class-disabled="!can_buy" data-event-click="paris_vip_purchase">COMPRAR VIP</div>
+        </div>
+    </div>
+</body>
+</rml>

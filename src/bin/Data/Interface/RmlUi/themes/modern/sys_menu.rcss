@@ -1,0 +1,12 @@
+body { width:100%; height:100%; pointer-events:none; }
+#backdrop { position:absolute; left:0; top:0; width:100%; height:100%; background-color:#00000055; pointer-events:auto; }
+#panel { width:280rem; height:240rem; font-family:"token(font-login-display)"; font-size:14rem; color:#f6d797; pointer-events:auto; }
+#panel.compact { height:200rem; }
+.menu-title { position:absolute; left:10rem; top:24rem; width:260rem; height:24rem; line-height:24rem; text-align:center; color:#e5bf73; font-size:20rem; pointer-events:none; }
+#panel .btn { left:38rem; width:204rem; height:30rem; line-height:30rem; font-family:"token(font-login-display)"; font-size:13rem; }
+#btn_exit_game { top:70rem; }
+#btn_select_server { top:110rem; }
+#btn_option { bottom:60rem; }
+#btn_close { bottom:20rem; }
+
+body { font-size:0.625dp; }

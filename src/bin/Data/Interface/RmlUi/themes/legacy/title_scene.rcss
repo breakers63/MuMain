@@ -1,0 +1,8 @@
+/* Paris artwork supplied by the user. Crop only the desktop title bar in markup.
+   The screenshot's progress interior is covered by the real progress element. */
+body {width:100%;height:100%;margin:0;background-color:#08090b;}
+.paris-loading-art {decorator:image(paris-loading-background);position:absolute;left:0;top:0;width:100%;height:100%;}
+.gauge-fill {position:absolute;left:8.8%;top:89.9%;width:82.1%;height:2.9%;background-color:#151719;border:1px #555b63;border-radius:12px;fill-image:paris-loading-silver;}
+@spritesheet paris-loading-silver-sheet {src:"../paris-gold/paris-loading-reference.tga";paris-loading-silver:120px 500px 20px 14.5px;}
+
+@spritesheet paris-loading-background-sheet {src:"../paris-gold/paris-loading-reference.tga";paris-loading-background:0px 17.5px 710.5px 536px;}

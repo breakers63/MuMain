@@ -1,6 +1,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
+#include "Render/Models/ItemDyeAppearance.h"
+#include "Render/Terrain/GrassBurn.h"
 #include "Camera/CameraMove.h"
 #include "Render/Textures/ZzzOpenglUtil.h"
 #include "Render/Models/ZzzBMD.h"
@@ -10,6 +12,8 @@
 #endif
 #include "Engine/Object/ZzzInfomation.h"
 #include "Engine/Object/ZzzObject.h"
+#include "Core/Utilities/FrameProfiler.h"
+#include <optional>
 #include "Engine/Object/ZzzCharacter.h"
 #include "Render/Terrain/ZzzLodTerrain.h"
 #include "Render/Textures/ZzzTexture.h"
@@ -29,7 +33,7 @@
 #include "GameLogic/Items/CSItemOption.h"
 #include "GameLogic/Events/CSChaosCastle.h"
 #include "World/MapInfra/MapManager.h"
-#include "UI/Legacy/UIManager.h"
+#include "UI/Core/UIManager.h"
 #include "GameLogic/Events/Cinematic/CDirection.h"
 #include "GameLogic/Items/CComGem.h"
 #include "Render/Models/BoneManager.h"
@@ -37,7 +41,7 @@
 #include "Character/CharacterManager.h"
 #include "World/MapInfra/w_MapHeaders.h"
 #include "GameLogic/Social/MonkSystem.h"
-#include "UI/NewUI/NewUISystem.h"
+#include "UI/Core/WindowSystem.h"
 #include "Camera/CameraManager.h"
 #include "Camera/CameraProjection.h"
 #include "Camera/OrbitalCamera.h"
@@ -237,7 +241,7 @@ void BodyLight(OBJECT* o, BMD* b)
     if (o->LightEnable)
     {
         vec3_t Light;
-        RequestTerrainLight(o->Position[0], o->Position[1], Light);
+        RequestModelTerrainLight(o->Position[0], o->Position[1], Light);
         VectorAdd(Light, o->Light, b->BodyLight);
     }
     else
@@ -2665,10 +2669,28 @@ void Draw_RenderObject(OBJECT* o, bool Translate, int Select, int ExtraMon)
 
 void RenderObject(OBJECT* o, bool Translate, int Select, int ExtraMon)
 {
-    if (Calc_RenderObject(o, Translate, Select, ExtraMon) == false)
-    {
+    // Split only for map objects; characters' parts come through here too.
+    const bool mapObject = FrameProfiler::CurrentPass() == FrameProfiler::Pass::Objects;
+    constexpr int LorenciaGrassModelCount=8;
+    constexpr float BurnedGrassThreshold=.8f;
+    if (mapObject && gMapManager.WorldActive==WD_0LORENCIA &&
+        o->Type>=MODEL_GRASS01 && o->Type<MODEL_GRASS01+LorenciaGrassModelCount &&
+        Render::Terrain::GrassBurn::Amount(static_cast<int>(o->Position[0]/TERRAIN_SCALE),
+                                         static_cast<int>(o->Position[1]/TERRAIN_SCALE))>BurnedGrassThreshold)
         return;
+
+    {
+        std::optional<FrameProfiler::Scope> animate;
+        if (mapObject)
+            animate.emplace(FrameProfiler::Pass::ObjectsAnimate);
+        if (Calc_RenderObject(o, Translate, Select, ExtraMon) == false)
+        {
+            return;
+        }
     }
+    std::optional<FrameProfiler::Scope> draw;
+    if (mapObject)
+        draw.emplace(FrameProfiler::Pass::ObjectsDraw);
     Draw_RenderObject(o, Translate, Select, ExtraMon);
 }
 
@@ -5798,6 +5820,8 @@ void RenderZen(int itemIndex, ITEM_t* item, vec3_t light)
 // Render dropped items and fall animation and camera rotation for items on the ground
 void RenderItems()
 {
+    // Items on the ground keep their Classic look like equipped ones: no bloom from them.
+    const mu::ScopedBloomExclusion classicItems;
     for (int i = 0; i < MAX_ITEMS; i++)
     {
         OBJECT* o = &Items[i].Object;
@@ -5832,7 +5856,7 @@ void RenderItems()
                 b->Animation(BoneTransform, o->AnimationFrame, o->PriorAnimationFrame, o->PriorAction, o->Angle, o->HeadAngle, false, false);
 
                 vec3_t Light;
-                RequestTerrainLight(o->Position[0], o->Position[1], Light);
+                RequestModelTerrainLight(o->Position[0], o->Position[1], Light);
                 VectorAdd(Light, o->Light, Light);
                 if (o->Type == MODEL_ZEN) // Zen
                 {
@@ -6802,6 +6826,15 @@ void RenderPartObjectEffect(OBJECT* o, int Type, vec3_t Light, float Alpha, int 
         Level = std::min<int>(Level, g_pOption->GetRenderLevel() * 2 + 5);
     }
 
+    // A saved cosmetic replaces the level/excellent color passes, which otherwise paint
+    // their own gold/chrome colors over the chosen tint. Geometry and item stats stay intact.
+    if (Render::ItemDye::Resolve(o, Type) >= 0)
+    {
+        VectorCopy(Light, b->BodyLight);
+        RenderPartObjectBody(b, o, Type, Alpha, RenderType);
+        return;
+    }
+
     if (ApplyPartObjectEffect(b, o, Type, Alpha, Level, ItemLevel) == Render::Items::ItemEffects::Result::Drawn)
     {
         return;
@@ -7135,6 +7168,8 @@ void RenderPartObject(OBJECT* o, int Type, void* p2, vec3_t Light, float Alpha, 
         return;
     }
 
+    vec3_t dyeLight;
+    if (Render::ItemDye::Light(o, Type, Light, dyeLight)) Light = dyeLight;
     auto* p = (PART_t*)p2;
 
     Type = Render::Items::Display::GetDrawnModel(Type, ItemLevel);
@@ -7192,6 +7227,9 @@ void RenderPartObject(OBJECT* o, int Type, void* p2, vec3_t Light, float Alpha, 
         RenderPartObjectEdge(b, o, RENDER_BRIGHT, Translate, Scale - 0.02f);
     }
     BodyLight(o, b);
+    vec3_t dyedBodyLight;
+    if (Render::ItemDye::Light(o, Type, b->BodyLight, dyedBodyLight))
+        VectorCopy(dyedBodyLight, b->BodyLight);
 
     if (GlobalTransform)
     {

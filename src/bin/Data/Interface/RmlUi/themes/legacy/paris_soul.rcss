@@ -1,0 +1,174 @@
+/* OpenGL Soul System: centered above the HUD, original 800:577 aspect ratio. */
+@spritesheet soul-atlas { src: "../../../Paris_SoulAtlas48.tga";
+ soul-cursor-patch: 365px 110px 20px 37px; soul-column-0: 42px 94px 170px 421px; soul-orb-0: 92px 115px 68px 68px;
+ soul-column-1: 225px 94px 170px 421px; soul-orb-1: 275px 115px 68px 68px;
+ soul-column-2: 408px 94px 170px 421px; soul-orb-2: 458px 115px 68px 68px;
+ soul-column-3: 591px 94px 170px 421px; soul-orb-3: 641px 115px 68px 68px;
+}
+@spritesheet soul-art { src: "../../../Paris_SoulArt52.tga";
+ soul-tab-0: 64px 60px 182px 192px;
+ soul-tab-1: 312px 63px 154px 191px;
+ soul-tab-2: 544px 63px 181px 182px;
+ soul-tab-3: 775px 64px 201px 195px;
+ soul-tier-0-0: 45px 289px 193px 191px;
+ soul-tier-1-0: 297px 290px 191px 190px;
+ soul-tier-2-0: 540px 290px 193px 190px;
+ soul-tier-3-0: 787px 289px 193px 191px;
+ soul-tier-0-1: 45px 524px 192px 190px;
+ soul-tier-1-1: 296px 524px 192px 190px;
+ soul-tier-2-1: 540px 524px 193px 190px;
+ soul-tier-3-1: 787px 523px 194px 191px;
+ soul-tier-0-2: 44px 755px 192px 191px;
+ soul-tier-1-2: 296px 755px 192px 191px;
+ soul-tier-2-2: 540px 755px 193px 191px;
+ soul-tier-3-2: 787px 754px 194px 192px;
+}
+@spritesheet soul-buttons { src: "../../../Paris_RankingColorsV14.tga"; soul-red: 0px 0px 200px 56px; soul-gold: 0px 64px 200px 56px; soul-green: 0px 128px 200px 56px; }
+@spritesheet soul-frame { src: "../../../Paris_AuctionReference49.tga";
+ soul-tl: 6.0px 2.0px 14.0px 12.0px;
+ soul-t: 20.0px 2.0px 390.0px 12.0px;
+ soul-tr: 410.0px 2.0px 15.0px 12.0px;
+ soul-l: 6.0px 14.0px 14.0px 263.0px;
+ soul-r: 410.0px 14.0px 15.0px 263.0px;
+ soul-bl: 6.0px 277.0px 14.0px 15.0px;
+ soul-b: 20.0px 277.0px 390.0px 15.0px;
+ soul-br: 410.0px 277.0px 15.0px 15.0px;
+ soul-x: 398.5px 11px 18.5px 19.5px; }
+#panel.soul-panel { position: absolute; left: 50%; top: 2dp; margin-left: -285dp; width: 570dp; height: 411.1125dp; pointer-events: auto; background-color: #040504; font-family: "token(font-body)"; font-size: 6.75dp; color: #eedda8; }
+.soul-panel div, .soul-panel span { box-sizing: border-box; }
+.soul-frame { position: absolute; pointer-events: none; }
+.frame-tl, .frame-bl { left: 0; width: 2.75%; } .frame-tr, .frame-br { right: 0; width: 2.75%; }
+.frame-tl, .frame-t, .frame-tr { top: 0; height: 3.4662%; } .frame-bl, .frame-b, .frame-br { bottom: 0; height: 4.1594%; }
+.frame-t, .frame-b { left: 2.75%; width: 94.5%; } .frame-l, .frame-r { top: 3.4662%; height: 92.3744%; width: 2.75%; } .frame-l { left: 0; } .frame-r { right: 0; }
+.soul-close { position: absolute; left: 93.5%; top: 3.4662%; width: 3.5%; height: 4.8527%; decorator: image(soul-x); cursor: pointer; }
+.soul-title { position: absolute; left: 23.75%; top: 4.3328%; width: 52.5%; text-align: center; }
+.soul-tab { position: absolute; top: 9.5321%; width: 14.5%; height: 5.1993%; display: flex; align-items: center; justify-content: center; gap: 4dp; font-weight: bold; cursor: pointer; decorator: image(soul-gold); }
+.soul-tab.active { border-bottom: 1dp #e7bc59; } .soul-tab:hover { color: white; }
+.tab-icon { width: 13dp; height: 13dp; } .tab-0 { decorator: image(soul-red); } .tab-2 { decorator: image(soul-green); }
+.soul-remaining { position: absolute; left: 66.875%; top: 11.0919%; width: 30%; text-align: center; color: #eef0f4; }
+.soul-column { position: absolute; top: 16.2912%; width: 21.25%; height: 72.9636%; }
+.soul-column-back { position: absolute; width: 100%; height: 100%; }
+.soul-caption-mask { position: absolute; left: 1.7647%; top: 22.3278%; width: 96.4706%; height: 17.5772%; background-color: #061009; }
+.soul-orb { position: absolute; left: 28.8235%; top: 4.5131%; width: 40%; height: 16.152%; }
+.soul-name { position: absolute; top: 23.0404%; left: 1.7647%; width: 94.1176%; height: 5%; text-align: center; }
+.soul-benefit { position: absolute; top: 27.5534%; width: 100%; text-align: center; color: white; }
+.soul-rank-controls { position: absolute; left: 0; top: 32.5416%; width: 100%; height: 5.9382%; }
+.soul-rank-controls button { position: absolute; top: 0; height: 100%; padding: 0; border: 0; color: #f2ead8; font-size: 6.375dp; decorator: image(soul-red); }
+.rank-sub-ten { left: 5.2941%; width: 17.6471%; } .rank-sub-one { left: 25.2941%; width: 15.2941%; }
+.soul-rank { position: absolute; left: 42.3529%; width: 16.4706%; height: 100%; border: 1dp #6b5925; background-color: #050a07; display: flex; align-items: center; justify-content: center; }
+button.rank-add-one { left: 60.5882%; width: 15.2941%; decorator: image(soul-green); } button.rank-add-ten { left: 78.2353%; width: 17.6471%; decorator: image(soul-green); }
+.soul-panel button:disabled { opacity: .48; }
+.soul-meter { position: absolute; left: 47.0588%; top: 43.4679%; width: 5.2941%; height: 51.0689%; background-color: #060909; border: 1dp #63552c; }
+.soul-meter-fill { width: 50%; margin-left: 25%; background-color: #f2b83b; }
+.soul-tiers { position: absolute; left: 0; top: 43.4679%; width: 100%; height: 51.0689%; }
+
+.soul-tier { position: absolute; left: 0; width: 100%; height: 30dp; margin-top: -15dp; }
+.soul-tier-rank { position: absolute; left: 8.2353%; width: 30%; top: 10dp; text-align: center; color: white; background-color: #061009; }
+.soul-tier-art { position: absolute; left: 63.5294%; width: 24.7059%; height: 30dp; border: 1dp #75642c; opacity: .48; }
+.soul-tier.unlocked .soul-tier-art { opacity: 1; border-color: #f1d578; }
+.soul-lock { position: absolute; left: 70%; top: 8dp; width: 12%; text-align: center; color: #d8dee4; font-weight: bold; }
+.soul-status { position: absolute; left: 8.75%; top: 88.5615%; width: 82.5%; text-align: center; }
+.soul-panel > button { position: absolute; top: 91.6811%; height: 4.8527%; padding: 0; border: 0; color: #f4ead3; font-weight: bold; decorator: image(soul-gold); }
+button.soul-reset { left: 5.5%; width: 17.5%; decorator: image(soul-red); } button.soul-cancel { left: 51.875%; width: 13.5%; } button.soul-apply { left: 66.625%; width: 13.5%; decorator: image(soul-green); } button.soul-exit { left: 81.375%; width: 13.5%; decorator: image(soul-red); }
+.soul-confirm-overlay { position: absolute; left: 0; top: 0; width: 100%; height: 100%; background-color: #000000b0; }
+.soul-confirm { position: absolute; left: 21.25%; top: 45.0607%; width: 57.5%; height: 20.7972%; background-color: #0b0c09; border: 1dp #b8913b; padding: 12dp; text-align: center; }
+.soul-confirm button { width: 42%; margin: 14dp 3% 0; height: 22dp; padding: 0; border: 0; decorator: image(soul-gold); }
+.col-0 { left: 5.25%; } .col-0 .soul-column-back { decorator: image(soul-column-0); } .col-0 .soul-orb { decorator: image(soul-orb-0); } .tab-0 { left: 4.5%; } .tab-0 .tab-icon { decorator: image(soul-tab-0); }
+.col-0 .tier-0 .soul-tier-art { decorator: image(soul-tier-0-0); }
+.col-0 .tier-1 .soul-tier-art { decorator: image(soul-tier-0-1); }
+.col-0 .tier-2 .soul-tier-art { decorator: image(soul-tier-0-2); }
+.col-1 { left: 28.125%; } .col-1 .soul-column-back { decorator: image(soul-column-1); } .col-1 .soul-orb { decorator: image(soul-orb-1); } .tab-1 { left: 19.625%; } .tab-1 .tab-icon { decorator: image(soul-tab-1); }
+.col-1 .tier-0 .soul-tier-art { decorator: image(soul-tier-1-0); }
+.col-1 .tier-1 .soul-tier-art { decorator: image(soul-tier-1-1); }
+.col-1 .tier-2 .soul-tier-art { decorator: image(soul-tier-1-2); }
+.col-2 { left: 51.0%; } .col-2 .soul-column-back { decorator: image(soul-column-2); } .col-2 .soul-orb { decorator: image(soul-orb-2); } .tab-2 { left: 34.75%; } .tab-2 .tab-icon { decorator: image(soul-tab-2); }
+.col-2 .tier-0 .soul-tier-art { decorator: image(soul-tier-2-0); }
+.col-2 .tier-1 .soul-tier-art { decorator: image(soul-tier-2-1); }
+.col-2 .tier-2 .soul-tier-art { decorator: image(soul-tier-2-2); }
+.col-3 { left: 73.875%; } .col-3 .soul-column-back { decorator: image(soul-column-3); } .col-3 .soul-orb { decorator: image(soul-orb-3); } .tab-3 { left: 49.875%; } .tab-3 .tab-icon { decorator: image(soul-tab-3); }
+.col-3 .tier-0 .soul-tier-art { decorator: image(soul-tier-3-0); }
+.col-3 .tier-1 .soul-tier-art { decorator: image(soul-tier-3-1); }
+.col-3 .tier-2 .soul-tier-art { decorator: image(soul-tier-3-2); }
+.frame-tl { decorator: image(soul-tl); }
+.frame-t { decorator: image(soul-t); }
+.frame-tr { decorator: image(soul-tr); }
+.frame-l { decorator: image(soul-l); }
+.frame-r { decorator: image(soul-r); }
+.frame-bl { decorator: image(soul-bl); }
+.frame-b { decorator: image(soul-b); }
+.frame-br { decorator: image(soul-br); }
+
+.soul-label-mask { position: absolute; left: 8.2353%; top: 43.4679%; width: 30%; height: 52.4941%; background-color: #061009; }
+.soul-tier-mask { position: absolute; left: 60.5882%; top: 43.4679%; width: 38.2353%; height: 56.2945%; background-color: #040605; }
+.col-0 .soul-cursor-patch { position: absolute; left: 87.0588%; top: 3.8005%; width: 11.7647%; height: 8.7886%; decorator: image(soul-cursor-patch); }
+.soul-panel button { display: flex; align-items: center; justify-content: center; text-align: center; }
+
+.soul-lock { left: 72.3529%; top: 14dp; width: 8.55dp; height: 6.4125dp; border: 1px #aab1b5; background-color: #343a3e; }
+.soul-lock-shackle { position: absolute; left: 1.8dp; top: -4.3dp; width: 4.3dp; height: 4.3dp; border: 1px #aab1b5; border-bottom: 0; border-radius: 3dp 3dp 0 0; }
+.soul-lock-key { position: absolute; left: 3.2dp; top: 1.4dp; width: 1.4dp; height: 2.8dp; background-color: #040506; }
+
+.soul-tab { display: block; }
+.tab-icon { position: absolute; left: 12%; top: 3.5dp; }
+.soul-tab-label { position: absolute; left: 29%; top: 0; width: 67%; height: 100%; line-height: 21.375dp; text-align: center; }
+.soul-panel button, .soul-rank { display: block; position: absolute; }
+.soul-panel button > span, .soul-rank > span { position: absolute; left: 0; top: 0; width: 100%; height: 100%; text-align: center; line-height: 19.95dp; color: #f2ead8; font-size: 7dp; pointer-events: none; }
+.soul-rank-controls button > span, .soul-rank > span { line-height: 17.8125dp; }
+.soul-panel button:disabled > span { color: #888881; }
+
+/* Explicit block boxes: percentage height has no painted area on an inline div. */
+.soul-meter-fill { display: block; position: absolute; left: 25%; top: 0; width: 50%; margin-left: 0; }
+
+/* Orbital motes stay inside each illustration; the four artworks have their own motion and palette. */
+.soul-orb-effects { position: absolute; left: 28.8235%; top: 4.5131%; width: 40%; height: 16.152%; overflow: hidden; pointer-events: none; }
+.soul-orb-effects span { position: absolute; display: block; box-sizing: border-box; pointer-events: none; }
+.soul-aura { left: 10%; top: 10%; width: 80%; height: 80%; border-radius: 30dp; background-color: #51bfff15; animation: soul-pulse 2.4s infinite alternate; }
+.soul-ring { left: 13%; top: 13%; width: 74%; height: 74%; border-radius: 30dp; border-top: 1dp #8eeeff80; border-right: 1dp #66ccff20; animation: soul-spin 8s linear-in-out infinite; }
+.soul-ring-inner { left: 22%; top: 32%; width: 56%; height: 36%; border-radius: 30dp; border-bottom: 1dp #b9f4ff99; animation: soul-spin-back 5.3s linear-in-out infinite; }
+.soul-particle { left: 0; top: 0; width: 100%; height: 100%; animation: soul-spin 5.2s linear-in-out infinite; }
+.soul-particle .mote-halo { left: 74%; top: 42%; width: 8dp; height: 8dp; border-radius: 8dp; background-color: #53cfff20; }
+.soul-particle .mote-core { left: 79%; top: 47%; width: 2.2dp; height: 2.2dp; border-radius: 3dp; background-color: #e3fbff; }
+.soul-particle .mote-tail { left: 77%; top: 52%; width: 1.6dp; height: 4dp; border-radius: 3dp; background-color: #6bd7ff90; }
+.soul-particle .mote-tail-two { left: 73%; top: 60%; width: 1.3dp; height: 3dp; border-radius: 3dp; background-color: #5bcfff45; }
+.soul-particle.p1 { animation: soul-spin 5.2s linear-in-out infinite -1.7s; }
+.soul-particle.p2 { animation: soul-spin 5.2s linear-in-out infinite -3.4s; }
+.soul-particle.p3 { left: 16%; top: 16%; width: 68%; height: 68%; animation: soul-spin-back 3.7s linear-in-out infinite; }
+.soul-particle.p4 { left: 16%; top: 16%; width: 68%; height: 68%; animation: soul-spin-back 3.7s linear-in-out infinite -1.8s; }
+.soul-particle.p5 { left: 29%; top: 29%; width: 42%; height: 42%; animation: soul-spin 2.8s linear-in-out infinite -0.7s; }
+.soul-particle.p6 { left: 29%; top: 29%; width: 42%; height: 42%; animation: soul-spin 2.8s linear-in-out infinite -2.1s; }
+.col-1 .soul-aura { background-color: #ffcf4b1c; animation: soul-pulse 1.8s infinite alternate; }
+.col-1 .soul-ring { border-top-color: #ffe599a0; border-right-color: #ffbf4420; animation: soul-spin-back 10s linear-in-out infinite; }
+.col-1 .soul-ring-inner { border-bottom-color: #fff3b5b0; }
+.col-1 .mote-halo { background-color: #ffb83228; }
+.col-1 .mote-core { background-color: #fff7d0; }
+.col-1 .mote-tail { background-color: #ffd65caa; }
+.col-1 .mote-tail-two { background-color: #ffad3545; }
+.col-2 .soul-ring { left: 8%; top: 25%; width: 84%; height: 50%; animation: soul-spin 3.5s linear-in-out infinite; border-top-color: #deffffaa; }
+.col-2 .soul-ring-inner { animation: soul-spin-back 2.7s linear-in-out infinite; border-bottom-color: #a3e6ffb0; }
+.col-2 .soul-particle.p0 { animation: soul-spin 2.60s linear-in-out infinite -0.00s; }
+.col-2 .soul-particle.p1 { animation: soul-spin-back 2.77s linear-in-out infinite -0.47s; }
+.col-2 .soul-particle.p2 { animation: soul-spin 2.94s linear-in-out infinite -0.94s; }
+.col-2 .soul-particle.p3 { animation: soul-spin-back 3.11s linear-in-out infinite -1.41s; }
+.col-2 .soul-particle.p4 { animation: soul-spin 3.28s linear-in-out infinite -1.88s; }
+.col-2 .soul-particle.p5 { animation: soul-spin-back 3.45s linear-in-out infinite -2.35s; }
+.col-2 .soul-particle.p6 { animation: soul-spin 3.62s linear-in-out infinite -2.82s; }
+.col-2 .mote-core { background-color: #ffffff; }
+.col-2 .mote-tail { height: 6dp; background-color: #b7efffaa; }
+.col-2 .mote-halo { background-color: #d0f5ff25; }
+.col-3 .soul-aura { background-color: #ff621c28; animation: soul-pulse 0.9s infinite alternate; }
+.col-3 .soul-ring { border-top-color: #ffac4890; border-right-color: #ff632b30; animation: soul-spin-back 5s linear-in-out infinite; }
+.col-3 .soul-ring-inner { border-bottom-color: #ffcf6a99; }
+.col-3 .soul-particle { left: 0; top: 0; width: 100%; height: 100%; animation: soul-ember 2.7s linear-in-out infinite; }
+.col-3 .soul-particle.p1 { left: -16%; animation: soul-ember 2.3s linear-in-out infinite -0.4s; }
+.col-3 .soul-particle.p2 { left: 14%; animation: soul-ember 3.1s linear-in-out infinite -0.9s; }
+.col-3 .soul-particle.p3 { left: -28%; animation: soul-ember 2.6s linear-in-out infinite -1.5s; }
+.col-3 .soul-particle.p4 { left: 26%; animation: soul-ember 2.2s linear-in-out infinite -1.8s; }
+.col-3 .soul-particle.p5 { left: -8%; animation: soul-ember 3.2s linear-in-out infinite -2.3s; }
+.col-3 .soul-particle.p6 { left: 8%; animation: soul-ember 2.8s linear-in-out infinite -0.2s; }
+.col-3 .mote-halo { left: 42%; top: 66%; background-color: #ff681e38; }
+.col-3 .mote-core { left: 47%; top: 71%; background-color: #fff0a0; }
+.col-3 .mote-tail { left: 47%; top: 76%; height: 6dp; background-color: #ff8a35a0; }
+.col-3 .mote-tail-two { left: 46%; top: 87%; background-color: #ff4c2445; }
+@keyframes soul-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes soul-spin-back { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
+@keyframes soul-pulse { from { opacity: 0.45; } to { opacity: 1; } }
+@keyframes soul-ember { 0% { transform: translate(-2dp, 3dp); opacity: 0; } 20% { opacity: 1; } 55% { transform: translate(3dp, -12dp); opacity: 0.9; } 100% { transform: translate(-1dp, -28dp); opacity: 0; } }

@@ -6,9 +6,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
-#include "GameLogic/Items/SmallCape.h"
-#include "World/Monsters/CustomMonsterModels.h"
-#include "Render/Models/CustomMonsterColorRenderer.h"
+#include "Render/Terrain/GrassBurn.h"
+#include "UI/SocialMusic/SocialMusic.h"
 #include <execution>
 #include <algorithm>
 #include <span>
@@ -17,7 +16,7 @@
 #ifdef _WIN32
 #include <eh.h>
 #endif
-#include "UI/Legacy/UIManager.h"
+#include "UI/Core/UIManager.h"
 #include "Guild/GuildCache.h"
 #include "Render/Textures/ZzzOpenglUtil.h"
 #include "Render/Renderer/MuRenderer.h"
@@ -43,6 +42,9 @@
 #include "Engine/Physics/PhysicsManager.h"
 #include "Engine/AI/GOBoid.h"
 #include "GameLogic/Items/CSItemOption.h"
+#include "GameLogic/Items/SmallCape.h"
+#include "World/Monsters/CustomMonsterModels.h"
+#include "Render/Models/CustomMonsterColorRenderer.h"
 
 // Phase 5: Camera system includes for 3D frustum culling
 #include "Camera/CameraManager.h"
@@ -61,22 +63,25 @@ static bool s_bShowCharacterPickBoxes = false;
 
 namespace
 {
-    bool IsGameMasterCharacterModel(const OBJECT* object);
+    bool UsesGameMasterAppearance(const OBJECT& object)
+    {
+        const bool characterKind = object.Kind == KIND_PLAYER || object.Kind == KIND_NPC;
+        return characterKind && object.Type == MODEL_PLAYER && object.SubType == MODEL_GM_CHARACTER;
+    }
+
     void CreateSmallCapeDlCloth(CPhysicsCloth& cloth, OBJECT* owner)
     {
-        constexpr int kCapeBone = 19;
-        constexpr int kCapeColumns = 6;
-        constexpr int kCapeRows = 8;
-        constexpr float kCapeWidth = 100.0f;
-        constexpr float kCapeHeight = 150.0f;
-        constexpr int kCollisionBone = 17;
-        // Preserve approximately 20-unit cloth links at the smaller cape width.
-        cloth.Create(owner, kCapeBone, 0.0f, 8.0f, 10.0f, kCapeColumns, kCapeRows, kCapeWidth, kCapeHeight,
-            GameLogic::Items::SmallCapeTexture, GameLogic::Items::SmallCapeTexture, PCT_CURVED | PCT_SHORT_SHOULDER | PCT_MASK_ALPHA);
-        cloth.AddCollisionSphere(-10.f, -10.0f, -10.0f, 25.0f, kCollisionBone);
-        cloth.AddCollisionSphere(10.f, -10.0f, -10.0f, 25.0f, kCollisionBone);
-        cloth.AddCollisionSphere(-10.f, -10.0f, 20.0f, 27.0f, kCollisionBone);
-        cloth.AddCollisionSphere(10.f, -10.0f, 20.0f, 27.0f, kCollisionBone);
+        constexpr int CapeBone = 19;
+        constexpr int CapeColumns = 6;
+        constexpr int CapeRows = 8;
+        constexpr int CollisionBone = 17;
+        cloth.Create(owner, CapeBone, 0.0f, 8.0f, 10.0f, CapeColumns, CapeRows, 100.0f, 150.0f,
+            GameLogic::Items::SmallCapeTexture, GameLogic::Items::SmallCapeTexture,
+            PCT_CURVED | PCT_SHORT_SHOULDER | PCT_MASK_ALPHA);
+        cloth.AddCollisionSphere(-10.f, -10.0f, -10.0f, 25.0f, CollisionBone);
+        cloth.AddCollisionSphere(10.f, -10.0f, -10.0f, 25.0f, CollisionBone);
+        cloth.AddCollisionSphere(-10.f, -10.0f, 20.0f, 27.0f, CollisionBone);
+        cloth.AddCollisionSphere(10.f, -10.0f, 20.0f, 27.0f, CollisionBone);
     }
 
     // Character selection screen: generous axis-aligned pick box dimensions.
@@ -150,7 +155,8 @@ namespace
 #include "World/MapInfra/w_MapHeaders.h"
 #include "GameLogic/Combat/DuelMgr.h"
 #include "GameLogic/Social/MonkSystem.h"
-#include "UI/NewUI/NewUISystem.h"
+#include "UI/Core/WindowSystem.h"
+#include "Render/Lighting/LightMoodSetting.h"
 
 CHARACTER* CharactersClient;
 CHARACTER CharacterView;
@@ -697,7 +703,7 @@ void SetPlayerWalk(CHARACTER* c)
                             else
                                 SetAction(&c->Object, PLAYER_WALK_SCYTHE);
                         }
-                        else if (c->Weapon[0].Type == MODEL__SPEAR || c->Weapon[0].Type == MODEL_DRAGON_LANCE + MAX_ITEM_INDEX)
+                        else if (c->Weapon[0].Type == MODEL__SPEAR || c->Weapon[0].Type == MODEL_DRAGON_LANCE)
                             SetAction(&c->Object, PLAYER_WALK_SPEAR);
                         else if (c->Weapon[0].Type >= MODEL_SPEAR && c->Weapon[0].Type < MODEL_SPEAR + MAX_ITEM_INDEX)
                             SetAction(&c->Object, PLAYER_WALK_SCYTHE);
@@ -4503,6 +4509,7 @@ void MoveCharacter(CHARACTER* c, OBJECT* o)
             Position[0] = (float)(c->SkillX + 0.5f) * TERRAIN_SCALE;
             Position[1] = (float)(c->SkillY + 0.5f) * TERRAIN_SCALE;
             Position[2] = RequestTerrainHeight(Position[0], Position[1]);
+            Render::Terrain::GrassBurn::Ignite(Position[0], Position[1]);
             CreateEffect(BITMAP_FLAME, Position, o->Angle, o->Light, 0, o, o->PKKey, FindHotKey(AT_SKILL_FLAME));
 
             if (c == Hero)
@@ -6495,6 +6502,7 @@ void MoveCharacterClient(CHARACTER* cc)
 
 void MoveCharactersClient()
 {
+    UI::SocialMusic::Update();
     for (int i = 0; i < TERRAIN_SIZE * TERRAIN_SIZE; i++)
     {
         if ((TerrainWall[i] & TW_CHARACTER) == TW_CHARACTER) TerrainWall[i] -= TW_CHARACTER;
@@ -8424,7 +8432,7 @@ void RenderLinkObject(float x, float y, float z, CHARACTER* c, PART_t* f, int Ty
     }
 
     if (gMapManager.WorldActive != WD_10HEAVEN && gMapManager.InHellas() == FALSE &&
-        !g_Direction.m_CKanturu.IsMayaScene() && !IsWingShadowDisabledDebug()) // DXP-23 diagnostic
+        !g_Direction.m_CKanturu.IsMayaScene() && !IsWingShadowDisabledDebug())
     {
         switch (Type)        // 날개인지 검사
         {
@@ -9273,7 +9281,8 @@ void RenderCharacter(CHARACTER* c, OBJECT* o, int Select)
     }
     else
     {
-        RequestTerrainLight(o->Position[0], o->Position[1], Light);
+        RequestModelTerrainLight(o->Position[0], o->Position[1], Light);
+        Render::Lighting::LightMood::CorrectFigureTerrainLight(o->Position[0], o->Position[1], Light);
     }
 
     VectorAdd(Light, o->Light, c->Light);
@@ -9359,7 +9368,7 @@ void RenderCharacter(CHARACTER* c, OBJECT* o, int Select)
             VectorAdd(Light, o->Light, c->Light);
         }
         else
-            VectorCopy(AbilityLight, c->Light);
+            Render::Lighting::LightMood::ScaleOwnHeroLight(o->Position[0], o->Position[1], AbilityLight, c->Light);
     }
 
     if (o->Kind == KIND_NPC && gMapManager.WorldActive == WD_0LORENCIA && o->Type == MODEL_PLAYER && (o->SubType >= MODEL_SKELETON1 && o->SubType <= MODEL_SKELETON3))
@@ -9455,7 +9464,7 @@ void RenderCharacter(CHARACTER* c, OBJECT* o, int Select)
             RenderParts(c);
         }
     }
-    else if (IsGameMasterCharacterModel(o))
+    else if (UsesGameMasterAppearance(*o))
     {
         RenderPartObject(&c->Object, o->SubType, NULL, c->Light, o->Alpha, 0, 0, 0, false, false, Translate, Select);
 
@@ -9745,9 +9754,7 @@ void RenderCharacter(CHARACTER* c, OBJECT* o, int Select)
                     pCloth[2].AddCollisionSphere(10.f, -10.0f, 20.0f, 27.0f, 17);
                 }
                 else if (c->Wing.Type == MODEL_SMALL_CAPE_OF_LORD)
-                {
                     CreateSmallCapeDlCloth(pCloth[2], o);
-                }
                 else
                 {
                     //
@@ -11403,8 +11410,6 @@ void RenderCharacter(CHARACTER* c, OBJECT* o, int Select)
     }
     }
 
-    Render::Models::CustomMonsterColor::Render(c);
-
     if (SceneFlag == MAIN_SCENE)
     {
         if ((o->Kind == KIND_PLAYER
@@ -11416,6 +11421,7 @@ void RenderCharacter(CHARACTER* c, OBJECT* o, int Select)
         }
     }
 
+    Render::Models::CustomMonsterColor::Render(c);
     giPetManager::RenderPet(c);
 
     if (gCharacterManager.GetBaseClass(c->Class) == CLASS_SUMMONER)
@@ -11432,7 +11438,11 @@ void RenderCharactersClient()
 #endif
 
     WaitCharactersAnimation();
+    UI::SocialMusic::PrepareCharacterPose();
 
+    // Characters keep their Classic look with post-processing on: their bodies,
+    // equipment, wings and glow parts never feed the bloom.
+    const mu::ScopedBloomExclusion classicCharacters;
     for (int i = 0; i < MAX_CHARACTERS_CLIENT; ++i)
     {
         CHARACTER* c = &CharactersClient[i];
@@ -13041,12 +13051,6 @@ extern int HeroIndex;
 
 namespace
 {
-    bool IsGameMasterCharacterModel(const OBJECT* object)
-    {
-        return (object->Kind == KIND_PLAYER || object->Kind == KIND_NPC)
-            && object->Type == MODEL_PLAYER && object->SubType == MODEL_GM_CHARACTER;
-    }
-
     bool IsForcedNpcMonsterType(EMonsterType type)
     {
         const int rawType = static_cast<int>(type);
@@ -13057,7 +13061,7 @@ namespace
         case 375:
         case 376:
         case 377:
-        case MONSTER_GAMEMASTER:
+        case 378:
         case 379:
         case 380:
         case 381:
@@ -13193,22 +13197,17 @@ void Setting_Monster(CHARACTER* c, EMonsterType Type, int PositionX, int Positio
     }
 }
 
-namespace
-{
-    CHARACTER* TryCreateConfiguredMonster(EMonsterType type, int x, int y, int key)
-    {
-        const auto* definition = World::Monsters::Custom::Find(static_cast<int>(type));
-        if (!definition) return nullptr;
-        auto* character = World::Monsters::Custom::Create(*definition, x, y, key);
-        if (!character) return nullptr;
-        Setting_Monster(character, type, x, y);
-        World::Monsters::Custom::Configure(*definition, character);
-        return character;
-    }
-}
 CHARACTER* CreateMonster(EMonsterType Type, int PositionX, int PositionY, int Key)
 {
-    if (auto* custom = TryCreateConfiguredMonster(Type, PositionX, PositionY, Key)) return custom;
+    if (const auto* definition = World::Monsters::Custom::Find(static_cast<int>(Type)))
+    {
+        CHARACTER* custom = World::Monsters::Custom::Create(*definition, PositionX, PositionY, Key);
+        if (custom == nullptr) return nullptr;
+        Setting_Monster(custom, Type, PositionX, PositionY);
+        World::Monsters::Custom::Configure(*definition, custom);
+        return custom;
+    }
+
     CHARACTER* c = NULL;
     OBJECT* o;
     int Level;
@@ -15299,6 +15298,7 @@ bool RenderCharacterBackItem(CHARACTER* c, OBJECT* o, bool bTranslate)
 
         for (int i = 0; i < 2; ++i)
         {
+            if (c == Hero && UI::SocialMusic::HasInstrument()) continue;
             int iType = c->Weapon[i].Type;
             int iLevel = c->Weapon[i].Level;
             int iOption1 = c->Weapon[i].ExcellentFlags;

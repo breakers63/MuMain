@@ -55,6 +55,14 @@ enum class AdvancedStatsField : int
     WindDamageBonus,
     WaterDamageBonus,
     HasDoubleWield,
+    DamageIncrease,
+    DefensePvm,
+    CriticalResistance,
+    ExcellentResistance,
+    DoubleResistance,
+    StunResistance,
+    MaximumHealth,
+    MaximumMana,
     Count,
 };
 }

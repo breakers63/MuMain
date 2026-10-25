@@ -1,0 +1,69 @@
+diff --git a/Source/Core/Elements/WidgetSlider.cpp b/Source/Core/Elements/WidgetSlider.cpp
+index 0a01d4a2..3b174b44 100644
+--- a/Source/Core/Elements/WidgetSlider.cpp
++++ b/Source/Core/Elements/WidgetSlider.cpp
+@@ -105,6 +105,11 @@ bool WidgetSlider::Initialise()
+ 
+ void WidgetSlider::Update()
+ {
++	// A bound custom property can resize the internal thumb without resizing
++	// the input. Internal elements do not participate in normal document layout.
++	if (bar && parent->GetBox().GetSize().x > 0 && parent->GetBox().GetSize().y > 0 && FormatBar())
++		ResizeProgress();
++
+ 	if (!std::any_of(std::begin(arrow_timers), std::end(arrow_timers), [](float timer) { return timer > 0; }))
+ 		return;
+ 
+@@ -293,6 +298,7 @@ void WidgetSlider::FormatElements(const Vector2f containing_block, float slider_
+ 	}
+ 
+ 	FormatBar();
++	PositionBar();
+ 	FormatProgress();
+ 
+ 	if (parent->IsDisabled())
+@@ -306,7 +312,7 @@ void WidgetSlider::FormatElements(const Vector2f containing_block, float slider_
+ 	}
+ }
+ 
+-void WidgetSlider::FormatBar()
++bool WidgetSlider::FormatBar()
+ {
+ 	Box bar_box;
+ 	ElementUtilities::BuildBox(bar_box, parent->GetBox().GetSize(), bar);
+@@ -321,10 +327,13 @@ void WidgetSlider::FormatBar()
+ 
+ 	// Set the new dimensions on the bar to re-decorate it.
+ 	bar_box.SetContent(bar_box_content);
++	if (bar_box == bar->GetBox())
++		return false;
+ 	bar->SetBox(bar_box);
+ 
+ 	// Now that it's been resized, re-position it.
+ 	PositionBar();
++	return true;
+ }
+ 
+ void WidgetSlider::FormatProgress()
+diff --git a/Source/Core/Elements/WidgetSlider.h b/Source/Core/Elements/WidgetSlider.h
+index ae7393ca..b0e2ecd7 100644
+--- a/Source/Core/Elements/WidgetSlider.h
++++ b/Source/Core/Elements/WidgetSlider.h
+@@ -20,7 +20,7 @@ public:
+ 	/// Initialises the slider's hidden elements.
+ 	bool Initialise();
+ 
+-	/// Updates the key repeats for the increment / decrement arrows.
++	/// Updates thumb geometry and key repeats for the increment / decrement arrows.
+ 	void Update();
+ 
+ 	/// Sets the position of the bar.
+@@ -59,7 +59,7 @@ private:
+ 	/// @param[in] slider_length The total length, in pixels, of the slider widget.
+ 	void FormatElements(Vector2f containing_block, float slider_length);
+ 	/// Lays out and positions the bar element.
+-	void FormatBar();
++	bool FormatBar();
+ 
+ 	/// Lays out and positions the progress element.
+ 	void FormatProgress();

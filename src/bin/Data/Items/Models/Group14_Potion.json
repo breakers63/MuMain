@@ -5,9 +5,14 @@
     {
       "number": 0,
       "file": "Data/Item/Potion01.bmd",
-      "textureFolders": ["Item"],
+      "textureFolders": [
+        "Item"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
+        "anchor": [
+          0.5,
+          0.95
+        ],
         "scale": 0.0035
       },
       "itemEffect": "potion"
@@ -15,9 +20,14 @@
     {
       "number": 1,
       "file": "Data/Item/Potion02.bmd",
-      "textureFolders": ["Item"],
+      "textureFolders": [
+        "Item"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
+        "anchor": [
+          0.5,
+          0.95
+        ],
         "scale": 0.0035
       },
       "itemEffect": "potion"
@@ -25,9 +35,14 @@
     {
       "number": 2,
       "file": "Data/Item/Potion03.bmd",
-      "textureFolders": ["Item"],
+      "textureFolders": [
+        "Item"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
+        "anchor": [
+          0.5,
+          0.95
+        ],
         "scale": 0.0035
       },
       "itemEffect": "potion"
@@ -35,9 +50,14 @@
     {
       "number": 3,
       "file": "Data/Item/Potion04.bmd",
-      "textureFolders": ["Item"],
+      "textureFolders": [
+        "Item"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
+        "anchor": [
+          0.5,
+          0.95
+        ],
         "scale": 0.0035
       },
       "itemEffect": "potion"
@@ -45,9 +65,14 @@
     {
       "number": 4,
       "file": "Data/Item/Potion05.bmd",
-      "textureFolders": ["Item"],
+      "textureFolders": [
+        "Item"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
+        "anchor": [
+          0.5,
+          0.95
+        ],
         "scale": 0.0035
       },
       "itemEffect": "potion"
@@ -55,9 +80,14 @@
     {
       "number": 5,
       "file": "Data/Item/Potion06.bmd",
-      "textureFolders": ["Item"],
+      "textureFolders": [
+        "Item"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
+        "anchor": [
+          0.5,
+          0.95
+        ],
         "scale": 0.0035
       },
       "itemEffect": "potion"
@@ -65,9 +95,14 @@
     {
       "number": 6,
       "file": "Data/Item/Potion07.bmd",
-      "textureFolders": ["Item"],
+      "textureFolders": [
+        "Item"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
+        "anchor": [
+          0.5,
+          0.95
+        ],
         "scale": 0.0035
       },
       "itemEffect": "potion"
@@ -75,9 +110,14 @@
     {
       "number": 7,
       "file": "Data/Item/SpecialPotion.bmd",
-      "textureFolders": ["Item"],
+      "textureFolders": [
+        "Item"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.5]
+        "anchor": [
+          0.5,
+          0.5
+        ]
       },
       "renderStyle": "siegePotion",
       "itemEffect": "hiddenMeshByLevel"
@@ -85,46 +125,75 @@
     {
       "number": 8,
       "file": "Data/Item/Antidote01.bmd",
-      "textureFolders": ["Item"],
+      "textureFolders": [
+        "Item"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
+        "anchor": [
+          0.5,
+          0.95
+        ],
         "scale": 0.0035
       }
     },
     {
       "number": 9,
       "file": "Data/Item/Beer01.bmd",
-      "textureFolders": ["Item"],
+      "textureFolders": [
+        "Item"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
+        "anchor": [
+          0.5,
+          0.95
+        ],
         "scale": 0.0035
       }
     },
     {
       "number": 10,
       "file": "Data/Item/Scroll01.bmd",
-      "textureFolders": ["Item"],
+      "textureFolders": [
+        "Item"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
+        "anchor": [
+          0.5,
+          0.95
+        ],
         "scale": 0.0035
       }
     },
     {
       "number": 11,
       "file": "Data/Item/MagicBox01.bmd",
-      "textureFolders": ["Item"],
+      "textureFolders": [
+        "Item"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
+        "anchor": [
+          0.5,
+          0.95
+        ],
         "scale": 0.0035
       }
     },
     {
       "number": 12,
       "file": "Data/Item/Event01.bmd",
-      "textureFolders": ["Item"],
+      "textureFolders": [
+        "Item"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.5],
-        "rotation": [270, 90, 0],
+        "anchor": [
+          0.5,
+          0.5
+        ],
+        "rotation": [
+          270,
+          90,
+          0
+        ],
         "scale": 0.0035
       },
       "glow": {
@@ -135,8 +204,14 @@
       "number": 13,
       "model": "jewelOfBless",
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0.005, 0.015],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0.005,
+          0.015
+        ],
         "scale": 0.0035
       },
       "glow": {
@@ -147,8 +222,14 @@
       "number": 14,
       "model": "jewelOfSoul",
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0.005, 0.015],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0.005,
+          0.015
+        ],
         "scale": 0.0035
       },
       "glow": {
@@ -158,9 +239,14 @@
     {
       "number": 15,
       "file": "Data/Item/Gold01.bmd",
-      "textureFolders": ["Item"],
+      "textureFolders": [
+        "Item"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
+        "anchor": [
+          0.5,
+          0.95
+        ],
         "scale": 0.0035
       },
       "glow": {
@@ -171,11 +257,18 @@
       "number": 16,
       "model": "jewelOfLife",
       "inventory": {
-        "anchor": [0.5, 0.95],
+        "anchor": [
+          0.5,
+          0.95
+        ],
         "scale": 0.0035
       },
       "ground": {
-        "rotation": [270, 0, 45]
+        "rotation": [
+          270,
+          0,
+          45
+        ]
       },
       "glow": {
         "level": 8
@@ -184,62 +277,153 @@
     {
       "number": 17,
       "file": "Data/Item/Devil00.bmd",
-      "textureFolders": ["Item"],
+      "textureFolders": [
+        "Item"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.5],
+        "anchor": [
+          0.5,
+          0.5
+        ],
         "scale": 0.0035
       },
       "ground": {
-        "rotation": [90, 0, -45]
+        "rotation": [
+          90,
+          0,
+          -45
+        ]
       },
       "glow": {
-        "level": [0, 1, 2, 3, 4, 5, 6, 13, 13, 13, 13, 13, 13, 13, 13, 13]
+        "level": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          13,
+          13,
+          13,
+          13,
+          13,
+          13,
+          13,
+          13,
+          13
+        ]
       },
       "itemEffect": "devilsEye"
     },
     {
       "number": 18,
       "file": "Data/Item/Devil01.bmd",
-      "textureFolders": ["Item"],
+      "textureFolders": [
+        "Item"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.5],
+        "anchor": [
+          0.5,
+          0.5
+        ],
         "scale": 0.0035
       },
       "ground": {
-        "rotation": [270, 0, 270]
+        "rotation": [
+          270,
+          0,
+          270
+        ]
       },
       "glow": {
-        "level": [0, 1, 2, 3, 4, 5, 6, 13, 13, 13, 13, 13, 13, 13, 13, 13]
+        "level": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          13,
+          13,
+          13,
+          13,
+          13,
+          13,
+          13,
+          13,
+          13
+        ]
       },
       "itemEffect": "devilsKey"
     },
     {
       "number": 19,
       "file": "Data/Item/Devil02.bmd",
-      "textureFolders": ["Item"],
+      "textureFolders": [
+        "Item"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.5],
+        "anchor": [
+          0.5,
+          0.5
+        ],
         "scale": 0.0035
       },
       "ground": {
-        "rotation": [270, 0, 90]
+        "rotation": [
+          270,
+          0,
+          90
+        ]
       },
       "glow": {
-        "level": [0, 1, 2, 3, 4, 5, 6, 13, 13, 13, 13, 13, 13, 13, 13, 13]
+        "level": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          13,
+          13,
+          13,
+          13,
+          13,
+          13,
+          13,
+          13,
+          13
+        ]
       },
       "itemEffect": "devilsInvitation"
     },
     {
       "number": 20,
       "file": "Data/Item/Drink00.bmd",
-      "textureFolders": ["Item"],
+      "textureFolders": [
+        "Item"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "rotation": [270, 0, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "rotation": [
+          270,
+          0,
+          0
+        ],
         "scale": 0.0035
       },
       "ground": {
-        "rotation": [0, 0, 45]
+        "rotation": [
+          0,
+          0,
+          45
+        ]
       },
       "glow": {
         "level": 9
@@ -248,14 +432,26 @@
     {
       "number": 21,
       "file": "Data/Item/ConChip00.bmd",
-      "textureFolders": ["Item"],
+      "textureFolders": [
+        "Item"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.5],
-        "offset": [0.005, -0.005],
+        "anchor": [
+          0.5,
+          0.5
+        ],
+        "offset": [
+          0.005,
+          -0.005
+        ],
         "scale": 0.002
       },
       "ground": {
-        "rotation": [270, 0, 90]
+        "rotation": [
+          270,
+          0,
+          90
+        ]
       },
       "itemEffect": "rena"
     },
@@ -263,8 +459,14 @@
       "number": 22,
       "model": "jewelOfCreation",
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0.005, 0.015]
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0.005,
+          0.015
+        ]
       },
       "glow": {
         "level": 8
@@ -273,35 +475,62 @@
     {
       "number": 23,
       "file": "Data/Item/Quest00.bmd",
-      "textureFolders": ["Item"],
+      "textureFolders": [
+        "Item"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95]
+        "anchor": [
+          0.5,
+          0.95
+        ]
       },
       "ground": {
-        "rotation": [0, 45, 45]
+        "rotation": [
+          0,
+          45,
+          45
+        ]
       }
     },
     {
       "number": 24,
       "file": "Data/Item/Quest01.bmd",
-      "textureFolders": ["Item"],
+      "textureFolders": [
+        "Item"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95]
+        "anchor": [
+          0.5,
+          0.95
+        ]
       },
       "ground": {
-        "rotation": [0, 0, 45]
+        "rotation": [
+          0,
+          0,
+          45
+        ]
       }
     },
     {
       "number": 25,
       "file": "Data/Item/Quest02.bmd",
-      "textureFolders": ["Item"],
+      "textureFolders": [
+        "Item"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.9],
+        "anchor": [
+          0.5,
+          0.9
+        ],
         "scale": 0.0028
       },
       "ground": {
-        "rotation": [0, 0, 45]
+        "rotation": [
+          0,
+          0,
+          45
+        ]
       },
       "glow": {
         "level": 8,
@@ -311,13 +540,22 @@
     {
       "number": 26,
       "file": "Data/Item/Quest03.bmd",
-      "textureFolders": ["Item"],
+      "textureFolders": [
+        "Item"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.9],
+        "anchor": [
+          0.5,
+          0.9
+        ],
         "scale": 0.0028
       },
       "ground": {
-        "rotation": [0, 0, 45]
+        "rotation": [
+          0,
+          0,
+          45
+        ]
       },
       "glow": {
         "level": 8,
@@ -327,10 +565,19 @@
     {
       "number": 27,
       "file": "Data/Item/godesteel.bmd",
-      "textureFolders": ["Item"],
+      "textureFolders": [
+        "Item"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "rotation": [270, 0, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "rotation": [
+          270,
+          0,
+          0
+        ],
         "scale": 0.0035
       },
       "itemEffect": "meshesPerLevel"
@@ -338,9 +585,14 @@
     {
       "number": 28,
       "file": "Data/Item/HELLASITEM00.bmd",
-      "textureFolders": ["Item"],
+      "textureFolders": [
+        "Item"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
+        "anchor": [
+          0.5,
+          0.95
+        ],
         "scale": 0.0035
       },
       "renderStyle": "lostMap"
@@ -348,13 +600,22 @@
     {
       "number": 29,
       "file": "Data/Item/HELLASITEM01.bmd",
-      "textureFolders": ["Item"],
+      "textureFolders": [
+        "Item"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
+        "anchor": [
+          0.5,
+          0.95
+        ],
         "scale": 0.0035
       },
       "ground": {
-        "rotation": [90, 0, 70]
+        "rotation": [
+          90,
+          0,
+          70
+        ]
       },
       "renderStyle": "symbolOfKundun"
     },
@@ -362,7 +623,10 @@
       "number": 31,
       "model": "jewelOfGuardian",
       "inventory": {
-        "anchor": [0.5, 0.5],
+        "anchor": [
+          0.5,
+          0.5
+        ],
         "scale": 0.0035
       },
       "glow": {
@@ -372,99 +636,177 @@
     {
       "number": 32,
       "file": "Data/Item/giftbox_bp.bmd",
-      "textureFolders": ["Item"],
+      "textureFolders": [
+        "Item"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0, 0.05],
-        "rotation": [0, -10, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0,
+          0.05
+        ],
+        "rotation": [
+          0,
+          -10,
+          0
+        ],
         "scale": 0.002
       },
       "ground": {
-        "rotation": [0, 0, 90],
+        "rotation": [
+          0,
+          0,
+          90
+        ],
         "scale": 0.7
       }
     },
     {
       "number": 33,
       "file": "Data/Item/giftbox_br.bmd",
-      "textureFolders": ["Item"],
+      "textureFolders": [
+        "Item"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0, 0.05],
-        "rotation": [0, -10, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0,
+          0.05
+        ],
+        "rotation": [
+          0,
+          -10,
+          0
+        ],
         "scale": 0.002
       },
       "ground": {
-        "rotation": [0, 0, 90],
+        "rotation": [
+          0,
+          0,
+          90
+        ],
         "scale": 0.7
       }
     },
     {
       "number": 34,
       "file": "Data/Item/giftbox_bb.bmd",
-      "textureFolders": ["Item"],
+      "textureFolders": [
+        "Item"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0, 0.05],
-        "rotation": [0, -10, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0,
+          0.05
+        ],
+        "rotation": [
+          0,
+          -10,
+          0
+        ],
         "scale": 0.002
       },
       "ground": {
-        "rotation": [0, 0, 90],
+        "rotation": [
+          0,
+          0,
+          90
+        ],
         "scale": 0.7
       }
     },
     {
       "number": 35,
       "file": "Data/Item/sdwater01.bmd",
-      "textureFolders": ["Item"],
+      "textureFolders": [
+        "Item"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
+        "anchor": [
+          0.5,
+          0.95
+        ],
         "scale": 0.0035
       }
     },
     {
       "number": 36,
       "file": "Data/Item/sdwater02.bmd",
-      "textureFolders": ["Item"],
+      "textureFolders": [
+        "Item"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
+        "anchor": [
+          0.5,
+          0.95
+        ],
         "scale": 0.0035
       }
     },
     {
       "number": 37,
       "file": "Data/Item/sdwater03.bmd",
-      "textureFolders": ["Item"],
+      "textureFolders": [
+        "Item"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
+        "anchor": [
+          0.5,
+          0.95
+        ],
         "scale": 0.0035
       }
     },
     {
       "number": 38,
       "file": "Data/Item/megawater01.bmd",
-      "textureFolders": ["Item"],
+      "textureFolders": [
+        "Item"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
+        "anchor": [
+          0.5,
+          0.95
+        ],
         "scale": 0.0035
       }
     },
     {
       "number": 39,
       "file": "Data/Item/megawater02.bmd",
-      "textureFolders": ["Item"],
+      "textureFolders": [
+        "Item"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
+        "anchor": [
+          0.5,
+          0.95
+        ],
         "scale": 0.0035
       }
     },
     {
       "number": 40,
       "file": "Data/Item/megawater03.bmd",
-      "textureFolders": ["Item"],
+      "textureFolders": [
+        "Item"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
+        "anchor": [
+          0.5,
+          0.95
+        ],
         "scale": 0.0035
       }
     },
@@ -472,9 +814,19 @@
       "number": 41,
       "model": "gemstone",
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0, 0.02],
-        "rotation": [270, 90, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0,
+          0.02
+        ],
+        "rotation": [
+          270,
+          90,
+          0
+        ],
         "scale": 0.0035
       },
       "glow": {
@@ -485,12 +837,22 @@
       "number": 42,
       "model": "jewelOfHarmony",
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0, 0.02],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0,
+          0.02
+        ],
         "scale": 0.005
       },
       "ground": {
-        "rotation": [270, 0, -15],
+        "rotation": [
+          270,
+          0,
+          -15
+        ],
         "scale": 1.3
       },
       "glow": {
@@ -502,13 +864,28 @@
       "number": 43,
       "model": "lowerRefiningStone",
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [-0.04, 0.015, 0.02],
-        "rotation": [270, -10, -45],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          -0.04,
+          0.015,
+          0.02
+        ],
+        "rotation": [
+          270,
+          -10,
+          -45
+        ],
         "scale": 0.0035
       },
       "ground": {
-        "rotation": [270, 0, -15],
+        "rotation": [
+          270,
+          0,
+          -15
+        ],
         "scale": 1
       },
       "glow": {
@@ -519,13 +896,28 @@
       "number": 44,
       "model": "higherRefiningStone",
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [-0.04, 0.015, 0.02],
-        "rotation": [270, -10, -45],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          -0.04,
+          0.015,
+          0.02
+        ],
+        "rotation": [
+          270,
+          -10,
+          -45
+        ],
         "scale": 0.004
       },
       "ground": {
-        "rotation": [270, 0, -15],
+        "rotation": [
+          270,
+          0,
+          -15
+        ],
         "scale": 1
       },
       "glow": {
@@ -535,13 +927,22 @@
     {
       "number": 45,
       "file": "Data/Item/hobakhead.bmd",
-      "textureFolders": ["Item"],
+      "textureFolders": [
+        "Item"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
+        "anchor": [
+          0.5,
+          0.95
+        ],
         "scale": 0.003
       },
       "ground": {
-        "rotation": [0, 0, 90],
+        "rotation": [
+          0,
+          0,
+          90
+        ],
         "scale": 0.9
       },
       "renderStyle": "pumpkinOfLuck"
@@ -550,10 +951,17 @@
       "number": 46,
       "model": "jackOLanternScroll",
       "inventory": {
-        "anchor": [0.5, 0.5]
+        "anchor": [
+          0.5,
+          0.5
+        ]
       },
       "ground": {
-        "rotation": [90, 0, -45],
+        "rotation": [
+          90,
+          0,
+          -45
+        ],
         "scale": 0.7
       }
     },
@@ -561,10 +969,17 @@
       "number": 47,
       "model": "jackOLanternScroll",
       "inventory": {
-        "anchor": [0.5, 0.5]
+        "anchor": [
+          0.5,
+          0.5
+        ]
       },
       "ground": {
-        "rotation": [90, 0, -45],
+        "rotation": [
+          90,
+          0,
+          -45
+        ],
         "scale": 0.7
       }
     },
@@ -572,45 +987,75 @@
       "number": 48,
       "model": "jackOLanternScroll",
       "inventory": {
-        "anchor": [0.5, 0.5]
+        "anchor": [
+          0.5,
+          0.5
+        ]
       },
       "ground": {
-        "rotation": [90, 0, -45],
+        "rotation": [
+          90,
+          0,
+          -45
+        ],
         "scale": 0.7
       }
     },
     {
       "number": 49,
       "file": "Data/Item/Gogi.bmd",
-      "textureFolders": ["Item"],
+      "textureFolders": [
+        "Item"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
+        "anchor": [
+          0.5,
+          0.95
+        ],
         "scale": 0.003
       },
       "ground": {
-        "rotation": [0, 0, 90],
+        "rotation": [
+          0,
+          0,
+          90
+        ],
         "scale": 0.9
       }
     },
     {
       "number": 50,
       "file": "Data/Item/pumpkincup.bmd",
-      "textureFolders": ["Item"],
+      "textureFolders": [
+        "Item"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
+        "anchor": [
+          0.5,
+          0.95
+        ],
         "scale": 0.001
       },
       "ground": {
-        "rotation": [0, 0, 90],
+        "rotation": [
+          0,
+          0,
+          90
+        ],
         "scale": 0.26
       }
     },
     {
       "number": 51,
       "file": "Data/Item/MagicBox02.bmd",
-      "textureFolders": ["Item"],
+      "textureFolders": [
+        "Item"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
+        "anchor": [
+          0.5,
+          0.95
+        ],
         "scale": 0.0035
       },
       "glow": {
@@ -620,14 +1065,27 @@
     {
       "number": 52,
       "file": "Data/Item/GM02.bmd",
-      "textureFolders": ["Item"],
+      "textureFolders": [
+        "Item"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "rotation": [270, -25, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "rotation": [
+          270,
+          -25,
+          0
+        ],
         "scale": 0.0014
       },
       "ground": {
-        "rotation": [0, 0, -10],
+        "rotation": [
+          0,
+          0,
+          -10
+        ],
         "scale": 0.4
       },
       "itemEffect": "gmGift"
@@ -635,15 +1093,31 @@
     {
       "number": 53,
       "file": "Data/Item/partCharge1/bujuck01.bmd",
-      "textureFolders": ["Item/partCharge1"],
+      "textureFolders": [
+        "Item/partCharge1"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0, 0.042],
-        "rotation": [180, 0, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0,
+          0.042
+        ],
+        "rotation": [
+          180,
+          0,
+          0
+        ],
         "scale": 0.00078
       },
       "ground": {
-        "rotation": [0, 0, 90],
+        "rotation": [
+          0,
+          0,
+          90
+        ],
         "scale": 0.2
       },
       "renderStyle": "talismanOfLuck"
@@ -651,14 +1125,27 @@
     {
       "number": 54,
       "file": "Data/Item/partCharge1/juju.bmd",
-      "textureFolders": ["Item/partCharge1"],
+      "textureFolders": [
+        "Item/partCharge1"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "rotation": [270, 0, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "rotation": [
+          270,
+          0,
+          0
+        ],
         "scale": 0.0024
       },
       "ground": {
-        "rotation": [90, 0, -45],
+        "rotation": [
+          90,
+          0,
+          -45
+        ],
         "scale": 0.5
       },
       "renderStyle": "chaosCard"
@@ -666,15 +1153,31 @@
     {
       "number": 58,
       "file": "Data/Item/partCharge1/expensiveitem01.bmd",
-      "textureFolders": ["Item/partCharge1"],
+      "textureFolders": [
+        "Item/partCharge1"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0, 0.07],
-        "rotation": [270, 0, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0,
+          0.07
+        ],
+        "rotation": [
+          270,
+          0,
+          0
+        ],
         "scale": 0.0012
       },
       "ground": {
-        "rotation": [0, 0, 90],
+        "rotation": [
+          0,
+          0,
+          90
+        ],
         "scale": 0.3
       },
       "renderStyle": "rareItemTicket1"
@@ -682,15 +1185,31 @@
     {
       "number": 59,
       "file": "Data/Item/partCharge1/expensiveitem02a.bmd",
-      "textureFolders": ["Item/partCharge1"],
+      "textureFolders": [
+        "Item/partCharge1"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0, 0.06],
-        "rotation": [270, 0, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0,
+          0.06
+        ],
+        "rotation": [
+          270,
+          0,
+          0
+        ],
         "scale": 0.001
       },
       "ground": {
-        "rotation": [90, 90, -45],
+        "rotation": [
+          90,
+          90,
+          -45
+        ],
         "scale": 0.3
       },
       "renderStyle": "rareItemTicket2"
@@ -698,15 +1217,31 @@
     {
       "number": 60,
       "file": "Data/Item/partCharge1/expensiveitem02b.bmd",
-      "textureFolders": ["Item/partCharge1"],
+      "textureFolders": [
+        "Item/partCharge1"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0, 0.06],
-        "rotation": [270, 0, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0,
+          0.06
+        ],
+        "rotation": [
+          270,
+          0,
+          0
+        ],
         "scale": 0.001
       },
       "ground": {
-        "rotation": [90, 90, -45],
+        "rotation": [
+          90,
+          90,
+          -45
+        ],
         "scale": 0.3
       },
       "renderStyle": "rareItemTicket3"
@@ -714,15 +1249,31 @@
     {
       "number": 61,
       "file": "Data/Item/partCharge1/expensiveitem03a.bmd",
-      "textureFolders": ["Item/partCharge1"],
+      "textureFolders": [
+        "Item/partCharge1"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0, 0.06],
-        "rotation": [270, 0, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0,
+          0.06
+        ],
+        "rotation": [
+          270,
+          0,
+          0
+        ],
         "scale": 0.0009
       },
       "ground": {
-        "rotation": [90, 0, -45],
+        "rotation": [
+          90,
+          0,
+          -45
+        ],
         "scale": 0.3
       },
       "renderStyle": "rareItemTicket4"
@@ -730,15 +1281,31 @@
     {
       "number": 62,
       "file": "Data/Item/partCharge1/expensiveitem03b.bmd",
-      "textureFolders": ["Item/partCharge1"],
+      "textureFolders": [
+        "Item/partCharge1"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0, 0.06],
-        "rotation": [270, 0, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0,
+          0.06
+        ],
+        "rotation": [
+          270,
+          0,
+          0
+        ],
         "scale": 0.0009
       },
       "ground": {
-        "rotation": [90, 0, -45],
+        "rotation": [
+          90,
+          0,
+          -45
+        ],
         "scale": 0.3
       },
       "renderStyle": "rareItemTicket"
@@ -746,15 +1313,31 @@
     {
       "number": 63,
       "file": "Data/Item/GM01.bmd",
-      "textureFolders": ["Item"],
+      "textureFolders": [
+        "Item"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0, 0.08],
-        "rotation": [-50, -60, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0,
+          0.08
+        ],
+        "rotation": [
+          -50,
+          -60,
+          0
+        ],
         "scale": 0.007
       },
       "ground": {
-        "rotation": [70, 0, -45],
+        "rotation": [
+          70,
+          0,
+          -45
+        ],
         "scale": 1.5
       },
       "itemEffect": "firecracker"
@@ -762,11 +1345,23 @@
     {
       "number": 64,
       "file": "Data/Item/songss.bmd",
-      "textureFolders": ["Item"],
+      "textureFolders": [
+        "Item"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0, 0.02],
-        "rotation": [270, 0, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0,
+          0.02
+        ],
+        "rotation": [
+          270,
+          0,
+          0
+        ],
         "scale": 0.003
       },
       "ground": {
@@ -781,15 +1376,31 @@
     {
       "number": 65,
       "file": "Data/Item/deathbeamstone.bmd",
-      "textureFolders": ["Item"],
+      "textureFolders": [
+        "Item"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0, 0.05],
-        "rotation": [270, 0, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0,
+          0.05
+        ],
+        "rotation": [
+          270,
+          0,
+          0
+        ],
         "scale": 0.003
       },
       "ground": {
-        "rotation": [90, 0, -45],
+        "rotation": [
+          90,
+          0,
+          -45
+        ],
         "scale": 0.6
       },
       "renderStyle": "deathBeamKnightFlame"
@@ -797,15 +1408,31 @@
     {
       "number": 66,
       "file": "Data/Item/hellhorn.bmd",
-      "textureFolders": ["Item"],
+      "textureFolders": [
+        "Item"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0, 0.11],
-        "rotation": [270, 0, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0,
+          0.11
+        ],
+        "rotation": [
+          270,
+          0,
+          0
+        ],
         "scale": 0.0035
       },
       "ground": {
-        "rotation": [90, 0, -45],
+        "rotation": [
+          90,
+          0,
+          -45
+        ],
         "scale": 0.8
       },
       "renderStyle": "hellMinerHorn"
@@ -813,15 +1440,31 @@
     {
       "number": 67,
       "file": "Data/Item/phoenixfeather.bmd",
-      "textureFolders": ["Item"],
+      "textureFolders": [
+        "Item"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0, 0.11],
-        "rotation": [270, 0, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0,
+          0.11
+        ],
+        "rotation": [
+          270,
+          0,
+          0
+        ],
         "scale": 0.0035
       },
       "ground": {
-        "rotation": [270, 0, -45],
+        "rotation": [
+          270,
+          0,
+          -45
+        ],
         "scale": 0.8
       },
       "renderStyle": "darkPhoenixFeather"
@@ -829,13 +1472,22 @@
     {
       "number": 68,
       "file": "Data/Item/Deye.bmd",
-      "textureFolders": ["Item"],
+      "textureFolders": [
+        "Item"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
+        "anchor": [
+          0.5,
+          0.95
+        ],
         "scale": 0.003
       },
       "ground": {
-        "rotation": [0, 0, -135],
+        "rotation": [
+          0,
+          0,
+          -135
+        ],
         "scale": 0.6
       },
       "renderStyle": "abyssalEye"
@@ -844,13 +1496,27 @@
       "number": 70,
       "model": "eliteHealingPotion",
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0.01, 0],
-        "rotation": [270, 0, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0.01,
+          0
+        ],
+        "rotation": [
+          270,
+          0,
+          0
+        ],
         "scale": 0.0028
       },
       "ground": {
-        "rotation": [0, 0, 90],
+        "rotation": [
+          0,
+          0,
+          90
+        ],
         "scale": 0.6
       },
       "renderStyle": "elitePotion"
@@ -858,15 +1524,31 @@
     {
       "number": 71,
       "file": "Data/Item/partCharge2/EPotionB.bmd",
-      "textureFolders": ["Item/partCharge2"],
+      "textureFolders": [
+        "Item/partCharge2"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0.01, 0],
-        "rotation": [270, 0, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0.01,
+          0
+        ],
+        "rotation": [
+          270,
+          0,
+          0
+        ],
         "scale": 0.0028
       },
       "ground": {
-        "rotation": [0, 0, 90],
+        "rotation": [
+          0,
+          0,
+          90
+        ],
         "scale": 0.6
       },
       "renderStyle": "elitePotion"
@@ -874,14 +1556,30 @@
     {
       "number": 72,
       "file": "Data/Item/partCharge2/elitescroll_quick.bmd",
-      "textureFolders": ["Item/partCharge2"],
+      "textureFolders": [
+        "Item/partCharge2"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0, 0.08],
-        "rotation": [0, 0, 0]
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0,
+          0.08
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ]
       },
       "ground": {
-        "rotation": [0, 0, 90],
+        "rotation": [
+          0,
+          0,
+          90
+        ],
         "scale": 0.5
       },
       "renderStyle": "textured"
@@ -889,14 +1587,30 @@
     {
       "number": 73,
       "file": "Data/Item/partCharge2/elitescroll_depence.bmd",
-      "textureFolders": ["Item/partCharge2"],
+      "textureFolders": [
+        "Item/partCharge2"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0, 0.08],
-        "rotation": [0, 0, 0]
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0,
+          0.08
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ]
       },
       "ground": {
-        "rotation": [0, 0, 90],
+        "rotation": [
+          0,
+          0,
+          90
+        ],
         "scale": 0.5
       },
       "renderStyle": "textured"
@@ -904,14 +1618,30 @@
     {
       "number": 74,
       "file": "Data/Item/partCharge2/elitescroll_anger.bmd",
-      "textureFolders": ["Item/partCharge2"],
+      "textureFolders": [
+        "Item/partCharge2"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0, 0.08],
-        "rotation": [0, 0, 0]
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0,
+          0.08
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ]
       },
       "ground": {
-        "rotation": [0, 0, 90],
+        "rotation": [
+          0,
+          0,
+          90
+        ],
         "scale": 0.5
       },
       "renderStyle": "textured"
@@ -919,14 +1649,30 @@
     {
       "number": 75,
       "file": "Data/Item/partCharge2/elitescroll_magic.bmd",
-      "textureFolders": ["Item/partCharge2"],
+      "textureFolders": [
+        "Item/partCharge2"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0, 0.08],
-        "rotation": [0, 0, 0]
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0,
+          0.08
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ]
       },
       "ground": {
-        "rotation": [0, 0, 90],
+        "rotation": [
+          0,
+          0,
+          90
+        ],
         "scale": 0.5
       },
       "renderStyle": "textured"
@@ -934,14 +1680,30 @@
     {
       "number": 76,
       "file": "Data/Item/partCharge2/elitescroll_strenth.bmd",
-      "textureFolders": ["Item/partCharge2"],
+      "textureFolders": [
+        "Item/partCharge2"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0, 0.08],
-        "rotation": [0, 0, 0]
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0,
+          0.08
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ]
       },
       "ground": {
-        "rotation": [0, 0, 90],
+        "rotation": [
+          0,
+          0,
+          90
+        ],
         "scale": 0.5
       },
       "renderStyle": "textured"
@@ -949,14 +1711,30 @@
     {
       "number": 77,
       "file": "Data/Item/partCharge2/elitescroll_mana.bmd",
-      "textureFolders": ["Item/partCharge2"],
+      "textureFolders": [
+        "Item/partCharge2"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0, 0.08],
-        "rotation": [0, 0, 0]
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0,
+          0.08
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ]
       },
       "ground": {
-        "rotation": [0, 0, 90],
+        "rotation": [
+          0,
+          0,
+          90
+        ],
         "scale": 0.5
       },
       "renderStyle": "textured"
@@ -964,14 +1742,30 @@
     {
       "number": 78,
       "file": "Data/Item/partCharge2/secret_power.bmd",
-      "textureFolders": ["Item/partCharge2"],
+      "textureFolders": [
+        "Item/partCharge2"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0, 0.01],
-        "rotation": [270, 0, 0]
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0,
+          0.01
+        ],
+        "rotation": [
+          270,
+          0,
+          0
+        ]
       },
       "ground": {
-        "rotation": [0, 0, 90],
+        "rotation": [
+          0,
+          0,
+          90
+        ],
         "scale": 0.5
       },
       "renderStyle": "textured"
@@ -979,14 +1773,30 @@
     {
       "number": 79,
       "file": "Data/Item/partCharge2/secret_quick.bmd",
-      "textureFolders": ["Item/partCharge2"],
+      "textureFolders": [
+        "Item/partCharge2"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0, 0.01],
-        "rotation": [270, 0, 0]
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0,
+          0.01
+        ],
+        "rotation": [
+          270,
+          0,
+          0
+        ]
       },
       "ground": {
-        "rotation": [0, 0, 90],
+        "rotation": [
+          0,
+          0,
+          90
+        ],
         "scale": 0.5
       },
       "renderStyle": "textured"
@@ -994,14 +1804,30 @@
     {
       "number": 80,
       "file": "Data/Item/partCharge2/secret_strenth.bmd",
-      "textureFolders": ["Item/partCharge2"],
+      "textureFolders": [
+        "Item/partCharge2"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0, 0.01],
-        "rotation": [270, 0, 0]
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0,
+          0.01
+        ],
+        "rotation": [
+          270,
+          0,
+          0
+        ]
       },
       "ground": {
-        "rotation": [0, 0, 90],
+        "rotation": [
+          0,
+          0,
+          90
+        ],
         "scale": 0.5
       },
       "renderStyle": "textured"
@@ -1009,14 +1835,30 @@
     {
       "number": 81,
       "file": "Data/Item/partCharge2/secret_energe.bmd",
-      "textureFolders": ["Item/partCharge2"],
+      "textureFolders": [
+        "Item/partCharge2"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0, 0.01],
-        "rotation": [270, 0, 0]
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0,
+          0.01
+        ],
+        "rotation": [
+          270,
+          0,
+          0
+        ]
       },
       "ground": {
-        "rotation": [0, 0, 90],
+        "rotation": [
+          0,
+          0,
+          90
+        ],
         "scale": 0.5
       },
       "renderStyle": "textured"
@@ -1024,14 +1866,30 @@
     {
       "number": 82,
       "file": "Data/Item/partCharge2/secret_command.bmd",
-      "textureFolders": ["Item/partCharge2"],
+      "textureFolders": [
+        "Item/partCharge2"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0, 0.01],
-        "rotation": [270, 0, 0]
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0,
+          0.01
+        ],
+        "rotation": [
+          270,
+          0,
+          0
+        ]
       },
       "ground": {
-        "rotation": [0, 0, 90],
+        "rotation": [
+          0,
+          0,
+          90
+        ],
         "scale": 0.5
       },
       "renderStyle": "textured"
@@ -1039,15 +1897,32 @@
     {
       "number": 83,
       "file": "Data/Item/partCharge2/expensiveitem04b.bmd",
-      "textureFolders": ["Item/partCharge2", "Item/partCharge1"],
+      "textureFolders": [
+        "Item/partCharge2",
+        "Item/partCharge1"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0, 0.06],
-        "rotation": [270, 0, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0,
+          0.06
+        ],
+        "rotation": [
+          270,
+          0,
+          0
+        ],
         "scale": 0.0009
       },
       "ground": {
-        "rotation": [90, 0, -45],
+        "rotation": [
+          90,
+          0,
+          -45
+        ],
         "scale": 0.3
       },
       "renderStyle": "rareItemTicket"
@@ -1055,15 +1930,31 @@
     {
       "number": 84,
       "file": "Data/Item/cherryblossom/cherrybox.bmd",
-      "textureFolders": ["Item/cherryblossom"],
+      "textureFolders": [
+        "Item/cherryblossom"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0, 0.01],
-        "rotation": [270, 0, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0,
+          0.01
+        ],
+        "rotation": [
+          270,
+          0,
+          0
+        ],
         "scale": 0.0031
       },
       "ground": {
-        "rotation": [0, 0, 90],
+        "rotation": [
+          0,
+          0,
+          90
+        ],
         "scale": 0.8
       },
       "renderStyle": "texturedAllMeshes"
@@ -1071,15 +1962,31 @@
     {
       "number": 85,
       "file": "Data/Item/cherryblossom/chwine.bmd",
-      "textureFolders": ["Item/cherryblossom"],
+      "textureFolders": [
+        "Item/cherryblossom"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0, -0.01],
-        "rotation": [270, 0, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0,
+          -0.01
+        ],
+        "rotation": [
+          270,
+          0,
+          0
+        ],
         "scale": 0.0044
       },
       "ground": {
-        "rotation": [0, 0, 90],
+        "rotation": [
+          0,
+          0,
+          90
+        ],
         "scale": 0.9
       },
       "renderStyle": "texturedAllMeshes"
@@ -1087,15 +1994,31 @@
     {
       "number": 86,
       "file": "Data/Item/cherryblossom/chgateaux.bmd",
-      "textureFolders": ["Item/cherryblossom"],
+      "textureFolders": [
+        "Item/cherryblossom"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0, 0.01],
-        "rotation": [270, 0, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0,
+          0.01
+        ],
+        "rotation": [
+          270,
+          0,
+          0
+        ],
         "scale": 0.0031
       },
       "ground": {
-        "rotation": [0, 0, 90],
+        "rotation": [
+          0,
+          0,
+          90
+        ],
         "scale": 0.7
       },
       "renderStyle": "texturedAllMeshes"
@@ -1103,15 +2026,31 @@
     {
       "number": 87,
       "file": "Data/Item/cherryblossom/chpetal.bmd",
-      "textureFolders": ["Item/cherryblossom"],
+      "textureFolders": [
+        "Item/cherryblossom"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0, 0.01],
-        "rotation": [270, 0, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0,
+          0.01
+        ],
+        "rotation": [
+          270,
+          0,
+          0
+        ],
         "scale": 0.0061
       },
       "ground": {
-        "rotation": [0, 0, 90],
+        "rotation": [
+          0,
+          0,
+          90
+        ],
         "scale": 1.3
       },
       "renderStyle": "texturedAllMeshes"
@@ -1119,15 +2058,31 @@
     {
       "number": 88,
       "file": "Data/Item/cherryblossom/chbranche.bmd",
-      "textureFolders": ["Item/cherryblossom"],
+      "textureFolders": [
+        "Item/cherryblossom"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0, 0.015],
-        "rotation": [270, 0, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0,
+          0.015
+        ],
+        "rotation": [
+          270,
+          0,
+          0
+        ],
         "scale": 0.0035
       },
       "ground": {
-        "rotation": [180, 180, -45],
+        "rotation": [
+          180,
+          180,
+          -45
+        ],
         "scale": 0.7
       },
       "renderStyle": "texturedAllMeshes"
@@ -1135,15 +2090,31 @@
     {
       "number": 89,
       "file": "Data/Item/cherryblossom/chbranche_red.bmd",
-      "textureFolders": ["Item/cherryblossom"],
+      "textureFolders": [
+        "Item/cherryblossom"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0, 0.015],
-        "rotation": [270, 0, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0,
+          0.015
+        ],
+        "rotation": [
+          270,
+          0,
+          0
+        ],
         "scale": 0.0035
       },
       "ground": {
-        "rotation": [30, 0, 90],
+        "rotation": [
+          30,
+          0,
+          90
+        ],
         "scale": 0.7
       },
       "renderStyle": "texturedAllMeshes"
@@ -1151,15 +2122,31 @@
     {
       "number": 90,
       "file": "Data/Item/cherryblossom/chbranche_yellow.bmd",
-      "textureFolders": ["Item/cherryblossom"],
+      "textureFolders": [
+        "Item/cherryblossom"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0, 0.015],
-        "rotation": [270, 0, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0,
+          0.015
+        ],
+        "rotation": [
+          270,
+          0,
+          0
+        ],
         "scale": 0.0035
       },
       "ground": {
-        "rotation": [30, 0, 90],
+        "rotation": [
+          30,
+          0,
+          90
+        ],
         "scale": 0.7
       },
       "renderStyle": "texturedAllMeshes"
@@ -1167,15 +2154,31 @@
     {
       "number": 91,
       "file": "Data/Item/partCharge3/alicecard.bmd",
-      "textureFolders": ["Item/partCharge3"],
+      "textureFolders": [
+        "Item/partCharge3"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0.002, -0.04],
-        "rotation": [270, 0, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0.002,
+          -0.04
+        ],
+        "rotation": [
+          270,
+          0,
+          0
+        ],
         "scale": 0.0028
       },
       "ground": {
-        "rotation": [90, 0, -45],
+        "rotation": [
+          90,
+          0,
+          -45
+        ],
         "scale": 0.5
       },
       "renderStyle": "summonerCharacterCard"
@@ -1184,12 +2187,23 @@
       "number": 92,
       "model": "chaosCard",
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "rotation": [270, 0, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "rotation": [
+          270,
+          0,
+          0
+        ],
         "scale": 0.0024
       },
       "ground": {
-        "rotation": [90, 0, -45],
+        "rotation": [
+          90,
+          0,
+          -45
+        ],
         "scale": 0.5
       },
       "renderStyle": "chaosCardGold"
@@ -1198,12 +2212,23 @@
       "number": 93,
       "model": "chaosCard",
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "rotation": [270, 0, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "rotation": [
+          270,
+          0,
+          0
+        ],
         "scale": 0.0024
       },
       "ground": {
-        "rotation": [90, 0, -45],
+        "rotation": [
+          90,
+          0,
+          -45
+        ],
         "scale": 0.5
       },
       "renderStyle": "chaosCardRare"
@@ -1212,13 +2237,27 @@
       "number": 94,
       "model": "eliteHealingPotion",
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0.01, 0],
-        "rotation": [270, 0, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0.01,
+          0
+        ],
+        "rotation": [
+          270,
+          0,
+          0
+        ],
         "scale": 0.0022
       },
       "ground": {
-        "rotation": [0, 0, 90],
+        "rotation": [
+          0,
+          0,
+          90
+        ],
         "scale": 0.6
       },
       "renderStyle": "texturedAllMeshes"
@@ -1227,12 +2266,23 @@
       "number": 95,
       "model": "chaosCard",
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "rotation": [270, 0, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "rotation": [
+          270,
+          0,
+          0
+        ],
         "scale": 0.0024
       },
       "ground": {
-        "rotation": [90, 0, -45],
+        "rotation": [
+          90,
+          0,
+          -45
+        ],
         "scale": 0.5
       },
       "renderStyle": "chaosCardMini"
@@ -1240,15 +2290,31 @@
     {
       "number": 96,
       "file": "Data/Item/partcharge4/strengamulet.bmd",
-      "textureFolders": ["Item/partcharge4"],
+      "textureFolders": [
+        "Item/partcharge4"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0.003, -0.013],
-        "rotation": [270, 0, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0.003,
+          -0.013
+        ],
+        "rotation": [
+          270,
+          0,
+          0
+        ],
         "scale": 0.0028
       },
       "ground": {
-        "rotation": [0, 0, 90],
+        "rotation": [
+          0,
+          0,
+          90
+        ],
         "scale": 0.2
       },
       "renderStyle": "textured"
@@ -1256,15 +2322,31 @@
     {
       "number": 97,
       "file": "Data/Item/partcharge4/battlescroll.bmd",
-      "textureFolders": ["Item/partcharge4"],
+      "textureFolders": [
+        "Item/partcharge4"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0, 0.09],
-        "rotation": [0, 0, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0,
+          0.09
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
         "scale": 0.003
       },
       "ground": {
-        "rotation": [0, 0, 90],
+        "rotation": [
+          0,
+          0,
+          90
+        ],
         "scale": 0.5
       },
       "renderStyle": "textured"
@@ -1272,15 +2354,31 @@
     {
       "number": 98,
       "file": "Data/Item/partcharge4/strengscroll.bmd",
-      "textureFolders": ["Item/partcharge4"],
+      "textureFolders": [
+        "Item/partcharge4"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0, 0.09],
-        "rotation": [0, 0, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0,
+          0.09
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
         "scale": 0.003
       },
       "ground": {
-        "rotation": [0, 0, 90],
+        "rotation": [
+          0,
+          0,
+          90
+        ],
         "scale": 0.5
       },
       "renderStyle": "textured"
@@ -1288,29 +2386,61 @@
     {
       "number": 99,
       "file": "Data/Item/xmas/xmasfire.bmd",
-      "textureFolders": ["Item/xmas"],
+      "textureFolders": [
+        "Item/xmas"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0.02, -0.03],
-        "rotation": [290, -40, 0]
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0.02,
+          -0.03
+        ],
+        "rotation": [
+          290,
+          -40,
+          0
+        ]
       },
       "ground": {
-        "rotation": [70, 0, 0],
+        "rotation": [
+          70,
+          0,
+          0
+        ],
         "scale": 1
       }
     },
     {
       "number": 100,
       "file": "Data/Item/coin7.bmd",
-      "textureFolders": ["Item"],
+      "textureFolders": [
+        "Item"
+      ],
       "inventory": {
-        "anchor": [0.49, 0.28],
-        "offset": [0.01, -0.05],
-        "rotation": [0, 0, 0],
+        "anchor": [
+          0.49,
+          0.28
+        ],
+        "offset": [
+          0.01,
+          -0.05
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
         "scale": 0.004
       },
       "ground": {
-        "rotation": [180, 0, -45],
+        "rotation": [
+          180,
+          0,
+          -45
+        ],
         "scale": 1
       },
       "renderStyle": "luckyCoin"
@@ -1318,21 +2448,41 @@
     {
       "number": 101,
       "file": "Data/Item/doubt_paper.bmd",
-      "textureFolders": ["Item"],
+      "textureFolders": [
+        "Item"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0.005, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0.005,
+          0
+        ],
         "scale": 0.004
       }
     },
     {
       "number": 102,
       "file": "Data/Item/warrant.bmd",
-      "textureFolders": ["Item"],
+      "textureFolders": [
+        "Item"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0.005, 0.05],
-        "rotation": [0, 0, 30],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0.005,
+          0.05
+        ],
+        "rotation": [
+          0,
+          0,
+          30
+        ],
         "scale": 0.005
       }
     },
@@ -1340,9 +2490,19 @@
       "number": 103,
       "model": "secromiconFragment",
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0.005, 0.05],
-        "rotation": [0, 0, 30],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0.005,
+          0.05
+        ],
+        "rotation": [
+          0,
+          0,
+          30
+        ],
         "scale": 0.004
       }
     },
@@ -1350,9 +2510,19 @@
       "number": 104,
       "model": "secromiconFragment",
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0.005, 0.05],
-        "rotation": [0, 0, 30],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0.005,
+          0.05
+        ],
+        "rotation": [
+          0,
+          0,
+          30
+        ],
         "scale": 0.004
       }
     },
@@ -1360,9 +2530,19 @@
       "number": 105,
       "model": "secromiconFragment",
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0.005, 0.05],
-        "rotation": [0, 0, 30],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0.005,
+          0.05
+        ],
+        "rotation": [
+          0,
+          0,
+          30
+        ],
         "scale": 0.004
       }
     },
@@ -1370,9 +2550,19 @@
       "number": 106,
       "model": "secromiconFragment",
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0.005, 0.05],
-        "rotation": [0, 0, 30],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0.005,
+          0.05
+        ],
+        "rotation": [
+          0,
+          0,
+          30
+        ],
         "scale": 0.004
       }
     },
@@ -1380,9 +2570,19 @@
       "number": 107,
       "model": "secromiconFragment",
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0.005, 0.05],
-        "rotation": [0, 0, 30],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0.005,
+          0.05
+        ],
+        "rotation": [
+          0,
+          0,
+          30
+        ],
         "scale": 0.004
       }
     },
@@ -1390,63 +2590,125 @@
       "number": 108,
       "model": "secromiconFragment",
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0.005, 0.05],
-        "rotation": [0, 0, 30],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0.005,
+          0.05
+        ],
+        "rotation": [
+          0,
+          0,
+          30
+        ],
         "scale": 0.004
       }
     },
     {
       "number": 109,
       "file": "Data/Item/secromicon.bmd",
-      "textureFolders": ["Item"],
+      "textureFolders": [
+        "Item"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0.005, 0.05],
-        "rotation": [0, 0, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0.005,
+          0.05
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
         "scale": 0.003
       }
     },
     {
       "number": 110,
       "file": "Data/Item/indication.bmd",
-      "textureFolders": ["Item"],
+      "textureFolders": [
+        "Item"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0.005, -0.02],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0.005,
+          -0.02
+        ],
         "scale": 0.004
       },
       "ground": {
-        "rotation": [270, 0, -45],
+        "rotation": [
+          270,
+          0,
+          -45
+        ],
         "scale": 1
       }
     },
     {
       "number": 111,
       "file": "Data/Item/speculum.bmd",
-      "textureFolders": ["Item"],
+      "textureFolders": [
+        "Item"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0.01, -0.02],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0.01,
+          -0.02
+        ],
         "scale": 0.0035
       },
       "ground": {
-        "rotation": [270, 0, -45],
+        "rotation": [
+          270,
+          0,
+          -45
+        ],
         "scale": 1
       }
     },
     {
       "number": 112,
       "file": "Data/Item/Ingameshop/ItemBoxKey_silver.bmd",
-      "textureFolders": ["Item/Ingameshop"],
+      "textureFolders": [
+        "Item/Ingameshop"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0.05, 0.009],
-        "rotation": [270, 180, 45],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0.05,
+          0.009
+        ],
+        "rotation": [
+          270,
+          180,
+          45
+        ],
         "scale": 0.0032
       },
       "ground": {
-        "rotation": [270, 0, -45],
+        "rotation": [
+          270,
+          0,
+          -45
+        ],
         "scale": 1
       },
       "renderStyle": "chromeMesh0"
@@ -1454,15 +2716,31 @@
     {
       "number": 113,
       "file": "Data/Item/Ingameshop/ItemBoxKey_gold.bmd",
-      "textureFolders": ["Item/Ingameshop"],
+      "textureFolders": [
+        "Item/Ingameshop"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0.05, 0.009],
-        "rotation": [270, 180, 45],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0.05,
+          0.009
+        ],
+        "rotation": [
+          270,
+          180,
+          45
+        ],
         "scale": 0.0032
       },
       "ground": {
-        "rotation": [270, 0, -45],
+        "rotation": [
+          270,
+          0,
+          -45
+        ],
         "scale": 1
       },
       "renderStyle": "chromeMesh0"
@@ -1471,9 +2749,19 @@
       "number": 114,
       "model": "membershipItem",
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0, 0.06],
-        "rotation": [270, 0, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0,
+          0.06
+        ],
+        "rotation": [
+          270,
+          0,
+          0
+        ],
         "scale": 0.0038
       },
       "renderStyle": "accountServiceItem"
@@ -1482,9 +2770,19 @@
       "number": 115,
       "model": "membershipItem",
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0, 0.06],
-        "rotation": [270, 0, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0,
+          0.06
+        ],
+        "rotation": [
+          270,
+          0,
+          0
+        ],
         "scale": 0.0038
       },
       "renderStyle": "accountServiceItem"
@@ -1493,9 +2791,19 @@
       "number": 116,
       "model": "membershipItem",
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0, 0.06],
-        "rotation": [270, 0, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0,
+          0.06
+        ],
+        "rotation": [
+          270,
+          0,
+          0
+        ],
         "scale": 0.0038
       },
       "renderStyle": "accountServiceItem"
@@ -1504,9 +2812,19 @@
       "number": 117,
       "model": "membershipItem",
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0, 0.06],
-        "rotation": [270, 0, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0,
+          0.06
+        ],
+        "rotation": [
+          270,
+          0,
+          0
+        ],
         "scale": 0.0038
       },
       "renderStyle": "accountServiceItem"
@@ -1515,9 +2833,19 @@
       "number": 118,
       "model": "membershipItem",
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0, 0.06],
-        "rotation": [270, 0, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0,
+          0.06
+        ],
+        "rotation": [
+          270,
+          0,
+          0
+        ],
         "scale": 0.0038
       },
       "renderStyle": "accountServiceItem"
@@ -1526,9 +2854,19 @@
       "number": 119,
       "model": "membershipItem",
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0, 0.06],
-        "rotation": [270, 0, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0,
+          0.06
+        ],
+        "rotation": [
+          270,
+          0,
+          0
+        ],
         "scale": 0.0038
       },
       "renderStyle": "accountServiceItem"
@@ -1536,11 +2874,23 @@
     {
       "number": 120,
       "file": "Data/Item/Ingameshop/gold_coin.bmd",
-      "textureFolders": ["Item/Ingameshop"],
+      "textureFolders": [
+        "Item/Ingameshop"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0.01, 0.05],
-        "rotation": [270, 0, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0.01,
+          0.05
+        ],
+        "rotation": [
+          270,
+          0,
+          0
+        ],
         "scale": 0.0035
       },
       "renderStyle": "chromeMesh0"
@@ -1549,7 +2899,10 @@
       "number": 121,
       "model": "goldenBox",
       "inventory": {
-        "anchor": [0.5, 0.95],
+        "anchor": [
+          0.5,
+          0.95
+        ],
         "scale": 0.0035
       },
       "renderStyle": "sealedBox"
@@ -1558,7 +2911,10 @@
       "number": 122,
       "model": "silverBox",
       "inventory": {
-        "anchor": [0.5, 0.95],
+        "anchor": [
+          0.5,
+          0.95
+        ],
         "scale": 0.0035
       },
       "renderStyle": "sealedBox"
@@ -1567,7 +2923,10 @@
       "number": 123,
       "model": "goldenBox",
       "inventory": {
-        "anchor": [0.5, 0.95],
+        "anchor": [
+          0.5,
+          0.95
+        ],
         "scale": 0.0035
       },
       "renderStyle": "goldenOrSilverBox"
@@ -1576,7 +2935,10 @@
       "number": 124,
       "model": "silverBox",
       "inventory": {
-        "anchor": [0.5, 0.95],
+        "anchor": [
+          0.5,
+          0.95
+        ],
         "scale": 0.0035
       },
       "renderStyle": "goldenOrSilverBox"
@@ -1585,9 +2947,19 @@
       "number": 126,
       "model": "membershipItem",
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0, 0.06],
-        "rotation": [270, 0, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0,
+          0.06
+        ],
+        "rotation": [
+          270,
+          0,
+          0
+        ],
         "scale": 0.0038
       },
       "renderStyle": "dayPass"
@@ -1596,9 +2968,19 @@
       "number": 127,
       "model": "membershipItem",
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0, 0.06],
-        "rotation": [270, 0, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0,
+          0.06
+        ],
+        "rotation": [
+          270,
+          0,
+          0
+        ],
         "scale": 0.0038
       },
       "renderStyle": "dayPass"
@@ -1607,9 +2989,19 @@
       "number": 128,
       "model": "membershipItem",
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0, 0.06],
-        "rotation": [270, 0, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0,
+          0.06
+        ],
+        "rotation": [
+          270,
+          0,
+          0
+        ],
         "scale": 0.0038
       },
       "renderStyle": "dayPass"
@@ -1618,9 +3010,19 @@
       "number": 129,
       "model": "membershipItem",
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0, 0.06],
-        "rotation": [270, 0, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0,
+          0.06
+        ],
+        "rotation": [
+          270,
+          0,
+          0
+        ],
         "scale": 0.0038
       },
       "renderStyle": "dayPass"
@@ -1629,9 +3031,19 @@
       "number": 130,
       "model": "membershipItem",
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0, 0.06],
-        "rotation": [270, 0, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0,
+          0.06
+        ],
+        "rotation": [
+          270,
+          0,
+          0
+        ],
         "scale": 0.0038
       },
       "renderStyle": "hourPass"
@@ -1640,9 +3052,19 @@
       "number": 131,
       "model": "membershipItem",
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0, 0.06],
-        "rotation": [270, 0, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0,
+          0.06
+        ],
+        "rotation": [
+          270,
+          0,
+          0
+        ],
         "scale": 0.0038
       },
       "renderStyle": "hourPass"
@@ -1651,9 +3073,19 @@
       "number": 132,
       "model": "membershipItem",
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0, 0.06],
-        "rotation": [270, 0, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0,
+          0.06
+        ],
+        "rotation": [
+          270,
+          0,
+          0
+        ],
         "scale": 0.0038
       },
       "renderStyle": "hourPass"
@@ -1661,15 +3093,32 @@
     {
       "number": 133,
       "file": "Data/Item/partcharge7/ESDPotion.bmd",
-      "textureFolders": ["Item/partcharge7", "Item/partCharge2"],
+      "textureFolders": [
+        "Item/partcharge7",
+        "Item/partCharge2"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0.01, 0],
-        "rotation": [270, 0, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0.01,
+          0
+        ],
+        "rotation": [
+          270,
+          0,
+          0
+        ],
         "scale": 0.003
       },
       "ground": {
-        "rotation": [270, 0, -45],
+        "rotation": [
+          270,
+          0,
+          -45
+        ],
         "scale": 1
       }
     },
@@ -1677,9 +3126,19 @@
       "number": 134,
       "model": "packageBox",
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0, 0.05],
-        "rotation": [270, 0, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0,
+          0.05
+        ],
+        "rotation": [
+          270,
+          0,
+          0
+        ],
         "scale": 0.005
       },
       "renderStyle": "packageBoxA"
@@ -1688,9 +3147,19 @@
       "number": 135,
       "model": "packageBox",
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0, 0.05],
-        "rotation": [270, 0, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0,
+          0.05
+        ],
+        "rotation": [
+          270,
+          0,
+          0
+        ],
         "scale": 0.005
       },
       "renderStyle": "packageBoxB"
@@ -1699,9 +3168,19 @@
       "number": 136,
       "model": "packageBox",
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0, 0.05],
-        "rotation": [270, 0, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0,
+          0.05
+        ],
+        "rotation": [
+          270,
+          0,
+          0
+        ],
         "scale": 0.005
       },
       "renderStyle": "packageBoxC"
@@ -1710,9 +3189,19 @@
       "number": 137,
       "model": "packageBox",
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0, 0.05],
-        "rotation": [270, 0, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0,
+          0.05
+        ],
+        "rotation": [
+          270,
+          0,
+          0
+        ],
         "scale": 0.005
       },
       "renderStyle": "packageBoxD"
@@ -1721,9 +3210,19 @@
       "number": 138,
       "model": "packageBox",
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0, 0.05],
-        "rotation": [270, 0, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0,
+          0.05
+        ],
+        "rotation": [
+          270,
+          0,
+          0
+        ],
         "scale": 0.005
       },
       "renderStyle": "packageBoxE"
@@ -1732,9 +3231,19 @@
       "number": 139,
       "model": "packageBox",
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0, 0.05],
-        "rotation": [270, 0, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0,
+          0.05
+        ],
+        "rotation": [
+          270,
+          0,
+          0
+        ],
         "scale": 0.005
       },
       "renderStyle": "packageBoxF"
@@ -1742,24 +3251,45 @@
     {
       "number": 140,
       "file": "Data/Item/strengscroll.bmd",
-      "textureFolders": ["Item"],
+      "textureFolders": [
+        "Item"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0, 0.09],
-        "rotation": [0, 0, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0,
+          0.09
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
         "scale": 0.0026
       },
       "ground": {
-        "rotation": [0, 0, 90],
+        "rotation": [
+          0,
+          0,
+          90
+        ],
         "scale": 0.5
       }
     },
     {
       "number": 141,
       "file": "Data/Item/requitalbox_red.bmd",
-      "textureFolders": ["Item"],
+      "textureFolders": [
+        "Item"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
+        "anchor": [
+          0.5,
+          0.95
+        ],
         "scale": 0.0035
       },
       "renderStyle": "jewelryCase"
@@ -1767,9 +3297,14 @@
     {
       "number": 142,
       "file": "Data/Item/requitalbox_violet.bmd",
-      "textureFolders": ["Item"],
+      "textureFolders": [
+        "Item"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
+        "anchor": [
+          0.5,
+          0.95
+        ],
         "scale": 0.0035
       },
       "renderStyle": "jewelryCase"
@@ -1777,9 +3312,14 @@
     {
       "number": 143,
       "file": "Data/Item/requitalbox_blue.bmd",
-      "textureFolders": ["Item"],
+      "textureFolders": [
+        "Item"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
+        "anchor": [
+          0.5,
+          0.95
+        ],
         "scale": 0.0035
       },
       "renderStyle": "jewelryCase"
@@ -1787,9 +3327,14 @@
     {
       "number": 144,
       "file": "Data/Item/requitalbox_wood.bmd",
-      "textureFolders": ["Item"],
+      "textureFolders": [
+        "Item"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
+        "anchor": [
+          0.5,
+          0.95
+        ],
         "scale": 0.0035
       },
       "renderStyle": "jewelryCase"
@@ -1797,15 +3342,31 @@
     {
       "number": 145,
       "file": "Data/Item/partCharge8/rareitem_ticket7.bmd",
-      "textureFolders": ["Item/partCharge8"],
+      "textureFolders": [
+        "Item/partCharge8"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0.01, 0.04],
-        "rotation": [270, 0, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0.01,
+          0.04
+        ],
+        "rotation": [
+          270,
+          0,
+          0
+        ],
         "scale": 0.0018
       },
       "ground": {
-        "rotation": [90, 0, -45],
+        "rotation": [
+          90,
+          0,
+          -45
+        ],
         "scale": 0.3
       },
       "renderStyle": "rareItemTicket7"
@@ -1813,15 +3374,31 @@
     {
       "number": 146,
       "file": "Data/Item/partCharge8/rareitem_ticket8.bmd",
-      "textureFolders": ["Item/partCharge8"],
+      "textureFolders": [
+        "Item/partCharge8"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0.01, 0.04],
-        "rotation": [270, 0, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0.01,
+          0.04
+        ],
+        "rotation": [
+          270,
+          0,
+          0
+        ],
         "scale": 0.0018
       },
       "ground": {
-        "rotation": [90, 0, -45],
+        "rotation": [
+          90,
+          0,
+          -45
+        ],
         "scale": 0.3
       },
       "renderStyle": "rareItemTicket8"
@@ -1829,15 +3406,31 @@
     {
       "number": 147,
       "file": "Data/Item/partCharge8/rareitem_ticket9.bmd",
-      "textureFolders": ["Item/partCharge8"],
+      "textureFolders": [
+        "Item/partCharge8"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0.01, 0.04],
-        "rotation": [270, 0, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0.01,
+          0.04
+        ],
+        "rotation": [
+          270,
+          0,
+          0
+        ],
         "scale": 0.0018
       },
       "ground": {
-        "rotation": [90, 0, -45],
+        "rotation": [
+          90,
+          0,
+          -45
+        ],
         "scale": 0.3
       },
       "renderStyle": "rareItemTicket9"
@@ -1845,15 +3438,31 @@
     {
       "number": 148,
       "file": "Data/Item/partCharge8/rareitem_ticket10.bmd",
-      "textureFolders": ["Item/partCharge8"],
+      "textureFolders": [
+        "Item/partCharge8"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0.01, 0.04],
-        "rotation": [270, 0, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0.01,
+          0.04
+        ],
+        "rotation": [
+          270,
+          0,
+          0
+        ],
         "scale": 0.0018
       },
       "ground": {
-        "rotation": [90, 0, -45],
+        "rotation": [
+          90,
+          0,
+          -45
+        ],
         "scale": 0.3
       },
       "renderStyle": "rareItemTicket10"
@@ -1861,15 +3470,31 @@
     {
       "number": 149,
       "file": "Data/Item/partCharge8/rareitem_ticket11.bmd",
-      "textureFolders": ["Item/partCharge8"],
+      "textureFolders": [
+        "Item/partCharge8"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0.01, 0.04],
-        "rotation": [270, 0, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0.01,
+          0.04
+        ],
+        "rotation": [
+          270,
+          0,
+          0
+        ],
         "scale": 0.0018
       },
       "ground": {
-        "rotation": [90, 0, -45],
+        "rotation": [
+          90,
+          0,
+          -45
+        ],
         "scale": 0.3
       },
       "renderStyle": "rareItemTicket11"
@@ -1877,15 +3502,31 @@
     {
       "number": 150,
       "file": "Data/Item/partCharge8/rareitem_ticket12.bmd",
-      "textureFolders": ["Item/partCharge8"],
+      "textureFolders": [
+        "Item/partCharge8"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0.01, 0.04],
-        "rotation": [270, 0, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0.01,
+          0.04
+        ],
+        "rotation": [
+          270,
+          0,
+          0
+        ],
         "scale": 0.0018
       },
       "ground": {
-        "rotation": [90, 0, -45],
+        "rotation": [
+          90,
+          0,
+          -45
+        ],
         "scale": 0.3
       },
       "renderStyle": "rareItemTicket12"
@@ -1893,32 +3534,109 @@
     {
       "number": 160,
       "file": "Data/Item/LuckyItem/lucky_items01.bmd",
-      "textureFolders": ["Item/LuckyItem"],
+      "textureFolders": [
+        "Item/LuckyItem"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0, 0.05],
-        "rotation": [270, 0, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0,
+          0.05
+        ],
+        "rotation": [
+          270,
+          0,
+          0
+        ],
         "scale": 0.001
       },
       "ground": {
-        "rotation": [90, 0, -45],
+        "rotation": [
+          90,
+          0,
+          -45
+        ],
         "scale": 0.2
       }
     },
     {
       "number": 161,
       "file": "Data/Item/LuckyItem/lucky_items02.bmd",
-      "textureFolders": ["Item/LuckyItem"],
+      "textureFolders": [
+        "Item/LuckyItem"
+      ],
       "inventory": {
-        "anchor": [0.5, 0.95],
-        "offset": [0, 0.05],
-        "rotation": [270, 0, 0],
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "offset": [
+          0,
+          0.05
+        ],
+        "rotation": [
+          270,
+          0,
+          0
+        ],
         "scale": 0.001
       },
       "ground": {
-        "rotation": [90, 0, -45],
+        "rotation": [
+          90,
+          0,
+          -45
+        ],
         "scale": 0.2
       }
+    },
+    {
+      "number": 450,
+      "file": "Data/Item/Potion07.bmd",
+      "textureFolders": [
+        "Item"
+      ],
+      "inventory": {
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "scale": 0.0035
+      },
+      "itemEffect": "potion"
+    },
+    {
+      "number": 451,
+      "file": "Data/Item/Potion07.bmd",
+      "textureFolders": [
+        "Item"
+      ],
+      "inventory": {
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "scale": 0.0035
+      },
+      "itemEffect": "potion"
+    },
+    {
+      "number": 452,
+      "file": "Data/Item/Potion07.bmd",
+      "textureFolders": [
+        "Item"
+      ],
+      "inventory": {
+        "anchor": [
+          0.5,
+          0.95
+        ],
+        "scale": 0.0035
+      },
+      "itemEffect": "potion"
     }
   ]
 }

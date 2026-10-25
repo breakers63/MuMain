@@ -690,11 +690,10 @@ BOOL CCameraMove::SetTourMode(BOOL bFlag, BOOL bRandomStart, int index)
     m_CameraStartPos[1] = m_CurrentCameraPos[1] = m_vTourCameraPos[1] = startWaypoint->fCameraY;
     m_CameraStartPos[2] = m_CurrentCameraPos[2] = m_vTourCameraPos[2] = startWaypoint->fCameraZ;
 
-    // FIX: Apply position offset for LoginScene waypoints during initialization
-    // Offset is also applied in GetCurrentCameraPos() for ongoing tour movement
-    ApplyLoginSceneOffset(m_CameraStartPos[0], m_CameraStartPos[1], m_CameraStartPos[2]);
-    ApplyLoginSceneOffset(m_CurrentCameraPos[0], m_CurrentCameraPos[1], m_CurrentCameraPos[2]);
-    ApplyLoginSceneOffset(m_vTourCameraPos[0], m_vTourCameraPos[1], m_vTourCameraPos[2]);
+    // Keep path coordinates unshifted. GetCurrentCameraPos applies the scene offset once.
+
+
+
 
     CameraVector2 toTarget{targetWaypoint->fCameraX - startWaypoint->fCameraX, targetWaypoint->fCameraY - startWaypoint->fCameraY};
     const CameraVector2 forwardDir = toTarget.Normalized();
@@ -864,6 +863,10 @@ void CCameraMove::UpdateTourWayPoint()
                 AdvancePosition(m_vTourCameraPos, tourDir, targetCameraAcc);
             }
             m_CurrentCameraPos[2] = RequestTerrainHeight(m_CurrentCameraPos[0], m_CurrentCameraPos[1]);
+            // The smoothed heading may differ from the path tangent. Integrating it into
+            // a second position accumulates lateral drift on every corner and loop.
+            m_vTourCameraPos[0] = m_CurrentCameraPos[0];
+            m_vTourCameraPos[1] = m_CurrentCameraPos[1];
             m_vTourCameraPos[2] = kTourCameraZPosition;
 
             const float totalBlendDistance = distanceToOrigin + distanceToTarget;

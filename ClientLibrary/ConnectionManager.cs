@@ -1,4 +1,4 @@
-﻿// <copyright file="ConnectionManager.cs" company="MUnique">
+// <copyright file="ConnectionManager.cs" company="MUnique">
 // Licensed under the MIT License. See LICENSE file in the project root for full license information.
 // </copyright>
 
@@ -150,13 +150,6 @@ public unsafe partial class ConnectionManager
             connection.DisconnectAndDispose();
         }
     }
-
-    /// <summary>Gets the TCP round trip time for the existing connection.</summary>
-    /// <param name="handle">The active connection handle.</param>
-    /// <returns>Milliseconds, or -1 if unavailable.</returns>
-    [UnmanagedCallersOnly(EntryPoint = "ConnectionManager_GetTcpPing")]
-    public static int GetTcpPing(int handle)
-        => Connections.TryGetValue(handle, out var connection) ? connection.GetTcpPingMilliseconds() : -1;
 
     private static int ConnectInner(string host, int port, bool isEncrypted, delegate* unmanaged<int, int, byte*, void> onPacketReceived, delegate* unmanaged<int, void> onDisconnected)
     {

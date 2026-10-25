@@ -2,6 +2,26 @@ cmake_minimum_required(VERSION 3.25)
 
 project(MuMain LANGUAGES CXX)
 
+# Ninja must parse the exact UTF-8 /showIncludes prefix emitted by the installed
+# MSVC language pack. CMake can cache a mojibake prefix when the console code page
+# differs; that silently drops header dependencies and permits incompatible objects.
+if(MSVC)
+    get_filename_component(_mu_msvc_dir "${CMAKE_CXX_COMPILER}" DIRECTORY)
+    if(EXISTS "${_mu_msvc_dir}/3082/clui.dll")
+        set(MU_MSVC_LANGUAGE 3082)
+        set(MU_MSVC_INCLUDE_PREFIX "Nota: inclusión del archivo: ")
+    else()
+        set(MU_MSVC_LANGUAGE 1033)
+        set(MU_MSVC_INCLUDE_PREFIX "Note: including file: ")
+    endif()
+    set(CMAKE_CL_SHOWINCLUDES_PREFIX "${MU_MSVC_INCLUDE_PREFIX}")
+    list(PREPEND CMAKE_C_COMPILER_LAUNCHER "${CMAKE_COMMAND}" -E env "VSLANG=${MU_MSVC_LANGUAGE}")
+    list(PREPEND CMAKE_CXX_COMPILER_LAUNCHER "${CMAKE_COMMAND}" -E env "VSLANG=${MU_MSVC_LANGUAGE}")
+endif()
+
+
+
+
 if(MINGW)
     add_compile_options(-Wa,-mbig-obj)
 endif()
@@ -179,7 +199,7 @@ set(SPDLOG_BUILD_EXAMPLE OFF CACHE BOOL "" FORCE)
 set(SPDLOG_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 FetchContent_Declare(spdlog
     GIT_REPOSITORY https://github.com/gabime/spdlog.git
-    GIT_TAG        v1.15.3
+    GIT_TAG        v1.17.0
     GIT_SHALLOW    TRUE
 )
 FetchContent_MakeAvailable(spdlog)
@@ -208,6 +228,26 @@ FetchContent_Declare(SDL3_ttf
         "-DSOURCE_DIR=<SOURCE_DIR>"
         "-DPATCH_FILE=${CMAKE_SOURCE_DIR}/cmake/patches/sdl_ttf-3.2.2-fallback-baseline.patch"
         -P "${CMAKE_SOURCE_DIR}/cmake/ApplyGitPatch.cmake"
+)
+
+# RmlUi port: RmlUi's own vendored SDL_GPU renderer backend (ThirdParty/RmlUi/Backends/
+# RmlUi_Renderer_SDL_GPU.cpp) includes SDL3_image/SDL_image.h for its stock LoadTexture -- this
+# engine's RmlUiRenderInterface overrides that method to route through CGlobalBitmap instead
+# (see its own comment), so SDL_image is never actually called at runtime, but the base class's
+# unused method body still has to compile. Same FetchContent pattern as SDL3_ttf above rather
+# than vcpkg (vcpkg.json is scoped to Windows MSVC native deps; every other SDL-family library
+# here -- SDL3 itself, SDL3_ttf -- is a submodule/FetchContent, not vcpkg).
+set(SDLIMAGE_SAMPLES OFF CACHE BOOL "" FORCE)
+set(SDLIMAGE_VENDORED ON CACHE BOOL "" FORCE)
+# AVIF's vendored dav1d decoder needs a NASM assembler this machine doesn't have. Nothing here
+# ever actually calls RenderInterface_SDL_GPU's stock LoadTexture (see its own comment) --
+# disabling formats we'll never load avoids requiring build tools purely to satisfy an unused
+# code path's link-time dependencies.
+set(SDLIMAGE_AVIF OFF CACHE BOOL "" FORCE)
+FetchContent_Declare(SDL3_image
+    GIT_REPOSITORY https://github.com/libsdl-org/SDL_image.git
+    GIT_TAG        release-3.2.4
+    GIT_SHALLOW    TRUE
 )
 
 add_subdirectory("src")

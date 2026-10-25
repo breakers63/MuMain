@@ -1,0 +1,104 @@
+<rml>
+	<!-- bound-geometry: each member's health bar is a fraction -->
+<head>
+	<title>Party Info</title>
+	<link type="text/rcss" href="base.rcss"/>
+	<link type="text/rcss" href="docked_panel_frame.rcss"/>
+	<link type="text/rcss" href="party_info.rcss"/>
+	<link type="text/rcss" href="party_finder.rcss"/>
+    <link type="text/rcss" href="party_status.rcss"/>
+</head>
+<body>
+	<!-- The workspace slot places #panel and sets its scale (CObject::GetPlacedDocument()). -->
+	<div id="panel" data-model="party_info" data-style---text-px="text_px + 'px'">
+		<div class="frame-piece frame-top"></div>
+		<div class="frame-piece frame-left"></div>
+		<div class="frame-piece frame-right"></div>
+		<div class="frame-piece frame-bottom"></div>
+
+		<span class="sharp-text" id="title" data-style-font-size="text_px + 'px'">{{window_title}}</span>
+
+        <div class="party-tabs">
+            <button data-class-selected="active_tab == 0" data-event-click="party_tab(0)"><span class="party-button-label">{{members_tab}}</span></button>
+            <button data-class-selected="active_tab == 1" data-event-click="party_tab(1)"><span class="party-button-label">{{search_tab}}</span></button>
+            <button data-class-selected="active_tab == 2" data-event-click="party_tab(2)"><span class="party-button-label">{{settings_tab}}</span></button>
+        </div>
+        <div class="party-no-group" data-class-hidden="has_party || active_tab != 0">{{no_party}}</div>
+        <div class="party-finder" data-class-hidden="active_tab != 1">
+            <div class="finder-art-back"></div><h2>{{finder_title}}</h2>
+            <div class="finder-intro">{{finder_intro}}</div>
+            <button class="finder-random" data-class-disabled="has_party" data-event-click="finder_action(4)"><span class="party-button-label">{{random_label}}</span></button>
+            <div class="finder-join-blocked" data-class-hidden="!has_party">{{join_blocked}}</div>
+            <div class="finder-divider"></div>
+            <div class="finder-heading">{{public_list_label}}</div>
+            <div class="finder-help">{{finder_help}}</div>
+            <div class="finder-rows">
+                <div class="finder-row" data-for="f : finder_parties">
+                    <span class="finder-leader">{{f.leader}}</span><span class="finder-map">{{f.map}}</span>
+                    <span class="finder-slots">{{f.slots}}</span>
+                    <button data-class-disabled="f.full || has_party" data-event-click="finder_action(3, f.id)"><span class="party-button-label">{{join_label}}</span></button>
+                </div>
+            </div>
+            <div class="finder-empty" data-class-hidden="!finder_empty">{{empty_label}}</div>
+            <div class="finder-pagination">
+                <button data-event-click="finder_action(7)"><span class="party-button-label">&#8249;</span></button><span><span class="party-button-label">{{page_label}}</span></span>
+                <button data-event-click="finder_action(8)"><span class="party-button-label">&#8250;</span></button>
+            </div>
+            <button class="finder-refresh" data-event-click="finder_action(0)"><span class="party-button-label">{{refresh_label}}</span></button>
+
+        </div>
+        <div class="party-toolbar" data-class-hidden="!has_party || active_tab != 0">
+            <button data-class-hidden="is_leader" data-event-click="finder_action(5)"><span class="party-button-label">{{travel_label}}</span></button>
+        </div>
+        <div class="party-settings" data-class-hidden="active_tab != 2">
+            <div class="settings-no-party" data-class-hidden="has_party"><span class="settings-no-party-label">{{no_party}}</span><button class="settings-create" data-event-click="finder_action(1)"><span class="party-button-label">{{publish_label}}</span></button></div>
+            <div data-class-hidden="!has_party">
+            <button class="party-setting-check settings-privacy" role="checkbox" data-class-checked="is_public" data-class-disabled="!is_leader" data-event-click="party_setting(0)"><span class="party-check-square"><span class="party-check-tick" data-class-hidden="!is_public">&#10003;</span></span><span class="party-check-label">{{public_option_label}}</span></button>
+            <button class="party-setting-check settings-follow" role="checkbox" data-class-checked="is_follow_enabled" data-class-disabled="!is_leader" data-event-click="party_setting(1)"><span class="party-check-square"><span class="party-check-tick" data-class-hidden="!is_follow_enabled">&#10003;</span></span><span class="party-check-label">{{follow_option_label}}</span></button>
+            <button class="party-setting-check settings-auto" role="checkbox" data-class-checked="auto_accept_party" data-class-disabled="!is_leader" data-event-click="party_setting(2)"><span class="party-check-square"><span class="party-check-tick" data-class-hidden="!auto_accept_party">&#10003;</span></span><span class="party-check-label">{{auto_option_label}}</span></button>
+                <div class="settings-leader-only" data-class-hidden="is_leader">{{leader_only}}</div>
+            </div>
+            <button class="party-setting-check settings-buffs" role="checkbox" data-class-checked="show_buffs" data-event-click="party_setting(3)"><span class="party-check-square"><span class="party-check-tick" data-class-hidden="!show_buffs">&#10003;</span></span><span class="party-check-label">{{show_buffs_label}}</span></button>
+            <button class="party-setting-check settings-summon" role="checkbox" data-class-checked="block_summon" data-event-click="party_setting(4)"><span class="party-check-square"><span class="party-check-tick" data-class-hidden="!block_summon">&#10003;</span></span><span class="party-check-label">{{block_summon_label}}</span></button>
+        </div>
+        <div class="finder-status">{{status}}</div>
+
+		<div class="party-list" data-class-hidden="!has_party || active_tab != 0">
+			<div class="party-row" data-for="m : members">
+				<!-- RenderGroupBox(x, y, 170, 70, 70, 20): the fills, the corners, then the edges. -->
+				<div class="gbox-title-fill"></div>
+				<div class="gbox-content-fill"></div>
+				<div class="gbox-corner gbox-corner-tl"></div>
+				<div class="gbox-corner gbox-corner-tr-title"></div>
+				<div class="gbox-corner gbox-corner-tr"></div>
+				<div class="gbox-corner gbox-corner-bl"></div>
+				<div class="gbox-corner gbox-corner-br"></div>
+				<div class="gbox-edge gbox-edge-top party-edge-title-top"></div>
+				<div class="gbox-edge gbox-edge-right party-edge-title-right"></div>
+				<div class="gbox-edge gbox-edge-top party-edge-top"></div>
+				<div class="gbox-edge gbox-edge-right party-edge-right"></div>
+				<div class="gbox-edge gbox-edge-bottom party-edge-bottom"></div>
+				<div class="gbox-edge gbox-edge-left party-edge-left"></div>
+
+				<span class="sharp-text party-name" data-class-leader="m.is_leader" data-style-font-size="text_px + 'px'">{{m.name}}</span>
+				<div class="party-flag" data-class-inactive="!m.is_leader" data-class-transfer="m.can_transfer" data-attr-data-hint="pass_leader" data-event-click="party_leader(m.index)"></div>
+				<span class="sharp-text party-level">{{m.level_text}}</span>
+                <span class="sharp-text party-map">{{m.map_text}}</span>
+				<span class="sharp-text party-coord">{{m.coord_text}}</span>
+				<div class="party-hp-bar">
+					<div class="party-hp-fill" data-style-width="m.hp_percent + '%'"></div>
+				</div>
+				<span class="sharp-text party-hp-text">{{m.hp_text}}</span>
+                <div class="party-mana-bar"><div class="party-mana-fill" data-style-width="m.mana_percent + '%'"></div></div>
+                <span class="sharp-text party-mana-text">{{m.mana_text}}</span>
+                <div class="party-buffs"><div class="party-buff" data-for="b : m.buffs" data-style-decorator="b"></div></div>
+				<div class="party-kick-btn" data-class-hidden="!m.show_kick"
+				     data-event-click="party_kick_member(m.index)"></div>
+			</div>
+		</div>
+
+		<div id="btn_exit" data-event-click="window_close" data-attr-data-hint="exit_tooltip"></div>
+		<div id="frame_corner_close" data-event-click="window_close"></div>
+	</div>
+</body>
+</rml>

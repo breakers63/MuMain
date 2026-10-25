@@ -6530,7 +6530,7 @@
     <comment>legacy_id=1747</comment>
   </data>
   <data name="EXP:%I64d / %I64d" xml:space="preserve">
-    <value>EXP:%I64d /%I64d</value>
+    <value>EXP:%llu /%llu</value>
     <comment>legacy_id=1748</comment>
   </data>
   <data name="Master skill tree (A)" xml:space="preserve">
@@ -13052,8 +13052,47 @@
   <data name="QuestRequirementBuff" xml:space="preserve">
     <value>Bonus: %ls</value>
   </data>
-<data name="MentorConnecting" xml:space="preserve"><value>Waiting for mentorship data from the server...</value></data>
-  
-<data name="MentorUnavailable" xml:space="preserve"><value>The mentorship server has not responded. Update the server patch and reconnect.</value></data>
-
+  <data name="PartyFinderTitle" xml:space="preserve"><value>Szukaj drużyny</value></data>
+  <data name="PartyFinderRandom" xml:space="preserve"><value>Dołącz do losowej drużyny</value></data>
+  <data name="PartyFinderPublicList" xml:space="preserve"><value>Publiczne drużyny</value></data>
+  <data name="PartyFinderJoin" xml:space="preserve"><value>Dołącz</value></data>
+  <data name="PartyFinderRefresh" xml:space="preserve"><value>Odśwież</value></data>
+  <data name="PartyFinderPublish" xml:space="preserve"><value>Utwórz publiczną drużynę</value></data>
+  <data name="PartyFinderPublic" xml:space="preserve"><value>Publiczna</value></data>
+  <data name="PartyFinderPrivate" xml:space="preserve"><value>Prywatna</value></data>
+  <data name="PartyFinderMakePublic" xml:space="preserve"><value>Ustaw publiczną</value></data>
+  <data name="PartyFinderMakePrivate" xml:space="preserve"><value>Ustaw prywatną</value></data>
+  <data name="PartyFinderTravel" xml:space="preserve"><value>Idź do lidera</value></data>
+  <data name="PartyFinderFollow" xml:space="preserve"><value>Podążaj</value></data>
+  <data name="PartyFinderStop" xml:space="preserve"><value>Przestań podążać</value></data>
+  <data name="PartyFinderEmpty" xml:space="preserve"><value>Brak publicznych drużyn</value></data>
+  <data name="PartyFinderWaiting" xml:space="preserve"><value>Oczekiwanie na serwer...</value></data>
+  <data name="PartyFinderUnavailable" xml:space="preserve"><value>Akcja jest teraz niedostępna</value></data>
+  <data name="PartyFinderDenied" xml:space="preserve"><value>Nie masz uprawnień</value></data>
+  <data name="PartyFinderFull" xml:space="preserve"><value>Brak odpowiedniej drużyny z miejscem</value></data>
+  <data name="PartyFinderMissing" xml:space="preserve"><value>Towarzysz jest niedostępny</value></data>
+  <data name="PartyFinderRestricted" xml:space="preserve"><value>Nie spełniasz wymagań celu</value></data>
+  <data name="PartyFinderBlocked" xml:space="preserve"><value>Brak poprawnego miejsca przybycia</value></data>
+  <data name="PartyFinderMembersTab" xml:space="preserve"><value>Członkowie</value></data>
+  <data name="PartyFinderSearchTab" xml:space="preserve"><value>Szukaj</value></data>
+  <data name="PartyFinderSettingsTab" xml:space="preserve"><value>Opcje</value></data>
+  <data name="PartyFinderAllowFollow" xml:space="preserve"><value>Zezwól na podążanie</value></data>
+  <data name="PartyFinderDisableFollow" xml:space="preserve"><value>Wyłącz podążanie</value></data>
+  <data name="PartyFinderFollowEnabled" xml:space="preserve"><value>Podążanie włączone</value></data>
+  <data name="PartyFinderFollowDisabled" xml:space="preserve"><value>Podążanie wyłączone</value></data>
+  <data name="PartyFinderLeaderOnly" xml:space="preserve"><value>Tylko lider może zmieniać opcje</value></data>
+  <data name="PartyFinderJoinBlocked" xml:space="preserve"><value>Opuść drużynę, aby dołączyć do innej</value></data>
+  <data name="PartyFinderPassLeader" xml:space="preserve"><value>Przekaż przywództwo</value></data>
+  <data name="PartyFinderNoParty" xml:space="preserve"><value>Najpierw dołącz lub utwórz drużynę</value></data>
+  <data name="PartyFinderVisibility" xml:space="preserve"><value>Widoczność drużyny</value></data>
+  <data name="PartyFinderIntro" xml:space="preserve"><value>Dołącz do losowej drużyny i poznaj nowych towarzyszy walki.</value></data>
+  <data name="PartyFinderListHelp" xml:space="preserve"><value>Wyświetlana mapa jest mapą lidera.</value></data>
+  <data name="PartyFinderAutoAcceptParty" xml:space="preserve"><value>Automatycznie przyjmuj do drużyny</value></data>
+  <data name="PartyFinderAutoAcceptEnable" xml:space="preserve"><value>Włącz automatyczne przyjmowanie</value></data>
+  <data name="PartyFinderAutoAcceptDisable" xml:space="preserve"><value>Wyłącz automatyczne przyjmowanie</value></data>
+  <data name="PartyFinderAutoAcceptEnabled" xml:space="preserve"><value>Automatyczne przyjmowanie: wł.</value></data>
+  <data name="PartyFinderAutoAcceptDisabled" xml:space="preserve"><value>Automatyczne przyjmowanie: wył.</value></data>
+  <data name="PartyFinderShowBuffs" xml:space="preserve"><value>Pokaż buffy drużyny</value></data>
+  <data name="PartyFinderBlockSummon" xml:space="preserve"><value>Blokuj przywołanie Dark Lorda</value></data>
+  <data name="PartyFinderLevelResets" xml:space="preserve"><value>Poziom: %d | R: %d</value></data>
 </root>

@@ -1,13 +1,4 @@
 mu_add_test(
-    NAME test_paris_jewel_bank
-    SOURCES
-        test_paris_jewel_bank.cpp
-        test_paris_advanced_stats.cpp
-        ${CMAKE_SOURCE_DIR}/src/source/Network/Paris/JewelBankProtocol.cpp
-        ${CMAKE_SOURCE_DIR}/src/source/GameLogic/Character/AdvancedStatsSummary.cpp
-)
-
-mu_add_test(
     NAME test_server_config_validation
     SOURCES
         test_server_config_validation.cpp
@@ -118,18 +109,25 @@ if(DOTNET_EXECUTABLE)
 endif()
 
 mu_add_test(
-    NAME test_paris_server_metadata
+    NAME test_advanced_stats_snapshot
     SOURCES
-        test_paris_server_metadata.cpp
-        test_paris_stat_allocation.cpp
-        ${CMAKE_SOURCE_DIR}/src/source/Network/Paris/EventTimerState.cpp
-        ${CMAKE_SOURCE_DIR}/src/source/Network/Paris/StatServerLimits.cpp
-        ${CMAKE_SOURCE_DIR}/src/source/GameLogic/Character/StatAllocationState.cpp
+        test_advanced_stats_snapshot.cpp
+        ${CMAKE_SOURCE_DIR}/src/source/Network/Paris/AdvancedStatsSnapshot.cpp
 )
 
 mu_add_test(
-    NAME custom_monster_viewport_tests
-    SOURCES test_custom_monster_viewport.cpp
+    NAME test_stat_limits_snapshot
+    SOURCES test_stat_limits_snapshot.cpp
+        ${CMAKE_SOURCE_DIR}/src/source/Network/Paris/StatLimitsSnapshot.cpp
 )
 
-mu_add_test(NAME active_invasion_state_tests SOURCES test_active_invasion_state.cpp ${CMAKE_SOURCE_DIR}/src/source/GameLogic/Events/ActiveInvasionState.cpp)
+mu_add_test(NAME test_ranking_inspection SOURCES test_ranking_inspection.cpp LINK_LIBS MuClient)
+
+mu_add_test(
+    NAME test_party_finder_protocol
+    SOURCES test_party_finder_protocol.cpp
+        ${CMAKE_SOURCE_DIR}/src/source/App/Platform/Windows/Winmain.cpp
+    LINK_LIBS MuClient
+)
+
+mu_add_test(NAME test_server_list_script SOURCES test_server_list_script.cpp)

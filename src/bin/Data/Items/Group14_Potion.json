@@ -10,7 +10,9 @@
         "es": "Manzana",
         "pt": "Maçã"
       },
-      "tags": ["healingPotion"],
+      "tags": [
+        "healingPotion"
+      ],
       "width": 1,
       "height": 1,
       "level": 1,
@@ -25,7 +27,9 @@
         "es": "Pócima de Curación Pequeña",
         "pt": "Pequena poção de cura"
       },
-      "tags": ["healingPotion"],
+      "tags": [
+        "healingPotion"
+      ],
       "width": 1,
       "height": 1,
       "level": 10,
@@ -40,7 +44,9 @@
         "es": "Pócima de Curación",
         "pt": "Poção de cura"
       },
-      "tags": ["healingPotion"],
+      "tags": [
+        "healingPotion"
+      ],
       "width": 1,
       "height": 1,
       "level": 25,
@@ -55,7 +61,9 @@
         "es": "Pócima de Curación Grande",
         "pt": "Grande poção de cura"
       },
-      "tags": ["healingPotion"],
+      "tags": [
+        "healingPotion"
+      ],
       "width": 1,
       "height": 1,
       "level": 40,
@@ -70,7 +78,9 @@
         "es": "Pócima de Maná Pequeña",
         "pt": "Pequena poção de mana"
       },
-      "tags": ["manaPotion"],
+      "tags": [
+        "manaPotion"
+      ],
       "width": 1,
       "height": 1,
       "level": 10,
@@ -85,7 +95,9 @@
         "es": "Pócima de Maná",
         "pt": "Poção de mana"
       },
-      "tags": ["manaPotion"],
+      "tags": [
+        "manaPotion"
+      ],
       "width": 1,
       "height": 1,
       "level": 25,
@@ -100,7 +112,9 @@
         "es": "Pócima de Maná Grande",
         "pt": "Grande poção de mana"
       },
-      "tags": ["manaPotion"],
+      "tags": [
+        "manaPotion"
+      ],
       "width": 1,
       "height": 1,
       "level": 40,
@@ -157,7 +171,7 @@
         "pt": "Perg. de Portal para a Cidade"
       },
       "width": 1,
-      "height": 2,
+      "height": 1,
       "level": 30,
       "sellValue": 30,
       "repairable": false
@@ -195,7 +209,10 @@
         "es": "Joya de Bendición",
         "pt": "Joia da bênção"
       },
-      "tags": ["jewel", "valuable"],
+      "tags": [
+        "jewel",
+        "valuable"
+      ],
       "width": 1,
       "height": 1,
       "level": 25,
@@ -210,7 +227,10 @@
         "es": "Joya de Alma",
         "pt": "Joia da alma"
       },
-      "tags": ["jewel", "valuable"],
+      "tags": [
+        "jewel",
+        "valuable"
+      ],
       "width": 1,
       "height": 1,
       "level": 30,
@@ -234,7 +254,10 @@
         "es": "Joya de Vida",
         "pt": "Joia da vida"
       },
-      "tags": ["jewel", "valuable"],
+      "tags": [
+        "jewel",
+        "valuable"
+      ],
       "width": 1,
       "height": 1,
       "level": 72,
@@ -310,7 +333,10 @@
         "es": "Joya de la Creación",
         "pt": "Joia da criação"
       },
-      "tags": ["jewel", "valuable"],
+      "tags": [
+        "jewel",
+        "valuable"
+      ],
       "width": 1,
       "height": 1,
       "level": 78,
@@ -324,7 +350,9 @@
         "es": "Rollo del Emperador",
         "pt": "Pergaminho do Imperador"
       },
-      "tags": ["secondClassQuestItem"],
+      "tags": [
+        "secondClassQuestItem"
+      ],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -341,7 +369,9 @@
         "es": "Espada Quebrada",
         "pt": "Espada quebrada"
       },
-      "tags": ["secondClassQuestItem"],
+      "tags": [
+        "secondClassQuestItem"
+      ],
       "width": 1,
       "height": 2,
       "tradable": false,
@@ -358,7 +388,9 @@
         "es": "Lágrima de Elfa",
         "pt": "Lágrima do elfo"
       },
-      "tags": ["secondClassQuestItem"],
+      "tags": [
+        "secondClassQuestItem"
+      ],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -375,7 +407,9 @@
         "es": "Fragmento de Alma de Mago",
         "pt": "Fragmento da alma do Mago"
       },
-      "tags": ["secondClassQuestItem"],
+      "tags": [
+        "secondClassQuestItem"
+      ],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -416,7 +450,10 @@
         "es": "Joya de Guardián",
         "pt": "Joia do guardião"
       },
-      "tags": ["jewel", "valuable"],
+      "tags": [
+        "jewel",
+        "valuable"
+      ],
       "width": 1,
       "height": 1,
       "sellValue": 75,
@@ -505,7 +542,9 @@
         "es": "Pócima Compleja Pequeña",
         "pt": "Pequena poção complexa"
       },
-      "tags": ["complexPotion"],
+      "tags": [
+        "complexPotion"
+      ],
       "width": 1,
       "height": 1,
       "level": 68,
@@ -520,7 +559,9 @@
         "es": "Pócima Compleja",
         "pt": "Poção complexa"
       },
-      "tags": ["complexPotion"],
+      "tags": [
+        "complexPotion"
+      ],
       "width": 1,
       "height": 1,
       "level": 96,
@@ -535,7 +576,9 @@
         "es": "Pócima Compleja Grande",
         "pt": "Grande poção complexa"
       },
-      "tags": ["complexPotion"],
+      "tags": [
+        "complexPotion"
+      ],
       "width": 1,
       "height": 1,
       "level": 118,
@@ -550,7 +593,9 @@
         "es": "Gema",
         "pt": "Pedra preciosa"
       },
-      "tags": ["valuable"],
+      "tags": [
+        "valuable"
+      ],
       "width": 1,
       "height": 1,
       "level": 25,
@@ -565,7 +610,9 @@
         "es": "Joya de la Armonía",
         "pt": "Joia da harmonia"
       },
-      "tags": ["valuable"],
+      "tags": [
+        "valuable"
+      ],
       "width": 1,
       "height": 1,
       "level": 25,
@@ -580,7 +627,10 @@
         "es": "Piedra de Más Baja Refinación",
         "pt": "Pedra refinada inferior"
       },
-      "tags": ["refineStone", "valuable"],
+      "tags": [
+        "refineStone",
+        "valuable"
+      ],
       "width": 1,
       "height": 1,
       "level": 25,
@@ -595,7 +645,10 @@
         "es": "Piedra de Más Alta Refinación",
         "pt": "Pedra refinada superior"
       },
-      "tags": ["refineStone", "valuable"],
+      "tags": [
+        "refineStone",
+        "valuable"
+      ],
       "width": 1,
       "height": 1,
       "level": 25,
@@ -624,7 +677,7 @@
         "pt": "Bênçãos do Jack O'Lantern"
       },
       "width": 1,
-      "height": 2,
+      "height": 1,
       "repairable": false
     },
     {
@@ -636,7 +689,7 @@
         "pt": "Ira do Jack O'Lantern"
       },
       "width": 1,
-      "height": 2,
+      "height": 1,
       "repairable": false
     },
     {
@@ -648,7 +701,7 @@
         "pt": "Grito do Jack O'Lantern"
       },
       "width": 1,
-      "height": 2,
+      "height": 1,
       "repairable": false
     },
     {
@@ -708,7 +761,9 @@
         "es": "Talismán de la Suerte",
         "pt": "Talismã da sorte"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -725,7 +780,9 @@
         "es": "Tarjeta de Caos",
         "pt": "Cartão do caos"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -778,7 +835,9 @@
         "es": "Boleto de Ítem Raro1",
         "pt": "Bilhete de item raro1"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -795,7 +854,9 @@
         "es": "Boleto de Ítem Raro2",
         "pt": "Bilhete de item raro2"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -812,7 +873,9 @@
         "es": "Boleto de Ítem Raro3",
         "pt": "Bilhete de item raro3"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -829,7 +892,9 @@
         "es": "Boleto de Ítem Raro4",
         "pt": "Bilhete de item raro4"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -846,7 +911,9 @@
         "es": "Boleto de Ítem Raro5",
         "pt": "Bilhete de item raro5"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -888,7 +955,9 @@
         "es": "Llama Caballero Haz Mortal",
         "pt": "Chama do Cav. Raio da Morte"
       },
-      "tags": ["thirdClassQuestItem"],
+      "tags": [
+        "thirdClassQuestItem"
+      ],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -905,7 +974,9 @@
         "es": "Cuerno de Minero Infiernal",
         "pt": "Chifre do Mineiro do Inferno"
       },
-      "tags": ["thirdClassQuestItem"],
+      "tags": [
+        "thirdClassQuestItem"
+      ],
       "width": 1,
       "height": 2,
       "tradable": false,
@@ -922,7 +993,9 @@
         "es": "Pluma de Fénix Oscuro",
         "pt": "Pena de fênix negra"
       },
-      "tags": ["thirdClassQuestItem"],
+      "tags": [
+        "thirdClassQuestItem"
+      ],
       "width": 1,
       "height": 2,
       "tradable": false,
@@ -939,7 +1012,9 @@
         "es": "Ojo Abismal",
         "pt": "Olho abissal"
       },
-      "tags": ["thirdClassQuestItem"],
+      "tags": [
+        "thirdClassQuestItem"
+      ],
       "width": 1,
       "height": 2,
       "tradable": false,
@@ -956,7 +1031,10 @@
         "es": "Pócima de Curación de Élite",
         "pt": "Poção de cura de elite"
       },
-      "tags": ["elitePotion", "cashShop"],
+      "tags": [
+        "elitePotion",
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -973,7 +1051,10 @@
         "es": "Pócima de Maná de Élite",
         "pt": "Poção de mana de elite"
       },
-      "tags": ["elitePotion", "cashShop"],
+      "tags": [
+        "elitePotion",
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -990,9 +1071,12 @@
         "es": "Rollo de Rapidez",
         "pt": "Pergaminho da rapidez"
       },
-      "tags": ["buffScroll", "cashShop"],
-      "width": 2,
-      "height": 2,
+      "tags": [
+        "buffScroll",
+        "cashShop"
+      ],
+      "width": 1,
+      "height": 1,
       "tradable": false,
       "droppable": false,
       "sellable": false,
@@ -1007,9 +1091,12 @@
         "es": "Rollo de Defensa",
         "pt": "Pergaminho da defesa"
       },
-      "tags": ["buffScroll", "cashShop"],
-      "width": 2,
-      "height": 2,
+      "tags": [
+        "buffScroll",
+        "cashShop"
+      ],
+      "width": 1,
+      "height": 1,
       "tradable": false,
       "droppable": false,
       "sellable": false,
@@ -1024,9 +1111,12 @@
         "es": "Rollo de Ira",
         "pt": "Pergaminho da ira"
       },
-      "tags": ["buffScroll", "cashShop"],
-      "width": 2,
-      "height": 2,
+      "tags": [
+        "buffScroll",
+        "cashShop"
+      ],
+      "width": 1,
+      "height": 1,
       "tradable": false,
       "droppable": false,
       "sellable": false,
@@ -1041,9 +1131,12 @@
         "es": "Rollo de Magia",
         "pt": "Pergaminho do poder de magia"
       },
-      "tags": ["buffScroll", "cashShop"],
-      "width": 2,
-      "height": 2,
+      "tags": [
+        "buffScroll",
+        "cashShop"
+      ],
+      "width": 1,
+      "height": 1,
       "tradable": false,
       "droppable": false,
       "sellable": false,
@@ -1058,9 +1151,12 @@
         "es": "Rollo de Salud",
         "pt": "Pergaminho de vida"
       },
-      "tags": ["buffScroll", "cashShop"],
-      "width": 2,
-      "height": 2,
+      "tags": [
+        "buffScroll",
+        "cashShop"
+      ],
+      "width": 1,
+      "height": 1,
       "tradable": false,
       "droppable": false,
       "sellable": false,
@@ -1075,9 +1171,12 @@
         "es": "Rollo de Maná",
         "pt": "Pergaminho de mana"
       },
-      "tags": ["buffScroll", "cashShop"],
-      "width": 2,
-      "height": 2,
+      "tags": [
+        "buffScroll",
+        "cashShop"
+      ],
+      "width": 1,
+      "height": 1,
       "tradable": false,
       "droppable": false,
       "sellable": false,
@@ -1092,7 +1191,10 @@
         "es": "Elixir de Fuerza",
         "pt": "Elixir da força"
       },
-      "tags": ["elixir", "cashShop"],
+      "tags": [
+        "elixir",
+        "cashShop"
+      ],
       "width": 1,
       "height": 2,
       "tradable": false,
@@ -1109,7 +1211,10 @@
         "es": "Elixir de Agilidad",
         "pt": "Elixir da agilidade"
       },
-      "tags": ["elixir", "cashShop"],
+      "tags": [
+        "elixir",
+        "cashShop"
+      ],
       "width": 1,
       "height": 2,
       "tradable": false,
@@ -1126,7 +1231,10 @@
         "es": "Elixir de Salud",
         "pt": "Elixir da vida"
       },
-      "tags": ["elixir", "cashShop"],
+      "tags": [
+        "elixir",
+        "cashShop"
+      ],
       "width": 1,
       "height": 2,
       "tradable": false,
@@ -1143,7 +1251,10 @@
         "es": "Elixir de Energía",
         "pt": "Elixir da energia"
       },
-      "tags": ["elixir", "cashShop"],
+      "tags": [
+        "elixir",
+        "cashShop"
+      ],
       "width": 1,
       "height": 2,
       "tradable": false,
@@ -1160,7 +1271,10 @@
         "es": "Elixir de Control",
         "pt": "Elixir do controle"
       },
-      "tags": ["elixir", "cashShop"],
+      "tags": [
+        "elixir",
+        "cashShop"
+      ],
       "width": 1,
       "height": 2,
       "tradable": false,
@@ -1273,7 +1387,9 @@
         "es": "Tarjeta Personaje Invocador",
         "pt": "Cartão do Pers. Invocador"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -1290,7 +1406,9 @@
         "es": "Tarjeta de Caos Oro",
         "pt": "Cartão dourado do caos"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -1307,7 +1425,9 @@
         "es": "Tarjeta de Caos Rara",
         "pt": "Cartão raro do caos"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -1324,7 +1444,9 @@
         "es": "Pócima Curación Élite Media",
         "pt": "Poção média de cura de elite"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -1341,7 +1463,9 @@
         "es": "Tarjeta de Caos Mini",
         "pt": "Mini cartão do caos"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -1358,7 +1482,9 @@
         "es": "Ensamble Talismán del Caos",
         "pt": "Talismã do Agrup. do Caos"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -1375,9 +1501,12 @@
         "es": "Rollo de Batalla",
         "pt": "Pergaminho da batalha"
       },
-      "tags": ["battleOrStrengthScroll", "cashShop"],
-      "width": 2,
-      "height": 2,
+      "tags": [
+        "battleOrStrengthScroll",
+        "cashShop"
+      ],
+      "width": 1,
+      "height": 1,
       "tradable": false,
       "droppable": false,
       "sellable": false,
@@ -1392,9 +1521,12 @@
         "es": "Rollo de Fuerza",
         "pt": "Pergaminho da força"
       },
-      "tags": ["battleOrStrengthScroll", "cashShop"],
-      "width": 2,
-      "height": 2,
+      "tags": [
+        "battleOrStrengthScroll",
+        "cashShop"
+      ],
+      "width": 1,
+      "height": 1,
       "tradable": false,
       "droppable": false,
       "sellable": false,
@@ -1567,7 +1699,10 @@
         "es": "Llave de Plata",
         "pt": "Chave prateada"
       },
-      "tags": ["cashShop", "valuable"],
+      "tags": [
+        "cashShop",
+        "valuable"
+      ],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -1585,7 +1720,10 @@
         "es": "Llave de Oro",
         "pt": "Chave dourada"
       },
-      "tags": ["cashShop", "valuable"],
+      "tags": [
+        "cashShop",
+        "valuable"
+      ],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -1603,7 +1741,9 @@
         "es": "Reinicio de Habilidad Maestra",
         "pt": "Reinic. de Habilidade Mestre"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -1620,7 +1760,9 @@
         "es": "Ajuste de Estadísticas",
         "pt": "Ajuste de atributos"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -1637,7 +1779,9 @@
         "es": "Cuarto Fragmento Secromicon",
         "pt": "Serviço Nova Local. de Pers."
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -1654,7 +1798,9 @@
         "es": "Servicio Renombrar Personaje",
         "pt": "Serviço Novo Nome do Pers."
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -1671,7 +1817,9 @@
         "es": "Servicio Reubicar Servidor",
         "pt": "Serviço Nova Local. de Serv."
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -1688,7 +1836,9 @@
         "es": "Paquete Premium",
         "pt": "Pacote Premium"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -1705,7 +1855,9 @@
         "es": "Moneda de Oro de Duendes",
         "pt": "Moeda dourada do goblin"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -1722,7 +1874,9 @@
         "es": "Caja Dorada Sellada",
         "pt": "Caixa dourada lacrada"
       },
-      "tags": ["valuable"],
+      "tags": [
+        "valuable"
+      ],
       "width": 1,
       "height": 1,
       "droppable": false,
@@ -1736,7 +1890,9 @@
         "es": "Caja Plateada Sellada",
         "pt": "Caixa prateada lacrada"
       },
-      "tags": ["valuable"],
+      "tags": [
+        "valuable"
+      ],
       "width": 1,
       "height": 1,
       "droppable": false,
@@ -1750,7 +1906,9 @@
         "es": "Caja Dorada",
         "pt": "Caixa dourada"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -1767,7 +1925,9 @@
         "es": "Caja Plateada",
         "pt": "Caixa prateada"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -1796,7 +1956,9 @@
         "es": "Pase por 30 días",
         "pt": "Passe de 30 dias"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -1813,7 +1975,9 @@
         "es": "Pase por 90 días",
         "pt": "Passe de 90 dias"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -1830,7 +1994,9 @@
         "es": "Puntos - Pase por 30 días",
         "pt": "Passe de 30 dias - Pontos"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -1847,7 +2013,9 @@
         "es": "Puntos - Pase por 90 días",
         "pt": "Passe de 90 dias - Pontos"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -1864,7 +2032,9 @@
         "es": "Pase por 3 horas",
         "pt": "Passe de 3 horas"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -1881,7 +2051,9 @@
         "es": "Pase por 5 horas",
         "pt": "Passe de 5 horas"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -1898,7 +2070,9 @@
         "es": "Pase por 10 horas",
         "pt": "Passe de 10 horas"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -1915,7 +2089,9 @@
         "es": "Pócima de SD de Élite",
         "pt": "Poção de SD de elite"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -1932,7 +2108,9 @@
         "es": "Caja de Paquete A",
         "pt": "Caixa de pacote A"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -1949,7 +2127,9 @@
         "es": "Caja de Paquete B",
         "pt": "Caixa de pacote B"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -1966,7 +2146,9 @@
         "es": "Caja de Paquete C",
         "pt": "Caixa de pacote C"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -1983,7 +2165,9 @@
         "es": "Caja de Paquete D",
         "pt": "Caixa de pacote D"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -2000,7 +2184,9 @@
         "es": "Caja de Paquete E",
         "pt": "Caixa de pacote E"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -2017,7 +2203,9 @@
         "es": "Caja de Paquete F",
         "pt": "Caixa de pacote F"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -2034,9 +2222,11 @@
         "es": "Rollo de Curación",
         "pt": "Pergaminho da cura"
       },
-      "tags": ["cashShop"],
-      "width": 2,
-      "height": 2,
+      "tags": [
+        "cashShop"
+      ],
+      "width": 1,
+      "height": 1,
       "tradable": false,
       "droppable": false,
       "sellable": false,
@@ -2099,7 +2289,9 @@
         "es": "Boleto de Ítem Raro 7",
         "pt": "Bilhete de item raro7"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -2116,7 +2308,9 @@
         "es": "Boleto de Ítem Raro 8",
         "pt": "Bilhete de item raro8"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -2133,7 +2327,9 @@
         "es": "Boleto de Ítem Raro 9",
         "pt": "Bilhete de item raro9"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -2150,7 +2346,9 @@
         "es": "Boleto de Ítem Raro 10",
         "pt": "Bilhete de item raro10"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -2167,7 +2365,9 @@
         "es": "Boleto de Ítem Raro 11",
         "pt": "Bilhete de item raro11"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -2184,7 +2384,9 @@
         "es": "Boleto de Ítem Raro 12",
         "pt": "Bilhete de item raro12"
       },
-      "tags": ["cashShop"],
+      "tags": [
+        "cashShop"
+      ],
       "width": 1,
       "height": 1,
       "tradable": false,
@@ -2373,6 +2575,42 @@
       "width": 1,
       "height": 1,
       "repairable": false
+    },
+    {
+      "number": 450,
+      "name": {
+        "en": "Red Color Potion",
+        "es": "Pocion de color roja"
+      },
+      "width": 1,
+      "height": 1,
+      "durability": 1,
+      "repairable": false,
+      "sellable": false
+    },
+    {
+      "number": 451,
+      "name": {
+        "en": "Green Color Potion",
+        "es": "Pocion de color verde"
+      },
+      "width": 1,
+      "height": 1,
+      "durability": 1,
+      "repairable": false,
+      "sellable": false
+    },
+    {
+      "number": 452,
+      "name": {
+        "en": "Blue Color Potion",
+        "es": "Pocion de color azul"
+      },
+      "width": 1,
+      "height": 1,
+      "durability": 1,
+      "repairable": false,
+      "sellable": false
     }
   ]
 }

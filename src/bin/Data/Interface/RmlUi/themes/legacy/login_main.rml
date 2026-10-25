@@ -1,0 +1,14 @@
+<rml>
+<head>
+ <title>Paris Project Menu</title>
+ <link type="text/rcss" href="base.rcss"/>
+ <link type="text/rcss" href="login_main.rcss"/>
+ <link type="text/rcss" href="paris_subtle_button.rcss"/>
+</head>
+<body class="scene-window-scale">
+ <div id="panel">
+  <div id="btn_menu_item" class="btn-icon-item"><div id="btn_menu" class="btn-icon btn-icon-menu paris-small-button"><span class="paris-button-caption">MENÚ</span></div></div>
+  <div id="btn_credit_item" class="btn-icon-item"><div id="btn_credit" class="btn-icon btn-icon-credit paris-small-button"><span class="paris-button-caption">CRÉDITOS</span></div></div>
+ </div>
+</body>
+</rml>

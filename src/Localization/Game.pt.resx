@@ -6530,7 +6530,7 @@
     <comment>legacy_id=1747</comment>
   </data>
   <data name="EXP:%I64d / %I64d" xml:space="preserve">
-    <value>EXP:%I64d /%I64d</value>
+    <value>EXP:%llu /%llu</value>
     <comment>legacy_id=1748</comment>
   </data>
   <data name="Master skill tree (A)" xml:space="preserve">
@@ -13031,8 +13031,47 @@
   <data name="QuestRequirementBuff" xml:space="preserve">
     <value>Bonus: %ls</value>
   </data>
-<data name="MentorConnecting" xml:space="preserve"><value>Aguardando os dados de Mentoria do servidor...</value></data>
-  
-<data name="MentorUnavailable" xml:space="preserve"><value>Mentoria sem resposta. Atualize o patch do servidor e conecte novamente.</value></data>
-
+  <data name="PartyFinderTitle" xml:space="preserve"><value>Buscar grupo</value></data>
+  <data name="PartyFinderRandom" xml:space="preserve"><value>Entrar em grupo aleatório</value></data>
+  <data name="PartyFinderPublicList" xml:space="preserve"><value>Grupos públicos</value></data>
+  <data name="PartyFinderJoin" xml:space="preserve"><value>Entrar</value></data>
+  <data name="PartyFinderRefresh" xml:space="preserve"><value>Atualizar</value></data>
+  <data name="PartyFinderPublish" xml:space="preserve"><value>Criar grupo público</value></data>
+  <data name="PartyFinderPublic" xml:space="preserve"><value>Público</value></data>
+  <data name="PartyFinderPrivate" xml:space="preserve"><value>Privado</value></data>
+  <data name="PartyFinderMakePublic" xml:space="preserve"><value>Tornar público</value></data>
+  <data name="PartyFinderMakePrivate" xml:space="preserve"><value>Tornar privado</value></data>
+  <data name="PartyFinderTravel" xml:space="preserve"><value>Ir ao líder</value></data>
+  <data name="PartyFinderFollow" xml:space="preserve"><value>Seguir</value></data>
+  <data name="PartyFinderStop" xml:space="preserve"><value>Parar de seguir</value></data>
+  <data name="PartyFinderEmpty" xml:space="preserve"><value>Nenhum grupo público disponível</value></data>
+  <data name="PartyFinderWaiting" xml:space="preserve"><value>Aguardando servidor...</value></data>
+  <data name="PartyFinderUnavailable" xml:space="preserve"><value>Ação indisponível agora</value></data>
+  <data name="PartyFinderDenied" xml:space="preserve"><value>Você não tem permissão</value></data>
+  <data name="PartyFinderFull" xml:space="preserve"><value>Nenhum grupo compatível com vaga</value></data>
+  <data name="PartyFinderMissing" xml:space="preserve"><value>Companheiro indisponível</value></data>
+  <data name="PartyFinderRestricted" xml:space="preserve"><value>Requisitos do destino não atendidos</value></data>
+  <data name="PartyFinderBlocked" xml:space="preserve"><value>Nenhuma posição de chegada válida</value></data>
+  <data name="PartyFinderMembersTab" xml:space="preserve"><value>Membros</value></data>
+  <data name="PartyFinderSearchTab" xml:space="preserve"><value>Buscar</value></data>
+  <data name="PartyFinderSettingsTab" xml:space="preserve"><value>Ajustes</value></data>
+  <data name="PartyFinderAllowFollow" xml:space="preserve"><value>Permitir seguimento</value></data>
+  <data name="PartyFinderDisableFollow" xml:space="preserve"><value>Desativar seguimento</value></data>
+  <data name="PartyFinderFollowEnabled" xml:space="preserve"><value>Seguimento ativado</value></data>
+  <data name="PartyFinderFollowDisabled" xml:space="preserve"><value>Seguimento desativado</value></data>
+  <data name="PartyFinderLeaderOnly" xml:space="preserve"><value>Só o líder pode alterar ajustes</value></data>
+  <data name="PartyFinderJoinBlocked" xml:space="preserve"><value>Saia do grupo para entrar em outro</value></data>
+  <data name="PartyFinderPassLeader" xml:space="preserve"><value>Transferir liderança</value></data>
+  <data name="PartyFinderNoParty" xml:space="preserve"><value>Entre ou crie um grupo primeiro</value></data>
+  <data name="PartyFinderVisibility" xml:space="preserve"><value>Visibilidade do grupo</value></data>
+  <data name="PartyFinderIntro" xml:space="preserve"><value>Entre em um grupo com jogadores aleatórios e encontre companheiros de batalha.</value></data>
+  <data name="PartyFinderListHelp" xml:space="preserve"><value>O mapa exibido é o mapa do líder.</value></data>
+  <data name="PartyFinderAutoAcceptParty" xml:space="preserve"><value>Aceitar grupo automaticamente</value></data>
+  <data name="PartyFinderAutoAcceptEnable" xml:space="preserve"><value>Ativar aceitação automática</value></data>
+  <data name="PartyFinderAutoAcceptDisable" xml:space="preserve"><value>Desativar aceitação automática</value></data>
+  <data name="PartyFinderAutoAcceptEnabled" xml:space="preserve"><value>Aceitação automática: ativada</value></data>
+  <data name="PartyFinderAutoAcceptDisabled" xml:space="preserve"><value>Aceitação automática: desativada</value></data>
+  <data name="PartyFinderShowBuffs" xml:space="preserve"><value>Mostrar buffs da Party</value></data>
+  <data name="PartyFinderBlockSummon" xml:space="preserve"><value>Bloquear invocação do Dark Lord</value></data>
+  <data name="PartyFinderLevelResets" xml:space="preserve"><value>Nível: %d | R: %d</value></data>
 </root>
