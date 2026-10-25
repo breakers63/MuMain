@@ -143,12 +143,18 @@ bool mu::ui::window::CSkillList::UpdateMouseEvent()
     return true;
 }
 
+bool mu::ui::window::CSkillList::CloseSkillGrid()
+{
+    if (!m_bSkillList) return false;
+    m_bSkillList = false;
+    OnUnhover();
+    return true;
+}
+
 bool mu::ui::window::CSkillList::UpdateKeyEvent()
 {
-    if (m_bSkillList && mu::ui::window::IsPress(VK_ESCAPE))
+    if (mu::ui::window::IsPress(VK_ESCAPE) && CloseSkillGrid())
     {
-        m_bSkillList = false;
-        OnUnhover();
         return false;
     }
     for (int i = 0; i < 9; ++i)

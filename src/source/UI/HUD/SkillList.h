@@ -104,6 +104,7 @@ namespace mu::ui::window
         // The actual skill-grid-open state; see IsSkillListUp()'s comment for the similarly-named
         // method that is NOT this.
         bool IsSkillGridOpen() const { return m_bSkillList; }
+        bool CloseSkillGrid();
 
         // Click/hover entry points bound from main_frame.rml's data-event-click/mouseover/mouseout.
         // Mouse-click behavior mirrors the legacy click branches, which never went through
