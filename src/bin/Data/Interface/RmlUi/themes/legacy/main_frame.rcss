@@ -493,5 +493,6 @@
 
 /* One centered sequence, including Dark Spirit commands; additional rows grow upwards. */
 #skill_grid {display:flex;flex-wrap:wrap-reverse;justify-content:center;align-content:flex-end;left:0;bottom:0;top:auto;width:576dp;height:auto;}
+#skill_grid.hidden {display:none;}
 #skill_grid .skill-cell:nth-child(n) {position:relative;left:auto;right:auto;top:auto;bottom:auto;flex:0 0 32dp;width:32dp;height:38dp;margin:0;}
 #pet_skill_row {display:none;}

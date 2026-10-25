@@ -332,5 +332,14 @@ TEST_CASE("Short skill rows stay centered and Dark Spirit has no separate upper 
     auto* petRow=document->GetElementById("pet_skill_row");
     REQUIRE(petRow);
     CHECK_FALSE(petRow->IsVisible(true));
+    // Selecting a skill and Escape both set this class. Its rule must beat the ID's flex display.
+    grid->SetClass("hidden",true);
+    fixture.Refresh();
+    CHECK_FALSE(grid->IsVisible(true));
+    CHECK_FALSE(first->IsVisible(true));
+    grid->SetClass("hidden",false);
+    fixture.Refresh();
+    CHECK(grid->IsVisible(true));
+    CHECK(first->IsVisible(true));
 }
 
