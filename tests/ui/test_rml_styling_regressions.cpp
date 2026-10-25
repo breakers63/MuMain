@@ -367,3 +367,24 @@ TEST_CASE("Gold move list keeps reset requirements and scrollbar inside its pane
     list->SetScrollTop(100.f);fixture.Refresh();
     CHECK(list->GetScrollTop()>0.f);
 }
+
+TEST_CASE("Training NPC fits ten profiles and close inside the dock [ui][training]")
+{
+    UI::Tests::RmlLayoutFixture fixture;
+    fixture.Configure({1024,768},100);
+    auto* document=fixture.Load("paris-gold","gold_bowman");
+    auto* panel=document->GetElementById("panel");
+    REQUIRE(panel);
+    panel->SetClass("pvp-training",true);
+    auto* buttons=panel->QuerySelector(".entry-buttons");
+    REQUIRE(buttons);
+    std::string markup;
+    for(int i=0;i<11;++i) markup+="<div class='entry-btn'>Perfil</div>";
+    buttons->SetInnerRML(markup);
+    fixture.Refresh();fixture.Refresh();
+    auto* last=buttons->GetChild(10);
+    REQUIRE(last);
+    CHECK(last->GetAbsoluteOffset().y>buttons->GetChild(0)->GetAbsoluteOffset().y);
+    CHECK(last->GetAbsoluteOffset().y+last->GetBox().GetSize(Rml::BoxArea::Border).y<=panel->GetAbsoluteOffset().y+panel->GetBox().GetSize().y);
+    CHECK_FALSE(document->GetElementById("serial_field")->IsVisible(true));
+}

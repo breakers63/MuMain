@@ -156,12 +156,12 @@
 
 /* Paris uses the same gold scrollbar artwork as the Windows OpenGL move list. */
 @spritesheet paris-move-scroll {
- src: "../../../Paris_ExactScroll.png";
- paris-move-track: 14px 72px 42px 230px;
- paris-move-track-inner: 14px 100px 42px 1px;
- paris-move-thumb: 1px 244px 67px 120px;
- paris-move-up: 12px 0px 46px 48px;
- paris-move-down: 12px 1388px 46px 49px;
+ src: "../../../Paris_MoveScroll.tga";
+ paris-move-track: 0px 0px 42px 230px;
+ paris-move-track-inner: 0px 28px 42px 1px;
+ paris-move-thumb: 48px 0px 67px 120px;
+ paris-move-up: 120px 0px 46px 48px;
+ paris-move-down: 172px 0px 46px 49px;
 }
 #panel {background-color:#080808;border:1px #9e791f;box-sizing:border-box;}
 #title {top:7px;height:calc(18px * var(--root-scale));overflow:hidden;white-space:nowrap;}
