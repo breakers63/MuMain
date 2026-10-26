@@ -25,7 +25,7 @@ TEST_CASE("Server-list descriptions reject oversized and truncated data without 
     CHECK_FALSE(ReadDescription(nullptr,0,buffer));
 }
 
-TEST_CASE("Server warp limits decode atomically and reject truncated or duplicate destinations")
+TEST_CASE("Server warp limits decode atomically and accept matching aliases and reject conflicting destinations")
 {
     using namespace Network::Paris::Warp;
     std::vector<std::uint8_t> packet(32);
@@ -47,7 +47,10 @@ TEST_CASE("Server warp limits decode atomically and reject truncated or duplicat
     CHECK(Find(1)->minimumReset==10);
     const auto entry=std::vector<std::uint8_t>(packet.begin()+8,packet.end());
     packet.insert(packet.end(),entry.begin(),entry.end());packet[2]=56;packet[6]=2;
-    CHECK_FALSE(Receive(packet));
+    CHECK(Receive(packet));
     CHECK(Requirements.size()==1);
+    write(44, 18); // The second alias contradicts the first minimum-reset requirement.
+    CHECK_FALSE(Receive(packet));
+    CHECK(Find(1)->minimumReset==10);
     Requirements.clear();
 }

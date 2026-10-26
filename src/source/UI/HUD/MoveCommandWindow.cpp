@@ -523,6 +523,21 @@ void mu::ui::window::CMoveCommandWindow::SyncRmlModel()
     if (Rml::Element* list = m_RmlView.Document()->GetElementById("list"))
         list->SetClass("no-scroll", list->GetScrollHeight() <= list->GetClientHeight() + 0.5f);
 
+    // The scroll pane's content width already excludes its native scrollbar. Use the
+    // actual row width for the counter-scaled header instead of subtracting it twice.
+    if (auto* document = m_RmlView.Document())
+    {
+        auto* list = document->GetElementById("list");
+        auto* head = document->GetElementById("head");
+        auto* firstRow = list ? list->GetChild(0) : nullptr;
+        if (head && firstRow)
+        {
+            const float rowWidth = firstRow->GetClientWidth();
+            if (rowWidth > 0.f && std::abs(head->GetClientWidth() - rowWidth) > .5f)
+                head->SetProperty(Rml::PropertyId::Width, Rml::Property(rowWidth, Rml::Unit::PX));
+        }
+    }
+
     if (m_bRewindPending)
     {
         m_bRewindPending = false;
@@ -685,3 +700,4 @@ int CMoveCommandWindow::GetMapIndexFromMovereq(const wchar_t* pszMapName)
     const CMoveCommandData::MOVEINFODATA* moveInfo = FindMoveInfo(pszMapName);
     return moveInfo != NULL ? moveInfo->_ReqInfo.index : -1;
 }
+

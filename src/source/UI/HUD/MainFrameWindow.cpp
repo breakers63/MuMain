@@ -147,6 +147,10 @@ void mu::ui::window::CMainFrameWindow::BindRmlModel(Rml::DataModelConstructor& c
     c.Bind("ag_tooltip", &model.agTooltip);
     c.Bind("sd_tooltip", &model.sdTooltip);
     c.Bind("poisoned", &model.poisoned);
+    c.Bind("pvp_notice_visible", &model.pvpNoticeVisible);
+    c.Bind("pvp_notice_active", &model.pvpNoticeActive);
+    c.Bind("pvp_notice_text", &model.pvpNoticeText);
+    c.Bind("pvp_notice_opacity", &model.pvpNoticeOpacity);
 
     c.Bind("exp_fraction", &model.expFraction);
     c.Bind("exp_digit", &model.expDigit);
@@ -468,6 +472,8 @@ bool mu::ui::window::CMainFrameWindow::Update()
     }
 #endif //defined PBG_ADD_INGAMESHOP_UI_MAINFRAME
 
+    Core::Input::UpdatePvpShortcut();
+    SyncPvpNotice();
     SyncRmlModel();
 
     return true;
@@ -487,6 +493,38 @@ void mu::ui::window::CMainFrameWindow::SyncPerformanceModel()
     model.pingTooltip = ping < 0 ? "Ping --" : "Ping " + std::to_string(ping) + " ms";
     for (const char* name : {"fps_color", "ping_color", "fps_tooltip", "ping_tooltip"})
         m_RmlView.MarkDirty(name);
+}
+
+void mu::ui::window::CMainFrameWindow::SyncPvpNotice()
+{
+    constexpr std::uint64_t noticeDurationMs = 3000;
+    constexpr std::uint64_t fadeDurationMs = 400;
+    const auto now = GetTickCount64();
+    const bool active = Core::Input::IsPvpLocked();
+    auto& model = m_RmlView.GetModel();
+    if (active != m_lastPvpState)
+    {
+        m_lastPvpState = active;
+        m_pvpNoticeStarted = now;
+        model.pvpNoticeActive = active;
+        model.pvpNoticeText = active ? "Auto PvP activado" : "Auto PvP desactivado";
+        m_RmlView.MarkDirty("pvp_notice_active");
+        m_RmlView.MarkDirty("pvp_notice_text");
+    }
+    const auto age = now - m_pvpNoticeStarted;
+    const bool visible = m_pvpNoticeStarted != 0 && age < noticeDurationMs;
+    const float opacity = !visible ? 0.f : age <= noticeDurationMs - fadeDurationMs
+        ? 1.f : static_cast<float>(noticeDurationMs - age) / fadeDurationMs;
+    if (model.pvpNoticeVisible != visible)
+    {
+        model.pvpNoticeVisible = visible;
+        m_RmlView.MarkDirty("pvp_notice_visible");
+    }
+    if (model.pvpNoticeOpacity != opacity)
+    {
+        model.pvpNoticeOpacity = opacity;
+        m_RmlView.MarkDirty("pvp_notice_opacity");
+    }
 }
 
 void mu::ui::window::CMainFrameWindow::SyncRmlModel()

@@ -92,6 +92,9 @@ namespace mu::ui::window
     private:
         void SyncRmlModel();
         void SyncPerformanceModel();
+        void SyncPvpNotice();
+        bool m_lastPvpState = false;
+        std::uint64_t m_pvpNoticeStarted = 0;
         std::uint64_t m_nextPerformanceSample = 0;
         void BuildRmlUi();
 
@@ -115,6 +118,9 @@ namespace mu::ui::window
         struct MainFrameRmlModel
         {
             Rml::String fpsColor, pingColor, fpsTooltip, pingTooltip;
+            bool pvpNoticeVisible = false, pvpNoticeActive = false;
+            Rml::String pvpNoticeText;
+            float pvpNoticeOpacity = 0.f;
             float hpFraction = 0.f, mpFraction = 0.f, agFraction = 0.f, sdFraction = 0.f;
             Rml::String hpText, mpText, agText, sdText;
 

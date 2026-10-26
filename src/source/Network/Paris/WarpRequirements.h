@@ -40,8 +40,17 @@ inline bool Receive(std::span<const std::uint8_t> packet)
             || requirement.minimumReset < -1 || requirement.maximumReset < -1
             || (requirement.maximumLevel >= 0 && requirement.maximumLevel < requirement.level)
             || (requirement.maximumReset >= 0 && requirement.minimumReset > requirement.maximumReset)
-            || !next.emplace(index, requirement).second)
+            )
             return false;
+        const auto [entry, inserted] = next.emplace(index, requirement);
+        if (!inserted)
+        {
+            const auto& alias = entry->second;
+            if (alias.level != requirement.level || alias.maximumLevel != requirement.maximumLevel
+                || alias.minimumReset != requirement.minimumReset || alias.maximumReset != requirement.maximumReset
+                || alias.zen != requirement.zen)
+                return false;
+        }
     }
     Requirements = std::move(next);
     return true;

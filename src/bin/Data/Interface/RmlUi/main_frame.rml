@@ -9,6 +9,8 @@
 	<link type="text/rcss" href="main_frame.rcss"/>
 </head>
 <body data-model="main_frame">
+    <div id="pvp_notice" data-if="pvp_notice_visible" data-class-enabled="pvp_notice_active"
+         data-style-opacity="pvp_notice_opacity">{{pvp_notice_text}}</div>
 	<!-- CMainFrameWindow's HUD, shared by every theme. #hud_layout is the one unit the workspace
 	     places (its main_hud slot); its size is the theme's, in main_frame.rcss. Each .hud-part is
 	     one piece the theme places inside it, with the part's contents laid out from its own

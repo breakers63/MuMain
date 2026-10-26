@@ -144,3 +144,14 @@
 .col-level {left:49%;}
 .col-zen {left:69%;}
 .col-resets {left:88%;}
+
+/* Header and rows use the same left edge, scrollbar allowance and cell boxes. */
+#head { left:4px; width:calc(100% * var(--root-scale) - 26px * var(--root-scale)); }
+#panel { font-family:Tahoma; }
+#head, #list { font-weight:normal; }
+.mc-row { color:#ffffff; font-weight:normal; }
+.col { transform:none; text-align:center; overflow:hidden; white-space:nowrap; }
+.col-map { left:0%; width:48%; }
+.col-level { left:48%; width:15%; }
+.col-zen { left:63%; width:19%; }
+.col-resets { left:82%; width:18%; }

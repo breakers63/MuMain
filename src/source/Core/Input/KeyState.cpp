@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Core/Input/KeyState.h"
+#include "Core/Input/CtrlDoubleTap.h"
 #include "Core/Input/SyntheticInput.h"
 
 #include <SDL3/SDL.h>
@@ -9,6 +10,20 @@ namespace Core::Input
     namespace { bool pvpLocked=false; }
     bool IsPvpLocked() { return pvpLocked; }
     void TogglePvpLock() { pvpLocked=!pvpLocked; }
+    void UpdatePvpShortcut()
+    {
+        static CtrlDoubleTap gesture;
+        const bool* keys = SDL_GetKeyboardState(nullptr);
+        bool otherInput = SDL_GetMouseState(nullptr, nullptr) != 0;
+        for (int i = 0; i < SDL_SCANCODE_COUNT && !otherInput; ++i)
+            otherInput = keys[i] && i != SDL_SCANCODE_LCTRL && i != SDL_SCANCODE_RCTRL;
+        SDL_Window* focus = SDL_GetKeyboardFocus();
+        const bool allowed = focus != nullptr && !SDL_TextInputActive(focus);
+        if (gesture.Update(keys[SDL_SCANCODE_LCTRL] || keys[SDL_SCANCODE_RCTRL],
+                           allowed, otherInput, SDL_GetTicks()))
+            TogglePvpLock();
+    }
+
 
     namespace
     {

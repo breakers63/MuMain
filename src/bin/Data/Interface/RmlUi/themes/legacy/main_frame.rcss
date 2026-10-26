@@ -496,3 +496,13 @@
 #skill_grid.hidden {display:none;}
 #skill_grid .skill-cell:nth-child(n) {position:relative;left:auto;right:auto;top:auto;bottom:auto;flex:0 0 32dp;width:32dp;height:38dp;margin:0;}
 #pet_skill_row {display:none;}
+
+/* Screen-wide PvP status, independent of the draggable bottom HUD. */
+#pvp_notice {
+    position: absolute; left: 0; top: 57%; width: 100%; height: 24dp;
+    line-height: 24dp; text-align: center; pointer-events: none;
+    background-color: #000000a0; color: #ff2020;
+    font-family: "token(font-body)"; font-weight: bold; font-size: 12dp;
+    z-index: 100;
+}
+#pvp_notice.enabled { color: #30ff30; }

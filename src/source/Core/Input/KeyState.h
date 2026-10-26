@@ -15,6 +15,7 @@ void ClearLeftMouseButtonPressEdge();
 bool IsKeyDown(int virtualKey);
 bool IsPvpLocked();
 void TogglePvpLock();
+void UpdatePvpShortcut();
 
 #ifdef _EDITOR
 // Whether a key or button (a virtual-key code as IsKeyDown takes) is with a

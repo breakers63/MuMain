@@ -495,3 +495,13 @@
 #btn_pvp.active {background-color:transparent;}
 #btn_pvp .pvp-fill {position:absolute;left:3dp;right:3dp;top:3dp;bottom:3dp;pointer-events:none;background-color:transparent;}
 #btn_pvp.active .pvp-fill {background-color:transparent;}
+
+/* Screen-wide PvP status, independent of the draggable bottom HUD. */
+#pvp_notice {
+    position: absolute; left: 0; top: 57%; width: 100%; height: 24dp;
+    line-height: 24dp; text-align: center; pointer-events: none;
+    background-color: #000000a0; color: #ff2020;
+    font-family: "token(font-body)"; font-weight: bold; font-size: 12dp;
+    z-index: 100;
+}
+#pvp_notice.enabled { color: #30ff30; }
