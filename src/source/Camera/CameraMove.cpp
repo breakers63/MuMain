@@ -1,4 +1,4 @@
-// CameraMove.cpp: implementation of the CCameraMove class.
+﻿// CameraMove.cpp: implementation of the CCameraMove class.
 //////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"

@@ -3637,6 +3637,186 @@
         "scale": 0.0035
       },
       "itemEffect": "potion"
+    },
+    {
+      "number": 244,
+      "file": "Data/Item/ParisJewels/Jewel180.bmd",
+      "textureFolders": [
+        "Item/ParisJewels"
+      ],
+      "inventory": {
+        "anchor": [
+          0.5,
+          0.6
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": 0.003
+      },
+      "renderStyle": "textured"
+    },
+    {
+      "number": 245,
+      "file": "Data/Item/ParisJewels/Jewel181.bmd",
+      "textureFolders": [
+        "Item/ParisJewels"
+      ],
+      "inventory": {
+        "anchor": [
+          0.5,
+          0.6
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": 0.003
+      },
+      "renderStyle": "textured"
+    },
+    {
+      "number": 246,
+      "file": "Data/Item/ParisJewels/Jewel182.bmd",
+      "textureFolders": [
+        "Item/ParisJewels"
+      ],
+      "inventory": {
+        "anchor": [
+          0.5,
+          0.6
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": 0.003
+      },
+      "renderStyle": "textured"
+    },
+    {
+      "number": 247,
+      "file": "Data/Item/ParisJewels/Jewel183.bmd",
+      "textureFolders": [
+        "Item/ParisJewels"
+      ],
+      "inventory": {
+        "anchor": [
+          0.5,
+          0.6
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": 0.003
+      },
+      "renderStyle": "textured"
+    },
+    {
+      "number": 248,
+      "file": "Data/Item/ParisJewels/Jewel184.bmd",
+      "textureFolders": [
+        "Item/ParisJewels"
+      ],
+      "inventory": {
+        "anchor": [
+          0.5,
+          0.6
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": 0.003
+      },
+      "renderStyle": "textured"
+    },
+    {
+      "number": 249,
+      "file": "Data/Item/ParisJewels/Jewel185.bmd",
+      "textureFolders": [
+        "Item/ParisJewels"
+      ],
+      "inventory": {
+        "anchor": [
+          0.5,
+          0.6
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": 0.003
+      },
+      "renderStyle": "textured"
+    },
+    {
+      "number": 250,
+      "file": "Data/Item/ParisJewels/Jewel186.bmd",
+      "textureFolders": [
+        "Item/ParisJewels"
+      ],
+      "inventory": {
+        "anchor": [
+          0.5,
+          0.6
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": 0.003
+      },
+      "renderStyle": "textured"
+    },
+    {
+      "number": 251,
+      "file": "Data/Item/ParisJewels/Jewel187.bmd",
+      "textureFolders": [
+        "Item/ParisJewels"
+      ],
+      "inventory": {
+        "anchor": [
+          0.5,
+          0.6
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": 0.003
+      },
+      "renderStyle": "textured"
+    },
+    {
+      "number": 252,
+      "file": "Data/Item/ParisJewels/Jewel188.bmd",
+      "textureFolders": [
+        "Item/ParisJewels"
+      ],
+      "inventory": {
+        "anchor": [
+          0.5,
+          0.6
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": 0.003
+      },
+      "renderStyle": "textured"
     }
   ]
 }

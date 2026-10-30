@@ -1,0 +1,195 @@
+@spritesheet rich-sky-sheet {src:"../../../Paris_SkyEntry.tga"; rich-sky:44px 0px 780px 1780px;}
+@spritesheet rich-tvt-sheet {src:"../../../Paris_TvtEntry.tga"; rich-tvt:44px 0px 779px 1780px;}
+#panel.rich > .frame-piece,#panel.rich > #title,#panel.rich > #entry_description,#panel.rich > #entry_levels,#panel.rich > #btn_exit,#panel.rich > #frame_corner_close {display:none;}
+#rich_entry {position:absolute;left:0;top:0;width:190px;height:429px;color:#fff;font-size:9px;text-align:center;pointer-events:auto;}
+.rich-art {position:absolute;left:0;top:0;width:190px;height:429px;pointer-events:none;}.sky-art {decorator:image(rich-sky);}.tvt-art{decorator:image(rich-tvt);}
+#rich_entry > span,#rich_entry .rich-description,#rich_entry .rich-rewards {position:absolute;left:20px;width:150px;pointer-events:none;}
+.rich-brand{top:29px;color:#ffd773;font-size:9px;letter-spacing:1px;}.rich-title{top:43px;color:#ffd773;font-size:17px;font-weight:bold;}.rich-status{top:77px;color:#fff2bd;font-size:9px;font-weight:bold;}.rich-description{top:94px;line-height:11px;font-size:8px;}
+#rich_entry .rich-count-label{left:24px;top:123px;width:68px;color:#ffd773;}#rich_entry .rich-clock-label{left:99px;top:123px;width:67px;color:#ffd773;}#rich_entry .rich-count{left:24px;top:138px;width:68px;font-size:12px;}#rich_entry .rich-clock{left:99px;top:138px;width:67px;font-size:12px;}
+.rich-min{top:162px;color:#ffd773;}.rich-missing{top:173px;color:#ffdb84;font-size:8px;}
+.rich-req-title{top:164px;color:#ffd773;font-weight:bold;}.rich-limits{top:180px;font-size:8px;}.rich-ticket{top:193px;font-size:8px;}.tvt .rich-req-title{top:190px;}.tvt .rich-limits{top:206px;}.tvt .rich-ticket{top:219px;}
+.rich-development-title{top:220px;color:#ffd773;font-size:9px;font-weight:bold;}.tvt .rich-development-title{top:238px;}.rich-teams{top:288px;color:#ffda8b;font-size:8px;}.rich-stages{top:263px;color:#ffda8b;font-size:8px;}.rich-development{top:276px;font-size:8px;}.tvt .rich-development{top:300px;}
+.rich-reward-title{top:294px;color:#ffd773;font-size:9px;font-weight:bold;}.tvt .rich-reward-title{top:318px;font-size:8px;}#rich_entry .rich-rewards{top:308px;left:24px;width:142px;line-height:9px;font-size:8px;}#rich_entry .rich-rewards span{position:static;display:block;width:auto;white-space:normal;word-break:break-word;}.tvt .rich-rewards{top:332px;}
+.rich-action{position:absolute;left:20px;top:360px;width:150px;height:24px;line-height:24px;color:#9b937f;font-size:14px;font-weight:bold;}.rich-action.enabled{color:#fff0b0;}.rich-action.enabled:hover{background-color:#ffd34c22;}.rich-close{position:absolute;left:50px;top:389px;width:90px;height:18px;line-height:18px;color:#ffdb88;font-size:12px;}.rich-close:hover{background-color:#ffd34c22;}.rich-x{position:absolute;left:163px;top:18px;width:17px;height:20px;line-height:20px;background-color:#3a0606;border:1px #c49a30;color:#ffe7a1;font-size:13px;}
+
+#rich_entry .rich-description span{position:static;display:block;left:auto;width:auto;}
+#rich_entry .rich-description{left:20px;width:150px;font-size:8px;line-height:11px;}
+#rich_entry .rich-min{font-size:8px;white-space:nowrap;}
+#rich_entry .rich-missing{font-size:8px;white-space:nowrap;}
+#rich_entry.tvt .rich-rewards{top:332px;}
+#rich_entry .rich-development{font-size:7px;white-space:nowrap;}
+#rich_entry .rich-status{font-size:8px;white-space:nowrap;}
+
+#rich_entry .rich-description{left:11px;width:168px;font-size:7px;line-height:11px;white-space:nowrap;}
+
+/* Keep each caption and its glyph descent inside its frame. */
+#rich_entry .rich-description{top:91px;line-height:10px;}
+#rich_entry .rich-development{top:270px;}
+#rich_entry.tvt .rich-development{top:296px;}
+#rich_entry .rich-stages{top:259px;}
+#rich_entry .rich-teams{top:284px;}
+#rich_entry .rich-rewards span{word-break:normal;}
+#panel.rich{background-color:transparent;}
+
+/* Native-size glyphs: match Stats instead of enlarging a small font atlas. */
+#rich_entry{font-family:"DejaVu Sans";font-weight:normal;}
+#rich_entry > span,#rich_entry .rich-description,#rich_entry .rich-rewards{
+ --text-width:150px;width:calc(var(--text-width) * var(--root-scale,1));
+ margin-left:calc((var(--text-width) - var(--text-width) * var(--root-scale,1)) / 2);
+ transform:scale(calc(1 / var(--root-scale,1)));transform-origin:center top;
+ font-size:12px;font-weight:normal;color:#ffffff;line-height:14px;
+}
+#rich_entry .rich-brand{font-size:12px;color:#ffd773;}
+#rich_entry .rich-title{font-size:22px;color:#ffd773;}
+#rich_entry .rich-status{--text-width:140px;font-size:11px;color:#ffd773;}
+#rich_entry .rich-description{--text-width:168px;}
+#rich_entry .rich-count-label,#rich_entry .rich-count{--text-width:68px;}
+#rich_entry .rich-clock-label,#rich_entry .rich-clock{--text-width:67px;}
+#rich_entry .rich-count-label,#rich_entry .rich-clock-label,
+#rich_entry .rich-req-title,#rich_entry .rich-development-title,#rich_entry .rich-reward-title{color:#ffd773;}
+#rich_entry .rich-rewards{--text-width:142px;line-height:14px;}
+#rich_entry.tvt .rich-rewards{top:339px;}
+#rich_entry .rich-rewards span{font-size:12px;font-weight:normal;color:#ffffff;}
+#rich_entry .rich-stage-monsters,#rich_entry .rich-stage-pvp,#rich_entry .rich-stage-final{top:265px;--text-width:50px;color:#ffd773;}
+#rich_entry .rich-stage-monsters{left:18px;}#rich_entry .rich-stage-pvp{left:70px;}#rich_entry .rich-stage-final{left:122px;}
+#rich_entry.sky .rich-development{top:277px;}
+#rich_entry .rich-team-blue,#rich_entry .rich-team-red{top:290px;--text-width:65px;color:#ffd773;}
+#rich_entry .rich-team-blue{left:18px;}#rich_entry .rich-team-red{left:107px;}
+#rich_entry.tvt .rich-development{top:302px;}
+#rich_entry .rich-button-label{position:absolute;left:50%;top:50%;width:600px;margin-left:-300px;line-height:16px;
+ transform:translateY(-50%) scale(calc(1 / var(--root-scale,1)));transform-origin:center center;
+ font-family:"DejaVu Sans";font-size:12px;font-weight:normal;color:#ffd773;pointer-events:none;}
+#rich_entry .rich-action{top:362px;height:24px;}
+#rich_entry .rich-close{top:393px;height:18px;}
+
+/* Override the earlier reference-pixel widths and small-font rules on text leaves. */
+#rich_entry > span,#rich_entry .rich-description,#rich_entry .rich-rewards{
+ width:calc(var(--text-width,150px) * var(--root-scale,1));
+ font-size:12px;text-align:center;white-space:nowrap;
+}
+#rich_entry .rich-title{font-size:22px;}
+#rich_entry .rich-reward-title{font-size:11px;}
+#rich_entry .rich-rewards{white-space:normal;}
+
+#rich_entry .rich-action .rich-button-label{top:65%;}
+
+/* Use the proven Stats centred-leaf geometry; avoid variable-width arithmetic. */
+#rich_entry > span{
+ left:95px;width:2000px;margin-left:-1000px;
+ transform-origin:center top;text-align:center;line-height:14px;
+}
+#rich_entry .rich-count-label,#rich_entry .rich-count{left:58px;}
+#rich_entry .rich-clock-label,#rich_entry .rich-clock{left:132px;}
+#rich_entry .rich-team-blue{left:50.5px;}
+#rich_entry .rich-team-red{left:139.5px;}
+#rich_entry .rich-stage-monsters{left:43px;}
+#rich_entry .rich-stage-pvp{left:95px;}
+#rich_entry .rich-stage-final{left:147px;}
+#rich_entry .rich-description,#rich_entry .rich-rewards{
+ left:95px;width:260px;margin-left:-130px;
+ transform-origin:center top;text-align:center;font-size:12px;
+}
+#rich_entry .rich-description span,#rich_entry .rich-rewards span{font-size:12px;}
+#rich_entry .rich-close{top:397px;}
+
+#rich_entry .rich-brand,#rich_entry .rich-title,#rich_entry .rich-status,#rich_entry .rich-count-label,#rich_entry .rich-clock-label,#rich_entry .rich-count,#rich_entry .rich-clock,#rich_entry .rich-min,#rich_entry .rich-missing,#rich_entry .rich-req-title,#rich_entry .rich-limits,#rich_entry .rich-ticket,#rich_entry .rich-development-title,#rich_entry .rich-development,#rich_entry .rich-reward-title,#rich_entry .rich-team-blue,#rich_entry .rich-team-red,#rich_entry .rich-stage-monsters,#rich_entry .rich-stage-pvp,#rich_entry .rich-stage-final{width:2000px;margin-left:-1000px;font-size:12px;font-weight:normal;text-align:center;transform-origin:center top;}
+#rich_entry .rich-title{font-size:22px;}
+#rich_entry .rich-reward-title{font-size:11px;}
+
+/* Final small alignment requested after native in-game verification. */
+#rich_entry .rich-close{top:394px;}
+#rich_entry.tvt .rich-development-title,#rich_entry.tvt .rich-reward-title{
+ left:95px;width:260px;margin-left:-130px;height:14px;background-color:#000000;
+ line-height:14px;text-align:center;transform-origin:center top;
+}
+
+/* Clan and race entry: same right-docked composition as the approved classic windows. */
+@spritesheet generals-entry-sheet {src:"../../../Paris_GeneralsEntry.tga"; generals-entry:64px 0px 718px 1820px;}
+@spritesheet guild-entry-sheet {src:"../../../Paris_GuildEntry.tga"; guild-entry:64px 0px 718px 1820px;}
+@spritesheet race-entry-sheet {src:"../../../Paris_RaceEntry.tga"; race-entry:64px 0px 718px 1820px;}
+#clan_entry {position:absolute;left:0;top:0;width:190px;height:429px;pointer-events:auto;color:#fff;font-family:"DejaVu Sans";font-weight:normal;}
+.clan-art {position:absolute;left:0;top:0;width:190px;height:429px;pointer-events:none;}
+.generals-art {decorator:image(generals-entry);}.guild-art {decorator:image(guild-entry);}.race-art {decorator:image(race-entry);}
+#clan_entry > span {position:absolute;left:95px;width:2000px;margin-left:-1000px;font-size:12px;line-height:14px;text-align:center;transform:scale(calc(1 / var(--root-scale,1)));transform-origin:center top;pointer-events:none;white-space:nowrap;}
+#clan_entry .clan-brand{top:57px;color:#ffd773;}#clan_entry .clan-title{top:75px;font-size:22px;color:#ffd773;}
+#clan_entry .clan-status{top:100px;color:#ffd773;}#clan_entry .clan-description{top:117px;}#clan_entry .clan-help{top:126px;}
+#clan_entry .clan-count-label{left:54px;top:137px;color:#ffd773;}#clan_entry .clan-clock-label{left:136px;top:137px;color:#ffd773;}
+#clan_entry .clan-count{left:54px;top:145px;}#clan_entry .clan-players{left:54px;top:154px;}#clan_entry .clan-clock{left:136px;top:148px;}
+#clan_entry .clan-req-title{top:178px;color:#ffd773;}#clan_entry .clan-requirement{top:190px;}#clan_entry .clan-limits{top:200px;}#clan_entry .clan-ticket{top:210px;}
+#clan_entry .clan-development-title{top:230px;color:#ffd773;}#clan_entry .clan-stage-left{left:42px;top:290px;color:#ffd773;}#clan_entry .clan-stage-middle{top:290px;color:#ffd773;}#clan_entry .clan-stage-right{left:148px;top:290px;color:#ffd773;}#clan_entry .clan-development{top:299px;}
+#clan_entry .clan-reward-title{top:317px;color:#ffd773;}
+#clan_entry .clan-rewards{position:absolute;left:95px;top:331px;width:250px;margin-left:-125px;transform:scale(calc(1 / var(--root-scale,1)));transform-origin:center top;text-align:center;font-size:12px;line-height:14px;pointer-events:none;}
+.clan-rewards span{display:block;white-space:normal;word-break:normal;}
+#clan_entry .clan-page{top:368px;}.clan-prev,.clan-next{position:absolute;top:365px;width:24px;height:16px;text-align:center;color:#ffd773;}.clan-prev{left:22px;}.clan-next{left:144px;}
+.clan-action{position:absolute;left:25px;top:383px;width:140px;height:22px;}.clan-close{position:absolute;left:50px;top:403px;width:90px;height:22px;}.clan-x{position:absolute;left:166px;top:22px;width:18px;height:25px;}
+.clan-action span,.clan-close span{position:absolute;left:50%;top:50%;width:600px;margin-left:-300px;line-height:14px;text-align:center;transform:translateY(-50%) scale(calc(1 / var(--root-scale,1)));transform-origin:center center;font-size:12px;pointer-events:none;}
+.clan-action span{color:#160c00;}.clan-close span{color:#ffd773;}.clan-close:hover,.clan-action.enabled:hover{background-color:#ffd34c22;}
+#clan_entry.generals .clan-title{top:70px;}#clan_entry.generals .clan-status{top:96px;}#clan_entry.generals .clan-description{top:112px;}#clan_entry.generals .clan-help{top:122px;}
+#clan_entry.generals .clan-count-label,#clan_entry.generals .clan-clock-label{top:132px;}#clan_entry.generals .clan-count{top:140px;}#clan_entry.generals .clan-players{top:149px;}#clan_entry.generals .clan-clock{top:143px;}
+#clan_entry.generals .clan-req-title{top:170px;}#clan_entry.generals .clan-requirement{top:180px;}#clan_entry.generals .clan-limits{top:189px;}#clan_entry.generals .clan-ticket{top:198px;}
+#clan_entry.generals .clan-development-title{top:216px;}#clan_entry.generals .clan-stage-left,#clan_entry.generals .clan-stage-middle,#clan_entry.generals .clan-stage-right{top:285px;}#clan_entry.generals .clan-development{top:295px;}
+#clan_entry.race .clan-stage-left,#clan_entry.race .clan-stage-middle,#clan_entry.race .clan-stage-right{top:280px;}#clan_entry.race .clan-development{top:291px;}#clan_entry.race .clan-reward-title{top:309px;}#clan_entry.race .clan-rewards{top:323px;}
+
+/* Caption spacing after native Guild/Race review: clear the ornamental rules. */
+#clan_entry .clan-count-label,#clan_entry .clan-clock-label{top:140px;font-size:11px;}
+#clan_entry .clan-count{top:150px;}#clan_entry .clan-players{top:159px;}#clan_entry .clan-clock{top:151px;}
+#clan_entry .clan-req-title{top:181px;font-size:11px;}
+#clan_entry .clan-development-title{top:233px;font-size:11px;}
+#clan_entry .clan-reward-title{top:320px;font-size:11px;}
+#clan_entry.generals .clan-count-label,#clan_entry.generals .clan-clock-label{top:135px;}
+#clan_entry.generals .clan-count{top:145px;}#clan_entry.generals .clan-players{top:154px;}#clan_entry.generals .clan-clock{top:146px;}
+#clan_entry.generals .clan-req-title{top:173px;}
+#clan_entry.generals .clan-development-title{top:219px;}
+#clan_entry.race .clan-reward-title{top:312px;}
+
+/* Keep glyphs above the separator artwork instead of on its horizontal rules. */
+#clan_entry .clan-count-label,#clan_entry .clan-clock-label{top:134px;}
+#clan_entry .clan-req-title{top:175px;}
+#clan_entry .clan-development-title{top:227px;}
+#clan_entry .clan-reward-title{top:314px;}
+#clan_entry.generals .clan-count-label,#clan_entry.generals .clan-clock-label{top:129px;}
+#clan_entry.generals .clan-req-title{top:167px;}
+#clan_entry.generals .clan-development-title{top:213px;}
+#clan_entry.race .clan-reward-title{top:306px;}
+#clan_entry .clan-count,#clan_entry .clan-clock,#clan_entry .clan-players{color:#ffffff;font-weight:normal;}
+
+/* Readable body text: opaque text-sized backing clears decorative artwork. */
+#clan_entry .clan-description,#clan_entry .clan-help,#clan_entry .clan-requirement,#clan_entry .clan-limits,#clan_entry .clan-ticket,#clan_entry .clan-development{
+ width:260px;margin-left:-130px;height:14px;line-height:14px;background-color:#000000;color:#ffffff;font-size:12px;
+}
+#clan_entry .clan-count,#clan_entry .clan-clock,#clan_entry .clan-players{
+ width:112px;margin-left:-56px;height:14px;line-height:14px;background-color:#000000;color:#ffffff;font-size:12px;
+}
+#clan_entry .clan-players{top:156px;}
+#clan_entry.generals .clan-players{top:150px;}
+#clan_entry .clan-requirement{top:189px;}#clan_entry .clan-limits{top:199px;}#clan_entry .clan-ticket{top:208px;}
+#clan_entry.generals .clan-requirement{top:179px;}#clan_entry.generals .clan-limits{top:188px;}#clan_entry.generals .clan-ticket{top:197px;}
+#clan_entry .clan-development{top:301px;}
+#clan_entry.generals .clan-development{top:297px;}
+#clan_entry.race .clan-development{top:293px;}
+#clan_entry .clan-stage-left,#clan_entry .clan-stage-middle,#clan_entry .clan-stage-right{
+ width:80px;margin-left:-40px;height:14px;background-color:#000000;
+}
+#clan_entry .clan-rewards span{background-color:#000000;color:#ffffff;font-weight:normal;line-height:16px;}
+
+/* Race count captions sit inside their cards, clear of the decorative rules. */
+#clan_entry.race .clan-count-label,#clan_entry.race .clan-clock-label{
+ top:137px;width:112px;margin-left:-56px;height:14px;line-height:14px;background-color:#000000;font-size:11px;text-align:center;
+}
+#clan_entry.race .clan-count-label{left:54px;}#clan_entry.race .clan-clock-label{left:136px;}
+#clan_entry.race .clan-count,#clan_entry.race .clan-clock{top:152px;}
+
+/* Final card alignment and crisp white data typography across clan events. */
+#clan_entry.guild .clan-count-label,#clan_entry.guild .clan-clock-label,
+#clan_entry.generals .clan-count-label,#clan_entry.generals .clan-clock-label{
+ width:140px;margin-left:-70px;height:14px;line-height:14px;background-color:#000000;font-family:"DejaVu Sans";font-size:11px;text-align:center;color:#ffd773;
+}
+#clan_entry.guild .clan-count-label,#clan_entry.guild .clan-clock-label{top:137px;}
+#clan_entry.generals .clan-count-label,#clan_entry.generals .clan-clock-label{top:132px;}
+#clan_entry.guild .clan-count{top:147px;}#clan_entry.guild .clan-players{top:157px;}#clan_entry.guild .clan-clock{top:152px;}
+#clan_entry.generals .clan-count{top:142px;}#clan_entry.generals .clan-players{top:152px;}#clan_entry.generals .clan-clock{top:147px;}
+#clan_entry .clan-count-label{left:54px;}#clan_entry .clan-clock-label{left:136px;}
+#clan_entry .clan-description,#clan_entry .clan-help,#clan_entry .clan-count,#clan_entry .clan-clock,#clan_entry .clan-players,
+#clan_entry .clan-requirement,#clan_entry .clan-limits,#clan_entry .clan-ticket,#clan_entry .clan-development,#clan_entry .clan-rewards span{
+ color:#ffffff;opacity:1;font-family:"DejaVu Sans";font-size:12px;font-weight:bold;
+}

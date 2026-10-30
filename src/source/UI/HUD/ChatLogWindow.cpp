@@ -1,4 +1,5 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
+#include "GameLogic/Items/ParisScreenMessages.h"
 #include "UI/Chat/ParisChatStyle.h"
 #include "I18N/All.h"
 
@@ -648,14 +649,14 @@ void mu::ui::window::CChatLogWindow::BuildRmlUi()
 void mu::ui::window::CChatLogWindow::SyncDocVisibility(bool sceneAllowsShow)
 {
     m_bSceneAllowsShow = sceneAllowsShow;
-    UI::RmlBridge::SyncDocumentVisibility(m_RmlView.Document(), IsVisible() && m_bShowChatLog && sceneAllowsShow);
+    UI::RmlBridge::SyncDocumentVisibility(m_RmlView.Document(), !UI::ScreenMessages::IsHidden() && IsVisible() && m_bShowChatLog && sceneAllowsShow);
 }
 
 void mu::ui::window::CChatLogWindow::SyncRmlModel()
 {
     if (!m_RmlView.Document()) return;
 
-    UI::RmlBridge::SyncDocumentVisibility(m_RmlView.Document(), IsVisible() && m_bShowChatLog && m_bSceneAllowsShow);
+    UI::RmlBridge::SyncDocumentVisibility(m_RmlView.Document(), !UI::ScreenMessages::IsHidden() && IsVisible() && m_bShowChatLog && m_bSceneAllowsShow);
 
     ChatLogRmlModel& model = m_RmlView.GetModel();
 
@@ -1252,7 +1253,7 @@ void mu::ui::window::CSystemLogWindow::BuildRmlUi()
 void mu::ui::window::CSystemLogWindow::SyncDocVisibility(bool sceneAllowsShow)
 {
     m_bSceneAllowsShow = sceneAllowsShow;
-    UI::RmlBridge::SyncDocumentVisibility(m_RmlView.Document(), IsVisible() && m_bShowMessages && sceneAllowsShow);
+    UI::RmlBridge::SyncDocumentVisibility(m_RmlView.Document(), !UI::ScreenMessages::IsHidden() && IsVisible() && m_bShowMessages && sceneAllowsShow);
 }
 
 void mu::ui::window::CSystemLogWindow::SyncRmlModel()
@@ -1261,7 +1262,7 @@ void mu::ui::window::CSystemLogWindow::SyncRmlModel()
     TrackPanelSize();
 
     // m_bShowMessages is the input box's own "system messages" toggle; IsVisible() is the window's.
-    UI::RmlBridge::SyncDocumentVisibility(m_RmlView.Document(), IsVisible() && m_bShowMessages && m_bSceneAllowsShow);
+    UI::RmlBridge::SyncDocumentVisibility(m_RmlView.Document(), !UI::ScreenMessages::IsHidden() && IsVisible() && m_bShowMessages && m_bSceneAllowsShow);
 
     SystemLogRmlModel& model = m_RmlView.GetModel();
 

@@ -1,8 +1,6 @@
-// w_BuffStateControl.cpp: implementation of the BuffStateControl class.
-//
-//////////////////////////////////////////////////////////////////////
 #include "stdafx.h"
-#include "UI/Legacy/UIManager.h"
+#include "UI/NPCs/BuffDetails.h"
+#include "UI/Core/UIManager.h"
 #include "GameLogic/Items/ItemAddOptioninfo.h"
 #include "w_BuffStateValueControl.h"
 #include "w_BuffScriptLoader.h"
@@ -106,6 +104,13 @@ void BuffStateValueControl::GetBuffInfoString(std::list<std::wstring>& outstr, e
     outstr = buffinfo.s_BuffDescriptlist;
     outstr.push_front(L"\n");
     outstr.push_front(buffinfo.s_BuffName);
+    const auto id=static_cast<int>(bufftype);
+    if(id>=0 && id<256 && !UI::BuffDetails::entries[id].text.empty()) {
+        outstr.clear();outstr.push_back(buffinfo.s_BuffName);
+        const auto& text=UI::BuffDetails::entries[id].text;std::size_t start=0;
+        while(start<text.size()) {const auto end=text.find(L"; ",start);outstr.push_back(text.substr(start,end==std::wstring::npos?80:std::min<std::size_t>(80,end-start)));if(end==std::wstring::npos)break;start=end+2;}
+    }
+
 
     /*
         if( tempvalueinfo.s_Value1 != 0 && tempvalueinfo.s_Value2 != 0 )

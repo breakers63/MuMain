@@ -1,0 +1,299 @@
+<rml>
+<head>
+	<title>Options</title>
+	<link type="text/rcss" href="base.rcss"/>
+	<link type="text/rcss" href="option_window.rcss"/>
+    <link type="text/rcss" href="weather_options.rcss"/>
+</head>
+<!-- The modern theme's settings screen: full screen over a translucent scrim, categories in a rail
+     on the left, the active category's rows in a glass pane beside it. Same data model and events
+     as the shared option_window.rml that legacy uses; only the markup differs.
+
+     #panel covers the whole screen, so COptionWindow's hit test claims every click while it is
+     open, and its `fullscreen` class tells COptionWindow not to make it draggable.
+
+     The C++ relies on these names: #panel, .option-dropdown-list (scrolled to the selection on
+     open), and .level-gauge with its .level-gauge-hit child (RmlLevelGauge.h). -->
+<body data-model="option_window">
+<div id="panel" class="fullscreen">
+	<div class="opt-shell">
+		<div class="opt-header">
+			<div class="opt-title">{{title}}</div>
+			<div class="opt-close" data-event-click="option_click_close">
+				<div class="opt-close-bar opt-close-bar-a"></div>
+				<div class="opt-close-bar opt-close-bar-b"></div>
+			</div>
+		</div>
+
+		<div class="opt-body">
+			<div class="opt-nav">
+				<div class="opt-nav-item" data-class-active-tab="active_tab == 0" data-event-click="option_select_tab(0)">{{tab_display_label}}</div>
+				<div class="opt-nav-item" data-class-active-tab="active_tab == 1" data-event-click="option_select_tab(1)">{{tab_graphics_label}}</div>
+				<div class="opt-nav-item" data-class-active-tab="active_tab == 2" data-event-click="option_select_tab(2)">{{tab_audio_label}}</div>
+				<div class="opt-nav-item" data-class-active-tab="active_tab == 3" data-event-click="option_select_tab(3)">{{tab_gameplay_label}}</div>
+				<div class="opt-nav-item" data-class-active-tab="active_tab == 4" data-event-click="option_select_tab(4)">{{tab_interface_label}}</div><div class="opt-nav-item" data-class-active-tab="active_tab == 5" data-event-click="option_select_tab(5)">Clima</div><div class="opt-nav-item" data-class-active-tab="active_tab == 6" data-event-click="option_select_tab(6)">Shaders</div>
+			</div>
+
+			<div class="opt-pane">
+			<div class="opt-scroll scroll-pane">
+<div class="paris-weather-panel" data-class-hidden="active_tab != 6"><div class="weather-section-title">Calidad de Efecto Paris</div><div class="weather-quality-row"><div class="weather-quality" data-class-selected="weather_quality == 0" data-event-click="weather_quality_select(0)"><span>Clásico</span></div><div class="weather-quality" data-class-selected="weather_quality == 1" data-event-click="weather_quality_select(1)"><span>Moderno</span></div><div class="weather-quality" data-class-selected="weather_quality == 2" data-event-click="weather_quality_select(2)"><span>Ultra HD</span></div></div><div class="weather-help">Clasico desactiva los efectos Paris Project. Moderno aplica color suave; Ultra HD aplica el color Paris Project completo. Cada efecto se puede activar por separado.</div><div class="weather-section-title">Efectos Paris Project</div><div class="weather-setting-row"><div class="weather-toggle" data-event-click="weather_toggle(10)"><div class="weather-checkbox" data-class-checked="weather_sky"><span data-if="weather_sky">&#10003;</span></div><span class="weather-setting-label">Cielo Paris Project</span></div></div><div class="weather-setting-row"><div class="weather-toggle" data-event-click="weather_toggle(6)"><div class="weather-checkbox" data-class-checked="weather_natural"><span data-if="weather_natural">&#10003;</span></div><span class="weather-setting-label">Color Paris Project</span></div></div><div class="weather-setting-row"><div class="weather-toggle" data-event-click="weather_toggle(11)"><div class="weather-checkbox" data-class-checked="weather_bloom_enabled"><span data-if="weather_bloom_enabled">&#10003;</span></div><span class="weather-setting-label">Bloom / brillo de luces</span></div></div></div>
+<div class="paris-weather-panel" data-class-hidden="active_tab != 5"><div class="weather-section-title">Clima y ciclo del mundo</div><div class="weather-setting-row"><div class="weather-toggle" data-event-click="weather_toggle(0)"><div class="weather-checkbox" data-class-checked="weather_rain"><span data-if="weather_rain">✓</span></div><span class="weather-setting-label">Lluvia</span></div><div class="weather-duration"><div class="weather-step weather-minus" data-event-click="weather_duration(0, -1)">‹</div><span class="weather-duration-value">{{weather_rain_minutes}} min</span><div class="weather-step weather-plus" data-event-click="weather_duration(0, 1)">›</div></div></div><div class="weather-setting-row"><div class="weather-toggle" data-event-click="weather_toggle(1)"><div class="weather-checkbox" data-class-checked="weather_storm"><span data-if="weather_storm">✓</span></div><span class="weather-setting-label">Tormenta y relámpagos</span></div><div class="weather-duration"><div class="weather-step weather-minus" data-event-click="weather_duration(1, -1)">‹</div><span class="weather-duration-value">{{weather_storm_minutes}} min</span><div class="weather-step weather-plus" data-event-click="weather_duration(1, 1)">›</div></div></div><div class="weather-setting-row"><div class="weather-toggle" data-event-click="weather_toggle(2)"><div class="weather-checkbox" data-class-checked="weather_day"><span data-if="weather_day">✓</span></div><span class="weather-setting-label">Ciclo día / noche</span></div><div class="weather-duration"><div class="weather-step weather-minus" data-event-click="weather_duration(2, -1)">‹</div><span class="weather-duration-value">{{weather_day_minutes}} min</span><div class="weather-step weather-plus" data-event-click="weather_duration(2, 1)">›</div></div></div><div class="weather-setting-row"><div class="weather-toggle" data-event-click="weather_toggle(3)"><div class="weather-checkbox" data-class-checked="weather_snow"><span data-if="weather_snow">✓</span></div><span class="weather-setting-label">Nieve</span></div><div class="weather-duration"><div class="weather-step weather-minus" data-event-click="weather_duration(3, -1)">‹</div><span class="weather-duration-value">{{weather_snow_minutes}} min</span><div class="weather-step weather-plus" data-event-click="weather_duration(3, 1)">›</div></div></div><div class="weather-setting-row"><div class="weather-toggle" data-event-click="weather_toggle(4)"><div class="weather-checkbox" data-class-checked="weather_blizzard"><span data-if="weather_blizzard">✓</span></div><span class="weather-setting-label">Ventisca</span></div><div class="weather-duration"><div class="weather-step weather-minus" data-event-click="weather_duration(4, -1)">‹</div><span class="weather-duration-value">{{weather_blizzard_minutes}} min</span><div class="weather-step weather-plus" data-event-click="weather_duration(4, 1)">›</div></div></div><div class="weather-setting-row"><div class="weather-toggle" data-event-click="weather_toggle(5)"><div class="weather-checkbox" data-class-checked="weather_fog"><span data-if="weather_fog">✓</span></div><span class="weather-setting-label">Niebla</span></div><div class="weather-duration"><div class="weather-step weather-minus" data-event-click="weather_duration(5, -1)">‹</div><span class="weather-duration-value">{{weather_fog_minutes}} min</span><div class="weather-step weather-plus" data-event-click="weather_duration(5, 1)">›</div></div></div><div class="weather-section-title">Efectos adicionales</div><div class="weather-setting-row"><div class="weather-toggle" data-event-click="weather_toggle(6)"><div class="weather-checkbox" data-class-checked="weather_natural"><span data-if="weather_natural">&#10003;</span></div><span class="weather-setting-label">Colores naturales</span></div></div><div class="weather-setting-row"><div class="weather-toggle" data-event-click="weather_toggle(7)"><div class="weather-checkbox" data-class-checked="weather_ambient"><span data-if="weather_ambient">&#10003;</span></div><span class="weather-setting-label">Luz de ambiente</span></div></div><div class="weather-setting-row"><div class="weather-toggle" data-event-click="weather_toggle(8)"><div class="weather-checkbox" data-class-checked="weather_stars"><span data-if="weather_stars">&#10003;</span></div><span class="weather-setting-label">Estrellas nocturnas</span></div></div><div class="weather-setting-row"><div class="weather-toggle" data-event-click="weather_toggle(9)"><div class="weather-checkbox" data-class-checked="weather_distance"><span data-if="weather_distance">&#10003;</span></div><span class="weather-setting-label">Niebla de distancia</span></div></div><div class="weather-setting-row"><span class="weather-setting-label weather-slider-label">Nitidez</span><div class="weather-duration"><div class="weather-step weather-minus" data-event-click="weather_adjust(0, -1)">−</div><span class="weather-duration-value">{{weather_sharpness}}%</span><div class="weather-step weather-plus" data-event-click="weather_adjust(0, 1)">+</div></div></div><div class="weather-setting-row"><span class="weather-setting-label weather-slider-label">Intensidad de niebla</span><div class="weather-duration"><div class="weather-step weather-minus" data-event-click="weather_adjust(1, -1)">−</div><span class="weather-duration-value">{{weather_fog_density}}%</span><div class="weather-step weather-plus" data-event-click="weather_adjust(1, 1)">+</div></div></div><div class="weather-setting-row"><span class="weather-setting-label weather-slider-label">Bloom adicional</span><div class="weather-duration"><div class="weather-step weather-minus" data-event-click="weather_adjust(2, -1)">−</div><span class="weather-duration-value">{{weather_bloom}}%</span><div class="weather-step weather-plus" data-event-click="weather_adjust(2, 1)">+</div></div></div><div class="weather-setting-row"><span class="weather-setting-label weather-slider-label">Atmósfera / cielo</span><div class="weather-duration"><div class="weather-step weather-minus" data-event-click="weather_adjust(3, -1)">−</div><span class="weather-duration-value">{{weather_atmosphere}}%</span><div class="weather-step weather-plus" data-event-click="weather_adjust(3, 1)">+</div></div></div><div class="weather-help">Nitidez, colores y bloom requieren efectos de imagen activados en Gráficos.</div><div class="weather-help">Duración: 1, 5, 15, 30, 60 o 120 min.<br/>Día/noche: duración del ciclo completo.<br/>Los audios usan el volumen de Sonido.</div></div>
+				<div class="opt-page" data-class-hidden="active_tab != 0">
+					<div class="opt-page-title">{{tab_display_label}}</div>
+					<div class="opt-row">
+						<span class="opt-label">{{resolution_row_label}}</span>
+						<div class="opt-control">
+							<div class="option-dropdown">
+								<div class="option-dropdown-value" data-class-open="open_dropdown == 0" data-event-click="option_toggle_dropdown(0)">{{resolution_value_label}}<div class="opt-caret"></div></div>
+								<div class="option-dropdown-list" data-class-hidden="open_dropdown != 0">
+									<div class="option-dropdown-option" data-for="label : resolution_labels"
+									     data-class-selected="it_index == resolution_index"
+									     data-event-click="option_dropdown_option_click(0, it_index)">{{label}}</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="opt-row opt-toggle-row" data-event-click="option_toggle_windowed_mode">
+						<span class="opt-label">{{windowed_mode_label}}</span>
+						<div class="opt-control"><div class="opt-toggle" data-class-checked="windowed_mode"><div class="opt-toggle-knob"></div></div></div>
+					</div>
+					<div class="opt-row opt-toggle-row" data-event-click="option_toggle_vsync">
+						<span class="opt-label">{{vsync_label}}</span>
+						<div class="opt-control"><div class="opt-toggle" data-class-checked="vsync_enabled"><div class="opt-toggle-knob"></div></div></div>
+					</div>
+					<div class="opt-row">
+						<span class="opt-label">{{fps_cap_row_label}}</span>
+						<div class="opt-control">
+							<div class="option-dropdown">
+								<div class="option-dropdown-value" data-class-open="open_dropdown == 1" data-event-click="option_toggle_dropdown(1)">{{fps_cap_value_label}}<div class="opt-caret"></div></div>
+								<div class="option-dropdown-list" data-class-hidden="open_dropdown != 1">
+									<div class="option-dropdown-option" data-for="label : fps_cap_labels"
+									     data-class-selected="it_index == fps_cap_index"
+									     data-event-click="option_dropdown_option_click(1, it_index)">{{label}}</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- The tip sits after the control so it paints above an open list. -->
+					<div class="opt-row opt-row-tipped option-opens-up">
+						<span class="opt-label">{{ui_scale_row_label}}</span>
+						<div class="opt-control">
+							<div class="option-dropdown">
+								<div class="option-dropdown-value" data-class-open="open_dropdown == 5" data-event-click="option_toggle_dropdown(5)">{{ui_scale_value_label}}<div class="opt-caret"></div></div>
+								<div class="option-dropdown-list" data-class-hidden="open_dropdown != 5">
+									<div class="option-dropdown-option" data-for="label : ui_scale_labels"
+									     data-class-selected="it_index == ui_scale_index"
+									     data-event-click="option_dropdown_option_click(5, it_index)">{{label}}</div>
+								</div>
+							</div>
+						</div>
+						<span class="opt-row-tip">{{ui_scale_tooltip}}</span>
+					</div>
+				</div>
+
+				<div class="opt-page" data-class-hidden="active_tab != 1">
+					<div class="opt-page-title">{{tab_graphics_label}}</div>
+					<div class="opt-section">{{section_quality_label}}</div>
+					<div class="opt-row opt-toggle-row" data-event-click="option_toggle_enhanced_graphics">
+						<span class="opt-label">{{enhanced_graphics_label}}</span>
+						<div class="opt-control"><div class="opt-toggle" data-class-checked="enhanced_graphics"><div class="opt-toggle-knob"></div></div></div>
+					</div>
+					<div class="opt-row opt-toggle-row opt-sub-row" data-class-locked="look_features_locked" data-event-click="option_toggle_enhanced_feature(0)">
+						<span class="opt-label">{{look_lighting_label}}</span>
+						<div class="opt-control"><div class="opt-toggle" data-class-checked="look_lighting"><div class="opt-toggle-knob"></div></div></div>
+					</div>
+					<div class="opt-row opt-toggle-row opt-sub-row" data-class-locked="look_dynamic_lights_locked" data-event-click="option_toggle_enhanced_feature(1)">
+						<span class="opt-label">{{look_dynamic_lights_label}}</span>
+						<div class="opt-control"><div class="opt-toggle" data-class-checked="look_dynamic_lights"><div class="opt-toggle-knob"></div></div></div>
+					</div>
+					<div class="opt-row opt-toggle-row opt-sub-row" data-class-locked="look_features_locked" data-event-click="option_toggle_enhanced_feature(2)">
+						<span class="opt-label">{{look_light_mood_label}}</span>
+						<div class="opt-control"><div class="opt-toggle" data-class-checked="look_light_mood"><div class="opt-toggle-knob"></div></div></div>
+					</div>
+					<div class="opt-row opt-toggle-row opt-sub-row" data-class-locked="look_features_locked" data-event-click="option_toggle_enhanced_feature(3)">
+						<span class="opt-label">{{look_post_processing_label}}</span>
+						<div class="opt-control"><div class="opt-toggle" data-class-checked="look_post_processing"><div class="opt-toggle-knob"></div></div></div>
+					</div>
+					<div class="opt-row opt-row-tipped">
+						<span class="opt-label">{{antialiasing_row_label}}</span>
+						<div class="opt-control">
+							<div class="option-dropdown">
+								<div class="option-dropdown-value" data-class-open="open_dropdown == 6" data-event-click="option_toggle_dropdown(6)">{{antialiasing_value_label}}<div class="opt-caret"></div></div>
+								<div class="option-dropdown-list" data-class-hidden="open_dropdown != 6">
+									<div class="option-dropdown-option" data-for="label : antialiasing_labels"
+									     data-class-selected="it_index == antialiasing_index"
+									     data-event-click="option_dropdown_option_click(6, it_index)">{{label}}</div>
+								</div>
+							</div>
+						</div>
+						<span class="opt-row-tip">{{antialiasing_tooltip}}</span>
+					</div>
+					<div class="opt-row opt-row-tipped">
+						<span class="opt-label">{{anisotropy_row_label}}</span>
+						<div class="opt-control">
+							<div class="option-dropdown">
+								<div class="option-dropdown-value" data-class-open="open_dropdown == 7" data-event-click="option_toggle_dropdown(7)">{{anisotropy_value_label}}<div class="opt-caret"></div></div>
+								<div class="option-dropdown-list" data-class-hidden="open_dropdown != 7">
+									<div class="option-dropdown-option" data-for="label : anisotropy_labels"
+									     data-class-selected="it_index == anisotropy_index"
+									     data-event-click="option_dropdown_option_click(7, it_index)">{{label}}</div>
+								</div>
+							</div>
+						</div>
+						<span class="opt-row-tip">{{anisotropy_tooltip}}</span>
+					</div>
+					<div class="opt-row">
+						<span class="opt-label">{{render_level_label}}</span>
+						<div class="opt-control">
+							<div class="level-gauge opt-slider effect-gauge">
+								<div data-attr-class="'level-gauge-fill level-' + (render_level + 1)"><div class="opt-slider-thumb"></div></div>
+								<div class="opt-slider-step opt-slider-step-1"></div>
+								<div class="opt-slider-step opt-slider-step-2"></div>
+								<div class="opt-slider-step opt-slider-step-3"></div>
+								<div class="opt-slider-step opt-slider-step-4"></div>
+								<div class="level-gauge-hit opt-slider-hit" data-event-mousedown="option_gauge(2)"
+								     data-event-drag="option_gauge(2)" data-event-mousescroll="option_gauge(2)"></div>
+							</div>
+							<span class="opt-value">{{render_level + 1 | format(0)}} / 5</span>
+						</div>
+					</div>
+					<div class="opt-section">{{section_effects_label}}</div>
+					<div class="opt-row opt-toggle-row" data-event-click="option_toggle_render_all_effects">
+						<span class="opt-label">{{render_all_effects_label}}</span>
+						<div class="opt-control"><div class="opt-toggle" data-class-checked="render_all_effects"><div class="opt-toggle-knob"></div></div></div>
+					</div>
+					<div class="opt-row opt-toggle-row" data-event-click="option_toggle_disable_effects">
+						<span class="opt-label">{{disable_effects_label}}</span>
+						<div class="opt-control"><div class="opt-toggle" data-class-checked="disable_effects"><div class="opt-toggle-knob"></div></div></div>
+					</div>
+					<div class="opt-row opt-toggle-row" data-event-click="option_toggle_disable_particles">
+						<span class="opt-label">{{disable_particles_label}}</span>
+						<div class="opt-control"><div class="opt-toggle" data-class-checked="disable_particles"><div class="opt-toggle-knob"></div></div></div>
+					</div>
+					<div class="opt-row opt-toggle-row" data-class-locked="skill_effect_models_locked" data-event-click="option_toggle_disable_skill_effect_models">
+						<span class="opt-label">{{disable_skill_effect_models_label}}</span>
+						<div class="opt-control"><div class="opt-toggle" data-class-checked="disable_skill_effect_models"><div class="opt-toggle-knob"></div></div></div>
+					</div>
+					<div class="opt-row opt-toggle-row" data-class-locked="boids_locked" data-event-click="option_toggle_disable_boids">
+						<span class="opt-label">{{disable_boids_label}}</span>
+						<div class="opt-control"><div class="opt-toggle" data-class-checked="disable_boids"><div class="opt-toggle-knob"></div></div></div>
+					</div>
+					<div class="opt-section">{{section_shadows_label}}</div>
+					<div class="opt-row opt-toggle-row" data-class-locked="body_shadows_locked" data-event-click="option_toggle_disable_body_shadows">
+						<span class="opt-label">{{disable_body_shadows_label}}</span>
+						<div class="opt-control"><div class="opt-toggle" data-class-checked="disable_body_shadows"><div class="opt-toggle-knob"></div></div></div>
+					</div>
+					<div class="opt-row opt-toggle-row" data-class-locked="wing_shadow_locked" data-event-click="option_toggle_disable_wing_shadow">
+						<span class="opt-label">{{disable_wing_shadow_label}}</span>
+						<div class="opt-control"><div class="opt-toggle" data-class-checked="disable_wing_shadow"><div class="opt-toggle-knob"></div></div></div>
+					</div>
+				</div>
+
+				<div class="opt-page" data-class-hidden="active_tab != 2">
+					<div class="opt-page-title">{{tab_audio_label}}</div>
+					<div class="opt-row">
+						<span class="opt-label">{{sound_volume_label}}</span>
+						<div class="opt-control">
+							<div class="level-gauge opt-slider">
+								<div data-attr-class="'level-gauge-fill level-' + sound_volume"><div class="opt-slider-thumb"></div></div>
+								<div class="level-gauge-hit opt-slider-hit" data-event-mousedown="option_gauge(0)"
+								     data-event-drag="option_gauge(0)" data-event-mousescroll="option_gauge(0)"></div>
+							</div>
+							<span class="opt-value">{{sound_volume * 10 | format(0)}}%</span>
+						</div>
+					</div>
+					<div class="opt-row">
+						<span class="opt-label">{{music_volume_label}}</span>
+						<div class="opt-control">
+							<div class="level-gauge opt-slider">
+								<div data-attr-class="'level-gauge-fill level-' + music_volume"><div class="opt-slider-thumb"></div></div>
+								<div class="level-gauge-hit opt-slider-hit" data-event-mousedown="option_gauge(1)"
+								     data-event-drag="option_gauge(1)" data-event-mousescroll="option_gauge(1)"></div>
+							</div>
+							<span class="opt-value">{{music_volume * 10 | format(0)}}%</span>
+						</div>
+					</div>
+					<div class="opt-row opt-toggle-row" data-event-click="option_toggle_whisper_sound">
+						<span class="opt-label">{{whisper_sound_label}}</span>
+						<div class="opt-control"><div class="opt-toggle" data-class-checked="whisper_sound"><div class="opt-toggle-knob"></div></div></div>
+					</div>
+				</div>
+
+				<div class="opt-page" data-class-hidden="active_tab != 3">
+					<div class="opt-page-title">{{tab_gameplay_label}}</div>
+					<div class="opt-row opt-toggle-row" data-event-click="option_toggle_player_hp"><span class="opt-label">Mostrar HP de jugadores</span><div class="opt-control"><div class="opt-toggle" data-class-checked="show_player_hp"><div class="opt-toggle-knob"></div></div></div></div>
+<div class="opt-row opt-toggle-row" data-event-click="option_toggle_monster_hp"><span class="opt-label">Ocultar HP de monstruos</span><div class="opt-control"><div class="opt-toggle" data-class-checked="hide_monster_hp"><div class="opt-toggle-knob"></div></div></div></div>
+<div class="opt-row opt-toggle-row" data-event-click="option_toggle_hide_names"><span class="opt-label">Ocultar nombres</span><div class="opt-control"><div class="opt-toggle" data-class-checked="hide_player_names"><div class="opt-toggle-knob"></div></div></div></div>
+<div class="opt-row opt-toggle-row" data-event-click="option_toggle_auto_attack">
+						<span class="opt-label">{{auto_attack_label}}</span>
+						<div class="opt-control"><div class="opt-toggle" data-class-checked="auto_attack"><div class="opt-toggle-knob"></div></div></div>
+					</div>
+					<div class="opt-row opt-toggle-row" data-event-click="option_toggle_slide_help">
+						<span class="opt-label">{{slide_help_label}}</span>
+						<div class="opt-control"><div class="opt-toggle" data-class-checked="slide_help"><div class="opt-toggle-knob"></div></div></div>
+					</div>
+				</div>
+
+				<div class="opt-page" data-class-hidden="active_tab != 4">
+					<div class="opt-page-title">{{tab_interface_label}}</div>
+					<div class="opt-row">
+						<span class="opt-label">{{language_row_label}}</span>
+						<div class="opt-control">
+							<div class="option-dropdown">
+								<div class="option-dropdown-value" data-class-open="open_dropdown == 3" data-event-click="option_toggle_dropdown(3)">{{language_value_label}}<div class="opt-caret"></div></div>
+								<div class="option-dropdown-list" data-class-hidden="open_dropdown != 3">
+									<div class="option-dropdown-option" data-for="label : language_labels"
+									     data-class-selected="it_index == language_index"
+									     data-event-click="option_dropdown_option_click(3, it_index)">{{label}}</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="opt-row">
+						<span class="opt-label">{{font_row_label}}</span>
+						<div class="opt-control">
+							<div class="option-dropdown">
+								<div class="option-dropdown-value" data-class-open="open_dropdown == 4" data-event-click="option_toggle_dropdown(4)">{{font_value_label}}<div class="opt-caret"></div></div>
+								<div class="option-dropdown-list" data-class-hidden="open_dropdown != 4">
+									<div class="option-dropdown-option" data-for="label : font_labels"
+									     data-class-selected="it_index == font_index"
+									     data-event-click="option_dropdown_option_click(4, it_index)">{{label}}</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="opt-row">
+						<span class="opt-label">{{theme_row_label}}</span>
+						<div class="opt-control">
+							<div class="option-dropdown">
+								<div class="option-dropdown-value" data-class-open="open_dropdown == 2" data-event-click="option_toggle_dropdown(2)">{{theme_value_label}}<div class="opt-caret"></div></div>
+								<div class="option-dropdown-list" data-class-hidden="open_dropdown != 2">
+									<div class="option-dropdown-option" data-for="label : theme_labels"
+									     data-class-selected="it_index == theme_index"
+									     data-event-click="option_dropdown_option_click(2, it_index)">{{label}}</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="opt-row opt-toggle-row" data-event-click="option_toggle_show_fps_counter">
+						<span class="opt-label">{{show_fps_counter_label}}</span>
+						<div class="opt-control"><div class="opt-toggle" data-class-checked="show_fps_counter"><div class="opt-toggle-knob"></div></div></div>
+					</div>
+					<div class="opt-row opt-toggle-row" data-event-click="option_toggle_show_debug_info">
+						<span class="opt-label">{{show_debug_info_label}}</span>
+						<div class="opt-control"><div class="opt-toggle" data-class-checked="show_debug_info"><div class="opt-toggle-knob"></div></div></div>
+					</div>
+				</div>
+			</div>
+			</div>
+		</div>
+
+		<div class="opt-footer">
+			<div class="opt-footer-action" data-event-click="option_click_close">
+				<span class="opt-keycap">Esc</span><span class="opt-footer-label">{{close_label}}</span>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</rml>

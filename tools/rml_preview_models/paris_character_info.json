@@ -1,0 +1,121 @@
+{
+  "text_px": 11,
+  "can_level_up": true,
+  "show_charisma": false,
+  "name_text": "Test123",
+  "pk_level": 0,
+  "classname_text": "(Blade Master)",
+  "servername_text": "Valhalla",
+  "classname_opacity": 1,
+  "servername_opacity": 0,
+  "level_text": "Nivel: 400",
+  "levelup_point_text": "Puntos: 287",
+  "exp_text": "EXP: 11221100 / 3892250000",
+  "point_probability_text": "[+]:100% [-]:100%",
+  "point_text": "Crear 0/127 | Disminuir 0/-127",
+  "exit_tooltip": "Cerrar",
+  "quest_tooltip": "Quest",
+  "pet_tooltip": "Mascotas",
+  "visual_options_tooltip": "Opciones visuales",
+  "str_label": "Fuerza",
+  "str_value_text": "30143",
+  "str_value_source": "base",
+  "str_lines": [
+    {
+      "text": "Da\u00f1o: 5206\u20137679",
+      "source": "base"
+    },
+    {
+      "text": "Tasa de ataque: 36495",
+      "source": "base"
+    }
+  ],
+  "agi_label": "Agilidad",
+  "agi_value_text": "22407",
+  "agi_value_source": "base",
+  "agi_lines": [
+    {
+      "text": "Defensa: 10057",
+      "source": "base"
+    },
+    {
+      "text": "Velocidad de ataque: 2000",
+      "source": "base"
+    },
+    {
+      "text": "Tasa de defensa: 12003",
+      "source": "base"
+    }
+  ],
+  "vit_label": "Vitalidad",
+  "vit_value_text": "32767",
+  "vit_value_source": "base",
+  "vit_lines": [
+    {
+      "text": "HP: 128601 / 128601",
+      "source": "base"
+    }
+  ],
+  "ene_label": "Energ\u00eda",
+  "ene_value_text": "32767",
+  "ene_value_source": "base",
+  "ene_lines": [
+    {
+      "text": "Man\u00e1: 32977 / 32977",
+      "source": "base"
+    },
+    {
+      "text": "Da\u00f1o de habilidad: 3476%",
+      "source": "base"
+    }
+  ],
+  "cmd_label": "Comando",
+  "cmd_value_text": "0",
+  "cmd_value_source": "base",
+  "cmd_lines": [],
+  "level_value": 400,
+  "points_value": 287,
+  "allocation_open": false,
+  "allocation_percent": false,
+  "allocation_auto": false,
+  "allocation_busy": false,
+  "allocation_status": "Escribe cantidades y pulsa ASIGNAR.",
+  "allocation_available": "287",
+  "allocation_rows": [
+    {
+      "name": "Fuerza",
+      "amount": "0",
+      "index": 0,
+      "full": false,
+      "enabled": true
+    },
+    {
+      "name": "Agilidad",
+      "amount": "0",
+      "index": 1,
+      "full": false,
+      "enabled": true
+    },
+    {
+      "name": "Vitalidad",
+      "amount": "0",
+      "index": 2,
+      "full": false,
+      "enabled": true
+    },
+    {
+      "name": "Energia",
+      "amount": "0",
+      "index": 3,
+      "full": false,
+      "enabled": true
+    },
+    {
+      "name": "Comando",
+      "amount": "0",
+      "index": 4,
+      "full": false,
+      "enabled": false
+    }
+  ]
+}

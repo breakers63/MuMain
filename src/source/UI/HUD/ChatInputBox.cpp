@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "GameLogic/Items/ParisScreenMessages.h"
 #include "UI/Chat/ChatInput.h"
 #include "UI/HUD/ChatInputBox.h"
 #include "Core/Input/SyntheticInput.h"
@@ -198,17 +199,7 @@ bool mu::ui::window::CChatInputBox::UpdateKeyEvent()
     if (HandleCommandCompletionKey()) return false;
     if (mu::ui::window::IsPress(VK_F2))
     {
-        m_bShowMessageElseNormal = !m_bShowMessageElseNormal;
-
-        if (m_bShowMessageElseNormal)
-        {
-            m_pNewUIChatLogWnd->ChangeMessage(mu::ui::window::TYPE_WHISPER_MESSAGE);
-        }
-        else
-        {
-            m_pNewUIChatLogWnd->ChangeMessage(mu::ui::window::TYPE_ALL_MESSAGE);
-        }
-
+        UI::ScreenMessages::Toggle();
         PlayBuffer(SOUND_CLICK01);
         return false;
     }

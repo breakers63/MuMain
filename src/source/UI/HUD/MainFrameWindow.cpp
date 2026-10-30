@@ -1,5 +1,9 @@
 
 #include "stdafx.h"
+#include "Network/Paris/TvtHud.h"
+#include "UI/RmlBridge/RmlDraggable.h"
+#include "Network/Paris/BloodPvpNotice.h"
+#include "Network/Paris/EventTimer.h"
 #include "Core/Input/KeyState.h"
 #include "UI/Core/WindowCommon.h"
 #include <algorithm>
@@ -150,6 +154,10 @@ void mu::ui::window::CMainFrameWindow::BindRmlModel(Rml::DataModelConstructor& c
     c.Bind("pvp_notice_visible", &model.pvpNoticeVisible);
     c.Bind("pvp_notice_active", &model.pvpNoticeActive);
     c.Bind("pvp_notice_text", &model.pvpNoticeText);
+    c.Bind("event_timer_text", &model.eventTimerText);
+    c.Bind("event_timer_visible", &model.eventTimerVisible);
+    c.Bind("tvt_visible", &model.tvtVisible);c.Bind("tvt_minimized", &model.tvtMinimized);
+    c.BindEventCallback("tvt_minimize",[this](Rml::DataModelHandle,Rml::Event&,const Rml::VariantList&){auto& m=m_RmlView.GetModel();m.tvtMinimized=!m.tvtMinimized;m_RmlView.MarkDirty("tvt_minimized");});
     c.Bind("pvp_notice_opacity", &model.pvpNoticeOpacity);
 
     c.Bind("exp_fraction", &model.expFraction);
@@ -317,6 +325,7 @@ void mu::ui::window::CMainFrameWindow::OnRmlReloaded()
 void mu::ui::window::CMainFrameWindow::BuildRmlUi()
 {
     m_RmlView.Ensure();
+
 }
 
 void mu::ui::window::CMainFrameWindow::Release()
@@ -502,6 +511,18 @@ void mu::ui::window::CMainFrameWindow::SyncPvpNotice()
     const auto now = GetTickCount64();
     const bool active = Core::Input::IsPvpLocked();
     auto& model = m_RmlView.GetModel();
+    const bool tvtVisible=ParisTvtHud::Visible();
+    if(model.tvtVisible!=tvtVisible){model.tvtVisible=tvtVisible;m_RmlView.MarkDirty("tvt_visible");}
+    const bool timerVisible=Network::Paris::EventTimer::Visible(gMapManager.InBloodCastle(),gMapManager.InDevilSquare(),gMapManager.InChaosCastle());
+    if(model.eventTimerVisible!=timerVisible){model.eventTimerVisible=timerVisible;m_RmlView.MarkDirty("event_timer_visible");}
+    if(timerVisible&&!tvtVisible){const auto wide=Network::Paris::EventTimer::Text();std::string text(wide.begin(),wide.end());const auto split=text.find('\n');text="<span class=\"event-timer-name\">"+text.substr(0,split)+"</span><span class=\"event-timer-label\">Tiempo restante</span><span class=\"event-timer-clock\">"+text.substr(split+1)+"</span>";if(model.eventTimerText!=text){model.eventTimerText=text;m_RmlView.MarkDirty("event_timer_text");}}
+
+    if(tvtVisible){
+        if(auto* d=m_RmlView.Document())if(auto* panel=d->GetElementById("tvt_hud"))if(panel->GetAttribute<bool>("data-drag-ready",false)==false){UI::RmlBridge::MakeDraggable(d->GetElementById("tvt_drag"),panel);panel->SetAttribute("data-drag-ready",true);}
+        std::string text="<span class=\"tvt-hud-blue\">AZULES</span><span class=\"tvt-hud-red\">ROJOS</span><span class=\"tvt-blue-score\">"+std::to_string(ParisTvtHud::blue)+"</span><span class=\"tvt-red-score\">"+std::to_string(ParisTvtHud::red)+"</span><span class=\"tvt-hud-clock\">"+ParisTvtHud::Clock()+"</span><span class=\"tvt-hud-team\">Tu equipo: "+(ParisTvtHud::team==1?"AZUL":"ROJO")+"</span>";
+        if(model.eventTimerText!=text){model.eventTimerText=text;m_RmlView.MarkDirty("event_timer_text");}
+    }
+
     if (active != m_lastPvpState)
     {
         m_lastPvpState = active;
@@ -510,6 +531,14 @@ void mu::ui::window::CMainFrameWindow::SyncPvpNotice()
         model.pvpNoticeText = active ? "Auto PvP activado" : "Auto PvP desactivado";
         m_RmlView.MarkDirty("pvp_notice_active");
         m_RmlView.MarkDirty("pvp_notice_text");
+    }
+    if (Network::Paris::BloodPvpNotice::started != 0 && now - Network::Paris::BloodPvpNotice::started < noticeDurationMs
+        && m_pvpNoticeStarted != Network::Paris::BloodPvpNotice::started)
+    {
+        m_pvpNoticeStarted = Network::Paris::BloodPvpNotice::started;
+        model.pvpNoticeActive = true;
+        model.pvpNoticeText = Network::Paris::BloodPvpNotice::Utf8();
+        m_RmlView.MarkDirty("pvp_notice_active"); m_RmlView.MarkDirty("pvp_notice_text");
     }
     const auto age = now - m_pvpNoticeStarted;
     const bool visible = m_pvpNoticeStarted != 0 && age < noticeDurationMs;

@@ -2611,6 +2611,141 @@
       "durability": 1,
       "repairable": false,
       "sellable": false
+    },
+    {
+      "number": 244,
+      "name": {
+        "en": "Jewel of Level",
+        "es": "Joya de nivel"
+      },
+      "width": 1,
+      "height": 1,
+      "tradable": true,
+      "droppable": true,
+      "sellable": true,
+      "personalShopSellable": true,
+      "repairable": false,
+      "sellValue": 20
+    },
+    {
+      "number": 245,
+      "name": {
+        "en": "Jewel of Skill",
+        "es": "Joya de skill"
+      },
+      "width": 1,
+      "height": 1,
+      "tradable": true,
+      "droppable": true,
+      "sellable": true,
+      "personalShopSellable": true,
+      "repairable": false,
+      "sellValue": 20
+    },
+    {
+      "number": 246,
+      "name": {
+        "en": "Jewel of Luck",
+        "es": "Joya de luck"
+      },
+      "width": 1,
+      "height": 1,
+      "tradable": true,
+      "droppable": true,
+      "sellable": true,
+      "personalShopSellable": true,
+      "repairable": false,
+      "sellValue": 20
+    },
+    {
+      "number": 247,
+      "name": {
+        "en": "Jewel of Additional",
+        "es": "Joya de adicional"
+      },
+      "width": 1,
+      "height": 1,
+      "tradable": true,
+      "droppable": true,
+      "sellable": true,
+      "personalShopSellable": true,
+      "repairable": false,
+      "sellValue": 20
+    },
+    {
+      "number": 248,
+      "name": {
+        "en": "Jewel of Excellent",
+        "es": "Joya de Excellent"
+      },
+      "width": 1,
+      "height": 1,
+      "tradable": true,
+      "droppable": true,
+      "sellable": true,
+      "personalShopSellable": true,
+      "repairable": false,
+      "sellValue": 20
+    },
+    {
+      "number": 249,
+      "name": {
+        "en": "Jewel of Socket",
+        "es": "Joya de socket"
+      },
+      "width": 1,
+      "height": 1,
+      "tradable": true,
+      "droppable": true,
+      "sellable": true,
+      "personalShopSellable": true,
+      "repairable": false,
+      "sellValue": 20
+    },
+    {
+      "number": 250,
+      "name": {
+        "en": "Jewel of Ancient I",
+        "es": "Joya Ancient I"
+      },
+      "width": 1,
+      "height": 1,
+      "tradable": true,
+      "droppable": true,
+      "sellable": true,
+      "personalShopSellable": true,
+      "repairable": false,
+      "sellValue": 20
+    },
+    {
+      "number": 251,
+      "name": {
+        "en": "Jewel of Ancient II",
+        "es": "Joya Ancient II"
+      },
+      "width": 1,
+      "height": 1,
+      "tradable": true,
+      "droppable": true,
+      "sellable": true,
+      "personalShopSellable": true,
+      "repairable": false,
+      "sellValue": 20
+    },
+    {
+      "number": 252,
+      "name": {
+        "en": "Jewel of Full",
+        "es": "Joya Full"
+      },
+      "width": 1,
+      "height": 1,
+      "tradable": true,
+      "droppable": true,
+      "sellable": true,
+      "personalShopSellable": true,
+      "repairable": false,
+      "sellValue": 20
     }
   ]
 }

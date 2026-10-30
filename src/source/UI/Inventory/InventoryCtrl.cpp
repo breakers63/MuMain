@@ -1,5 +1,6 @@
-
+﻿
 #include "stdafx.h"
+#include "GameLogic/Items/ParisJewelryUpgrades.h"
 #include "Render/Models/ItemDyeAppearance.h"
 #include "Render/Models/ItemDyeAppearance.h"
 #include "UI/Core/UIManager.h"
@@ -1767,6 +1768,12 @@ bool mu::ui::window::CInventoryCtrl::CanPushItem()
 bool mu::ui::window::CInventoryCtrl::CanUpgradeItem(ITEM* pSourceItem, ITEM* pTargetItem)
 {
     const int iTargetLevel = pTargetItem->Level;
+
+    if (GameLogic::Items::JewelryUpgrades::IsRestrictedJewel(pSourceItem->Type))
+        return GameLogic::Items::JewelryUpgrades::IsJewelry(pTargetItem->Type);
+    if (GameLogic::Items::JewelryUpgrades::IsRing(pTargetItem->Type))
+        return (pSourceItem->Type == ITEM_JEWEL_OF_BLESS && iTargetLevel < 6)
+            || (pSourceItem->Type == ITEM_JEWEL_OF_SOUL && iTargetLevel < 9);
 
     if (((pTargetItem->Type >= ITEM_SWORD && pTargetItem->Type < ITEM_WING) && !GameLogic::Items::IsAmmunition(pTargetItem)) ||
         (pTargetItem->Type >= ITEM_WING && pTargetItem->Type <= ITEM_WINGS_OF_DARKNESS) ||

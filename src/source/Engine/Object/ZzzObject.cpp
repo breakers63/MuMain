@@ -11,6 +11,7 @@
 #include "UI/MapEditor/ObjectThumbnail.h"
 #endif
 #include "Engine/Object/ZzzInfomation.h"
+#include "Network/Server/SocketSystem.h"
 #include "Engine/Object/ZzzObject.h"
 #include "Core/Utilities/FrameProfiler.h"
 #include <optional>
@@ -5431,21 +5432,51 @@ void ItemAngle(OBJECT* o)
     }
 }
 
+// Ground tooltips need the same derived stats and blue option list as inventory items.
+static void InitializeGroundItemOptions(ITEM* item, const ItemCreationParams& params)
+{
+    *item = {};
+    item->Type = params.Group * MAX_ITEM_INDEX + params.Number;
+    item->Level = params.Level;
+    item->HasSkill = params.WithSkill;
+    item->HasLuck = params.WithLuck;
+    item->OptionLevel = params.OptionLevel;
+    item->OptionType = params.OptionType;
+    item->Durability = params.Durability;
+    item->ExcellentFlags = params.ExcellentFlags;
+    item->AncientDiscriminator = params.AncientDiscriminator;
+    item->AncientBonusOption = params.AncientBonusOption;
+    item->option_380 = params.HasGuardianOption;
+    item->Jewel_Of_Harmony_Option = params.HarmonyOptionType;
+    item->Jewel_Of_Harmony_OptionLevel = params.HarmonyOptionLevel;
+    item->bPeriodItem = params.WithExpiration;
+    item->bExpiredPeriod = params.IsExpired;
+    item->SocketCount = params.SocketCount;
+    item->SocketSeedSetOption = params.SocketBonusOption;
+    for (int i = 0; i < MAX_SOCKETS; ++i)
+    {
+        item->bySocketOption[i] = params.SocketOptions[i];
+        item->SocketSeedID[i] = params.SocketOptions[i] == SOCKET_EMPTY
+            ? SOCKET_EMPTY : params.SocketOptions[i] % SEASON4A::MAX_SOCKET_OPTION;
+        item->SocketSphereLv[i] = params.SocketOptions[i] == SOCKET_EMPTY
+            ? 0 : (params.SocketOptions[i] / SEASON4A::MAX_SOCKET_OPTION) + 1;
+    }
+
+    SetItemAttributes(item);
+}
+
 void CreateItemDrop(ITEM_t* ip, ItemCreationParams params, vec3_t position, bool isFreshDrop)
 {
-    int Type = params.Group * MAX_ITEM_INDEX + params.Number;
+    if (params.Group < 0 || params.Group >= MAX_ITEM_TYPE || params.Number < 0
+        || params.Number >= MAX_ITEM_INDEX || params.SocketCount > MAX_SOCKETS)
+    {
+        ip->Object.Live = false;
+        return;
+    }
+
+    InitializeGroundItemOptions(&ip->Item, params);
     ITEM* n = &ip->Item;
-    n->Type = Type;
-    n->Level = params.Level;
-    n->HasSkill = params.WithSkill;
-    n->HasLuck = params.WithLuck;
-    n->OptionLevel = params.OptionLevel;
-    n->OptionType = params.OptionType;
-    n->Durability = params.Durability;
-    n->ExcellentFlags = params.ExcellentFlags;
-    n->AncientDiscriminator = params.AncientDiscriminator;
-    n->AncientBonusOption = params.AncientBonusOption;
-    n->option_380 = params.HasGuardianOption;
+    int Type = n->Type;
 
     if (isFreshDrop)
     {

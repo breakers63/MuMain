@@ -1,4 +1,4 @@
-
+﻿
 #include "stdafx.h"
 #include "UI/HUD/MuHelperBar.h"
 #include "I18N/All.h"

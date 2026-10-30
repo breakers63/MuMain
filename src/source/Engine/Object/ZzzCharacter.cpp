@@ -1,3 +1,4 @@
+#include "World/Monsters/DressedNpcModels.h"
 ///////////////////////////////////////////////////////////////////////////////
 // 케릭터 관련 함수
 // 케릭터 랜더링, 움직임등을 처리
@@ -12854,6 +12855,8 @@ void ReadEquipmentExtended(int Key, BYTE flags, BYTE* Equipment, CHARACTER* pCha
     else
         c = pCharacter;
 
+    // Rebuild companions from this appearance, including when a transformation ends.
+    giPetManager::DeletePet(c);
     OBJECT* o = &c->Object;
     if (o->Type != MODEL_PLAYER)
         return;
@@ -13199,6 +13202,25 @@ void Setting_Monster(CHARACTER* c, EMonsterType Type, int PositionX, int Positio
 
 CHARACTER* CreateMonster(EMonsterType Type, int PositionX, int PositionY, int Key)
 {
+    if((int)Type==404||(int)Type==405){
+        CHARACTER* teamPlayer=CreateCharacter(Key,MODEL_PLAYER,PositionX,PositionY);
+        if(!teamPlayer)return nullptr;
+        Setting_Monster(teamPlayer,Type,PositionX,PositionY);
+        teamPlayer->Object.Type=MODEL_PLAYER;teamPlayer->Object.Kind=KIND_PLAYER;
+        teamPlayer->Object.SubType=(int)Type==404?MODEL_CURSEDTEMPLE_ALLIED_PLAYER:MODEL_CURSEDTEMPLE_ILLUSION_PLAYER;
+        teamPlayer->Object.Scale=1.f;teamPlayer->Weapon[0].Type=teamPlayer->Weapon[1].Type=-1;teamPlayer->Wing.Type=-1;teamPlayer->Helper.Type=-1;
+        return teamPlayer;
+    }
+
+    if (const auto* dressed = World::Monsters::Dressed::Find(static_cast<int>(Type)))
+    {
+        CHARACTER* custom = World::Monsters::Dressed::Create(*dressed, PositionX, PositionY, Key);
+        if (custom == nullptr) return nullptr;
+        Setting_Monster(custom, Type, PositionX, PositionY);
+        World::Monsters::Dressed::Configure(*dressed, custom);
+        return custom;
+    }
+
     if (const auto* definition = World::Monsters::Custom::Find(static_cast<int>(Type)))
     {
         CHARACTER* custom = World::Monsters::Custom::Create(*definition, PositionX, PositionY, Key);

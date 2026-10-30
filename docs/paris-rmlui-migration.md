@@ -1,4 +1,4 @@
-# Paris Dorado — RmlUi
+﻿# Paris Dorado — RmlUi
 
 La nueva base esta en `C:\Users\WOoS\MuMain-Paris-RmlUi`. El cliente anterior
 permanece en `C:\Users\WOoS\SrcLadoClienteMuMain-SDL3`; no sustituirlo hasta

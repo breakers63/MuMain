@@ -1,4 +1,4 @@
-//////////////////////////////////////////////////////////////////////////
+﻿//////////////////////////////////////////////////////////////////////////
 //
 //  GOBoid.cpp
 //
@@ -19,9 +19,10 @@
 #include "Audio/DSPlaySound.h"
 #include "World/MapInfra/MapManager.h"
 #include "Camera/CameraMove.h"
-#include "UI/NewUI/NewUISystem.h"
+#include "UI/Core/WindowSystem.h"
 #include "Scenes/MainScene.h"
 #include "GameLogic/Items/ItemCategories.h"
+#include "Render/Renderer/MuRenderer.h"
 
 int EnableEvent = 0;
 
@@ -188,7 +189,10 @@ bool MoveMount(OBJECT* o, bool bForceRender)
 
             if (o->Owner->Teleport == TELEPORT_BEGIN || o->Owner->Teleport == TELEPORT)
             {
-                o->Alpha -= 0.1f;
+                // *FPS_ANIMATION_FACTOR -- was a fixed 0.1/call fade with no time basis, so the
+                // teleport fade-out vanished N times faster at high/uncapped FPS than the ~10
+                // frames it was tuned to take.
+                o->Alpha -= 0.1f * FPS_ANIMATION_FACTOR;
                 if (o->Alpha < 0) o->Alpha = 0.f;
             }
             else
@@ -504,7 +508,10 @@ bool MoveMount(OBJECT* o, bool bForceRender)
 
             if (o->Owner->Teleport == TELEPORT_BEGIN || o->Owner->Teleport == TELEPORT)
             {
-                o->Alpha -= 0.1f;
+                // *FPS_ANIMATION_FACTOR -- was a fixed 0.1/call fade with no time basis, so the
+                // teleport fade-out vanished N times faster at high/uncapped FPS than the ~10
+                // frames it was tuned to take.
+                o->Alpha -= 0.1f * FPS_ANIMATION_FACTOR;
                 if (o->Alpha < 0) o->Alpha = 0.f;
             }
             else
@@ -714,6 +721,8 @@ bool RenderMount(OBJECT* o, bool bForceRender)
 
 void RenderMount()
 {
+    // Like their riders, mounts keep their Classic look: no bloom from them.
+    const mu::ScopedBloomExclusion classicMounts;
     for (int i = 0; i < MAX_MOUNTS; i++)
     {
         OBJECT* o = &Mounts[i];
@@ -1125,7 +1134,7 @@ void MoveTornado(OBJECT* o)
 
 void MoveBoidGroup(OBJECT* o, int index)
 {
-    if (!g_pOption->GetRenderAllEffects() || g_pOption->GetReduceBoids())
+    if (!g_pOption->GetRenderAllEffects())
     {
         return;
     }
@@ -1199,7 +1208,7 @@ void MoveBoidGroup(OBJECT* o, int index)
 
 void MoveBoids()
 {
-    if (!g_pOption->GetRenderAllEffects() || g_pOption->GetReduceBoids())
+    if (!g_pOption->GetRenderAllEffects())
     {
         return;
     }
@@ -1509,7 +1518,7 @@ void MoveBoids()
 
 void RenderBoids(bool bAfterCharacter)
 {
-    if (!g_pOption->GetRenderAllEffects() || g_pOption->GetReduceBoids())
+    if (!g_pOption->GetRenderAllEffects())
     {
         return;
     }
@@ -1610,7 +1619,7 @@ void RenderBoids(bool bAfterCharacter)
 
 void RenderFishs()
 {
-    if (!g_pOption->GetRenderAllEffects() || g_pOption->GetReduceBoids())
+    if (!g_pOption->GetRenderAllEffects())
     {
         return;
     }
@@ -1650,7 +1659,7 @@ void RenderFishs()
 
 void MoveFishs()
 {
-    if (!g_pOption->GetRenderAllEffects() || g_pOption->GetReduceBoids())
+    if (!g_pOption->GetRenderAllEffects())
     {
         return;
     }

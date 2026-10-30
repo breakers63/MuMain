@@ -1,0 +1,13 @@
+{
+  "title": "RANK USER",
+  "status": "Ranking actualizado del servidor",
+  "rows": [
+    {"rank": "1", "name": "Test123", "detail": "287 resets"},
+    {"rank": "2", "name": "ParisKnight", "detail": "260 resets"},
+    {"rank": "3", "name": "DarkWizard", "detail": "235 resets"}
+  ],
+  "tab": 0,
+  "page": 1,
+  "page_count": 7,
+  "empty": false
+}

@@ -222,7 +222,7 @@
 				<div class="opt-page" data-class-hidden="active_tab != 3">
 					<div class="opt-page-title">{{tab_gameplay_label}}</div>
 					<div class="opt-row opt-toggle-row" data-event-click="option_toggle_player_hp"><span class="opt-label">Mostrar HP de jugadores</span><div class="opt-control"><div class="opt-toggle" data-class-checked="show_player_hp"><div class="opt-toggle-knob"></div></div></div></div>
-<div class="opt-row opt-toggle-row" data-event-click="option_toggle_monster_hp"><span class="opt-label">Ocultar HP de monstruos</span><div class="opt-control"><div class="opt-toggle" data-class-checked="hide_monster_hp"><div class="opt-toggle-knob"></div></div></div></div>
+<div class="opt-row opt-toggle-row" data-event-click="option_toggle_monster_hp"><span class="opt-label">Mostrar HP de monstruos</span><div class="opt-control"><div class="opt-toggle" data-class-checked="show_monster_hp"><div class="opt-toggle-knob"></div></div></div></div>
 <div class="opt-row opt-toggle-row" data-event-click="option_toggle_hide_names"><span class="opt-label">Ocultar nombres</span><div class="opt-control"><div class="opt-toggle" data-class-checked="hide_player_names"><div class="opt-toggle-knob"></div></div></div></div>
 <div class="opt-row opt-toggle-row" data-event-click="option_toggle_auto_attack">
 						<span class="opt-label">{{auto_attack_label}}</span>

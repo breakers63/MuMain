@@ -1,4 +1,5 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
+#include "GameLogic/Items/ParisJewelryUpgrades.h"
 #include "MixMgr.h"
 #include "ParisColorPotionMixes.h"
 #include "I18N/All.h"
@@ -1044,7 +1045,8 @@ BOOL CMixRecipes::IsFenrirAddedItem(CMixItem& rSource)
 
 BOOL CMixRecipes::IsUpgradableItem(CMixItem& rSource)
 {
-    return (rSource.m_bIsEquipment || rSource.m_bIsWing || rSource.m_bIsUpgradedWing || rSource.m_bIs3rdUpgradedWing);
+    return GameLogic::Items::JewelryUpgrades::IsRing(rSource.m_sType)
+        || (rSource.m_bIsEquipment || rSource.m_bIsWing || rSource.m_bIsUpgradedWing || rSource.m_bIs3rdUpgradedWing);
 }
 
 BOOL CMixRecipes::IsSourceOfRefiningStone(CMixItem& rSource)

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <array>
 #include <string>
 #include <cstring>
@@ -7,7 +7,7 @@
 
 namespace Network::Paris::GmEvents
 {
-constexpr int Count = 7, RecordSize = 184, ResponseSize = 8 + Count * RecordSize + 192;
+constexpr int Count = 10, RecordSize = 184, ResponseSize = 8 + Count * RecordSize + 192;
 struct Status
 {
     bool Enabled = false;

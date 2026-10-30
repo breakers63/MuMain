@@ -6,12 +6,13 @@
     <link type="text/rcss" href="event_entry.rcss"/>
     <link type="text/rcss" href="devil_square_enter.rcss"/>
     <link type="text/rcss" href="npc_actions.rcss"/>
+    <link type="text/rcss" href="rich_event_entry.rcss"/>
 </head>
 <body>
     <!-- The workspace places the frame. Each text pane counter-scales once; its children
          flow at the native readable size. The theme bounds descriptions and level lists
          independently, keeping the exit controls outside both scroll regions. -->
-    <div id="panel" data-model="devil_square_enter">
+    <div id="panel" data-model="devil_square_enter" data-class-rich="rich">
         <div class="frame-piece frame-top"></div>
         <div class="frame-piece frame-left"></div>
         <div class="frame-piece frame-right"></div>
@@ -35,6 +36,35 @@
             <span class="modern-icon-btn-glyph-px entry-exit-glyph">&#215;</span>
         </div>
         <div id="frame_corner_close" data-event-click="entry_exit"></div>
+
+        <div id="rich_entry" data-if="rich &amp;&amp; !clan_race" data-class-tvt="profile_tvt" data-class-sky="profile_sky">
+            <div class="rich-art sky-art" data-if="profile_sky"></div><div class="rich-art tvt-art" data-if="profile_tvt"></div>
+            <span class="rich-brand">PARIS PROJECT</span><span class="rich-title">{{title_text}}</span>
+            <span class="rich-status">{{event_status}}</span>
+            <div class="rich-description"><span data-if="profile_sky">Supera las oleadas de monstruos.<br/>Demuestra tu fuerza en las fases PvP.</span><span data-if="profile_tvt">Lucha junto a tu equipo y derrota al rival.<br/>Gana el equipo con mas puntos.</span></div>
+            <span class="rich-count-label">INSCRITOS</span><span class="rich-clock-label">CIERRE EN</span><span class="rich-count">{{participant_count}}</span><span class="rich-clock">{{event_clock}}</span>
+            <span class="rich-min" data-if="profile_tvt">{{minimum_text}}</span><span class="rich-missing" data-if="profile_tvt">{{missing_text}}</span>
+            <span class="rich-req-title">REQUISITOS</span><span class="rich-limits">{{entry_limits}}</span><span class="rich-ticket">{{entry_ticket}}</span>
+            <span class="rich-development-title" data-if="profile_sky">DESARROLLO DEL EVENTO</span><span class="rich-development-title" data-if="profile_tvt">BATALLA POR EQUIPOS</span>
+            <span class="rich-team-blue" data-if="profile_tvt">EQUIPO AZUL</span><span class="rich-team-red" data-if="profile_tvt">EQUIPO ROJO</span><span class="rich-stage-monsters" data-if="profile_sky">Monstruos</span><span class="rich-stage-pvp" data-if="profile_sky">PvP</span><span class="rich-stage-final" data-if="profile_sky">Final</span><span class="rich-development">{{development}}</span>
+            <span class="rich-reward-title" data-if="profile_sky">POSIBLES PREMIOS</span><span class="rich-reward-title" data-if="profile_tvt">PREMIO DEL EQUIPO GANADOR</span>
+            <div class="rich-rewards"><span>{{reward_0}}</span><span>{{reward_1}}</span><span>{{reward_2}}</span></div>
+            <div class="rich-action" data-class-enabled="entry_enabled" data-event-click="entry_press(0)"><span class="rich-button-label">{{action_text}}</span></div><div class="rich-close" data-event-click="entry_exit"><span class="rich-button-label">CERRAR</span></div><div class="rich-x" data-event-click="entry_exit">X</div>
+        </div>
+
+        <div id="clan_entry" data-if="rich &amp;&amp; clan_race" data-class-generals="profile_generals" data-class-race="profile_race" data-class-guild="profile_guild">
+            <div class="clan-art generals-art" data-if="profile_generals"></div><div class="clan-art guild-art" data-if="profile_guild"></div><div class="clan-art race-art" data-if="profile_race"></div>
+            <span class="clan-brand" data-if="!profile_generals">PARIS PROJECT</span><span class="clan-title">{{title_text}}</span><span class="clan-status">{{event_status}}</span>
+            <span class="clan-description" data-if="profile_generals">Protege a tu general y derrota al rival.</span><span class="clan-description" data-if="profile_guild">Defiende a tu clan y suma puntos.</span><span class="clan-description" data-if="profile_race">Completa el recorrido y cruza la meta.</span>
+            <span class="clan-help" data-if="!profile_race">{{minimum_text}}</span><span class="clan-help" data-if="profile_race">Compite por llegar antes que tus rivales.</span>
+            <span class="clan-count-label" data-if="!profile_race">CLANES INSCRITOS</span><span class="clan-count-label" data-if="profile_race">PARTICIPANTES</span><span class="clan-clock-label">CIERRE EN</span>
+            <span class="clan-count">{{clan_count}}</span><span class="clan-players" data-if="!profile_race">{{player_count}}</span><span class="clan-clock">{{event_clock}}</span>
+            <span class="clan-req-title">REQUISITOS</span><span class="clan-requirement">{{requirement}}</span><span class="clan-limits">{{entry_limits}}</span><span class="clan-ticket">{{entry_ticket}}</span>
+            <span class="clan-development-title">DESARROLLO DEL EVENTO</span><span class="clan-stage-left">{{stage_left}}</span><span class="clan-stage-middle">{{stage_middle}}</span><span class="clan-stage-right">{{stage_right}}</span><span class="clan-development">{{development}}</span>
+            <span class="clan-reward-title">POSIBLES PREMIOS</span><div class="clan-rewards"><span>{{reward_0}}</span><span>{{reward_1}}</span></div>
+            <div class="clan-prev" data-if="reward_paging" data-event-click="entry_reward_page(-1)">&lt;</div><span class="clan-page" data-if="reward_paging">{{reward_page}}</span><div class="clan-next" data-if="reward_paging" data-event-click="entry_reward_page(1)">&gt;</div>
+            <div class="clan-action" data-class-enabled="entry_enabled" data-event-click="entry_press(0)"><span>{{action_text}}</span></div><div class="clan-close" data-event-click="entry_exit"><span>CERRAR</span></div><div class="clan-x" data-event-click="entry_exit"></div>
+        </div>
     </div>
 </body>
 </rml>

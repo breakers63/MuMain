@@ -1,0 +1,86 @@
+//--------------
+// 	ID     -> Monster NPC ID for Client & Server for Object /Definir el numero que cordine con monster.txt
+// 	Type   -> 0 NPC - 1 MONSTER  /definir si es npc o monster
+//	InvID  -> Inventory ID by Set Part /id de inventario a vestir
+//  Class  -> Definir clase default sin vestimenta  / 0 = Dw / 1 = dk / 2 = elf / 3 = Mg / 4 = DL / 5 =Sum / 6= RF
+//						       						/ 7 = SM / 8 = BK / 2 = ME  / 12 = BS
+//						       						/ 14 = GM / 15 = GM / 16 = HE / 17 = DM / 18 =LE / 19 =DM / 20=LF
+// 	Name   -> Name of Object.
+//------------------------------------------------------------
+// 	ID	   Type	  InvID	 Class  Size Name
+//------------------------------------------------------------
+0
+	630		1	   1	  0	   1.0  "Dummie Wizard"
+	631		1	   2	  1    1.0  "Dummie Knight"
+	632		1	   3	  2	   1.0  "Dummie Elf"
+	633		1	   4	  3	   1.0  "Dummie Gladiator"
+	634		1	   5	  4	   1.0  "Dummie Lord"
+//DGL	
+	635		1	   6	  1	   1.0   "Messi"
+	636		1	   7	  1	   1.0   "Cristiano"
+	637		1	   8	  1	   1.0   "Neymar"
+//Dressed Quest
+	638		0	   9	  7	   1.0  "Anillos SM"
+	639		0	   10	  8    1.0  "Anillos BK"
+	640		0	   11	  2	   1.0  "Anillos ELF"
+	641		0	   12	  3	   1.0  "Anillos MG"
+	642		0	   13	  4	   1.0  "Anillos DL"
+
+643 0 20 13 1.0 "BufferElfa"
+
+644 0 21 11 1.0 "BufferSoul"
+
+645 0 22 12 1.0 "BufferBlad"
+
+646 0 24 15 1.0 "BufferLord"
+647 0 9 7 1.0 "Indulgencias"
+end
+//--------------
+// NPC Set 
+//--------------
+//	InventoryID	= ID of Monster Inventory
+// 	Set Type	= -1 Same Set ID || 0 Set Every Part By ID
+// 	SET ID		= Set ID by Item.txt
+// 	(1)	Helm ID
+// 	(2)	Armor ID
+// 	(3)	Pants ID
+// 	(4)	Gloves ID
+// 	(5)	Boots ID
+//	(6)	Weapon1 Type
+// 	(7)	Weapon1 ID
+//	(8)	Weapon2 Type
+// 	(9)	Weapon2 ID
+// 	(10)	Wings 	Type
+//	(11)	Wings ID
+//	(12)	Pet Type
+//	(13)	Pet ID
+//	(14)	Pet Level
+//	(15)	Set Level
+//	(16)	Weapons Level
+//	(17)	PK Level
+//	   (allset) (idset)	(1)		(2)		(3)		(4)		(5)		(6)		(7)		(8)		(9)		(10)	(11)	(12)	(13)	(14)	(15)	(16)	(17)
+1
+	1	 -1	      22	-1		-1		-1		-1		-1		05		11		-1		-1		12		 37		-1		-1		-1		13		13		-1	//Dummie Wizard
+	2	 -1	      21	-1		-1		-1		-1		-1		00		20		00		20		12		 36		-1		-1		-1		13		13		-1	//Dummie Knight
+	3	 -1	      24	-1		-1		-1		-1		-1		04		20		-1		-1		12		 38		-1		-1		-1		13		13		-1	//Dummie Elf
+	4	 -1	      23	-1		-1		-1		-1		-1		00		21		-1		-1		12		 39		-1		-1		-1		13		13		-1	//Dummie Gladiator
+	5	 -1	      28	-1		-1		-1		-1		-1		02		12		-1		-1		12		 40		-1		-1		-1		13		13		-1	//Dummie Lord	
+//DGL	
+	6  	 -1	      9		-1		-1		-1		-1		-1		00		19		-1		-1		-1		 -1		-1		-1		-1		 0		 0		-1	//Messi
+	7  	 -1	      9		-1		-1		-1		-1		-1		01		03		01		03		-1		 -1		-1		-1		-1		 0		 0		-1	//Cristiano
+	8  	 -1	      9		-1		-1		-1		-1		-1		03		07		-1		-1		-1		 -1		-1		-1		-1		 0		 0		-1	//Neymar
+//Exchanger	
+	9	 -1	      2		-1		-1		-1		-1		-1		5		1		-1		-1		12		 4	 	 -1		-1		-1		15		 -1	   -1	//Exchanger SM
+	10	 -1	      5		-1		-1		-1		-1		-1		0		1		-1		-1		12		 5   	 -1		-1		-1		15		 -1	   -1	//Exchanger BK
+	11	 -1	      10	-1		-1		-1		-1		-1		-1		-1		-1		-1		12		 3	 	 -1		-1		-1		15		 -1	   -1	//Exchanger ELF
+	12	 -1	      9		-1		-1		-1		-1		-1		-1		-1		-1		-1		12		 6       -1		-1		-1		15		 -1	   -1	//Exchanger MG
+	13	 -1	      25	-1		-1		-1		-1		-1		-1		-1		-1		-1		13		 30      -1		-1		-1		15		 -1	   -1	//Exchanger DL	
+
+20 -1 13 -1 -1 -1 -1 -1 -1 -1 -1 -1 12 38 13 67 0 13 0 0 15
+
+21 -1 3 -1 -1 -1 -1 -1 -1 -1 -1 -1 12 37 13 0 0 13 0 0 15
+
+22 -1 1 -1 -1 -1 -1 -1 -1 -1 -1 -1 12 36 13 64 0 13 0 0 15
+
+24 -1 15 -1 -1 -1 -1 -1 -1 -1 -1 -1 12 40 13 1 0 13 0 0 15
+end

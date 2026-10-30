@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "UI/HUD/ParisCustomShortcuts.h"
 #include "UI/Core/WindowManager.h"
 #include "UI/Scaling/UITransform.h"

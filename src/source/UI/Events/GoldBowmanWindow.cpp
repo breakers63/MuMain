@@ -1,4 +1,6 @@
 #include "stdafx.h"
+#include "Engine/Object/ZzzInventory.h"
+#include "UI/NPCs/ServiceDialogState.h"
 #include "UI/Events/GoldBowmanWindow.h"
 #include "UI/Core/WindowSystem.h"
 #include "UI/Core/WindowGeometry.h"
@@ -61,6 +63,16 @@ bool CGoldBowmanWindow::Create(CManager* pNewUIMng)
     // A new document's field is unfocused (a theme switch rebuilds it).
     m_View.SetAfterBuild([this] { m_SerialFocusPending = IsVisible(); });
     m_View.SetWindowId(mu::ui::window::INTERFACE_GOLD_BOWMAN);
+    m_View.SetItemDrawer([](int index, const Rml::Vector2f& offset, const Rml::Vector2f& size)
+    {
+        const auto& dialog = UI::NPCs::ServiceDialog::state;
+        if (!dialog.active) return;
+        const auto& group = index < static_cast<int>(dialog.requirements.size()) ? dialog.requirements : dialog.rewards;
+        const auto slot = index < static_cast<int>(dialog.requirements.size()) ? index : index - static_cast<int>(dialog.requirements.size());
+        if (slot < 0 || slot >= static_cast<int>(group.size())) return;
+        const auto& item = group[slot];
+        ::RenderItem3D(offset.x, offset.y, size.x, size.y, item.type, std::max(0, item.level) << 3, 0, 0, false);
+    });
     m_View.Build();
     g_TrainingRegistration = Network::Paris::RegisterHandler(0xED, 0x40,
         [this](const std::uint8_t* packet, int size)
@@ -105,7 +117,7 @@ void CGoldBowmanWindow::OpeningProcess()
 {
     ZeroMemory(g_strGiftName, sizeof(g_strGiftName));
     ClearSerialField();
-    m_SerialFocusPending = !g_TrainingMode;
+    m_SerialFocusPending = !g_TrainingMode && !UI::NPCs::ServiceDialog::state.active;
 }
 
 void CGoldBowmanWindow::ClosingProcess()
@@ -115,6 +127,7 @@ void CGoldBowmanWindow::ClosingProcess()
     m_SerialFocusPending = false;
     SocketClient->ToGameServer()->SendEventChipExitDialog();
     g_TrainingMode = false;
+    UI::NPCs::ServiceDialog::state = {};
 }
 
 bool CGoldBowmanWindow::UpdateMouseEvent()
@@ -173,6 +186,17 @@ bool CGoldBowmanWindow::Update()
     const int pressed = m_View.TakePressedButton();
     if (!IsVisible())
         return true;
+    if (UI::NPCs::ServiceDialog::state.active && pressed >= 0)
+    {
+        const auto npc = UI::NPCs::ServiceDialog::state.npc;
+        g_pNewUISystem->Hide(mu::ui::window::INTERFACE_GOLD_BOWMAN);
+        if (pressed == 0)
+        {
+            const auto command = L"/npcexchange " + std::to_wstring(npc);
+            SocketClient->ToGameServer()->SendPublicChatMessage(MU_C16(Hero->ID), MU_C16(command.c_str()));
+        }
+        return true;
+    }
     if (g_TrainingMode && pressed >= 0)
     {
         if (pressed < 10)
@@ -219,7 +243,62 @@ void CGoldBowmanWindow::SendSerial()
 
 void CGoldBowmanWindow::SyncView()
 {
+    const auto& serviceState=UI::NPCs::ServiceDialog::state;
+    m_View.SetBuffPresentation(serviceState.active && serviceState.requirements.empty() && serviceState.rewards.empty(),serviceState.presentation);
+
+    if (auto* panel = m_View.GetElementById("panel")) panel->SetClass("npc-buff-service", UI::NPCs::ServiceDialog::state.active && UI::NPCs::ServiceDialog::state.requirements.empty() && UI::NPCs::ServiceDialog::state.rewards.empty());
     if (auto* panel = m_View.GetElementById("panel")) panel->SetClass("pvp-training", g_TrainingMode);
+    if (auto* panel = m_View.GetElementById("panel")) panel->SetClass("npc-service", UI::NPCs::ServiceDialog::state.active);
+    if (auto* panel = m_View.GetElementById("panel")) panel->SetClass("npc-item-service", UI::NPCs::ServiceDialog::state.active && (!UI::NPCs::ServiceDialog::state.requirements.empty() || !UI::NPCs::ServiceDialog::state.rewards.empty()));
+    if (UI::NPCs::ServiceDialog::state.active)
+    {
+        const auto& dialog = UI::NPCs::ServiceDialog::state;
+        if (dialog.requirements.empty() && dialog.rewards.empty())
+        {
+            std::vector<EventItemEntryView::Text> texts{{dialog.title, INVENTORY_WIDTH, true}};
+            for (const auto& line : dialog.lines) {
+                const auto split=line.find(L" / ");
+                if(split!=std::wstring::npos) { texts.push_back({line.substr(0,split),INVENTORY_WIDTH});texts.push_back({line.substr(split+3),INVENTORY_WIDTH}); }
+                else {
+                    auto shown=line;
+                    if(shown.starts_with(L"Level ")) shown=L"Nivel "+shown.substr(6);
+                    texts.push_back({shown, INVENTORY_WIDTH});
+                }
+            }
+            if(texts.size()>3) {texts[2].fontScale=.8f;texts[3].fontScale=.8f;}
+            m_View.SetTexts(std::move(texts));
+            m_View.SetServiceItems(false, {}, {});
+            m_View.SetButtons({{.label = L"Obtener buff", .locked = !UI::NPCs::ServiceDialog::CanExchange(dialog), .width = 164.f, .height = 29.f}, {.label = L"Cerrar", .width = 160.f, .height = 27.f}});
+            m_View.Sync(IsVisible());
+            return;
+        }
+        std::vector<EventItemEntryView::Text> texts{{dialog.title, INVENTORY_WIDTH, true}};
+        // Cost and level remain server-provided; item rows use the structured snapshot.
+        if (dialog.lines.size() > 1) texts.push_back({dialog.lines[1], INVENTORY_WIDTH});
+        if (dialog.lines.size() > 2)
+        {
+            const auto number = dialog.lines[2].find_first_of(L"0123456789");
+            texts.push_back({number == std::wstring::npos ? dialog.lines[2] : dialog.lines[2].substr(number), INVENTORY_WIDTH});
+        }
+        m_View.SetTexts(std::move(texts));
+        auto entries = [](const auto& items, bool required)
+        {
+            std::vector<EventItemEntryServiceItem> result;
+            for (const auto& item : items)
+            {
+                const auto level = item.level < 0 ? L" (cualquier nivel)" : L" +" + std::to_wstring(item.level);
+                const auto count = required ? std::to_wstring(item.owned) + L" / " + std::to_wstring(item.count) : L"x" + std::to_wstring(item.count);
+                const auto hint = item.name + level;
+                result.push_back({StringUtils::WideToNarrow(count.c_str()), StringUtils::WideToNarrow(hint.c_str()), required && item.owned < item.count});
+            }
+            return result;
+        };
+        m_View.SetServiceItems(true, entries(dialog.requirements, true), entries(dialog.rewards, false));
+        m_View.SetButtons({{.label = L"Cambiar", .locked = !UI::NPCs::ServiceDialog::CanExchange(dialog), .width = 164.f, .height = 29.f}, {.label = L"Cerrar", .width = 160.f, .height = 27.f}});
+        m_View.Sync(IsVisible());
+        return;
+    }
+    m_View.SetServiceItems(false, {}, {});
     if (g_TrainingMode)
     {
         m_View.SetTexts({{L"ENTRENAMIENTO PVP", INVENTORY_WIDTH, true}, {L"Elige tu rival", INVENTORY_WIDTH}});

@@ -2,6 +2,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
+#include "GameLogic/Items/ParisCustomJewels.h"
+#include "Core/Input/KeyState.h"
 #include "GameLogic/Items/ParisColorPotions.h"
 #include "Render/Items/ItemPreviewFit.h"
 #include "UI/Placement/WindowPlacement.h"
@@ -2624,6 +2626,10 @@ static void RenderItemInfo(const UI::Scaling::Transform& screen, int sx, int sy,
         TextListColor[TextNum] = TEXT_COLOR_WHITE;
         TextBold[TextNum] = false;
         TextNum++;
+    }
+    else if (GameLogic::Items::CustomJewels::IsJewel(ip->Type)) {
+        constexpr const wchar_t* hints[]={L"Aumenta un nivel (hasta +15)",L"Agrega skill si el objeto lo admite",L"Agrega luck si el objeto lo admite",L"Anillos/pendants: +1 adicional, max 3; puede quemar",L"Anillos/pendants: +1 Excellent, max 3; puede quemar",L"Agrega un socket vacio si es compatible",L"Agrega el primer set Ancient compatible",L"Agrega el segundo set Ancient compatible",L"Maximiza nivel y opciones compatibles"};
+        mu_swprintf(TextList[TextNum],L"%s",hints[ip->Type-ITEM_POTION-244]);TextListColor[TextNum]=TEXT_COLOR_BLUE;TextBold[TextNum]=false;TextNum++;
     }
     else if (ip->Type == ITEM_INDULGENCE)
     {
@@ -6279,9 +6285,21 @@ void ApplyGroundItemLabelDescriptor(const GroundItemLabelDescriptor& descriptor)
 
 }
 
+// Ctrl exposes the same authoritative serialized options as the inventory tooltip.
+static bool RenderHoveredGroundItemOptions(int index, OBJECT* object, ITEM* item)
+{
+    if (index < 0 || index >= MAX_ITEMS || object == nullptr || item == nullptr
+        || !object->Live || !object->Visible || !Core::Input::IsKeyDown(VK_CONTROL))
+        return false;
+
+    RenderItemInfoAtPx(g_fWindowMouseX, g_fWindowMouseY, item, false);
+    return true;
+}
+
 void RenderItemName(int i, OBJECT* o, ITEM* ip, bool Sort)
 {
-    (void)i;
+    if (!Sort && RenderHoveredGroundItemOptions(i, o, ip))
+        return;
 
     if (!Sort)
     {

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "UI/Core/WindowObject.h"
 #include "UI/RmlBridge/RmlThemedView.h"

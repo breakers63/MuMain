@@ -14,7 +14,7 @@
 #include "Engine/Object/ZzzCharacter.h"
 #include "Engine/Object/ZzzInterface.h"
 #include "Engine/Object/PlayerActionState.h"
-#include "UI/NewUI/NewUISystem.h"
+#include "UI/Core/WindowSystem.h"
 #include "Core/Utilities/Log/muConsoleDebug.h"
 #include "Character/CharacterManager.h"
 #include "GameLogic/Skills/SkillManager.h"
@@ -116,7 +116,7 @@ namespace MUHelper
         m_iCurrentItem = MAX_ITEMS;
         m_posOriginal = { Hero->PositionX, Hero->PositionY };
 
-        m_iHuntingDistance = ComputeDistanceByRange(m_config.iHuntingRange);
+        m_iHuntingDistance = m_config.iHuntingRange == 0 ? MAX_ACTIONABLE_DISTANCE : ComputeDistanceByRange(m_config.iHuntingRange);
         m_iObtainingDistance = ComputeDistanceByRange(m_config.iObtainingRange);
 
         m_iSecondsElapsed = 0;
@@ -172,6 +172,9 @@ namespace MUHelper
 
     void CMuHelper::Work()
     {
+        // The player's click-to-walk retains priority in stationary mode.
+        if (m_config.iHuntingRange == 0 && Hero->Movement) return;
+
         try
         {
             if (!ActivatePet())
@@ -471,10 +474,7 @@ namespace MUHelper
                 m_bTimerActivatedBuffOngoing = true;
             }
 
-            if (!BuffTarget(Hero, (ActionSkillType)m_config.aiBuff[m_iCurrentBuffIndex]))
-            {
-                return 0;
-            }
+            (void)BuffTarget(Hero, (ActionSkillType)m_config.aiBuff[m_iCurrentBuffIndex]);
         }
 
         if (m_iCurrentBuffPartyIndex == 0)
@@ -494,6 +494,11 @@ namespace MUHelper
 
     int CMuHelper::BuffTarget(CHARACTER* pTargetChar, ActionSkillType iBuffSkill)
     {
+        if (pTargetChar == nullptr || g_pSkillList->GetSkillIndex(iBuffSkill) == -1)
+        {
+            return 1;
+        }
+
         OBJECT* obj = &pTargetChar->Object;
 
         auto CastIfMissing = [&](bool bBuffActive, bool bTimerRespected, bool bNeedsTarget) -> int
@@ -867,6 +872,21 @@ namespace MUHelper
 
     int CMuHelper::SimulateSkill(ActionSkillType iSkill, bool bTargetRequired, int iTarget)
     {
+        if (m_config.iHuntingRange == 0 && bTargetRequired && iTarget != Hero->Key)
+        {
+            const int index = FindCharacterIndex(iTarget);
+            if (index < 0 || index >= MAX_CHARACTERS_CLIENT) return 0;
+            const auto* target = &CharactersClient[index];
+            const float dx = (static_cast<int>(target->Object.Position[0] / TERRAIN_SCALE) + 0.5f) * TERRAIN_SCALE - Hero->Object.Position[0];
+            const float dy = (static_cast<int>(target->Object.Position[1] / TERRAIN_SCALE) + 0.5f) * TERRAIN_SCALE - Hero->Object.Position[1];
+            const float range = gSkillManager.GetSkillDistance(iSkill, Hero) * TERRAIN_SCALE;
+            if (dx * dx + dy * dy > range * range)
+            {
+                DeleteTarget(iTarget);
+                return 1;
+            }
+        }
+
         using GameLogic::Automation::SkillResult;
 
         // Players are allowed here, and must be: the helper casts its buffs and
@@ -886,6 +906,8 @@ namespace MUHelper
 
     int CMuHelper::SimulateBasicAttack(int iTarget)
     {
+        if (m_config.iHuntingRange == 0) return 1;
+
         using GameLogic::Automation::AttackResult;
 
         // No target is not a failed attack: without this the helper asks the
@@ -907,6 +929,8 @@ namespace MUHelper
 
     int CMuHelper::Regroup()
     {
+        if (m_config.iHuntingRange == 0) return 1;
+
         if (m_config.bReturnToOriginalPosition && m_iSecondsAway > m_config.iMaxSecondsAway)
         {
             if (!SimulateMove(m_posOriginal))
@@ -999,6 +1023,13 @@ namespace MUHelper
             }
         }
 
+        if (m_config.iHuntingRange == 0)
+        {
+            const auto& position = Items[m_iCurrentItem].Object.Position;
+            const int distance = ComputeDistanceBetween({Hero->PositionX, Hero->PositionY},
+                {static_cast<int>(position[0] / TERRAIN_SCALE), static_cast<int>(position[1] / TERRAIN_SCALE)});
+            if (distance > 1) { DeleteItem(m_iCurrentItem); return 1; }
+        }
         using GameLogic::Automation::PickupResult;
         const PickupResult result = GameLogic::Automation::PickUpItem(m_iCurrentItem, m_iObtainingDistance);
 
@@ -1095,6 +1126,8 @@ namespace MUHelper
             int iItemY = (int)(Items[iItemId].Object.Position[1] / TERRAIN_SCALE);
 
             int iDistance = ComputeDistanceBetween({ Hero->PositionX, Hero->PositionY }, { iItemX, iItemY });
+            if (m_config.iHuntingRange == 0 && iDistance > 1) continue;
+
             if (iDistance <= iMinDistance)
             {
                 iMinDistance = iDistance;

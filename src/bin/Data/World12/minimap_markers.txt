@@ -1,0 +1,97 @@
+# Paris map markers: 1 NPC, 3 spot, 4 individual
+4	11	83	Red Skeleton Knight 1 x1
+4	12	81	Magic Skeleton 1 x1
+4	13	21	Chief Skeleton Archer 1 x1
+4	13	23	Chief Skeleton Archer 1 x1
+4	13	25	Chief Skeleton Archer 1 x1
+4	13	26	Chief Skeleton Warrior 1 x1
+4	13	28	Chief Skeleton Warrior 1 x1
+4	13	29	Chief Skeleton Archer 1 x1
+4	13	31	Chief Skeleton Archer 1 x1
+4	13	35	Chief Skeleton Warrior 1 x1
+4	13	37	Chief Skeleton Warrior 1 x1
+4	13	39	Chief Skeleton Warrior 1 x1
+4	13	41	Dark Skull Soldier 1 x1
+4	13	43	Chief Skeleton Archer 1 x1
+4	13	45	Chief Skeleton Archer 1 x1
+4	13	46	Dark Skull Soldier 1 x1
+4	13	48	Giant Ogre 1 x1
+4	13	50	Dark Skull Soldier 1 x1
+4	13	53	Dark Skull Soldier 1 x1
+4	13	55	Giant Ogre 1 x1
+4	13	57	Dark Skull Soldier 1 x1
+4	13	59	Dark Skull Soldier 1 x1
+4	13	62	Dark Skull Soldier 1 x1
+4	13	63	Giant Ogre 1 x1
+4	13	65	Dark Skull Soldier 1 x1
+4	13	67	Dark Skull Soldier 1 x1
+4	13	69	Giant Ogre 1 x1
+4	13	78	Red Skeleton Knight 1 x1
+4	13	85	Magic Skeleton 1 x1
+4	13	88	Magic Skeleton 1 x1
+4	13	93	Magic Skeleton 1 x1
+4	14	21	Chief Skeleton Archer 1 x1
+4	14	22	Chief Skeleton Archer 1 x1
+4	14	24	Chief Skeleton Warrior 1 x1
+4	14	27	Chief Skeleton Warrior 1 x1
+4	14	32	Chief Skeleton Warrior 1 x1
+4	14	33	Chief Skeleton Warrior 1 x1
+4	14	34	Chief Skeleton Warrior 1 x1
+4	14	36	Red Skeleton Knight 1 x1
+4	14	38	Chief Skeleton Warrior 1 x1
+4	14	40	Chief Skeleton Warrior 1 x1
+4	14	42	Chief Skeleton Warrior 1 x1
+4	14	44	Dark Skull Soldier 1 x1
+4	14	47	Red Skeleton Knight 1 x1
+4	14	49	Dark Skull Soldier 1 x1
+4	14	52	Giant Ogre 1 x1
+4	14	54	Red Skeleton Knight 1 x1
+4	14	56	Giant Ogre 1 x1
+4	14	58	Giant Ogre 1 x1
+4	14	61	Giant Ogre 1 x1
+4	14	64	Dark Skull Soldier 1 x1
+4	14	67	Dark Skull Soldier 1 x1
+4	14	69	Giant Ogre 1 x1
+4	14	78	Red Skeleton Knight 1 x1
+4	14	80	Magic Skeleton 1 x1
+4	14	83	Red Skeleton Knight 1 x1
+4	14	90	Red Skeleton Knight 1 x1
+4	15	21	Chief Skeleton Archer 1 x1
+4	15	23	Chief Skeleton Warrior 1 x1
+4	15	25	Chief Skeleton Warrior 1 x1
+4	15	26	Chief Skeleton Archer 1 x1
+4	15	28	Chief Skeleton Archer 1 x1
+4	15	30	Chief Skeleton Archer 1 x1
+4	15	31	Chief Skeleton Warrior 1 x1
+4	15	33	Chief Skeleton Archer 1 x1
+4	15	35	Chief Skeleton Warrior 1 x1
+4	15	37	Chief Skeleton Archer 1 x1
+4	15	39	Chief Skeleton Archer 1 x1
+4	15	41	Chief Skeleton Warrior 1 x1
+4	15	43	Chief Skeleton Archer 1 x1
+4	15	45	Chief Skeleton Warrior 1 x1
+4	15	46	Dark Skull Soldier 1 x1
+4	15	48	Dark Skull Soldier 1 x1
+4	15	50	Giant Ogre 1 x1
+4	15	51	Dark Skull Soldier 1 x1
+4	15	53	Dark Skull Soldier 1 x1
+4	15	55	Dark Skull Soldier 1 x1
+4	15	57	Dark Skull Soldier 1 x1
+4	15	59	Dark Skull Soldier 1 x1
+4	15	60	Dark Skull Soldier 1 x1
+4	15	62	Red Skeleton Knight 1 x1
+4	15	63	Dark Skull Soldier 1 x1
+4	15	65	Dark Skull Soldier 1 x1
+4	15	66	Giant Ogre 1 x1
+4	15	68	Red Skeleton Knight 1 x1
+4	15	69	Dark Skull Soldier 1 x1
+4	15	78	Red Skeleton Knight 1 x1
+4	15	94	Red Skeleton Knight 1 x1
+4	16	80	Red Skeleton Knight 1 x1
+4	16	87	Magic Skeleton 1 x1
+4	17	83	Red Skeleton Knight 1 x1
+4	18	81	Magic Skeleton 1 x1
+4	19	85	Magic Skeleton 1 x1
+4	20	82	Red Skeleton Knight 1 x1
+4	20	88	Red Skeleton Knight 1 x1
+1	10	9	Archangel

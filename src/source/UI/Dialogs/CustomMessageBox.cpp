@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "UI/Dialogs/ParisItemDyeWindow.h"
 #include "UI/Dialogs/ParisSoulWindow.h"
 #include "UI/RmlBridge/RmlNativeTextSize.h"

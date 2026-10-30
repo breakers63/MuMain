@@ -120,6 +120,9 @@ namespace mu::ui::window
             Rml::String fpsColor, pingColor, fpsTooltip, pingTooltip;
             bool pvpNoticeVisible = false, pvpNoticeActive = false;
             Rml::String pvpNoticeText;
+            Rml::String eventTimerText;
+            bool eventTimerVisible = false;
+            bool tvtVisible=false,tvtMinimized=false;
             float pvpNoticeOpacity = 0.f;
             float hpFraction = 0.f, mpFraction = 0.f, agFraction = 0.f, sdFraction = 0.f;
             Rml::String hpText, mpText, agText, sdText;

@@ -1,4 +1,9 @@
+#include "UI/NPCs/ServiceDialogState.h"
 #include "stdafx.h"
+#include "Network/Paris/TvtHud.h"
+#include "Network/Paris/EventEntry.h"
+#include "Network/Paris/BloodPvpNotice.h"
+#include "Network/Paris/EventTimer.h"
 #include "GameLogic/Social/PartyFollow.h"
 #include "Network/Paris/PartyFinderProtocol.h"
 #include "Network/Server/ViewportMonsterType.h"
@@ -695,6 +700,7 @@ void ReceiveChangePassword(const BYTE* ReceiveBuffer)
 
 void ReceiveCharacterListExtended(const BYTE* ReceiveBuffer)
 {
+    UI::BuffDetails::Clear();
     InitGuildWar();
 
     // The server sends the allowed price types again when a character enters the game.
@@ -1807,7 +1813,13 @@ void ReceiveChat(const BYTE* ReceiveBuffer)
         CMultiLanguage::ConvertFromUtf8(Text, Data->ChatText);
         Text[MAX_CHAT_SIZE] = L'\0';
 
-        if (Network::Paris::DispatchText(Text))
+        if (UI::NPCs::ServiceDialog::Receive(Text))
+    {
+        if (UI::NPCs::ServiceDialog::state.ready)
+            UI::Windows::Show(mu::ui::window::INTERFACE_GOLD_BOWMAN);
+        return;
+    }
+    if (Network::Paris::DispatchText(Text))
             return;
 
         // The prefix the branches below consume is what says which channel
@@ -1982,7 +1994,17 @@ void ReceiveNotice(const BYTE* ReceiveBuffer)
     auto Data = (LPPRECEIVE_NOTICE)ReceiveBuffer;
     wchar_t Text[256]{};
     CMultiLanguage::ConvertFromUtf8(Text, Data->Notice);
+    if (Network::Paris::Entry::Receive(Text)) { if (Network::Paris::Entry::Complete) { Network::Paris::Entry::Complete=false; UI::Windows::Show(mu::ui::window::INTERFACE_DEVILSQUARE); } return; }
+    if(ParisTvtHud::Receive(Text))return;
+    if (Network::Paris::EventTimer::Receive(Text)) return;
+    if (Network::Paris::BloodPvpNotice::Receive(Text)) return;
 
+    if (UI::NPCs::ServiceDialog::Receive(Text))
+    {
+        if (UI::NPCs::ServiceDialog::state.ready)
+            UI::Windows::Show(mu::ui::window::INTERFACE_GOLD_BOWMAN);
+        return;
+    }
     if (Network::Paris::DispatchText(Text))
         return;
 
@@ -2700,6 +2722,23 @@ void ReceiveCreatePlayerViewportExtended(std::span<const BYTE> ReceiveBuffer)
     g_ConsoleDebug->Write(MCD_RECEIVE, L"0x12 [ReceiveCreatePlayerViewportExtended]");
 }
 
+namespace
+{
+void ApplyParisTeamTransformation(CHARACTER* character, EMonsterType skin)
+{
+    auto* object = &character->Object;
+    DeleteMount(object);
+    ThePetProcess().DeletePet(character, character->Helper.Type, true);
+    giPetManager::DeletePet(character);
+    object->Type = MODEL_PLAYER;
+    object->SubType = skin == MONSTER_MU_ALLIES
+        ? MODEL_CURSEDTEMPLE_ALLIED_PLAYER : MODEL_CURSEDTEMPLE_ILLUSION_PLAYER;
+    character->Weapon[0].Type = character->Weapon[1].Type = -1;
+    character->Wing.Type = character->Helper.Type = -1;
+    character->Change = true;
+}
+}
+
 void ReceiveCreateTransformViewport(std::span<const BYTE> ReceiveBuffer)
 {
     auto Data = safe_cast<PWHEADER_DEFAULT_WORD>(ReceiveBuffer);
@@ -2822,7 +2861,9 @@ void ReceiveCreateTransformViewport(std::span<const BYTE> ReceiveBuffer)
 
             CMultiLanguage::ConvertFromUtf8(c->ID, Data2->ID, MAX_USERNAME_SIZE);
 
-            ChangeCharacterExt(FindCharacterIndex(Key), Data2->Equipment);
+            ReadEquipmentExtended(FindCharacterIndex(Key), Data2->Flags, Data2->Equipment);
+            if (Type == MONSTER_MU_ALLIES || Type == MONSTER_ILLUSION_SORCERER) ApplyParisTeamTransformation(c, Type);
+
         }
 
         Offset += *EntryLength;

@@ -5,6 +5,24 @@ using System.Text;
 using System.Text.Json;
 using ParisLauncher.Core;
 
+if (args.Length == 2 && args[0] == "--validate-manifest")
+{
+    var manifest = JsonSerializer.Deserialize<UpdateManifest>(File.ReadAllText(args[1]), LauncherSettings.JsonOptions)!;
+    string temporary = Path.Combine(Path.GetTempPath(), "ParisManifestValidation-" + Guid.NewGuid().ToString("N"));
+    Directory.CreateDirectory(temporary);
+    try
+    {
+        using var http = new HttpClient();
+        var service = new UpdateService(http, temporary, () => { });
+        var all = service.ValidateManifest(manifest, false, both: true);
+        service.ValidateManifest(manifest, true);
+        service.ValidateManifest(manifest, false);
+        Console.WriteLine($"PASS {manifest.Version}: {all.Count} entries accepted for Classic and Modern.");
+    }
+    finally { Directory.Delete(temporary); }
+    return;
+}
+
 if (args.Length == 1 && args[0] == "--verify-r2")
 {
     const string ManifestAddress = "https://patch.hispanogaming.com/windows/manifest.json";

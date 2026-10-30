@@ -1,4 +1,6 @@
 #include "stdafx.h"
+#include "Network/Paris/BossDamageProtocol.h"
+#include "Engine/Object/ZzzCharacter.h"
 #include "ItemDyeProtocol.h"
 #include "Network/Paris/PartyFinderProtocol.h"
 #include "Network/Paris/ParisPacketDispatch.h"
@@ -120,6 +122,27 @@ void Dispatch(const std::uint8_t* packet, int size)
         return;
 
     const std::uint8_t subcode = packet[subcodeOffset];
+    if (longPacket && head == 0xFA && subcode == 0xEC)
+    {
+        (void)BossDamage::Receive(packet, size);
+        return;
+    }
+    if (shortPacket && head == 0xFA && subcode == 0xE1 && size >= 6 && packet[4] == 1)
+    {
+        const int count = packet[5];
+        if (size != 6 + count * 3) return;
+        for (int entry = 0; entry < count; ++entry)
+        {
+            const int offset = 6 + entry * 3;
+            const int key = packet[offset] | (packet[offset + 1] << 8);
+            const int index = FindCharacterIndex(key);
+            if (index < 0 || index >= MAX_CHARACTERS_CLIENT || packet[offset + 2] > 250) continue;
+            CHARACTER* character = &CharactersClient[index];
+            if (character->Object.Live && character->Object.Kind == KIND_MONSTER)
+                character->HealthStatus = static_cast<float>(packet[offset + 2]) / 250.f;
+        }
+        return;
+    }
     if (head == 0xED && subcode == 0x67)
         (void)ItemRarity::Receive(packet, size);
     if (head == 0xFA)

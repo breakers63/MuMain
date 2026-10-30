@@ -2,6 +2,7 @@
 #include "Core/Globals/_define.h"
 #include "Core/Globals/_enum.h"
 #include "Core/Utilities/Singleton.h"
+#include "UI/Inventory/ItemOptionTooltipModel.h"
 
 #include <array>
 #include <cstdint>
@@ -113,6 +114,7 @@ private:
     static void TryAddSetOption(std::uint8_t option, int value, int optionIndex, SET_SEARCH_RESULT_OPT& set, const ITEM_SET_OPTION& setOptions, bool isThisSetComplete, bool isFullOption, bool isExtOption, bool fulfillsClassRequirement, int firstClass, int secondClass);
 
     static bool getExplainText(wchar_t* text, std::uint8_t option, int value);
+    static int RenderInactiveSetOptionList(const ITEM_SET_OPTION& set, int textIndex);
     static std::uint8_t RenderSetOptionList(const SET_SEARCH_RESULT_OPT& set, std::uint8_t textIndex, bool bIsEquippedItem, bool bShowInactive);
 
     bool	OpenItemSetType(const wchar_t* filename);
@@ -159,13 +161,24 @@ public:
     void	CheckItemSetOptions(void);
     void	MoveSetOptionList(const int StartX, const int StartY);
     void	RenderSetOptionButton(const int StartX, const int StartY);
-    void	RenderSetOptionList(const int StartX, const int StartY);
+
+    // RmlUi port (CMyInventory) of the former RenderSetOptionList(StartX, StartY) --
+    // same content resolution (per-active-set standard/ext/full option lines via the static
+    // RenderSetOptionList(SET_SEARCH_RESULT_OPT&, ...) helper below, unchanged and still shared
+    // with RenderSetOptionListInItem's own item-tooltip use), no drawing. Returns false (and
+    // leaves outModel untouched) when m_SetSearchResultCount == 0 -- hover gating is the caller's
+    // job now (CMyInventory::SyncRmlModel(), driven by RmlUi's own mouseover/mouseout), unlike the
+    // old native version which also gated on its own m_bViewOptionList flag.
+    // CMyInventory::SyncRmlModel() is the only caller.
+    bool    BuildSetOptionTooltipModel(UI::Inventory::Tooltip::Model& outModel);
 
     int     RenderSetOptionListInItem(const ITEM* ip, int TextNum, bool bIsEquippedItem = false);
 
     void    ClearOptionHelper(void) { m_byRenderOptionList = 0; }
     void    CheckRenderOptionHelper(const wchar_t* FilterName);
-    void    RenderOptionHelper(void);
+    // The set's option table, written to the TextList globals without drawing (CSetItemExplanation
+    // draws it through RmlUi); returns the line count, 0 for none.
+    int BuildOptionHelperTextList();
 
     bool IsAncientSetEquipped() const { return m_SetSearchResultCount > 0; }
 

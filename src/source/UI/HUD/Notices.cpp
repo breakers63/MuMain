@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "GameLogic/Items/ParisScreenMessages.h"
 #include "Core/Text/TextLineWrap.h"
 #include "Render/Text/CUIRenderTextSDLTtf.h"
 #include "UI/RmlBridge/RmlNativeTextSize.h"
@@ -232,6 +233,11 @@ namespace UI::Notices
 
     void Render()
     {
+        if (UI::ScreenMessages::IsHidden())
+        {
+            UI::RmlBridge::SyncDocumentVisibility(s_view.Document(), false);
+            return;
+        }
         s_renderedThisFrame = true;
 
 #ifdef KJH_ADD_INGAMESHOP_UI_SYSTEM

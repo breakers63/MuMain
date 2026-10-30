@@ -1,4 +1,4 @@
-///////////////////////////////////////////////////////////////////////////////
+﻿///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
@@ -15,7 +15,7 @@
 #include "Audio/DSPlaySound.h"
 #include "Network/Server/WSclient.h"
 #include "World/MapInfra/MapManager.h"
-#include "UI/NewUI/NewUISystem.h"
+#include "UI/Core/WindowSystem.h"
 #include "Render/Renderer/MuRenderer.h"
 #include "Render/Effects/ParticleDrawOrder.h"
 #include "Data/GameConfig/GameConfig.h"
@@ -57,7 +57,7 @@ int CreateParticleFpsChecked(int Type, vec3_t Position, vec3_t Angle, vec3_t Lig
 
 int CreateParticle(int Type, vec3_t Position, vec3_t Angle, vec3_t Light, int SubType, float Scale, OBJECT* Owner)
 {
-    if (!g_pOption->GetRenderAllEffects() || g_pOption->GetReduceParticlesSprites())
+    if (!g_pOption->GetRenderAllEffects())
     {
         return false;
     }
@@ -3839,7 +3839,7 @@ int CreateParticle(int Type, vec3_t Position, vec3_t Angle, vec3_t Light, int Su
 
 void MoveParticles()
 {
-    if (!g_pOption->GetRenderAllEffects() || g_pOption->GetReduceParticlesSprites())
+    if (!g_pOption->GetRenderAllEffects())
     {
         return;
     }
@@ -8956,11 +8956,11 @@ namespace
 
 void RenderParticles(BYTE byRenderOneMore)
 {
-    if (!g_pOption->GetRenderAllEffects() || g_pOption->GetReduceParticlesSprites())
+    if (!g_pOption->GetRenderAllEffects())
     {
         return;
     }
-    if (IsParticlesDisabledDebug()) // DXP-23 diagnostic
+    if (IsParticlesDisabledDebug())
     {
         return;
     }

@@ -30,3 +30,111 @@
 #panel.pvp-training .entry-btn {position:relative;left:0;top:0;width:160px;height:24px;margin-bottom:6px;border:1px #a7812c;background-color:#111111;decorator:none;}
 #panel.pvp-training .entry-btn:hover {decorator:none;background-color:#392d14;}
 #panel.pvp-training .entry-btn:active {decorator:none;background-color:#5c461d;}
+
+/* Server-configured exchange dialog, within the existing Golden Archer frame. */
+#panel.npc-service #serial_field, #panel.npc-service #serial_back { display: none; }
+#panel.npc-service .entry-texts { position: absolute; top: 15px; left: 0px; width: 190px; height: 315px; overflow-y: auto; }
+#panel.npc-service .entry-text { position: relative; top: 0px; left: 0px; width: 190px; height: 19px; color: #eeeeee; }
+#panel.npc-service .entry-text:first-child { height: 31px; color: #edcc74; }
+#panel.npc-service .entry-buttons { position: absolute; top: 338px; left: 15px; width: 160px; display: flex; flex-direction: column; }
+#panel.npc-service .entry-btn { position: relative; left: 0px; top: 0px; width: 160px; height: 27px; margin-bottom: 7px; border: 1px #a7812c; background-color: #17130c; decorator: none; }
+#panel.npc-service .entry-btn:hover { decorator: none; background-color: #392d14; }
+#panel.npc-service .entry-btn:active { decorator: none; background-color: #5c461d; }
+
+/* Multiple costs and prizes share the native item-camera render target. */
+#panel.npc-item-service .entry-texts { height: 76px; overflow-y: hidden; }
+#panel.npc-item-service .entry-text:first-child { height: 25px; }
+#panel.npc-item-service .entry-text { height: 17px; }
+.npc-service-grid { position: absolute; left: 10px; top: 85px; width: 170px; height: 239px; }
+.service-section { position: absolute; left: 0px; width: 170px; height: 18px; text-align: center; color: #e7c66c; font-size: 10px; }
+.service-requirements { top: 0px; }
+.service-rewards { top: 150px; }
+.service-items { position: absolute; left: 0px; width: 170px; display: flex; flex-wrap: wrap; justify-content: center; column-gap: 6px; row-gap: 6px; }
+.service-costs { top: 23px; left: 30px; width: 110px; }
+.service-prizes { top: 174px; }
+.service-slot { position: relative; width: 48px; height: 55px; border: 1px #735c2e; background-color: #080706; pointer-events: auto; }
+.service-slot:hover { border-color: #f4d478; background-color: #21190e; }
+.service-slot .entry-item-box { position: absolute; left: 2px; top: 2px; width: 44px; height: 39px; }
+.service-quantity { position: absolute; left: 0px; bottom: 1px; width: 48px; height: 12px; font-size: 10px; text-align: center; color: #7aeab1; }
+.service-slot.missing .service-quantity { color: #ff7970; }
+.service-item-render { position: absolute; left: 0px; top: 0px; width: 170px; height: 239px; pointer-events: none; }
+
+/* Exact artwork extracted from the owner's supplied Paris Project reference. */
+@spritesheet paris-reference-exchange { src: "../../../Paris_ExchangeReference.tga"; paris-reference-panel: 0px 0px 512px 1024px; }
+#panel.npc-item-service { height: 446px; }
+#panel.npc-item-service .frame-piece, #panel.npc-item-service .entry-texts { display: none; }
+.npc-reference-frame { position: absolute; left: 0px; top: 0px; width: 190px; height: 446px; decorator: image(paris-reference-panel); pointer-events: none; }
+#panel.npc-item-service .npc-service-grid { left: 0px; top: 0px; width: 190px; height: 446px; }
+#panel.npc-item-service .service-section { display: none; }
+#panel.npc-item-service .service-costs { left: 33.7px; top: 130px; width: 123px; column-gap: 9px; row-gap: 6px; }
+#panel.npc-item-service .service-costs .service-slot { width: 56.5px; height: 55px; }
+#panel.npc-item-service .service-prizes { left: 14.8px; top: 282px; width: 161px; column-gap: 6.5px; row-gap: 5px; }
+#panel.npc-item-service .service-prizes .service-slot { width: 49px; height: 56px; }
+#panel.npc-item-service .service-slot { border: 0px; background-color: transparent; }
+#panel.npc-item-service .service-slot:hover { background-color: #9b761220; }
+#panel.npc-item-service .service-costs .entry-item-box { left: 4px; top: 3px; width: 48px; height: 37px; }
+#panel.npc-item-service .service-prizes .entry-item-box { left: 3px; top: 3px; width: 43px; height: 39px; }
+#panel.npc-item-service .service-quantity { width: 100%; bottom: 3px; font-size: 11px; }
+#panel.npc-item-service .service-item-render { left: 0px; top: 0px; width: 190px; height: 446px; }
+.reference-cost, .reference-level { position: absolute; top: 90px; height: 14px; font-size: 10px; text-align: center; color: #f9ecd2; }
+.reference-cost { left: 24px; width: 76px; }
+.reference-level { left: 112px; width: 50px; }
+.reference-status { position: absolute; left: 0px; top: 425px; width: 190px; height: 13px; text-align: center; font-size: 10px; }
+.reference-status.pending { color: #ff5b64; }
+.reference-status.ready { color: #62e6a1; }
+#panel.npc-item-service .entry-buttons { left: 0px; top: 0px; width: 190px; height: 446px; display: block; pointer-events: none; }
+#panel.npc-item-service .entry-btn { position: absolute; margin: 0px; border: 0px; decorator: none; background-color: transparent; pointer-events: auto; }
+#panel.npc-item-service .entry-btn:nth-child(1) { left: 13px; top: 361px; width: 164px; height: 29px; }
+#panel.npc-item-service .entry-btn:nth-child(2) { left: 29px; top: 397px; width: 132px; height: 22px; }
+#panel.npc-item-service .entry-btn:hover { decorator: none; background-color: #e5c67218; }
+#panel.npc-item-service .entry-btn.locked, #panel.npc-item-service .entry-btn.locked:hover { decorator: none; background-color: transparent; }
+#panel.npc-item-service .entry-label { display: none; }
+#panel.npc-item-service #frame_corner_close { left: 167px; top: 21px; width: 17px; height: 20px; decorator: none; background-color: transparent; }
+
+@spritesheet paris-reference-buff { src: "../../../Paris_BuffReference.tga"; paris-buff-panel: 0px 0px 512px 1024px; }
+.npc-buff-reference { display: none; }
+#panel.npc-buff-service { height: 429px; }
+#panel.npc-buff-service .npc-buff-reference { display: block; position: absolute; left: 0px; top: 0.0px; width: 190px; height: 429px; decorator: image(paris-buff-panel); pointer-events: none; }
+#panel.npc-buff-service .frame-piece { display: none; }
+#panel.npc-buff-service .entry-texts { position: absolute; left: 0px; top: 0.0px; width: 190px; height: 429px; }
+#panel.npc-buff-service .entry-text { display: none; position: absolute; margin: 0px; height: 16px; }
+#panel.npc-buff-service .entry-text:nth-child(1) { display: block; left: 20px; top: 51.21px; width: 150px; }
+#panel.npc-buff-service .entry-text:nth-child(3) { display: block; left: 40px; top: 111.52px; width: 58px; }
+#panel.npc-buff-service .entry-text:nth-child(4) { display: block; left: 115px; top: 111.52px; width: 58px; }
+#panel.npc-buff-service .entry-text:nth-child(6) { display: block; left: 16px; top: 256.03px; width: 158px; }
+#panel.npc-buff-service .entry-text:nth-child(7) { display: block; left: 23px; top: 299.28px; width: 65px; }
+#panel.npc-buff-service .entry-buttons { position: absolute; left: 0px; top: 0.0px; width: 190px; height: 429px; pointer-events: none; }
+#panel.npc-buff-service .entry-btn { position: absolute; margin: 0px; border: 0px; decorator: none; background-color: transparent; pointer-events: auto; }
+#panel.npc-buff-service .entry-btn:nth-child(1) { left: 13px; top: 342.52px; width: 164px; height: 33.0px; }
+#panel.npc-buff-service .entry-btn:nth-child(2) { left: 26px; top: 381.21px; width: 138px; height: 27.31px; }
+#panel.npc-buff-service .entry-label { display: none; }
+#panel.npc-buff-service #frame_corner_close { left: 167px; top: 27.31px; width: 17px; height: 18px; decorator: none; }
+
+#panel.npc-buff-service .entry-text:nth-child(8) { display: block; left: 105px; top: 299.28px; width: 65px; }
+
+.npc-reference-frame, #panel.npc-buff-service .npc-buff-reference { z-index: 0; }
+#panel.npc-item-service .npc-service-grid, #panel.npc-buff-service .entry-texts { z-index: 1; }
+#panel.npc-item-service .entry-buttons, #panel.npc-buff-service .entry-buttons, #panel.npc-service #frame_corner_close { z-index: 3; }
+
+/* Compact native-style values and a transparent hover over the original artwork. */
+#panel.npc-item-service .reference-cost, #panel.npc-item-service .reference-level { font-size: 8px; color: #ffffff; font-weight: normal; }
+#panel.npc-buff-service .entry-text:nth-child(3) .sharp-text, #panel.npc-buff-service .entry-text:nth-child(4) .sharp-text { font-size: 8px; color: #ffffff; font-weight: normal; }
+#panel.npc-buff-service .entry-btn:hover, #panel.npc-buff-service .entry-btn:active, #panel.npc-buff-service .entry-btn.locked:hover { decorator: none; background-color: transparent; border: 0px; }
+.buff-presentation { position: absolute; left: 0px; top: 0.0px; width: 190px; height: 429px; z-index: 2; pointer-events: none; }
+.buff-presentation .buff-heading { position: absolute; color: #edce80; text-align: center; font-size: 8px; height: 16px; }
+.buff-req-heading { left: 30px; top: 86.07px; width: 130px; }
+.buff-available-heading { left: 22px; top: 163.45px; width: 146px; }
+.buff-duration-heading { left: 22px; top: 279.52px; width: 65px; }
+.buff-power-heading { left: 105px; top: 279.52px; width: 65px; }
+.buff-effect-hint { position: absolute; left: 63px; top: 179.79px; width: 64px; height: 73px; pointer-events: auto; background-color: transparent; }
+
+/* Native-sized glyphs cancel panel scaling, matching the OpenGL headings. */
+.buff-presentation .buff-heading .sharp-text { position: absolute; top: 0px; font-weight: normal; color: #edce80; white-space: nowrap; }
+
+#panel.npc-item-service .reference-cost .sharp-text, #panel.npc-item-service .reference-level .sharp-text { position: absolute; top: 0px; font-weight: normal; color: #ffffff; white-space: nowrap; }
+
+/* Match the established OpenGL NPC text palette. */
+#panel.npc-buff-service .entry-text { color: #ebebe1; }
+#panel.npc-buff-service .entry-text:first-child { color: #ffdc82; }
+#panel.npc-buff-service .entry-text:nth-child(3) .sharp-text, #panel.npc-buff-service .entry-text:nth-child(4) .sharp-text { color: #ebebe1; }
+.buff-presentation .buff-heading .sharp-text { color: #edce80; }

@@ -9,9 +9,9 @@ class OBJECT;
 class CHARACTER;
 #include "Guild/GuildConstants.h"
 
-namespace SEASON3B
+namespace mu::ui::window
 {
-    class CNewUIItemMng;
+    class CItemMng;
 }
 
 #define MAX_MONSTERSKILL_NUM	10
@@ -173,7 +173,6 @@ typedef struct tagITEM
     WORD  Jewel_Of_Harmony_OptionLevel;
     bool HasSkill;
     bool HasLuck;
-    BYTE  Part;
     BYTE  Class;
     bool  TwoHand;
     WORD  DamageMin;
@@ -226,7 +225,7 @@ typedef struct tagITEM
     long	lExpireTime;
 
 private:
-    friend class SEASON3B::CNewUIItemMng;
+    friend class mu::ui::window::CItemMng;
     int   RefCount;
 } ITEM;
 #pragma pack(pop)

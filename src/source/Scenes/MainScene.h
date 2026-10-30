@@ -14,6 +14,7 @@ bool RenderMainScene();
 // via $effects on/off (muConsoleDebug.cpp) -- not gated behind _EDITOR since the report came from a
 // Release NoEditor build.
 void SetDisableEffects(bool disabled);
+bool IsEffectsDisabledDebug();
 
 // DXP-23 diagnostic, finer-grained bisection: `$effects off` (above) confirmed effect rendering is
 // the dominant GPU cost during a multi-caster fight, but not WHICH effect system inside it -- these
@@ -46,6 +47,10 @@ bool IsBoidsDisabledDebug();
 // specifically is the cost, separate from the wing mesh's own render cost.
 void SetDisableWingShadow(bool disabled);
 bool IsWingShadowDisabledDebug();
+
+// Every BMD::RenderBodyShadow() draw: characters, their wings and pets, objects and boids.
+void SetDisableBodyShadows(bool disabled);
+bool IsBodyShadowsDisabledDebug();
 
 // DXP-23 diagnostic: RenderJoints() (ZzzEffectJoint.cpp) -- the beam/tail-trail effect system Wing of
 // Ruin's growing tail-light AND Beam Knight's lightning beam both use (CreateTail(), MaxTails-capped

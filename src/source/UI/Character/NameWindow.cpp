@@ -17,6 +17,7 @@
 #include "Camera/CameraProjection.h"
 #include "Camera/CameraState.h"
 #include "UI/Combat/MonsterHealthBar.h"
+#include "UI/Combat/TargetHealthView.h"
 #include "UI/HUD/HudStatus.h"
 #include "World/GameMaps/GMBattleCastle.h"
 #include "World/GameMaps/GMHellas.h"
@@ -150,6 +151,7 @@ void mu::ui::window::CNameWindow::Release()
     m_labelLayer.Release();
     m_statusTexts.Release();
     m_matchStatus.Release();
+    UI::Combat::TargetHealthView::Release();
 
     if (m_pNewUIMng)
     {
@@ -191,6 +193,7 @@ void mu::ui::window::CNameWindow::Show(bool bShow)
         m_labelLayer.Hide();
         m_statusTexts.Hide();
         m_matchStatus.Hide();
+        UI::Combat::TargetHealthView::Hide();
     }
 }
 
@@ -198,6 +201,7 @@ void mu::ui::window::CNameWindow::PrepareFrame()
 {
     m_statusTexts.Sync(IsVisible(), g_Camera.TopViewEnable == false);
     m_matchStatus.Sync(IsVisible());
+    UI::Combat::TargetHealthView::SyncTarget(IsVisible());
 
     // Recorded before the windows render, with this frame's camera and selection; the document
     // sits under every window, as the original's depth-1.0 window did.
@@ -290,15 +294,7 @@ void mu::ui::window::CNameWindow::RenderName()
             OBJECT* o = &c->Object;
             if (o->Kind == KIND_MONSTER)
             {
-                g_pRenderText->SetTextColor(255, 230, 200, 255);
-                g_pRenderText->SetBgColor(100, 0, 0, 255);
-                g_pRenderText->RenderText(320, 2, c->ID, 0, 0, RT3_WRITE_CENTER);
-
-                if (!GameConfig::GetInstance().GetHideMonsterHP() && UI::Combat::HealthBar::ShouldRenderSelected(c->HealthStatus))
-                {
-                    // Full-width bar centered under the selected monster's name.
-                    DrawHealthBar(320, 15, c->HealthStatus, 20, 1.f);
-                }
+                // The target name and life belong to the target_health RmlUi overlay.
             }
             else
 #ifdef ASG_ADD_GENS_SYSTEM

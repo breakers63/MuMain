@@ -4,6 +4,7 @@ import hashlib
 import json
 from pathlib import Path
 import subprocess
+from manifest_validation import validate_manifest
 
 
 def main():
@@ -13,6 +14,7 @@ def main():
     args = parser.parse_args()
     root = args.folder.resolve()
     manifest = json.loads((root / "manifest.json").read_text(encoding="utf-8"))
+    validate_manifest(manifest)
     for entry in manifest["Files"]:
         path = (root / entry["Path"]).resolve()
         if not path.is_relative_to(root) or path.stat().st_size != entry["Size"]:

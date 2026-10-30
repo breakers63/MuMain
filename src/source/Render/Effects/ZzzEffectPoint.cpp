@@ -13,7 +13,7 @@
 #include "ZzzEffect.h"
 #include "Audio/DSPlaySound.h"
 #include "Network/Server/WSclient.h"
-#include "UI/NewUI/NewUISystem.h"
+#include "UI/Core/WindowSystem.h"
 
 PARTICLE Points[MAX_POINTS];
 
@@ -21,7 +21,7 @@ int g_iLatestPoint = -1;
 
 void CreatePoint(vec3_t Position, int Value, vec3_t Color, float scale, bool bMove, bool bRepeatedly)
 {
-    if (!g_pOption->GetRenderAllEffects() || g_pOption->GetReduceParticlesSprites())
+    if (!g_pOption->GetRenderAllEffects())
     {
         return;
     }
@@ -83,7 +83,7 @@ void RenderNumberPoints(vec3_t Position, int Num, vec3_t Color, float Alpha, flo
 
 void RenderPoints(BYTE byRenderOneMore)
 {
-    if (!g_pOption->GetRenderAllEffects() || g_pOption->GetReduceParticlesSprites())
+    if (!g_pOption->GetRenderAllEffects())
     {
         return;
     }
@@ -125,7 +125,7 @@ void RenderPoints(BYTE byRenderOneMore)
 
 void MovePoints()
 {
-    if (!g_pOption->GetRenderAllEffects() || g_pOption->GetReduceParticlesSprites())
+    if (!g_pOption->GetRenderAllEffects())
     {
         return;
     }

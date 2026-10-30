@@ -7,6 +7,7 @@
 #include "Render/Models/ZzzBMD.h"
 #include "Engine/Object/ZzzObject.h"
 #include "Engine/Object/ZzzCharacter.h"
+#include "GameLogic/Items/PersonalShopCurrency.h"
 
 inline POINT MakePos(long x, long y)
 {
@@ -220,10 +221,7 @@ inline void DrawPersonalShopTitleImp()
 //. CPersonalItemPriceTable
 class CPersonalItemPriceTable
 {
-public:
-    struct Price { int Amount; BYTE Currency; };
-private:
-    std::map<int, Price> m_mapTable;
+    std::map<int, GameLogic::PersonalShop::ItemPrice> m_mapTable;
 
     static CPersonalItemPriceTable* ms_pSeller;
     static CPersonalItemPriceTable* ms_pBuyer;
@@ -242,9 +240,9 @@ public:
         RemoveAllItemPrice();
     }
 
-    void AddItemPrice(int index, int price, BYTE currency = 0)
+    void AddItemPrice(int index, const GameLogic::PersonalShop::ItemPrice& price)
     {
-        m_mapTable.insert_or_assign(index, Price{price, currency});
+        m_mapTable[index] = price;
     }
     void RemoveItemPrice(int index)
     {
@@ -259,20 +257,15 @@ public:
         m_mapTable.clear();
     }
 
-    bool GetItemPrice(int index, int& price)
+    bool GetItemPrice(int index, GameLogic::PersonalShop::ItemPrice& price)
     {
-        Price value{};
-        if (!GetItemPrice(index, value)) return false;
-        price = value.Amount;
-        return true;
-    }
-
-    bool GetItemPrice(int index, Price& price)
-    {
-        const auto found = m_mapTable.find(index);
-        if (found == m_mapTable.end()) return false;
-        price = found->second;
-        return true;
+        auto mi = m_mapTable.find(index);
+        if (mi != m_mapTable.end())
+        {
+            price = (*mi).second;
+            return true;
+        }
+        return false;
     }
 
     static bool CreatePersonalItemTable()
@@ -326,13 +319,19 @@ inline void ReleasePersonalItemTable()
     CPersonalItemPriceTable::ReleasePersonalItemTable();
 }
 
-inline void AddPersonalItemPrice(int index, int price, int type, BYTE currency = 0)
+inline void AddPersonalItemPrice(int index, const GameLogic::PersonalShop::ItemPrice& price, int type)
 {
     CPersonalItemPriceTable* pPersonalItemTable = CPersonalItemPriceTable::GetObjPtr(type);
     if (pPersonalItemTable)
     {
-        pPersonalItemTable->AddItemPrice(index, price, currency);
+        pPersonalItemTable->AddItemPrice(index, price);
     }
+}
+
+/// Adds a price in zen.
+inline void AddPersonalItemPrice(int index, int price, int type)
+{
+    AddPersonalItemPrice(index, GameLogic::PersonalShop::ItemPrice{price}, type);
 }
 
 inline void RemovePersonalItemPrice(int index, int type)
@@ -353,13 +352,24 @@ inline void RemoveAllPerosnalItemPrice(int type)
     }
 }
 
-inline bool GetPersonalItemPrice(int index, int& price, int type)
+inline bool GetPersonalItemPrice(int index, GameLogic::PersonalShop::ItemPrice& price, int type)
 {
     CPersonalItemPriceTable* pPersonalItemTable = CPersonalItemPriceTable::GetObjPtr(type);
     if (!pPersonalItemTable)
         return false;
 
     return pPersonalItemTable->GetItemPrice(index, price);
+}
+
+/// Gets the amount of the price, whatever its currency is.
+inline bool GetPersonalItemPrice(int index, int& price, int type)
+{
+    GameLogic::PersonalShop::ItemPrice itemPrice;
+    if (!GetPersonalItemPrice(index, itemPrice, type))
+        return false;
+
+    price = itemPrice.Amount;
+    return true;
 }
 
 inline bool CheckPriceIntegrity(const wchar_t* szZen, int size)
@@ -376,12 +386,6 @@ inline bool CheckPriceIntegrity(const wchar_t* szZen, int size)
         }
     }
     return true;
-}
-
-inline bool GetPersonalItemPrice(int index, CPersonalItemPriceTable::Price& price, int type)
-{
-    auto* table = CPersonalItemPriceTable::GetObjPtr(type);
-    return table && table->GetItemPrice(index, price);
 }
 
 #endif // _PERSONALSHOPTITLEIMP_H_

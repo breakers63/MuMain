@@ -289,16 +289,18 @@ void mu::ui::window::COptionWindow::BindRmlModel(Rml::DataModelConstructor& c, O
     c.Bind("open_dropdown", &model.openDropdown);
 
     static bool showPlayerHP=true,hideMonsterHP=false;
+    static bool showMonsterHP=true;
     showPlayerHP=GameConfig::GetInstance().GetShowPlayerHP();
     hideMonsterHP=GameConfig::GetInstance().GetHideMonsterHP();
     c.Bind("show_player_hp",&showPlayerHP);
-    c.Bind("hide_monster_hp",&hideMonsterHP);
+    showMonsterHP=!hideMonsterHP;
+    c.Bind("show_monster_hp",&showMonsterHP);
     c.BindEventCallback("option_toggle_player_hp",
         [this](Rml::DataModelHandle,Rml::Event&,const Rml::VariantList&)
         {showPlayerHP=!showPlayerHP;GameConfig::GetInstance().SetShowPlayerHP(showPlayerHP);m_RmlView.MarkDirty("show_player_hp");});
     c.BindEventCallback("option_toggle_monster_hp",
         [this](Rml::DataModelHandle,Rml::Event&,const Rml::VariantList&)
-        {hideMonsterHP=!hideMonsterHP;GameConfig::GetInstance().SetHideMonsterHP(hideMonsterHP);m_RmlView.MarkDirty("hide_monster_hp");});
+        {hideMonsterHP=!GameConfig::GetInstance().GetHideMonsterHP();showMonsterHP=!hideMonsterHP;GameConfig::GetInstance().SetHideMonsterHP(hideMonsterHP);m_RmlView.MarkDirty("show_monster_hp");});
     static bool hideNames=false;
     hideNames=GameConfig::GetInstance().GetHidePlayerNames();
     c.Bind("hide_player_names",&hideNames);

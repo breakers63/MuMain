@@ -15,10 +15,10 @@ namespace LoginSceneCameraDefaults
     constexpr float ANGLE_PITCH = 40.0f;
     constexpr float ANGLE_YAW   = -5.0f;
 
-    // Render the complete harbor supplied by the PARIS login scene.
+    // Default render distances for LoginScene (tour camera).
     // DevEditor exposes these as sliders; release builds use these as fixed values.
-    constexpr float RENDER_TERRAIN_DIST = 15000.0f;
-    constexpr float RENDER_OBJECT_DIST  = 18000.0f;
+    constexpr float RENDER_TERRAIN_DIST = 3995.0f;
+    constexpr float RENDER_OBJECT_DIST  = 5903.0f;
 }
 
 // Runtime-adjustable offsets (initially set to the defaults above)

@@ -1,4 +1,4 @@
-﻿/*+++++++++++++++++++++++++++++++++++++
+/*+++++++++++++++++++++++++++++++++++++
     INCLUDE.
 +++++++++++++++++++++++++++++++++++++*/
 #include "stdafx.h"
@@ -11,11 +11,12 @@
 #include "Engine/Object/ZzzInterface.h"
 #include "Engine/Object/ZzzInventory.h"
 #include "Character/CharacterManager.h"
-#include "UI/Legacy/UIControls.h"
-#include "UI/NewUI/NewUISystem.h"
+#include "UI/Social/SocialWindowBase.h"
+#include "UI/Core/WindowSystem.h"
 #include "GameLogic/Skills/SkillManager.h"
 #include "GameLogic/Items/CSItemOption.h"
 #include "I18N/All.h"
+#include "Render/Text/CUIRenderText.h"
 
 #include <algorithm>
 #include <array>
@@ -917,44 +918,52 @@ void CSItemOption::RenderSetOptionButton(const int StartX, const int StartY)
     g_pRenderText->SetTextColor(255, 255, 255, 255);
 }
 
-void CSItemOption::RenderSetOptionList(const int StartX, const int StartY)
+bool CSItemOption::BuildSetOptionTooltipModel(UI::Inventory::Tooltip::Model& outModel)
 {
-    if (m_bViewOptionList && m_SetSearchResultCount > 0)
+    // Hover gating is the caller's responsibility now (CMyInventory::SyncRmlModel(), driven by
+    // RmlUi's own mouseover/mouseout on the Set Option label) -- this only needs to know whether
+    // there's anything to show.
+    if (m_SetSearchResultCount == 0)
+        return false;
+
+    std::uint8_t TextNum = 0;
+
+    mu_swprintf(TextList[TextNum], L"\n"); TextListColor[TextNum] = 0; TextBold[TextNum] = false; TextNum++;
+    mu_swprintf(TextList[TextNum], L"\n"); TextListColor[TextNum] = 0; TextBold[TextNum] = false; TextNum++;
+    mu_swprintf(TextList[TextNum], L"\n"); TextListColor[TextNum] = 0; TextBold[TextNum] = false; TextNum++;
+
+    for (int i = 0; i < m_SetSearchResultCount; i++)
     {
-        g_pRenderText->SetTextColor(255, 255, 255, 255);
-        g_pRenderText->SetBgColor(100, 0, 0, 0);
+        const auto& set = m_SetSearchResult[i];
 
-        int PosX, PosY;
+        // print set name:
+        mu_swprintf(TextList[TextNum], L"%ls %ls", set.SetName, I18N::Game::Set);
+        TextListColor[TextNum] = TEXT_COLOR_YELLOW;
+        TextBold[TextNum] = true;
+        TextNum++;
 
-        PosX = StartX + 95;
-        PosY = StartY + 40;
-
-        std::uint8_t TextNum = 0;
-        std::uint8_t SkipNum = 0;
-        std::uint8_t setIndex = 0;
-
-        mu_swprintf(TextList[TextNum], L"\n"); TextListColor[TextNum] = 0; TextBold[TextNum] = false; TextNum++; SkipNum++;
-        mu_swprintf(TextList[TextNum], L"\n"); TextListColor[TextNum] = 0; TextBold[TextNum] = false; TextNum++; SkipNum++;
-        mu_swprintf(TextList[TextNum], L"\n"); TextListColor[TextNum] = 0; TextBold[TextNum] = false; TextNum++; SkipNum++;
-
-        int		iCurSetItemTypeSequence = 0, iCurSetItemType = -1;
-
-        for (int i = 0; i < m_SetSearchResultCount; i++)
-        {
-            const auto& set = m_SetSearchResult[i];
-
-            // print set name:
-            mu_swprintf(TextList[TextNum], L"%ls %ls", set.SetName, I18N::Game::Set);
-            TextListColor[TextNum] = TEXT_COLOR_YELLOW;
-            TextBold[TextNum] = true;
-            TextNum++;
-
-            TextNum = RenderSetOptionList(set, TextNum, true, false);
-        }
-
-        RenderTipTextList(PosX, PosY, TextNum, 120, RT3_SORT_CENTER);
-        m_bViewOptionList = false;
+        TextNum = RenderSetOptionList(set, TextNum, true, false);
     }
+
+    outModel.Reset();
+    outModel.count = std::min<int>(TextNum, UI::Inventory::Tooltip::MAX_TOOLTIP_LINES);
+    for (int i = 0; i < outModel.count; ++i)
+    {
+        UI::Inventory::Tooltip::Line& line = outModel.lines[i];
+        wcsncpy(line.text, TextList[i], UI::Inventory::Tooltip::MAX_TOOLTIP_LINE_TEXT - 1);
+        line.text[UI::Inventory::Tooltip::MAX_TOOLTIP_LINE_TEXT - 1] = L'\0';
+        switch (TextListColor[i])
+        {
+        case TEXT_COLOR_BLUE:   line.color = UI::Inventory::Tooltip::LineColor::Blue;   break;
+        case TEXT_COLOR_YELLOW: line.color = UI::Inventory::Tooltip::LineColor::Yellow; break;
+        case TEXT_COLOR_GREEN:  line.color = UI::Inventory::Tooltip::LineColor::Green;  break;
+        case TEXT_COLOR_PURPLE: line.color = UI::Inventory::Tooltip::LineColor::Purple; break;
+        default:                line.color = UI::Inventory::Tooltip::LineColor::White;  break;
+        }
+        line.isBold = TextBold[i] != 0;
+    }
+
+    return true;
 }
 
 void CSItemOption::CheckRenderOptionHelper(const wchar_t* FilterName)
@@ -976,9 +985,9 @@ void CSItemOption::CheckRenderOptionHelper(const wchar_t* FilterName)
             m_byRenderOptionList = 0;
             if (wcsncmp(FilterName, Name, Length1) == 0 && wcsncmp(FilterName, Name, Length2) == 0)
             {
-                g_pNewUISystem->Hide(SEASON3B::INTERFACE_ITEM_EXPLANATION);
-                g_pNewUISystem->Hide(SEASON3B::INTERFACE_HELP);
-                g_pNewUISystem->Show(SEASON3B::INTERFACE_SETITEM_EXPLANATION);
+                g_pNewUISystem->Hide(mu::ui::window::INTERFACE_ITEM_EXPLANATION);
+                g_pNewUISystem->Hide(mu::ui::window::INTERFACE_HELP);
+                g_pNewUISystem->Show(mu::ui::window::INTERFACE_SETITEM_EXPLANATION);
 
                 m_byRenderOptionList = static_cast<std::uint8_t>(i + 1);
                 return;
@@ -987,119 +996,60 @@ void CSItemOption::CheckRenderOptionHelper(const wchar_t* FilterName)
     }
 }
 
-void CSItemOption::RenderOptionHelper(void)
+int CSItemOption::RenderInactiveSetOptionList(const ITEM_SET_OPTION& set, int textIndex)
 {
-    if (m_byRenderOptionList == 0) return;
-
-    int TextNum = 0;
-    int sx = 0, sy = 0;
-    std::fill(std::begin(TextListColor), std::end(TextListColor), 0);
-    for (int i = 0; i < 30; i++)
+    auto append = [&](std::uint8_t option, int value)
     {
-        TextList[i][0] = L'\0';
-    }
-
-    ITEM_SET_OPTION& setOption = m_ItemSetOption[m_byRenderOptionList - 1];
-    if (setOption.byOptionCount >= 255)
-    {
-        m_byRenderOptionList = 0;
-        return;
-    }
-
-    mu_swprintf(TextList[TextNum], L"\n"); TextNum++;
-    mu_swprintf(TextList[TextNum], L"%ls %ls %ls", setOption.strSetName, I18N::Game::Set, I18N::Game::ItemOptionInfo);
-    TextListColor[TextNum] = TEXT_COLOR_YELLOW;
-    TextNum++;
-
-    mu_swprintf(TextList[TextNum], L"\n"); TextNum++;
-    mu_swprintf(TextList[TextNum], L"\n"); TextNum++;
-
-    for (int o = 0; o < MAX_ITEM_SET_STANDARD_OPTION_COUNT; ++o)
-    {
-        for (int n = 0; n < MAX_ITEM_SET_STANDARD_OPTION_PER_ITEM_COUNT; ++n)
-        {
-            if (getExplainText(TextList[TextNum], setOption.byStandardOption[o][n], setOption.byStandardOptionValue[o][n]))
-            {
-                TextListColor[TextNum] = TEXT_COLOR_BLUE;
-                TextBold[TextNum] = false;
-                TextNum++;
-            }
-        }
-    }
-
-    for (int o = 0; o < MAX_ITEM_SET_EXT_OPTION_COUNT; ++o)
-    {
-        if (getExplainText(TextList[TextNum], setOption.byExtOption[o], setOption.byExtOption[o]))
-        {
-            TextListColor[TextNum] = TEXT_COLOR_GREEN;
-            TextBold[TextNum] = false;
-            TextNum++;
-        }
-    }
-
-    for (int o = 0; o < MAX_ITEM_SET_FULL_OPTION_COUNT; ++o)
-    {
-        if (getExplainText(TextList[TextNum], setOption.byFullOption[o], setOption.byFullOption[o]))
-        {
-            TextListColor[TextNum] = TEXT_COLOR_YELLOW;
-            TextBold[TextNum] = false;
-            TextNum++;
-        }
-    }
-
-    mu_swprintf(TextList[TextNum], L"\n"); TextNum++;
-    mu_swprintf(TextList[TextNum], L"\n"); TextNum++;
-
-    RenderTipTextList(sx, sy, TextNum, 0);
+        if (textIndex >= static_cast<int>(std::size(TextList)) - 1 || value == 0
+            || !getExplainText(TextList[textIndex], option, value))
+            return;
+        TextListColor[textIndex] = TEXT_COLOR_GRAY;
+        TextBold[textIndex++] = false;
+    };
+    const int standardCount = std::max(0, std::min<int>(set.bySetItemCount - 1, MAX_ITEM_SET_STANDARD_OPTION_COUNT));
+    for (int i = 0; i < standardCount; ++i)
+        for (int j = 0; j < MAX_ITEM_SET_STANDARD_OPTION_PER_ITEM_COUNT; ++j)
+            append(set.byStandardOption[i][j], set.byStandardOptionValue[i][j]);
+    for (int i = 0; i < MAX_ITEM_SET_EXT_OPTION_COUNT; ++i)
+        append(set.byExtOption[i], set.byExtOptionValue[i]);
+    for (int i = 0; i < MAX_ITEM_SET_FULL_OPTION_COUNT; ++i)
+        append(set.byFullOption[i], set.byFullOptionValue[i]);
+    return textIndex;
 }
 
 int CSItemOption::RenderSetOptionListInItem(const ITEM* ip, int TextNum, bool bIsEquippedItem)
 {
-    if (ip->AncientDiscriminator == 0)
-    {
+    if (ip == nullptr || ip->Type < 0 || ip->Type >= MAX_ITEM
+        || ip->AncientDiscriminator < EXT_A_SET_OPTION || ip->AncientDiscriminator > EXT_B_SET_OPTION)
         return TextNum;
-    }
-
-    const ITEM_SET_TYPE& itemSType = m_ItemSetType[ip->Type];
-
-    m_bySelectedItemOption = itemSType.byOption[ip->AncientDiscriminator - 1];
-
-    if (m_bySelectedItemOption <= 0 || m_bySelectedItemOption == 255) return TextNum;
+    const auto selected = m_ItemSetType[ip->Type].byOption[ip->AncientDiscriminator - 1];
+    if (selected == 0 || selected >= MAX_SET_OPTION)
+        return TextNum;
+    m_bySelectedItemOption = selected;
+    const ITEM_SET_OPTION& setOption = m_ItemSetOption[selected];
+    if (setOption.byOptionCount >= 255)
+        return TextNum;
 
     int TNum = TextNum;
-
-    const ITEM_SET_OPTION& setOption = m_ItemSetOption[m_bySelectedItemOption];
-    if (setOption.byOptionCount >= 255)
-    {
-        m_bySelectedItemOption = 0;
-        return TNum;
-    }
-
-
     mu_swprintf(TextList[TNum], L"\n"); TNum++;
-    mu_swprintf(TextList[TNum], L"%ls %ls", I18N::Game::Set, I18N::Game::ItemOptionInfo);
+    mu_swprintf(TextList[TNum], L"%ls", I18N::Game::ItemOptionInfo);
     TextListColor[TNum] = TEXT_COLOR_YELLOW;
-    TNum++;
-
-    mu_swprintf(TextList[TNum], L"\n"); TNum++;
-    mu_swprintf(TextList[TNum], L"\n"); TNum++;
-
-
-    for (int i = 0; i < m_SetSearchResultCount; i++)
+    TextBold[TNum++] = false;
+    const int firstOption = TNum;
+    for (int i = 0; i < m_SetSearchResultCount; ++i)
     {
-        const auto& set = m_SetSearchResult[i];
-        if (wcscmp(set.SetName, setOption.strSetName) == 0)
+        if (m_SetSearchResult[i].SetNumber == selected)
         {
-            // Set Found.
-            TNum = RenderSetOptionList(set, TNum, bIsEquippedItem, true);
+            TNum = RenderSetOptionList(m_SetSearchResult[i], TNum, bIsEquippedItem, true);
             break;
         }
     }
-
-    mu_swprintf(TextList[TNum], L"\n"); TNum++;
-    mu_swprintf(TextList[TNum], L"\n"); TNum++;
-
-    return TNum;
+    if (TNum == firstOption)
+        TNum = RenderInactiveSetOptionList(setOption, TNum);
+    // Keep one separator before the section, without the old five empty rows after it.
+    while (TNum > firstOption && (TextList[TNum - 1][0] == L'\n' || TextList[TNum - 1][0] == L'\0'))
+        --TNum;
+    return TNum == firstOption ? TextNum : TNum;
 }
 
 std::uint8_t  CSItemOption::RenderSetOptionList(const SET_SEARCH_RESULT_OPT& set, std::uint8_t textIndex, bool bIsEquippedItem, bool bShowInactive)

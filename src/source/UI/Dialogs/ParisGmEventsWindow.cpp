@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "ParisWindowGroup.h"
 #include "UI/Dialogs/ParisGmEventsWindow.h"
 
@@ -205,7 +205,7 @@ void CParisGmEventsWindow::SyncModel()
     { if (field != value) { field = value; m_RmlView.MarkDirty(key); } };
     const auto setInt = [this](int& field, int value, const char* key)
     { if (field != value) { field = value; m_RmlView.MarkDirty(key); } };
-    const Rml::String status = !Network::Paris::GmEvents::Authorized ? "Cuenta sin autorización de GM"
+    const Rml::String status = !Network::Paris::GmEvents::Authorized ? "Esperando autorización del servidor"
         : fresh ? "Estado actualizado desde el servidor" : "Esperando respuesta actual del servidor…";
     if (model.status != status) { model.status = status; m_RmlView.MarkDirty("status"); }
     setBool(model.authorized, Network::Paris::GmEvents::Authorized, "authorized");
@@ -222,25 +222,9 @@ void CParisGmEventsWindow::SyncModel()
         rows.push_back({source.Name.empty() ? "Evento " + std::to_string(i + 1) : StringUtils::WideToNarrow(source.Name.c_str()),
             i, source.Phase, i == model.selected});
     }
-    constexpr const char* pending[] = {"Nemesis Semanal", "Tiempo Frances", "TvT Event"};
-    for (int i = 0; i < 3; ++i)
-    {
-        std::wstring candidate = StringUtils::NarrowToWide(pending[i]);
-        for (auto& letter : candidate) letter = static_cast<wchar_t>(std::towlower(letter));
-        if (query.empty() || candidate.find(query) != std::wstring::npos)
-            rows.push_back({pending[i], i + Network::Paris::GmEvents::Count, 0, model.selected == i + Network::Paris::GmEvents::Count});
-    }
     const bool empty = rows.empty();
     setBool(model.empty, empty, "empty");
     if (model.events != rows) { model.events = std::move(rows); m_RmlView.MarkDirty("events"); }
-    if (model.selected >= Network::Paris::GmEvents::Count)
-    {
-        model.selected_name = pending[model.selected - Network::Paris::GmEvents::Count]; model.phase = "PENDIENTE DE CONECTAR";
-        model.can_start = model.can_register = model.can_stop = false;
-        m_RmlView.MarkDirty("selected_name"); m_RmlView.MarkDirty("phase");
-        m_RmlView.MarkDirty("can_start"); m_RmlView.MarkDirty("can_register"); m_RmlView.MarkDirty("can_stop");
-        return;
-    }
     if (received == 0 || model.selected < 0) return;
     const auto& event = data[model.selected];
     const auto assign = [this](Rml::String& field, Rml::String value, const char* key)

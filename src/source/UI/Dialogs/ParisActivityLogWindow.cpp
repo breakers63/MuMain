@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "ParisWindowGroup.h"
 #include "UI/Dialogs/ParisActivityLogWindow.h"
 #include "Core/Utilities/StringUtils.h"

@@ -505,4 +505,43 @@
     font-family: "token(font-body)"; font-weight: bold; font-size: 12dp;
     z-index: 100;
 }
-#pvp_notice.enabled { color: #30ff30; }
+#pvp_notice.enabled { color: #30ff30; background-color: #bfbfbfa0; }
+
+/* Tight learned-skill frames: a 20x28 icon and one pixel of padding. */
+#skill_list { left: 50%; margin-left: -216dp; width: 432dp; height: 32dp; }
+#skill_grid { width: 432dp; column-gap: 2dp; row-gap: 2dp; }
+#skill_grid .skill-cell:nth-child(n) { flex: 0 0 22dp; width: 22dp; height: 30dp; padding: 0; border: 1px #b9943b; box-sizing: border-box; }
+#skill_grid .skill-cell .skill-icon { left: 0dp; top: 0dp; width: 20dp; height: 28dp; }
+
+@spritesheet paris-event-clock-sheet { src:"../../../newui_Figure_blood.tga"; paris-event-clock:0px 0px 124px 81px; }
+#event_timer { position:absolute; right:8dp; bottom:84dp; width:124dp; height:81dp; decorator:image(paris-event-clock); color:#ff9600; text-align:center; font-size:11dp; pointer-events:none; }
+#event_timer span { position:absolute; left:0; width:124dp; }
+.event-timer-name { top:13dp; }
+.event-timer-label { top:38dp; }
+.event-timer-clock { top:50dp; font-weight:bold; font-size:17dp; }
+
+#event_timer .tvt-hud-title{top:8dp;color:#ffd773;}
+#event_timer .tvt-hud-blue{top:27dp;left:3dp;width:60dp;color:#50b4ff;font-size:10dp;}
+#event_timer .tvt-hud-red{top:27dp;left:64dp;width:60dp;color:#ff5a5a;font-size:10dp;}
+#event_timer .tvt-hud-clock{top:45dp;color:#ffffff;font-size:11dp;}
+#event_timer .tvt-hud-team{top:63dp;color:#ffd773;font-size:10dp;}
+
+@spritesheet tvt-score-sheet {src:"../../../Paris_TvtHudEntry.tga"; tvt-score-art:210px 0px 1285px 923px;}
+#tvt_hud{position:absolute;right:8dp;bottom:84dp;width:160dp;height:115dp;decorator:image(tvt-score-art);pointer-events:auto;color:#fff;font-family:"DejaVu Sans";font-size:10dp;text-align:center;}
+#tvt_drag{position:absolute;left:0;top:0;width:143dp;height:44dp;pointer-events:auto;}
+#tvt_hud .tvt-toggle{position:absolute;right:2dp;top:24dp;width:17dp;height:18dp;background-color:#201000;color:#ffd773;font-size:9dp;pointer-events:auto;}
+#tvt_hud span{position:absolute;line-height:12dp;pointer-events:none;text-align:center;}
+#tvt_hud .tvt-hud-blue{left:35dp;top:54dp;width:40dp;color:#6ebeff;font-size:9dp;}
+#tvt_hud .tvt-hud-red{left:84dp;top:54dp;width:40dp;color:#ff6e6e;font-size:9dp;}
+#tvt_hud .tvt-blue-score{left:35dp;top:68dp;width:40dp;color:#fff;font-size:13dp;}
+#tvt_hud .tvt-red-score{left:84dp;top:68dp;width:40dp;color:#fff;font-size:13dp;}
+#tvt_hud .tvt-hud-clock{left:72dp;top:90dp;width:60dp;color:#fff;font-size:11dp;}
+#tvt_hud .tvt-hud-team{left:30dp;top:104dp;width:100dp;color:#fff;font-size:9dp;}
+#tvt_hud.minimized{height:20dp;decorator:none;background-color:#100c06;border:1dp #c49a30;}
+#tvt_hud.minimized #tvt_drag{height:20dp;}
+#tvt_hud.minimized span{display:none;}
+#tvt_hud.minimized .tvt-hud-clock{display:block;left:25dp;top:3dp;width:100dp;}
+#tvt_hud.minimized .tvt-toggle{top:0;}
+
+/* Keep the team caption inside its lower gold inset. */
+#tvt_hud .tvt-hud-team{top:100dp;left:30dp;width:100dp;height:10dp;line-height:10dp;font-size:9dp;text-align:center;}

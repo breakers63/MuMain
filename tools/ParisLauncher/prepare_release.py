@@ -6,6 +6,7 @@ import json
 import os
 from pathlib import Path
 from urllib.parse import quote
+from manifest_validation import validate_manifest
 
 
 def digest(path):
@@ -107,6 +108,7 @@ def main():
                 add(source_root / name, prefix + name + ".template", client)
 
     manifest = {"Version": args.version, "Files": entries}
+    validate_manifest(manifest)
     (root / "manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
     link_or_copy(args.launcher, root / "Launcher.exe")
     settings = {"ModernExecutable": "Jugar.exe", "ClassicExecutable": "Classic/Jugar.exe", "ManifestUrl": "https://patch.hispanogaming.com/windows/manifest.json"}

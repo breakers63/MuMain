@@ -2,6 +2,8 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
+#include "GameLogic/Items/ParisJewelryUpgrades.h"
+#include "GameLogic/Items/ParisCustomJewels.h"
 #include "UI/Inventory/InventoryActionController.h"
 #include "UI/Inventory/MyInventory.h"
 #include "UI/Dialogs/ParisItemDyeWindow.h"
@@ -530,6 +532,16 @@ bool CInventoryActionController::RepairItemAtMousePoint(CInventoryCtrl* targetCo
 bool CInventoryActionController::ApplyJewels(CInventoryCtrl* targetControl, CPickedItem* pPickedItem,
                                                   ITEM* pPickItem, int iSourceIndex, int iTargetIndex) const
 {
+    if (GameLogic::Items::CustomJewels::IsJewel(pPickItem->Type)) {
+        ITEM* target=targetControl->FindItem(iTargetIndex);
+        if (!target) return false;
+        if (GameLogic::Items::JewelryUpgrades::IsRestrictedJewel(pPickItem->Type) && !GameLogic::Items::JewelryUpgrades::IsJewelry(target->Type)) return false;
+        if (target->Type>=ITEM_POTION || GameLogic::Items::IsAmmunitionType(target->Type)) return false;
+        SendRequestUse(iSourceIndex,iTargetIndex);
+        CInventoryCtrl::BackupPickedItem();
+        PlayBuffer(SOUND_GET_ITEM01);
+        return true;
+    }
     const bool bIsJewelType = pPickItem->Type == ITEM_JEWEL_OF_BLESS || pPickItem->Type == ITEM_JEWEL_OF_SOUL ||
                               pPickItem->Type == ITEM_JEWEL_OF_LIFE || pPickItem->Type == ITEM_JEWEL_OF_HARMONY ||
                               GameLogic::Items::IsRefineStone(pPickItem) || pPickItem->Type == ITEM_POTION + 160 ||
@@ -552,7 +564,9 @@ bool CInventoryActionController::ApplyJewels(CInventoryCtrl* targetControl, CPic
 
     bool bSuccess = true;
 
-    if (iType > ITEM_WINGS_OF_DARKNESS && !GameLogic::Items::IsWingItem(pItem))
+    const bool ringLevelJewel = GameLogic::Items::JewelryUpgrades::IsRing(iType)
+        && (pPickItem->Type == ITEM_JEWEL_OF_BLESS || pPickItem->Type == ITEM_JEWEL_OF_SOUL);
+    if (!ringLevelJewel && iType > ITEM_WINGS_OF_DARKNESS && !GameLogic::Items::IsWingItem(pItem))
     {
         bSuccess = false;
     }

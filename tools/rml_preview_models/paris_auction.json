@@ -1,0 +1,16 @@
+{
+  "status": "Subastas activas",
+  "price_input": "500000",
+  "buy_now_input": "800000",
+  "bid_input": "510000",
+  "duration_label": "7 d",
+  "currency_label": "Zen",
+  "rows": [
+    {"name": "Espada Legendaria +15", "seller": "", "price": "Casilla 14", "state": "", "action": "Publicar", "index": 0, "enabled": true},
+    {"name": "Alas de Condor +13", "seller": "", "price": "Casilla 15", "state": "", "action": "Publicar", "index": 1, "enabled": true}
+  ],
+  "tab": 1,
+  "page": 1,
+  "page_count": 3,
+  "empty": false
+}

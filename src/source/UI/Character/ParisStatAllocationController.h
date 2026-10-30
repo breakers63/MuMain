@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "GameLogic/Character/StatAllocationState.h"
 #include "Network/Paris/StatLimitsSnapshot.h"
 #include <RmlUi/Core/DataModelHandle.h>

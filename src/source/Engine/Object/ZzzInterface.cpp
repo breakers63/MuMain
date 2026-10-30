@@ -2,6 +2,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
+#include "GameLogic/Items/ParisScreenMessages.h"
 #include "GameLogic/Social/PartyFollow.h"
 #include "Guild/GuildTypes.h"
 #include "Core/Input/KeyState.h"
