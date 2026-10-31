@@ -2,6 +2,7 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
+#include "GameLogic/Skills/ParisSkillTiming.h"
 #include "SkillManager.h"
 #include "Character/CharacterManager.h"
 #include "World/MapInfra/MapManager.h"
@@ -137,11 +138,80 @@ float CSkillManager::GetSkillDistance(int Index, CHARACTER* c)
     return Distance;
 }
 
+static bool IsContinuousWarriorSkill(int Skill)
+{
+    switch (Skill)
+    {
+    case AT_SKILL_FALLING_SLASH:
+    case AT_SKILL_FALLING_SLASH_STR:
+    case AT_SKILL_LUNGE:
+    case AT_SKILL_LUNGE_STR:
+    case AT_SKILL_UPPERCUT:
+    case AT_SKILL_CYCLONE:
+    case AT_SKILL_CYCLONE_STR:
+    case AT_SKILL_CYCLONE_STR_MG:
+    case AT_SKILL_SLASH:
+    case AT_SKILL_SLASH_STR:
+    case AT_SKILL_TWISTING_SLASH:
+    case AT_SKILL_TWISTING_SLASH_STR:
+    case AT_SKILL_TWISTING_SLASH_STR_MG:
+    case AT_SKILL_TWISTING_SLASH_MASTERY:
+        return true;
+    default:
+        return false;
+    }
+}
+
+static int ResolveSkillSlotBySkillId(int Skill)
+{
+    int maxSkillNumber = CharacterAttribute->SkillNumber + 2;
+    maxSkillNumber = std::min<int>(maxSkillNumber, MAX_SKILLS);
+
+    for (int i = 0; i < maxSkillNumber; ++i)
+    {
+        if (CharacterAttribute->Skill[i] == Skill)
+        {
+            return i;
+        }
+    }
+
+    return -1;
+}
+
 bool CSkillManager::CheckSkillDelay(int SkillIndex)
 {
-    int Skill = CharacterAttribute->Skill[SkillIndex];
+    int Skill = 0;
+    int DelayIndex = -1;
 
-    int Delay = SkillAttribute[Skill].Delay;
+    // Compatibilidad: algunas llamadas pasan el índice del slot de skill,
+    // y otras pueden pasar directamente el ID real del skill.
+    if (SkillIndex >= 0 && SkillIndex < MAX_SKILLS && CharacterAttribute->Skill[SkillIndex] > 0)
+    {
+        Skill = CharacterAttribute->Skill[SkillIndex];
+        DelayIndex = SkillIndex;
+    }
+    else
+    {
+        Skill = SkillIndex;
+        DelayIndex = ResolveSkillSlotBySkillId(Skill);
+    }
+
+    // Mantener comportamiento permisivo: si no se puede resolver el skill,
+    // no bloqueamos el casteo desde cliente.
+    if (Skill <= 0 || Skill >= MAX_SKILLS)
+    {
+        return true;
+    }
+
+    // Los skills físicos continuos de arma/BK deben depender del ritmo de input/animación,
+    // no del SkillAttribute.Delay local. Si el cliente les aplica cooldown local, castea
+    // 1 o 2 veces y luego queda una pausa visible de ~1 segundo.
+    if (IsContinuousWarriorSkill(Skill))
+    {
+        return true;
+    }
+
+    int Delay = ParisSkillTiming::Cooldown(Skill, SkillAttribute[Skill].Delay);
 
     if (!CheckAttack() && (
         Skill == AT_SKILL_CHAIN_DRIVE ||
@@ -155,7 +225,13 @@ bool CSkillManager::CheckSkillDelay(int SkillIndex)
 
     if (Delay > 0)
     {
-        if (CharacterAttribute->SkillDelay[SkillIndex] > 0)
+        // Si no hay slot válido donde guardar el cooldown local, no bloqueamos.
+        if (DelayIndex < 0 || DelayIndex >= MAX_SKILLS)
+        {
+            return true;
+        }
+
+        if (CharacterAttribute->SkillDelay[DelayIndex] > 0)
         {
             return false;
         }
@@ -167,8 +243,9 @@ bool CSkillManager::CheckSkillDelay(int SkillIndex)
             return false;
         }
 
-        CharacterAttribute->SkillDelay[SkillIndex] = Delay;
+        CharacterAttribute->SkillDelay[DelayIndex] = Delay;
     }
+
     return true;
 }
 void CSkillManager::CalcSkillDelay(int time)
