@@ -1,4 +1,7 @@
-﻿#include "stdafx.h"
+#include "Render/Models/CustomMonsterColorRenderer.h"
+#include "Render/Items/SetTrails.h"
+#include "stdafx.h"
+#include "Render/Items/ItemHighlights.h"
 #include "GameLogic/Items/ParisColorPotions.h"
 #include "Render/Models/ZzzBMD.h"
 #include "Engine/Object/ZzzInfomation.h"
@@ -107,6 +110,9 @@ void OpenModels(int Model, wchar_t* FileName, int i)
 
 void OpenPlayers()
 {
+    Render::Items::SetTrails::Load();
+    Render::Items::Highlights::Load();
+    Render::Models::CustomMonsterColor::LoadMeshEffects();
     ModelsDump = new BMD[MAX_MODELS + 1024];
     Models = ModelsDump + (rand() % 1024);
     ZeroMemory(Models, MAX_MODELS * sizeof(BMD));

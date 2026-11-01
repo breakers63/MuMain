@@ -1,6 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
+#include "Render/Items/ItemHighlights.h"
 #include "Render/Models/ItemDyeAppearance.h"
 #include "Render/Terrain/GrassBurn.h"
 #include "Camera/CameraMove.h"
@@ -7353,6 +7354,7 @@ void RenderPartObject(OBJECT* o, int Type, void* p2, vec3_t Light, float Alpha, 
 
     if (!g_CMonkSystem.RageFighterEffect(o, Type))
         RenderPartObjectEffect(o, Type, Light, Alpha, ItemLevel, ExcellentFlags, ancientDiscriminator, Select, RenderType);
+    Render::Items::Highlights::Render(o, Type, ItemLevel, Alpha, RenderType);
 }
 
 float AmbientShadowAngle = 180.f;

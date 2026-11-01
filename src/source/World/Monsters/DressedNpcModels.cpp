@@ -8,6 +8,8 @@
 #include "Core/Globals/_enum.h"
 #include "Core/Utilities/Log/ErrorReport.h"
 #include "Engine/Object/ZzzCharacter.h"
+#include "Engine/AI/GOBoid.h"
+#include "GameLogic/Pets/w_PetProcess.h"
 
 namespace World::Monsters::Dressed
 {
@@ -85,6 +87,18 @@ namespace World::Monsters::Dressed
         {
             return group < 0 || index < 0 ? -1 : MODEL_ITEM + group * ItemGroupSize + index;
         }
+
+        void CreateCompanion(CHARACTER* character)
+        {
+            auto* owner = &character->Object;
+            const int type = character->Helper.Type;
+            DeleteMount(owner);
+            ThePetProcess().DeletePet(character, type - MODEL_ITEM, true);
+            if (type == MODEL_GUARDIAN_ANGEL || type == MODEL_IMP)
+                CreateMount(type, owner->Position, owner);
+            else if (ThePetProcess().IsPet(type - MODEL_ITEM))
+                ThePetProcess().CreatePet(type - MODEL_ITEM, type, owner->Position, character);
+        }
     }
 
     const Definition* Find(int id)
@@ -108,9 +122,9 @@ namespace World::Monsters::Dressed
         character->Object.Scale = definition.Scale;
         for (int part = 0; part < 5; ++part)
         {
-            character->BodyPart[part].Type = Model(FirstArmorGroup + part, e[1] == -1 ? e[2] : e[3 + part]);
-            character->BodyPart[part].ExcellentFlags = static_cast<unsigned char>(e[20]);
-            character->BodyPart[part].Level = static_cast<unsigned char>(std::max(0, e[17]));
+            character->BodyPart[BODYPART_HELM + part].Type = Model(FirstArmorGroup + part, e[1] == -1 ? e[2] : e[3 + part]);
+            character->BodyPart[BODYPART_HELM + part].ExcellentFlags = static_cast<unsigned char>(e[20]);
+            character->BodyPart[BODYPART_HELM + part].Level = static_cast<unsigned char>(std::max(0, e[17]));
         }
         for (int weapon = 0; weapon < 2; ++weapon)
         {
@@ -122,6 +136,7 @@ namespace World::Monsters::Dressed
         character->Wing.ExcellentFlags = static_cast<unsigned char>(e[20]);
         character->Helper.Type = Model(e[14], e[15]);
         character->Helper.Level = static_cast<unsigned char>(std::max(0, e[16]));
+        CreateCompanion(character);
         if (e[19] >= 0) character->PK = static_cast<unsigned char>(e[19]);
         wcsncpy_s(character->ID, MAX_MONSTER_NAME + 1, definition.Name.c_str(), _TRUNCATE);
     }

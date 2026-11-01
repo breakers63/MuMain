@@ -7,6 +7,19 @@
 #include "Render/Effects/ZzzEffect.h"
 #include "Engine/Object/ZzzCharacter.h"
 
+namespace
+{
+    constexpr float GuardianFeatherScale = 0.3f;
+    constexpr float GuardianFeatherOffset = 25.0f;
+
+    void EmitGuardianFeather(OBJECT* object, vec3_t position, vec3_t light)
+    {
+        position[2] -= GuardianFeatherOffset;
+        CreateEffectFpsChecked(MODEL_FEATHER_FOREIGN, position, object->Angle, light,
+            4, object, -1, 0, 0, 0, GuardianFeatherScale);
+    }
+}
+
 PetActionStandPtr PetActionStand::Make()
 {
     PetActionStandPtr temp(new PetActionStand);
@@ -86,8 +99,7 @@ bool PetActionStand::Effect(OBJECT* obj, CHARACTER* Owner, int targetKey, double
 
     Vector(0.3f, 0.3f, 0.6f, Light);
     b->TransformPosition(BoneTransform[5], vRelativePos, Position, false);
-    Position[2] -= 25.0f;
-    CreateEffect(MODEL_FEATHER_FOREIGN, Position, obj->Angle, Light, 4, NULL, -1, 0, 0, 0, 0.3f);
+    EmitGuardianFeather(obj, Position, Light);
 
     int temp[] = {45, 42, 48, 54, 51, 57, 25, 26, 27, 38, 32};
 

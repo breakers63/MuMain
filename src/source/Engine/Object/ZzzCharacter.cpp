@@ -1,3 +1,4 @@
+#include "Render/Items/SetTrails.h"
 #include "World/Monsters/DressedNpcModels.h"
 ///////////////////////////////////////////////////////////////////////////////
 // 케릭터 관련 함수
@@ -5408,6 +5409,7 @@ bool CheckFullSet(CHARACTER* c)
     {
         for (int i = 5; i >= end; i--)
         {
+            if (gCharacterManager.GetBaseClass(c->Class) == CLASS_RAGEFIGHTER && i == BODYPART_GLOVES) continue;
             if (c->BodyPart[i].Type == -1)
             {
                 Success = false;
@@ -5422,6 +5424,7 @@ bool CheckFullSet(CHARACTER* c)
 
             for (int i = 5; i >= end; i--)
             {
+                if (gCharacterManager.GetBaseClass(c->Class) == CLASS_RAGEFIGHTER && i == BODYPART_GLOVES) continue;
                 int Level = c->BodyPart[i].Level & 0xf;
                 if (Level < 9)
                 {
@@ -8599,6 +8602,7 @@ void RenderCharacter(CHARACTER* c, OBJECT* o, int Select)
                 RenderObject(o, Translate, Select, 0);
             }
         }
+        Render::Models::CustomMonsterColor::Render(c);
     }
 
     if ((
@@ -11026,7 +11030,7 @@ void RenderCharacter(CHARACTER* c, OBJECT* o, int Select)
 
                 if (EquipmentLevelSet > 9)
                 {
-                    if (rand_fps_check(20))//(o->CurrentAction<PLAYER_WALK_MALE || o->CurrentAction>PLAYER_RUN_RIDE_WEAPON) && rand_fps_check(6))
+                    if (!Render::Items::SetTrails::Render(c, EquipmentLevelSet) && rand_fps_check(20))
                     {
                         VectorCopy(o->Light, Light);
                         Vector(1.f, 1.f, 1.f, o->Light);
@@ -11331,7 +11335,6 @@ void RenderCharacter(CHARACTER* c, OBJECT* o, int Select)
         }
     }
 
-    Render::Models::CustomMonsterColor::Render(c);
     giPetManager::RenderPet(c);
 
     if (gCharacterManager.GetBaseClass(c->Class) == CLASS_SUMMONER)
