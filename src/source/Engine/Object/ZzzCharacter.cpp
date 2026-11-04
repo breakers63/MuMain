@@ -508,10 +508,10 @@ void SetPlayerWalk(CHARACTER* c)
                     ) && c->BodyPart[BODYPART_GLOVES].Type != -1 && c->BodyPart[BODYPART_GLOVES].Level >= 5)
                 || ((gMapManager.WorldActive != WD_7ATLANSE && !gMapManager.InHellas()
                     && gMapManager.WorldActive != WD_67DOPPLEGANGER3
-                    ) && pItemBoots->Level >= 5)
+                    ) && c == Hero && pItemBoots->Level >= 5)
                 || ((gMapManager.WorldActive == WD_7ATLANSE || gMapManager.InHellas()
                     || gMapManager.WorldActive == WD_67DOPPLEGANGER3
-                    ) && pItemGloves->Level >= 5)
+                    ) && c == Hero && pItemGloves->Level >= 5)
                 || c->Helper.Type == MODEL_HORN_OF_FENRIR
                 || c->Object.SubType == MODEL_CURSEDTEMPLE_ALLIED_PLAYER
                 || c->Object.SubType == MODEL_CURSEDTEMPLE_ILLUSION_PLAYER)

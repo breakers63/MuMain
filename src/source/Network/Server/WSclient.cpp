@@ -2130,6 +2130,7 @@ void ReceiveMoveCharacter(std::span<const BYTE> ReceiveBuffer)
 
         if (PathFinding2(c->PositionX, c->PositionY, c->TargetX, c->TargetY, &c->Path, 0.0f, iDefaultWall))
         {
+            if (o->Kind == KIND_PLAYER) c->JumpTime = 0;
             c->Movement = true;
         }
         else
