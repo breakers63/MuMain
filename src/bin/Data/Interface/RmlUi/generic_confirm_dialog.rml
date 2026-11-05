@@ -10,7 +10,7 @@
 	     (themes/modern/generic_confirm_dialog.rml) and never loads this shared copy. Keep ids/
 	     data-model/event names in sync with the modern fork, GenericConfirmDialog.cpp binds both
 	     by name. -->
-	<div id="panel" class="center-both" data-model="generic_confirm_dialog" data-class-tall="has_tall_panel" data-class-sale="severity_warning && has_item3d"
+	<div id="panel" class="center-both" data-model="generic_confirm_dialog" data-class-tall="has_tall_panel" data-class-sale="severity_warning &amp;&amp; has_item3d"
 	     data-style-margin-top="canvas_top + 'dp'"
 	     data-class-portrait="has_portrait2d_overlay">
 		<!-- Native CCommonMessageBox's sprite composite: back fill, top cap, middle fill, bottom cap. -->
@@ -31,7 +31,11 @@
 		<!-- Portrait2D's Overlay layout (the default): native's duel crest, drawn behind the text at a
 		     fixed offset in #panel's own coordinate space; its caption is the first text row below. -->
 		<div class="gcd-portrait2d" data-class-hidden="!has_portrait2d_overlay"></div>
-		<div class="gcd-body">
+		<div class="sale-backdrop" data-class-hidden="!severity_warning || !has_item3d"></div>
+        <div class="sale-title" data-class-hidden="!severity_warning || !has_item3d">CONFIRMAR VENTA</div>
+        <div class="sale-warning" data-class-hidden="!severity_warning || !has_item3d"><span>!</span></div>
+        <div class="sale-close" data-class-hidden="!severity_warning || !has_item3d" data-event-click="gcd_cancel_click">x</div>
+        <div class="gcd-body">
 			<!-- The live 3D item (GenericDialogConfig::item3D), framed by its slot and drawn into
 			     #gcd_item3d, which reaches past it. A flex sibling of .gcd-text-col, not a member of
 			     it: the icon sits left of the text (collapses to nothing, .gcd-text-col alone fills the

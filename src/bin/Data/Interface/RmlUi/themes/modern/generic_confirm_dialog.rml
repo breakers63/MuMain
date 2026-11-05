@@ -9,7 +9,7 @@
 	<!-- Modern theme's own copy of the generic confirm dialog -- per-theme file since the
 	     forged-dialog shell structure differs by theme. Keep ids/data-model/event-callback names
 	     in sync with ../../generic_confirm_dialog.rml. -->
-	<div id="panel" class="center-both" data-model="generic_confirm_dialog" data-class-tall="has_tall_panel">
+	<div id="panel" class="center-both" data-model="generic_confirm_dialog" data-class-tall="has_tall_panel" data-class-sale="severity_warning &amp;&amp; has_item3d">
 		<div class="modern-shell-edge"></div>
 		<div class="modern-groove"></div>
 		<div class="gcd-well"></div>
@@ -17,7 +17,11 @@
 		     as padding-top instead of stacking it as a flex sibling of .gcd-content-row -- see
 		     .rcss's own comment for why (keeps content-row's own centering scoped to the space
 		     actually left below the header, not the whole box). -->
-		<div class="gcd-body" data-class-has-title="has_title">
+		<div class="sale-backdrop" data-class-hidden="!severity_warning || !has_item3d"></div>
+        <div class="sale-title" data-class-hidden="!severity_warning || !has_item3d">CONFIRMAR VENTA</div>
+        <div class="sale-warning" data-class-hidden="!severity_warning || !has_item3d"><span>!</span></div>
+        <div class="sale-close" data-class-hidden="!severity_warning || !has_item3d" data-event-click="gcd_cancel_click">x</div>
+        <div class="gcd-body" data-class-has-title="has_title">
 			<!-- See ../../generic_confirm_dialog.rml's own comment for why this banner collapses
 			     to nothing when untitled, and why .gcd-content-row below is nested one level down
 			     -- keep both fork copies' structure in sync. -->

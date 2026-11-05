@@ -287,14 +287,13 @@ bool CInventoryActionController::HandleSellToNPC(CInventoryCtrl* targetControl) 
             cfg.item3D = *pPreviewItem;
         }
         cfg.title = L"Confirmar venta";
-        cfg.primaryLabel = L"Vender";
+        cfg.primaryLabel = L"Aceptar";
         cfg.cancelLabel = L"Cancelar";
         cfg.severity = mu::ui::window::GenericDialogConfig::Severity::Warning;
         cfg.tallPanel = true;
         cfg.lines = {
-            { I18N::Game::AnExpensiveItem, true },
-            { I18N::Game::CheckTheItemPlease, true },
-            { I18N::Game::AreYouSureYouWantToSellIt, true },
+            { L"¿Deseas vender este objeto?", true },
+            { L"Este objeto es valioso. Confirma para continuar.", false },
         };
         cfg.onPrimary = []
         {
