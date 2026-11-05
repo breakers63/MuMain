@@ -394,3 +394,22 @@
 #panel.sale .sale-corner-br { right:0dp; bottom:0dp; decorator:image(sale-corner-br); }
 .sale-corner { display:none; }
 #panel.sale .sale-corner { display:block; }
+/* Sale preview and full outside frame; the center remains unobstructed. */
+#panel.sale { border-width:1dp; border-color:#bc922e; }
+#panel.sale .sale-warning { display:none; }
+#panel.sale .gcd-item3d { display:block; position:absolute; left:122dp; top:-48dp; width:80dp; height:46dp; margin:0dp; }
+#panel.sale #gcd_item3d { left:0dp; top:0dp; width:80dp; height:46dp; }
+#panel.sale .btn { border-width:1dp; border-color:#b98c29; }
+@spritesheet paris-sale-edges {
+ src:"../../../Paris_Stats.tga";
+ sale-edge-top:40px 0px 416px 40px;
+ sale-edge-bottom:40px 1008px 416px 40px;
+ sale-edge-left:0px 40px 40px 968px;
+ sale-edge-right:456px 40px 40px 968px;
+}
+.sale-edge { display:none; }
+#panel.sale .sale-edge { display:block; position:absolute; pointer-events:none; }
+#panel.sale .sale-edge-top { top:0dp; left:18dp; right:18dp; height:12dp; decorator:image(sale-edge-top); }
+#panel.sale .sale-edge-bottom { bottom:0dp; left:18dp; right:18dp; height:12dp; decorator:image(sale-edge-bottom); }
+#panel.sale .sale-edge-left { left:0dp; top:18dp; bottom:18dp; width:12dp; decorator:image(sale-edge-left); }
+#panel.sale .sale-edge-right { right:0dp; top:18dp; bottom:18dp; width:12dp; decorator:image(sale-edge-right); }

@@ -17,7 +17,7 @@
 		     as padding-top instead of stacking it as a flex sibling of .gcd-content-row -- see
 		     .rcss's own comment for why (keeps content-row's own centering scoped to the space
 		     actually left below the header, not the whole box). -->
-		<div class="sale-corner sale-corner-tl"></div><div class="sale-corner sale-corner-tr"></div><div class="sale-corner sale-corner-bl"></div><div class="sale-corner sale-corner-br"></div><div class="sale-backdrop" data-class-hidden="!severity_warning || !has_item3d"></div>
+		<div class="sale-corner sale-corner-tl"></div><div class="sale-corner sale-corner-tr"></div><div class="sale-corner sale-corner-bl"></div><div class="sale-corner sale-corner-br"></div><div class="sale-edge sale-edge-top"></div><div class="sale-edge sale-edge-bottom"></div><div class="sale-edge sale-edge-left"></div><div class="sale-edge sale-edge-right"></div><div class="sale-backdrop" data-class-hidden="!severity_warning || !has_item3d"></div>
         <div class="sale-title" data-class-hidden="!severity_warning || !has_item3d">CONFIRMAR VENTA</div>
         <div class="sale-warning" data-class-hidden="!severity_warning || !has_item3d"><span>!</span></div>
         <div class="sale-close" data-class-hidden="!severity_warning || !has_item3d" data-event-click="gcd_cancel_click">x</div>
