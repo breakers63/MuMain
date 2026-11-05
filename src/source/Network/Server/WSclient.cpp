@@ -3575,12 +3575,6 @@ void ReceiveAttackDamageExtended(const BYTE* ReceiveBuffer)
     bool bComboEnable = (Data->DamageType >> 7) & 0x01;
     auto ShieldDamage = Data->ShieldDamage;
 
-    g_ConsoleDebug->Write(MCD_RECEIVE, L"0x15 [ReceiveAttackDamageExtended(%d %d)]", AttackPlayer, Damage);
-    if (IsMonster(c))
-    {
-        MUHelper::g_MuHelper.AddTarget(Key, true);
-    }
-
     if (Data->HealthStatus == 0xFF)
     {
         c->HealthStatus = -1;
@@ -3604,7 +3598,18 @@ void ReceiveAttackDamageExtended(const BYTE* ReceiveBuffer)
     }
     else
     {
-        c->ShieldStatus = static_cast<float>(Data->HealthStatus) / 250.f;
+        c->ShieldStatus = static_cast<float>(Data->ShieldStatus) / 250.f;
+    }
+
+    // OpenMU uses this pair to initialize viewport bars without applying a hit.
+    constexpr DWORD viewportBarUpdate = 0xffffffffu;
+    if (Damage == viewportBarUpdate && ShieldDamage == viewportBarUpdate)
+        return;
+
+    g_ConsoleDebug->Write(MCD_RECEIVE, L"0x15 [ReceiveAttackDamageExtended(%d %d)]", AttackPlayer, Damage);
+    if (IsMonster(c))
+    {
+        MUHelper::g_MuHelper.AddTarget(Key, true);
     }
 
     if (gMapManager.InChaosCastle())
@@ -6977,8 +6982,50 @@ void ReceiveSetPointsExtended(const BYTE* ReceiveBuffer)
     gSkillManager.InvalidateSkillAttributeRequirementsCache();
 }
 
-void ReceiveStatsExtended(const BYTE* ReceiveBuffer)
+void ReceiveStatsExtended(const BYTE* ReceiveBuffer, int size)
 {
+    if (size < 4)
+        return;
+
+    const BYTE index = ReceiveBuffer[3];
+    if ((index == 0xff || index == 0xfe) && (size == 9 || size == 17))
+    {
+        DWORD life;
+        DWORD shield;
+        if (size == 17)
+        {
+            std::memcpy(&life, ReceiveBuffer + 9, sizeof(life));
+            std::memcpy(&shield, ReceiveBuffer + 13, sizeof(shield));
+        }
+        else
+        {
+            life = (DWORD(ReceiveBuffer[4]) << 8) | ReceiveBuffer[5];
+            shield = (DWORD(ReceiveBuffer[7]) << 8) | ReceiveBuffer[8];
+        }
+
+        if (index == 0xff)
+        {
+            CharacterAttribute->Life = life;
+            CharacterAttribute->Shield = shield;
+        }
+        else
+        {
+            CharacterAttribute->LifeMax = life;
+            CharacterAttribute->ShieldMax = shield;
+            if (gCharacterManager.IsMasterLevel(Hero->Class))
+            {
+                Master_Level_Data.wMaxLife = life;
+                Master_Level_Data.wMaxShield = shield;
+            }
+        }
+
+        App::Control::Events::RecordHeroStats();
+        return;
+    }
+
+    if ((index == 0xff && size < 24) || (index == 0xfe && size < 20))
+        return;
+
     auto Data = (LPPRECEIVE_STATS_EXTENDED)ReceiveBuffer;
     switch (Data->Index)
     {
@@ -13702,7 +13749,7 @@ static void ProcessPacket(const BYTE* ReceiveBuffer, int32_t Size)
         ReceiveDurability(ReceiveBuffer);
         break;
     case 0x26:
-        ReceiveStatsExtended(ReceiveBuffer);
+        ReceiveStatsExtended(ReceiveBuffer, Size);
         break;
     case 0x28:
         ReceiveDeleteInventory(ReceiveBuffer);
