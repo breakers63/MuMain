@@ -82,6 +82,7 @@ namespace
         c.Bind("title_text", &model.titleText);
         c.Bind("step_text", &model.stepText);
         c.Bind("countdown_text", &model.countdownText);
+        c.Bind("cancel_text", &model.cancelText);
         c.Bind("progress_width", &model.progressWidth);
         c.BindEventCallback("reconnect_cancel", [](Rml::DataModelHandle, Rml::Event&, const Rml::VariantList&)
                             { s_cancelClicked = true; });
@@ -91,6 +92,7 @@ namespace
     void SyncView(float dimAlpha, float fraction)
     {
         UI::RmlBridge::SyncDocumentVisibilityInFront(s_view.Document(), true);
+        SyncField(s_view.Binder(), &ReconnectDialogRmlModel::cancelText, "cancel_text", StringUtils::WideToNarrow(I18N::Game::Cancel));
 
         // The original's 640x480 screen stretched over the window.
         const UI::Scaling::Transform transform =

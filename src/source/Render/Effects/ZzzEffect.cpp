@@ -1,7 +1,8 @@
-﻿///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
+#include "Render/Terrain/GrassBurn.h"
 #include "Render/Textures/ZzzOpenglUtil.h"
 #include "Render/Models/ZzzBMD.h"
 #include "Engine/Object/ZzzInfomation.h"
@@ -754,6 +755,7 @@ void CreateEffect(int Type, vec3_t Position, vec3_t Angle, vec3_t Light, int Sub
             case BITMAP_FLAME:
                 if (o->SubType == 0)
                 {
+                    Render::Terrain::GrassBurn::Ignite(o->Position[0], o->Position[1]);
                     o->LifeTime = 40;
                     o->Weapon = CharacterMachine->PacketSerial;
                 }
@@ -3948,20 +3950,20 @@ void CreateEffect(int Type, vec3_t Position, vec3_t Angle, vec3_t Light, int Sub
                     vec3_t vOriginPos;
                     VectorCopy(o->Position, vOriginPos);
 
-                    o->Position[0] += ((float)(rand() % 20 - 10) * 4.f) * FPS_ANIMATION_FACTOR;
-                    o->Position[1] += ((float)(rand() % 20 - 10) * 4.f) * FPS_ANIMATION_FACTOR;
-                    o->Position[2] += ((float)(rand() % 20 - 10) * 4.f) * FPS_ANIMATION_FACTOR;
+                    o->Position[0] += ((float)(rand() % 20 - 10) * 4.f);
+                    o->Position[1] += ((float)(rand() % 20 - 10) * 4.f);
+                    o->Position[2] += ((float)(rand() % 20 - 10) * 4.f);
 
                     VectorSubtract(vOriginPos, o->Position, o->Direction);
                     VectorNormalize(o->Direction);
-                    int iAddDirection = ((float)(rand() % 10 - 5) * 0.08f);
-                    o->Direction[0] += (iAddDirection) * FPS_ANIMATION_FACTOR;
-                    o->Direction[1] += (iAddDirection) * FPS_ANIMATION_FACTOR;
-                    o->Direction[2] += (iAddDirection) * FPS_ANIMATION_FACTOR;
+                    float iAddDirection = ((float)(rand() % 10 - 5) * 0.08f);
+                    o->Direction[0] += (iAddDirection);
+                    o->Direction[1] += (iAddDirection);
+                    o->Direction[2] += (iAddDirection);
 
                     o->Scale = o->Scale + ((float)(rand() % 20 - 10) * (o->Scale * 0.03f));
-                    o->LifeTime = 25;
-                    o->Alpha = 0.3f;
+                    o->LifeTime = 35;
+                    o->Alpha = 0.6f;
 
                     o->Gravity = 0.1f;
                     o->Angle[0] = (float)(rand() % 360);
@@ -6692,7 +6694,9 @@ void MoveEffect(OBJECT* o, int iIndex)
 
             o->Alpha *= pow(0.97f, FPS_ANIMATION_FACTOR);
 
-            VectorAdd(o->EyeRight, o->Angle, o->Angle);
+            constexpr float FeatherFallPerFrame = 2.0f;
+            VectorAddScaled(o->Angle, o->EyeRight, o->Angle, FPS_ANIMATION_FACTOR);
+            o->Position[2] -= FeatherFallPerFrame * FPS_ANIMATION_FACTOR;
         }
         break;
         }

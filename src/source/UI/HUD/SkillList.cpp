@@ -2,6 +2,7 @@
 #include "UI/HUD/SkillList.h"
 #include "GameLogic/Items/ItemCategories.h"
 #include <algorithm>
+#include <unordered_set>
 #include "I18N/All.h"
 
 #include "UI/Options/OptionWindow.h"
@@ -142,8 +143,20 @@ bool mu::ui::window::CSkillList::UpdateMouseEvent()
     return true;
 }
 
+bool mu::ui::window::CSkillList::CloseSkillGrid()
+{
+    if (!m_bSkillList) return false;
+    m_bSkillList = false;
+    OnUnhover();
+    return true;
+}
+
 bool mu::ui::window::CSkillList::UpdateKeyEvent()
 {
+    if (mu::ui::window::IsPress(VK_ESCAPE) && CloseSkillGrid())
+    {
+        return false;
+    }
     for (int i = 0; i < 9; ++i)
     {
         if (mu::ui::window::IsPress('1' + i))
@@ -257,7 +270,7 @@ int mu::ui::window::CSkillList::GetSkillIndex(int iSkillType)
     }
 
     int iReturn = -1;
-    for (int i = 0; i < MAX_MAGIC; ++i)
+    for (int i = 0; i < MAX_SKILLS; ++i)
     {
         if (CharacterAttribute->Skill[i] == iSkillType)
         {
@@ -739,16 +752,28 @@ void mu::ui::window::CSkillList::RebuildGridSnapshot()
     if (CharacterAttribute->SkillNumber == 0)
         return;
 
-    for (int i = 0; i < MAX_MAGIC; ++i)
+    std::unordered_set<int> seen;
+    for (int i = 0; i < MAX_SKILLS; ++i)
     {
         int iSkillType = CharacterAttribute->Skill[i];
 
-        if (iSkillType == 0 || (iSkillType >= AT_SKILL_STUN && iSkillType <= AT_SKILL_REMOVAL_BUFF))
+        if (iSkillType >= AT_SKILL_CURSED_TEMPLE_PRODECTION
+            && iSkillType <= AT_SKILL_CURSED_TEMPLE_SUBLIMATION)
             continue;
 
+        if (iSkillType <= 0 || iSkillType >= MAX_SKILLS || (iSkillType >= AT_SKILL_STUN && iSkillType <= AT_SKILL_REMOVAL_BUFF))
+            continue;
+
+        if (iSkillType >= AT_PET_COMMAND_DEFAULT && iSkillType < AT_PET_COMMAND_END) continue;
+        if (!seen.insert(iSkillType).second) continue;
         BYTE bySkillUseType = SkillAttribute[iSkillType].SkillUseType;
         if (bySkillUseType == SKILL_USE_TYPE_MASTER || bySkillUseType == SKILL_USE_TYPE_MASTERLEVEL)
-            continue;
+        {
+            const auto base = gSkillManager.MasterSkillToBaseSkillIndex(static_cast<ActionSkillType>(iSkillType));
+            if (base == iSkillType || base <= 0 || base >= MAX_SKILLS
+                || SkillAttribute[base].SkillUseType == SKILL_USE_TYPE_MASTER
+                || SkillAttribute[base].SkillUseType == SKILL_USE_TYPE_MASTERLEVEL) continue;
+        }
 
         SkillCellEntry entry;
         entry.skillIndex = i;
@@ -773,7 +798,7 @@ void mu::ui::window::CSkillList::RebuildGridSnapshot()
             entry.cooldownFraction = ComputeSkillCooldownFraction(i);
             entry.icon = GetSkillIconDecorator(i);
             entry.hotkey = HotKeyText(GetSkillHotKeyNumber(i));
-            m_PetSnapshot.push_back(entry);
+            m_GridSnapshot.push_back(entry);
         }
     }
 }
@@ -855,6 +880,7 @@ void mu::ui::window::CSkillList::OnHotkeySlotClick(int iSlotIndex)
 
     m_wHeroPriorSkill = CharacterAttribute->Skill[Hero->CurrentSkill];
     Hero->CurrentSkill = m_iHotKeySkillType[iIndex];
+    CloseSkillGrid();
     PlayBuffer(SOUND_CLICK01);
 }
 
@@ -898,7 +924,7 @@ void mu::ui::window::CSkillList::OnGridCellClick(int iSkillIndex)
 {
     m_wHeroPriorSkill = CharacterAttribute->Skill[Hero->CurrentSkill];
     Hero->CurrentSkill = iSkillIndex;
-    m_bSkillList = false;
+    CloseSkillGrid();
     PlayBuffer(SOUND_CLICK01);
 }
 
@@ -912,7 +938,7 @@ void mu::ui::window::CSkillList::OnPetCellClick(int iSkillIndex)
 {
     m_wHeroPriorSkill = CharacterAttribute->Skill[Hero->CurrentSkill];
     Hero->CurrentSkill = iSkillIndex;
-    m_bSkillList = false;
+    CloseSkillGrid();
     PlayBuffer(SOUND_CLICK01);
 }
 

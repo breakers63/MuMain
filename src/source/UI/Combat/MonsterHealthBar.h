@@ -1,6 +1,5 @@
 #pragma once
-
 namespace UI::Combat::HealthBar
 {
-    bool ShouldRenderSelected(float healthStatus);
+ bool ShouldRenderSelected(float healthStatus);
 }

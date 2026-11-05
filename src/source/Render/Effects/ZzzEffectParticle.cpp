@@ -1,4 +1,4 @@
-﻿///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
@@ -2564,9 +2564,9 @@ int CreateParticle(int Type, vec3_t Position, vec3_t Angle, vec3_t Light, int Su
                     o->Scale = 0.1f;//(float)(rand()%5)/6.0f+0.5f;
                     o->StartPosition[0] = o->Scale;
                     o->LifeTime = rand() % 10 + 20;
-                    o->Position[0] += ((float)(rand() % 50 - 25)) * FPS_ANIMATION_FACTOR;
-                    o->Position[1] += ((float)(rand() % 50 - 25)) * FPS_ANIMATION_FACTOR;
-                    o->Position[2] += ((float)(rand() % 50 - 25)) * FPS_ANIMATION_FACTOR;
+                    o->Position[0] += ((float)(rand() % 50 - 25));
+                    o->Position[1] += ((float)(rand() % 50 - 25));
+                    o->Position[2] += ((float)(rand() % 50 - 25));
 
                     o->Gravity = 1.0f;
 

@@ -2,6 +2,26 @@ cmake_minimum_required(VERSION 3.25)
 
 project(MuMain LANGUAGES CXX)
 
+# Ninja must parse the exact UTF-8 /showIncludes prefix emitted by the installed
+# MSVC language pack. CMake can cache a mojibake prefix when the console code page
+# differs; that silently drops header dependencies and permits incompatible objects.
+if(MSVC)
+    get_filename_component(_mu_msvc_dir "${CMAKE_CXX_COMPILER}" DIRECTORY)
+    if(EXISTS "${_mu_msvc_dir}/3082/clui.dll")
+        set(MU_MSVC_LANGUAGE 3082)
+        set(MU_MSVC_INCLUDE_PREFIX "Nota: inclusión del archivo: ")
+    else()
+        set(MU_MSVC_LANGUAGE 1033)
+        set(MU_MSVC_INCLUDE_PREFIX "Note: including file: ")
+    endif()
+    set(CMAKE_CL_SHOWINCLUDES_PREFIX "${MU_MSVC_INCLUDE_PREFIX}")
+    list(PREPEND CMAKE_C_COMPILER_LAUNCHER "${CMAKE_COMMAND}" -E env "VSLANG=${MU_MSVC_LANGUAGE}")
+    list(PREPEND CMAKE_CXX_COMPILER_LAUNCHER "${CMAKE_COMMAND}" -E env "VSLANG=${MU_MSVC_LANGUAGE}")
+endif()
+
+
+
+
 if(MINGW)
     add_compile_options(-Wa,-mbig-obj)
 endif()

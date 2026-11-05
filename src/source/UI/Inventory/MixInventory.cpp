@@ -348,6 +348,33 @@ bool CMixInventory::Render()
     return true;
 }
 
+namespace
+{
+const wchar_t* MixWindowTitle()
+{
+    const wchar_t* titleText = I18N::Game::Chaos;
+    switch (g_MixRecipeMgr.GetMixInventoryType())
+    {
+    case SEASON3A::MIXTYPE_GOBLIN_NORMAL:    titleText = L"Combinación regular"; break;
+    case SEASON3A::MIXTYPE_GOBLIN_CHAOSITEM: titleText = L"Combinación de armas del caos"; break;
+    case SEASON3A::MIXTYPE_GOBLIN_ADD380:    titleText = L"Combinación de opciones de artículos"; break;
+    case SEASON3A::MIXTYPE_CASTLE_SENIOR:    titleText = I18N::Game::Store1640; break;
+    case SEASON3A::MIXTYPE_TRAINER:          titleText = L"Espíritu resucitado"; break;
+    case SEASON3A::MIXTYPE_OSBOURNE:         titleText = I18N::Game::Refine; break;
+    case SEASON3A::MIXTYPE_JERRIDON:         titleText = I18N::Game::Restore; break;
+    case SEASON3A::MIXTYPE_ELPIS:            titleText = I18N::Game::Refine; break;
+    case SEASON3A::MIXTYPE_CHAOS_CARD:       titleText = I18N::Game::ChaosCardCombination; break;
+    case SEASON3A::MIXTYPE_CHERRYBLOSSOM:    titleText = I18N::Game::SpiritOfCherryBlossoms; break;
+    case SEASON3A::MIXTYPE_EXTRACT_SEED:     titleText = I18N::Game::Extraction; break;
+    case SEASON3A::MIXTYPE_SEED_SPHERE:      titleText = I18N::Game::Assembly; break;
+    case SEASON3A::MIXTYPE_ATTACH_SOCKET:    titleText = I18N::Game::Application; break;
+    case SEASON3A::MIXTYPE_DETACH_SOCKET:    titleText = I18N::Game::Destruction; break;
+    default:                                 titleText = I18N::Game::Chaos; break;
+    }
+    return titleText;
+}
+}
+
 void CMixInventory::SyncRmlModel()
 {
     m_ItemTarget.Sync(m_RmlView.Document() ? m_RmlView.Document()->GetElementById("item_view") : nullptr, IsVisible());
@@ -376,27 +403,7 @@ void CMixInventory::SyncRmlModel()
         if (model.*field != value) { model.*field = value; m_RmlView.MarkDirty(boundName); }
     };
 
-    // Former RenderFrame() title switch -- same cases, same strings, now driving this RmlUi title
-    // span instead of a native RenderText() call.
-    const wchar_t* titleText = I18N::Game::Chaos;
-    switch (g_MixRecipeMgr.GetMixInventoryType())
-    {
-    case SEASON3A::MIXTYPE_GOBLIN_NORMAL:    titleText = I18N::Game::RegularCombination; break;
-    case SEASON3A::MIXTYPE_GOBLIN_CHAOSITEM: titleText = I18N::Game::ChaosWeaponCombination; break;
-    case SEASON3A::MIXTYPE_GOBLIN_ADD380:    titleText = I18N::Game::ItemOptionCombination; break;
-    case SEASON3A::MIXTYPE_CASTLE_SENIOR:    titleText = I18N::Game::Store1640; break;
-    case SEASON3A::MIXTYPE_TRAINER:          titleText = I18N::Game::ResurrectSpirit; break;
-    case SEASON3A::MIXTYPE_OSBOURNE:         titleText = I18N::Game::Refine; break;
-    case SEASON3A::MIXTYPE_JERRIDON:         titleText = I18N::Game::Restore; break;
-    case SEASON3A::MIXTYPE_ELPIS:            titleText = I18N::Game::Refine; break;
-    case SEASON3A::MIXTYPE_CHAOS_CARD:       titleText = I18N::Game::ChaosCardCombination; break;
-    case SEASON3A::MIXTYPE_CHERRYBLOSSOM:    titleText = I18N::Game::SpiritOfCherryBlossoms; break;
-    case SEASON3A::MIXTYPE_EXTRACT_SEED:     titleText = I18N::Game::Extraction; break;
-    case SEASON3A::MIXTYPE_SEED_SPHERE:      titleText = I18N::Game::Assembly; break;
-    case SEASON3A::MIXTYPE_ATTACH_SOCKET:    titleText = I18N::Game::Application; break;
-    case SEASON3A::MIXTYPE_DETACH_SOCKET:    titleText = I18N::Game::Destruction; break;
-    default:                                 titleText = I18N::Game::Chaos; break;
-    }
+    const wchar_t* titleText = MixWindowTitle();
     syncWide(&MixInventoryRmlModel::title, "title", titleText);
 
     // Mirrors RenderFrame()'s former end-of-function tooltip switch (m_BtnMix.ChangeToolTipText()

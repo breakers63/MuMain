@@ -1,0 +1,109 @@
+/* Inventory companion: five fixed category slots above a large item preview and picker.
+   The window leaves the right inventory usable; native content follows each img's drawn box. */
+body {width:100%;height:100%;pointer-events:none;font-family:"token(font-body)";font-size:9dp;color:#e8d6a7;}
+.dye-panel {position:absolute;left:calc(50% - 95dp);top:2dp;width:360dp;height:456dp;margin-left:-180dp;margin-top:0;transform:scale(.88);transform-origin:0 0;padding:14dp 12dp 10dp;box-sizing:border-box;background-color:#10110f;pointer-events:auto;}
+.dye-top {height:23dp;position:relative;text-align:center;}
+.dye-top h2 {display:block;width:100%;text-align:center;font-size:13dp;color:#efce79;margin:0;line-height:22dp;}
+.dye-top .dye-close {position:absolute;right:0;top:-3dp;width:21dp;height:22dp;line-height:22dp;}
+.dye-modes {display:flex;justify-content:space-between;height:26dp;margin-bottom:7dp;}
+.dye-modes .btn {width:48%;height:25dp;line-height:25dp;font-size:10dp;}
+.dye-modes .active {border:1dp #f5d77a;background-color:#493812;}
+.dye-pieces {display:flex;justify-content:space-between;height:48dp;}
+.dye-piece {position:relative;width:62dp;height:48dp;box-sizing:border-box;padding:2dp;background-color:#0b0e0c;border:1dp #6d5723;color:#b9ac86;}
+.dye-piece.selected {border-color:#c6a144;}
+.dye-piece.focused {border:2dp #f5cf5d;}
+.dye-piece img {display:block;width:100%;height:33dp;pointer-events:none;}
+.dye-piece span {display:block;width:100%;height:9dp;text-align:center;font-size:7dp;pointer-events:none;}
+.dye-piece b {position:absolute;right:3dp;top:2dp;color:#f8d768;font-size:13dp;pointer-events:none;}
+.dye-count {height:15dp;line-height:15dp;text-align:center;font-size:8dp;}
+.dye-body {display:flex;justify-content:space-between;height:248dp;}
+.dye-section {border:1dp #8f7328;box-sizing:border-box;background-color:#10110e;}
+.dye-section h3 {display:block;height:16dp;line-height:16dp;text-align:center;font-size:9dp;color:#eed18c;margin:0 3dp 4dp;border-bottom:1dp #806829;}
+.dye-left {width:48%;padding:3dp;}
+.dye-preview {display:block;width:100%;height:120dp;}
+.dye-step {display:flex;justify-content:space-between;height:23dp;margin:0 3dp 4dp;}
+.dye-step .btn {width:48%;height:22dp;line-height:22dp;font-size:8dp;}
+.dye-compare {display:flex;justify-content:space-between;height:68dp;}
+.dye-compare div {width:48%;text-align:center;}
+.dye-compare span {display:block;height:11dp;line-height:11dp;font-size:8dp;}
+.dye-compare img {width:100%;height:52dp;border:1dp #725c29;box-sizing:border-box;}
+.dye-right {width:49%;height:248dp;}
+.dye-colors {height:198dp;padding:3dp;}
+.dye-sv {position:relative;width:100%;height:82dp;overflow:hidden;pointer-events:auto;}
+.dye-white,.dye-black {position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;}
+.dye-white {decorator:linear-gradient(to right, #ffffff, #ffffff00);}
+.dye-black {decorator:linear-gradient(to bottom, #00000000, #000000);}
+.dye-cursor {position:absolute;width:5dp;height:5dp;margin-left:-3dp;margin-top:-3dp;border:1dp #ffffff;background-color:#000000;pointer-events:none;}
+.dye-hue {position:relative;width:100%;height:10dp;margin-top:6dp;margin-bottom:6dp;pointer-events:auto;decorator:linear-gradient(to right,#ff0000,#ffff00,#00ff00,#00ffff,#0000ff,#ff00ff,#ff0000);}
+.dye-hue-cursor {position:absolute;top:-2dp;width:3dp;height:12dp;border:1dp #ffffff;background-color:#202020;pointer-events:none;}
+.dye-swatch-grid {display:flex;flex-wrap:wrap;width:100%;height:50dp;}
+.dye-swatch {width:7.142857%;height:4.444dp;box-sizing:border-box;border:1dp #151515;padding:0;pointer-events:auto;}
+.dye-swatch:hover {border-color:#ffffff;}
+.dye-values {display:flex;align-items:center;height:12dp;margin-top:2dp;}
+.dye-values span {font-size:6dp;margin-left:3dp;white-space:nowrap;}
+.dye-current {width:15dp;height:11dp;border:1dp #73612f;}
+.dye-materials {height:45dp;margin-top:4dp;padding:2dp;}
+.dye-materials h3 {height:11dp;line-height:11dp;font-size:8dp;margin-bottom:1dp;}
+.dye-bottles {display:flex;justify-content:space-between;}
+.dye-bottles div {width:31%;text-align:center;}
+.dye-bottles img {display:block;width:100%;height:22dp;}
+.dye-bottles span {font-size:6dp;white-space:nowrap;}
+.dye-name {height:12dp;line-height:12dp;text-align:center;font-size:8dp;overflow:hidden;}
+.dye-cost {height:11dp;line-height:11dp;text-align:center;font-size:8dp;}
+.dye-footer {display:flex;justify-content:space-between;height:26dp;}
+.dye-footer .btn {width:49%;height:25dp;line-height:25dp;font-size:9dp;}
+.dye-status {height:12dp;line-height:12dp;text-align:center;font-size:8dp;color:#d8bd78;}
+.btn {position:relative;pointer-events:auto;text-align:center;}
+@spritesheet dye-frame-sheet {src:"../paris-gold/paris-frame.tga";
+ dye-tl:0px 0px 40px 40px;dye-top:40px 0px 432px 40px;dye-tr:472px 0px 40px 40px;
+ dye-left:0px 40px 40px 944px;dye-stone:40px 40px 432px 944px;dye-right:472px 40px 40px 944px;
+ dye-bl:0px 984px 40px 40px;dye-bottom:40px 984px 432px 40px;dye-br:472px 984px 40px 40px;}
+.dye-panel {decorator:image(dye-stone);}
+.dye-frame {position:absolute;pointer-events:none;z-index:1;}
+.dye-tl {left:0;top:0;width:13dp;height:13dp;decorator:image(dye-tl);}
+.dye-tr {right:0;top:0;width:13dp;height:13dp;decorator:image(dye-tr);}
+.dye-bl {left:0;bottom:0;width:13dp;height:13dp;decorator:image(dye-bl);}
+.dye-br {right:0;bottom:0;width:13dp;height:13dp;decorator:image(dye-br);}
+.dye-t {left:13dp;right:13dp;top:0;height:8dp;decorator:image(dye-top);}
+.dye-b {left:13dp;right:13dp;bottom:0;height:8dp;decorator:image(dye-bottom);}
+.dye-l {left:0;top:13dp;bottom:13dp;width:8dp;decorator:image(dye-left);}
+.dye-r {right:0;top:13dp;bottom:13dp;width:8dp;decorator:image(dye-right);}
+
+@spritesheet dye-button-sheet {src:"../../../Paris_ButtonBase54.tga";dye-button:0px 0px 64px 64px;dye-button-inner:10px 8px 44px 48px;}
+.dye-panel .btn {decorator:ninepatch(dye-button,dye-button-inner);color:#e8cd83;}
+.dye-panel .btn:hover {filter:brightness(1.2);}
+.dye-panel .btn:active {filter:brightness(.8);}
+.dye-panel .btn.disabled {opacity:.45;pointer-events:none;}
+.dye-panel.busy .dye-piece {opacity:.65;}
+
+/* RmlUi has no browser user-agent stylesheet: block and intrinsic image sizing are explicit. */
+.dye-colors, .dye-materials {display:block;width:100%;}
+.dye-hue {display:block;}
+.dye-compare img {display:block;}
+.dye-count, .dye-name, .dye-cost, .dye-status {display:block;width:100%;text-align:center;}
+.dye-bottles span {display:block;}
+
+/* Explicit palette rows avoid percentage rounding wrapping a color into the next row. */
+.dye-swatch-grid {display:block;width:100%;height:50dp;}
+.dye-swatch-row {display:flex;width:100%;height:5.555555dp;}
+.dye-swatch {display:block;flex:1;width:0;min-width:0;height:100%;min-height:0;line-height:0;font-size:0;border:.25dp #101010;padding:0;margin:0;box-sizing:border-box;}
+.dye-values span {font-size:7dp;}
+@spritesheet dye-hint-helm-sheet {src:"../../../newui_item_cap.tga";dye-hint-helm:0px 0px 46px 46px;}
+@spritesheet dye-hint-armor-sheet {src:"../../../newui_item_upper.tga";dye-hint-armor:0px 0px 46px 66px;}
+@spritesheet dye-hint-pants-sheet {src:"../../../newui_item_lower.tga";dye-hint-pants:0px 0px 46px 46px;}
+@spritesheet dye-hint-gloves-sheet {src:"../../../newui_item_gloves.tga";dye-hint-gloves:0px 0px 46px 46px;}
+@spritesheet dye-hint-boots-sheet {src:"../../../newui_item_boots.tga";dye-hint-boots:0px 0px 46px 46px;}
+.dye-hint {position:absolute;left:50%;top:2dp;width:33dp;height:33dp;margin-left:-16.5dp;pointer-events:none;opacity:.65;}
+.dye-hint-helm {decorator:image(dye-hint-helm);}
+.dye-hint-armor {width:23dp;margin-left:-11.5dp;decorator:image(dye-hint-armor);}
+.dye-hint-pants {decorator:image(dye-hint-pants);}
+.dye-hint-gloves {decorator:image(dye-hint-gloves);}
+.dye-hint-boots {decorator:image(dye-hint-boots);}
+
+.dye-compare .dye-compare-box {display:block;width:100%;height:52dp;border:1dp #9c7f36;background-color:#0c100e;box-sizing:border-box;}
+.dye-compare .dye-compare-box img {display:block;width:100%;height:100%;border:0;}
+.dye-values {height:16dp;align-items:center;justify-content:space-between;}
+.dye-values span {display:block;font-size:7dp;margin-left:0;line-height:14dp;white-space:nowrap;}
+.dye-values .dye-hex {width:37dp;}
+.dye-values .dye-channel {width:26dp;}
+.dye-current {width:13dp;height:13dp;}

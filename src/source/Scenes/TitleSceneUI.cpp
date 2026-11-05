@@ -112,21 +112,7 @@ void TitleSceneUI::CreateSceneUI()
         document->Show();
         s_pGaugeFill = rmlui_dynamic_cast<Rml::ElementProgress*>(document->GetElementById("gauge_fill"));
 
-        // Pushed as real px, not dp -- dp only matches this scene's still-native background
-        // sprites' own fScaleX/fScaleY (800x600-reference, independent per axis, unclamped)
-        // scaling at exactly the 640x480 reference size (RmlUi's dp unit is a different,
-        // uniform/clamped formula against a 640x480 reference -- confirmed live: the
-        // gauge only lined up at 640x480 before this, misplaced everywhere else). Recomputing
-        // the identical fScaleX/fScaleY math CGaugeBar::Create()/SetPosition() used keeps this
-        // pixel-exact with the sprites at any resolution, same reasoning login_main.rcss's own
-        // #panel comment gives for pushing its geometry from C++ instead of static dp.
-        if (s_pGaugeFill)
-        {
-            s_pGaugeFill->SetProperty("left", std::to_string(static_cast<int>(72 * fScaleX)) + "px");
-            s_pGaugeFill->SetProperty("top", std::to_string(static_cast<int>(540 * fScaleY)) + "px");
-            s_pGaugeFill->SetProperty("width", std::to_string(static_cast<int>(656 * fScaleX)) + "px");
-            s_pGaugeFill->SetProperty("height", std::to_string(static_cast<int>(15 * fScaleY)) + "px");
-        }
+
     }
 
     for (int i = 0; i < UIM_TS_MAX; ++i)

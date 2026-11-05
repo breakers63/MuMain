@@ -1,0 +1,220 @@
+@spritesheet ranking-background { src: "../../../Paris_RankingReferenceV5.tga"; ranking-background: 0px 0px 1024px 1024px; }
+@spritesheet ranking-guild { src: "../../../Paris_GuildRankingV14.tga"; ranking-guild: 0px 0px 1024px 1024px; }
+@spritesheet ranking-buttons { src: "../../../Paris_RankingColorsV14.tga"; ranking-red: 0px 0px 200px 56px; ranking-gold: 0px 64px 200px 56px; ranking-green: 0px 128px 200px 56px; }
+@spritesheet ranking-coins { src: "../../../../Custom/Interface/BattlePass/zen_coins.tga"; ranking-coins: 0px 0px 140px 140px; }
+#panel.paris-ranking { position:absolute;left:50%;top:0;margin-left:-280dp;width:560dp;height:418.1333dp;pointer-events:auto;color:#f3eddb;font-family:"token(font-body)";font-size:7dp;background-color:#080b0b; }
+.ranking-background {position:absolute;width:100%;height:100%;decorator:image(ranking-background);}
+.guilds .ranking-background {decorator:image(ranking-guild);}
+.ranking-main,.ranking-profile,.ranking-guild,.ranking-missions {position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;}
+.ranking-main *,.ranking-missions * {pointer-events:auto;}
+.ranking-tab,.ranking-prev,.ranking-next,.ranking-member-pager>span {cursor:pointer;text-align:center;color:#e7cb80;}
+.ranking-tab {font-weight:bold;line-height:19.4dp;}
+.tab-reset,.ranking-prev {decorator:image(ranking-red);} .tab-guild {decorator:image(ranking-gold);} .tab-mission,.ranking-next {decorator:image(ranking-green);}
+.ranking-tab.active {border-bottom:1px #eed145;}
+.ranking-close {border:1px #7e672b;background-color:#0c0e0d;text-align:center;line-height:15dp;color:#d9bc68;cursor:pointer;}
+.ranking-search,.mission-search {padding:0;border:0;background-color:transparent;color:white;font-size:7dp;}
+.ranking-placeholder,.mission-search-placeholder {pointer-events:none;}
+.ranking-rows {overflow:hidden;}
+.ranking-row {display:block;position:relative;height:12%;border-bottom:1px #9a792b;cursor:pointer;}
+.ranking-row.selected {background-color:#45320d66;border:1px #b99a45;}
+.ranking-position,.ranking-row-name,.ranking-value {position:absolute;top:0;height:100%;line-height:24dp;}
+.ranking-position {left:3%;width:12%;text-align:center;} .ranking-row-name {left:17%;width:63%;} .ranking-value {right:3%;width:16%;text-align:center;}
+.ranking-prev,.ranking-next,.ranking-page {line-height:19dp;font-size:6dp;text-align:center;}
+.ranking-list-head {color:#ead084;} .ranking-list-head>span:first-child {position:absolute;left:0;} .ranking-list-head>span:last-child {position:absolute;right:0;}
+.ranking-profile-name,.ranking-guild-name,.ranking-member-title {color:#e8cb75;font-size:12dp;font-weight:bold;}
+.ranking-visibility {color:#b5e3c5;border:1px #357b4d;padding:3dp 4dp;font-size:6dp;}
+#ranking-character {pointer-events:none;}
+.ranking-character-label {text-align:center;color:#e7c776;font-size:6dp;}
+.ranking-equipment-card {position:absolute;width:49.5%;height:15.5%;}
+.ranking-item {position:absolute;left:4%;top:17%;width:17%;height:62%;pointer-events:none;}
+.ranking-item-label {position:absolute;left:25%;top:7%;width:72%;font-weight:bold;font-size:6.2dp;}
+.ranking-item-name {position:absolute;left:25%;top:33%;width:72%;height:65%;font-size:6.7dp;overflow:hidden;}
+.ranking-stats>div {display:inline-block;width:24.5%;height:100%;padding-left:4dp;box-sizing:border-box;border-right:1px #b8993b;}
+.ranking-stats strong,.ranking-member-stats,.mission-detail strong {color:#e3c569;}
+.ranking-privacy {border:1px #8d7531;background-color:#111410;line-height:14dp;font-size:6dp;cursor:pointer;}
+.ranking-privacy>span {position:absolute;left:5%;} .ranking-privacy .privacy-state {left:55%;font-size:5.5dp;}
+.ranking-guild-mark {display:flex;flex-wrap:wrap;background-color:black;}
+.ranking-guild-mark span {display:block;width:12.5%;height:12.5%;}
+.ranking-guild-metrics>span {display:inline-block;width:32%;height:100%;line-height:18dp;text-align:center;color:#ebcf7d;}
+.ranking-member {display:block;position:relative;height:16.6667%;cursor:pointer;}
+.ranking-member:hover {background-color:#6b531b55;}
+.ranking-portrait {position:absolute;left:2%;top:6%;width:14%;height:80%;border:1px #ae8a33;background-color:#090b09;}
+.ranking-member-name {position:absolute;left:19%;top:18%;color:#e9cc80;font-weight:bold;}
+.ranking-member-class {position:absolute;left:19%;top:56%;}
+.ranking-members-count {text-align:right;color:#d6c278;}
+.ranking-member-pager>span {display:inline-block;width:32%;height:100%;line-height:20dp;text-align:center;cursor:pointer;}
+.ranking-member-pager>span:first-child {decorator:image(ranking-red);} .ranking-member-pager>span:last-child {decorator:image(ranking-green);}
+.ranking-member-stats span,.ranking-member-attributes span,.ranking-member-details span {position:absolute;right:0;}
+.ranking-member-attributes div {display:block;position:relative;height:10dp;}
+.ranking-member-details div {position:relative;display:block;height:11dp;}
+.ranking-member-online {color:#ebd180;}
+.mission-list-heading {color:#e6c979;font-size:9dp;background-color:#090d0e;}
+.mission-search {border:1px #8c6b21;background-color:#080a09;padding:0 4dp;}
+.mission-list {overflow:hidden auto;background-color:#080d0e;}
+.mission-row {display:block;position:relative;width:96%;height:43dp;margin-bottom:10dp;border:1px #8b6e27;background-color:#0b1012;cursor:pointer;}
+.mission-row.selected {border-color:#e8cc47;background-color:#3a2d0f;}
+.mission-rank {position:absolute;left:3%;top:34%;width:12%;color:#edd084;}
+.mission-monster-small {position:absolute;left:16%;top:6%;width:17%;height:88%;}
+.mission-name {position:absolute;left:34%;top:12%;width:41%;font-weight:bold;height:35%;overflow:hidden;}
+.mission-objective {position:absolute;left:34%;top:60%;width:41%;height:35%;overflow:hidden;font-size:6.5dp;}
+.mission-reward-icon {position:absolute;left:72%;top:15%;width:8%;height:45%;decorator:image(ranking-coins);}
+.mission-reward-count {position:absolute;left:82%;top:20%;} .mission-reward-name {position:absolute;left:77%;top:65%;font-size:6dp;}
+.mission-detail {background-color:#070b0c;border:1px #9b7b31;}
+.mission-title {position:absolute;left:3%;top:3%;font-size:15dp;font-weight:bold;color:#ead184;}
+.mission-monster-large {position:absolute;left:3%;top:13%;width:27%;height:23%;border:1px #a0842d;}
+.mission-objective-box,.mission-reward-box {position:absolute;left:33%;width:64%;height:11%;line-height:17dp;border-bottom:1px #a0842d;font-size:9dp;}
+.mission-objective-box {top:13%;} .mission-reward-box {top:25%;}
+.mission-detail strong {font-size:8dp;}
+.mission-progress-box {position:absolute;left:3%;top:39%;width:94%;height:12%;border:1px #9b7b31;padding:3dp;box-sizing:border-box;}
+.mission-progress-box>span {position:absolute;right:3%;top:3dp;}
+.mission-progress-track {position:absolute;left:2%;top:52%;width:96%;height:30%;border:1px #a0842d;background-color:#020303;}
+.mission-progress-track div {display:block;height:100%;background-color:#08a12b;}
+.mission-ranking-title {position:absolute;left:4%;top:56%;color:#e7ca6d;font-size:9dp;}
+.mission-ranking-head {position:absolute;left:4%;top:63%;width:92%;height:7%;color:#e7ca6d;}
+.mission-ranking-head span,.mission-ranking-row span {display:inline-block;width:30%;text-align:center;}
+.mission-ranking-list {position:absolute;left:4%;top:69%;width:92%;height:29%;overflow:hidden auto;}
+.mission-ranking-row {display:block;height:25dp;line-height:25dp;border-top:1px #93732b;}
+.ranking-close { position:absolute;left:96.000000%;top:1.785714%;width:2.666667%;height:3.750000%; }
+.ranking-tabs { position:absolute;left:31.466667%;top:7.500000%;width:37.466667%;height:4.642857%; }
+.ranking-privacy { position:absolute;left:76.933333%;top:7.857143%;width:17.066667%;height:3.571429%; }
+.ranking-search { position:absolute;left:6.533333%;top:19.821429%;width:22.000000%;height:3.035714%; }
+.ranking-placeholder { position:absolute;left:6.533333%;top:20.000000%;width:22.000000%;height:3.035714%; }
+.ranking-list-head { position:absolute;left:4.533333%;top:25.000000%;width:24.000000%;height:2.857143%; }
+.ranking-rows { position:absolute;left:4.533333%;top:28.928571%;width:23.066667%;height:48.928571%; }
+.ranking-prev { position:absolute;left:4.800000%;top:83.928571%;width:9.600000%;height:4.642857%; }
+.ranking-page { position:absolute;left:14.533333%;top:83.928571%;width:6.000000%;height:4.642857%; }
+.ranking-next { position:absolute;left:21.066667%;top:83.928571%;width:9.600000%;height:4.642857%; }
+.ranking-profile-name { position:absolute;left:38.533333%;top:16.428571%;width:42.933333%;height:3.750000%; }
+.ranking-profile-class { position:absolute;left:38.533333%;top:20.000000%;width:40.000000%;height:2.678571%; }
+.ranking-visibility { position:absolute;left:83.733333%;top:16.964286%;width:12.666667%;height:4.285714%; }
+#ranking-character { position:absolute;left:32.533333%;top:31.964286%;width:22.000000%;height:46.964286%; }
+.ranking-character-label { position:absolute;left:34.533333%;top:77.142857%;width:18.000000%;height:3.035714%; }
+.ranking-equipment { position:absolute;left:56.533333%;top:29.107143%;width:40.000000%;height:50.178571%; }
+.ranking-stats { position:absolute;left:32.666667%;top:83.928571%;width:65.066667%;height:5.000000%; }
+.ranking-guild-mark { position:absolute;left:29.333333%;top:17.857143%;width:5.066667%;height:6.607143%; }
+.ranking-guild-name { position:absolute;left:36.533333%;top:17.857143%;width:28.000000%;height:4.107143%; }
+.ranking-guild-master { position:absolute;left:36.533333%;top:21.607143%;width:28.000000%;height:3.035714%; }
+.ranking-guild-metrics { position:absolute;left:68.933333%;top:18.214286%;width:27.066667%;height:8.035714%; }
+.ranking-members { position:absolute;left:28.000000%;top:33.928571%;width:28.000000%;height:43.928571%; }
+.ranking-members-count { position:absolute;left:44.933333%;top:30.000000%;width:10.133333%;height:2.678571%; }
+.ranking-member-pager { position:absolute;left:28.000000%;top:81.428571%;width:28.000000%;height:5.000000%; }
+.ranking-member-card { position:absolute;left:58.000000%;top:30.000000%;width:38.000000%;height:56.071429%; }
+.mission-list-heading { position:absolute;left:3.066667%;top:16.071429%;width:34.000000%;height:4.107143%; }
+.mission-search { position:absolute;left:4.000000%;top:21.964286%;width:30.000000%;height:3.928571%; }
+.mission-search-placeholder { position:absolute;left:5.066667%;top:22.500000%;width:26.933333%;height:3.035714%; }
+.mission-list { position:absolute;left:3.066667%;top:28.928571%;width:34.000000%;height:64.107143%; }
+.mission-detail { position:absolute;left:39.066667%;top:16.071429%;width:58.000000%;height:78.035714%; }
+.tab-reset {position:absolute;left:0%;top:0%;width:32%;height:100%;}
+.tab-guild {position:absolute;left:34%;top:0%;width:32%;height:100%;}
+.tab-mission {position:absolute;left:68%;top:0%;width:32%;height:100%;}
+.ranking-member-title {position:absolute;left:43%;top:8%;width:52%;height:9%;}
+.ranking-member-subtitle {position:absolute;left:43%;top:14%;width:52%;height:8%;}
+.ranking-member-rank {position:absolute;left:87%;top:0%;width:12%;height:8%;}
+.ranking-member-level {position:absolute;left:43%;top:22%;width:28%;height:12%;}
+.ranking-member-resets {position:absolute;left:76%;top:22%;width:28%;height:12%;}
+.ranking-member-stats {position:absolute;left:43%;top:36%;width:52%;height:8%;}
+.ranking-member-attributes {position:absolute;left:43%;top:42%;width:52%;height:20%;}
+.ranking-member-online {position:absolute;left:43%;top:62%;width:52%;height:8%;}
+.ranking-member-details {position:absolute;left:5%;top:79%;width:90%;height:20%;}
+.card-0 { left:0.0%;top:0.0%; }
+.card-1 { left:50.5%;top:0.0%; }
+.card-2 { left:0.0%;top:16.75%; }
+.card-3 { left:50.5%;top:16.75%; }
+.card-4 { left:0.0%;top:33.5%; }
+.card-5 { left:50.5%;top:33.5%; }
+.card-6 { left:0.0%;top:50.25%; }
+.card-7 { left:50.5%;top:50.25%; }
+.card-8 { left:0.0%;top:67.0%; }
+.card-9 { left:50.5%;top:67.0%; }
+.card-10 { left:0.0%;top:83.75%; }
+.card-11 { left:50.5%;top:83.75%; }
+.guilds .ranking-search,.guilds .ranking-placeholder {left:7%;width:17.5%;} .guilds .ranking-list-head {left:5%;width:19%;} .guilds .ranking-rows {left:4.6%;width:20%;} .guilds .ranking-prev {left:5%;} .guilds .ranking-next {left:16.5%;} .guilds .ranking-page {left:13.4%;width:3%;}
+
+@spritesheet ranking-portraits { src: ../paris-gold/Paris_MentorPortraitsV34.tga;
+portrait-0: 0px 0px 256px 256px;
+portrait-1: 256px 0px 256px 256px;
+portrait-2: 512px 0px 256px 256px;
+portrait-3: 0px 256px 256px 256px;
+portrait-4: 256px 256px 256px 256px;
+portrait-5: 512px 256px 256px 256px;
+}
+
+@spritesheet ranking-extra-portraits { src: ../paris-gold/Paris_ClassPortraitsV13.jpg; class-3: 1.5px 259.5px 250px 250px; class-4: 259.5px 259.5px 250px 250px; class-5: 517.5px 259.5px 250px 250px; }
+.ranking-portrait.class-0 { decorator:image(portrait-0); }
+.ranking-portrait.class-1 { decorator:image(portrait-1); }
+.ranking-portrait.class-2 { decorator:image(portrait-2); }
+.ranking-portrait.class-3 { decorator:image(portrait-3); }
+.ranking-portrait.class-4 { decorator:image(portrait-4); }
+.ranking-portrait.class-5 { decorator:image(portrait-5); }
+
+.ranking-selected-portrait {left:5%;top:9%;width:31%;height:57%;decorator:image(portrait-0);}
+
+.ranking-mission-back {position:absolute;left:1.5%;top:14%;width:97%;height:82%;background-color:#080b0b;}
+.mission-row {height:36dp;margin-bottom:8dp;}
+.ranking-visibility {box-sizing:border-box;line-height:16dp;text-align:center;height:4%;padding:0;}
+@spritesheet ranking-class-art {src: "../paris-gold/Paris_ClassPortraitsV13.jpg";
+ rank-class-0: 259.5px 1.5px 250px 250px;
+ rank-class-1: 1.5px 1.5px 250px 250px;
+ rank-class-2: 517.5px 1.5px 250px 250px;
+ rank-class-3: 1.5px 259.5px 250px 250px;
+ rank-class-4: 259.5px 259.5px 250px 250px;
+ rank-class-5: 517.5px 259.5px 250px 250px;
+}
+.ranking-portrait.class-0 {decorator:image(rank-class-0);}
+.ranking-portrait.class-1 {decorator:image(rank-class-1);}
+.ranking-portrait.class-2 {decorator:image(rank-class-2);}
+.ranking-portrait.class-3 {decorator:image(rank-class-3);}
+.ranking-portrait.class-4 {decorator:image(rank-class-4);}
+.ranking-portrait.class-5 {decorator:image(rank-class-5);}
+@spritesheet ranking-scroll {src: "../paris-gold/bank-scroll.tga"; rank-scroll-track:0px 0px 42px 230px; rank-scroll-thumb:48px 0px 67px 120px; rank-scroll-up:48px 128px 46px 48px; rank-scroll-down:48px 180px 46px 49px;}
+.mission-list scrollbarvertical {width:12dp;margin:0;}
+.mission-list scrollbarvertical slidertrack {margin-left:4dp;margin-right:4dp;decorator:image(rank-scroll-track);}
+.mission-list scrollbarvertical sliderbar {width:12dp;height:20dp;decorator:image(rank-scroll-thumb);}
+.mission-list scrollbarvertical sliderarrowdec,.mission-list scrollbarvertical sliderarrowinc {width:10dp;height:10dp;cursor:pointer;}
+.mission-list scrollbarvertical sliderarrowdec {decorator:image(rank-scroll-up);}
+.mission-list scrollbarvertical sliderarrowinc {decorator:image(rank-scroll-down);}
+.mission-list scrollbarhorizontal {height:0;}
+
+/* Full-panel composition layers must never intercept tabs or the player list. */
+.ranking-main .ranking-profile, .ranking-main .ranking-guild, .ranking-mission-back, .ranking-background { pointer-events: none; }
+.ranking-main .ranking-equipment-card, .ranking-main .ranking-member, .ranking-main .ranking-member-pager > span { pointer-events: auto; }
+
+/* Keep labels inside the artwork's cells, with explicit line boxes. */
+.ranking-item-label { top: 8%; height: 23%; line-height: 8dp; }
+.ranking-item-name { top: 36%; height: 57%; line-height: 8dp; font-size: 6.4dp; }
+.ranking-profile-name, .ranking-guild-name { line-height: 16dp; }
+.ranking-profile-class, .ranking-guild-master { line-height: 10dp; }
+.ranking-character-label { line-height: 12dp; }
+.ranking-stats > div { font-size: 6.5dp; line-height: 8dp; padding-top: 2dp; }
+.guilds .ranking-prev { left: 4.8%; width: 8.5%; }
+.guilds .ranking-page { left: 13.5%; width: 3%; font-size: 5.7dp; }
+.guilds .ranking-next { left: 16.8%; width: 8.5%; }
+.ranking-guild-metrics > span { line-height: 17dp; font-size: 6.5dp; }
+.ranking-member-name { top: 14%; line-height: 10dp; }
+.ranking-member-class { top: 53%; line-height: 9dp; font-size: 6.5dp; }
+.ranking-member-card .ranking-selected-portrait { left: 5%; top: 10%; width: 31%; height: 43%; }
+.ranking-member-title { top: 10%; line-height: 14dp; }
+.ranking-member-subtitle { top: 16.5%; line-height: 9dp; font-size: 6.7dp; }
+.ranking-member-level, .ranking-member-resets { top: 23.5%; height: 10%; line-height: 10dp; font-size: 6.5dp; }
+.ranking-member-resets { width: 23%; }
+.ranking-member-stats { top: 37%; height: 6%; line-height: 10dp; font-size: 6.7dp; }
+.ranking-member-attributes { top: 44%; height: 19%; font-size: 6.7dp; }
+.ranking-member-attributes div { height: 10dp; line-height: 10dp; }
+.ranking-member-online { top: 62%; height: 6%; line-height: 11dp; text-align: center; font-size: 6.5dp; }
+.ranking-member-details { top: 79%; font-size: 6.7dp; }
+.ranking-member-details div { line-height: 11dp; }
+.mission-name { left: 34%; top: 8%; width: 64%; height: 29%; line-height: 9dp; font-size: 6.4dp; }
+.mission-objective { left: 34%; top: 39%; width: 64%; height: 28%; line-height: 9dp; font-size: 6dp; }
+.mission-reward-icon { left: 60%; top: 71%; width: 6%; height: 24%; }
+.mission-reward-count { left: 68%; top: 72%; width: 9%; height: 25%; line-height: 8dp; font-size: 6dp; }
+.mission-reward-name { left: 78%; top: 72%; width: 21%; height: 25%; line-height: 8dp; font-size: 5.5dp; }
+.mission-title { font-size: 14dp; line-height: 20dp; }
+.mission-objective-box, .mission-reward-box { font-size: 8.5dp; line-height: 15dp; }
+
+.ranking-member-level, .ranking-member-resets { top: 22%; line-height: 8dp; }
+.ranking-member-stats { top: 34.5%; line-height: 9dp; }
+.ranking-member-attributes { top: 40%; }
+.ranking-member-attributes div { height: 9dp; line-height: 9dp; }
+.ranking-member-online { top: 56.7%; height: 6%; line-height: 12dp; }
+
+.ranking-member-stats { top: 31.8%; height: 7%; line-height: 10dp; }

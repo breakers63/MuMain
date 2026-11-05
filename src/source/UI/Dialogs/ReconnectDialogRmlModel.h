@@ -17,6 +17,7 @@ struct ReconnectDialogRmlModel
     Rml::String titleText;
     Rml::String stepText;
     Rml::String countdownText;
+    Rml::String cancelText;
     float progressWidth = 0.f; // the gauge's fill, 0 .. 150 reference px
 };
 } // namespace UI::Reconnect

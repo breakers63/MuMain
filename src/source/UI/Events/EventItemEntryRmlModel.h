@@ -33,11 +33,24 @@ struct EventItemEntryButtonEntry
     bool operator==(const EventItemEntryButtonEntry&) const = default;
 };
 
+struct EventItemEntryServiceItem
+{
+    Rml::String quantity;
+    Rml::String hint;
+    bool missing = false;
+    bool operator==(const EventItemEntryServiceItem&) const = default;
+};
+
 struct EventItemEntryRmlModel
 {
     // The window's own text field, for a document that has one (gold_bowman.rml today).
     // Two-way through data-value, so the typed text lives here rather than in the element.
     Rml::String inputValue;
+    bool service = false;
+    bool buffService = false;
+    Rml::String reqHeading, buffHeading, durationHeading, powerHeading, buffHint;
+    std::vector<EventItemEntryServiceItem> requirements;
+    std::vector<EventItemEntryServiceItem> rewards;
 
     float textPx = 0.f;     // native normal text size in physical px (RmlNativeTextSize.h)
     float boldTextPx = 0.f; // native bold text size, for a bold button label

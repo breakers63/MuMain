@@ -145,3 +145,18 @@
 	background-color: rgba(30, 30, 30, 180);
 	color: rgb(255, 128, 255);
 }
+
+#post-hover-card {
+	position: fixed;
+	display: flex;
+	align-items: center;
+	width: 230dp;
+	min-height: 82dp;
+	padding: 6dp;
+	background-color: rgba(8, 8, 8, 245);
+	border: 1dp solid rgb(218, 174, 74);
+	z-index: 1000;
+	pointer-events: none;
+}
+#post-preview { width: 70dp; height: 70dp; flex: none; }
+#post-details { margin-left: 8dp; color: rgb(255, 205, 80); white-space: normal; }

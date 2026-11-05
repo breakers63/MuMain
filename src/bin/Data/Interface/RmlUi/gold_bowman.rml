@@ -1,5 +1,4 @@
 <rml>
-<!-- rml-contract-optional-id: entry_item: this score window shows text/buttons and does not install an item preview drawer -->
 <head>
 	<title>Golden Archer's lucky number registration (CGoldBowmanWindow)</title>
 	<link type="text/rcss" href="base.rcss"/>
@@ -42,6 +41,34 @@
 			</div>
 		</div>
 
+        <div class="npc-buff-reference"></div>
+        <div class="buff-presentation" data-if="buff_service">
+            <div class="buff-heading buff-req-heading"><span class="sharp-text sharp-centre" data-style-font-size="text_px + 'px'">{{req_heading}}</span></div>
+            <div class="buff-heading buff-available-heading"><span class="sharp-text sharp-centre" data-style-font-size="text_px + 'px'">{{buff_heading}}</span></div>
+            <div class="buff-heading buff-duration-heading"><span class="sharp-text sharp-centre" data-style-font-size="text_px + 'px'">{{duration_heading}}</span></div>
+            <div class="buff-heading buff-power-heading"><span class="sharp-text sharp-centre" data-style-font-size="text_px + 'px'">{{power_heading}}</span></div>
+            <div class="buff-effect-hint" data-attr-data-hint="buff_hint"></div>
+        </div>
+        <div class="npc-reference-frame" data-if="service"></div>
+        <div class="npc-service-grid" data-if="service">
+            <div class="reference-cost"><span class="sharp-text sharp-centre" data-style-font-size="text_px * 0.85 + 'px'">{{texts[1].text}}</span></div>
+            <div class="reference-level"><span class="sharp-text sharp-centre" data-style-font-size="text_px * 0.85 + 'px'">{{texts[2].text}}</span></div>
+            <span class="reference-status pending" data-if="buttons[0].locked">Requisitos pendientes</span>
+            <span class="reference-status ready" data-if="!buttons[0].locked">Listo para cambiar</span>
+            <div class="service-section service-requirements">OBJETOS REQUERIDOS</div>
+            <div class="service-items service-costs">
+                <div class="service-slot" data-for="item : requirements" data-class-missing="item.missing" data-hint="" data-attr-data-hint="item.hint">
+                    <div class="entry-item-box"></div><span class="service-quantity">{{item.quantity}}</span>
+                </div>
+            </div>
+            <div class="service-section service-rewards">TU RECOMPENSA</div>
+            <div class="service-items service-prizes">
+                <div class="service-slot" data-for="item : rewards" data-attr-data-hint="item.hint">
+                    <div class="entry-item-box"></div><span class="service-quantity">{{item.quantity}}</span>
+                </div>
+            </div>
+            <img id="entry_item" class="service-item-render"/>
+        </div>
 		<input id="serial_field" data-value="input_value" type="text" class="text-field sharp-text" maxlength="12"
 		       data-style-font-size="text_px + 'px'"/>
 		<div id="frame_corner_close" data-event-click="window_close"></div>

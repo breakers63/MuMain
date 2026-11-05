@@ -1,6 +1,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
+#include "Render/Items/ItemHighlights.h"
+#include "Render/Models/ItemDyeAppearance.h"
+#include "Render/Terrain/GrassBurn.h"
 #include "Camera/CameraMove.h"
 #include "Render/Textures/ZzzOpenglUtil.h"
 #include "Render/Models/ZzzBMD.h"
@@ -9,6 +12,7 @@
 #include "UI/MapEditor/ObjectThumbnail.h"
 #endif
 #include "Engine/Object/ZzzInfomation.h"
+#include "Network/Server/SocketSystem.h"
 #include "Engine/Object/ZzzObject.h"
 #include "Core/Utilities/FrameProfiler.h"
 #include <optional>
@@ -2669,6 +2673,14 @@ void RenderObject(OBJECT* o, bool Translate, int Select, int ExtraMon)
 {
     // Split only for map objects; characters' parts come through here too.
     const bool mapObject = FrameProfiler::CurrentPass() == FrameProfiler::Pass::Objects;
+    constexpr int LorenciaGrassModelCount=8;
+    constexpr float BurnedGrassThreshold=.8f;
+    if (mapObject && gMapManager.WorldActive==WD_0LORENCIA &&
+        o->Type>=MODEL_GRASS01 && o->Type<MODEL_GRASS01+LorenciaGrassModelCount &&
+        Render::Terrain::GrassBurn::Amount(static_cast<int>(o->Position[0]/TERRAIN_SCALE),
+                                         static_cast<int>(o->Position[1]/TERRAIN_SCALE))>BurnedGrassThreshold)
+        return;
+
     {
         std::optional<FrameProfiler::Scope> animate;
         if (mapObject)
@@ -5421,21 +5433,51 @@ void ItemAngle(OBJECT* o)
     }
 }
 
+// Ground tooltips need the same derived stats and blue option list as inventory items.
+static void InitializeGroundItemOptions(ITEM* item, const ItemCreationParams& params)
+{
+    *item = {};
+    item->Type = params.Group * MAX_ITEM_INDEX + params.Number;
+    item->Level = params.Level;
+    item->HasSkill = params.WithSkill;
+    item->HasLuck = params.WithLuck;
+    item->OptionLevel = params.OptionLevel;
+    item->OptionType = params.OptionType;
+    item->Durability = params.Durability;
+    item->ExcellentFlags = params.ExcellentFlags;
+    item->AncientDiscriminator = params.AncientDiscriminator;
+    item->AncientBonusOption = params.AncientBonusOption;
+    item->option_380 = params.HasGuardianOption;
+    item->Jewel_Of_Harmony_Option = params.HarmonyOptionType;
+    item->Jewel_Of_Harmony_OptionLevel = params.HarmonyOptionLevel;
+    item->bPeriodItem = params.WithExpiration;
+    item->bExpiredPeriod = params.IsExpired;
+    item->SocketCount = params.SocketCount;
+    item->SocketSeedSetOption = params.SocketBonusOption;
+    for (int i = 0; i < MAX_SOCKETS; ++i)
+    {
+        item->bySocketOption[i] = params.SocketOptions[i];
+        item->SocketSeedID[i] = params.SocketOptions[i] == SOCKET_EMPTY
+            ? SOCKET_EMPTY : params.SocketOptions[i] % SEASON4A::MAX_SOCKET_OPTION;
+        item->SocketSphereLv[i] = params.SocketOptions[i] == SOCKET_EMPTY
+            ? 0 : (params.SocketOptions[i] / SEASON4A::MAX_SOCKET_OPTION) + 1;
+    }
+
+    SetItemAttributes(item);
+}
+
 void CreateItemDrop(ITEM_t* ip, ItemCreationParams params, vec3_t position, bool isFreshDrop)
 {
-    int Type = params.Group * MAX_ITEM_INDEX + params.Number;
+    if (params.Group < 0 || params.Group >= MAX_ITEM_TYPE || params.Number < 0
+        || params.Number >= MAX_ITEM_INDEX || params.SocketCount > MAX_SOCKETS)
+    {
+        ip->Object.Live = false;
+        return;
+    }
+
+    InitializeGroundItemOptions(&ip->Item, params);
     ITEM* n = &ip->Item;
-    n->Type = Type;
-    n->Level = params.Level;
-    n->HasSkill = params.WithSkill;
-    n->HasLuck = params.WithLuck;
-    n->OptionLevel = params.OptionLevel;
-    n->OptionType = params.OptionType;
-    n->Durability = params.Durability;
-    n->ExcellentFlags = params.ExcellentFlags;
-    n->AncientDiscriminator = params.AncientDiscriminator;
-    n->AncientBonusOption = params.AncientBonusOption;
-    n->option_380 = params.HasGuardianOption;
+    int Type = n->Type;
 
     if (isFreshDrop)
     {
@@ -6816,6 +6858,15 @@ void RenderPartObjectEffect(OBJECT* o, int Type, vec3_t Light, float Alpha, int 
         Level = std::min<int>(Level, g_pOption->GetRenderLevel() * 2 + 5);
     }
 
+    // A saved cosmetic replaces the level/excellent color passes, which otherwise paint
+    // their own gold/chrome colors over the chosen tint. Geometry and item stats stay intact.
+    if (Render::ItemDye::Resolve(o, Type) >= 0)
+    {
+        VectorCopy(Light, b->BodyLight);
+        RenderPartObjectBody(b, o, Type, Alpha, RenderType);
+        return;
+    }
+
     if (ApplyPartObjectEffect(b, o, Type, Alpha, Level, ItemLevel) == Render::Items::ItemEffects::Result::Drawn)
     {
         return;
@@ -7149,6 +7200,8 @@ void RenderPartObject(OBJECT* o, int Type, void* p2, vec3_t Light, float Alpha, 
         return;
     }
 
+    vec3_t dyeLight;
+    if (Render::ItemDye::Light(o, Type, Light, dyeLight)) Light = dyeLight;
     auto* p = (PART_t*)p2;
 
     Type = Render::Items::Display::GetDrawnModel(Type, ItemLevel);
@@ -7206,6 +7259,9 @@ void RenderPartObject(OBJECT* o, int Type, void* p2, vec3_t Light, float Alpha, 
         RenderPartObjectEdge(b, o, RENDER_BRIGHT, Translate, Scale - 0.02f);
     }
     BodyLight(o, b);
+    vec3_t dyedBodyLight;
+    if (Render::ItemDye::Light(o, Type, b->BodyLight, dyedBodyLight))
+        VectorCopy(dyedBodyLight, b->BodyLight);
 
     if (GlobalTransform)
     {
@@ -7298,6 +7354,7 @@ void RenderPartObject(OBJECT* o, int Type, void* p2, vec3_t Light, float Alpha, 
 
     if (!g_CMonkSystem.RageFighterEffect(o, Type))
         RenderPartObjectEffect(o, Type, Light, Alpha, ItemLevel, ExcellentFlags, ancientDiscriminator, Select, RenderType);
+    Render::Items::Highlights::Render(o, Type, ItemLevel, Alpha, RenderType);
 }
 
 float AmbientShadowAngle = 180.f;

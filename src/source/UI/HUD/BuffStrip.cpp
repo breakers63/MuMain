@@ -1,5 +1,6 @@
 
 #include "stdafx.h"
+#include "UI/NPCs/BuffDetails.h"
 #include "UI/HUD/BuffStrip.h"
 #include "I18N/All.h"
 
@@ -168,12 +169,22 @@ namespace
     std::vector<UI::RmlBridge::Tooltip::Line> BuildTooltip(eBuffState buff)
     {
         using UI::RmlBridge::Tooltip::LineColor;
+        if(buff==eBuffNone) {
+            const auto& vip=UI::BuffDetails::entries[0];
+            std::vector<UI::RmlBridge::Tooltip::Line> result;
+            UI::RmlBridge::Tooltip::Line title;title.text=StringUtils::WideToNarrow(vip.text.c_str());title.color=LineColor::Blue;title.bold=true;result.push_back(title);
+            UI::RmlBridge::Tooltip::Line time;const auto remaining=UI::BuffDetails::Time(0);time.text=StringUtils::WideToNarrow((remaining.empty()?std::wstring(L"VIP permanente"):L"Tiempo restante: "+remaining).c_str());time.color=LineColor::Purple;result.push_back(time);return result;
+        }
+
         std::vector<UI::RmlBridge::Tooltip::Line> lines;
         std::list<std::wstring> tooltipinfo;
         g_BuffToolTipString(tooltipinfo, buff);
         bool first = true;
-        for (const std::wstring& text : tooltipinfo)
+        for (const std::wstring& source : tooltipinfo)
         {
+            std::wstring text = source;
+            for (auto at = text.find(L"%%"); at != std::wstring::npos; at = text.find(L"%%", at + 1)) text.replace(at, 2, L"%");
+            if (text.empty() || text == L"\n") continue;
             UI::RmlBridge::Tooltip::Line line;
             line.text = StringUtils::WideToNarrow(text.c_str());
             if (first)
@@ -326,6 +337,9 @@ void CBuffStrip::SyncRmlModel()
         model.buffs.push_back(entry);
     }
 
+    if(!UI::BuffDetails::entries[0].text.empty() && UI::BuffDetails::Remaining(0)!=0) {
+        m_ShownBuffs.push_back(eBuffNone);BuffEntry vip;vip.decorator="image(atlas1-28)";model.buffs.push_back(vip);
+    }
     m_RmlView.MarkDirty("buffs");
     SyncTooltip();
 }

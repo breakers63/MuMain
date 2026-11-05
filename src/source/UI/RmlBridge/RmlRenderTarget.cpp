@@ -128,7 +128,7 @@ void RenderTarget::Draw()
         return;
     const bool promoting = m_pending.id != 0;
     const Texture target = promoting ? m_pending : m_current;
-    if (target.id == 0)
+    if (target.id == 0 || (!m_continuous && !m_dirty && !promoting))
         return;
 
     auto& renderer = mu::GetRenderer();
@@ -140,6 +140,7 @@ void RenderTarget::Draw()
         m_drawer(target.width, target.height);
     }
     renderer.EndOffscreenCapture();
+    m_dirty = false;
 
     if (!promoting)
         return;

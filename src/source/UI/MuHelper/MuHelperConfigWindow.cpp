@@ -430,7 +430,7 @@ void CMuHelperConfigWindow::Reset()
 
     c.iMaxSecondsAway = 10;
     c.bLongRangeCounterAttack = false;
-    c.bReturnToOriginalPosition = true;
+    c.bReturnToOriginalPosition = false;
 
     c.aiSkill.fill(0);
     c.bUseCombo = false;

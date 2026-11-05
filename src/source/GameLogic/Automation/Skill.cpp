@@ -118,6 +118,13 @@ static SkillResult AimAtTarget(int targetKey, bool allowPlayers, int huntingDist
     const int previousSelection = SelectedCharacter;
     SelectedCharacter = targetIndex;
 
+    if (target == Hero)
+    {
+        // A buff on the caster has neither a walking path nor an intervening wall.
+        g_MovementSkill.m_iTarget = targetIndex;
+        return SkillResult::NotReady;
+    }
+
     // Range first, then a path only when one is needed — the order the
     // engine's own attack loop uses (ZzzInterface.cpp:1282, 1349). The other
     // way round refuses a target that is standing in range but that no walk

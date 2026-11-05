@@ -1,0 +1,46 @@
+<rml>
+<head>
+    <title>Paris Battle Pass</title>
+    <link type="text/rcss" href="base.rcss" />
+    <link type="text/rcss" href="paris_battle_pass.rcss" />
+</head>
+<body data-model="paris_battle_pass">
+    <!-- bound-geometry: progress is the live server points gauge; visible_fraction sizes the scroll thumb for the server level count. -->
+    <div id="panel" class="paris-battle-pass" data-class-pending="pending" data-event-mousescroll="paris_bp_scroll">
+        <div class="bp-level">Level: {{level}} / {{max_level}}</div>
+        <div class="bp-progress"><div class="bp-progress-interior"><div class="bp-progress-fill" data-style-width="progress + '%'"></div></div></div>
+        <div class="bp-points">{{points}} / {{required_points}} Points</div>
+        <div class="bp-free-label"></div><div class="bp-premium-label"></div>
+        <div class="bp-reward" data-for="reward : rewards" data-class-column-0="reward.column == 0" data-class-column-1="reward.column == 1" data-class-column-2="reward.column == 2" data-class-column-3="reward.column == 3" data-class-column-4="reward.column == 4" data-class-column-5="reward.column == 5"
+             data-class-premium="reward.premium" data-attr-data-hint="reward.label"
+             data-event-click="paris_bp_claim(reward.level, reward.premium)">
+            <div class="bp-caption" data-if="!reward.premium">Level {{reward.level}}</div>
+            <div class="bp-checked" data-if="reward.claimed"></div>
+            <div class="bp-locked" data-if="!reward.claimed &amp;&amp; reward.locked"></div>
+            <div class="bp-coin" data-class-zen="reward.zen" data-class-coins="reward.coins" data-class-ruud="reward.ruud"></div>
+            <img class="bp-item-icon" />
+            <div class="bp-amount">{{reward.amount}}</div>
+        </div>
+        <div class="bp-status" data-if="!active">{{status}}</div>
+        <input class="bp-scroll" data-style---thumb-width="(visible_fraction * 100) + '%'" type="range" min="0" step="1" data-attr-max="max_page" data-value="page" />
+        <div class="bp-button bp-activate" data-event-click="paris_bp_premium">Activar Premium</div>
+        <div class="bp-message">{{message}}</div>
+        <div class="bp-button bp-close" data-event-click="paris_bp_close">Close</div>
+        <div class="bp-overlay" data-if="premium_dialog">
+            <div class="bp-dialog">
+                <div class="bp-dialog-stone"></div>
+                <div class="bp-dialog-title">Premium Buy</div>
+                <div class="bp-requirements-title">Requirements</div>
+                <div class="bp-requirements-box"></div>
+                <img id="premium-item" />
+                <div class="bp-requirement">{{requirement}}</div>
+                <div class="bp-dialog-separator"></div>
+                <div class="bp-premium-status">{{premium_status}}</div>
+                <div class="bp-expires-label">Expires:</div><div class="bp-expires">{{expires}}</div>
+                <div class="bp-dialog-button bp-ok" data-event-click="paris_bp_activate">OK</div>
+                <div class="bp-dialog-button bp-cancel" data-event-click="paris_bp_cancel">CANCEL</div>
+            </div>
+        </div>
+    </div>
+</body>
+</rml>

@@ -2,6 +2,11 @@ cmake_minimum_required(VERSION 3.25)
 
 project(MuMain)
 
+# C may be enabled here after the root CXX project; retain the deterministic Ninja prefix.
+if(MSVC)
+  set(CMAKE_CL_SHOWINCLUDES_PREFIX "${MU_MSVC_INCLUDE_PREFIX}")
+endif()
+
 # Repository root (parent of this src/ directory). Defined here so all
 # sibling-directory references (cmake/, ClientLibrary/, etc.) have a
 # single, stable anchor instead of scattered "../" navigations.

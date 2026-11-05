@@ -7,6 +7,7 @@
 #include "I18N/All.h"
 
 #include "Network/Server/ServerListManager.h"
+#include "Network/Server/ServerListScript.h"
 #include "Core/Globals/_enum.h"
 
 #include "Render/RmlUi/RmlUiRuntime.h"
@@ -249,7 +250,10 @@ bool CServerSelWin::ConnectToServer(CServerInfo* pServerInfo)
     g_pSystemLogBox->AddText(I18N::Game::ConnectingToTheServer, mu::ui::window::TYPE_SYSTEM_MESSAGE);
     g_pSystemLogBox->AddText(I18N::Game::PleaseWait, mu::ui::window::TYPE_SYSTEM_MESSAGE);
 
-    g_ServerListManager->SetSelectServerInfo(m_pSelectServerGroup->m_szName, pServerInfo->m_iIndex, pServerInfo->m_byNonPvP);
+    g_ServerListManager->SetSelectServerInfo(
+            pServerInfo->m_iConnectIndex == Network::ServerListScript::CrossplayServerId
+                ? Network::ServerListScript::CrossplayName : m_pSelectServerGroup->m_szName,
+            pServerInfo->m_iIndex, pServerInfo->m_byNonPvP);
 
     return true;
 }

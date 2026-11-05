@@ -30,6 +30,10 @@ struct EventEntryRmlModel
     float textPx = 0.f;
     float boldTextPx = 0.f;
 
+    bool clanRace=false, profileGenerals=false, profileRace=false, profileGuild=false, rewardPaging=false;
+    Rml::String clanCount, playerCount, requirement, stageLeft, stageMiddle, stageRight, rewardPage;
+    bool rich=false, profileTvt=false, profileSky=false, entryEnabled=false;
+    Rml::String eventStatus,participantCount,eventClock,minimumText,missingText,entryLimits,entryTicket,development,reward0,reward1,reward2,actionText;
     Rml::String titleText;
     Rml::String exitTooltip;
     std::vector<EventEntryLineEntry> lines;

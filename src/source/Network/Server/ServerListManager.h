@@ -39,7 +39,7 @@ public:
 
     int GetServerGroupSize();
 
-    void SetSelectServerInfo(wchar_t* pszName, int iIndex, BYTE byNonPvP);
+    void SetSelectServerInfo(const wchar_t* pszName, int iIndex, BYTE byNonPvP);
     wchar_t* GetSelectServerName();
     int GetSelectServerIndex();
     BYTE GetNonPVPInfo();

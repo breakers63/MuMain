@@ -10,6 +10,7 @@
 #include "UI/RmlBridge/RmlThemedView.h"
 
 #include <string>
+#include "Data/GameData/MiniMapMarkerRecord.h"
 
 namespace Rml
 {
@@ -48,16 +49,18 @@ public:
 
 
 private:
+    void LoadServerMarkers(const wchar_t* worldFolder);
     void BuildRmlUi();
     void SyncRmlModel();
     void SyncScreen();
     void SyncMap();
+    void SyncMapMarkers(const UI::MiniMap::Screen& screen, float heroX, float heroY, float length);
     void SyncHint();
     void SyncClips();
 
     CManager* m_pNewUIMng;
-    MINI_MAP m_Mini_Map_Data[MAX_MINI_MAP_DATA];
-    float m_Btn_Loc[MAX_MINI_MAP_DATA][4];
+    MINI_MAP m_Mini_Map_Data[Data::MiniMap::MarkerCapacity];
+    float m_Btn_Loc[Data::MiniMap::MarkerCapacity][4];
 
     // The world folder (e.g. L"World1") whose mini_map texture the document shows.
     std::wstring m_WorldName;

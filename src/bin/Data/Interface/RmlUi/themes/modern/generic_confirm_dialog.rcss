@@ -419,3 +419,14 @@
 #panel.tall .btn.gcd-btn-primary, #panel.tall .btn.gcd-btn-secondary, #panel.tall .btn.gcd-btn-cancel {
 	top: 210dp;
 }
+
+
+/* Paris sale dialog, shared across themes. */
+#panel.sale { width: 270dp; margin-left: -135dp; min-height: 152dp; height: auto; background-color: #101010; border: 1dp solid #b78d32; }
+#panel.sale .gcd-sprite-back, #panel.sale .gcd-sprite-top, #panel.sale .gcd-sprite-middle, #panel.sale .gcd-sprite-bottom, #panel.sale .gcd-header-rail { display: none; }
+#panel.sale .gcd-body { margin: 36dp 16dp 54dp 16dp; flex-direction: row; align-items: center; }
+#panel.sale .gcd-item3d { width: 48dp; height: 48dp; margin-right: 12dp; margin-bottom: 0dp; }
+#panel.sale #gcd_item3d { left: 0dp; top: 0dp; width: 48dp; height: 48dp; }
+#panel.sale .gcd-text-col { width: 160dp; flex: 1 1 auto; }
+#panel.sale .gcd-line { line-height: 1.4; color: #ffcf65; }
+#panel.sale .btn { decorator: none; background-color: #242017; border: 1dp solid #b78d32; color: #ffdc80; }

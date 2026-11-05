@@ -5,6 +5,7 @@
 #include "UI/RmlBridge/RmlThemedView.h"
 
 #include <cstdint>
+#include <array>
 #include <memory>
 #include <string>
 #include <vector>
@@ -35,6 +36,7 @@ public:
         std::wstring text;
         float width = 0.f;
         bool bold = false;
+        float fontScale = 1.f;
     };
 
     // Where a button sits and which sprite it wears are the same file's; `width` and `height` are
@@ -63,7 +65,9 @@ public:
     // Runs after every build of the main document, including a theme switch's.
     void SetAfterBuild(std::function<void()> afterBuild) { m_View.SetAfterBuild(std::move(afterBuild)); }
 
+    void SetBuffPresentation(bool enabled, const std::array<std::wstring,5>& values);
     void SetTexts(std::vector<Text> texts);
+    void SetServiceItems(bool enabled, std::vector<EventItemEntryServiceItem> requirements, std::vector<EventItemEntryServiceItem> rewards);
     void SetButtons(const std::vector<Button>& buttons);
 
     // Per frame, inside the window's CManager transform scope.

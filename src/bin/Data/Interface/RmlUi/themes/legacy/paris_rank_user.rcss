@@ -1,0 +1,21 @@
+#panel.paris-rank-user { top: 50%; left: 50%; margin-left: -190dp; margin-top: -215dp; width: 380dp; height: 430dp; color: token(text-primary); font-family: "token(font-body)"; }
+#panel.paris-rank-user #title { top: 25dp; width: 100%; text-align: center; color: token(text-heading); font-size: 1rem; font-weight: bold; }
+#panel.paris-rank-user #frame_corner_close { top: 5.128%; right: 4.737%; width: 8.421%; height: 4.196%; pointer-events: auto; z-index: 10; }
+.rank-identity { position: absolute; top: 68dp; left: 24dp; right: 24dp; height: 70dp; text-align: center; }
+.rank-name { color: token(text-heading); font-size: 1rem; font-weight: bold; }
+.rank-class { margin-top: 5dp; font-size: .78rem; }
+.rank-title { margin-top: 4dp; color: token(text-heading); font-size: .75rem; }
+.rank-status { position: absolute; left: 16dp; right: 16dp; top: 145dp; height: 23dp; text-align: center; color: token(text-muted); font-size: .7rem; }
+.rank-summary { position: absolute; top: 173dp; left: 16dp; right: 16dp; height: 54dp; display: flex; gap: 5dp; }
+.rank-summary div { width: 33%; text-align: center; border: 1dp token(border-gold); background-color: rgba(8,7,6,.9); padding-top: 5dp; }
+.rank-summary span, .rank-summary strong { display: block; }
+.rank-summary span { color: token(text-muted); font-size: .68rem; }
+.rank-summary strong { color: token(text-heading); margin-top: 4dp; font-size: .8rem; }
+.rank-account { position: absolute; top: 236dp; left: 26dp; right: 26dp; height: 25dp; padding-top: 4dp; border-bottom: 1dp rgba(171,137,57,.6); color: token(text-muted); text-align: center; font-size: .78rem; }
+.rank-account strong { color: token(text-heading); }
+.rank-attributes { position: absolute; top: 272dp; left: 28dp; right: 28dp; }
+.rank-attributes div { display: flex; justify-content: space-between; height: 22dp; border-bottom: 1dp rgba(171,137,57,.24); font-size: .76rem; }
+.rank-attributes span { color: token(text-muted); }
+.rank-attributes strong { color: token(text-heading); }
+.rank-refresh { position: absolute; left: 143dp; bottom: 12dp; width: 94dp; height: 24dp; border: 1dp token(border-gold); background-color: rgba(20,17,12,.94); color: token(text-heading); text-align: center; line-height: 22dp; cursor: pointer; }
+.rank-refresh:hover { filter: brightness(1.25); }

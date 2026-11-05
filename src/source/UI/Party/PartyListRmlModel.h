@@ -11,12 +11,15 @@ namespace mu::ui::window
 struct PartyListCardEntry
 {
     Rml::String name;
+    std::vector<Rml::String> buffs;
     float nameTextPx = 0.f; // the native size, shrunk to the name box like the original's
     bool leader = false;    // first card: flag, orange name
     bool absent = false;    // not on this map (Party[].index == -1): red tint, dimmed name
     bool defenseBuff = false;
     bool selected = false; // the card under the pointer, the skill target
     bool showLeave = false;
+    bool canFollow = false, following = false;
+    Rml::String followHint;
     float healthLength = 0.f; // reference px of the health bar's texture shown
     int index = 0;            // position in Party[]
 };

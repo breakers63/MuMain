@@ -1,0 +1,5 @@
+/* Fallback frame for themes without Paris artwork; the Paris Gold theme replaces this with its frame texture. */
+#panel { background-color: rgba(5, 5, 5, 0.96); }
+.bg-fill, .bg-top, .bg-left, .bg-right, .bg-bottom { visibility: hidden; }
+#title { color: token(text-heading); }
+#frame_corner_close { position: absolute; right: 9px; top: 22px; width: 16px; height: 18px; cursor: pointer; pointer-events: auto; }

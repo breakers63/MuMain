@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "Render/Models/PreviewAnimationStep.h"
 #include "UI/Social/PhotoViewer.h"
 
 #include "UI/Social/SocialWindowManager.h"
@@ -780,5 +781,6 @@ void CUIPhotoViewer::RenderInto(std::uint32_t width, std::uint32_t height)
     {
         DeleteParts(&m_PhotoChar);
     }
+    const Render::Animation::PreviewAnimationStep animationStep(m_previewTick);
     RenderPhotoCharacter(static_cast<float>(width) / static_cast<float>(height));
 }

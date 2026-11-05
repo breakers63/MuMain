@@ -1,5 +1,6 @@
 ﻿
 #include "stdafx.h"
+#include "Network/Paris/EventEntry.h"
 #include "I18N/All.h"
 
 #include "UI/Events/EnterDevilSquare.h"
@@ -105,7 +106,14 @@ bool CEnterDevilSquare::Update()
         g_pNewUISystem->Hide(mu::ui::window::INTERFACE_DEVILSQUARE);
         return true;
     }
-    if (pressed >= 0 && pressed == m_iNumActiveBtn)
+    if (Network::Paris::Entry::Active && Network::Paris::Entry::Available(pressed))
+    {
+        auto command=L"/evento "+Network::Paris::Entry::Rows[pressed].Key;
+        g_pNewUISystem->Hide(mu::ui::window::INTERFACE_DEVILSQUARE);
+        SocketClient->ToGameServer()->SendPublicChatMessage(reinterpret_cast<const char16_t*>(Hero->ID),reinterpret_cast<const char16_t*>(command.c_str()));
+        return true;
+    }
+    if (!Network::Paris::Entry::Active && pressed >= 0 && pressed == m_iNumActiveBtn)
     {
         SocketClient->ToGameServer()->SendDevilSquareEnterRequest(m_iNumActiveBtn, 0xFF);
         g_pNewUISystem->Hide(mu::ui::window::INTERFACE_DEVILSQUARE);
@@ -165,6 +173,13 @@ void CEnterDevilSquare::OpenningProcess()
 {
     SocketClient->ToGameServer()->SendCloseNpcRequest();
 
+    if(Network::Paris::Entry::Active)
+    {
+        std::vector<EventEntryView::Button> buttons(MAX_ENTER_GRADE);
+        for(int i=0;i<MAX_ENTER_GRADE;i++){buttons[i].label=Network::Paris::Entry::Rows[i].Label;buttons[i].enabled=Network::Paris::Entry::Available(i);}
+        m_View.SetContent(Network::Paris::Entry::Title.c_str(),{L"Elige una modalidad disponible.",L"Solo puedes inscribirte si esta ABIERTA.",L"Las cerradas no se pueden seleccionar.",L"Combates generales y por clase.",L"Elige la modalidad de tu personaje.",L"Gana puntos derrotando a tus rivales."},buttons);
+        return;
+    }
     int iLimitLVIndex = 0;
     if (gCharacterManager.GetBaseClass(Hero->Class) == CLASS_DARK || gCharacterManager.GetBaseClass(Hero->Class) == CLASS_DARK_LORD
         || gCharacterManager.GetBaseClass(Hero->Class) == CLASS_RAGEFIGHTER)
@@ -179,12 +194,12 @@ void CEnterDevilSquare::OpenningProcess()
     wchar_t sztext[255] = { 0, };
     for (int i = 0; i < MAX_ENTER_GRADE - 1; i++)
     {
-        mu_swprintf(sztext, I18N::Game::TheDSquareDDLevel, i + 1,
+        mu_swprintf(sztext, L"El cuadrado %d (nivel %d-%d)", i + 1,
                     m_iDevilSquareLimitLevel[(iLimitLVIndex * MAX_ENTER_GRADE) + i][0],
                     m_iDevilSquareLimitLevel[(iLimitLVIndex * MAX_ENTER_GRADE) + i][1]);
         buttons[i].label = sztext;
     }
-    mu_swprintf(sztext, I18N::Game::SquareNoDMasterLevel, 7);
+    mu_swprintf(sztext, L"Cuadrado no. %d (Nivel Maestro)", 7);
     buttons[MAX_ENTER_GRADE - 1].label = sztext;
     buttons[m_iNumActiveBtn].enabled = true;
 
@@ -193,21 +208,21 @@ void CEnterDevilSquare::OpenningProcess()
 
 void CEnterDevilSquare::ClosingProcess()
 {
+    if(Network::Paris::Entry::Active)SocketClient->ToGameServer()->SendPublicChatMessage(reinterpret_cast<const char16_t*>(Hero->ID),u"/evento close-menu");
+    Network::Paris::Entry::Active=false;
     SocketClient->ToGameServer()->SendCloseNpcRequest();
 }
 
 
 void CEnterDevilSquare::SetViewContent(const std::vector<EventEntryView::Button>& buttons)
 {
-    // Keep all six translated fragments in their original order.
     const std::vector<std::wstring> lines = {
-        I18N::Game::YouVeBeenGivenAChanceToProveYourBravery,
-        I18N::Game::NoOneHasEverEnteredTheDevilSquareYet,
-        I18N::Game::NoHumanHasEverGoneThere,
-        I18N::Game::DoNotBelieveAnythingYouSeeInThere,
-        I18N::Game::OnlyTrustYourBraveryAndStrength,
-        I18N::Game::OnlyYourBraveryAndStrengthWillKeepYouAlive,
+        L"Se te ha dado la oportunidad de demostrar tu valentía.",
+        L"Nadie ha entrado todavía en la Plaza del Diablo.",
+        L"Ningún humano ha ido jamás allí.",
+        L"No creas nada de lo que veas allí.",
+        L"Sólo confía en tu valentía y fuerza.",
+        L"Sólo tu valentía y fuerza te mantendrán con vida.",
     };
-
-    m_View.SetContent(I18N::Game::DevilSquare, lines, buttons);
+    m_View.SetContent(L"Plaza del Diablo", lines, buttons);
 }

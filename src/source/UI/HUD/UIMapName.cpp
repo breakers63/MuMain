@@ -152,8 +152,15 @@ void CUIMapName::ShowMapName()
 
     if (m_nOldWorld != gMapManager.WorldActive)
     {
+        const auto image = m_mapImgPath.find(gMapManager.WorldActive);
+        if (image == m_mapImgPath.end() || image->second.empty())
+        {
+            m_nOldWorld = gMapManager.WorldActive;
+            m_eState = HIDE;
+            return;
+        }
         wchar_t szImgPath[128];
-        ::wcscpy(szImgPath, m_mapImgPath[gMapManager.WorldActive].data());
+        ::wcscpy(szImgPath, image->second.c_str());
 
         DeleteBitmap(BITMAP_INTERFACE_EX + 45);
         LoadBitmap(szImgPath, BITMAP_INTERFACE_EX + 45);

@@ -1,5 +1,6 @@
 
 #include "stdafx.h"
+#include "World/MapInfra/MapManager.h"
 #include "Core/Input/KeyState.h"
 #include "Core/Input/SyntheticInput.h"
 
@@ -32,6 +33,7 @@ bool mu::ui::window::CreateOkMessageBox(const std::wstring& strMsg, DWORD dwColo
     (void)fPriority;
     GenericDialogConfig cfg;
     cfg.lines = { { strMsg, dwColor != 0xffffffff } };
+    if (gMapManager.InBloodCastle()) { cfg.title=L"BLOOD CASTLE"; cfg.primaryLabel=L"Aceptar"; }
     g_pGenericConfirmDialog->Show(std::move(cfg));
     return true;
 }

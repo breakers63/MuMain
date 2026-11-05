@@ -126,3 +126,24 @@
 	background-color: token(surface-control);
 	color: token(text-primary);
 }
+
+/* Paris /post uses the OpenGL party palette, independently of the sender's GM status. */
+.chat-line--post { background-color: rgba(0, 200, 255, 150); color: rgb(0, 0, 0); font-weight: normal; }
+#panel.framed .chat-line--post { background-color: rgba(0, 200, 255, 150); }
+.chat-line--post.chat-line--pointed { background-color: rgba(30, 30, 30, 180); color: rgb(255, 128, 255); }
+
+#post-hover-card {
+	position: fixed;
+	display: flex;
+	align-items: center;
+	width: 230dp;
+	min-height: 82dp;
+	padding: 6dp;
+	background-color: rgba(8, 8, 8, 245);
+	border: 1dp solid token(accent-gold);
+	border-radius: token(radius-sm)px;
+	z-index: 1000;
+	pointer-events: none;
+}
+#post-preview { width: 70dp; height: 70dp; flex: none; }
+#post-details { margin-left: 8dp; color: token(accent-gold); white-space: normal; }

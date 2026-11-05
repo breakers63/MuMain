@@ -1,0 +1,70 @@
+/* OpenGL bank: eight stone rows; the hovered row exposes x1/x10/ALL columns,
+   with deposit above withdrawal. The panel and its neighbours share the UI scale. */
+@spritesheet jewel-bank-close-sheet { src: "../paris-gold/stats-close.tga"; jewel-bank-close: 0px 0px 74px 64px; }
+@spritesheet jewel-bank-stone-sheet { src: "../paris-gold/paris-frame.tga"; jewel-bank-stone: 50px 180px 390px 500px; }
+@spritesheet jewel-bank-scroll-sheet {
+    src: "../paris-gold/bank-scroll.tga";
+    bank-scroll-track: 0px 0px 42px 230px;
+    bank-scroll-thumb: 48px 0px 67px 120px;
+    bank-scroll-up: 48px 128px 46px 48px;
+    bank-scroll-down: 48px 180px 46px 49px;
+}
+#panel.paris-jewel-bank { top: -10dp; right: 182dp; width: 190dp; height: 429dp; color: token(text-primary); font-family: "token(font-body)"; }
+#panel.paris-jewel-bank #title { position: absolute; top: 38dp; left: 0; width: 100%; height: 14dp; line-height: 14dp; text-align: center; color: token(text-primary); font-size: .95rem; font-weight: normal; }
+#panel.paris-jewel-bank #frame_corner_close { top: 5.128%; right: 4.737%; width: 8.421%; height: 4.196%; pointer-events: auto; z-index: 10; }
+.bank-search { position: absolute; top: 52dp; left: 12dp; width: 164dp; height: 21dp; box-sizing: border-box; border: 1dp #7a633d; background-color: #090909; }
+.bank-search input { position: absolute; left: 3dp; top: 0; width: 156dp; height: 19dp; line-height: 19dp; padding: 0; background: transparent; border: 0; color: #ebe0c8; font-size: 1.05rem; text-align: center; }
+.bank-search-placeholder { position: absolute; left: 0; right: 0; top: 0; height: 19dp; line-height: 19dp; text-align: center; color: #bebebe; font-size: 1.05rem; pointer-events: none; }
+.bank-list { position: absolute; left: 10dp; right: -1dp; top: 80dp; height: 288dp; overflow: hidden auto; pointer-events: auto; font-size: .84rem; }
+.bank-row { display: block; position: relative; height: 36dp; decorator: image(jewel-bank-stone); background-color: #080808; }
+.bank-row-shade { position: absolute; top: 0; bottom: 0; left: 0; right: 0; background-color: rgba(82,82,82,8); pointer-events: none; }
+.bank-row.alternate .bank-row-shade { background-color: rgba(82,82,82,61); }
+.bank-item-icon { position: absolute; left: 1dp; top: 4dp; width: 23dp; height: 26dp; }
+.bank-name { position: absolute; left: 25dp; right: 0; top: 3dp; height: 11dp; line-height: 11dp; overflow: hidden; white-space: nowrap; color: #ebc355; font-size: .9rem; font-weight: normal; pointer-events: none; }
+.bank-row:hover .bank-name { right: 54dp; }
+.bank-inventory-label, .bank-balance-label, .bank-inventory-count, .bank-balance-count { position: absolute; height: 10dp; line-height: 10dp; text-align: center; color: #ebe0c8; font-size: .84rem; pointer-events: none; }
+.bank-inventory-label, .bank-balance-label { top: 15dp; }
+.bank-inventory-count, .bank-balance-count { top: 26dp; }
+.bank-inventory-label, .bank-inventory-count { left: 20dp; width: 52dp; }
+.bank-balance-label, .bank-balance-count { left: 72dp; width: 36dp; }
+.bank-row-actions { position: absolute; left: 109dp; top: 0; width: 53dp; height: 36dp; visibility: hidden; }
+.bank-row:hover .bank-row-actions { visibility: visible; }
+.bank-quantity { position: absolute; top: 0; width: 17dp; height: 36dp; }
+.bank-quantity-one { left: 0; }
+.bank-quantity-ten { left: 18dp; }
+.bank-quantity-all { left: 36dp; }
+.bank-quantity-label { display: block; position: absolute; top: 0; left: 0; width: 17dp; height: 10dp; line-height: 10dp; text-align: center; color: #ebe0c8; font-size: .84rem; pointer-events: none; }
+.bank-small-button { display: block; position: absolute; left: 0; width: 17dp; height: 12dp; box-sizing: border-box; border: 1dp #211c14; background-color: #211f14; cursor: pointer; }
+.bank-small-button span { display: block; position: absolute; top: 0; bottom: 0; left: 0; right: 0; border: 1dp #7a633d; text-align: center; line-height: 8dp; color: #f0daa3; font-size: .9rem; pointer-events: none; }
+.bank-deposit { top: 11dp; }
+.bank-withdraw { top: 24dp; }
+.bank-small-button:hover { background-color: #3d2e14; }
+.paris-jewel-bank.pending .bank-small-button span { color: #787364; }
+.bank-list scrollbarvertical { width: 18dp; margin: 0; }
+.bank-list scrollbarvertical slidertrack { margin-left: 6dp; margin-right: 6dp; decorator: image(bank-scroll-track); }
+.bank-list scrollbarvertical sliderbar { width: 17dp; height: 26dp; margin-left: .5dp; decorator: image(bank-scroll-thumb); }
+.bank-list scrollbarvertical sliderarrowdec, .bank-list scrollbarvertical sliderarrowinc { width: 12dp; height: 12dp; margin-left: 3dp; cursor: pointer; }
+.bank-list scrollbarvertical sliderarrowdec { decorator: image(bank-scroll-up); }
+.bank-list scrollbarvertical sliderarrowinc { decorator: image(bank-scroll-down); }
+.bank-list scrollbarhorizontal { height: 0; }
+.bank-empty { padding: 14dp 6dp; color: token(text-muted); text-align: center; }
+.bank-status { position: absolute; left: 8dp; right: 8dp; bottom: 39dp; height: 14dp; line-height: 14dp; color: token(text-muted); text-align: center; font-size: 1rem; cursor: pointer; }
+.bank-status.pending { color: token(text-heading); }
+.bank-close-button { position: absolute; left: 13dp; bottom: 8dp; width: 36dp; height: 29dp; decorator: image(jewel-bank-close); cursor: pointer; }
+.bank-auto-pick { position: absolute; left: 55dp; bottom: 12dp; height: 18dp; display: flex; align-items: center; gap: 6dp; color: #ebe0c8; font-size: .84rem; cursor: pointer; }
+.bank-auto-checkbox { position: relative; width: 13dp; height: 13dp; box-sizing: border-box; border: 1dp #6e644a; background-color: #f2f2e6; }
+.bank-auto-checkbox span { position: absolute; left: 0; top: -2dp; width: 11dp; height: 11dp; text-align: center; color: #124017; font-size: .84rem; }
+
+/* Keep labels in the same dp coordinate system as their row and action hit areas. */
+#panel.paris-jewel-bank #title,.bank-name,.bank-inventory-label,.bank-balance-label,.bank-inventory-count,.bank-balance-count,.bank-quantity-label,.bank-auto-label {display:block;}
+.bank-auto-label {position:absolute;left:15dp;top:0;height:13dp;line-height:13dp;color:#eee1c4;}
+
+/* Close controls must override the document's pointer-events:none inheritance. */
+#panel.paris-jewel-bank .bank-close-button {display:block;pointer-events:auto;z-index:30;}
+#panel.paris-jewel-bank #frame_corner_close {pointer-events:auto;z-index:30;}
+.bank-auto-pick,.bank-auto-checkbox {pointer-events:auto;}
+.bank-auto-label,.bank-auto-checkbox span {pointer-events:none;}
+
+#panel.paris-jewel-bank {pointer-events:auto;}
+.bank-auto-pick {width:100dp;}
+.bank-auto-label {width:80dp;white-space:nowrap;height:18dp;line-height:18dp;}

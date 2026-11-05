@@ -113,6 +113,7 @@ private:
     // Input state (middle-mouse drag tracking)
     struct InputState
     {
+        unsigned LastKeyboardTick = 0;
         bool Rotating = false;             // Middle mouse button held?
         int LastMouseX = 0;
         int LastMouseY = 0;
@@ -121,6 +122,7 @@ private:
 
     // Helper methods
     void HandleInput();
+    void HandleKeyboardInput();
     void UpdateTarget();
     void ComputeCameraTransform();
     void UpdateFrustum();  // Phase 1: Rebuild frustum from current state

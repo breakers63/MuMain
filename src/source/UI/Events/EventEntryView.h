@@ -51,6 +51,8 @@ public:
 private:
     void BindModel(Rml::DataModelConstructor& c, EventEntryRmlModel& model);
     void SyncTextSizes();
+    void SyncProfile();
+    void SyncClanProfile();
 
     UI::RmlBridge::ThemedView<EventEntryRmlModel> m_View;
     int m_PressedButton = -1;

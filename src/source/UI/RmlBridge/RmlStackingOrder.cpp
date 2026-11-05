@@ -39,12 +39,14 @@ constexpr DocumentPlacement Placements[] = {
     {"match_status.rml", BeforeWindowsDepth, MainScene},
     {"buff_strip.rml", 0.95f, MainScene},
     {"world_labels.rml", 1.0f, MainScene},
+    {"target_health.rml", 1.0f, MainScene},
     // The status texts over the world above the HUD, drawn with the name labels.
     {"hud_status.rml", 1.0f, MainScene},
     // The modern theme's top-right button row: under every window, which dock over it.
     {"main_frame_top.rml", 1.05f, MainScene},
     // The duel and soccer boards drew under every panel.
     {"duel_window.rml", 1.1f, MainScene},
+    {"active_invasion.rml", 1.1f, MainScene},
     {"blood_castle_time.rml", 1.2f, MainScene},
     {"doppelganger_frame.rml", 1.2f, MainScene},
     {"empire_guardian_enter.rml", 1.2f, MainScene},
@@ -85,6 +87,22 @@ constexpr DocumentPlacement Placements[] = {
     {"guild_info.rml", 4.5f, MainScene},
     {"npc_shop.rml", 4.55f, MainScene},
     {"inventory_extension.rml", 4.55f, MainScene},
+    // Paris custom dialogs live over the game windows, under tooltips and message boxes.
+    {"paris_jewel_bank.rml", 5.0f, MainScene},
+    {"paris_market.rml", 5.0f, MainScene},
+    {"paris_soul.rml", 5.0f, MainScene},
+    {"paris_item_dye.rml", 5.0f, MainScene},
+    {"paris_store_price.rml", 5.4f, MainScene},
+    {"paris_mentor.rml", 5.0f, MainScene},
+    {"paris_auction.rml", 5.0f, MainScene},
+    {"paris_battle_pass.rml", 5.0f, MainScene},
+    {"paris_events.rml", 5.0f, MainScene},
+    {"paris_gm_events.rml", 5.0f, MainScene},
+    {"paris_rank_user.rml", 5.0f, MainScene},
+    {"paris_ranking.rml", 5.0f, MainScene},
+    {"paris_reset.rml", 5.0f, MainScene},
+    {"paris_vip.rml", 5.0f, MainScene},
+    {"paris_activity_log.rml", 5.0f, MainScene},
     {"castle_window.rml", 5.0f, MainScene},
     {"guard_window.rml", 5.0f, MainScene},
     {"gateman.rml", 5.0f, MainScene},
@@ -96,6 +114,7 @@ constexpr DocumentPlacement Placements[] = {
     {"duel_watch_frame.rml", 5.0f, MainScene},
     {"duel_watch_spectators.rml", 5.0f, MainScene},
     {"character_info.rml", 5.1f, MainScene},
+    {"paris_advanced_stats.rml", 5.2f, MainScene},
     {"mu_helper_skill_picker.rml", 5.2f, MainScene},
     {"party_list.rml", 5.4f, MainScene},
     {"friend_shell.rml", 6.0f, MainScene},
@@ -134,6 +153,7 @@ constexpr DocumentPlacement Placements[] = {
     // The original drew each tooltip at its owner's depth (item tooltips at 5.5), where the
     // chat log, the friends window, the full map and the HUD hid its rows: an original
     // defect. Every tooltip draws above the windows instead, still under the message boxes.
+    {"gesture_wheel.rml", 10.68f, MainScene},
     {"tooltip.rml", TooltipDepth, MainScene},
     {"message_box_view.rml", MessageBoxDepth, MainScene},
     // New-only dialogs that replace message boxes.

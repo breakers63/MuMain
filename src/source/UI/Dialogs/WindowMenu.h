@@ -27,6 +27,7 @@ public:
         MENU_MOVE,
         MENU_MINIMAP,
         MENU_GENS,
+        MENU_PARIS_CUSTOM,
         MENU_MAX_INDEX,
     };
 

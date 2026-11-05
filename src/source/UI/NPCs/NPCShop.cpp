@@ -389,6 +389,11 @@ bool mu::ui::window::CNPCShop::InventoryProcess()
             mu::ui::window::GenericDialogConfig cfg;
             cfg.showCancel = true;
             cfg.item3D = *pItem;
+            cfg.title = L"Confirmar venta";
+            cfg.primaryLabel = L"Vender";
+            cfg.cancelLabel = L"Cancelar";
+            cfg.severity = mu::ui::window::GenericDialogConfig::Severity::Warning;
+            cfg.tallPanel = true;
             cfg.lines = {
                 { I18N::Game::AnExpensiveItem, true },
                 { I18N::Game::CheckTheItemPlease, true },

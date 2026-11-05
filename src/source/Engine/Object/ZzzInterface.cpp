@@ -2,6 +2,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
+#include "GameLogic/Items/ParisScreenMessages.h"
+#include "GameLogic/Social/PartyFollow.h"
 #include "Guild/GuildTypes.h"
 #include "Core/Input/KeyState.h"
 #include "Core/Platform/Imm.h"
@@ -540,7 +542,7 @@ bool CheckAttack_Fenrir(CHARACTER* c)
     }
     else if (::IsStrifeMap(gMapManager.WorldActive) && c != Hero && c->m_byGensInfluence != Hero->m_byGensInfluence)
     {
-        if (((wcscmp(GuildMark[Hero->GuildMarkIndex].GuildName, GuildMark[c->GuildMarkIndex].GuildName) == 0) || (g_pPartyManager->IsPartyMember(SelectedCharacter))) && (Core::Input::IsKeyDown(VK_CONTROL)))
+        if (((wcscmp(GuildMark[Hero->GuildMarkIndex].GuildName, GuildMark[c->GuildMarkIndex].GuildName) == 0) || (g_pPartyManager->IsPartyMember(SelectedCharacter))) && ((Core::Input::IsKeyDown(VK_CONTROL) || Core::Input::IsPvpLocked())))
         {
             return true;
         }
@@ -667,7 +669,7 @@ bool CheckAttack_Fenrir(CHARACTER* c)
                 return false;
             }
         }
-        else if (c->PK >= PVP_MURDERER2 || (Core::Input::IsKeyDown(VK_CONTROL) && c != Hero))
+        else if (c->PK >= PVP_MURDERER2 || ((Core::Input::IsKeyDown(VK_CONTROL) || Core::Input::IsPvpLocked()) && c != Hero))
         {
             return true;
         }
@@ -727,7 +729,7 @@ bool CheckAttack()
             return false;
         }
 
-        if (Core::Input::IsKeyDown(VK_CONTROL))
+        if ((Core::Input::IsKeyDown(VK_CONTROL) || Core::Input::IsPvpLocked()))
         {
             if (EnableGuildWar)
             {
@@ -906,7 +908,7 @@ bool CheckAttack()
                 return false;
             }
         }
-        else if (c->PK >= PVP_MURDERER2 || (Core::Input::IsKeyDown(VK_CONTROL) && c != Hero))
+        else if (c->PK >= PVP_MURDERER2 || ((Core::Input::IsKeyDown(VK_CONTROL) || Core::Input::IsPvpLocked()) && c != Hero))
         {
             return true;
         }
@@ -991,7 +993,7 @@ int	getTargetCharacterKey(CHARACTER* c, int selected)
         if ((wcscmp(GuildMark[Hero->GuildMarkIndex].GuildName, GuildMark[c->GuildMarkIndex].GuildName) == 0) ||
             g_pPartyManager->IsPartyMember(SelectedCharacter))
         {
-            if (Core::Input::IsKeyDown(VK_CONTROL))
+            if ((Core::Input::IsKeyDown(VK_CONTROL) || Core::Input::IsPvpLocked()))
             {
                 return sc->Key;
             }
@@ -1000,7 +1002,7 @@ int	getTargetCharacterKey(CHARACTER* c, int selected)
         }
     }
 
-    if ((sc->PK >= PVP_MURDERER2 && sc->Object.Kind == KIND_PLAYER) || (Core::Input::IsKeyDown(VK_CONTROL) && sc != Hero))
+    if ((sc->PK >= PVP_MURDERER2 && sc->Object.Kind == KIND_PLAYER) || ((Core::Input::IsKeyDown(VK_CONTROL) || Core::Input::IsPvpLocked()) && sc != Hero))
     {
         return sc->Key;
     }
@@ -1094,6 +1096,18 @@ void SetCharacterPos(CHARACTER* c, BYTE posX, BYTE posY, vec3_t position)
     SendCharacterMove(c->Key, c->Object.Angle[2], 1, PathX, PathY, PathX[0], PathY[0]);
 }
 
+namespace
+{
+    // Sent on the same ordered connection before every attack, including after reconnect.
+    void SendParisPvpIntent()
+    {
+        if (!SocketClient || !SocketClient->IsConnected()) return;
+        const bool enabled = Core::Input::IsPvpLocked() || Core::Input::IsKeyDown(VK_CONTROL);
+        BYTE request[] = {0xC1, 6, 0xFA, 0xCA, 1, static_cast<BYTE>(enabled)};
+        SocketClient->Send(request, sizeof(request));
+    }
+}
+
 void SendRequestMagic(int Type, int Key)
 {
     if (!IsCanBCSkill(Type))
@@ -1102,6 +1116,9 @@ void SendRequestMagic(int Type, int Key)
     if (Type == 40 || Type == 263 || Type == 261 || abs((int)(GetTickCount() - g_dwLatestMagicTick)) > 300)
     {
         g_dwLatestMagicTick = GetTickCount();
+        if(Type==AT_SKILL_SOUL_BARRIER||Type==AT_SKILL_SOUL_BARRIER_STR||Type==AT_SKILL_SOUL_BARRIER_PROFICIENCY)
+            mu::log::Get("combat")->info("SoulBarrier send: skill={} target={} hero={}",Type,Key,HeroKey);
+        SendParisPvpIntent();
         SocketClient->ToGameServer()->SendTargetedSkill(Type, Key);
         g_ConsoleDebug->Write(MCD_SEND, L"0x19 [SendRequestMagic(%d %d)]", Type, Key);
     }
@@ -1125,7 +1142,8 @@ void SendRequestMagicContinue(int Type, int x, int y, int Angle, BYTE Dest, BYTE
 {
     CurrentSkill = Type;
 
-    SocketClient->ToGameServer()->SendAreaSkill(Type, x, y, Angle, TKey, MakeSkillSerialNumber(pSkillSerial));
+    SendParisPvpIntent();
+        SocketClient->ToGameServer()->SendAreaSkill(Type, x, y, Angle, TKey, MakeSkillSerialNumber(pSkillSerial));
 
     g_ConsoleDebug->Write(MCD_SEND, L"0x1E [SendRequestMagicContinue]");
 }
@@ -1301,6 +1319,7 @@ void Action(CHARACTER* c, OBJECT* o, bool Now)
         c->TargetCharacter = ActionTarget;
         int Dir = ((BYTE)((Hero->Object.Angle[2] + 22.5f) / 360.f * 8.f + 1.f) % 8);
         c->Skill = 0;
+        SendParisPvpIntent();
         SocketClient->ToGameServer()->SendHitRequest(CharactersClient[ActionTarget].Key, AT_ATTACK1, Dir);
     }
     break;
@@ -1930,6 +1949,13 @@ void CloseNPCGMWindow()
     if (!g_pUIManager->IsOpen(MUTEX_NPCGUILDMASTER))
         return;
     g_pUIManager->Close(MUTEX_NPCGUILDMASTER);
+}
+
+void SendMoveTo(CHARACTER* c, OBJECT* o, int targetX, int targetY)
+{
+    TargetX = targetX;
+    TargetY = targetY;
+    SendMove(c, o);
 }
 
 void SendMove(CHARACTER* c, OBJECT* o)
@@ -3136,6 +3162,7 @@ void MoveHero()
                 if (Success && !g_isCharacterBuff(o, eDeBuff_Stun) && !g_isCharacterBuff(o, eDeBuff_Sleep))
                 {
                     g_iFollowCharacter = -1;
+                    GameLogic::Social::PartyFollow::Cancel();
 
                     LButtonPressTime = ((WorldTime - LButtonPopTime) / CLOCKS_PER_SEC);
 
@@ -3153,7 +3180,11 @@ void MoveHero()
                 }
             }
         }
-        if (g_iFollowCharacter >= 0 && g_iFollowCharacter < MAX_CHARACTERS_CLIENT)
+        if (GameLogic::Social::PartyFollow::Active())
+        {
+            GameLogic::Social::PartyFollow::Update();
+        }
+        else if (g_iFollowCharacter >= 0 && g_iFollowCharacter < MAX_CHARACTERS_CLIENT)
         {
             CHARACTER* followCharacter = &CharactersClient[g_iFollowCharacter];
             if (followCharacter->Object.Live == 0)

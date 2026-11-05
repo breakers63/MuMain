@@ -145,7 +145,7 @@ void CBloodCastle::SetTime(int iTime)
     m_iTime = iTime;
 
     int iMinute = m_iTime / 60;
-    mu_swprintf(m_szTime, L" %.2d:%.2d:%.2d", iMinute, m_iTime % 60, (int)WorldTime % 60);
+    mu_swprintf(m_szTime, L" %.2d:%.2d", iMinute, m_iTime % 60);
 
     if (iMinute < 5)
     {

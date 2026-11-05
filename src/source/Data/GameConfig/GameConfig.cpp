@@ -53,8 +53,30 @@ GameConfig::GameConfig()
     Load();
 }
 
+namespace
+{
+bool hidePlayerNames=false;
+bool showPlayerHP=true;
+bool hideMonsterHP=false;
+constexpr const wchar_t* NameVisibilitySection=L"UI";
+constexpr const wchar_t* NameVisibilityKey=L"HidePlayerNames";
+}
+bool GameConfig::GetHidePlayerNames() const { return hidePlayerNames; }
+void GameConfig::SetHidePlayerNames(bool hidden)
+{
+    hidePlayerNames=hidden;
+    WriteBool(NameVisibilitySection,NameVisibilityKey,hidden);
+}
+
+bool GameConfig::GetShowPlayerHP() const { return showPlayerHP; }
+bool GameConfig::GetHideMonsterHP() const { return hideMonsterHP; }
+void GameConfig::SetShowPlayerHP(bool shown) { showPlayerHP=shown; WriteBool(L"UI",L"ShowPlayerHP",shown); }
+void GameConfig::SetHideMonsterHP(bool hidden) { hideMonsterHP=hidden; WriteBool(L"UI",L"HideMonsterHP",hidden); }
 void GameConfig::Load()
 {
+    showPlayerHP=ReadBool(L"UI",L"ShowPlayerHP",true);
+    hideMonsterHP=ReadBool(L"UI",L"HideMonsterHP",false);
+    hidePlayerNames=ReadBool(NameVisibilitySection,NameVisibilityKey,false);
     using namespace CfgSections;
     using namespace CfgKeys;
     using namespace CfgDefaults;
@@ -129,6 +151,7 @@ void GameConfig::Load()
 
 void GameConfig::Save()
 {
+    WriteBool(NameVisibilitySection,NameVisibilityKey,hidePlayerNames);
     using namespace CfgSections;
     using namespace CfgKeys;
 
@@ -566,4 +589,38 @@ void GameConfig::EncryptAndSaveCredentials(const wchar_t* user, const wchar_t* p
     }
 
     Save(); // Actually write to the .ini file
+}
+
+SavedLoginAccount GameConfig::ReadSavedLoginAccount(std::size_t slot)
+{
+    if (slot >= SavedLoginAccountLimit)
+        return {};
+    const std::wstring section = L"SavedAccount" + std::to_wstring(slot + 1);
+    return {DecryptSetting(ReadString(section.c_str(), L"Username", L"")),
+            DecryptSetting(ReadString(section.c_str(), L"Password", L""))};
+}
+
+bool GameConfig::SaveLoginAccount(std::size_t slot, const SavedLoginAccount& account, bool savePassword)
+{
+    if (slot >= SavedLoginAccountLimit || account.username.empty())
+        return false;
+    const std::wstring username = EncryptSetting(account.username.c_str());
+    const std::wstring password = savePassword ? EncryptSetting(account.password.c_str()) : L"";
+    if (username.empty() || (savePassword && password.empty()))
+        return false;
+    const std::wstring section = L"SavedAccount" + std::to_wstring(slot + 1);
+    WriteString(section.c_str(), L"Username", username);
+    WriteString(section.c_str(), L"Password", password);
+    return true;
+}
+
+void GameConfig::DeleteLoginAccount(std::size_t slot)
+{
+    if (slot >= SavedLoginAccountLimit)
+        return;
+    const SavedLoginAccount account = ReadSavedLoginAccount(slot);
+    if (!account.username.empty() && account.username == DecryptSetting(m_encryptedUsername))
+        ClearCredentials();
+    const std::wstring section = L"SavedAccount" + std::to_wstring(slot + 1);
+    RemoveObsoleteSection(section.c_str());
 }

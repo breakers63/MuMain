@@ -13,8 +13,8 @@
 		<div id="panel">
 			<!-- A right-click offers to cancel the buffs the player can end early; hovering one shows
 			     its name, description and duration in the shared tooltip (CBuffStrip). -->
-			<div class="buff-slot" data-for="buff : buffs" data-event-mouseup="buff_cancel(it_index)"
-			     data-event-mouseover="buff_hover(it_index)" data-event-mouseout="buff_leave">
+			<div class="buff-slot" data-for="buff, i : buffs" data-event-mouseup="buff_cancel(i)"
+			     data-event-mouseover="buff_hover(i)" data-event-mouseout="buff_leave">
 				<div class="buff-icon-art" data-style-decorator="buff.decorator"></div>
 			</div>
 		</div>

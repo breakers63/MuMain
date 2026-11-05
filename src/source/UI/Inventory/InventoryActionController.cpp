@@ -2,8 +2,12 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
+#include "GameLogic/Items/ParisJewelryUpgrades.h"
+#include "GameLogic/Social/PostedItemRecord.h"
+#include "GameLogic/Items/ParisCustomJewels.h"
 #include "UI/Inventory/InventoryActionController.h"
 #include "UI/Inventory/MyInventory.h"
+#include "UI/Dialogs/ParisItemDyeWindow.h"
 #include "UI/Inventory/InventoryCtrl.h"
 #include "UI/Core/WindowSystem.h"
 #include "UI/Dialogs/CustomMessageBox.h"
@@ -149,6 +153,13 @@ bool CInventoryActionController::HandleRepairClick(CInventoryCtrl* targetControl
 bool CInventoryActionController::HandleRightClick(CInventoryCtrl* targetControl) const
 {
     m_pContext->ResetMouseRButton();
+    if (g_pParisItemDyeWindow && g_pParisItemDyeWindow->IsVisible()
+        && targetControl == g_pMyInventory->GetInventoryCtrl())
+    {
+        if (const auto* item = targetControl->FindItemAtPointer())
+            return g_pParisItemDyeWindow->SelectInventoryItem(item->Key);
+        return false;
+    }
 
     if (g_pNewUISystem->IsVisible(INTERFACE_STORAGE))
     {
@@ -275,6 +286,11 @@ bool CInventoryActionController::HandleSellToNPC(CInventoryCtrl* targetControl) 
         {
             cfg.item3D = *pPreviewItem;
         }
+        cfg.title = L"Confirmar venta";
+        cfg.primaryLabel = L"Vender";
+        cfg.cancelLabel = L"Cancelar";
+        cfg.severity = mu::ui::window::GenericDialogConfig::Severity::Warning;
+        cfg.tallPanel = true;
         cfg.lines = {
             { I18N::Game::AnExpensiveItem, true },
             { I18N::Game::CheckTheItemPlease, true },
@@ -309,11 +325,6 @@ bool CInventoryActionController::HandleSellToNPC(CInventoryCtrl* targetControl) 
 
 bool CInventoryActionController::HandleInventoryRightClickActions(CInventoryCtrl* targetControl) const
 {
-    if (g_pNewUISystem->IsVisible(INTERFACE_INVENTORY_EXT))
-    {
-        return TryTransferBetweenInventorySections(targetControl);
-    }
-
     ITEM* pItem = targetControl->FindItemAtPointer();
     if (pItem == nullptr)
     {
@@ -321,6 +332,28 @@ bool CInventoryActionController::HandleInventoryRightClickActions(CInventoryCtrl
     }
 
     const int iIndex = targetControl->GetIndexByItem(pItem);
+
+    // Ctrl + right-click in the main inventory publishes the selected item through the
+    // server's validated /postitem command. Keep this ahead of consume/equip/drop handling.
+    if (iIndex >= 0
+        && targetControl->GetStorageType() == STORAGE_TYPE::INVENTORY
+        && (GetAsyncKeyState(VK_CONTROL) & 0x8000))
+    {
+        wchar_t command[32] = {};
+        swprintf_s(command, L"/postitem %d", iIndex);
+        if (SocketClient != nullptr && SocketClient->ToGameServer() != nullptr && Hero != nullptr)
+        {
+            SocketClient->ToGameServer()->SendPublicChatMessage(MU_C16(Hero->ID), MU_C16(command));
+            m_pContext->ResetMouseRButton();
+            PlayBuffer(SOUND_CLICK01);
+            return true;
+        }
+    }
+
+    if (g_pNewUISystem->IsVisible(INTERFACE_INVENTORY_EXT))
+    {
+        return TryTransferBetweenInventorySections(targetControl);
+    }
 
     if (iIndex >= 0 && TryConsumeItem(targetControl, pItem, iIndex))
     {
@@ -522,6 +555,16 @@ bool CInventoryActionController::RepairItemAtMousePoint(CInventoryCtrl* targetCo
 bool CInventoryActionController::ApplyJewels(CInventoryCtrl* targetControl, CPickedItem* pPickedItem,
                                                   ITEM* pPickItem, int iSourceIndex, int iTargetIndex) const
 {
+    if (GameLogic::Items::CustomJewels::IsJewel(pPickItem->Type)) {
+        ITEM* target=targetControl->FindItem(iTargetIndex);
+        if (!target) return false;
+        if (GameLogic::Items::JewelryUpgrades::IsRestrictedJewel(pPickItem->Type) && !GameLogic::Items::JewelryUpgrades::IsJewelry(target->Type)) return false;
+        if (target->Type>=ITEM_POTION || GameLogic::Items::IsAmmunitionType(target->Type)) return false;
+        SendRequestUse(iSourceIndex,iTargetIndex);
+        CInventoryCtrl::BackupPickedItem();
+        PlayBuffer(SOUND_GET_ITEM01);
+        return true;
+    }
     const bool bIsJewelType = pPickItem->Type == ITEM_JEWEL_OF_BLESS || pPickItem->Type == ITEM_JEWEL_OF_SOUL ||
                               pPickItem->Type == ITEM_JEWEL_OF_LIFE || pPickItem->Type == ITEM_JEWEL_OF_HARMONY ||
                               GameLogic::Items::IsRefineStone(pPickItem) || pPickItem->Type == ITEM_POTION + 160 ||
@@ -544,7 +587,9 @@ bool CInventoryActionController::ApplyJewels(CInventoryCtrl* targetControl, CPic
 
     bool bSuccess = true;
 
-    if (iType > ITEM_WINGS_OF_DARKNESS && !GameLogic::Items::IsWingItem(pItem))
+    const bool ringLevelJewel = GameLogic::Items::JewelryUpgrades::IsRing(iType)
+        && (pPickItem->Type == ITEM_JEWEL_OF_BLESS || pPickItem->Type == ITEM_JEWEL_OF_SOUL);
+    if (!ringLevelJewel && iType > ITEM_WINGS_OF_DARKNESS && !GameLogic::Items::IsWingItem(pItem))
     {
         bSuccess = false;
     }

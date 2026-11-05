@@ -193,6 +193,17 @@ int ExecuteSkill(CHARACTER* c, ActionSkillType Skill, float Distance)
 
     int ClassIndex = gCharacterManager.GetBaseClass(c->Class);
 
+    if (Skill == AT_SKILL_SOUL_BARRIER || Skill == AT_SKILL_SOUL_BARRIER_STR || Skill == AT_SKILL_SOUL_BARRIER_PROFICIENCY)
+    {
+        static DWORD lastSoulTrace=0;
+        if(timeGetTime()-lastSoulTrace>500)
+        {
+            lastSoulTrace=timeGetTime();int mana=0,ability=0;
+            gSkillManager.GetSkillInformation(Skill,1,nullptr,&mana,nullptr,&ability);
+            mu::log::Get("combat")->info("SoulBarrier cast: skill={} safe={} dead={} requirements={} condition={} mana={}/{} ag={}/{} selected={} action={}",int(Skill),int(c->SafeZone),int(c->Dead),gSkillManager.AreSkillAttributeRequirementsMet(Skill),CheckSkillUseCondition(o,Skill),CharacterAttribute->Mana,mana,CharacterAttribute->SkillMana,ability,SelectedCharacter,int(o->CurrentAction));
+        }
+    }
+
     if (!CanExecuteSkill(c, Skill, Distance))
     {
         return 0;

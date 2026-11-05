@@ -97,16 +97,20 @@ namespace mu::ui::window
         struct PartyMemberRow
         {
             Rml::String name;
-            Rml::String mapText, coordText, hpText;
+            Rml::String mapText, coordText, hpText, manaText, levelText;
+            std::vector<Rml::String> buffs;
+            float manaPercent = 0.f;
             float hpPercent = 0.f;
             bool isLeader = false;
             bool showKick = false;
+            bool canFollow = false, canTransfer = false;
+            Rml::String followLabel;
             int index = 0;
         };
-        // A single text line, reused for the empty-state "how to party" message block.
-        struct TextLine
+        struct FinderRow
         {
-            Rml::String text;
+            Rml::String id, leader, map, slots;
+            bool full = false;
         };
 
         struct PartyInfoRmlModel
@@ -114,7 +118,17 @@ namespace mu::ui::window
             float textPx = 0.f; // native text size in physical px (RmlNativeTextSize.h)
 
             bool hasParty = false;
-            std::vector<TextLine> emptyStateLines;
+            bool isLeader = false, isPublic = false;
+            bool isFollowEnabled = true, autoAcceptParty = false;
+            Rml::String showBuffsLabel, blockSummonLabel, publicOptionLabel, followOptionLabel, autoOptionLabel;
+            bool showBuffs = true, blockSummon = false;
+            int activeTab = 0;
+            Rml::String membersTab, searchTab, settingsTab, leaderOnly, joinBlocked, passLeader, noParty;
+            Rml::String finderIntro, finderHelp;
+            Rml::String finderTitle, randomLabel, publicListLabel, joinLabel, refreshLabel, publishLabel;
+            Rml::String travelLabel, status, emptyLabel, pageLabel;
+            bool finderEmpty = true;
+            std::vector<FinderRow> finderParties;
             std::vector<PartyMemberRow> members;
 
             // Set once at Create(); static I18N labels, never re-synced (this window has no
@@ -122,6 +136,14 @@ namespace mu::ui::window
             Rml::String windowTitle;
             Rml::String exitTooltip;
         };
+
+        void ProcessFinderAction();
+        void SyncFinderModel();
+        int m_PartyTab = 0;
+        int m_FinderPage = 0, m_PendingFollow = -1, m_PendingAction = -1;
+        Rml::String m_PendingIdentity;
+        unsigned long m_LastFinderPoll = 0, m_LastFinderActionSent = 0;
+        int m_LastFinderResponse = 0;
 
         void BindRmlModel(Rml::DataModelConstructor& c, PartyInfoRmlModel& model);
         UI::RmlBridge::ThemedView<PartyInfoRmlModel> m_RmlView{"party_info",

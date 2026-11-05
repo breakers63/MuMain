@@ -118,3 +118,9 @@
 	white-space: normal;
 	font-family: "token(font-body)";
 }
+
+
+/* Match the approved restrained buttons while keeping the server list layout. */
+.group-btn { width: 120px; height: 30px; line-height: 30px; }
+.server-row { width: 220px; height: 30px; line-height: 30px; }
+.server-gauge-slot { left: 6%; top: 26px; width: 87%; height: 2px; }

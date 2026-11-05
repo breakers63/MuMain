@@ -55,6 +55,22 @@ void mu::ui::window::EventItemEntryView::BindModel(Rml::DataModelConstructor& c,
     c.Bind("text_px", &model.textPx);
     c.Bind("bold_text_px", &model.boldTextPx);
     c.Bind("input_value", &model.inputValue);
+    c.Bind("service", &model.service);
+    c.Bind("buff_service", &model.buffService);
+    c.Bind("req_heading", &model.reqHeading);
+    c.Bind("buff_heading", &model.buffHeading);
+    c.Bind("duration_heading", &model.durationHeading);
+    c.Bind("power_heading", &model.powerHeading);
+    c.Bind("buff_hint", &model.buffHint);
+
+    auto serviceItem = c.RegisterStruct<EventItemEntryServiceItem>();
+    serviceItem.RegisterMember("quantity", &EventItemEntryServiceItem::quantity);
+    serviceItem.RegisterMember("hint", &EventItemEntryServiceItem::hint);
+    serviceItem.RegisterMember("missing", &EventItemEntryServiceItem::missing);
+    c.RegisterArray<std::vector<EventItemEntryServiceItem>>();
+    c.Bind("requirements", &model.requirements);
+    c.Bind("rewards", &model.rewards);
+
 
     auto text = c.RegisterStruct<EventItemEntryTextEntry>();
     text.RegisterMember("text", &EventItemEntryTextEntry::text);
@@ -82,6 +98,31 @@ void mu::ui::window::EventItemEntryView::BindModel(Rml::DataModelConstructor& c,
 void mu::ui::window::EventItemEntryView::Build()
 {
     m_View.Ensure();
+}
+
+void mu::ui::window::EventItemEntryView::SetServiceItems(bool enabled,
+    std::vector<EventItemEntryServiceItem> requirements, std::vector<EventItemEntryServiceItem> rewards)
+{
+    auto& model = m_View.GetModel();
+    if (model.service != enabled) { model.service = enabled; m_View.MarkDirty("service"); }
+    if (model.requirements != requirements) { model.requirements = std::move(requirements); m_View.MarkDirty("requirements"); }
+    if (model.rewards != rewards) { model.rewards = std::move(rewards); m_View.MarkDirty("rewards"); }
+}
+
+void mu::ui::window::EventItemEntryView::SetBuffPresentation(bool enabled, const std::array<std::wstring,5>& values)
+{
+    auto& model=m_View.GetModel();
+    if(model.buffService!=enabled) {model.buffService=enabled;m_View.MarkDirty("buff_service");}
+    const auto value0=StringUtils::WideToNarrow(values[0].c_str());
+    if(model.reqHeading!=value0) {model.reqHeading=value0;m_View.MarkDirty("req_heading");}
+    const auto value1=StringUtils::WideToNarrow(values[1].c_str());
+    if(model.buffHeading!=value1) {model.buffHeading=value1;m_View.MarkDirty("buff_heading");}
+    const auto value2=StringUtils::WideToNarrow(values[2].c_str());
+    if(model.durationHeading!=value2) {model.durationHeading=value2;m_View.MarkDirty("duration_heading");}
+    const auto value3=StringUtils::WideToNarrow(values[3].c_str());
+    if(model.powerHeading!=value3) {model.powerHeading=value3;m_View.MarkDirty("power_heading");}
+    const auto value4=StringUtils::WideToNarrow(values[4].c_str());
+    if(model.buffHint!=value4) {model.buffHint=value4;m_View.MarkDirty("buff_hint");}
 }
 
 void mu::ui::window::EventItemEntryView::SetTexts(std::vector<Text> texts)
@@ -124,7 +165,7 @@ void mu::ui::window::EventItemEntryView::SyncTexts()
         g_pRenderText->SetFont(text.bold ? g_hFontBold : g_hFont);
         const int width = g_pRenderText->MeasureText(text.text.c_str(), static_cast<int>(text.text.size())).cx;
         texts.push_back({StringUtils::WideToNarrow(text.text.c_str()),
-                         UI::RmlBridge::NativeTextPxInBox(role, static_cast<float>(width), text.width)});
+                         UI::RmlBridge::NativeTextPxInBox(role, static_cast<float>(width), text.width) * text.fontScale});
     }
     if (model.texts == texts)
         return;

@@ -1,6 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 #include "stdafx.h"
+#include "Core/Platform/sdl3/SDLFullscreenMode.h"
 #include "Core/Input/KeyState.h"
 #include "Core/Utilities/FrameProfiler.h"
 #include "Core/Input/SyntheticInput.h"
@@ -1356,16 +1357,7 @@ void MuApplyWindowResolution(unsigned int width, unsigned int height, bool windo
     }
     else
     {
-        // Pick the closest real fullscreen mode so the monitor switches
-        // resolution; fall back to borderless desktop if none matches.
-        SDL_DisplayMode mode;
-        const SDL_DisplayID display = SDL_GetDisplayForWindow(g_sdlWindow);
-        if (SDL_GetClosestFullscreenDisplayMode(display, w, h, 0.0f, false, &mode))
-            SDL_SetWindowFullscreenMode(g_sdlWindow, &mode);
-        else
-            SDL_SetWindowFullscreenMode(g_sdlWindow, nullptr);
-        SDL_SetWindowSize(g_sdlWindow, w, h);
-        SDL_SetWindowFullscreen(g_sdlWindow, true);
+        Core::Platform::ApplyPreferredFullscreenMode(g_sdlWindow, w, h);
     }
 
     // The request is not a guarantee: the closest fullscreen mode can differ
@@ -2132,10 +2124,8 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine, int nC
     SetWorkingDirectoryToBasePath();
 #endif
 
-    const SDL_WindowFlags windowFlags = Core::Platform::BuildSDLWindowFlags(g_bUseWindowMode != TRUE, false);
-
     g_sdlWindow =
-        SDL_CreateWindow("MU Online", static_cast<int>(WindowWidth), static_cast<int>(WindowHeight), windowFlags);
+        Core::Platform::CreateGameWindow(static_cast<int>(WindowWidth), static_cast<int>(WindowHeight), g_bUseWindowMode != TRUE);
     if (!g_sdlWindow)
     {
         g_ErrorReport.Write(L"> SDL_CreateWindow failed.\r\n");
@@ -2143,6 +2133,18 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine, int nC
         return 0;
     }
     Core::Platform::SetGameWindow(g_sdlWindow);
+    if (g_bUseWindowMode != TRUE)
+    {
+        Core::Platform::ApplyPreferredFullscreenMode(g_sdlWindow, static_cast<int>(WindowWidth), static_cast<int>(WindowHeight));
+        SDL_SyncWindow(g_sdlWindow);
+        int actualWidth = 0, actualHeight = 0;
+        SDL_GetWindowSize(g_sdlWindow, &actualWidth, &actualHeight);
+        if (actualWidth > 0 && actualHeight > 0)
+        {
+            WindowWidth = static_cast<unsigned int>(actualWidth);
+            WindowHeight = static_cast<unsigned int>(actualHeight);
+        }
+    }
 
     RefreshWindowContentScale();
 

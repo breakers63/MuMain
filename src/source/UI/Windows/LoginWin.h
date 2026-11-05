@@ -9,6 +9,7 @@
 
 #include <atomic>
 #include <thread>
+#include <vector>
 
 namespace Rml { class ElementDocument; }
 
@@ -113,6 +114,28 @@ protected:
     void RevokeSavedCredentialsIfEdited();
 
 private:
+    struct LoginRmlModel;
+    struct SavedAccountRow
+    {
+        int index = 0;
+        Rml::String label;
+        bool occupied = false;
+        bool selected = false;
+        bool passwordSaved = false;
+    };
+    int m_selectedAccountSlot = -1;
+    void RefreshSavedAccounts();
+    void SelectSavedAccount(int slot);
+    void SaveCurrentAccount(bool automatic = false);
+    void DeleteSavedAccount(int slot);
+    void SetAccountStatus(const char* text);
+    void SnapshotCredentials();
+    void TogglePasswordVisibility();
+    void SetPasswordVisible(bool visible);
+    void FocusPendingPassword();
+    bool m_passwordVisible = false;
+    bool m_passwordFocusPending = false;
+    void BindSavedAccounts(Rml::DataModelConstructor& c, LoginRmlModel& model);
     int FirstLoad = 0;
     std::atomic<bool> m_bConnectionReconnectInFlight{false};
     std::atomic<bool> m_bConnectionReconnectDone{false};
@@ -124,21 +147,16 @@ private:
     void SubmitCancel();
     void ApplyRememberMeChange();
     void ApplySavePasswordChange();
+    void SaveLoginPreferences();
 
     struct LoginRmlModel
     {
+        std::vector<SavedAccountRow> savedAccounts;
+        Rml::String savedAccountCount;
+        Rml::String accountStatus;
         bool rememberMeChecked = false;
         bool savePasswordChecked = false;
         Rml::String serverName;
-        // Synced from I18N::Game::* slots to keep these localization-correct.
-        Rml::String accountLabel;
-        Rml::String passwordLabel;
-        Rml::String rememberMeLabel;
-        Rml::String savePasswordLabel;
-        Rml::String trustWarning;
-        Rml::String okLabel;
-        Rml::String cancelLabel;
-
         // Two-way bound to #input_account/#input_password. RmlUi owns the edit buffers, caret,
         // selection, masking and IME; these carry the committed values that SubmitCredentials()
         // and the edit-detection snapshot read.

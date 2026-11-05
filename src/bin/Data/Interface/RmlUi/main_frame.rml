@@ -9,6 +9,10 @@
 	<link type="text/rcss" href="main_frame.rcss"/>
 </head>
 <body data-model="main_frame">
+    <div id="tvt_hud" data-if="tvt_visible" data-class-minimized="tvt_minimized"><div id="tvt_drag"></div><div class="tvt-data" data-rml="event_timer_text"></div><div class="tvt-toggle" data-event-click="tvt_minimize">− / +</div></div>
+    <div id="event_timer" data-if="event_timer_visible" data-rml="event_timer_text"></div>
+    <div id="pvp_notice" data-if="pvp_notice_visible" data-class-enabled="pvp_notice_active"
+         data-style-opacity="pvp_notice_opacity">{{pvp_notice_text}}</div>
 	<!-- CMainFrameWindow's HUD, shared by every theme. #hud_layout is the one unit the workspace
 	     places (its main_hud slot); its size is the theme's, in main_frame.rcss. Each .hud-part is
 	     one piece the theme places inside it, with the part's contents laid out from its own
@@ -29,6 +33,12 @@
 		<div id="skill_band_fill" class="slot-fill"></div>
 		<div id="gauge_frame"></div>
 	</div>
+
+	<div id="hud_coordinates" class="hud-part"><span>{{coordinate_x}}</span><span>{{coordinate_y}}</span></div>
+    <div id="hud_performance" class="hud-part">
+        <div class="hud-performance-bar hud-fps" data-style-background-color="fps_color" data-attr-data-hint="fps_tooltip"></div>
+        <div class="hud-performance-bar hud-ping" data-style-background-color="ping_color" data-attr-data-hint="ping_tooltip"></div>
+    </div>
 
 	<!-- Each gauge carries its readout twice, current value (.value-current) and current/max
 	     (.value-full); a theme shows one. -->
@@ -63,7 +73,8 @@
 
 	<!-- The original's bottom button row. A theme that puts these buttons elsewhere hides it (the
 	     modern theme's are in main_frame_top.rml). -->
-	<div id="buttons" class="hud-part">
+	<div id="btn_pvp" data-event-click="mainframe_pvp_click" data-hint="Auto PVP OFF"><div class="pvp-fill"></div></div>
+<div id="buttons" class="hud-part">
 		<div id="btn_cshop" class="frame-btn slot-frame slot-fill" data-class-open="cshop_open" data-event-click="mainframe_cshop_click" data-attr-data-hint="cshop_tooltip">
 			<span class="btn-icon-label">SHOP</span>
 		</div>

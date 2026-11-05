@@ -1,0 +1,9 @@
+/* Companion button stays next to its own card at the shared HUD scale. */
+.card-follow { position: absolute; left: -22px; top: 2px; width: 18px; height: 18px;
+    box-sizing: border-box; padding: 0; pointer-events: auto; font-size: 14px; text-align: center;
+    font-family: "token(font-body)"; color: token(accent-gold); background-color: token(surface-control);
+    border: 1px token(border-frame); }
+.card-follow:hover, .card-follow.following { border-color: token(accent-gold-hover); background-color: token(surface-panel); }
+.card-follow.following { color: token(semantic-success); }
+
+.card-follow.hidden { display: none; }

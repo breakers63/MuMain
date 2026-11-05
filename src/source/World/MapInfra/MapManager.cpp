@@ -1687,6 +1687,7 @@ bool CMapManager::InBattleCastle(int iMap)
 
 const wchar_t* CMapManager::GetMapName(int iMap)
 {
+    if (iMap == 84) return L"Paris Arena PVP 1";
     if (iMap == WD_34CRYWOLF_1ST)
     {
         return(I18N::Game::CrywolfFortress);

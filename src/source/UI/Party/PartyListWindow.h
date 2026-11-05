@@ -53,6 +53,7 @@ namespace mu::ui::window
         // A leave button press, queued by RmlUi's click and run from Update(), outside RmlUi's
         // own event dispatch.
         int m_PendingLeave = -1;
+        int m_PendingFollow = -1;
         // The card under the pointer (the document's party_hover), -1 for none.
         int m_HoveredCard = -1;
 

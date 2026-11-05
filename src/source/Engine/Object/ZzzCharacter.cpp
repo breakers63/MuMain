@@ -1,3 +1,5 @@
+#include "Render/Items/SetTrails.h"
+#include "World/Monsters/DressedNpcModels.h"
 ///////////////////////////////////////////////////////////////////////////////
 // 케릭터 관련 함수
 // 케릭터 랜더링, 움직임등을 처리
@@ -6,6 +8,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
+#include "GameLogic/Combat/ParisAnimationSpeed.h"
+#include "Render/Terrain/GrassBurn.h"
+#include "UI/SocialMusic/SocialMusic.h"
 #include <execution>
 #include <algorithm>
 #include <span>
@@ -40,6 +45,9 @@
 #include "Engine/Physics/PhysicsManager.h"
 #include "Engine/AI/GOBoid.h"
 #include "GameLogic/Items/CSItemOption.h"
+#include "GameLogic/Items/SmallCape.h"
+#include "World/Monsters/CustomMonsterModels.h"
+#include "Render/Models/CustomMonsterColorRenderer.h"
 
 // Phase 5: Camera system includes for 3D frustum culling
 #include "Camera/CameraManager.h"
@@ -58,6 +66,27 @@ static bool s_bShowCharacterPickBoxes = false;
 
 namespace
 {
+    bool UsesGameMasterAppearance(const OBJECT& object)
+    {
+        const bool characterKind = object.Kind == KIND_PLAYER || object.Kind == KIND_NPC;
+        return characterKind && object.Type == MODEL_PLAYER && object.SubType == MODEL_GM_CHARACTER;
+    }
+
+    void CreateSmallCapeDlCloth(CPhysicsCloth& cloth, OBJECT* owner)
+    {
+        constexpr int CapeBone = 19;
+        constexpr int CapeColumns = 6;
+        constexpr int CapeRows = 8;
+        constexpr int CollisionBone = 17;
+        cloth.Create(owner, CapeBone, 0.0f, 8.0f, 10.0f, CapeColumns, CapeRows, 100.0f, 150.0f,
+            GameLogic::Items::SmallCapeTexture, GameLogic::Items::SmallCapeTexture,
+            PCT_CURVED | PCT_SHORT_SHOULDER | PCT_MASK_ALPHA);
+        cloth.AddCollisionSphere(-10.f, -10.0f, -10.0f, 25.0f, CollisionBone);
+        cloth.AddCollisionSphere(10.f, -10.0f, -10.0f, 25.0f, CollisionBone);
+        cloth.AddCollisionSphere(-10.f, -10.0f, 20.0f, 27.0f, CollisionBone);
+        cloth.AddCollisionSphere(10.f, -10.0f, 20.0f, 27.0f, CollisionBone);
+    }
+
     // Character selection screen: generous axis-aligned pick box dimensions.
     constexpr float CHARSCENE_PICK_MIN_HEIGHT = 300.0f;
     constexpr float CHARSCENE_PICK_HALF_WIDTH = 72.0f;
@@ -479,10 +508,10 @@ void SetPlayerWalk(CHARACTER* c)
                     ) && c->BodyPart[BODYPART_GLOVES].Type != -1 && c->BodyPart[BODYPART_GLOVES].Level >= 5)
                 || ((gMapManager.WorldActive != WD_7ATLANSE && !gMapManager.InHellas()
                     && gMapManager.WorldActive != WD_67DOPPLEGANGER3
-                    ) && pItemBoots->Level >= 5)
+                    ) && c == Hero && pItemBoots->Level >= 5)
                 || ((gMapManager.WorldActive == WD_7ATLANSE || gMapManager.InHellas()
                     || gMapManager.WorldActive == WD_67DOPPLEGANGER3
-                    ) && pItemGloves->Level >= 5)
+                    ) && c == Hero && pItemGloves->Level >= 5)
                 || c->Helper.Type == MODEL_HORN_OF_FENRIR
                 || c->Object.SubType == MODEL_CURSEDTEMPLE_ALLIED_PLAYER
                 || c->Object.SubType == MODEL_CURSEDTEMPLE_ILLUSION_PLAYER)
@@ -815,102 +844,10 @@ int AttackHand = 0;
 
 void SetAttackSpeed()
 {
-#ifndef RGZ_FIX_ATTACK_SPEED
-    float AttackSpeed1 = CharacterAttribute->AttackSpeed * 0.004f;
-    float MagicSpeed1 = CharacterAttribute->MagicSpeed * 0.004f;
-    float MagicSpeed2 = CharacterAttribute->MagicSpeed * 0.002f;
-#else
-    float AttackSpeed1 = CharacterAttribute->AttackSpeed;
-    float MagicSpeed1 = CharacterAttribute->MagicSpeed;
-    float MagicSpeed2 = CharacterAttribute->MagicSpeed;
-
-    if (CharacterAttribute->AttackSpeed >= 509 && CharacterAttribute->AttackSpeed <= 549)
-    {
-        AttackSpeed1 = AttackSpeed1 * 0.0026000f;
-    }
-    else if (CharacterAttribute->AttackSpeed >= 550 && CharacterAttribute->AttackSpeed <= 750)
-    {
-        AttackSpeed1 = AttackSpeed1 * 0.0017000f;
-    }
-    else
-    {
-        AttackSpeed1 = AttackSpeed1 * 0.0040000f;
-    }
-
-    if (CharacterAttribute->MagicSpeed >= 509 && CharacterAttribute->MagicSpeed <= 549)
-    {
-        MagicSpeed1 = MagicSpeed1 * 0.0026000f;
-    }
-    else if (CharacterAttribute->MagicSpeed >= 550 && CharacterAttribute->MagicSpeed <= 750)
-    {
-        MagicSpeed1 = MagicSpeed1 * 0.0017000f;
-    }
-    else
-    {
-        MagicSpeed1 = MagicSpeed1 * 0.0040000f;
-    }
-
-    if (CharacterAttribute->MagicSpeed >= 455 && CharacterAttribute->MagicSpeed <= 479)
-    {
-        MagicSpeed2 = MagicSpeed2 * 0.0024700f;
-    }
-    else if (CharacterAttribute->MagicSpeed >= 605 && CharacterAttribute->MagicSpeed <= 636)
-    {
-        MagicSpeed2 = MagicSpeed2 * 0.0019000f;
-    }
-    else if (CharacterAttribute->MagicSpeed >= 637 && CharacterAttribute->MagicSpeed <= 668)
-    {
-        MagicSpeed2 = MagicSpeed2 * 0.0018000f;
-    }
-    else if (CharacterAttribute->MagicSpeed >= 669 && CharacterAttribute->MagicSpeed <= 688)
-    {
-        MagicSpeed2 = MagicSpeed2 * 0.0017000f;
-    }
-    else if (CharacterAttribute->MagicSpeed >= 855 && CharacterAttribute->MagicSpeed <= 1040)
-    {
-        MagicSpeed2 = MagicSpeed2 * 0.0016300f;
-    }
-    else if (CharacterAttribute->MagicSpeed >= 1041 && CharacterAttribute->MagicSpeed <= 1104)
-    {
-        MagicSpeed2 = MagicSpeed2 * 0.0015500f;
-    }
-    else if (CharacterAttribute->MagicSpeed >= 1301 && CharacterAttribute->MagicSpeed <= 1500)
-    {
-        MagicSpeed2 = MagicSpeed2 * 0.0017500f;
-    }
-    else if (CharacterAttribute->MagicSpeed >= 1501 && CharacterAttribute->MagicSpeed <= 1524)
-    {
-        MagicSpeed2 = MagicSpeed2 * 0.0015000f;
-    }
-    else if (CharacterAttribute->MagicSpeed >= 1525 && CharacterAttribute->MagicSpeed <= 1800)
-    {
-        MagicSpeed2 = MagicSpeed2 * 0.0014500f;
-    }
-    else if (CharacterAttribute->MagicSpeed >= 1801 && CharacterAttribute->MagicSpeed <= 1999)
-    {
-        MagicSpeed2 = MagicSpeed2 * 0.0013000f;
-    }
-    else if (CharacterAttribute->MagicSpeed >= 2000 && CharacterAttribute->MagicSpeed <= 2167)
-    {
-        MagicSpeed2 = MagicSpeed2 * 0.0012500f;
-    }
-    else if (CharacterAttribute->MagicSpeed >= 2168 && CharacterAttribute->MagicSpeed <= 2354)
-    {
-        MagicSpeed2 = MagicSpeed2 * 0.0011500f;
-    }
-    else if (CharacterAttribute->MagicSpeed >= 2855 && CharacterAttribute->MagicSpeed <= 3011)
-    {
-        MagicSpeed2 = MagicSpeed2 * 0.0009000f;
-    }
-    else if (CharacterAttribute->MagicSpeed >= 3011)
-    {
-        MagicSpeed2 = MagicSpeed2 * 0.0008100f;
-    }
-    else
-    {
-        MagicSpeed2 = MagicSpeed2 * 0.0020000f;
-    }
-#endif
+    const auto rates = ParisAnimation::FromServer(CharacterAttribute->AttackSpeed, CharacterAttribute->MagicSpeed);
+    const float AttackSpeed1 = rates.attack;
+    const float MagicSpeed1 = rates.magic;
+    const float MagicSpeed2 = rates.magicHalf;
 
     Models[MODEL_PLAYER].Actions[PLAYER_ATTACK_FIST].PlaySpeed = 0.6f + AttackSpeed1;
 
@@ -4483,6 +4420,7 @@ void MoveCharacter(CHARACTER* c, OBJECT* o)
             Position[0] = (float)(c->SkillX + 0.5f) * TERRAIN_SCALE;
             Position[1] = (float)(c->SkillY + 0.5f) * TERRAIN_SCALE;
             Position[2] = RequestTerrainHeight(Position[0], Position[1]);
+            Render::Terrain::GrassBurn::Ignite(Position[0], Position[1]);
             CreateEffect(BITMAP_FLAME, Position, o->Angle, o->Light, 0, o, o->PKKey, FindHotKey(AT_SKILL_FLAME));
 
             if (c == Hero)
@@ -5471,6 +5409,7 @@ bool CheckFullSet(CHARACTER* c)
     {
         for (int i = 5; i >= end; i--)
         {
+            if (gCharacterManager.GetBaseClass(c->Class) == CLASS_RAGEFIGHTER && i == BODYPART_GLOVES) continue;
             if (c->BodyPart[i].Type == -1)
             {
                 Success = false;
@@ -5485,6 +5424,7 @@ bool CheckFullSet(CHARACTER* c)
 
             for (int i = 5; i >= end; i--)
             {
+                if (gCharacterManager.GetBaseClass(c->Class) == CLASS_RAGEFIGHTER && i == BODYPART_GLOVES) continue;
                 int Level = c->BodyPart[i].Level & 0xf;
                 if (Level < 9)
                 {
@@ -6475,6 +6415,7 @@ void MoveCharacterClient(CHARACTER* cc)
 
 void MoveCharactersClient()
 {
+    UI::SocialMusic::Update();
     for (int i = 0; i < TERRAIN_SIZE * TERRAIN_SIZE; i++)
     {
         if ((TerrainWall[i] & TW_CHARACTER) == TW_CHARACTER) TerrainWall[i] -= TW_CHARACTER;
@@ -8661,6 +8602,7 @@ void RenderCharacter(CHARACTER* c, OBJECT* o, int Select)
                 RenderObject(o, Translate, Select, 0);
             }
         }
+        Render::Models::CustomMonsterColor::Render(c);
     }
 
     if ((
@@ -9436,7 +9378,7 @@ void RenderCharacter(CHARACTER* c, OBJECT* o, int Select)
             RenderParts(c);
         }
     }
-    else if (o->Kind == KIND_PLAYER && o->Type == MODEL_PLAYER && o->SubType == MODEL_GM_CHARACTER)
+    else if (UsesGameMasterAppearance(*o))
     {
         RenderPartObject(&c->Object, o->SubType, NULL, c->Light, o->Alpha, 0, 0, 0, false, false, Translate, Select);
 
@@ -9726,13 +9668,7 @@ void RenderCharacter(CHARACTER* c, OBJECT* o, int Select)
                     pCloth[2].AddCollisionSphere(10.f, -10.0f, 20.0f, 27.0f, 17);
                 }
                 else if (c->Wing.Type == MODEL_SMALL_CAPE_OF_LORD)
-                {
-                    pCloth[2].Create(o, 19, 0.0f, 8.0f, 10.0f, 10, 10, 100.0f, 100.0f, BITMAP_ROBE + 7, BITMAP_ROBE + 7, PCT_CURVED | PCT_SHORT_SHOULDER | PCT_MASK_ALPHA);
-                    pCloth[2].AddCollisionSphere(-10.f, -10.0f, -10.0f, 25.0f, 17);
-                    pCloth[2].AddCollisionSphere(10.f, -10.0f, -10.0f, 25.0f, 17);
-                    pCloth[2].AddCollisionSphere(-10.f, -10.0f, 20.0f, 27.0f, 17);
-                    pCloth[2].AddCollisionSphere(10.f, -10.0f, 20.0f, 27.0f, 17);
-                }
+                    CreateSmallCapeDlCloth(pCloth[2], o);
                 else
                 {
                     //
@@ -11094,7 +11030,7 @@ void RenderCharacter(CHARACTER* c, OBJECT* o, int Select)
 
                 if (EquipmentLevelSet > 9)
                 {
-                    if (rand_fps_check(20))//(o->CurrentAction<PLAYER_WALK_MALE || o->CurrentAction>PLAYER_RUN_RIDE_WEAPON) && rand_fps_check(6))
+                    if (!Render::Items::SetTrails::Render(c, EquipmentLevelSet) && rand_fps_check(20))
                     {
                         VectorCopy(o->Light, Light);
                         Vector(1.f, 1.f, 1.f, o->Light);
@@ -11415,6 +11351,7 @@ void RenderCharactersClient()
 #endif
 
     WaitCharactersAnimation();
+    UI::SocialMusic::PrepareCharacterPose();
 
     // Characters keep their Classic look with post-processing on: their bodies,
     // equipment, wings and glow parts never feed the bloom.
@@ -12830,6 +12767,8 @@ void ReadEquipmentExtended(int Key, BYTE flags, BYTE* Equipment, CHARACTER* pCha
     else
         c = pCharacter;
 
+    // Rebuild companions from this appearance, including when a transformation ends.
+    giPetManager::DeletePet(c);
     OBJECT* o = &c->Object;
     if (o->Type != MODEL_PLAYER)
         return;
@@ -13037,6 +12976,7 @@ namespace
         case 375:
         case 376:
         case 377:
+        case 378:
         case 379:
         case 380:
         case 381:
@@ -13174,6 +13114,34 @@ void Setting_Monster(CHARACTER* c, EMonsterType Type, int PositionX, int Positio
 
 CHARACTER* CreateMonster(EMonsterType Type, int PositionX, int PositionY, int Key)
 {
+    if((int)Type==404||(int)Type==405){
+        CHARACTER* teamPlayer=CreateCharacter(Key,MODEL_PLAYER,PositionX,PositionY);
+        if(!teamPlayer)return nullptr;
+        Setting_Monster(teamPlayer,Type,PositionX,PositionY);
+        teamPlayer->Object.Type=MODEL_PLAYER;teamPlayer->Object.Kind=KIND_PLAYER;
+        teamPlayer->Object.SubType=(int)Type==404?MODEL_CURSEDTEMPLE_ALLIED_PLAYER:MODEL_CURSEDTEMPLE_ILLUSION_PLAYER;
+        teamPlayer->Object.Scale=1.f;teamPlayer->Weapon[0].Type=teamPlayer->Weapon[1].Type=-1;teamPlayer->Wing.Type=-1;teamPlayer->Helper.Type=-1;
+        return teamPlayer;
+    }
+
+    if (const auto* dressed = World::Monsters::Dressed::Find(static_cast<int>(Type)))
+    {
+        CHARACTER* custom = World::Monsters::Dressed::Create(*dressed, PositionX, PositionY, Key);
+        if (custom == nullptr) return nullptr;
+        Setting_Monster(custom, Type, PositionX, PositionY);
+        World::Monsters::Dressed::Configure(*dressed, custom);
+        return custom;
+    }
+
+    if (const auto* definition = World::Monsters::Custom::Find(static_cast<int>(Type)))
+    {
+        CHARACTER* custom = World::Monsters::Custom::Create(*definition, PositionX, PositionY, Key);
+        if (custom == nullptr) return nullptr;
+        Setting_Monster(custom, Type, PositionX, PositionY);
+        World::Monsters::Custom::Configure(*definition, custom);
+        return custom;
+    }
+
     CHARACTER* c = NULL;
     OBJECT* o;
     int Level;
@@ -15264,6 +15232,7 @@ bool RenderCharacterBackItem(CHARACTER* c, OBJECT* o, bool bTranslate)
 
         for (int i = 0; i < 2; ++i)
         {
+            if (c == Hero && UI::SocialMusic::HasInstrument()) continue;
             int iType = c->Weapon[i].Type;
             int iLevel = c->Weapon[i].Level;
             int iOption1 = c->Weapon[i].ExcellentFlags;
