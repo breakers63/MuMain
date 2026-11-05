@@ -31,7 +31,7 @@
 		<!-- Portrait2D's Overlay layout (the default): native's duel crest, drawn behind the text at a
 		     fixed offset in #panel's own coordinate space; its caption is the first text row below. -->
 		<div class="gcd-portrait2d" data-class-hidden="!has_portrait2d_overlay"></div>
-		<div class="sale-backdrop" data-class-hidden="!severity_warning || !has_item3d"></div>
+		<div class="sale-corner sale-corner-tl"></div><div class="sale-corner sale-corner-tr"></div><div class="sale-corner sale-corner-bl"></div><div class="sale-corner sale-corner-br"></div><div class="sale-backdrop" data-class-hidden="!severity_warning || !has_item3d"></div>
         <div class="sale-title" data-class-hidden="!severity_warning || !has_item3d">CONFIRMAR VENTA</div>
         <div class="sale-warning" data-class-hidden="!severity_warning || !has_item3d"><span>!</span></div>
         <div class="sale-close" data-class-hidden="!severity_warning || !has_item3d" data-event-click="gcd_cancel_click">x</div>
