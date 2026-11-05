@@ -150,7 +150,7 @@
         "es": "Hacha de Batalla",
         "pt": "Machado de batalha"
       },
-      "width": 1,
+      "width": 2,
       "height": 3,
       "slot": "mainHand",
       "twoHanded": true,
@@ -178,7 +178,7 @@
         "es": "Hacha Nikea",
         "pt": "Machado de Nikea"
       },
-      "width": 1,
+      "width": 2,
       "height": 3,
       "slot": "mainHand",
       "twoHanded": true,
@@ -206,7 +206,7 @@
         "es": "Hacha Larkan",
         "pt": "Machado de Larkan"
       },
-      "width": 1,
+      "width": 2,
       "height": 3,
       "slot": "mainHand",
       "twoHanded": true,
@@ -233,7 +233,7 @@
         "es": "Hacha Medialuna",
         "pt": "Machado crescente"
       },
-      "width": 1,
+      "width": 2,
       "height": 3,
       "slot": "mainHand",
       "twoHanded": true,

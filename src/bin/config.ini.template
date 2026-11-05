@@ -17,7 +17,7 @@ ServerPort=44405
 [UI]
 Locale=en
 Font=
-RmlTheme=paris-gold
+RmlTheme=legacy
 UIScalePercent=100
 [Camera]
 Zoom=1735

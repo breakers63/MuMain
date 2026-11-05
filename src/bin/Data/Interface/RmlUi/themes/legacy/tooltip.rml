@@ -28,6 +28,7 @@
 		     data-class-tt-half-spacer="line.is_half_spacer" data-class-tt-full-spacer="line.is_full_spacer"
 		     data-style-font-size="text_px + 'px'"
 		>{{line.text}}</div>
+		<img id="tooltip_item_preview" style="display: none; position: absolute; top: 4dp; left: 50%; margin-left: -48dp; width: 96dp; height: 66dp;" />
 	</div>
 </body>
 </rml>

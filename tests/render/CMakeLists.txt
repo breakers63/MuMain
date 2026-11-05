@@ -1,16 +1,4 @@
 mu_add_test(
-    NAME weather_cycle_tests
-    SOURCES
-        test_weather_cycle.cpp
-        test_weather_precipitation.cpp
-        test_puddle_shape.cpp
-        test_weather_audio_mix.cpp
-        test_sky_palette.cpp
-        ${CMAKE_SOURCE_DIR}/src/source/Render/Weather/SkyPalette.cpp
-        ${CMAKE_SOURCE_DIR}/src/source/Render/Weather/WeatherCycle.cpp
-)
-
-mu_add_test(
     NAME bitmap_gpu_resources_tests
     SOURCES
         test_bitmap_gpu_resources.cpp
@@ -126,7 +114,6 @@ mu_add_test(
     SOURCES
         test_ozt_file.cpp
         ${CMAKE_SOURCE_DIR}/src/source/Render/Textures/OztFile.cpp
-        ${CMAKE_SOURCE_DIR}/src/source/Render/Textures/UpscaleMarker.cpp
 )
 target_compile_definitions(ozt_file_tests PRIVATE
     MU_TEST_DATA_DIR="${CMAKE_SOURCE_DIR}/src/bin/Data"
@@ -395,4 +382,3 @@ mu_add_test(
         ${CMAKE_SOURCE_DIR}/src/source/Render/Sprites/GlobalBitmapLoad.cpp
     LINK_LIBS MuClient
 )
-mu_add_test(NAME test_monster_preview_framing SOURCES test_monster_preview_framing.cpp)

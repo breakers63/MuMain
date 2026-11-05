@@ -17,6 +17,6 @@ const void* ItemInfoOwner();
 // The anchor is already in screen pixels; callers convert from their own coordinate space.
 void ShowLegacyTextList(int lineCount, float anchorX, float anchorY,
                         Placement placement = Placement::Below, const void* owner = ItemInfoOwner(),
-                        const tagITEM* item = nullptr);
+                        const tagITEM* item = nullptr, bool itemPreview = false);
 void HideLegacyTextList(const void* owner = ItemInfoOwner());
 }

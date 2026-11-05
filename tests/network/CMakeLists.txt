@@ -107,27 +107,3 @@ if(DOTNET_EXECUTABLE)
     )
     set_tests_properties(outbound_flush_loop PROPERTIES TIMEOUT 30)
 endif()
-
-mu_add_test(
-    NAME test_advanced_stats_snapshot
-    SOURCES
-        test_advanced_stats_snapshot.cpp
-        ${CMAKE_SOURCE_DIR}/src/source/Network/Paris/AdvancedStatsSnapshot.cpp
-)
-
-mu_add_test(
-    NAME test_stat_limits_snapshot
-    SOURCES test_stat_limits_snapshot.cpp
-        ${CMAKE_SOURCE_DIR}/src/source/Network/Paris/StatLimitsSnapshot.cpp
-)
-
-mu_add_test(NAME test_ranking_inspection SOURCES test_ranking_inspection.cpp LINK_LIBS MuClient)
-
-mu_add_test(
-    NAME test_party_finder_protocol
-    SOURCES test_party_finder_protocol.cpp
-        ${CMAKE_SOURCE_DIR}/src/source/App/Platform/Windows/Winmain.cpp
-    LINK_LIBS MuClient
-)
-
-mu_add_test(NAME test_server_list_script SOURCES test_server_list_script.cpp)

@@ -136,9 +136,3 @@ Stored credentials are obfuscated (not plaintext) and tied to the current
 machine and user account, so copying `config.ini` to another machine does not
 reveal them. This is protection against a casual reader of the file, not a
 determined attacker - which is why saving the password is opt-in.
-
-## Monster health
-
-In Options > Interface, enable **Mostrar HP de monstruos** to display the bars above monsters and special bosses' remaining HP percentage. The top bar is reserved for protectors, Red Dragon, Kundun, Medusa, Selupan, Balgass, Erohim, Gaion, Golden Dragon and Golden Tantallos. Normal monsters only have their small overhead bar. The server supplies initial HP and refreshes it after your attacks. This setting is saved for this client.
-
-

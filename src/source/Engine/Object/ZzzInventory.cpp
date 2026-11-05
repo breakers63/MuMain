@@ -1698,7 +1698,7 @@ void GetSpecialOptionText(int Type, wchar_t* Text, WORD Option, BYTE Value, int 
 
 // (sx, sy) in the screen's 640x480 stretch, `screen`.
 static void RenderItemInfo(const UI::Scaling::Transform& screen, int sx, int sy, ITEM* ip, bool Sell, int Inventype,
-                           bool bItemTextListBoxUse)
+                           bool bItemTextListBoxUse, bool itemPreview)
 {
     // Unconditional: the early returns below (and the pet-item delegation further down, which
     // renders its own tooltip via giPetManager::RenderPetItemInfo() instead) used to mean "this
@@ -3955,9 +3955,9 @@ static void RenderItemInfo(const UI::Scaling::Transform& screen, int sx, int sy,
         case ITEM_SMALL_CAPE_OF_LORD:
         case ITEM_LITTLE_WARRIORS_CLOAK:
         {
-            mu_swprintf(TextList[TextNum], I18N::Game::IncreaseDOfDamage, 20 + Level * 2);
+            mu_swprintf(TextList[TextNum], I18N::Game::IncreaseDOfDamage, (ip->Type == ITEM_SMALL_CAPE_OF_LORD ? 12 : 20) + Level * 2);
             TextListColor[TextNum] = TEXT_COLOR_WHITE; TextBold[TextNum] = false; TextNum++;
-            mu_swprintf(TextList[TextNum], I18N::Game::AbsorbDOfDamage, 20 + Level * 2);
+            mu_swprintf(TextList[TextNum], I18N::Game::AbsorbDOfDamage, (ip->Type == ITEM_SMALL_CAPE_OF_LORD ? 12 : 20) + Level * 2);
             TextListColor[TextNum] = TEXT_COLOR_WHITE; TextBold[TextNum] = false; TextNum++;
         }break;
         case ITEM_SMALL_WING_OF_CURSE:
@@ -4171,9 +4171,9 @@ static void RenderItemInfo(const UI::Scaling::Transform& screen, int sx, int sy,
     else if (ip->Type == ITEM_CAPE_OF_FIGHTER || ip->Type == ITEM_CAPE_OF_LORD)
     {
         // 망토 관련 옵션변경
-        mu_swprintf(TextList[TextNum], I18N::Game::IncreaseDOfDamage, 20 + Level * 2);  //  데미지 몇%증가
+        mu_swprintf(TextList[TextNum], I18N::Game::IncreaseDOfDamage, ip->Type == ITEM_CAPE_OF_LORD ? 32 + Level : 20 + Level * 2);  //  데미지 몇%증가
         TextListColor[TextNum] = TEXT_COLOR_WHITE; TextBold[TextNum] = false; TextNum++;
-        int _iDamage = (ip->Type == ITEM_CAPE_OF_FIGHTER) ? 10 + Level * 2 : 10 + Level;
+        int _iDamage = (ip->Type == ITEM_CAPE_OF_FIGHTER) ? 10 + Level * 2 : 25 + Level * 2;
         mu_swprintf(TextList[TextNum], I18N::Game::AbsorbDOfDamage, _iDamage);  //  데미지 몇%흡수
         TextListColor[TextNum] = TEXT_COLOR_WHITE; TextBold[TextNum] = false; TextNum++;
     }
@@ -5260,7 +5260,7 @@ static void RenderItemInfo(const UI::Scaling::Transform& screen, int sx, int sy,
             UI::Scaling::PositionX(screen, static_cast<float>(sx)),
             UI::Scaling::PositionY(screen, static_cast<float>(sy)),
             bItemTextListBoxUse ? UI::Tooltip::Placement::Above : UI::Tooltip::Placement::Below,
-            UI::Tooltip::ItemInfoOwner(), ip);
+            UI::Tooltip::ItemInfoOwner(), ip, itemPreview);
     }
 }
 
@@ -5478,10 +5478,10 @@ template <typename Render> void InScreenSpace(float x, float y, Render render)
 }
 } // namespace
 
-void RenderItemInfoAtPx(float x, float y, ITEM* ip, bool Sell, int Inventype, bool bItemTextListBoxUse)
+void RenderItemInfoAtPx(float x, float y, ITEM* ip, bool Sell, int Inventype, bool bItemTextListBoxUse, bool itemPreview)
 {
     InScreenSpace(x, y, [&](const UI::Scaling::Transform& screen, int sx, int sy)
-                  { RenderItemInfo(screen, sx, sy, ip, Sell, Inventype, bItemTextListBoxUse); });
+                  { RenderItemInfo(screen, sx, sy, ip, Sell, Inventype, bItemTextListBoxUse, itemPreview); });
 }
 
 void RenderRepairInfoAtPx(float x, float y, ITEM* ip, bool Sell)

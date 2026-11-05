@@ -3,7 +3,6 @@
 #include "RmlLayoutFixture.h"
 #include "Data/GameConfig/GameConfig.h"
 #include "UI/RmlBridge/RmlScaleInputs.h"
-#include "UI/RmlBridge/ThemeInheritance.h"
 #include "UI/Scaling/UITransform.h"
 #include <fstream>
 #include <regex>
@@ -25,8 +24,9 @@ std::string AssetMarkup(const std::string& theme, const std::string& name)
 {
     const std::filesystem::path root = MU_RMLUI_DIR;
     const auto themed = root / "themes" / theme;
-    const UI::RmlBridge::ThemeInheritance inheritance(themed);
-    auto path = inheritance.ResolveFile(name + ".rml").value_or(root / (name + ".rml"));
+    auto path = themed / (name + ".rml");
+    if (!std::filesystem::exists(path))
+        path = root / (name + ".rml");
     // Supply state directly to the real DOM without registering the game's networked models.
     const std::regex bindings(R"(\sdata-(?:model|for|if|class-[\w-]+|style-[\w-]+|attr-[\w-]+|event-[\w-]+)="[^"]*")");
     std::string markup = std::regex_replace(ReadFile(path), bindings, "");
@@ -37,7 +37,7 @@ std::string AssetMarkup(const std::string& theme, const std::string& name)
     for (auto it = std::sregex_iterator(markup.begin(), markup.end(), links); it != std::sregex_iterator(); ++it)
     {
         auto stylesheet = themed / (*it)[1].str();
-        if (!inheritance.ResolveFile((*it)[1].str()))
+        if (!std::filesystem::exists(stylesheet))
             stylesheet = root / (*it)[1].str();
         resolved.append(markup, end, static_cast<size_t>(it->position()) - end);
         resolved += "href=\"" + stylesheet.generic_string() + "\"";

@@ -285,7 +285,7 @@ BOOL CMixRecipes::IsMixSource(ITEM* pItem)
             {
                 continue;
             }
-            if (CheckItem((*iter)->m_MixSources[j], mixitem)
+            if (CheckItem((*iter)->m_MixSources[j], mixitem, (*iter)->m_iMixID == 24 && j == 0)
                 && !((*iter)->m_bMixOption == 'B' && IsChaosItem(mixitem))
                 && !((*iter)->m_bMixOption == 'C' && Is380AddedItem(mixitem))
                 && !((*iter)->m_bMixOption == 'D' && IsFenrirAddedItem(mixitem))
@@ -364,7 +364,7 @@ BOOL CMixRecipes::CheckRecipeSub(std::vector<MIX_RECIPE*>::iterator iter, int iN
         if (!IsOptionItem((*iter)->m_MixSources[j])) bFind = FALSE;
         for (int i = 0; i < iNumMixItems; ++i)
         {
-            if (CheckItem((*iter)->m_MixSources[j], pMixItems[i]) && pMixItems[i].m_iTestCount > 0 &&
+            if (CheckItem((*iter)->m_MixSources[j], pMixItems[i], (*iter)->m_iMixID == 24 && j == 0) && pMixItems[i].m_iTestCount > 0 &&
                 (*iter)->m_MixSources[j].m_iCountMax >= iMixRecipeTest[j] + pMixItems[i].m_iTestCount
                 && !((*iter)->m_bMixOption == 'H' && IsSourceOfAttachSeedSphereToArmor(pMixItems[i]))
                 && !((*iter)->m_bMixOption == 'I' && IsSourceOfAttachSeedSphereToWeapon(pMixItems[i]))
@@ -471,7 +471,7 @@ int CMixRecipes::CheckRecipeSimilaritySub(std::vector<MIX_RECIPE*>::iterator ite
     {
         for (int i = 0; i < iNumMixItems; ++i)
         {
-            if (CheckItem((*iter)->m_MixSources[j], pMixItems[i]) && pMixItems[i].m_iTestCount > 0
+            if (CheckItem((*iter)->m_MixSources[j], pMixItems[i], (*iter)->m_iMixID == 24 && j == 0) && pMixItems[i].m_iTestCount > 0
                 && !((*iter)->m_bMixOption == 'H' && IsSourceOfAttachSeedSphereToArmor(pMixItems[i]))
                 && !((*iter)->m_bMixOption == 'I' && IsSourceOfAttachSeedSphereToWeapon(pMixItems[i]))
                 )
@@ -506,8 +506,13 @@ int CMixRecipes::CheckRecipeSimilaritySub(std::vector<MIX_RECIPE*>::iterator ite
     return iFindTotalPoint;
 }
 
-bool CMixRecipes::CheckItem(MIX_RECIPE_ITEM& rItem, CMixItem& rSource)
+bool CMixRecipes::CheckItem(MIX_RECIPE_ITEM& rItem, CMixItem& rSource, bool parisCapeSlot)
 {
+    if (parisCapeSlot)
+    {
+        return rSource.m_sType == ITEM_SMALL_CAPE_OF_LORD && rSource.m_iLevel >= 4 && rSource.m_iOption >= 4;
+    }
+
     if (rItem.m_sTypeMin <= rSource.m_sType && rItem.m_sTypeMax >= rSource.m_sType &&
         rItem.m_iLevelMin <= rSource.m_iLevel && rItem.m_iLevelMax >= rSource.m_iLevel &&
         rItem.m_iDurabilityMin <= rSource.m_iDurability && rItem.m_iDurabilityMax >= rSource.m_iDurability &&

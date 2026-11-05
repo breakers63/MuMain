@@ -1847,10 +1847,10 @@
     {
       "number": 130,
       "name": {
-        "en": "Small Cape of Lord",
-        "de": "Kleiner Umhang des Lords",
-        "es": "Capa de Señor Pequeña",
-        "pt": "Pequena capa do Lorde"
+        "en": "Cape of Paris",
+        "de": "Cape of Paris",
+        "es": "Cape of Paris",
+        "pt": "Cape of Paris"
       },
       "tags": [
         "cape",
@@ -1863,7 +1863,7 @@
       "wingTier": "small",
       "level": 1,
       "durability": 200,
-      "defense": 15,
+      "defense": 20,
       "tradable": false,
       "droppable": false,
       "sellable": false,

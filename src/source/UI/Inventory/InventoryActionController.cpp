@@ -3,6 +3,7 @@
 
 #include "stdafx.h"
 #include "GameLogic/Items/ParisJewelryUpgrades.h"
+#include "GameLogic/Social/PostedItemRecord.h"
 #include "GameLogic/Items/ParisCustomJewels.h"
 #include "UI/Inventory/InventoryActionController.h"
 #include "UI/Inventory/MyInventory.h"
@@ -285,10 +286,14 @@ bool CInventoryActionController::HandleSellToNPC(CInventoryCtrl* targetControl) 
         {
             cfg.item3D = *pPreviewItem;
         }
+        cfg.title = L"Confirmar venta";
+        cfg.primaryLabel = L"Aceptar";
+        cfg.cancelLabel = L"Cancelar";
+        cfg.severity = mu::ui::window::GenericDialogConfig::Severity::Warning;
+        cfg.tallPanel = true;
         cfg.lines = {
-            { I18N::Game::AnExpensiveItem, true },
-            { I18N::Game::CheckTheItemPlease, true },
-            { I18N::Game::AreYouSureYouWantToSellIt, true },
+            { L"¿Deseas vender este objeto?", true },
+            { L"Este objeto es valioso. Confirma para continuar.", false },
         };
         cfg.onPrimary = []
         {
@@ -319,11 +324,6 @@ bool CInventoryActionController::HandleSellToNPC(CInventoryCtrl* targetControl) 
 
 bool CInventoryActionController::HandleInventoryRightClickActions(CInventoryCtrl* targetControl) const
 {
-    if (g_pNewUISystem->IsVisible(INTERFACE_INVENTORY_EXT))
-    {
-        return TryTransferBetweenInventorySections(targetControl);
-    }
-
     ITEM* pItem = targetControl->FindItemAtPointer();
     if (pItem == nullptr)
     {
@@ -331,6 +331,28 @@ bool CInventoryActionController::HandleInventoryRightClickActions(CInventoryCtrl
     }
 
     const int iIndex = targetControl->GetIndexByItem(pItem);
+
+    // Ctrl + right-click in the main inventory publishes the selected item through the
+    // server's validated /postitem command. Keep this ahead of consume/equip/drop handling.
+    if (iIndex >= 0
+        && targetControl->GetStorageType() == STORAGE_TYPE::INVENTORY
+        && (GetAsyncKeyState(VK_CONTROL) & 0x8000))
+    {
+        wchar_t command[32] = {};
+        swprintf_s(command, L"/postitem %d", iIndex);
+        if (SocketClient != nullptr && SocketClient->ToGameServer() != nullptr && Hero != nullptr)
+        {
+            SocketClient->ToGameServer()->SendPublicChatMessage(MU_C16(Hero->ID), MU_C16(command));
+            m_pContext->ResetMouseRButton();
+            PlayBuffer(SOUND_CLICK01);
+            return true;
+        }
+    }
+
+    if (g_pNewUISystem->IsVisible(INTERFACE_INVENTORY_EXT))
+    {
+        return TryTransferBetweenInventorySections(targetControl);
+    }
 
     if (iIndex >= 0 && TryConsumeItem(targetControl, pItem, iIndex))
     {

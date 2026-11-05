@@ -307,6 +307,12 @@ namespace UI::RmlBridge::Tooltip
         }
     }
 
+    Rml::Element* ItemPreviewElement()
+    {
+        auto* document = s_View.Document();
+        return document ? document->GetElementById("tooltip_item_preview") : nullptr;
+    }
+
     void Show(const Config& config, Owner owner)
     {
         if (!RmlUiRuntime::Instance().IsCreated() || config.lines.empty())
@@ -331,7 +337,19 @@ namespace UI::RmlBridge::Tooltip
         const bool contentChanged = UpdateContent(model, std::move(next));
         if (!document->IsVisible())
             document->Show(Rml::ModalFlag::None, Rml::FocusFlag::None);
-        if (contentChanged || !s_Measured || s_Measured->dpRatio != context.GetDensityIndependentPixelRatio())
+        static bool previousPreview = false;
+        const bool previewChanged = previousPreview != config.itemPreview;
+        previousPreview = config.itemPreview;
+        if (auto* image = ItemPreviewElement())
+        {
+            image->SetProperty("display", config.itemPreview ? "block" : "none");
+            if (auto* panel = document->GetElementById("tooltip_panel"))
+            {
+                if (config.itemPreview) panel->SetProperty("padding-top", "74dp");
+                else panel->RemoveProperty("padding-top");
+            }
+        }
+        if (contentChanged || previewChanged || !s_Measured || s_Measured->dpRatio != context.GetDensityIndependentPixelRatio())
             s_Measured = Measure(context, config);
 
         const Rml::Vector2f position = Place(config, *s_Measured, context.GetDimensions());

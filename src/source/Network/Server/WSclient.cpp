@@ -1,5 +1,6 @@
 #include "UI/NPCs/ServiceDialogState.h"
 #include "stdafx.h"
+#include "UI/Chat/ParisChatStyle.h"
 #include "Network/Paris/TvtHud.h"
 #include "Network/Paris/EventEntry.h"
 #include "Network/Paris/BloodPvpNotice.h"
@@ -2012,6 +2013,8 @@ void ReceiveNotice(const BYTE* ReceiveBuffer)
     Network::Paris::NoticeStyle style;
     if (Network::Paris::DecodeNoticeStyle(Data->Result, Data->Count, Data->Delay, Data->Color, Data->Speed, style))
     {
+        if ((Data->Count & 7) == 0)
+            UI::Chat::UpdatePostNoticeStyle(style.rgba, style.background, style.backgroundAlpha);
         UI::Notices::Create(Text, 0, &style);
         if (Data->Result == 2)
             UI::Guild::AddNotice(Text);
@@ -3556,6 +3559,12 @@ void ReceiveAttackDamageExtended(const BYTE* ReceiveBuffer)
     int Index = FindCharacterIndex(Key);
     CHARACTER* c = &CharactersClient[Index];
     OBJECT* o = &c->Object;
+    // A delayed hit must not restart reactions or damage text on a corpse.
+    if (!o->Live || c->Dead > 0)
+    {
+        return;
+    }
+
 
     auto Damage = Data->HealthDamage;
     // DamageType

@@ -72,9 +72,10 @@ const void* ItemInfoOwner()
 }
 
 void ShowLegacyTextList(int lineCount, float anchorX, float anchorY, Placement placement, const void* owner,
-                        const tagITEM* item)
+                        const tagITEM* item, bool itemPreview)
 {
     UI::RmlBridge::Tooltip::Config config;
+    config.itemPreview = itemPreview;
     config.lines = BuildLines(lineCount);
     config.anchorX = anchorX;
     config.anchorY = anchorY;

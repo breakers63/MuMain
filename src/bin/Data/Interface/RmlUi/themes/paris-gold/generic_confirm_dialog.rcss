@@ -338,3 +338,81 @@
 .gcd-sprite-back, .gcd-sprite-top, .gcd-sprite-middle, .gcd-sprite-bottom { display:none; }
 .gcd-text-col { background-color:#020202; }
 .gcd-line { white-space:normal; line-height:1.45; }
+
+
+/* Paris sale dialog, shared across themes. */
+#panel.sale { width: 270dp; margin-left: -135dp; min-height: 152dp; height: auto; background-color: #101010; border: 1dp solid #b78d32; }
+#panel.sale .gcd-sprite-back, #panel.sale .gcd-sprite-top, #panel.sale .gcd-sprite-middle, #panel.sale .gcd-sprite-bottom, #panel.sale .gcd-header-rail { display: none; }
+#panel.sale .gcd-body { margin: 36dp 16dp 54dp 16dp; flex-direction: row; align-items: center; }
+#panel.sale .gcd-item3d { width: 48dp; height: 48dp; margin-right: 12dp; margin-bottom: 0dp; }
+#panel.sale #gcd_item3d { left: 0dp; top: 0dp; width: 48dp; height: 48dp; }
+#panel.sale .gcd-text-col { width: 160dp; flex: 1 1 auto; }
+#panel.sale .gcd-line { line-height: 1.4; color: #ffcf65; }
+#panel.sale .btn { decorator: none; background-color: #242017; border: 1dp solid #b78d32; color: #ffdc80; }
+
+/* Sale confirmation uses the Paris frame and an uninterrupted stone center. */
+@spritesheet paris-sale-sheet {
+ src: "../../../Paris_Stats.tga";
+ paris-sale-frame: 0px 0px 496px 1048px;
+ paris-sale-inner: 40px 40px 416px 968px;
+ paris-sale-stone: 50px 180px 390px 500px;
+}
+@spritesheet paris-sale-button-sheet {
+ src: "../../../Paris_ButtonBase54.tga";
+ paris-sale-button: 0px 0px 54px 54px;
+}
+#panel.sale { top:100dp; left:50%; width:360dp; margin-left:-180dp; min-height:195dp; height:195dp; transform:none; background-color:#080808; border:0dp; decorator:ninepatch(paris-sale-frame, paris-sale-inner, 1.0); }
+#panel.sale .sale-backdrop { position:absolute; left:12dp; right:12dp; top:12dp; bottom:12dp; background-color:#080808; decorator:image(paris-sale-stone); }
+#panel.sale .gcd-sprite-back, #panel.sale .gcd-sprite-top, #panel.sale .gcd-sprite-middle, #panel.sale .gcd-sprite-bottom, #panel.sale .gcd-header-rail, #panel.sale .gcd-header-title, #panel.sale .gcd-item3d, #panel.sale .modern-shell-edge, #panel.sale .modern-groove, #panel.sale .gcd-well, #panel.sale .gcd-footer { display:none; }
+#panel.sale .sale-title { position:absolute; top:13dp; left:20dp; right:20dp; text-align:center; font-size:1.4rem; color:#ffd66b; }
+#panel.sale .sale-warning { position:absolute; top:48dp; left:168dp; width:22dp; height:22dp; border:1dp solid #dfab35; background-color:#181207; transform:rotate(45deg); color:#ffcf50; text-align:center; }
+#panel.sale .sale-warning span { display:block; transform:rotate(-45deg); font-size:1.5rem; }
+#panel.sale .sale-close { position:absolute; top:16dp; right:17dp; width:14dp; height:14dp; border:1dp solid #c89c37; color:#ffdb75; text-align:center; }
+#panel.sale .gcd-body { position:absolute; left:18dp; right:18dp; top:82dp; height:53dp; margin:0dp; padding:0dp; display:block; }
+#panel.sale .gcd-content-row { margin:0dp; padding:0dp; width:100%; display:block; }
+#panel.sale .gcd-text-col { width:100%; height:auto; background-color:rgba(0,0,0,0); margin:0dp; padding:0dp; overflow:visible; }
+#panel.sale .gcd-line { text-align:center; white-space:normal; line-height:1.4; color:#f4dfaa; font-size:1rem; margin-bottom:5dp; }
+#panel.sale .gcd-line:first-child { font-size:1.35rem; color:#fff0cd; }
+#panel.sale .btn { position:absolute; bottom:25dp; width:136dp; height:32dp; decorator:image(paris-sale-button); background-color:#251903; border:1dp solid #b98c29; color:#ffdc80; font-size:1.1rem; text-align:center; }
+#panel.sale .gcd-btn-primary { left:32dp; }
+#panel.sale .gcd-btn-cancel { left:auto; right:32dp; }
+#panel.sale .btn:hover { background-color:#53360b; color:#fff5cc; }
+.sale-backdrop, .sale-title, .sale-warning, .sale-close { display:none; }
+#panel.sale .sale-backdrop, #panel.sale .sale-title, #panel.sale .sale-warning, #panel.sale .sale-close { display:block; }
+/* Keep sale text clear: only the four outside corners carry ornament art. */
+#panel.sale { decorator:none; border:1dp solid #bc922e; background-color:#080808; }
+#panel.sale .sale-backdrop { decorator:none; background-color:#101010; }
+#panel.sale .btn { decorator:none; background-color:#261c08; border:1dp solid #b98c29; }
+#panel.sale .sale-corner { position:absolute; width:18dp; height:18dp; pointer-events:none; }
+@spritesheet paris-sale-corners {
+ src:"../../../Paris_Stats.tga";
+ sale-corner-tl:0px 0px 40px 40px;
+ sale-corner-tr:456px 0px 40px 40px;
+ sale-corner-bl:0px 1008px 40px 40px;
+ sale-corner-br:456px 1008px 40px 40px;
+}
+#panel.sale .sale-corner-tl { left:0dp; top:0dp; decorator:image(sale-corner-tl); }
+#panel.sale .sale-corner-tr { right:0dp; top:0dp; decorator:image(sale-corner-tr); }
+#panel.sale .sale-corner-bl { left:0dp; bottom:0dp; decorator:image(sale-corner-bl); }
+#panel.sale .sale-corner-br { right:0dp; bottom:0dp; decorator:image(sale-corner-br); }
+.sale-corner { display:none; }
+#panel.sale .sale-corner { display:block; }
+/* Sale preview and full outside frame; the center remains unobstructed. */
+#panel.sale { border-width:1dp; border-color:#bc922e; }
+#panel.sale .sale-warning { display:none; }
+#panel.sale .gcd-item3d { display:block; position:absolute; left:122dp; top:-48dp; width:80dp; height:46dp; margin:0dp; }
+#panel.sale #gcd_item3d { left:0dp; top:0dp; width:80dp; height:46dp; }
+#panel.sale .btn { border-width:1dp; border-color:#b98c29; }
+@spritesheet paris-sale-edges {
+ src:"../../../Paris_Stats.tga";
+ sale-edge-top:40px 0px 416px 40px;
+ sale-edge-bottom:40px 1008px 416px 40px;
+ sale-edge-left:0px 40px 40px 968px;
+ sale-edge-right:456px 40px 40px 968px;
+}
+.sale-edge { display:none; }
+#panel.sale .sale-edge { display:block; position:absolute; pointer-events:none; }
+#panel.sale .sale-edge-top { top:0dp; left:18dp; right:18dp; height:12dp; decorator:image(sale-edge-top); }
+#panel.sale .sale-edge-bottom { bottom:0dp; left:18dp; right:18dp; height:12dp; decorator:image(sale-edge-bottom); }
+#panel.sale .sale-edge-left { left:0dp; top:18dp; bottom:18dp; width:12dp; decorator:image(sale-edge-left); }
+#panel.sale .sale-edge-right { right:0dp; top:18dp; bottom:18dp; width:12dp; decorator:image(sale-edge-right); }

@@ -977,6 +977,7 @@ void CSystem::Show(DWORD dwKey)
         HideAllGroupA();
         g_pMixInventory->OpeningProcess();
         m_pNewUIMng->ShowInterface(INTERFACE_INVENTORY);
+        Show(INTERFACE_INVENTORY_EXT);
         g_pMainFrame->SetBtnState(MAINFRAME_BTN_MYINVEN, true);
     }
     else if (dwKey == INTERFACE_NPCSHOP)

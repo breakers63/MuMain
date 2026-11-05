@@ -757,6 +757,10 @@ void mu::ui::window::CSkillList::RebuildGridSnapshot()
     {
         int iSkillType = CharacterAttribute->Skill[i];
 
+        if (iSkillType >= AT_SKILL_CURSED_TEMPLE_PRODECTION
+            && iSkillType <= AT_SKILL_CURSED_TEMPLE_SUBLIMATION)
+            continue;
+
         if (iSkillType <= 0 || iSkillType >= MAX_SKILLS || (iSkillType >= AT_SKILL_STUN && iSkillType <= AT_SKILL_REMOVAL_BUFF))
             continue;
 
