@@ -6671,7 +6671,7 @@ void RenderLinkObject(float x, float y, float z, CHARACTER* c, PART_t* f, int Ty
             AngleMatrix(Angle, Matrix);
             Matrix[0][3] = -10.f;
             Matrix[1][3] = 8.f;
-            Matrix[2][3] = 40.f;
+            Matrix[2][3] = Type == MODEL_SERPENT_CROSSBOW ? 20.f : 40.f;
         }
         else if (Type == MODEL_15GRADE_ARMOR_OBJ_ARMLEFT || Type == MODEL_15GRADE_ARMOR_OBJ_ARMRIGHT ||
             Type == MODEL_15GRADE_ARMOR_OBJ_BODYLEFT || Type == MODEL_15GRADE_ARMOR_OBJ_BODYRIGHT ||
@@ -6859,7 +6859,7 @@ void RenderLinkObject(float x, float y, float z, CHARACTER* c, PART_t* f, int Ty
             b->BodyScale = 0.9f;
         }
 
-        if (bRightHandItem == false && !(Type >= MODEL_SHIELD && Type < MODEL_SHIELD + MAX_ITEM_INDEX) && Type != MODEL_ARROW_VIPER_BOW)
+        if (bRightHandItem == false && !(Type >= MODEL_SHIELD && Type < MODEL_SHIELD + MAX_ITEM_INDEX) && Type != MODEL_ARROW_VIPER_BOW && Type != MODEL_SERPENT_CROSSBOW)
         {
             vec3_t vNewAngle;
             float mNewRot[3][4];
