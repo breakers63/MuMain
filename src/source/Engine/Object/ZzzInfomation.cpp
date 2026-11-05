@@ -628,8 +628,8 @@ void CalcDefense(ITEM* ip, ITEM_ATTRIBUTE* p)
 
     if (ip->Type == ITEM_CAPE_OF_LORD)
     {
-        p->Defense = 15;
-        ip->Defense = 15;
+        p->Defense = 45;
+        ip->Defense = 45;
     }
 
     if (p->Defense == 0)
@@ -1161,7 +1161,7 @@ void SetItemAttributes(ITEM* ip)
                 ip->SpecialValue[ip->SpecialNum] = Option3 * 4;
                 ip->Special[ip->SpecialNum] = AT_IMPROVE_MAGIC; ip->SpecialNum++;
             }
-            else if (ip->Type == ITEM_WINGS_OF_SATAN)
+            else if (ip->Type == ITEM_WINGS_OF_SATAN || ip->Type == ITEM_SMALL_CAPE_OF_LORD)
             {
                 ip->SpecialValue[ip->SpecialNum] = Option3 * 4;
                 ip->Special[ip->SpecialNum] = AT_IMPROVE_DAMAGE; ip->SpecialNum++;

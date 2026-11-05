@@ -107,6 +107,7 @@ public:
     ~Connection();
 
     bool IsConnected();
+    int32_t GetTcpPingMilliseconds() const;
     void Send(const BYTE* data, const int32_t length);
     void Close();
 

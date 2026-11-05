@@ -1,5 +1,6 @@
 
 #include "stdafx.h"
+#include "UI/NPCs/BuffDetails.h"
 #include "Engine/Object/ZzzInfomation.h"
 #include "UI/Core/UIManager.h"
 #include "GameLogic/Items/ItemAddOptioninfo.h"
@@ -137,6 +138,8 @@ bool BuffTimeControl::UnRegisterBuffTime(eBuffState bufftype)
 
 void BuffTimeControl::GetBuffStringTime(eBuffState bufftype, std::wstring& timeText)
 {
+    const auto serverTime=UI::BuffDetails::Time(static_cast<int>(bufftype));
+    if(!serverTime.empty()) {timeText=serverTime;return;}
     for (BuffTimeInfoMap::iterator iter = m_BuffTimeList.begin(); iter != m_BuffTimeList.end(); ++iter)
     {
         BuffTimeInfo& bufftimeinfo = (*iter).second;

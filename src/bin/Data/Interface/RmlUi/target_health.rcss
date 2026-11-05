@@ -1,0 +1,19 @@
+body { pointer-events: none; background-color: transparent; }
+#target-health {
+    position: absolute;
+    top: 6%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50%;
+    max-width: 620px;
+    background-color: #090909e8;
+    border: 2px #ae842c;
+    padding: 7px 12px;
+    box-sizing: border-box;
+}
+.target-name { text-align: center; color: #ffe0a5; font-size: 15px; }
+.target-track { height: 12px; margin-top: 5px; background-color: #300606; border: 1px #6c4d1a; }
+.target-fill { height: 100%; background-color: #d61717; }
+.target-percent { text-align: center; color: white; font-size: 12px; margin-top: 2px; }
+
+.damage-ranking { color: #fff2cf; font-size: 12px; line-height: 17px; text-align: left; margin-top: 5px; }

@@ -1,4 +1,4 @@
-﻿//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
 //
 //  GOBoid.cpp
 //
@@ -151,6 +151,16 @@ void CreateMount(int Type, vec3_t Position, OBJECT* Owner, int SubType, int Link
     }
 }
 
+namespace
+{
+    bool CanKeepCompanion(const OBJECT* owner)
+    {
+        if (owner == nullptr || !owner->Live) return false;
+        return owner->Kind == KIND_PLAYER
+            || (owner->Kind == KIND_NPC && owner->Type == MODEL_PLAYER);
+    }
+}
+
 bool MoveMount(OBJECT* o, bool bForceRender)
 {
     if (o->Live)
@@ -159,7 +169,7 @@ bool MoveMount(OBJECT* o, bool bForceRender)
         {
             if (gMapManager.WorldActive >= WD_65DOPPLEGANGER1 && gMapManager.WorldActive <= WD_68DOPPLEGANGER4);
             else
-                if (!o->Owner->Live || o->Owner->Kind != KIND_PLAYER)
+                if (!CanKeepCompanion(o->Owner))
                 {
                     o->Live = false;
                     return TRUE;

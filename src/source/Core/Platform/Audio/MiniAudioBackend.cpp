@@ -225,10 +225,7 @@ void MiniAudioBackend::LoadSound(ESound buffer, const wchar_t* filename, int cha
             return;
         }
 
-        if (enable3D)
-        {
-            ma_sound_set_spatialization_enabled(&m_sounds[bufIdx][ch], MA_TRUE);
-        }
+        ma_sound_set_spatialization_enabled(&m_sounds[bufIdx][ch], enable3D ? MA_TRUE : MA_FALSE);
     }
 
     m_soundLoaded[bufIdx] = true;

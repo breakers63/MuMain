@@ -1,0 +1,66 @@
+/* OpenGL activity logs: 540:460, centered above the HUD; four live rows. */
+@spritesheet activity-kills { src: "../../../Paris_KillLogV22.tga"; activity-kills: 0px 0px 1024px 1024px; }
+@spritesheet activity-posts { src: "../../../Paris_PostLogV22.tga"; activity-posts: 0px 0px 1024px 1024px; }
+@spritesheet activity-buttons { src: "../../../Paris_RankingColorsV14.tga"; activity-red: 0px 0px 200px 56px; activity-green: 0px 128px 200px 56px; }
+@spritesheet activity-border { src: "../../../Paris_RankingReferenceV5.tga"; activity-t: 0px 0px 1024px 12.288px; activity-b: 0px 1011.712px 1024px 12.288px; activity-l: 0px 12.288px 12.288px 999.424px; activity-r: 1011.712px 12.288px 12.288px 999.424px; }
+@spritesheet activity-winner { src: "../../../Paris_WinnerBadgeV23.tga"; activity-win: 5.67px 46.9628px 1012.1864px 152.5407px; }
+@spritesheet activity-cutouts { src: "../../../Paris_LogCutoutsV22.tga";
+ activity-lose: 49.8118px 112.6890px 924.3764px 176.3828px;
+ activity-post: 40.0128px 379.7129px 498.9346px 140.4530px;
+ activity-map-0: 0.0000px 555.2791px 256.0000px 302.1372px;
+ activity-map-1: 256.0000px 555.2791px 256.0000px 302.1372px;
+ activity-map-2: 512.0000px 555.2791px 256.0000px 302.1372px;
+ activity-map-3: 768.0000px 555.2791px 256.0000px 302.1372px;
+}
+#panel.activity-panel { position: absolute; left: 50%; top: 4dp; margin-left: -240dp; width: 480dp; height: 408.8889dp; pointer-events: auto; background-color: #08090a; color: #eed38b; font-family: "token(font-body)"; font-size: 7.5dp; }
+.activity-panel div, .activity-panel span { box-sizing: border-box; }
+.activity-background { position: absolute; left: 0; top: 0; width: 100%; height: 100%; }
+.kills .activity-background { decorator: image(activity-kills); } .posts .activity-background { decorator: image(activity-posts); }
+.activity-cover { position: absolute; background-color: #08090a; }
+.cover-t, .cover-b { left: 0; width: 100%; height: 2.3913%; } .cover-t { top: 0; } .cover-b { bottom: 0; }
+.cover-l, .cover-r { top: 0; width: 2.2222%; height: 100%; } .cover-l { left: 0; } .cover-r { right: 0; }
+.activity-border { position: absolute; pointer-events: none; }
+.border-t, .border-b { left: 0; width: 100%; height: 1.2%; } .border-t { top: 0; decorator: image(activity-t); } .border-b { bottom: 0; decorator: image(activity-b); }
+.border-l, .border-r { top: 1.2%; height: 97.6%; width: 1.2%; } .border-l { left: 0; decorator: image(activity-l); } .border-r { right: 0; decorator: image(activity-r); }
+.activity-all, .activity-secondary { position: absolute; top: 19.1304%; height: 5.2174%; cursor: pointer; }
+.activity-all { left: 4.6296%; width: 14.0741%; } .activity-secondary { left: 19.8148%; width: 15.5556%; }
+.activity-all:hover, .activity-secondary:hover, .activity-secondary.active { background-color: #ffd34d22; }
+.activity-search { position: absolute; left: 42.2222%; top: 20.4348%; width: 30.1852%; height: 3.913%; padding: 0; border: 0; background-color: transparent; color: white; font-size: 7.5dp; }
+.activity-placeholder { position: absolute; left: 42.2222%; top: 20.4348%; width: 30.3704%; color: #e2d5ae; pointer-events: none; }
+.activity-count { position: absolute; left: 81.2963%; top: 20.4348%; width: 14.8148%; text-align: center; }
+.activity-row { position: absolute; left: 3.5185%; width: 89.6296%; height: 11.9565%; }
+.activity-row:hover { background-color: #ffd34d19; }
+.activity-row span { position: absolute; }
+.activity-time { left: 3.0992%; top: 36.3636%; width: 16.9421%; text-align: center; }
+.activity-actor { left: 21.9008%; top: 36.3636%; width: 17.562%; text-align: center; color: white; }
+.activity-winner, .activity-defeat { left: 44.0083%; top: 27.2727%; width: 25.4132%; height: 49.0909%; }
+.activity-winner { decorator: image(activity-win); } .activity-defeat { decorator: image(activity-lose); }
+.activity-map-icon { left: 74.1736%; top: 9.0909%; width: 7.6446%; height: 74.5455%; }
+.activity-map { left: 83.2645%; top: 36.3636%; width: 16.5289%; text-align: center; color: white; }
+.activity-post-badge { left: 18.595%; top: 29.0909%; width: 14.4628%; height: 43.6364%; decorator: image(activity-post); }
+.activity-item-frame { left: 37.1901%; top: 7.2727%; width: 8.2645%; height: 80%; border: 1dp #aa8634; background-color: #080906; }
+.activity-item { position: absolute; left: 37.8099%; top: 12.7273%; width: 7.0248%; height: 63.6364%; pointer-events: none; }
+.activity-description { left: 49.5868%; top: 34.5455%; width: 49.7934%; color: white; font-weight: bold; }
+.activity-empty { position: absolute; left: 19%; top: 54.3478%; width: 72%; text-align: center; color: white; }
+.activity-scroll { position: absolute; left: 94.0741%; top: 35.6522%; width: 2.4074%; height: 43.0435%; padding: 0; border: 0; background-color: transparent; }
+.activity-scroll slidertrack { background-color: transparent; }
+.activity-scroll sliderbar { width: 70%; height: var(--thumb-height, 100%); margin-left: 5%; background-color: #67460b; border-top: 1dp #f5c74c; border-bottom: 1dp #f5c74c; }
+.activity-scroll sliderarrowdec, .activity-scroll sliderarrowinc { height: 0; width: 0; decorator: none; background-color: transparent; }
+.activity-scroll:disabled sliderbar { height: 100%; }
+.activity-footer-mask { position: absolute; top: 86.7391%; height: 8.913%; background-color: #070809; }
+.mask-left { left: 4.6296%; width: 33.3333%; } .mask-right { left: 74.8148%; width: 20.3704%; }
+.activity-panel button { position: absolute; top: 88.0435%; height: 6.087%; padding: 0; border: 0; color: #eed38b; font-family: "token(font-body)"; font-size: 7.5dp; decorator: image(activity-red); }
+button.activity-prev { left: 5.5556%; width: 13.3333%; } button.activity-next { left: 20.7407%; width: 13.3333%; decorator: image(activity-green); } button.activity-close { left: 75.9259%; width: 18.5185%; }
+.activity-panel button:hover { color: white; }
+.activity-status { position: absolute; left: 40.7407%; top: 90.4348%; width: 34.6296%; text-align: center; }
+.kills .slot-0 { top: 32.8261%; } .posts .slot-0 { top: 31.9565%; } .map-0 { decorator: image(activity-map-0); }
+.kills .slot-1 { top: 44.7826%; } .posts .slot-1 { top: 43.9130%; } .map-1 { decorator: image(activity-map-1); }
+.kills .slot-2 { top: 56.7391%; } .posts .slot-2 { top: 55.8696%; } .map-2 { decorator: image(activity-map-2); }
+.kills .slot-3 { top: 68.6957%; } .posts .slot-3 { top: 67.8261%; } .map-3 { decorator: image(activity-map-3); }
+
+.activity-panel button { display: flex; align-items: center; justify-content: center; text-align: center; }
+
+.activity-scroll-up, .activity-scroll-down { position: absolute; left: 94.0741%; width: 2.4074%; height: 3.0435%; cursor: pointer; }
+.activity-scroll-up { top: 32.6087%; } .activity-scroll-down { top: 78.6957%; }
+
+.activity-panel button > span { position: absolute; left: 0; top: 0; width: 100%; height: 100%; line-height: 24.8889dp; color: #eed38b; text-align: center; font-size: 7.5dp; pointer-events: none; }

@@ -86,6 +86,19 @@
 #include "UI/MuHelper/MuHelperDetailWindow.h"
 #include "UI/Dialogs/GenericConfirmDialog.h"
 #include "UI/Dialogs/GenericMenuDialog.h"
+#include "UI/Dialogs/ParisJewelBankWindow.h"
+#include "UI/Dialogs/ParisMarketWindow.h"
+#include "UI/Dialogs/ParisAuctionWindow.h"
+#include "UI/Dialogs/ParisRankUserWindow.h"
+#include "UI/Dialogs/ParisRankingWindow.h"
+#include "UI/Dialogs/ParisActivityLogWindow.h"
+#include "UI/Dialogs/ParisResetWindow.h"
+#include "UI/Dialogs/ParisVipWindow.h"
+#include "UI/Dialogs/ParisBattlePassWindow.h"
+#include "UI/Dialogs/ParisEventsWindow.h"
+#include "UI/Dialogs/GestureWheelWindow.h"
+#include "UI/Dialogs/ParisAdvancedStatsWindow.h"
+#include "UI/Dialogs/ParisGmEventsWindow.h"
 
 namespace mu::ui::window
 {
@@ -228,6 +241,19 @@ namespace mu::ui::window
         CMuHelperSkillPicker* m_pMuHelperSkillPicker;
         CGenericConfirmDialog* m_pGenericConfirmDialog;
         CGenericMenuDialog* m_pGenericMenuDialog;
+        CParisJewelBankWindow* m_pParisJewelBankWindow;
+        CParisMarketWindow* m_pParisMarketWindow;
+        CParisAuctionWindow* m_pParisAuctionWindow;
+        CParisRankUserWindow* m_pParisRankUserWindow;
+        CParisRankingWindow* m_pParisRankingWindow;
+        CParisActivityLogWindow* m_pParisActivityLogWindow;
+        CParisResetWindow* m_pParisResetWindow;
+        CParisVipWindow* m_pParisVipWindow;
+        CParisBattlePassWindow* m_pParisBattlePassWindow;
+        CParisEventsWindow* m_pParisEventsWindow;
+        CGestureWheelWindow* m_pGestureWheelWindow;
+        CParisAdvancedStatsWindow* m_pParisAdvancedStatsWindow;
+        CParisGmEventsWindow* m_pParisGmEventsWindow;
 
         bool CreateChatCommandWindow();
 

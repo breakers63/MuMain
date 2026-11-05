@@ -3,6 +3,7 @@
 #include "I18N/All.h"
 
 #include "UI/HUD/HotKey.h"
+#include "UI/HUD/SkillList.h"
 #include "UI/Core/WindowSystem.h"
 #include "UI/Core/WindowCommon.h" // ShowSystemMenuDialog
 #include "UI/Dialogs/CommonMessageBox.h"
@@ -129,6 +130,8 @@ bool mu::ui::window::CHotKey::UpdateKeyEvent()
             && !mu::ui::window::g_pGenericConfirmDialog->IsVisible()
             && !mu::ui::window::g_pGenericMenuDialog->IsVisible())
         {
+            if (g_pSkillList && g_pSkillList->CloseSkillGrid())
+                return false;
             mu::ui::window::ShowSystemMenuDialog();
             PlayBuffer(SOUND_CLICK01);
             return false;

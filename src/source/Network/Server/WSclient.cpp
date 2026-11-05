@@ -1,4 +1,12 @@
+#include "UI/NPCs/ServiceDialogState.h"
 #include "stdafx.h"
+#include "Network/Paris/TvtHud.h"
+#include "Network/Paris/EventEntry.h"
+#include "Network/Paris/BloodPvpNotice.h"
+#include "Network/Paris/EventTimer.h"
+#include "GameLogic/Social/PartyFollow.h"
+#include "Network/Paris/PartyFinderProtocol.h"
+#include "Network/Server/ViewportMonsterType.h"
 #include "App/Control/ControlTaps.h"
 #include "Core/Utilities/Log/MuLogger.h"
 #include "UI/Chat/Chat.h"
@@ -39,6 +47,7 @@
 #include "Scenes/SceneCore.h"
 #include "Network/Reconnect/ReconnectManager.h"
 #include "Network/IncomingPacketQueue.h"
+#include "Network/Paris/ParisPacketDispatch.h"
 #include "I18N/All.h"
 
 #include "Audio/DSPlaySound.h"
@@ -47,6 +56,7 @@
 #include "Engine/AI/GOBoid.h"
 #include "GameLogic/Quests/CSQuest.h"
 #include "GameLogic/Items/PersonalShopTitleImp.h"
+#include "GameLogic/Social/ActivityHistoryUpdates.h"
 #include "GameLogic/NPCs/npcBreeder.h"
 #include "GameLogic/Pets/GIPetManager.h"
 #include "GameLogic/Pets/w_PetProcess.h"
@@ -690,6 +700,7 @@ void ReceiveChangePassword(const BYTE* ReceiveBuffer)
 
 void ReceiveCharacterListExtended(const BYTE* ReceiveBuffer)
 {
+    UI::BuffDetails::Clear();
     InitGuildWar();
 
     // The server sends the allowed price types again when a character enters the game.
@@ -908,6 +919,8 @@ void InitGame()
     SocketClient->ToGameServer()->SendCloseNpcRequest();
 
     g_iFollowCharacter = -1;
+    GameLogic::Social::PartyFollow::Cancel();
+    Network::Paris::PartyFinder::Reset();
 
     LockInputStatus = false;
 
@@ -1800,6 +1813,15 @@ void ReceiveChat(const BYTE* ReceiveBuffer)
         CMultiLanguage::ConvertFromUtf8(Text, Data->ChatText);
         Text[MAX_CHAT_SIZE] = L'\0';
 
+        if (UI::NPCs::ServiceDialog::Receive(Text))
+    {
+        if (UI::NPCs::ServiceDialog::state.ready)
+            UI::Windows::Show(mu::ui::window::INTERFACE_GOLD_BOWMAN);
+        return;
+    }
+    if (Network::Paris::DispatchText(Text))
+            return;
+
         // The prefix the branches below consume is what says which channel
         // this line belongs to; it is read before they shift it away.
         const char* chatKind = Text[0] == L'~'                        ? "party"
@@ -1872,8 +1894,8 @@ void ReceiveChat(const BYTE* ReceiveBuffer)
             {
                 CHARACTER* c = &CharactersClient[i];
                 OBJECT* o = &c->Object;
-                if (o->Live && o->Kind == KIND_PLAYER && g_isCharacterBuff((&c->Object), eBuff_GMEffect) ||
-                    (c->CtlCode == CTLCODE_20OPERATOR) || (c->CtlCode == CTLCODE_08OPERATOR))
+                if (o->Live && o->Kind == KIND_PLAYER && (g_isCharacterBuff((&c->Object), eBuff_GMEffect) ||
+                    (c->CtlCode == CTLCODE_20OPERATOR) || (c->CtlCode == CTLCODE_08OPERATOR)))
                 {
                     if (wcscmp(c->ID, ID) == 0)
                     {
@@ -1972,6 +1994,29 @@ void ReceiveNotice(const BYTE* ReceiveBuffer)
     auto Data = (LPPRECEIVE_NOTICE)ReceiveBuffer;
     wchar_t Text[256]{};
     CMultiLanguage::ConvertFromUtf8(Text, Data->Notice);
+    if (Network::Paris::Entry::Receive(Text)) { if (Network::Paris::Entry::Complete) { Network::Paris::Entry::Complete=false; UI::Windows::Show(mu::ui::window::INTERFACE_DEVILSQUARE); } return; }
+    if(ParisTvtHud::Receive(Text))return;
+    if (Network::Paris::EventTimer::Receive(Text)) return;
+    if (Network::Paris::BloodPvpNotice::Receive(Text)) return;
+
+    if (UI::NPCs::ServiceDialog::Receive(Text))
+    {
+        if (UI::NPCs::ServiceDialog::state.ready)
+            UI::Windows::Show(mu::ui::window::INTERFACE_GOLD_BOWMAN);
+        return;
+    }
+    if (Network::Paris::DispatchText(Text))
+        return;
+
+    static_assert(offsetof(PRECEIVE_NOTICE, Notice) == 13);
+    Network::Paris::NoticeStyle style;
+    if (Network::Paris::DecodeNoticeStyle(Data->Result, Data->Count, Data->Delay, Data->Color, Data->Speed, style))
+    {
+        UI::Notices::Create(Text, 0, &style);
+        if (Data->Result == 2)
+            UI::Guild::AddNotice(Text);
+        return;
+    }
 
     if (Data->Result == 0)
     {
@@ -2085,6 +2130,7 @@ void ReceiveMoveCharacter(std::span<const BYTE> ReceiveBuffer)
 
         if (PathFinding2(c->PositionX, c->PositionY, c->TargetX, c->TargetY, &c->Path, 0.0f, iDefaultWall))
         {
+            if (o->Kind == KIND_PLAYER) c->JumpTime = 0;
             c->Movement = true;
         }
         else
@@ -2677,6 +2723,23 @@ void ReceiveCreatePlayerViewportExtended(std::span<const BYTE> ReceiveBuffer)
     g_ConsoleDebug->Write(MCD_RECEIVE, L"0x12 [ReceiveCreatePlayerViewportExtended]");
 }
 
+namespace
+{
+void ApplyParisTeamTransformation(CHARACTER* character, EMonsterType skin)
+{
+    auto* object = &character->Object;
+    DeleteMount(object);
+    ThePetProcess().DeletePet(character, character->Helper.Type, true);
+    giPetManager::DeletePet(character);
+    object->Type = MODEL_PLAYER;
+    object->SubType = skin == MONSTER_MU_ALLIES
+        ? MODEL_CURSEDTEMPLE_ALLIED_PLAYER : MODEL_CURSEDTEMPLE_ILLUSION_PLAYER;
+    character->Weapon[0].Type = character->Weapon[1].Type = -1;
+    character->Wing.Type = character->Helper.Type = -1;
+    character->Change = true;
+}
+}
+
 void ReceiveCreateTransformViewport(std::span<const BYTE> ReceiveBuffer)
 {
     auto Data = safe_cast<PWHEADER_DEFAULT_WORD>(ReceiveBuffer);
@@ -2799,7 +2862,9 @@ void ReceiveCreateTransformViewport(std::span<const BYTE> ReceiveBuffer)
 
             CMultiLanguage::ConvertFromUtf8(c->ID, Data2->ID, MAX_USERNAME_SIZE);
 
-            ChangeCharacterExt(FindCharacterIndex(Key), Data2->Equipment);
+            ReadEquipmentExtended(FindCharacterIndex(Key), Data2->Flags, Data2->Equipment);
+            if (Type == MONSTER_MU_ALLIES || Type == MONSTER_ILLUSION_SORCERER) ApplyParisTeamTransformation(c, Type);
+
         }
 
         Offset += *EntryLength;
@@ -2906,7 +2971,7 @@ void ReceiveCreateMonsterViewport(const BYTE* ReceiveBuffer)
 
         BYTE bMyMob = (Data2->TypeH) & 0x80;
         BYTE byBuildTime = (Data2->TypeH & 0x70) >> 4;
-        auto Type = (EMonsterType)(((WORD)(Data2->TypeH & 0x03) << 8) + Data2->TypeL);
+        auto Type = static_cast<EMonsterType>(Network::Viewport::DecodeMonsterType(Data2->TypeH, Data2->TypeL));
 
         if (Type != 106)
             int a = 0;
@@ -3491,6 +3556,12 @@ void ReceiveAttackDamageExtended(const BYTE* ReceiveBuffer)
     int Index = FindCharacterIndex(Key);
     CHARACTER* c = &CharactersClient[Index];
     OBJECT* o = &c->Object;
+    // A delayed hit must not restart reactions or damage text on a corpse.
+    if (!o->Live || c->Dead > 0)
+    {
+        return;
+    }
+
 
     auto Damage = Data->HealthDamage;
     // DamageType
@@ -5900,6 +5971,7 @@ void FallingStartCharacter(CHARACTER* c, OBJECT* o)
 
 void ReceiveDie(const BYTE* ReceiveBuffer, int Size)
 {
+    GameLogic::Social::ActivityHistoryUpdates::RecordPlayerDeath(ReceiveBuffer, Size);
     auto Data = (LPPHEADER_DEFAULT_DIE)ReceiveBuffer;
 
     int Key = ((int)(Data->KeyH) << 8) + Data->KeyL;
@@ -7331,6 +7403,7 @@ void ReceivePartyInfo(const BYTE* ReceiveBuffer)
 
 void ReceivePartyLeave(const BYTE* ReceiveBuffer)
 {
+    GameLogic::Social::PartyFollow::Cancel();
     App::Control::Events::RecordPartyChange("left", L"");
 
     PartyNumber = 0;
@@ -13232,6 +13305,10 @@ static void ProcessPacket(const BYTE* ReceiveBuffer, int32_t Size)
     }
     switch (HeadCode)
     {
+    case 0xED:
+    case 0xFA:
+        Network::Paris::Dispatch(ReceiveBuffer, Size);
+        break;
     case 0xF1:
     {
         auto Data = (LPPHEADER_DEFAULT_SUBCODE)ReceiveBuffer;

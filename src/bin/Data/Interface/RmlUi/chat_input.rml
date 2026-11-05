@@ -10,6 +10,12 @@
 	     transparent hit area whose "on" sprite is switched in by a class -- the hit area must exist
 	     whether or not the sprite does, which is why the two aren't the same element. -->
 	<div id="panel">
+        <div class="chat-completions" data-if="show_commands">
+            <div class="chat-completion" data-for="command : commands" data-class-selected="command.selected" data-event-mousedown="chat_complete(command.index)">
+                <span class="command-name">{{command.name}}</span><span class="command-description">{{command.description}}</span>
+                <span class="command-usage">{{command.usage}}</span>
+            </div>
+        </div>
 		<!-- Input target: normal / party / guild / gens. Exactly one is lit at a time. -->
 		<div id="btn_type_0" class="cib-btn cib-btn-normal" data-class-on="input_msg_type == 0"
 		     data-event-click="chat_set_type(0)" data-attr-data-hint="hint_0"></div>

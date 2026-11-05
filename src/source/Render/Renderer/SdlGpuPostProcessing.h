@@ -41,10 +41,12 @@ struct SdlGpuCompositeUniform
     // 0: ungraded; otherwise the blend of the graded colour with the ungraded one
     // (Render::PostProcessing::CompositeGradingStrength).
     float gradingStrength;
+    float visualParameters[4]; // sharpness, natural colour strength, reserved
 };
 static_assert(offsetof(SdlGpuCompositeUniform, bloomScale) == 8);
 static_assert(offsetof(SdlGpuCompositeUniform, gradingStrength) == 12);
-static_assert(sizeof(SdlGpuCompositeUniform) == 16);
+static_assert(offsetof(SdlGpuCompositeUniform, visualParameters) == 16);
+static_assert(sizeof(SdlGpuCompositeUniform) == 32);
 
 // The textures and passes that turn the rendered 3D scene into the processed
 // image the UI is then drawn on: the scene texture the scene pass resolves into,

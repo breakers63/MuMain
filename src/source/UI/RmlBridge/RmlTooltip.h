@@ -5,6 +5,8 @@
 #include "UI/Scaling/UITransform.h"
 
 #include <optional>
+
+namespace Rml { class Element; }
 #include <string>
 #include <vector>
 
@@ -63,6 +65,9 @@ namespace UI::RmlBridge::Tooltip
         LineColor color = LineColor::White;
         bool bold = false;
         Kind kind = Kind::Text;
+        int sourceColor = -1;
+        std::string customColor;
+        std::string customBackground;
     };
 
     // Where the tooltip is anchored before edge-clamping: BelowLeft grows down-right from
@@ -79,6 +84,7 @@ namespace UI::RmlBridge::Tooltip
 
     struct Config
     {
+        bool itemPreview = false;
         std::vector<Line> lines;
 
         // The anchor in window pixels: the caller converts it from whatever space its own point is
@@ -130,6 +136,8 @@ namespace UI::RmlBridge::Tooltip
         // first frame nothing shows it again, so it goes when the window that drew it closes, or
         // stops drawing it, without a Hide() of its own on that path.
         bool refreshEachFrame = false;
+        std::string borderColor;
+        std::optional<float> borderWidth;
     };
 
     // Show()'s edge-clamping always wins over `anchor`/`centerHorizontally`'s preferred direction:
@@ -157,6 +165,7 @@ namespace UI::RmlBridge::Tooltip
     // applied). Safe to call every frame while a hover persists (e.g. from a native Render() hover
     // check): content identical to what is showing is not rebuilt or measured again, only placed at
     // the anchor. No-op if RmlUiRuntime isn't created yet or `config.lines` is empty.
+    Rml::Element* ItemPreviewElement();
     void Show(const Config& config, Owner owner = nullptr);
 
     // Hides the shared tooltip document -- but only if `owner` matches the current owner (or

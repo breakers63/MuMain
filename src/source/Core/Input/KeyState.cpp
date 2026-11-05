@@ -1,11 +1,30 @@
 #include "stdafx.h"
 #include "Core/Input/KeyState.h"
+#include "Core/Input/CtrlDoubleTap.h"
 #include "Core/Input/SyntheticInput.h"
 
 #include <SDL3/SDL.h>
 
 namespace Core::Input
 {
+    namespace { bool pvpLocked=false; }
+    bool IsPvpLocked() { return pvpLocked; }
+    void TogglePvpLock() { pvpLocked=!pvpLocked; }
+    void UpdatePvpShortcut()
+    {
+        static CtrlDoubleTap gesture;
+        const bool* keys = SDL_GetKeyboardState(nullptr);
+        bool otherInput = SDL_GetMouseState(nullptr, nullptr) != 0;
+        for (int i = 0; i < SDL_SCANCODE_COUNT && !otherInput; ++i)
+            otherInput = keys[i] && i != SDL_SCANCODE_LCTRL && i != SDL_SCANCODE_RCTRL;
+        SDL_Window* focus = SDL_GetKeyboardFocus();
+        const bool allowed = focus != nullptr && !SDL_TextInputActive(focus);
+        if (gesture.Update(keys[SDL_SCANCODE_LCTRL] || keys[SDL_SCANCODE_RCTRL],
+                           allowed, otherInput, SDL_GetTicks()))
+            TogglePvpLock();
+    }
+
+
     namespace
     {
         bool g_leftMouseButtonPressEdge = false;
@@ -27,6 +46,10 @@ namespace Core::Input
 
             switch (vk)
             {
+            case 0xBB:       return SDL_SCANCODE_EQUALS; // main keyboard + / =
+            case 0xBD:       return SDL_SCANCODE_MINUS;
+            case 0x6B:       return SDL_SCANCODE_KP_PLUS;
+            case 0x6D:       return SDL_SCANCODE_KP_MINUS;
             case VK_UP:      return SDL_SCANCODE_UP;
             case VK_DOWN:    return SDL_SCANCODE_DOWN;
             case VK_LEFT:    return SDL_SCANCODE_LEFT;
@@ -40,6 +63,7 @@ namespace Core::Input
             case VK_SPACE:   return SDL_SCANCODE_SPACE;
             case VK_RETURN:  return SDL_SCANCODE_RETURN;
             case VK_ESCAPE:  return SDL_SCANCODE_ESCAPE;
+            case 0xC0: return SDL_SCANCODE_GRAVE; // physical key above Tab, left of 1
             case VK_TAB:     return SDL_SCANCODE_TAB;
             case VK_BACK:    return SDL_SCANCODE_BACKSPACE;
             case VK_F1:      return SDL_SCANCODE_F1;

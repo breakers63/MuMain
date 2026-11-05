@@ -3,6 +3,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
+#include "Render/Terrain/GrassBurn.h"
 #ifdef __APPLE__
 #include <OpenGL/gl.h>
 #include <OpenGL/glu.h>
@@ -1389,6 +1390,18 @@ inline void Interpolation(int mx, int my)
     }
 }
 
+static std::uint32_t BurnedTerrainColor(const float* position,const float* light,float alpha)
+{
+    constexpr float CharcoalStrength=.94f;
+    const int tileX=static_cast<int>(position[0]/TERRAIN_SCALE);
+    const int tileY=static_cast<int>(position[1]/TERRAIN_SCALE);
+    const float shade=1.f-CharcoalStrength*Render::Terrain::GrassBurn::Amount(tileX,tileY);
+    // Clamp before applying charcoal: overbright Flame lights must not erase the scar.
+    return mu::PackABGR(std::clamp(light[0],0.f,1.f)*shade,
+                        std::clamp(light[1],0.f,1.f)*shade,
+                        std::clamp(light[2],0.f,1.f)*shade,alpha);
+}
+
 void RenderFace(int Texture, int mx, int my)
 {
     if (gMapManager.WorldActive == WD_39KANTURU_3RD)
@@ -1452,7 +1465,7 @@ void RenderFace(int Texture, int mx, int my)
     auto MakeVert = [](const float* pos, const float* tc, const float* light) -> mu::Vertex3D
     {
         return {pos[0], pos[1], pos[2], 0.f, 0.f, 1.f, tc[0], tc[1],
-                mu::PackABGR(light[0], light[1], light[2], 1.f)};
+                BurnedTerrainColor(pos,light,1.f)};
     };
     const mu::Vertex3D v0 = MakeVert(TerrainVertex[0], TerrainTextureCoord[0], PrimaryTerrainLight[TerrainIndex1]);
     const mu::Vertex3D v1 = MakeVert(TerrainVertex[1], TerrainTextureCoord[1], PrimaryTerrainLight[TerrainIndex2]);
@@ -1476,7 +1489,7 @@ void RenderFace_After(int Texture, int mx, int my)
     auto MakeVert = [](const float* pos, const float* tc, const float* light) -> mu::Vertex3D
     {
         return {pos[0], pos[1], pos[2], 0.f, 0.f, 1.f, tc[0], tc[1],
-                mu::PackABGR(light[0], light[1], light[2], 1.f)};
+                BurnedTerrainColor(pos,light,1.f)};
     };
     const mu::Vertex3D v0 = MakeVert(TerrainVertex[0], TerrainTextureCoord[0], PrimaryTerrainLight[TerrainIndex1]);
     const mu::Vertex3D v1 = MakeVert(TerrainVertex[1], TerrainTextureCoord[1], PrimaryTerrainLight[TerrainIndex2]);
@@ -1518,7 +1531,7 @@ void RenderFaceAlpha(int Texture, int mx, int my)
     auto MakeVert = [](const float* pos, const float* tc, const float* light, float alpha) -> mu::Vertex3D
     {
         return {pos[0], pos[1], pos[2], 0.f, 0.f, 1.f, tc[0], tc[1],
-                mu::PackABGR(light[0], light[1], light[2], alpha)};
+                BurnedTerrainColor(pos,light,alpha)};
     };
     const mu::Vertex3D v0 = MakeVert(TerrainVertex[0], TerrainTextureCoord[0], PrimaryTerrainLight[TerrainIndex1], TerrainMappingAlpha[TerrainIndex1]);
     const mu::Vertex3D v1 = MakeVert(TerrainVertex[1], TerrainTextureCoord[1], PrimaryTerrainLight[TerrainIndex2], TerrainMappingAlpha[TerrainIndex2]);
@@ -1674,7 +1687,9 @@ void RenderTerrainFace(float xf, float yf, int xi, int yi, float lodf)
             BITMAP_t* pBitmap = Bitmaps.FindTexture(Texture);
             if (pBitmap)
             {
-                float Height = pBitmap->Height * 2.f;
+                const float burned = Render::Terrain::GrassBurn::Amount(xi, yi);
+                if (burned > .8f) return;
+                float Height = pBitmap->Height * 2.f * (1.f - burned);
                 BindTexture(Texture);
 
                 if (gMapManager.IsPKField() || IsDoppelGanger2())
@@ -1710,7 +1725,7 @@ void RenderTerrainFace(float xf, float yf, int xi, int yi, float lodf)
                 const auto MakeVert = [](const float* pos, const float* tc, const float* light) -> mu::Vertex3D
                 {
                     return {pos[0], pos[1], pos[2], 0.f, 0.f, 1.f, tc[0], tc[1],
-                            mu::PackABGR(light[0], light[1], light[2], 1.f)};
+                            BurnedTerrainColor(pos,light,1.f)};
                 };
                 const mu::Vertex3D v0 =
                     MakeVert(TerrainVertex[0], TerrainTextureCoord[0], PrimaryTerrainLight[TerrainIndex1]);
@@ -2803,6 +2818,7 @@ extern int EnableEvent;
 
 void InitTerrainLight()
 {
+    Render::Terrain::GrassBurn::BeginFrame();
     Render::Lighting::FrameDynamicLights().Clear();
     if (UseLightHistory())
     {

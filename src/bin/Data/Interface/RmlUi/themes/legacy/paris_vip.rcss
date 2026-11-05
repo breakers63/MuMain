@@ -1,0 +1,59 @@
+@spritesheet paris-vip-controls-sheet {
+	src: "../paris-gold/Paris_Controls51.tga";
+	paris-vip-tab-selected: 0px 0px 163px 116px;
+	paris-vip-tab-idle: 0px 140px 163px 116px;
+	paris-vip-icon-1: 220px 0px 49px 59px;
+	paris-vip-icon-2: 284px 0px 49px 59px;
+	paris-vip-icon-3: 348px 0px 49px 59px;
+	paris-vip-purchase: 0px 300px 364px 80px;
+}
+
+#panel.paris-vip {
+	right: 182dp; top: -10dp; margin: 0;
+	width: 190dp; height: 430dp; max-height: 96vh; color: token(text-primary); font-family: "token(font-body)";
+}
+#panel.paris-vip #title { position: absolute; top: 34dp; left: 0; width: 100%; text-align: center; color: token(text-heading); font-size: 1rem; font-weight: bold; }
+#panel.paris-vip #frame_corner_close { top: 5.128%; right: 4.737%; width: 8.421%; height: 4.196%; pointer-events: auto; z-index: 10; }
+
+.vip-account { position: absolute; top: 65dp; left: 22dp; right: 16dp; height: 14dp; font-size: .8rem; }
+.vip-account span { position: absolute; top: 0; color: token(text-primary); }
+.vip-account span:first-child { left: 0; }
+.vip-account strong { position: absolute; left: 81dp; top: 0; color: #55f26e; font-weight: bold; }
+
+.vip-plans { position: absolute; top: 81dp; left: 12dp; width: 166dp; height: 33dp; }
+.vip-plan { position: absolute; top: 0; width: 54dp; height: 33dp; cursor: pointer; pointer-events: auto; }
+.vip-plan:nth-child(1) { left: 0; }
+.vip-plan:nth-child(2) { left: 56dp; }
+.vip-plan:nth-child(3) { left: 112dp; }
+.vip-plan { decorator: image(paris-vip-tab-idle); }
+.vip-plan.selected { decorator: image(paris-vip-tab-selected); }
+.vip-plan:hover { filter: brightness(1.2); }
+.vip-plan-icon { position: absolute; top: 3dp; left: 18dp; width: 17dp; height: 17dp; }
+.vip-icon-1 { decorator: image(paris-vip-icon-1); }
+.vip-icon-2 { decorator: image(paris-vip-icon-2); }
+.vip-icon-3 { decorator: image(paris-vip-icon-3); }
+.vip-plan-label { position: absolute; top: 23dp; left: 0; width: 54dp; height: 10dp; text-align: center; color: token(text-heading); font-size: .72rem; font-weight: bold; }
+
+.vip-divider { position: absolute; left: 22dp; width: 146dp; height: 1dp; background-color: token(accent-gold); }
+.vip-divider-tabs { top: 122dp; }
+.vip-details { position: absolute; top: 0; left: 0; right: 0; bottom: 0; }
+.vip-plan-name { position: absolute; top: 132dp; left: 15dp; width: 160dp; height: 16dp; line-height: 16dp; text-align: center; color: token(text-heading); font-size: .85rem; font-weight: bold; }
+.vip-meta { position: absolute; top: 151dp; left: 27dp; width: 145dp; height: 35dp; color: token(text-primary); font-size: .75rem; }
+.vip-meta span { display: block; height: 16dp; line-height: 16dp; }
+.vip-meta span:first-child { color: token(text-primary); }
+.vip-meta span:last-child { color: token(text-primary); }
+.vip-divider-benefits { top: 187dp; }
+.vip-section-title { position: absolute; top: 200dp; left: 15dp; width: 160dp; height: 16dp; line-height: 16dp; text-align: center; color: token(text-heading); font-size: .85rem; font-weight: bold; }
+.vip-benefits { position: absolute; top: 224dp; left: 27dp; width: 145dp; }
+.vip-line { display: block; position: relative; width: 145dp; height: 20dp; }
+.vip-benefit-label { position: absolute; left: 0; top: 0; width: 110dp; height: 18dp; line-height: 18dp; color: token(text-primary); font-size: .78rem; }
+.vip-benefit-value { position: absolute; right: 0; top: 0; width: 40dp; height: 18dp; line-height: 18dp; color: #55f26e; text-align: right; font-size: .8rem; font-weight: bold; }
+.vip-divider-costs { top: 311dp; }
+.cost-title { top: 318dp; }
+.vip-cost { position: absolute; top: 338dp; left: 15dp; right: 15dp; min-height: 12dp; line-height: 13dp; text-align: center; color: #ff5a5a; font-size: .72rem; }
+.vip-wait { position: absolute; top: 224dp; left: 22dp; right: 22dp; min-height: 24dp; text-align: center; color: token(text-muted); font-size: .8rem; }
+.vip-empty { position: absolute; top: 224dp; left: 22dp; right: 22dp; text-align: center; color: token(text-muted); font-size: .78rem; }
+.vip-actions { position: absolute; top: 370dp; left: 35dp; width: 120dp; height: 28dp; }
+.vip-button { position: absolute; inset: 0; width: 120dp; height: 28dp; line-height: 28dp; text-align: center; color: token(text-heading); cursor: pointer; pointer-events: auto; font-size: .82rem; font-weight: bold; }
+.vip-button.primary { decorator: image(paris-vip-purchase); }
+.vip-button:hover { filter: brightness(1.2); }

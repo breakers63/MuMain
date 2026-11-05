@@ -1,4 +1,4 @@
-﻿
+
 #include "stdafx.h"
 #include "UI/HUD/MoveCommandWindow.h"
 #include "UI/Core/WindowSystem.h"
@@ -6,6 +6,7 @@
 #include "GameLogic/Items/ItemCategories.h"
 #include "Core/Utilities/KeyGenerator.h"
 #include "Network/Server/ServerListManager.h"
+#include "Network/Paris/WarpRequirements.h"
 #include "Engine/Object/ZzzOpenData.h"
 #include "World/MapInfra/MapManager.h"
 #include "Character/CharacterManager.h"
@@ -41,6 +42,26 @@ namespace
         L"Devias",
         L"LostTower",
     };
+
+    bool MeetsServerWarpLimits(const Network::Paris::Warp::Requirement* requirement, int level, int resets)
+    {
+        return !requirement || ((requirement->maximumLevel < 0 || level <= requirement->maximumLevel)
+            && resets >= std::max(0, requirement->minimumReset)
+            && (requirement->maximumReset < 0 || resets <= requirement->maximumReset));
+    }
+
+    void SetServerResetFields(MoveCommandRowEntry& row, const Network::Paris::Warp::Requirement* requirement, int level, int resets)
+    {
+        row.reqResets = "-";
+        if (!requirement) return;
+        const int minimum = requirement->minimumReset, maximum = requirement->maximumReset;
+        if (minimum > 0 && maximum >= 0) row.reqResets = std::to_string(minimum) + " - " + std::to_string(maximum);
+        else if (maximum >= 0) row.reqResets = "Max. " + std::to_string(maximum);
+        else if (minimum > 0) row.reqResets = "Min. " + std::to_string(minimum);
+        row.resetsUnmet = resets < std::max(0, minimum) || (maximum >= 0 && resets > maximum);
+        row.levelUnmet = row.levelUnmet || (requirement->maximumLevel >= 0 && level > requirement->maximumLevel);
+        if (requirement->maximumLevel >= 0) row.reqLevel += " - " + std::to_string(requirement->maximumLevel);
+    }
 
     bool IsLuckySeal(const std::wstring& name)
     {
@@ -281,12 +302,15 @@ void mu::ui::window::CMoveCommandWindow::SettingCanMoveMap()
 
         if ((gCharacterManager.GetBaseClass(CharacterAttribute->Class) == CLASS_DARK || gCharacterManager.GetBaseClass(CharacterAttribute->Class) == CLASS_DARK_LORD
             || gCharacterManager.GetBaseClass(CharacterAttribute->Class) == CLASS_RAGEFIGHTER)
-            && (iReqLevel != 400))
+            && !Network::Paris::Warp::Find(moveInfo->_ReqInfo.index) && (iReqLevel != 400))
         {
             iReqLevel = int(float(iReqLevel) * 2.f / 3.f);
         }
 
-        if (iLevel >= iReqLevel && (int)iZen >= iReqZen && (int)Hero->PK < PVP_MURDERER1)
+        const auto* requirement = Network::Paris::Warp::Find(moveInfo->_ReqInfo.index);
+        if (requirement) { iReqLevel = requirement->level; iReqZen = requirement->zen; }
+        const bool serverLimitsMet = MeetsServerWarpLimits(requirement, iLevel, int(CharacterAttribute->Resets));
+        if (serverLimitsMet && iLevel >= iReqLevel && (int)iZen >= iReqZen && (int)Hero->PK < PVP_MURDERER1)
         {
             ITEM* pEquipedRightRing = &CharacterMachine->Equipment[EQUIPMENT_RING_RIGHT];
             ITEM* pEquipedLeftRing = &CharacterMachine->Equipment[EQUIPMENT_RING_LEFT];
@@ -430,6 +454,8 @@ void mu::ui::window::CMoveCommandWindow::BindRmlModel(Rml::DataModelConstructor&
     row.RegisterMember("map_name", &MoveCommandRowEntry::mapName);
     row.RegisterMember("req_level", &MoveCommandRowEntry::reqLevel);
     row.RegisterMember("req_zen", &MoveCommandRowEntry::reqZen);
+    row.RegisterMember("req_resets", &MoveCommandRowEntry::reqResets);
+    row.RegisterMember("resets_unmet", &MoveCommandRowEntry::resetsUnmet);
     row.RegisterMember("can_move", &MoveCommandRowEntry::canMove);
     row.RegisterMember("level_unmet", &MoveCommandRowEntry::levelUnmet);
     row.RegisterMember("zen_unmet", &MoveCommandRowEntry::zenUnmet);
@@ -442,6 +468,7 @@ void mu::ui::window::CMoveCommandWindow::BindRmlModel(Rml::DataModelConstructor&
     c.Bind("head_map", &model.headMap);
     c.Bind("head_level", &model.headLevel);
     c.Bind("head_zen", &model.headZen);
+    c.Bind("head_resets", &model.headResets);
     c.Bind("close_text", &model.closeText);
 
     c.BindEventCallback("movecommand_warp",
@@ -458,11 +485,12 @@ void mu::ui::window::CMoveCommandWindow::BindRmlModel(Rml::DataModelConstructor&
             g_pNewUISystem->Hide(mu::ui::window::INTERFACE_MOVEMAP);
         });
 
-    model.titleText = StringUtils::WideToNarrow(I18N::Game::WarpCommandWindow);
+    model.titleText = StringUtils::WideToNarrow(I18N::Game::Map);
     model.headStrife = StringUtils::WideToNarrow(I18N::Game::BattleZone);
     model.headMap = StringUtils::WideToNarrow(I18N::Game::Map);
     model.headLevel = StringUtils::WideToNarrow(I18N::Game::MinLevel);
-    model.headZen = StringUtils::WideToNarrow(I18N::Game::Cost);
+    model.headZen = "Zen";
+    model.headResets = "Resets";
     model.closeText = StringUtils::WideToNarrow(I18N::Game::Close388);
 }
 
@@ -495,6 +523,21 @@ void mu::ui::window::CMoveCommandWindow::SyncRmlModel()
     if (Rml::Element* list = m_RmlView.Document()->GetElementById("list"))
         list->SetClass("no-scroll", list->GetScrollHeight() <= list->GetClientHeight() + 0.5f);
 
+    // The scroll pane's content width already excludes its native scrollbar. Use the
+    // actual row width for the counter-scaled header instead of subtracting it twice.
+    if (auto* document = m_RmlView.Document())
+    {
+        auto* list = document->GetElementById("list");
+        auto* head = document->GetElementById("head");
+        auto* firstRow = list ? list->GetChild(0) : nullptr;
+        if (head && firstRow)
+        {
+            const float rowWidth = firstRow->GetClientWidth();
+            if (rowWidth > 0.f && std::abs(head->GetClientWidth() - rowWidth) > .5f)
+                head->SetProperty(Rml::PropertyId::Width, Rml::Property(rowWidth, Rml::Unit::PX));
+        }
+    }
+
     if (m_bRewindPending)
     {
         m_bRewindPending = false;
@@ -524,21 +567,24 @@ void mu::ui::window::CMoveCommandWindow::RebuildRowModel()
         if ((gCharacterManager.GetBaseClass(CharacterAttribute->Class) == CLASS_DARK
              || gCharacterManager.GetBaseClass(CharacterAttribute->Class) == CLASS_DARK_LORD
              || gCharacterManager.GetBaseClass(CharacterAttribute->Class) == CLASS_RAGEFIGHTER)
-            && (iReqLevel != 400))
+            && !Network::Paris::Warp::Find(moveInfo->_ReqInfo.index) && (iReqLevel != 400))
         {
             iReqLevel = int(float(iReqLevel) * 2.f / 3.f);
         }
 
+        const auto* requirement = Network::Paris::Warp::Find(moveInfo->_ReqInfo.index);
+        if (requirement) iReqLevel = requirement->level;
         MoveCommandRowEntry entry;
         entry.strifeText = moveInfo->_bStrife ? strifeMark : Rml::String();
         entry.mapName = StringUtils::WideToNarrow(moveInfo->_ReqInfo.szMainMapName);
         _itow(iReqLevel, szText, 10);
         entry.reqLevel = StringUtils::WideToNarrow(szText);
-        _itow(moveInfo->_ReqInfo.iReqZen, szText, 10);
+        _itow(requirement ? requirement->zen : moveInfo->_ReqInfo.iReqZen, szText, 10);
         entry.reqZen = StringUtils::WideToNarrow(szText);
         entry.canMove = moveInfo->_bCanMove;
         entry.levelUnmet = iReqLevel > iLevel;
-        entry.zenUnmet = moveInfo->_ReqInfo.iReqZen > (int)iZen;
+        entry.zenUnmet = (requirement ? requirement->zen : moveInfo->_ReqInfo.iReqZen) > (int)iZen;
+        SetServerResetFields(entry, requirement, iLevel, int(CharacterAttribute->Resets));
         entry.index = index++;
 
         rows.push_back(std::move(entry));
@@ -553,6 +599,7 @@ void mu::ui::window::CMoveCommandWindow::RebuildRowModel()
                        {
                            return a.canMove == b.canMove && a.levelUnmet == b.levelUnmet
                                && a.zenUnmet == b.zenUnmet && a.strifeText == b.strifeText
+                               && a.reqResets == b.reqResets && a.resetsUnmet == b.resetsUnmet
                                && a.reqLevel == b.reqLevel && a.reqZen == b.reqZen
                                && a.mapName == b.mapName;
                        });
@@ -566,6 +613,12 @@ void mu::ui::window::CMoveCommandWindow::RebuildRowModel()
 void mu::ui::window::CMoveCommandWindow::OpenningProcess()
 {
     RefreshData();
+    Network::Paris::Warp::Requirements.clear();
+    if (SocketClient && SocketClient->IsConnected())
+    {
+        BYTE request[] = {0xC1, 5, 0xFA, 0xC0, 1};
+        SocketClient->Send(request, sizeof(request));
+    }
     SetStrifeMap();
     SettingCanMoveMap();
 
@@ -647,3 +700,4 @@ int CMoveCommandWindow::GetMapIndexFromMovereq(const wchar_t* pszMapName)
     const CMoveCommandData::MOVEINFODATA* moveInfo = FindMoveInfo(pszMapName);
     return moveInfo != NULL ? moveInfo->_ReqInfo.index : -1;
 }
+

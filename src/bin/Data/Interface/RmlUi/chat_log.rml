@@ -33,6 +33,11 @@
 			<div data-for="line : lines"
 			     data-attr-class="'chat-line chat-line--' + line.kind + (line.has_id ? ' chat-line--has-id' : '') + (it_index == pointed_index ? ' chat-line--pointed' : '')">{{line.text}}</div>
 		</div>
+		<div id="post-hover-card" data-if="post_hover"
+		     data-style-left="post_hover_x + 'dp'" data-style-top="post_hover_y + 'dp'">
+			<img id="post-preview"/>
+			<div id="post-details">{{post_details}}</div>
+		</div>
 	</div>
 </body>
 </rml>

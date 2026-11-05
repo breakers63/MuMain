@@ -1,0 +1,36 @@
+/* A fixed character-side column: the workspace scales and docks it beside Stats.
+   OpenGL uses a 323px list, 18px section headings and 15px statistic rows. */
+@spritesheet info-frame-sheet { src: "../paris-gold/paris-frame.tga"; info-frame: 0px 0px 512px 1024px; }
+@spritesheet info-scroll-sheet { src: "../paris-gold/bank-scroll.tga"; info-scroll-track: 0px 0px 42px 230px; info-scroll-thumb: 48px 0px 67px 120px; info-scroll-up: 48px 128px 46px 48px; info-scroll-down: 48px 180px 46px 49px; }
+#panel.paris-advanced-stats { position: absolute; width: 190px; height: 429px; transform-origin: left top; font-family: "token(font-body)"; color: #dcdcdc; decorator: image(info-frame); }
+.title { position: absolute; top: 34px; left: 10px; right: 10px; height: 14px; line-height: 14px; text-align: center; color: #ffdc73; font-weight: bold; font-size: .78rem; }
+.close { position: absolute; right: 9px; top: 22px; width: 16px; height: 18px; cursor: pointer; pointer-events: auto; }
+.rows { position: absolute; left: 12px; right: 2px; top: 58px; height: 323px; overflow: hidden auto; pointer-events: auto; }
+.row { display: block; position: relative; height: 15px; box-sizing: border-box; background-color: rgba(0,0,0,128); border-bottom: 1px #423821; }
+.row.alternate { background-color: rgba(0,0,0,51); }
+.row-label, .row-value { display: block; position: absolute; top: 0; height: 14px; line-height: 14px; white-space: nowrap; overflow: hidden; font-size: .7rem; }
+.row-label { left: 4px; width: 112px; color: #dcdcdc; }
+.row-value { right: 4px; width: 42px; text-align: right; color: #ffdc73; }
+.row.section { height: 18px; border: 0; background-color: transparent; }
+.row.section .row-label { left: 0; right: 0; top: 0; width: auto; height: 18px; line-height: 18px; text-align: center; color: #ffbc46; font-weight: bold; font-size: .75rem; }
+.row.section .row-value { display: none; }
+.rows scrollbarvertical { width: 18px; margin: 0; }
+.rows scrollbarvertical slidertrack { margin-left: 6px; margin-right: 6px; decorator: image(info-scroll-track); }
+.rows scrollbarvertical sliderbar { width: 17px; height: 26px; margin-left: .5px; decorator: image(info-scroll-thumb); }
+.rows scrollbarvertical sliderarrowdec, .rows scrollbarvertical sliderarrowinc { width: 12px; height: 12px; margin-left: 3px; cursor: pointer; }
+.rows scrollbarvertical sliderarrowdec { decorator: image(info-scroll-up); }
+.rows scrollbarvertical sliderarrowinc { decorator: image(info-scroll-down); }
+.rows scrollbarhorizontal { height: 0; }
+.summary { position: absolute; left: 10px; right: 10px; bottom: 8px; height: 32px; text-align: center; }
+.summary strong, .summary span { display: block; height: 14px; line-height: 14px; font-size: .72rem; }
+.summary strong { color: #ffdc73; font-weight: bold; }
+.summary span { color: #dcdcdc; }
+
+/* Keep glyphs at the same physical size as Stats; only their boxes follow the dock scale. */
+.title { top: 37px; left: 50%; right: auto; width: calc(170px * var(--root-scale)); margin-left: calc(-85px * var(--root-scale)); transform-origin: center top; }
+.row-label { top: 3px; width: calc(112px * var(--root-scale)); transform-origin: left top; }
+.row-value { top: 3px; width: calc(42px * var(--root-scale)); transform-origin: right top; }
+.row.section .row-label { left: 50%; right: auto; top: 3px; width: calc(158px * var(--root-scale)); margin-left: calc(-79px * var(--root-scale)); transform-origin: center top; }
+.summary strong, .summary span { position: relative; top: 3px; left: 50%; width: calc(170px * var(--root-scale)); margin-left: calc(-85px * var(--root-scale)); transform-origin: center top; }
+
+#panel.paris-advanced-stats .close { z-index: 10; }

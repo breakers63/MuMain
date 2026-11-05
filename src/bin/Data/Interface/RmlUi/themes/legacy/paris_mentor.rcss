@@ -1,0 +1,262 @@
+@spritesheet mentor-art {
+ src: ../paris-gold/Paris_MentorHomeV40.tga;
+ mentor-home: 0px 0px 768px 512px;
+}
+@spritesheet mentor-find-art { src: ../paris-gold/Paris_MentorFindV34.tga; mentor-find: 0px 0px 768px 512px; }
+@spritesheet mentor-rewards-art { src: ../paris-gold/Paris_MentorRewardsV40.tga; mentor-rewards: 0px 0px 768px 512px; }
+@spritesheet mentor-history-art { src: ../paris-gold/Paris_MentorHistoryV40.tga; mentor-history: 0px 0px 768px 512px; }
+#panel.paris-mentor { position: absolute; left: 50%; top: 0; margin-left: -300dp; width: 600dp; height: 400dp; color: #eee7d7; font-family: "token(font-body)"; font-size: 7dp; decorator: image(mentor-home); }
+#panel.paris-mentor.find { decorator: image(mentor-find); }
+#panel.paris-mentor.rewards { decorator: image(mentor-rewards); }
+#panel.paris-mentor.history { decorator: image(mentor-history); }
+.mentor-content, .mentor-home, .mentor-find, .mentor-offers, .mentor-history, .mentor-header, .mentor-tabs { position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; }
+.mentor-content *, .mentor-tabs * { pointer-events: auto; }
+.mentor-tabs { z-index: 3; }
+.action, .tab, .mentor-close { cursor: pointer; drag: block; text-align: center; }
+.action:hover, .tab:hover, .tab.selected { background-color: #e0b84b29; }
+.action.disabled { opacity: 0.4; cursor: default; }
+.mentor-close { z-index: 5; }
+.mentor-loading { position: absolute; left: 8%; top: 18%; width: 84%; height: 72%; padding-top: 16%; text-align: center; background-color: #080806f5; font-size: 9dp; }
+.person-name, .offer-name, .history-heading, .detail-heading, .home-heading, .summary-heading, .find-heading, .top-heading, .recent-heading, .detail-name, .confirm-title { color: #f0d38a; font-weight: bold; }
+.person-portrait { position: absolute; decorator: image(portrait-5); }
+.mentor-query { border-width: 0; background-color: transparent; color: white; padding: 0; }
+.query-placeholder { pointer-events: none; color: #aaa291; }
+.active-fill { height: 100%; background-color: #1fcc1fb3; }
+.home-recent, .find-people, .top-people, .history-rows, .history-details { position: absolute; }
+.recent-row { display: block; position: relative; height: 17.96875dp; white-space: nowrap; }
+.recent-age { position: absolute; right: 0; width: 30%; text-align: right; font-size: 6dp; }
+.find-person { display: block; position: relative; height: 32.8125dp; }
+.top-person { display: block; position: relative; height: 40.625dp; }
+.history-row { display: block; position: relative; height: 26.953125dp; cursor: pointer; }
+.history-row:hover, .home-person:hover { background-color: #e0b84b20; }
+.detail-row { display: block; position: relative; height: 16.796875dp; }
+.detail-value { position: absolute; left: 52%; width: 48%; }
+.mentor-confirm-shade { position: absolute; left: 0; top: 0; width: 100%; height: 100%; background-color: #0009; z-index: 8; }
+.mentor-confirm { background-color: #090907fa; border: 1dp #b8943b; }
+.confirm-accept, .confirm-cancel { border: 1dp #b8943b; padding-top: 6dp; }
+.offer-redeem { padding-top: 5dp; }
+.offer-name, .offer-detail, .offer-cost { text-align: center; }
+.offer-detail { font-size: 6dp; }
+.offer-cost { color: #f0d38a; }
+.mentor-status { color: #f0d38a; font-size: 6dp; }
+
+.mentor-close { position: absolute; left: 93.098958%; top: 3.906250%; width: 4.427083%; height: 6.347656%;  }
+#panel.find .mentor-close { position: absolute; left: 89.192708%; top: 4.785156%; width: 3.255208%; height: 4.589844%;  }
+.mentor-tabs .tab-novices { position: absolute; left: 21.484375%; top: 11.230469%; width: 18.554688%; height: 4.296875%; padding-top: 4dp; }
+.mentor-tabs .tab-rewards { position: absolute; left: 41.015625%; top: 11.230469%; width: 18.554688%; height: 4.296875%; padding-top: 4dp; }
+.mentor-tabs .tab-history { position: absolute; left: 60.546875%; top: 11.230469%; width: 18.554688%; height: 4.296875%; padding-top: 4dp; }
+.novice-tabs .tab-find { position: absolute; left: 35.546875%; top: 11.230469%; width: 14.127604%; height: 4.296875%; padding-top: 4dp; }
+.novice-tabs .tab-history { position: absolute; left: 65.104167%; top: 11.230469%; width: 14.127604%; height: 4.296875%; padding-top: 4dp; }
+.header-name { position: absolute; left: 5.208333%; top: 17.968750%; width: 15.625000%; height: 2.929688%;  }
+.header-points { position: absolute; left: 24.414062%; top: 17.968750%; width: 15.299479%; height: 2.929688%;  }
+.header-graduated { position: absolute; left: 43.294271%; top: 17.968750%; width: 14.322917%; height: 2.929688%;  }
+.header-daily { position: absolute; left: 61.523438%; top: 17.968750%; width: 13.997396%; height: 2.929688%;  }
+.header-bonus { position: absolute; left: 79.427083%; top: 17.968750%; width: 13.346354%; height: 2.929688%;  }
+.home-heading { position: absolute; left: 8.138021%; top: 24.511719%; width: 41.015625%; height: 3.417969%;  }
+.summary-heading { position: absolute; left: 57.617188%; top: 24.511719%; width: 36.458333%; height: 3.417969%;  }
+.home-accept { position: absolute; left: 8.463542%; top: 39.062500%; width: 17.578125%; height: 4.882812%;  }
+.home-reject { position: absolute; left: 27.473958%; top: 39.062500%; width: 17.773438%; height: 4.882812%;  }
+.active-count { position: absolute; left: 56.510417%; top: 32.421875%; width: 37.890625%; height: 3.417969%;  }
+.active-track { position: absolute; left: 55.338542%; top: 37.695312%; width: 39.062500%; height: 2.636719%;  }
+.recent-heading { position: absolute; left: 58.072917%; top: 70.996094%; width: 34.830729%; height: 3.417969%;  }
+.home-recent { position: absolute; left: 55.013021%; top: 77.148438%; width: 39.388021%; height: 18.554688%;  }
+.home-prev { position: absolute; left: 48.958333%; top: 28.906250%; width: 2.083333%; height: 3.417969%;  }
+.home-next { position: absolute; left: 48.958333%; top: 92.773438%; width: 2.083333%; height: 3.417969%;  }
+.mentor-status { position: absolute; left: 6.184896%; top: 96.191406%; width: 84.635417%; height: 2.929688%;  }
+.home-person-0 { position: absolute; left: 4.231771%; top: 29.980469%; width: 43.945312%; height: 7.617188%;  }
+.home-person-1 { position: absolute; left: 4.231771%; top: 46.093750%; width: 43.945312%; height: 7.031250%;  }
+.home-person-2 { position: absolute; left: 4.231771%; top: 54.296875%; width: 43.945312%; height: 7.031250%;  }
+.home-person-3 { position: absolute; left: 4.231771%; top: 62.500000%; width: 43.945312%; height: 7.031250%;  }
+.home-person-4 { position: absolute; left: 4.231771%; top: 70.703125%; width: 43.945312%; height: 7.031250%;  }
+.home-person-5 { position: absolute; left: 4.231771%; top: 78.906250%; width: 43.945312%; height: 7.031250%;  }
+.home-person-6 { position: absolute; left: 4.231771%; top: 87.109375%; width: 43.945312%; height: 7.031250%;  }
+.home-person .person-portrait { position: absolute; left: 1.925926%; top: 6.944444%; width: 10.074074%; height: 84.722222%;  }
+.home-person .person-name { position: absolute; left: 17.185185%; top: 16.666667%; width: 48.888889%; height: 38.888889%;  }
+.home-person .person-detail { position: absolute; left: 17.185185%; top: 59.722222%; width: 48.888889%; height: 38.888889%;  }
+.home-person .person-value { position: absolute; left: 69.629630%; top: 16.666667%; width: 28.888889%; height: 38.888889%;  }
+.home-person .person-extra { position: absolute; left: 69.629630%; top: 59.722222%; width: 28.888889%; height: 38.888889%;  }
+.home-person-0 .person-portrait { position: absolute; left: 1.925926%; top: 6.410256%; width: 12.148148%; height: 92.307692%;  }
+.summary-points-label { position: absolute; left: 60.416667%; top: 46.582031%; width: 13.346354%; height: 3.125000%;  }
+.summary-points-value { position: absolute; left: 61.848958%; top: 50.976562%; width: 11.393229%; height: 3.710938%; text-align: center; font-size: 10dp; color: #f0d38a; }
+.summary-graduated-label { position: absolute; left: 81.380208%; top: 46.582031%; width: 13.346354%; height: 3.125000%;  }
+.summary-graduated-value { position: absolute; left: 82.812500%; top: 50.976562%; width: 11.393229%; height: 3.710938%; text-align: center; font-size: 10dp; color: #f0d38a; }
+.summary-hours-label { position: absolute; left: 60.416667%; top: 57.910156%; width: 13.346354%; height: 3.125000%;  }
+.summary-hours-value { position: absolute; left: 61.848958%; top: 62.304688%; width: 11.393229%; height: 3.710938%; text-align: center; font-size: 10dp; color: #f0d38a; }
+.summary-progress-label { position: absolute; left: 81.380208%; top: 57.910156%; width: 13.346354%; height: 3.125000%;  }
+.summary-progress-value { position: absolute; left: 82.812500%; top: 62.304688%; width: 11.393229%; height: 3.710938%; text-align: center; font-size: 10dp; color: #f0d38a; }
+.find-heading { position: absolute; left: 9.765625%; top: 23.535156%; width: 46.223958%; height: 3.417969%;  }
+.top-heading { position: absolute; left: 59.765625%; top: 23.535156%; width: 31.575521%; height: 3.417969%;  }
+.mentor-query { position: absolute; left: 12.760417%; top: 28.417969%; width: 26.236979%; height: 2.734375%;  }
+.query-placeholder { position: absolute; left: 12.760417%; top: 28.417969%; width: 26.236979%; height: 2.734375%;  }
+.search-button { position: absolute; left: 9.114583%; top: 27.343750%; width: 3.255208%; height: 4.199219%;  }
+.reset-filter { position: absolute; left: 44.205729%; top: 27.343750%; width: 9.570312%; height: 4.199219%;  }
+.find-people { position: absolute; left: 9.440104%; top: 32.714844%; width: 46.223958%; height: 49.218750%;  }
+.top-people { position: absolute; left: 65.429688%; top: 28.417969%; width: 26.041667%; height: 60.546875%;  }
+.find-prev { position: absolute; left: 12.695312%; top: 83.300781%; width: 13.151042%; height: 4.394531%;  }
+.find-next { position: absolute; left: 39.257812%; top: 83.300781%; width: 13.151042%; height: 4.394531%;  }
+.find-page { position: absolute; left: 28.710938%; top: 84.472656%; width: 8.723958%; height: 2.929688%;  }
+.link-cancel { position: absolute; left: 44.531250%; top: 88.964844%; width: 11.067708%; height: 3.710938%;  }
+.find-person .person-portrait { position: absolute; left: 0.000000%; top: 8.333333%; width: 10.704225%; height: 75.000000%;  }
+.find-person .person-name { position: absolute; left: 13.661972%; top: 16.666667%; width: 39.436620%; height: 33.333333%;  }
+.find-person .person-detail { position: absolute; left: 14.366197%; top: 53.571429%; width: 39.014085%; height: 33.333333%;  }
+.find-person .person-value { position: absolute; left: 56.197183%; top: 16.666667%; width: 10.985915%; height: 59.523810%;  }
+.find-person .person-action { position: absolute; left: 69.295775%; top: 17.857143%; width: 30.000000%; height: 57.142857%;  }
+.top-person .person-portrait { position: absolute; left: 0.000000%; top: 9.615385%; width: 19.250000%; height: 74.038462%;  }
+.top-person .person-name { position: absolute; left: 27.000000%; top: 13.461538%; width: 37.500000%; height: 26.923077%;  }
+.top-person .person-detail { position: absolute; left: 35.000000%; top: 41.346154%; width: 30.000000%; height: 26.923077%;  }
+.top-person .person-extra { position: absolute; left: 35.000000%; top: 66.346154%; width: 30.000000%; height: 26.923077%;  }
+.top-person .person-value { position: absolute; left: 68.250000%; top: 19.230769%; width: 31.500000%; height: 67.307692%;  }
+.offer-0 { position: absolute; left: 4.231771%; top: 21.679688%; width: 28.971354%; height: 31.640625%;  }
+.offer-1 { position: absolute; left: 34.895833%; top: 21.679688%; width: 28.971354%; height: 31.640625%;  }
+.offer-2 { position: absolute; left: 65.559896%; top: 21.679688%; width: 28.971354%; height: 31.640625%;  }
+.offer-3 { position: absolute; left: 4.231771%; top: 55.273438%; width: 28.971354%; height: 31.640625%;  }
+.offer-4 { position: absolute; left: 34.895833%; top: 55.273438%; width: 28.971354%; height: 31.640625%;  }
+.offer-5 { position: absolute; left: 65.559896%; top: 55.273438%; width: 28.971354%; height: 31.640625%;  }
+.offer-name { position: absolute; left: 4.494382%; top: 2.777778%; width: 93.258427%; height: 11.728395%;  }
+.mentor-reward-item { position: absolute; left: 78.651685%; top: 41.049383%; width: 15.730337%; height: 19.135802%;  }
+.offer-detail { position: absolute; left: 5.393258%; top: 63.888889%; width: 90.561798%; height: 9.567901%;  }
+.offer-cost { position: absolute; left: 5.393258%; top: 73.456790%; width: 90.561798%; height: 8.641975%;  }
+.offer-redeem { position: absolute; left: 11.910112%; top: 81.790123%; width: 80.674157%; height: 16.666667%;  }
+.offers-prev { position: absolute; left: 11.718750%; top: 90.527344%; width: 14.973958%; height: 4.394531%;  }
+.offers-next { position: absolute; left: 71.614583%; top: 90.527344%; width: 14.973958%; height: 4.394531%;  }
+.history-heading { position: absolute; left: 6.835938%; top: 24.414062%; width: 42.968750%; height: 3.417969%;  }
+.detail-heading { position: absolute; left: 55.989583%; top: 24.414062%; width: 38.085938%; height: 3.417969%;  }
+.history-head { position: absolute; left: 5.208333%; top: 35.351562%; width: 46.223958%; height: 2.929688%;  }
+.history-rows { position: absolute; left: 5.208333%; top: 38.867188%; width: 46.223958%; height: 41.015625%;  }
+.history-prev { position: absolute; left: 26.041667%; top: 83.300781%; width: 4.231771%; height: 4.394531%;  }
+.history-next { position: absolute; left: 39.322917%; top: 83.300781%; width: 4.231771%; height: 4.394531%;  }
+.history-page { position: absolute; left: 31.575521%; top: 84.472656%; width: 6.835938%; height: 2.929688%;  }
+.detail-name { position: absolute; left: 60.546875%; top: 30.371094%; width: 21.158854%; height: 3.417969%;  }
+.detail-mentor { position: absolute; left: 60.546875%; top: 34.570312%; width: 22.135417%; height: 3.417969%;  }
+.detail-state { position: absolute; left: 83.984375%; top: 32.226562%; width: 10.742188%; height: 3.417969%;  }
+.history-details { position: absolute; left: 55.989583%; top: 40.820312%; width: 38.736979%; height: 20.507812%;  }
+.detail-recent-heading { position: absolute; left: 55.989583%; top: 63.183594%; width: 37.760417%; height: 3.417969%;  }
+.detail-event { position: absolute; left: 60.546875%; top: 68.847656%; width: 31.250000%; height: 2.929688%;  }
+.detail-date { position: absolute; left: 60.546875%; top: 71.777344%; width: 31.250000%; height: 2.929688%;  }
+.detail-points { position: absolute; left: 60.546875%; top: 74.707031%; width: 31.250000%; height: 2.929688%;  }
+.history-close { position: absolute; left: 82.031250%; top: 88.085938%; width: 13.671875%; height: 6.347656%;  }
+.filter-all { position: absolute; left: 5.208333%; top: 28.515625%; width: 10.416667%; height: 4.296875%;  }
+.filter-completed { position: absolute; left: 16.927083%; top: 28.515625%; width: 10.416667%; height: 4.296875%;  }
+.filter-ended { position: absolute; left: 28.645833%; top: 28.515625%; width: 10.416667%; height: 4.296875%;  }
+.filter-rewards { position: absolute; left: 40.364583%; top: 28.515625%; width: 10.416667%; height: 4.296875%;  }
+.history-row .history-date { position: absolute; left: 2.112676%; top: 34.782609%; width: 19.718310%; height: 57.971014%;  }
+.history-head .history-date { position: absolute; left: 2.112676%; top: 0.000000%; width: 19.718310%; height: 100.000000%;  }
+.history-row .history-name { position: absolute; left: 23.943662%; top: 34.782609%; width: 22.535211%; height: 57.971014%;  }
+.history-head .history-name { position: absolute; left: 23.943662%; top: 0.000000%; width: 22.535211%; height: 100.000000%;  }
+.history-row .history-kind { position: absolute; left: 50.704225%; top: 34.782609%; width: 30.281690%; height: 57.971014%;  }
+.history-head .history-kind { position: absolute; left: 50.704225%; top: 0.000000%; width: 30.281690%; height: 100.000000%;  }
+.history-row .history-points { position: absolute; left: 83.661972%; top: 34.782609%; width: 14.084507%; height: 57.971014%;  }
+.history-head .history-points { position: absolute; left: 83.661972%; top: 0.000000%; width: 14.084507%; height: 100.000000%;  }
+.mentor-confirm { position: absolute; left: 22.981771%; top: 37.597656%; width: 52.734375%; height: 26.074219%;  }
+.confirm-title { position: absolute; left: 5.432099%; top: 11.235955%; width: 86.419753%; height: 13.108614%;  }
+.confirm-description { position: absolute; left: 5.432099%; top: 28.464419%; width: 86.419753%; height: 26.217228%;  }
+.confirm-accept { position: absolute; left: 7.407407%; top: 64.044944%; width: 34.567901%; height: 21.348315%;  }
+.confirm-cancel { position: absolute; left: 54.074074%; top: 64.044944%; width: 34.567901%; height: 21.348315%;  }
+@spritesheet mentor-portraits { src: ../paris-gold/Paris_MentorPortraitsV34.tga;
+portrait-0: 0px 0px 256px 256px;
+portrait-1: 256px 0px 256px 256px;
+portrait-2: 512px 0px 256px 256px;
+portrait-3: 0px 256px 256px 256px;
+portrait-4: 256px 256px 256px 256px;
+portrait-5: 512px 256px 256px 256px;
+}
+
+.person-portrait.portrait-0 { decorator: image(portrait-0); }
+.person-portrait.portrait-1 { decorator: image(portrait-1); }
+.person-portrait.portrait-2 { decorator: image(portrait-2); }
+.person-portrait.portrait-3 { decorator: image(portrait-3); }
+.person-portrait.portrait-4 { decorator: image(portrait-4); }
+.person-portrait.portrait-5 { decorator: image(portrait-5); }
+@spritesheet mentor-extra-portraits { src: ../paris-gold/Paris_ClassPortraitsV13.jpg; class-3: 1.5px 259.5px 250px 250px; class-4: 259.5px 259.5px 250px 250px; class-5: 517.5px 259.5px 250px 250px; }
+.person-portrait.class-3 { decorator: image(class-3); }
+.person-portrait.class-4 { decorator: image(class-4); }
+.person-portrait.class-5 { decorator: image(class-5); }
+.find .mentor-header {display: none;}
+.search-button { font-size: 0; }
+.top-person:nth-child(1) { position: absolute; left: 0; top: 0.0dp; width: 100%; }
+.top-person:nth-child(2) { position: absolute; left: 0; top: 42.96875dp; width: 100%; }
+.top-person:nth-child(3) { position: absolute; left: 0; top: 86.328125dp; width: 100%; }
+.top-person:nth-child(4) { position: absolute; left: 0; top: 131.25dp; width: 100%; }
+.top-person:nth-child(5) { position: absolute; left: 0; top: 166.40625dp; width: 100%; }
+.top-person:nth-child(6) { position: absolute; left: 0; top: 203.125dp; width: 100%; }
+
+.find-role {position:absolute;left:14.1927%;top:18.0664%;width:22.7865%;height:3%;}
+.find-assigned {position:absolute;left:45.3125%;top:18.0664%;width:22.1354%;height:3%;}
+.find-requests {position:absolute;left:77.8646%;top:18.0664%;width:13.8021%;height:3%;}
+.find .mentor-status {left:12.6953%;top:89.6484%;width:42.6432%;}
+
+/* Center captions within the original artwork's individual fields. */
+#panel.paris-mentor { text-align:center; }
+#panel.paris-mentor .action, #panel.paris-mentor .tab { padding-top:0; padding-bottom:0; }
+.mentor-tabs .tab { line-height:17.1875dp; }
+.mentor-header > div, .find-role, .find-assigned, .find-requests { line-height:11.71875dp; }
+.home-heading, .summary-heading, .find-heading, .top-heading, .recent-heading, .history-heading, .detail-heading, .detail-recent-heading { text-align:center; line-height:13.671875dp; }
+.person-name, .person-detail, .person-extra { text-align:center; line-height:10.9375dp; }
+.home-person .person-value, .home-person .person-extra { text-align:center; line-height:10.9375dp; }
+.find-person .person-value { text-align:center; line-height:19.53125dp; }
+.find-person .person-action { line-height:18.75dp; }
+.top-person .person-value { text-align:center; line-height:13.671875dp; }
+.home-accept, .home-reject { line-height:19.53125dp; }
+.home-prev, .home-next { line-height:13.671875dp; }
+.active-count { text-align:center; line-height:13.671875dp; }
+.summary-points-label, .summary-graduated-label, .summary-hours-label, .summary-progress-label { text-align:center; line-height:12.5dp; }
+.summary-points-value, .summary-graduated-value, .summary-hours-value, .summary-progress-value { text-align:center; line-height:14.84375dp; }
+.reset-filter { line-height:16.796875dp; }
+.mentor-query { line-height:10.9375dp; text-align:center; }
+.query-placeholder { text-align:center; line-height:10.9375dp; }
+.find-prev, .find-next, .offers-prev, .offers-next, .history-prev, .history-next { line-height:17.578125dp; }
+.find-page, .history-page { line-height:11.71875dp; text-align:center; }
+.link-cancel { line-height:14.84375dp; }
+.offer-name { line-height:14.84375dp; }
+.offer-detail { line-height:12.109375dp; }
+.offer-cost { line-height:10.9375dp; }
+.offer-redeem { line-height:21.09375dp; }
+.history-filter { line-height:17.1875dp; }
+.history-row > span, .history-head > span { text-align:center; }
+.detail-row { text-align:center; line-height:16.796875dp; }
+.detail-name, .detail-mentor, .detail-state { text-align:center; line-height:13.671875dp; }
+.detail-event, .detail-date, .detail-points { text-align:center; line-height:11.71875dp; }
+.history-close { line-height:25.390625dp; }
+.confirm-title { text-align:center; line-height:13.671875dp; }
+.confirm-description { text-align:center; line-height:27.34375dp; }
+.confirm-accept, .confirm-cancel { line-height:22.265625dp; }
+.mentor-status { text-align:center; line-height:11.71875dp; }
+
+/* The history background has three fixed tab cells, unlike the four-cell search background. */
+#panel.history .novice-tabs .tab-find { left:21.484375%; width:18.5546875%; }
+#panel.history .novice-tabs .tab-history { left:60.546875%; width:18.5546875%; }
+.mentor-header > div, .find-role, .find-assigned, .find-requests { text-align:center; }
+.history-head > span { top:0; height:100%; line-height:11.71875dp; }
+.history-row > span { top:0; height:100%; display:flex; align-items:center; justify-content:center; text-align:center; line-height:8.5dp; }
+.history-row .history-date { font-size:6.5dp; }
+.detail-row > span { position:absolute; left:0; top:0; width:46.218487%; height:100%; text-align:center; }
+.detail-row > .detail-value { left:52.10084%; width:47.89916%; }
+.detail-state { top:29.8828125%; height:5.078125%; display:flex; align-items:center; justify-content:center; text-align:center; line-height:8dp; }
+.detail-event, .detail-date, .detail-points, .detail-name, .detail-mentor { text-align:center; }
+.home-recent .recent-row > span { display:block; width:66%; text-align:center; line-height:17.96875dp; }
+.home-recent .recent-row > .recent-age { top:0; left:auto; right:0; width:30%; text-align:center; }
+
+/* Keep history details within the artwork's horizontal separators. */
+.history-details { top: 38.867188%; }
+.detail-heading { top: 23.4375%; }
+.detail-recent-heading { top: 61.230469%; }
+.history-row > span { display: block; line-height: 26.953125dp; }
+.history-row .history-date { line-height: 12dp; padding-top: 1.5dp; }
+.detail-state { display: block; line-height: 10dp; padding-top: 1dp; }
+
+/* Match selector specificity of the original cells, keeping every baseline inside its row. */
+.history-row .history-date, .history-row .history-name, .history-row .history-kind, .history-row .history-points { top: 0; height: 100%; padding-top: 0; line-height: 26.953125dp; text-align: center; }
+.history-details .detail-row { line-height: 9dp; }
+.history-details .detail-row > span { line-height: 9dp; text-align: center; }
+
+/* Center text inside the original status and lower close cells. */
+.detail-name {top:29.5%;line-height:10dp;}
+.detail-mentor {top:33.5%;line-height:10dp;}
+.detail-state {left:83.2%;top:29.4%;width:11.5%;height:5.2%;padding:0;white-space:normal;overflow:hidden;}
+.detail-state > span {position:absolute;display:block;left:3%;top:2dp;width:94%;height:100%;font-size:6.5dp;line-height:8dp;text-align:center;white-space:normal;}
+.history-close {left:81.6%;top:88%;width:13.8%;height:6.3%;padding:0;}
+.history-close > span {position:absolute;display:block;left:0;top:0;width:100%;height:100%;line-height:25dp;text-align:center;pointer-events:none;}
+
+/* Loading stays in the footer; the artwork and tabs remain available during a refresh. */
+.mentor-loading {left:8%;top:94%;width:70%;height:4%;padding:0;background-color:transparent;font-size:7dp;line-height:12dp;pointer-events:none;z-index:4;}
+.mentor-content.pending .history-rows,.mentor-content.pending .history-details,.mentor-content.pending .find-people,.mentor-content.pending .top-people {visibility:hidden;}

@@ -1,4 +1,4 @@
-///////////////////////////////////////////////////////////////////////////////
+﻿///////////////////////////////////////////////////////////////////////////////
 // LoginScene.cpp - Login scene implementation
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -288,6 +288,8 @@ void CreateLogInScene()
     CCameraMove::GetInstancePtr()->PlayCameraWalk(Hero->Object.Position, 1000);
     CCameraMove::GetInstancePtr()->SetTourMode(TRUE, FALSE, 0);  // Start from waypoint 0
 
+    constexpr float CenteredTourYaw = 0.0f;
+    g_LoginSceneAngleYaw = CenteredTourYaw;
     MoveMainCamera();
 
     g_fMULogoAlpha = 0;

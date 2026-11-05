@@ -112,3 +112,11 @@
 	background-color: rgba(128, 51, 51, 51);
 	pointer-events: none;
 }
+
+/* Slash commands belong to this input bar, immediately above its button row. */
+.chat-completions { position: absolute; left: 68dp; bottom: 100%; width: 330dp; max-width: 75vw; background-color: #100e0bea; border: 1dp #80682e; padding: 2dp; pointer-events: auto; }
+.chat-completion { position: relative; height: 19dp; padding: 1dp 3dp; color: #d7d2c6; font-size: 8dp; cursor: pointer; overflow: hidden; }
+.chat-completion.selected, .chat-completion:hover { background-color: #8a6d273f; }
+.command-name { display: inline-block; width: 83dp; color: #f2c955; font-weight: bold; }
+.command-description { display: inline-block; width: 235dp; white-space: nowrap; overflow: hidden; }
+.command-usage { display: block; margin-left: 83dp; color: #a9a38e; font-size: 6.5dp; }

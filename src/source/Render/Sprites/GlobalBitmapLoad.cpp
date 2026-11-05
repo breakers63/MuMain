@@ -631,8 +631,12 @@ bool CGlobalBitmap::OpenTga(GLuint uiBitmapIndex, const std::wstring& filename, 
 
     // A marked file holds an image up to its scale times the largest original.
     const int markedScale = Render::Textures::Upscale::ReadMarkedScale(pakBuffer);
-    const int maxWidth = Render::Sprites::kBitmapMaximumWidth * markedScale;
-    const int maxHeight = Render::Sprites::kBitmapMaximumHeight * markedScale;
+    // Tall interface panels retain their authored size; world textures keep the legacy bound.
+    constexpr int InterfaceMaximumDimension = 2048;
+    const int maxWidth = worldTexture ? Render::Sprites::kBitmapMaximumWidth * markedScale
+                                     : std::max(InterfaceMaximumDimension, Render::Sprites::kBitmapMaximumWidth * markedScale);
+    const int maxHeight = worldTexture ? Render::Sprites::kBitmapMaximumHeight * markedScale
+                                      : std::max(InterfaceMaximumDimension, Render::Sprites::kBitmapMaximumHeight * markedScale);
 
     // A file cut off in its header or its pixels is too small.
     const Ozt::Header header = Ozt::ReadHeader(pakBuffer, maxWidth, maxHeight);

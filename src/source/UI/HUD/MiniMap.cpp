@@ -26,6 +26,8 @@
 
 #include <algorithm>
 #include <cstdio>
+#include <filesystem>
+#include <fstream>
 
 extern BYTE m_OccupationState;
 
@@ -85,7 +87,7 @@ UI::MiniMap::Screen CurrentScreen()
 // one at 228/48), Kind 2 a gate.
 bool MarkerDrawn(const MINI_MAP& data)
 {
-    if (data.Kind == 2)
+    if (data.Kind != Data::MiniMap::Npc)
         return true;
     return !(gMapManager.WorldActive == WD_34CRYWOLF_1ST && m_OccupationState > 0) ||
            (data.Location[0] == 228 && data.Location[1] == 48 && gMapManager.WorldActive == WD_34CRYWOLF_1ST);
@@ -211,7 +213,7 @@ void mu::ui::window::CMiniMap::LoadImages(const wchar_t* Filename)
 
     mu_swprintf(Fname, L"Data\\Local\\%ls\\Minimap\\Minimap_%ls_%ls.bmd", g_strSelectedML.c_str(), Filename, g_strSelectedML.c_str());
 
-    for (i = 0; i < MAX_MINI_MAP_DATA; i++)
+    for (i = 0; i < Data::MiniMap::MarkerCapacity; i++)
     {
         m_Mini_Map_Data[i].Kind = 0;
     }
@@ -256,6 +258,40 @@ void mu::ui::window::CMiniMap::LoadImages(const wchar_t* Filename)
 
         delete[] Buffer;
     }
+    const auto markerFolder = L"World" + std::to_wstring(gMapManager.WorldActive + 1);
+    LoadServerMarkers(markerFolder.c_str());
+}
+
+void mu::ui::window::CMiniMap::LoadServerMarkers(const wchar_t* worldFolder)
+{
+    const auto path = std::filesystem::path(L"Data") / worldFolder / L"minimap_markers.txt";
+    std::ifstream input(path);
+    if (!input)
+        return;
+    std::vector<Data::MiniMap::MiniMapMarkerRecord> records;
+    if (!Data::MiniMap::ReadMarkers(input, records))
+    {
+        g_ErrorReport.Write(L"Invalid minimap_markers.txt; retaining legacy markers.");
+        return;
+    }
+    std::vector<MINI_MAP> markers;
+    for (const auto& marker : m_Mini_Map_Data)
+        if (marker.Kind == Data::MiniMap::Portal)
+            markers.push_back(marker);
+    if (markers.size() + records.size() > Data::MiniMap::MarkerCapacity)
+        return;
+    for (const auto& record : records)
+    {
+        MINI_MAP marker{};
+        marker.Kind = static_cast<BYTE>(record.kind);
+        marker.Location[0] = record.x;
+        marker.Location[1] = record.y;
+        CMultiLanguage::ConvertFromUtf8(marker.Name, record.name.c_str());
+        markers.push_back(marker);
+    }
+    for (auto& marker : m_Mini_Map_Data)
+        marker = {};
+    std::copy(markers.begin(), markers.end(), m_Mini_Map_Data);
 }
 
 void mu::ui::window::CMiniMap::UnloadImages()
@@ -292,6 +328,7 @@ void mu::ui::window::CMiniMap::BindRmlModel(Rml::DataModelConstructor& c, MiniMa
 
     auto marker = c.RegisterStruct<MiniMapMarkerEntry>();
     marker.RegisterMember("portal", &MiniMapMarkerEntry::portal);
+    marker.RegisterMember("kind", &MiniMapMarkerEntry::kind);
     marker.RegisterMember("size", &MiniMapMarkerEntry::size);
     marker.RegisterMember("transform", &MiniMapMarkerEntry::transform);
     c.RegisterArray<std::vector<MiniMapMarkerEntry>>();
@@ -414,13 +451,20 @@ void mu::ui::window::CMiniMap::SyncMap()
          MatrixText(UI::MiniMap::ElementToQuad(
              UI::MiniMap::MapQuad(screen, heroX, heroY, length, UI::MiniMap::MapRotation), length, length)));
 
+    SyncMapMarkers(screen, heroX, heroY, length);
+}
+
+void mu::ui::window::CMiniMap::SyncMapMarkers(const UI::MiniMap::Screen& screen, float heroX, float heroY, float length)
+{
+    for (auto& box : m_Btn_Loc)
+        box[0] = box[1] = box[2] = box[3] = 0.f;
     std::vector<MiniMapMarkerEntry> markers;
-    for (int i = 0; i < MAX_MINI_MAP_DATA; i++)
+    for (int i = 0; i < Data::MiniMap::MarkerCapacity; i++)
     {
         const MINI_MAP& data = m_Mini_Map_Data[i];
         if (data.Kind <= 0)
             break;
-        if (data.Kind != 1 && data.Kind != 2)
+        if (data.Kind < Data::MiniMap::Npc || data.Kind > Data::MiniMap::Individual)
             continue;
 
         const bool portal = data.Kind == 2;
@@ -434,14 +478,14 @@ void mu::ui::window::CMiniMap::SyncMap()
             continue;
         // The original stored the name hint's box of every marker it drew.
         SetBtnPos(i, marker.hitBox[0], marker.hitBox[1], marker.hitBox[2], marker.hitBox[3]);
-        markers.push_back({portal, size, MatrixText(UI::MiniMap::ElementToQuad(marker.quad, size, size))});
+        markers.push_back({data.Kind, portal, size, MatrixText(UI::MiniMap::ElementToQuad(marker.quad, size, size))});
     }
 
     MiniMapRmlModel& model = m_RmlView.GetModel();
     const bool same = model.markers.size() == markers.size() &&
                       std::equal(markers.begin(), markers.end(), model.markers.begin(),
                                  [](const MiniMapMarkerEntry& a, const MiniMapMarkerEntry& b)
-                                 { return a.portal == b.portal && a.size == b.size && a.transform == b.transform; });
+                                 { return a.kind == b.kind && a.portal == b.portal && a.size == b.size && a.transform == b.transform; });
     if (!same)
     {
         model.markers = std::move(markers);

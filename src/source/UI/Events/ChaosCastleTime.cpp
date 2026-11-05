@@ -1,5 +1,6 @@
 
 #include "stdafx.h"
+#include "Network/Paris/EventTimer.h"
 #include "World/MapInfra/MapManager.h"
 #include "UI/Events/EventPreview.h"
 #include "UI/Events/ChaosCastleTime.h"
@@ -100,7 +101,7 @@ bool CChaosCastleTime::Render()
 void CChaosCastleTime::SyncView()
 {
     // The original's Render(): the kill count once a target was received, "Time left", the time.
-    const bool shown = IsVisible();
+    const bool shown = IsVisible() && !Network::Paris::EventTimer::Visible(false,false,gMapManager.InChaosCastle());
     std::wstring kills;
     if (shown)
     {
@@ -139,7 +140,7 @@ void CChaosCastleTime::SetTime(int iTime)
     m_iTime = iTime;
 
     int iMinute = m_iTime / 60;
-    mu_swprintf(m_szTime, L" %.2d:%.2d:%.2d", iMinute, m_iTime % 60, (int)WorldTime % 60);
+    mu_swprintf(m_szTime, L" %.2d:%.2d", iMinute, m_iTime % 60);
 
     if (iMinute < 5)
     {

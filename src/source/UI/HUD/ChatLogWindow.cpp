@@ -1,4 +1,7 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
+#include "UI/RmlBridge/RmlTooltip.h"
+#include "GameLogic/Items/ParisScreenMessages.h"
+#include "UI/Chat/ParisChatStyle.h"
 #include "I18N/All.h"
 
 #include "Render/Text/CUIRenderTextSDLTtf.h"
@@ -7,9 +10,15 @@
 #include "UI/Core/WindowManager.h"
 #include "UI/Core/WindowSystem.h"
 #include "UI/Core/WindowGeometry.h"
+#include "GameLogic/Social/PostedItemRecord.h"
+#include "Engine/Object/ZzzInventory.h"
+#include "UI/Inventory/ItemMng.h"
+#include "Render/Items/ItemPreviewFit.h"
+#include "UI/Tooltip/LegacyTextListTooltip.h"
 #include "Audio/DSPlaySound.h"
 #include "UI/Social/SocialWindowBase.h"
 #include "Engine/Object/ZzzInterface.h"
+#include "GameLogic/Social/ActivityHistoryUpdates.h"
 
 // RmlUi migration -- see ChatLogRmlModel (ChatLogWindow.h).
 #include "Render/RmlUi/RmlUiRuntime.h"
@@ -64,6 +73,8 @@ bool mu::ui::window::CChatLogWindow::Create(CManager* pNewUIMng, int nShowingLin
 
     m_pNewUIMng = pNewUIMng;
     m_pNewUIMng->AddUIObj(mu::ui::window::INTERFACE_CHATLOGWINDOW, this);
+    m_PostItemTarget = std::make_unique<UI::Items::ItemCameraTarget>(
+        [this](const Rml::Vector2f& offset, const Rml::Vector2f& size) { DrawPostItem(offset, size); });
     SetNumberOfShowingLines(nShowingLines);
 
     // A theme slot moves the log; the resize bands measure from its bottom edge, at its scale.
@@ -90,6 +101,13 @@ bool mu::ui::window::CChatLogWindow::Create(CManager* pNewUIMng, int nShowingLin
 
 void mu::ui::window::CChatLogWindow::Release()
 {
+    if (m_PostItemTarget) m_PostItemTarget->Disable();
+    m_PostItemTarget.reset();
+    if (m_PostItem && g_pNewItemMng) g_pNewItemMng->DeleteItem(m_PostItem);
+    m_PostItem = nullptr;
+    m_PostItemIndex = -1;
+    if (m_PostTooltipShown) UI::Tooltip::HideLegacyTextList();
+    m_PostTooltipShown = false;
     UI::Placement::UnregisterParticipant("chat_log");
     m_RmlView.Release();
     ResetFilter();
@@ -106,6 +124,7 @@ void mu::ui::window::CChatLogWindow::Release()
 
 void mu::ui::window::CChatLogWindow::AddText(const type_string& strID, const type_string& strText, MESSAGE_TYPE MsgType, MESSAGE_TYPE ErrMsgType /*= TYPE_ALL_MESSAGE*/)
 {
+    GameLogic::Social::ActivityHistoryUpdates::RecordPostedItem(strID, strText);
     if (strID.empty() && strText.empty())
     {
         return;
@@ -599,9 +618,74 @@ bool mu::ui::window::CChatLogWindow::Update()
 
 bool mu::ui::window::CChatLogWindow::Render()
 {
-    // Nothing native left to draw -- RmlUi owns the fill, every message line and the scrollbar.
-    // Kept because CObject requires the override.
+    SyncPostItemPreview();
     return true;
+}
+
+void mu::ui::window::CChatLogWindow::SyncPostItemPreview()
+{
+    auto& model = m_RmlView.GetModel();
+    Rml::ElementDocument* document = m_RmlView.Document();
+    Rml::Element* lines = document ? document->GetElementById("lines") : nullptr;
+    if (!m_PostItemTarget || !lines || !IsVisible() || !m_bShowChatLog
+        || model.pointedIndex < 0 || model.pointedIndex >= static_cast<int>(model.lines.size())
+        || !model.lines[model.pointedIndex].isPost || !g_pNewItemMng)
+    {
+        if (m_PostItemTarget) m_PostItemTarget->Sync(nullptr, false);
+        if (m_PostItem && g_pNewItemMng) g_pNewItemMng->DeleteItem(m_PostItem);
+        m_PostItem = nullptr;
+        m_PostItemIndex = -1;
+        if (m_PostTooltipShown) UI::Tooltip::HideLegacyTextList();
+        m_PostTooltipShown = false;
+        if (model.postHover)
+        {
+            model.postHover = false;
+            m_RmlView.MarkDirty("post_hover");
+        }
+        return;
+    }
+
+    const auto& posted = model.lines[model.pointedIndex];
+    if (m_PostItemIndex != model.pointedIndex || m_PostItem == nullptr
+        || m_PostItem->Type != posted.postItemType || m_PostItem->Level != posted.postItemLevel
+        || m_PostItem->ExcellentFlags != posted.postExcellent
+        || m_PostItem->AncientDiscriminator != posted.postAncient
+        || m_PostItem->HasLuck != (posted.postLuck != 0)
+        || m_PostItem->OptionLevel != std::clamp(posted.postAdditionalOption, 0, 15))
+    {
+        if (m_PostItem) g_pNewItemMng->DeleteItem(m_PostItem);
+        ItemCreationParams params{};
+        params.Group = posted.postItemType / MAX_ITEM_INDEX;
+        params.Number = posted.postItemType % MAX_ITEM_INDEX;
+        params.Level = static_cast<BYTE>(posted.postItemLevel);
+        params.Durability = 255;
+        params.WithLuck = posted.postLuck != 0;
+        params.WithOption = posted.postAdditionalOption != 0;
+        params.OptionLevel = static_cast<BYTE>(std::clamp(posted.postAdditionalOption, 0, 15));
+        params.HasExcellentOption = posted.postExcellent != 0;
+        params.ExcellentFlags = static_cast<BYTE>(posted.postExcellent);
+        params.IsAncient = posted.postAncient != 0;
+        params.AncientDiscriminator = static_cast<BYTE>(posted.postAncient);
+        std::fill(std::begin(params.SocketOptions), std::end(params.SocketOptions), SOCKET_EMPTY);
+        m_PostItem = g_pNewItemMng->CreateItemByParameters(&params);
+        m_PostItemIndex = model.pointedIndex;
+    }
+
+
+    if (m_PostItem)
+    {
+        RenderItemInfoAtPx(g_fWindowMouseX + 14.f, g_fWindowMouseY + 14.f, m_PostItem, false, 0, false, true);
+        m_PostItemTarget->Sync(UI::RmlBridge::Tooltip::ItemPreviewElement(), true);
+        m_PostTooltipShown = true;
+    }
+}
+
+void mu::ui::window::CChatLogWindow::DrawPostItem(const Rml::Vector2f& offset, const Rml::Vector2f& size)
+{
+    if (!m_PostItem) return;
+    const Render::Items::Preview::ScopedFit fit(offset.x, offset.y, size.x, size.y);
+    RenderItem3D(offset.x, offset.y, size.x, size.y, m_PostItem->Type, m_PostItem->Level,
+        m_PostItem->ExcellentFlags, m_PostItem->AncientDiscriminator, false);
 }
 
 void mu::ui::window::CChatLogWindow::BindRmlModel(Rml::DataModelConstructor& c, ChatLogRmlModel& model)
@@ -611,7 +695,15 @@ void mu::ui::window::CChatLogWindow::BindRmlModel(Rml::DataModelConstructor& c, 
     auto line = c.RegisterStruct<ChatLogLineEntry>();
     line.RegisterMember("text", &ChatLogLineEntry::text);
     line.RegisterMember("kind", &ChatLogLineEntry::kind);
+    line.RegisterMember("post_details", &ChatLogLineEntry::postDetails);
     line.RegisterMember("has_id", &ChatLogLineEntry::hasId);
+    line.RegisterMember("is_post", &ChatLogLineEntry::isPost);
+    line.RegisterMember("post_item_type", &ChatLogLineEntry::postItemType);
+    line.RegisterMember("post_item_level", &ChatLogLineEntry::postItemLevel);
+    line.RegisterMember("post_excellent", &ChatLogLineEntry::postExcellent);
+    line.RegisterMember("post_ancient", &ChatLogLineEntry::postAncient);
+    line.RegisterMember("post_luck", &ChatLogLineEntry::postLuck);
+    line.RegisterMember("post_additional", &ChatLogLineEntry::postAdditionalOption);
     c.RegisterArray<Rml::Vector<ChatLogLineEntry>>();
 
     c.Bind("lines", &model.lines);
@@ -619,6 +711,10 @@ void mu::ui::window::CChatLogWindow::BindRmlModel(Rml::DataModelConstructor& c, 
     c.Bind("client_height", &model.clientHeight);
     c.Bind("back_alpha", &model.backAlpha);
     c.Bind("show_frame", &model.showFrame);
+    c.Bind("post_hover", &model.postHover);
+    c.Bind("post_hover_x", &model.postHoverX);
+    c.Bind("post_hover_y", &model.postHoverY);
+    c.Bind("post_details", &model.postDetails);
     c.Bind("pointed_index", &model.pointedIndex);
     c.Bind("text_px", &model.textPx);
     c.Bind("line_px", &model.linePx);
@@ -645,14 +741,14 @@ void mu::ui::window::CChatLogWindow::BuildRmlUi()
 void mu::ui::window::CChatLogWindow::SyncDocVisibility(bool sceneAllowsShow)
 {
     m_bSceneAllowsShow = sceneAllowsShow;
-    UI::RmlBridge::SyncDocumentVisibility(m_RmlView.Document(), IsVisible() && m_bShowChatLog && sceneAllowsShow);
+    UI::RmlBridge::SyncDocumentVisibility(m_RmlView.Document(), !UI::ScreenMessages::IsHidden() && IsVisible() && m_bShowChatLog && sceneAllowsShow);
 }
 
 void mu::ui::window::CChatLogWindow::SyncRmlModel()
 {
     if (!m_RmlView.Document()) return;
 
-    UI::RmlBridge::SyncDocumentVisibility(m_RmlView.Document(), IsVisible() && m_bShowChatLog && m_bSceneAllowsShow);
+    UI::RmlBridge::SyncDocumentVisibility(m_RmlView.Document(), !UI::ScreenMessages::IsHidden() && IsVisible() && m_bShowChatLog && m_bSceneAllowsShow);
 
     ChatLogRmlModel& model = m_RmlView.GetModel();
 
@@ -777,11 +873,42 @@ void mu::ui::window::CChatLogWindow::RebuildLineModel()
         }
 
         ChatLogLineEntry entry;
-        entry.kind = slug;
+        const auto postedItem = GameLogic::Social::DecodePostedItem(pMsgText->GetText());
+        entry.isPost = postedItem.has_value() && postedItem->Type < MAX_ITEM;
+        entry.kind = entry.isPost || UI::Chat::IsPostMessage(pMsgText->GetID(), pMsgText->GetText()) ? "post" : slug;
         entry.hasId = !pMsgText->GetID().empty();
+        type_string displayText = pMsgText->GetText();
+        if (entry.isPost)
+        {
+            const auto& item = *postedItem;
+            entry.postItemType = item.Type;
+            entry.postItemLevel = item.Level;
+            entry.postExcellent = item.Excellent;
+            entry.postAncient = item.Ancient;
+            entry.postLuck = item.Luck;
+            entry.postAdditionalOption = item.AdditionalOption;
+
+            displayText = type_string(ItemAttribute[item.Type].Name) + L" +" + std::to_wstring(item.Level);
+            if (item.Ancient != 0) displayText += L" [ANCIENT]";
+            if (item.Excellent != 0) displayText += L" [EXCELLENT]";
+            if (item.Luck != 0) displayText += L" [LUCK]";
+            if (item.AdditionalOption != 0) displayText += L" [+" + std::to_wstring(item.AdditionalOption * 4) + L"]";
+            if (!item.Text.empty()) displayText += L" - " + item.Text;
+
+            entry.postDetails.clear();
+            if (item.Ancient != 0) entry.postDetails = "ANCIENT ITEM";
+            if (item.Excellent != 0)
+            {
+                if (!entry.postDetails.empty()) entry.postDetails += " | ";
+                entry.postDetails += "EXCELLENT ITEM";
+            }
+            if (entry.postDetails.empty()) entry.postDetails = "STANDARD ITEM";
+            if (item.Luck != 0) entry.postDetails += " | Luck";
+            if (item.AdditionalOption != 0) entry.postDetails += " | Additional +" + std::to_string(item.AdditionalOption * 4);
+        }
         const type_string composed = entry.hasId
-            ? pMsgText->GetID() + L" : " + pMsgText->GetText()
-            : pMsgText->GetText();
+            ? pMsgText->GetID() + L" : " + displayText
+            : displayText;
         entry.text = StringUtils::WideToNarrow(composed.c_str());
         model.lines.push_back(std::move(entry));
     }
@@ -837,7 +964,7 @@ void mu::ui::window::CChatLogWindow::UpdatePointedLine()
                 {
                     // Only a line carrying a sender is a target, matching native -- an
                     // unattributed system line has nothing to whisper to.
-                    if (i < (int)model.lines.size() && model.lines[i].hasId)
+                    if (i < (int)model.lines.size() && (model.lines[i].hasId || model.lines[i].isPost))
                         pointed = i;
                     break;
                 }
@@ -1249,7 +1376,7 @@ void mu::ui::window::CSystemLogWindow::BuildRmlUi()
 void mu::ui::window::CSystemLogWindow::SyncDocVisibility(bool sceneAllowsShow)
 {
     m_bSceneAllowsShow = sceneAllowsShow;
-    UI::RmlBridge::SyncDocumentVisibility(m_RmlView.Document(), IsVisible() && m_bShowMessages && sceneAllowsShow);
+    UI::RmlBridge::SyncDocumentVisibility(m_RmlView.Document(), !UI::ScreenMessages::IsHidden() && IsVisible() && m_bShowMessages && sceneAllowsShow);
 }
 
 void mu::ui::window::CSystemLogWindow::SyncRmlModel()
@@ -1258,7 +1385,7 @@ void mu::ui::window::CSystemLogWindow::SyncRmlModel()
     TrackPanelSize();
 
     // m_bShowMessages is the input box's own "system messages" toggle; IsVisible() is the window's.
-    UI::RmlBridge::SyncDocumentVisibility(m_RmlView.Document(), IsVisible() && m_bShowMessages && m_bSceneAllowsShow);
+    UI::RmlBridge::SyncDocumentVisibility(m_RmlView.Document(), !UI::ScreenMessages::IsHidden() && IsVisible() && m_bShowMessages && m_bSceneAllowsShow);
 
     SystemLogRmlModel& model = m_RmlView.GetModel();
 

@@ -5,6 +5,7 @@
 #include "UI/Core/WindowCommon.h" // ShowSystemMenuDialog
 #include "Audio/DSPlaySound.h"
 #include "I18N/All.h"
+#include "Core/Utilities/Log/MuLogger.h"
 
 #include "Core/Utilities/StringUtils.h"
 #include "Render/RmlUi/RmlUiRuntime.h"
@@ -20,7 +21,7 @@ using namespace mu::ui::window;
 namespace
 {
 // The row labels, top to bottom (CWindowMenu::MenuEntry order).
-constexpr int kMenuTextIds[CWindowMenu::MENU_MAX_INDEX] = {1741, 1742, 364, 1743, 3055, 3103};
+constexpr int kMenuTextIds[CWindowMenu::MENU_MAX_INDEX] = {1741, 1742, 364, 1743, 3055, 3103, 0};
 
 template <typename Model>
 void SyncFloat(RmlModelBinder<Model>& binder, float Model::* field, const char* name, float value)
@@ -117,6 +118,7 @@ bool mu::ui::window::CWindowMenu::Render()
 
 void mu::ui::window::CWindowMenu::RunMenuEntry(int entry)
 {
+    mu::log::Get("ui")->info("Window menu action: {}", entry);
     switch (entry)
     {
     case MENU_SYSTEM:
@@ -150,6 +152,10 @@ void mu::ui::window::CWindowMenu::RunMenuEntry(int entry)
             g_pNewUISystem->Hide(mu::ui::window::INTERFACE_WINDOW_MENU);
         }
         break;
+    case MENU_PARIS_CUSTOM:
+        g_pNewUISystem->Hide(mu::ui::window::INTERFACE_WINDOW_MENU);
+        mu::ui::window::ShowParisCustomMenuDialog();
+        break;
     default:
         break;
     }
@@ -174,7 +180,10 @@ void mu::ui::window::CWindowMenu::BindRmlModel(Rml::DataModelConstructor& c, Win
 
     model.rows.clear();
     for (int i = 0; i < MENU_MAX_INDEX; ++i)
-        model.rows.push_back({StringUtils::WideToNarrow(I18N::Game::Lookup(kMenuTextIds[i])), i});
+    {
+        const wchar_t* label = i == MENU_PARIS_CUSTOM ? L"Sistemas PARIS" : I18N::Game::Lookup(kMenuTextIds[i]);
+        model.rows.push_back({StringUtils::WideToNarrow(label), i});
+    }
 }
 
 void mu::ui::window::CWindowMenu::BuildRmlUi()

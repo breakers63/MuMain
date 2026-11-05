@@ -3,6 +3,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
+#include "Render/Weather/WeatherRenderer.h"
+#include "Scenes/SceneWindowTitle.h"
 #include "Core/Input/KeyState.h"
 #include "Core/Input/SyntheticInput.h"
 #include <cstdio>
@@ -699,6 +701,7 @@ static void AddCameraLines(std::vector<std::string>& lines)
 
 static void UpdateDiagnostics()
 {
+    Scenes::WindowTitle::Update();
     if (g_bShowDebugInfo)
     {
         RestartFrameStatsOnSceneChange();
@@ -1123,6 +1126,11 @@ static void LogFrameTiming()
         FrameProfiler::CompletedCounter(Counter::GpuSkinningSubmissions),
         FrameProfiler::CompletedCounter(Counter::CpuSkinningIneligible),
         FrameProfiler::CompletedCounter(Counter::GpuSkinningFailures));
+    logger->info("[UI timing] fps={:.1f} ui={:.2f}ms previews={:.2f}ms rml_update={:.2f}ms rml_draw={:.2f}ms submit={:.2f}ms",
+        FPS_AVG, FrameProfiler::CompletedMs(Pass::UI), FrameProfiler::CompletedMs(Pass::RendererOffscreen),
+        FrameProfiler::CompletedMs(Pass::RmlUiUpdate), FrameProfiler::CompletedMs(Pass::RmlUiRender),
+        FrameProfiler::CompletedMs(Pass::RendererSubmit));
+    logger->flush();
 }
 
 /**
@@ -1201,6 +1209,7 @@ void MainScene(HDC hDC)
 
 void RenderScene(HDC hDC)
 {
+    if (SceneFlag != MAIN_SCENE) Render::Weather::SuspendWorld();
     CalcFPS();
     UpdateSceneState();
 

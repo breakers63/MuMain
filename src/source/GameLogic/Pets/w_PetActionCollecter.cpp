@@ -11,6 +11,51 @@
 #include "Audio/DSPlaySound.h"
 #include "Network/Server/WSclient.h"
 
+namespace
+{
+    constexpr float ReferenceOrbitMilliseconds = 2000.0f;
+    constexpr float ReferenceOrbitHeight = 20.0f;
+    constexpr float HeadingLookaheadRadians = 0.05f;
+    constexpr float ReferenceStarsPerSecond = 60.0f;
+    constexpr float AnimationReferenceFps = 25.0f;
+    constexpr int ProbabilityResolution = 10000;
+
+    bool IsNpcCollector(const CHARACTER* owner)
+    {
+        return owner != nullptr && owner->Object.Kind == KIND_NPC
+            && owner->Helper.Type == MODEL_PET_RUDOLF;
+    }
+
+    void MoveNpcCollector(OBJECT* object, const CHARACTER* owner, double tick)
+    {
+        const float phase = static_cast<float>(std::fmod(tick, ReferenceOrbitMilliseconds))
+            * (2.0f * Q_PI / ReferenceOrbitMilliseconds);
+        object->Position[0] = owner->Object.Position[0] + std::sin(phase) * CIRCLE_STAND_RADIAN;
+        object->Position[1] = owner->Object.Position[1] + std::cos(phase) * CIRCLE_STAND_RADIAN;
+        object->Position[2] = owner->Object.Position[2] + ReferenceOrbitHeight;
+        vec3_t nextPosition;
+        nextPosition[0] = owner->Object.Position[0] + std::sin(phase + HeadingLookaheadRadians) * CIRCLE_STAND_RADIAN;
+        nextPosition[1] = owner->Object.Position[1] + std::cos(phase + HeadingLookaheadRadians) * CIRCLE_STAND_RADIAN;
+        nextPosition[2] = object->Position[2];
+        object->Angle[2] = CreateAngle2D(object->Position, nextPosition);
+    }
+
+    void EmitCollectorStars(OBJECT* object, CHARACTER* owner, vec3_t position, vec3_t light)
+    {
+        if (!IsNpcCollector(owner))
+        {
+            CreateParticleFpsChecked(BITMAP_SHINY, position, object->Angle, light, 7);
+            return;
+        }
+        const float expected = std::clamp(FPS_ANIMATION_FACTOR, 0.0f, 2.0f)
+            * ReferenceStarsPerSecond / AnimationReferenceFps;
+        int count = static_cast<int>(expected);
+        if (rand() % ProbabilityResolution < (expected - count) * ProbabilityResolution) ++count;
+        for (int index = 0; index < count; ++index)
+            CreateParticle(BITMAP_SHINY, position, object->Angle, light, 7);
+    }
+}
+
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
@@ -56,6 +101,12 @@ bool PetActionCollecter::Move(OBJECT* obj, CHARACTER* Owner, int targetKey, doub
 {
     if (NULL == obj || NULL == Owner)
         return FALSE;
+
+    if (IsNpcCollector(Owner))
+    {
+        MoveNpcCollector(obj, Owner, tick);
+        return TRUE;
+    }
 
     FindZen(obj);
 
@@ -239,7 +290,7 @@ bool PetActionCollecter::Effect(OBJECT* obj, CHARACTER* Owner, int targetKey, do
     Vector(1.0f, 0.8f, 0.2f, Light);
     VectorCopy(obj->Position, Position);
     Position[2] += 30.0f;
-    CreateParticleFpsChecked(BITMAP_SHINY, Position, obj->Angle, Light, 7);
+    EmitCollectorStars(obj, Owner, Position, Light);
 
     switch (m_state)
     {

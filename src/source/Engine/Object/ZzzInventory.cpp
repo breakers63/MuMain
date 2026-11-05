@@ -1,7 +1,11 @@
-﻿///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
+#include "GameLogic/Items/ParisCustomJewels.h"
+#include "Core/Input/KeyState.h"
+#include "GameLogic/Items/ParisColorPotions.h"
+#include "Render/Items/ItemPreviewFit.h"
 #include "UI/Placement/WindowPlacement.h"
 #include "UI/Core/UIManager.h"
 #include "Render/Textures/ZzzOpenglUtil.h"
@@ -1694,7 +1698,7 @@ void GetSpecialOptionText(int Type, wchar_t* Text, WORD Option, BYTE Value, int 
 
 // (sx, sy) in the screen's 640x480 stretch, `screen`.
 static void RenderItemInfo(const UI::Scaling::Transform& screen, int sx, int sy, ITEM* ip, bool Sell, int Inventype,
-                           bool bItemTextListBoxUse)
+                           bool bItemTextListBoxUse, bool itemPreview)
 {
     // Unconditional: the early returns below (and the pet-item delegation further down, which
     // renders its own tooltip via giPetManager::RenderPetItemInfo() instead) used to mean "this
@@ -2622,6 +2626,10 @@ static void RenderItemInfo(const UI::Scaling::Transform& screen, int sx, int sy,
         TextListColor[TextNum] = TEXT_COLOR_WHITE;
         TextBold[TextNum] = false;
         TextNum++;
+    }
+    else if (GameLogic::Items::CustomJewels::IsJewel(ip->Type)) {
+        constexpr const wchar_t* hints[]={L"Aumenta un nivel (hasta +15)",L"Agrega skill si el objeto lo admite",L"Agrega luck si el objeto lo admite",L"Anillos/pendants: +1 adicional, max 3; puede quemar",L"Anillos/pendants: +1 Excellent, max 3; puede quemar",L"Agrega un socket vacio si es compatible",L"Agrega el primer set Ancient compatible",L"Agrega el segundo set Ancient compatible",L"Maximiza nivel y opciones compatibles"};
+        mu_swprintf(TextList[TextNum],L"%s",hints[ip->Type-ITEM_POTION-244]);TextListColor[TextNum]=TEXT_COLOR_BLUE;TextBold[TextNum]=false;TextNum++;
     }
     else if (ip->Type == ITEM_INDULGENCE)
     {
@@ -3947,9 +3955,9 @@ static void RenderItemInfo(const UI::Scaling::Transform& screen, int sx, int sy,
         case ITEM_SMALL_CAPE_OF_LORD:
         case ITEM_LITTLE_WARRIORS_CLOAK:
         {
-            mu_swprintf(TextList[TextNum], I18N::Game::IncreaseDOfDamage, 20 + Level * 2);
+            mu_swprintf(TextList[TextNum], I18N::Game::IncreaseDOfDamage, (ip->Type == ITEM_SMALL_CAPE_OF_LORD ? 12 : 20) + Level * 2);
             TextListColor[TextNum] = TEXT_COLOR_WHITE; TextBold[TextNum] = false; TextNum++;
-            mu_swprintf(TextList[TextNum], I18N::Game::AbsorbDOfDamage, 20 + Level * 2);
+            mu_swprintf(TextList[TextNum], I18N::Game::AbsorbDOfDamage, (ip->Type == ITEM_SMALL_CAPE_OF_LORD ? 12 : 20) + Level * 2);
             TextListColor[TextNum] = TEXT_COLOR_WHITE; TextBold[TextNum] = false; TextNum++;
         }break;
         case ITEM_SMALL_WING_OF_CURSE:
@@ -4163,9 +4171,9 @@ static void RenderItemInfo(const UI::Scaling::Transform& screen, int sx, int sy,
     else if (ip->Type == ITEM_CAPE_OF_FIGHTER || ip->Type == ITEM_CAPE_OF_LORD)
     {
         // 망토 관련 옵션변경
-        mu_swprintf(TextList[TextNum], I18N::Game::IncreaseDOfDamage, 20 + Level * 2);  //  데미지 몇%증가
+        mu_swprintf(TextList[TextNum], I18N::Game::IncreaseDOfDamage, ip->Type == ITEM_CAPE_OF_LORD ? 32 + Level : 20 + Level * 2);  //  데미지 몇%증가
         TextListColor[TextNum] = TEXT_COLOR_WHITE; TextBold[TextNum] = false; TextNum++;
-        int _iDamage = (ip->Type == ITEM_CAPE_OF_FIGHTER) ? 10 + Level * 2 : 10 + Level;
+        int _iDamage = (ip->Type == ITEM_CAPE_OF_FIGHTER) ? 10 + Level * 2 : 25 + Level * 2;
         mu_swprintf(TextList[TextNum], I18N::Game::AbsorbDOfDamage, _iDamage);  //  데미지 몇%흡수
         TextListColor[TextNum] = TEXT_COLOR_WHITE; TextBold[TextNum] = false; TextNum++;
     }
@@ -5251,7 +5259,8 @@ static void RenderItemInfo(const UI::Scaling::Transform& screen, int sx, int sy,
             TextNum,
             UI::Scaling::PositionX(screen, static_cast<float>(sx)),
             UI::Scaling::PositionY(screen, static_cast<float>(sy)),
-            bItemTextListBoxUse ? UI::Tooltip::Placement::Above : UI::Tooltip::Placement::Below);
+            bItemTextListBoxUse ? UI::Tooltip::Placement::Above : UI::Tooltip::Placement::Below,
+            UI::Tooltip::ItemInfoOwner(), ip, itemPreview);
     }
 }
 
@@ -5469,10 +5478,10 @@ template <typename Render> void InScreenSpace(float x, float y, Render render)
 }
 } // namespace
 
-void RenderItemInfoAtPx(float x, float y, ITEM* ip, bool Sell, int Inventype, bool bItemTextListBoxUse)
+void RenderItemInfoAtPx(float x, float y, ITEM* ip, bool Sell, int Inventype, bool bItemTextListBoxUse, bool itemPreview)
 {
     InScreenSpace(x, y, [&](const UI::Scaling::Transform& screen, int sx, int sy)
-                  { RenderItemInfo(screen, sx, sy, ip, Sell, Inventype, bItemTextListBoxUse); });
+                  { RenderItemInfo(screen, sx, sy, ip, Sell, Inventype, bItemTextListBoxUse, itemPreview); });
 }
 
 void RenderRepairInfoAtPx(float x, float y, ITEM* ip, bool Sell)
@@ -6276,9 +6285,21 @@ void ApplyGroundItemLabelDescriptor(const GroundItemLabelDescriptor& descriptor)
 
 }
 
+// Ctrl exposes the same authoritative serialized options as the inventory tooltip.
+static bool RenderHoveredGroundItemOptions(int index, OBJECT* object, ITEM* item)
+{
+    if (index < 0 || index >= MAX_ITEMS || object == nullptr || item == nullptr
+        || !object->Live || !object->Visible || !Core::Input::IsKeyDown(VK_CONTROL))
+        return false;
+
+    RenderItemInfoAtPx(g_fWindowMouseX, g_fWindowMouseY, item, false);
+    return true;
+}
+
 void RenderItemName(int i, OBJECT* o, ITEM* ip, bool Sort)
 {
-    (void)i;
+    if (!Sort && RenderHoveredGroundItemOptions(i, o, ip))
+        return;
 
     if (!Sort)
     {
@@ -6623,6 +6644,7 @@ void RenderObjectScreen(int Type, int ItemLevel, int excellentFlags, int ancient
     o->Scale = Scale;
 
     VectorCopy(Position, o->Position);
+    Render::Items::Preview::FitPosedModel(b, o);
 
     vec3_t Light;
     float  alpha = o->Alpha;

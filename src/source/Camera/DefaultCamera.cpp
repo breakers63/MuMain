@@ -778,7 +778,7 @@ void DefaultCamera::HandleEditorMode()
 {
     bool EditMove = false;
 
-    if (!g_pUIManager->IsInputEnable())
+    if (!g_pUIManager->IsInputEnable() && CameraManager::Instance().GetCurrentMode() != CameraMode::Orbital)
     {
         // Handle camera angle rotation
         if (Core::Input::IsKeyDown(VK_INSERT))

@@ -1,9 +1,17 @@
 
 #include "stdafx.h"
+#include "Network/Paris/TvtHud.h"
+#include "UI/RmlBridge/RmlDraggable.h"
+#include "Network/Paris/BloodPvpNotice.h"
+#include "Network/Paris/EventTimer.h"
+#include "Core/Input/KeyState.h"
+#include "UI/Core/WindowCommon.h"
 #include <algorithm>
 #include "I18N/All.h"
 
 #include "UI/HUD/MainFrameWindow.h"	// self
+#include "UI/HUD/PerformanceQuality.h"
+#include "UI/HUD/ResourceGauge.h"
 #include "UI/Options/OptionWindow.h"
 #include "UI/Core/WindowSystem.h"
 #include "UI/Widgets/UIBaseDef.h"
@@ -118,6 +126,13 @@ SlotBox SlotBoxInReference(Rml::Element* element)
 
 void mu::ui::window::CMainFrameWindow::BindRmlModel(Rml::DataModelConstructor& c, MainFrameRmlModel& model)
 {
+    c.Bind("fps_color", &model.fpsColor);
+    c.Bind("ping_color", &model.pingColor);
+    c.Bind("fps_tooltip", &model.fpsTooltip);
+    c.Bind("ping_tooltip", &model.pingTooltip);
+    c.BindFunc("coordinate_x", [](Rml::Variant& value) { value = Hero ? static_cast<int>(Hero->PositionX) : 0; });
+    c.BindFunc("coordinate_y", [](Rml::Variant& value) { value = Hero ? static_cast<int>(Hero->PositionY) : 0; });
+
 
     c.Bind("hp_fraction", &model.hpFraction);
     c.Bind("mp_fraction", &model.mpFraction);
@@ -136,6 +151,14 @@ void mu::ui::window::CMainFrameWindow::BindRmlModel(Rml::DataModelConstructor& c
     c.Bind("ag_tooltip", &model.agTooltip);
     c.Bind("sd_tooltip", &model.sdTooltip);
     c.Bind("poisoned", &model.poisoned);
+    c.Bind("pvp_notice_visible", &model.pvpNoticeVisible);
+    c.Bind("pvp_notice_active", &model.pvpNoticeActive);
+    c.Bind("pvp_notice_text", &model.pvpNoticeText);
+    c.Bind("event_timer_text", &model.eventTimerText);
+    c.Bind("event_timer_visible", &model.eventTimerVisible);
+    c.Bind("tvt_visible", &model.tvtVisible);c.Bind("tvt_minimized", &model.tvtMinimized);
+    c.BindEventCallback("tvt_minimize",[this](Rml::DataModelHandle,Rml::Event&,const Rml::VariantList&){auto& m=m_RmlView.GetModel();m.tvtMinimized=!m.tvtMinimized;m_RmlView.MarkDirty("tvt_minimized");});
+    c.Bind("pvp_notice_opacity", &model.pvpNoticeOpacity);
 
     c.Bind("exp_fraction", &model.expFraction);
     c.Bind("exp_digit", &model.expDigit);
@@ -276,6 +299,18 @@ void mu::ui::window::CMainFrameWindow::BindRmlModel(Rml::DataModelConstructor& c
         [this](Rml::DataModelHandle, Rml::Event&, const Rml::VariantList&) { RmlClickMyInven(); });
     c.BindEventCallback("mainframe_friend_click",
         [this](Rml::DataModelHandle, Rml::Event&, const Rml::VariantList&) { RmlClickFriend(); });
+    c.BindEventCallback("mainframe_pvp_click",
+        [this](Rml::DataModelHandle, Rml::Event&, const Rml::VariantList&)
+        {
+            Core::Input::TogglePvpLock();
+            if(auto* document=m_RmlView.Document())
+                if(auto* button=document->GetElementById("btn_pvp"))
+                {
+                    const bool active=Core::Input::IsPvpLocked();
+                    button->SetClass("active",active);
+                    button->SetAttribute("data-hint",active ? "Auto PVP ON" : "Auto PVP OFF");
+                }
+        });
     c.BindEventCallback("mainframe_window_click",
         [this](Rml::DataModelHandle, Rml::Event&, const Rml::VariantList&) { RmlClickWindow(); });
 }
@@ -290,6 +325,7 @@ void mu::ui::window::CMainFrameWindow::OnRmlReloaded()
 void mu::ui::window::CMainFrameWindow::BuildRmlUi()
 {
     m_RmlView.Ensure();
+
 }
 
 void mu::ui::window::CMainFrameWindow::Release()
@@ -402,7 +438,7 @@ bool mu::ui::window::CMainFrameWindow::Update()
     if (m_bRmlWindowClicked)
     {
         m_bRmlWindowClicked = false;
-        g_pNewUISystem->Toggle(mu::ui::window::INTERFACE_WINDOW_MENU);
+        mu::ui::window::ShowParisCustomMenuDialog();
         PlayBuffer(SOUND_CLICK01);
     }
 #ifdef PBG_ADD_INGAMESHOP_UI_MAINFRAME
@@ -445,14 +481,85 @@ bool mu::ui::window::CMainFrameWindow::Update()
     }
 #endif //defined PBG_ADD_INGAMESHOP_UI_MAINFRAME
 
+    Core::Input::UpdatePvpShortcut();
+    SyncPvpNotice();
     SyncRmlModel();
 
     return true;
 }
 
+void mu::ui::window::CMainFrameWindow::SyncPerformanceModel()
+{
+    const auto now = GetTickCount64();
+    if (now < m_nextPerformanceSample) return;
+    constexpr unsigned SampleMilliseconds = 1000;
+    m_nextPerformanceSample = now + SampleMilliseconds;
+    const int ping = SocketClient ? SocketClient->GetTcpPingMilliseconds() : -1;
+    auto& model = m_RmlView.GetModel();
+    model.fpsColor = UI::HUD::Performance::FpsColor(FPS_AVG);
+    model.pingColor = UI::HUD::Performance::PingColor(ping);
+    model.fpsTooltip = "FPS " + std::to_string(static_cast<int>(std::lround(FPS_AVG)));
+    model.pingTooltip = ping < 0 ? "Ping --" : "Ping " + std::to_string(ping) + " ms";
+    for (const char* name : {"fps_color", "ping_color", "fps_tooltip", "ping_tooltip"})
+        m_RmlView.MarkDirty(name);
+}
+
+void mu::ui::window::CMainFrameWindow::SyncPvpNotice()
+{
+    constexpr std::uint64_t noticeDurationMs = 3000;
+    constexpr std::uint64_t fadeDurationMs = 400;
+    const auto now = GetTickCount64();
+    const bool active = Core::Input::IsPvpLocked();
+    auto& model = m_RmlView.GetModel();
+    const bool tvtVisible=ParisTvtHud::Visible();
+    if(model.tvtVisible!=tvtVisible){model.tvtVisible=tvtVisible;m_RmlView.MarkDirty("tvt_visible");}
+    const bool timerVisible=Network::Paris::EventTimer::Visible(gMapManager.InBloodCastle(),gMapManager.InDevilSquare(),gMapManager.InChaosCastle());
+    if(model.eventTimerVisible!=timerVisible){model.eventTimerVisible=timerVisible;m_RmlView.MarkDirty("event_timer_visible");}
+    if(timerVisible&&!tvtVisible){const auto wide=Network::Paris::EventTimer::Text();std::string text(wide.begin(),wide.end());const auto split=text.find('\n');text="<span class=\"event-timer-name\">"+text.substr(0,split)+"</span><span class=\"event-timer-label\">Tiempo restante</span><span class=\"event-timer-clock\">"+text.substr(split+1)+"</span>";if(model.eventTimerText!=text){model.eventTimerText=text;m_RmlView.MarkDirty("event_timer_text");}}
+
+    if(tvtVisible){
+        if(auto* d=m_RmlView.Document())if(auto* panel=d->GetElementById("tvt_hud"))if(panel->GetAttribute<bool>("data-drag-ready",false)==false){UI::RmlBridge::MakeDraggable(d->GetElementById("tvt_drag"),panel);panel->SetAttribute("data-drag-ready",true);}
+        std::string text="<span class=\"tvt-hud-blue\">AZULES</span><span class=\"tvt-hud-red\">ROJOS</span><span class=\"tvt-blue-score\">"+std::to_string(ParisTvtHud::blue)+"</span><span class=\"tvt-red-score\">"+std::to_string(ParisTvtHud::red)+"</span><span class=\"tvt-hud-clock\">"+ParisTvtHud::Clock()+"</span><span class=\"tvt-hud-team\">Tu equipo: "+(ParisTvtHud::team==1?"AZUL":"ROJO")+"</span>";
+        if(model.eventTimerText!=text){model.eventTimerText=text;m_RmlView.MarkDirty("event_timer_text");}
+    }
+
+    if (active != m_lastPvpState)
+    {
+        m_lastPvpState = active;
+        m_pvpNoticeStarted = now;
+        model.pvpNoticeActive = active;
+        model.pvpNoticeText = active ? "Auto PvP activado" : "Auto PvP desactivado";
+        m_RmlView.MarkDirty("pvp_notice_active");
+        m_RmlView.MarkDirty("pvp_notice_text");
+    }
+    if (Network::Paris::BloodPvpNotice::started != 0 && now - Network::Paris::BloodPvpNotice::started < noticeDurationMs
+        && m_pvpNoticeStarted != Network::Paris::BloodPvpNotice::started)
+    {
+        m_pvpNoticeStarted = Network::Paris::BloodPvpNotice::started;
+        model.pvpNoticeActive = true;
+        model.pvpNoticeText = Network::Paris::BloodPvpNotice::Utf8();
+        m_RmlView.MarkDirty("pvp_notice_active"); m_RmlView.MarkDirty("pvp_notice_text");
+    }
+    const auto age = now - m_pvpNoticeStarted;
+    const bool visible = m_pvpNoticeStarted != 0 && age < noticeDurationMs;
+    const float opacity = !visible ? 0.f : age <= noticeDurationMs - fadeDurationMs
+        ? 1.f : static_cast<float>(noticeDurationMs - age) / fadeDurationMs;
+    if (model.pvpNoticeVisible != visible)
+    {
+        model.pvpNoticeVisible = visible;
+        m_RmlView.MarkDirty("pvp_notice_visible");
+    }
+    if (model.pvpNoticeOpacity != opacity)
+    {
+        model.pvpNoticeOpacity = opacity;
+        m_RmlView.MarkDirty("pvp_notice_opacity");
+    }
+}
+
 void mu::ui::window::CMainFrameWindow::SyncRmlModel()
 {
     if (!m_RmlView.Document()) return;
+    SyncPerformanceModel();
 
     auto& model = m_RmlView.GetModel();
 
@@ -486,40 +593,33 @@ void mu::ui::window::CMainFrameWindow::SyncRmlModel()
         syncText(field, boundName, StringUtils::WideToNarrow(text));
     };
 
+    static int lastCoordinateX = -1, lastCoordinateY = -1;
+    const int coordinateX = Hero->PositionX, coordinateY = Hero->PositionY;
+    if (lastCoordinateX != coordinateX) { lastCoordinateX = coordinateX; m_RmlView.MarkDirty("coordinate_x"); }
+    if (lastCoordinateY != coordinateY) { lastCoordinateY = coordinateY; m_RmlView.MarkDirty("coordinate_y"); }
     m_ItemHotKey.SyncSlotIcons(m_RmlView.Document());
 
     // HP/MP -- legacy RenderLifeMana(). fLife/fMana there are the EMPTY fraction; store filled.
-    DWORD wLifeMax, wLife, wManaMax, wMana;
-    if (gCharacterManager.IsMasterLevel(Hero->Class) == true)
-    {
-        wLifeMax = Master_Level_Data.wMaxLife;
-        wLife = std::min<int>(std::max<int>(0, CharacterAttribute->Life), wLifeMax);
-        wManaMax = Master_Level_Data.wMaxMana;
-        wMana = std::min<int>(std::max<int>(0, CharacterAttribute->Mana), wManaMax);
-    }
-    else
-    {
-        wLifeMax = CharacterAttribute->LifeMax;
-        wLife = std::min<int>(std::max<int>(0, CharacterAttribute->Life), wLifeMax);
-        wManaMax = CharacterAttribute->ManaMax;
-        wMana = std::min<int>(std::max<int>(0, CharacterAttribute->Mana), wManaMax);
-    }
+    const auto hp = UI::HUD::MakeResourceGauge(CharacterAttribute->Life, CharacterAttribute->LifeMax);
+    const auto mp = UI::HUD::MakeResourceGauge(CharacterAttribute->Mana, CharacterAttribute->ManaMax);
+    const DWORD wLifeMax = hp.maximum, wLife = hp.current;
+    const DWORD wManaMax = mp.maximum, wMana = mp.current;
     if (wLifeMax > 0 && wLife > 0 && (wLife / (float)wLifeMax) < 0.2f)
         PlayBuffer(SOUND_HEART);
 
-    syncFloat(&MainFrameRmlModel::hpFraction, "hp_fraction", wLifeMax > 0 ? wLife / (float)wLifeMax : 0.f);
-    syncFloat(&MainFrameRmlModel::mpFraction, "mp_fraction", wManaMax > 0 ? wMana / (float)wManaMax : 0.f);
+    syncFloat(&MainFrameRmlModel::hpFraction, "hp_fraction", hp.fraction);
+    syncFloat(&MainFrameRmlModel::mpFraction, "mp_fraction", mp.fraction);
     syncBool(&MainFrameRmlModel::poisoned, "poisoned", g_isCharacterBuff((&Hero->Object), eDeBuff_Poison));
 
     // "X / Y" (current/max), not just "X" -- shared model field, both themes.
     wchar_t szNum[32] = {};
-    mu_swprintf(szNum, L"%d / %d", wLife, wLifeMax);
+    mu_swprintf(szNum, L"%u / %u", wLife, wLifeMax);
     syncWide(&MainFrameRmlModel::hpText, "hp_text", szNum);
-    mu_swprintf(szNum, L"%d / %d", wMana, wManaMax);
+    mu_swprintf(szNum, L"%u / %u", wMana, wManaMax);
     syncWide(&MainFrameRmlModel::mpText, "mp_text", szNum);
-    mu_swprintf(szNum, L"%d", wLife);
+    mu_swprintf(szNum, L"%u", wLife);
     syncWide(&MainFrameRmlModel::hpCurrentText, "hp_current_text", szNum);
-    mu_swprintf(szNum, L"%d", wMana);
+    mu_swprintf(szNum, L"%u", wMana);
     syncWide(&MainFrameRmlModel::mpCurrentText, "mp_current_text", szNum);
 
     wchar_t szTip[256] = {};
@@ -529,41 +629,27 @@ void mu::ui::window::CMainFrameWindow::SyncRmlModel()
     syncWide(&MainFrameRmlModel::mpTooltip, "mp_tooltip", szTip);
 
     // AG (stamina/skill-mana) -- legacy RenderGuageAG().
-    DWORD dwMaxSkillMana, dwSkillMana;
-    if (gCharacterManager.IsMasterLevel(Hero->Class) == true)
-    {
-        dwMaxSkillMana = std::max<int>(1, Master_Level_Data.wMaxBP);
-        dwSkillMana = std::min<int>(dwMaxSkillMana, CharacterAttribute->SkillMana);
-    }
-    else
-    {
-        dwMaxSkillMana = std::max<int>(1, CharacterAttribute->SkillManaMax);
-        dwSkillMana = std::min<int>(dwMaxSkillMana, CharacterAttribute->SkillMana);
-    }
-    syncFloat(&MainFrameRmlModel::agFraction, "ag_fraction", dwSkillMana / (float)dwMaxSkillMana);
-    mu_swprintf(szNum, L"%d / %d", dwSkillMana, dwMaxSkillMana);
+    const DWORD agMaximum = CharacterAttribute->SkillManaMax > 0 ? CharacterAttribute->SkillManaMax
+        : (gCharacterManager.IsMasterLevel(Hero->Class) ? Master_Level_Data.wMaxBP : 0);
+    const auto ag = UI::HUD::MakeResourceGauge(CharacterAttribute->SkillMana, agMaximum);
+    const DWORD dwMaxSkillMana = ag.maximum, dwSkillMana = ag.current;
+    syncFloat(&MainFrameRmlModel::agFraction, "ag_fraction", ag.fraction);
+    mu_swprintf(szNum, L"%u / %u", dwSkillMana, dwMaxSkillMana);
     syncWide(&MainFrameRmlModel::agText, "ag_text", szNum);
-    mu_swprintf(szNum, L"%d", dwSkillMana);
+    mu_swprintf(szNum, L"%u", dwSkillMana);
     syncWide(&MainFrameRmlModel::agCurrentText, "ag_current_text", szNum);
     mu_swprintf(szTip, I18N::Game::AGDD, dwSkillMana, dwMaxSkillMana);
     syncWide(&MainFrameRmlModel::agTooltip, "ag_tooltip", szTip);
 
     // SD (shield) -- legacy RenderGuageSD().
-    DWORD wMaxShield, wShield;
-    if (gCharacterManager.IsMasterLevel(Hero->Class) == true)
-    {
-        wMaxShield = std::max<int>(1, Master_Level_Data.wMaxShield);
-        wShield = std::min<int>(wMaxShield, CharacterAttribute->Shield);
-    }
-    else
-    {
-        wMaxShield = std::max<int>(1, CharacterAttribute->ShieldMax);
-        wShield = std::min<int>(wMaxShield, CharacterAttribute->Shield);
-    }
-    syncFloat(&MainFrameRmlModel::sdFraction, "sd_fraction", wShield / (float)wMaxShield);
-    mu_swprintf(szNum, L"%d / %d", wShield, wMaxShield);
+    const DWORD sdMaximum = CharacterAttribute->ShieldMax > 0 ? CharacterAttribute->ShieldMax
+        : (gCharacterManager.IsMasterLevel(Hero->Class) ? Master_Level_Data.wMaxShield : 0);
+    const auto sd = UI::HUD::MakeResourceGauge(CharacterAttribute->Shield, sdMaximum);
+    const DWORD wMaxShield = sd.maximum, wShield = sd.current;
+    syncFloat(&MainFrameRmlModel::sdFraction, "sd_fraction", sd.fraction);
+    mu_swprintf(szNum, L"%u / %u", wShield, wMaxShield);
     syncWide(&MainFrameRmlModel::sdText, "sd_text", szNum);
-    mu_swprintf(szNum, L"%d", wShield);
+    mu_swprintf(szNum, L"%u", wShield);
     syncWide(&MainFrameRmlModel::sdCurrentText, "sd_current_text", szNum);
     mu_swprintf(szTip, I18N::Game::SDDD, wShield, wMaxShield);
     syncWide(&MainFrameRmlModel::sdTooltip, "sd_tooltip", szTip);

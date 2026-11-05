@@ -2,6 +2,7 @@
 // File: GenericMenuDialog.cpp
 //*****************************************************************************
 #include "stdafx.h"
+#include "ParisWindowGroup.h"
 #include "UI/Dialogs/GenericMenuDialog.h"
 
 #include "Audio/DSPlaySound.h"
@@ -117,11 +118,16 @@ void CGenericMenuDialog::Release()
 {
     m_RmlView.Release();
     m_bActive = false;
+    m_PendingAction = {};
+    m_PendingActionFrames = 0;
     m_Queue.clear();
 }
 
 void CGenericMenuDialog::Show(GenericMenuConfig cfg)
 {
+    if (cfg.kind == "paris-custom" || cfg.kind == "paris-feature")
+        CloseOtherParisWindows(this);
+    mu::log::Get("ui")->info("Generic menu show request: active={}, kind={}", m_bActive, cfg.kind);
     // Protects a pending menu from being silently overwritten -- same reasoning as
     // CGenericConfirmDialog::Show()'s own comment.
     if (m_bActive)
@@ -166,21 +172,35 @@ void CGenericMenuDialog::ShowNext()
 
 void CGenericMenuDialog::Resolve(int buttonIndex)
 {
+    mu::log::Get("ui")->info("Generic menu resolve: index={}, kind={}", buttonIndex, m_Active.kind);
     GenericMenuConfig cfg = std::move(m_Active);
 
-    if (buttonIndex >= 0 && buttonIndex < static_cast<int>(cfg.buttons.size()))
-    {
-        if (cfg.buttons[buttonIndex].onClick) cfg.buttons[buttonIndex].onClick();
-    }
-    else if (cfg.onCancel)
-    {
-        cfg.onCancel();
-    }
-
+    // Hide the current modal before running its action. Several actions open another RmlUi
+    // document (and may create a model) synchronously; doing that while this document still owns
+    // focus can invalidate RmlUi's active event/focus state during the same input dispatch.
     if (m_RmlView.Document())
         m_RmlView.Document()->Hide();
 
-    ShowNext();
+    if (buttonIndex >= 0 && buttonIndex < static_cast<int>(cfg.buttons.size()))
+    {
+        m_PendingAction = std::move(cfg.buttons[buttonIndex].onClick);
+    }
+    else if (cfg.onCancel)
+    {
+        m_PendingAction = std::move(cfg.onCancel);
+    }
+    m_PendingActionFrames = m_PendingAction ? 2 : 0;
+
+    // Keep this modal active for one more manager update when a callback is queued. The
+    // window manager only updates visible objects, and the callback must run after RmlUi has
+    // returned from its click dispatch. ShowNext() runs after the callback on that next update.
+    if (!m_PendingAction)
+        ShowNext();
+}
+
+void CGenericMenuDialog::CloseCustomMenu()
+{
+    if (IsCustomMenu()) Resolve(-1);
 }
 
 bool CGenericMenuDialog::Render()
@@ -191,6 +211,22 @@ bool CGenericMenuDialog::Render()
 
 bool CGenericMenuDialog::Update()
 {
+    // Run actions that may construct/show another RmlUi document on the next UI frame, after
+    // the click dispatch that closed this menu has fully returned from RmlUi.
+    if (m_PendingAction)
+    {
+        if (m_PendingActionFrames > 0)
+        {
+            --m_PendingActionFrames;
+            return true;
+        }
+        auto action = std::move(m_PendingAction);
+        m_PendingAction = {};
+        action();
+        ShowNext();
+        return true;
+    }
+
     if (!m_bActive)
         return true;
 

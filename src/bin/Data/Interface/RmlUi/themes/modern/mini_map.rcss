@@ -149,3 +149,14 @@ body { pointer-events: none; }
 .edges .edge-top:nth-child(23), .edges .edge-bottom:nth-child(23) { left: 770px; }
 .edges .edge-top:nth-child(24), .edges .edge-bottom:nth-child(24) { left: 805px; }
 .edges .edge-top:nth-child(25), .edges .edge-bottom:nth-child(25) { left: 840px; }
+
+/* Server marker categories; geometry remains anchored to world coordinates. */
+.marker.npc, .marker.spot, .marker.individual {
+    decorator: none;
+    box-sizing: border-box;
+    border: 2px #ffffff;
+    border-radius: 8px;
+}
+.marker.npc { background-color: #36a5ff; }
+.marker.spot { background-color: #22d85a; }
+.marker.individual { background-color: #b55cff; }

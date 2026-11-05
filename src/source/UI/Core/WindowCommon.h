@@ -23,6 +23,10 @@ namespace mu::ui::window
     // passes any parameters, so this is a plain free function like CreateOkMessageBox() above.
     void ShowSystemMenuDialog();
 
+    // Paris custom-systems launcher, opened from the in-game window menu.
+    void ShowParisCustomMenuDialog();
+    void ShowParisEventsDialog();
+
     // Batch of 9 more multi-option menu dialogs on the same CGenericMenuDialog primitive, same
     // reasoning/shape as ShowSystemMenuDialog() above. All plain free functions (no parameters;
     // each reads the globals it needs directly).

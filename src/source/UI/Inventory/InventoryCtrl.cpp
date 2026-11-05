@@ -1,5 +1,8 @@
 ﻿
 #include "stdafx.h"
+#include "GameLogic/Items/ParisJewelryUpgrades.h"
+#include "Render/Models/ItemDyeAppearance.h"
+#include "Render/Models/ItemDyeAppearance.h"
 #include "UI/Core/UIManager.h"
 #include "UI/Inventory/InventoryCtrl.h"
 #include "UI/RmlBridge/RmlElementBox.h"
@@ -252,6 +255,7 @@ void mu::ui::window::CPickedItem::Render3D()
     {
         const POINT pointer = CInventoryCtrl::PointerPos();
         m_Pos = TopLeftIn(SizingGrid(), pointer.x, pointer.y);
+        Render::ItemDye::PreviewScope dye(Render::ItemDye::Color(m_pPickedItem));
         RenderItem3D(m_Pos.x, m_Pos.y, m_Size.cx, m_Size.cy, m_pPickedItem->Type, m_pPickedItem->Level,
                      m_pPickedItem->ExcellentFlags, m_pPickedItem->AncientDiscriminator, true);
     }
@@ -1585,6 +1589,7 @@ void mu::ui::window::CInventoryCtrl::Render3D()
 
         const UI::Items::GridRect box = m_Geometry.CellsRect(pItem->x, pItem->y, pItemAttr->Width, pItemAttr->Height);
 
+        Render::ItemDye::PreviewScope dye(Render::ItemDye::Color(pItem));
         RenderItem3D(box.x, box.y, box.width, box.height, pItem->Type, pItem->Level, pItem->ExcellentFlags, pItem->AncientDiscriminator,
                      false);
     }
@@ -1763,6 +1768,12 @@ bool mu::ui::window::CInventoryCtrl::CanPushItem()
 bool mu::ui::window::CInventoryCtrl::CanUpgradeItem(ITEM* pSourceItem, ITEM* pTargetItem)
 {
     const int iTargetLevel = pTargetItem->Level;
+
+    if (GameLogic::Items::JewelryUpgrades::IsRestrictedJewel(pSourceItem->Type))
+        return GameLogic::Items::JewelryUpgrades::IsJewelry(pTargetItem->Type);
+    if (GameLogic::Items::JewelryUpgrades::IsRing(pTargetItem->Type))
+        return (pSourceItem->Type == ITEM_JEWEL_OF_BLESS && iTargetLevel < 6)
+            || (pSourceItem->Type == ITEM_JEWEL_OF_SOUL && iTargetLevel < 9);
 
     if (((pTargetItem->Type >= ITEM_SWORD && pTargetItem->Type < ITEM_WING) && !GameLogic::Items::IsAmmunition(pTargetItem)) ||
         (pTargetItem->Type >= ITEM_WING && pTargetItem->Type <= ITEM_WINGS_OF_DARKNESS) ||

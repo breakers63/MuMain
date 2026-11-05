@@ -1,0 +1,96 @@
+/* OpenGL market: the original 800 x 553 composition, fitted above the HUD. */
+@spritesheet market-background { src: "../../../Paris_MarketReferenceV12.tga"; market-bg: 0px 0px 1024px 1024px; }
+@spritesheet market-border { src: "../../../Paris_MarketFrameV9.tga"; market-border: 0px 0px 1024px 1024px; }
+@spritesheet market-selection { src: "../../../Paris_MarketSelectionV12.tga"; market-selected: 0px 0px 512px 64px; }
+@spritesheet market-controls { src: "../../../Paris_MarketLiteralV9.jpg";
+market-prev: 0px 0px 225px 55px; market-next: 0px 64px 216px 55px;
+market-search: 0px 128px 204px 54px; market-refresh: 0px 192px 220px 54px;
+market-buy: 0px 256px 434px 55px; market-close: 0px 320px 224px 55px;
+market-publish: 0px 384px 383px 55px; market-x: 0px 448px 40px 39px;
+market-query: 0px 704px 512px 33px;
+}
+#panel.paris-market { position: absolute; left: 50%; top: 50%; width: 600dp; height: 414.75dp; margin-left: -300dp; margin-top: -230dp; decorator: image(market-bg); pointer-events: auto; font-family: "token(font-body)"; color: #ebe3cc; font-size: .85rem; }
+.market-frame { position: absolute; left: 0; top: 0; width: 100%; height: 100%; decorator: image(market-border); pointer-events: none; }
+.market-button { position: absolute; cursor: pointer; pointer-events: auto; }
+.market-button:hover { opacity: .85; }
+.market-filter { position: absolute; height: 26.25dp; background-color: #11110d; border: 1dp #8c7439; color: #ebe6d8; font-size: .85rem; padding-left: 7dp; }
+.market-filter selectvalue { line-height: 24dp; }
+.market-filter selectbox { background-color: #11110d; border: 1dp #8c7439; }
+.market-filter option { padding: 4dp; }
+.market-query { position: absolute; padding: 0 22dp; border: 0; background-color: transparent; color: #eee6d3; font-size: .85rem; decorator: image(market-query); }
+.market-search-placeholder { position: absolute; color: #9b9380; pointer-events: none; }
+.market-list { position: absolute; overflow: hidden; }
+.market-row { display: block; position: relative; height: 35.25dp; cursor: pointer; }
+.market-row:hover, .market-row.selected { decorator: image(market-selected); }
+.market-row span { position: absolute; top: 12dp; height: 16.5dp; overflow: hidden; white-space: nowrap; text-align: center; }
+.market-item-icon { position: absolute; left: 14.25dp; top: 4.5dp; width: 24dp; height: 24dp; pointer-events: none; }
+.market-name { left: 45.75dp; width: 111.75dp; }
+.market-seller { left: 171dp; width: 58.5dp; }
+.market-price { left: 234.75dp; width: 46.5dp; color: #f4d480; }
+.market-currency { left: 332.25dp; width: 30dp; font-size: .7rem; }
+.market-buy { display: none; }
+.market-empty { padding: 50dp 8dp; text-align: center; color: #b3a781; }
+.market-selected-name, .market-selected-seller, .market-selected-price, .market-preview-empty { position: absolute; text-align: center; color: #eed694; }
+.market-status { position: absolute; overflow: hidden; white-space: nowrap; color: #aa9d77; font-size: .8rem; }
+.market-pages, .market-offers { position: absolute; text-align: center; color: #e8ce85; }
+.market-category { left: 13.5dp; top: 35.25dp; width: 183dp; height: 26.25dp; }
+.market-currency-filter { left: 208.5dp; top: 35.25dp; width: 183dp; height: 26.25dp; }
+.market-sort { left: 403.5dp; top: 35.25dp; width: 183dp; height: 26.25dp; }
+.market-query { left: 13.5dp; top: 72dp; width: 378.75dp; height: 23.25dp; }
+.market-search-placeholder { left: 39dp; top: 80.25dp; width: 337.5dp; height: 10.5dp; }
+.market-search { left: 399.75dp; top: 72dp; width: 92.25dp; height: 23.25dp; }
+.market-refresh { left: 499.5dp; top: 72dp; width: 87dp; height: 23.25dp; }
+.market-list { left: 20.25dp; top: 143.25dp; width: 365.25dp; height: 176.25dp; }
+.market-offers { left: 335.25dp; top: 111.75dp; width: 46.5dp; height: 8.25dp; }
+.market-selected-name { left: 407.25dp; top: 213dp; width: 171dp; height: 13.5dp; }
+.market-selected-seller { left: 437.25dp; top: 244.5dp; width: 138.75dp; height: 10.5dp; }
+.market-selected-price { left: 416.25dp; top: 273dp; width: 157.5dp; height: 13.5dp; }
+.market-preview-empty { left: 407.25dp; top: 153.75dp; width: 171dp; height: 13.5dp; }
+.market-selected-buy { left: 407.25dp; top: 312.75dp; width: 171dp; height: 27dp; }
+.market-status { left: 21.75dp; top: 356.25dp; width: 361.5dp; height: 9dp; }
+.market-pages { left: 13.5dp; top: 375.75dp; width: 573dp; height: 11.25dp; }
+.market-prev { left: 110.25dp; top: 390dp; width: 77.25dp; height: 22.5dp; }
+.market-bottom-close { left: 199.5dp; top: 390dp; width: 79.5dp; height: 22.5dp; }
+.market-next { left: 291dp; top: 390dp; width: 77.25dp; height: 22.5dp; }
+.market-publish { left: 402.75dp; top: 390dp; width: 173.25dp; height: 22.5dp; }
+.market-close-top { left: 570.75dp; top: 9dp; width: 20.25dp; height: 18.75dp; }
+#market-preview-item { position: absolute; left: 405.75dp; top: 128.25dp; width: 174dp; height: 79.5dp; pointer-events: none; }
+.market-search { decorator: image(market-search); }
+.market-refresh { decorator: image(market-refresh); }
+.market-prev { decorator: image(market-prev); }
+.market-next { decorator: image(market-next); }
+.market-bottom-close { decorator: image(market-close); }
+.market-selected-buy { decorator: image(market-buy); }
+.market-publish { decorator: image(market-publish); }
+.market-close-top { decorator: image(market-x); }
+
+/* The reference client fits controls inside their slots and compacts the preview/footer. */
+@spritesheet market-filter-sheet { src:"../../../Paris_MarketLiteralV9.jpg"; market-filter-field:0px 512px 432px 50px; }
+@spritesheet market-item-frame-sheet { src:"../../../Paris_RankingStatusV11.tga"; market-item-frame:0px 192px 64px 64px; }
+@spritesheet market-zen-sheet { src:"../../../../Custom/Interface/BattlePass/zen_coins.tga"; market-zen:0px 0px 140px 140px; }
+.market-filter { box-sizing:border-box; border:0; background-color:transparent; decorator:image(market-filter-field); padding:0; }
+.market-filter selectvalue { padding-left:9dp; padding-right:25dp; line-height:26.25dp; }
+.market-filter selectarrow { width:20dp; height:26.25dp; decorator:none; background-color:transparent; }
+.market-query { box-sizing:border-box; }
+.market-item-frame { position:absolute; left:12.75dp; top:3dp; width:27dp; height:27dp; decorator:image(market-item-frame); pointer-events:none; }
+.market-currency-coin { position:absolute; left:318.75dp; top:10.5dp; width:11.25dp; height:12.75dp; decorator:image(market-zen); pointer-events:none; }
+.market-price { font-weight:bold; }
+.market-offers { font-size:.7rem; font-weight:bold; }
+#market-preview-item { height:61.5dp; }
+.market-selected-name { top:195dp; font-weight:bold; }
+.market-selected-detail { position:absolute; left:407.25dp; top:210dp; width:171dp; height:9dp; text-align:center; color:#eed694; font-size:.8rem; }
+.market-seller-initial { position:absolute; left:414.75dp; top:231dp; width:16.5dp; height:13.5dp; line-height:13.5dp; text-align:center; color:#eed694; }
+.market-selected-seller { top:237.75dp; text-align:left; font-weight:bold; }
+.market-selected-price { top:271.5dp; text-align:left; font-size:1.35rem; font-weight:bold; height:20dp; }
+.market-selected-buy { top:294.75dp; decorator:image(market-buy contain); }
+.market-prev, .market-bottom-close, .market-next, .market-publish { top:354.75dp; }
+.market-pages { top:339.75dp; font-size:.8rem; font-weight:bold; }
+.market-status { width:88dp; font-size:.65rem; }
+.market-prev { decorator:image(market-prev contain); }
+.market-next { decorator:image(market-next contain); }
+.market-bottom-close { decorator:image(market-close contain); }
+.market-publish { decorator:image(market-publish contain); }
+.market-close-top { decorator:image(market-x contain); }
+
+.market-filter {padding-left:9dp;padding-right:20dp;}
+.market-filter selectvalue {padding-left:0;padding-right:0;}

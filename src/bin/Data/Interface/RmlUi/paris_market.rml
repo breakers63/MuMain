@@ -1,0 +1,33 @@
+<rml><head><title>MU Paris - Market</title><link type="text/rcss" href="base.rcss"/><link type="text/rcss" href="paris_market.rcss"/></head>
+<body data-model="paris_market"><div id="panel" class="paris-market">
+<div class="market-frame"></div>
+<div id="frame_corner_close" class="market-button market-close-top" data-event-click="paris_market_close"></div>
+<select class="market-filter market-category" data-value="category" data-event-change="paris_market_filter"><option value="255">Todas</option><option value="0">Espadas</option><option value="1">Hachas</option><option value="2">Mazas / cetros</option><option value="3">Lanzas</option><option value="4">Arcos / ballestas</option><option value="5">Bastones</option><option value="6">Escudos</option><option value="7">Cascos</option><option value="8">Armaduras</option><option value="9">Pantalones</option><option value="10">Guantes</option><option value="11">Botas</option><option value="12">Alas / orbes</option><option value="13">Accesorios</option><option value="14">Joyas / consumibles</option><option value="15">Scrolls / skills</option></select>
+<select class="market-filter market-currency-filter" data-value="currency" data-event-change="paris_market_filter"><option value="255">Todas</option><option value="0">Zen</option><option value="1">Paris Coins</option><option value="2">Jewel of Bless</option><option value="3">Jewel of Soul</option><option value="4">Jewel of Life</option><option value="5">Jewel of Creation</option><option value="9">Jewel of Chaos</option></select>
+<select class="market-filter market-sort" data-value="sort" data-event-change="paris_market_filter"><option value="0">Menor precio</option><option value="1">Mayor precio</option></select>
+<input class="market-query" type="text" maxlength="64" data-value="query"/>
+<span class="market-search-placeholder" data-if="query == ''">Buscar articulo por nombre...</span>
+<div class="market-button market-search" data-event-click="paris_market_refresh"></div>
+<div class="market-button market-refresh" data-event-click="paris_market_refresh"></div>
+<div class="market-offers">{{offer_count}} OFERTAS</div>
+<div class="market-list">
+<div class="market-row" data-for="listing : listings" data-class-selected="selected == listing.index" data-event-click="paris_market_select(listing.index)" data-attr-data-index="listing.index">
+<div class="market-item-frame"></div><img class="market-item-icon"/>
+<span class="market-name">{{listing.name}}</span><span class="market-seller">{{listing.seller}}</span><span class="market-price">{{listing.price}}</span><span class="market-currency-coin" data-if="listing.currency == 'Zen'"></span><span class="market-currency">{{listing.currency}}</span>
+<div class="market-buy" data-event-click="paris_market_buy(listing.index)">Comprar</div>
+</div>
+<div class="market-empty" data-if="empty">No hay publicaciones.</div>
+</div>
+<img id="market-preview-item"/>
+<div class="market-selected-name" data-if="has_selection">{{selected_name}}</div>
+<div class="market-selected-detail" data-if="has_selection">{{selected_detail}}</div><div class="market-seller-initial" data-if="has_selection">{{seller_initial}}</div><div class="market-selected-seller" data-if="has_selection">{{selected_seller}}</div>
+<div class="market-selected-price" data-if="has_selection">{{selected_price}}</div>
+<div class="market-preview-empty" data-if="!has_selection">Selecciona un articulo</div>
+<div class="market-button market-selected-buy" data-if="has_selection" data-event-click="paris_market_selected_buy"></div>
+<div class="market-status">{{status}}</div>
+<div class="market-pages">Pagina {{page}} / {{page_count}}</div>
+<div class="market-button market-prev" data-event-click="paris_market_prev"></div>
+<div class="market-button market-bottom-close" data-event-click="paris_market_close"></div>
+<div class="market-button market-next" data-event-click="paris_market_next"></div>
+<div class="market-button market-publish" data-event-click="paris_market_publish"></div>
+</div></body></rml>

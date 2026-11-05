@@ -1,4 +1,4 @@
-﻿/*+++++++++++++++++++++++++++++++++++++
+/*+++++++++++++++++++++++++++++++++++++
     INCLUDE.
 +++++++++++++++++++++++++++++++++++++*/
 #include "stdafx.h"
@@ -996,53 +996,60 @@ void CSItemOption::CheckRenderOptionHelper(const wchar_t* FilterName)
     }
 }
 
+int CSItemOption::RenderInactiveSetOptionList(const ITEM_SET_OPTION& set, int textIndex)
+{
+    auto append = [&](std::uint8_t option, int value)
+    {
+        if (textIndex >= static_cast<int>(std::size(TextList)) - 1 || value == 0
+            || !getExplainText(TextList[textIndex], option, value))
+            return;
+        TextListColor[textIndex] = TEXT_COLOR_GRAY;
+        TextBold[textIndex++] = false;
+    };
+    const int standardCount = std::max(0, std::min<int>(set.bySetItemCount - 1, MAX_ITEM_SET_STANDARD_OPTION_COUNT));
+    for (int i = 0; i < standardCount; ++i)
+        for (int j = 0; j < MAX_ITEM_SET_STANDARD_OPTION_PER_ITEM_COUNT; ++j)
+            append(set.byStandardOption[i][j], set.byStandardOptionValue[i][j]);
+    for (int i = 0; i < MAX_ITEM_SET_EXT_OPTION_COUNT; ++i)
+        append(set.byExtOption[i], set.byExtOptionValue[i]);
+    for (int i = 0; i < MAX_ITEM_SET_FULL_OPTION_COUNT; ++i)
+        append(set.byFullOption[i], set.byFullOptionValue[i]);
+    return textIndex;
+}
+
 int CSItemOption::RenderSetOptionListInItem(const ITEM* ip, int TextNum, bool bIsEquippedItem)
 {
-    if (ip->AncientDiscriminator == 0)
-    {
+    if (ip == nullptr || ip->Type < 0 || ip->Type >= MAX_ITEM
+        || ip->AncientDiscriminator < EXT_A_SET_OPTION || ip->AncientDiscriminator > EXT_B_SET_OPTION)
         return TextNum;
-    }
-
-    const ITEM_SET_TYPE& itemSType = m_ItemSetType[ip->Type];
-
-    m_bySelectedItemOption = itemSType.byOption[ip->AncientDiscriminator - 1];
-
-    if (m_bySelectedItemOption <= 0 || m_bySelectedItemOption == 255) return TextNum;
+    const auto selected = m_ItemSetType[ip->Type].byOption[ip->AncientDiscriminator - 1];
+    if (selected == 0 || selected >= MAX_SET_OPTION)
+        return TextNum;
+    m_bySelectedItemOption = selected;
+    const ITEM_SET_OPTION& setOption = m_ItemSetOption[selected];
+    if (setOption.byOptionCount >= 255)
+        return TextNum;
 
     int TNum = TextNum;
-
-    const ITEM_SET_OPTION& setOption = m_ItemSetOption[m_bySelectedItemOption];
-    if (setOption.byOptionCount >= 255)
-    {
-        m_bySelectedItemOption = 0;
-        return TNum;
-    }
-
-
     mu_swprintf(TextList[TNum], L"\n"); TNum++;
-    mu_swprintf(TextList[TNum], L"%ls %ls", I18N::Game::Set, I18N::Game::ItemOptionInfo);
+    mu_swprintf(TextList[TNum], L"%ls", I18N::Game::ItemOptionInfo);
     TextListColor[TNum] = TEXT_COLOR_YELLOW;
-    TNum++;
-
-    mu_swprintf(TextList[TNum], L"\n"); TNum++;
-    mu_swprintf(TextList[TNum], L"\n"); TNum++;
-
-
-    for (int i = 0; i < m_SetSearchResultCount; i++)
+    TextBold[TNum++] = false;
+    const int firstOption = TNum;
+    for (int i = 0; i < m_SetSearchResultCount; ++i)
     {
-        const auto& set = m_SetSearchResult[i];
-        if (wcscmp(set.SetName, setOption.strSetName) == 0)
+        if (m_SetSearchResult[i].SetNumber == selected)
         {
-            // Set Found.
-            TNum = RenderSetOptionList(set, TNum, bIsEquippedItem, true);
+            TNum = RenderSetOptionList(m_SetSearchResult[i], TNum, bIsEquippedItem, true);
             break;
         }
     }
-
-    mu_swprintf(TextList[TNum], L"\n"); TNum++;
-    mu_swprintf(TextList[TNum], L"\n"); TNum++;
-
-    return TNum;
+    if (TNum == firstOption)
+        TNum = RenderInactiveSetOptionList(setOption, TNum);
+    // Keep one separator before the section, without the old five empty rows after it.
+    while (TNum > firstOption && (TextList[TNum - 1][0] == L'\n' || TextList[TNum - 1][0] == L'\0'))
+        --TNum;
+    return TNum == firstOption ? TextNum : TNum;
 }
 
 std::uint8_t  CSItemOption::RenderSetOptionList(const SET_SEARCH_RESULT_OPT& set, std::uint8_t textIndex, bool bIsEquippedItem, bool bShowInactive)

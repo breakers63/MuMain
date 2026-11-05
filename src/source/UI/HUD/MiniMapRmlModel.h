@@ -18,6 +18,7 @@ struct MiniMapClipEntry
 
 struct MiniMapMarkerEntry
 {
+    int kind = 1;
     bool portal = false;   // MINI_MAP::Kind 2 (a gate), else an NPC
     float size = 15.f;     // the icon's side, physical px (the original never scaled it)
     Rml::String transform; // CSS matrix() placing the icon element

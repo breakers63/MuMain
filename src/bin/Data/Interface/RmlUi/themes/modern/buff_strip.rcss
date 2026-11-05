@@ -228,3 +228,6 @@
 	atlas2-88: 160px 224px 20px 28px;
 	atlas2-89: 180px 224px 20px 28px;
 }
+
+/* Compact active effects: 80% of the original display size; atlas pixels stay unchanged. */
+.buff-slot, .buff-icon-art { width: 16dp; height: 22.4dp; }

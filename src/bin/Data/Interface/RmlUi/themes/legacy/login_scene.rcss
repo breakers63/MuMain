@@ -46,3 +46,8 @@ body {
 	color: rgb(255, 255, 255);
 	background-color: rgba(0, 0, 0, 128);
 }
+
+/* Paris Project Eiffel emblem. Preserve its aspect ratio on wide and 4:3 displays. */
+#logo { left: 50%; top: 1%; width: 32%; max-width: 460dp; height: 29%; transform: translateX(-50%); }
+#logo-image { width: 100%; height: auto; }
+#logo-glow { display: none; }

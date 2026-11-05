@@ -1,0 +1,19 @@
+/* Original events: narrow stone panel, three aligned columns, five pages. */
+@spritesheet event-close { src: "../paris-gold/stats-close.tga"; event-close: 0px 0px 74px 64px; }
+#panel.paris-events { position: absolute; left: auto; right: 0; top: 0; margin-left: 0; width: 190dp; height: 429dp; pointer-events: auto; color: #eee8dc; font-family: "token(font-body)"; font-size: 7dp; }
+#panel.paris-events #title { position: absolute; left: 0; top: 30dp; width: 100%; height: 15dp; line-height: 15dp; text-align: center; color: #edd449; font-size: 7dp; }
+#panel.paris-events #frame_corner_close { position: absolute; top: 18dp; right: 8dp; width: 17dp; height: 20dp; decorator: image(event-close); cursor: pointer; }
+.event-head { position: absolute; left: 10dp; top: 66dp; width: 170dp; height: 24dp; color: #eed740; }
+.event-list { position: absolute; left: 10dp; top: 96dp; width: 170dp; height: 275dp; }
+.event-row { display: block; position: relative; width: 100%; height: 28dp; }
+.event-row.alternate { background-color: #56565638; }
+.event-name, .event-remaining, .event-state { position: absolute; top: 0; height: 100%; line-height: 28dp; }
+.event-name { left: 3dp; width: 70dp; } .event-remaining { left: 76dp; width: 48dp; text-align: center; } .event-state { left: 128dp; width: 42dp; text-align: center; }
+.event-row .event-remaining { color: #e8c642; } .event-row.active .event-remaining, .event-row.active .event-state { color: #00ec72; }
+.event-prev, .event-next { position: absolute; top: 378dp; width: 18dp; height: 20dp; line-height: 20dp; border: 1dp #69572e; background-color: #242826; text-align: center; color: #b8a269; cursor: pointer; font-size: 10dp; }
+.event-prev { left: 34dp; } .event-next { right: 34dp; } .event-page { position: absolute; top: 378dp; left: 53dp; width: 84dp; height: 20dp; line-height: 20dp; text-align: center; }
+.event-status { position: absolute; left: 8dp; bottom: 8dp; width: 174dp; text-align: center; color: #a6a29a; font-size: 6.5dp; }
+.event-empty { text-align: center; }
+.event-hidden-tabs { display: none; }
+
+#panel.paris-events #title { cursor: move; }

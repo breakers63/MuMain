@@ -1,5 +1,6 @@
 ﻿
 #include "stdafx.h"
+#include "Render/Models/ItemDyeAppearance.h"
 #include "UI/Inventory/MyInventory.h"
 #include "UI/Core/WindowSystem.h"
 #include "I18N/All.h"
@@ -761,7 +762,7 @@ bool CMyInventory::UpdateKeyEvent()
         }
     }
 
-    if (CanOpenMyShopInterface() == true && IsPress('S'))
+    if (CanOpenMyShopInterface() == true && (IsPress(VK_CONTROL) || IsRepeat(VK_CONTROL)) && IsPress('S'))
     {
         if (m_bMyShopOpen)
         {
@@ -1036,6 +1037,7 @@ void CMyInventory::Render3D()
                 y = m_EquipmentSlots[i].itemY;
             }
 
+            Render::ItemDye::PreviewScope dye(Render::ItemDye::Color(pEquippedItem));
             RenderItem3D(
                 m_EquipmentSlots[i].itemX,
                 y,

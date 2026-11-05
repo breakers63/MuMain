@@ -15,7 +15,7 @@
 	     every window). Takes no pointer events. -->
 	<div id="logo" data-if="logo_visible">
 		<div id="logo-glow" data-style-opacity="glow_level"></div>
-		<img id="logo-image" src="../../../../Logo/MU-logo.tga" data-style-opacity="logo_level"
+		<img id="logo-image" src="../../../ParisLogin/logo.tga" data-style-opacity="logo_level"
 		     data-style-image-color="logo_color"/>
 	</div>
 	<div class="line line--copyright" data-style-transform="'scale(' + font_scale + ')'">

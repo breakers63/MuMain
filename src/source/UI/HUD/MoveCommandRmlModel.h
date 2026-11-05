@@ -15,10 +15,12 @@ namespace mu::ui::window
         Rml::String mapName;
         Rml::String reqLevel;
         Rml::String reqZen;
+        Rml::String reqResets;
 
         bool canMove = false;
         bool levelUnmet = false; // only meaningful while !canMove, same as native
         bool zenUnmet = false;
+        bool resetsUnmet = false;
 
         int index = 0; // position in m_listMoveInfoData, not the map index
     };
@@ -36,6 +38,7 @@ namespace mu::ui::window
         Rml::String headMap;
         Rml::String headLevel;
         Rml::String headZen;
+        Rml::String headResets;
         Rml::String closeText;
     };
 }

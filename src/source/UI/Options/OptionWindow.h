@@ -180,7 +180,7 @@ namespace mu::ui::window
 
             // Tab state -- bound/diffed first, matching MyQuestInfoWindow's own convention for its
             // own activeTab field (see BindRmlModel()/SyncRmlModel()). 0=Gameplay, 1=Audio, 2=Video,
-            // 3=Graphics, 4=Interface/UI, 5=General.
+            // 3=Graphics, 4=Interface/UI, 5=Climate, 6=Shaders.
             int activeTab = 0;
             Rml::String tabGameplayLabel;
             Rml::String tabAudioLabel;

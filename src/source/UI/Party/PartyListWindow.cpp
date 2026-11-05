@@ -1,5 +1,8 @@
 
 #include "stdafx.h"
+#include "Network/Paris/PartyFinderProtocol.h"
+#include "GameLogic/Social/PartyFollow.h"
+#include "I18N/All.h"
 #include "UI/Chat/Chat.h"
 
 #include "UI/Party/PartyListWindow.h"
@@ -144,6 +147,12 @@ bool CPartyListWindow::UpdateKeyEvent()
 
 bool CPartyListWindow::Update()
 {
+    if (m_PendingFollow >= 0)
+    {
+        GameLogic::Social::PartyFollow::Toggle(m_PendingFollow);
+        m_PendingFollow = -1;
+    }
+    GameLogic::Social::PartyFollow::Poll();
     if (m_PendingLeave >= 0)
     {
         const int member = m_PendingLeave;
@@ -186,7 +195,9 @@ bool CPartyListWindow::CanLeave(int member) const
 
 void CPartyListWindow::BindRmlModel(Rml::DataModelConstructor& c, PartyListRmlModel& model)
 {
+    c.RegisterArray<std::vector<Rml::String>>();
     auto card = c.RegisterStruct<PartyListCardEntry>();
+    card.RegisterMember("buffs", &PartyListCardEntry::buffs);
     card.RegisterMember("name", &PartyListCardEntry::name);
     card.RegisterMember("name_text_px", &PartyListCardEntry::nameTextPx);
     card.RegisterMember("leader", &PartyListCardEntry::leader);
@@ -195,10 +206,20 @@ void CPartyListWindow::BindRmlModel(Rml::DataModelConstructor& c, PartyListRmlMo
     card.RegisterMember("selected", &PartyListCardEntry::selected);
     card.RegisterMember("show_leave", &PartyListCardEntry::showLeave);
     card.RegisterMember("health_length", &PartyListCardEntry::healthLength);
+    card.RegisterMember("can_follow", &PartyListCardEntry::canFollow);
+    card.RegisterMember("following", &PartyListCardEntry::following);
+    card.RegisterMember("follow_hint", &PartyListCardEntry::followHint);
     card.RegisterMember("index", &PartyListCardEntry::index);
     c.RegisterArray<std::vector<PartyListCardEntry>>();
     c.Bind("cards", &model.cards);
 
+    c.BindEventCallback("party_follow", [this](Rml::DataModelHandle, Rml::Event& event, const Rml::VariantList& args)
+    {
+        event.StopPropagation();
+        if (args.size() == 1) m_PendingFollow = args[0].Get<int>(-1);
+    });
+    c.BindEventCallback("party_follow_hover", [this](Rml::DataModelHandle, Rml::Event& event, const Rml::VariantList&)
+    { m_HoveredCard = -1; event.StopPropagation(); });
     c.BindEventCallback("party_leave",
                         [this](Rml::DataModelHandle, Rml::Event&, const Rml::VariantList& arguments)
                         {
@@ -254,11 +275,18 @@ void CPartyListWindow::SyncCards()
         card.absent = member.index == -1;
         card.selected = !card.absent && m_iSelectedCharacter == i;
         card.showLeave = CanLeave(i);
+        card.canFollow = Network::Paris::PartyFinder::Data.followEnabled && wcscmp(member.Name, Hero->ID) != 0;
+        card.following = GameLogic::Social::PartyFollow::IsFollowing(member.Name);
+        card.followHint = StringUtils::WideToNarrow(card.following ? I18N::Game::PartyFinderStop : I18N::Game::PartyFinderFollow);
         card.healthLength = HealthBarLength(member.stepHP);
+        if (Network::Paris::PartyFinder::Data.showBuffs)
+            if (const auto* status = Network::Paris::PartyFinder::FindMember(card.name))
+                for (int id : status->buffs)
+                    card.buffs.push_back("image(atlas" + std::to_string(id < 81 ? 1 : 2) + "-" + std::to_string(id < 81 ? id-1 : id-81) + ")");
         if (member.index >= 0 && member.index < MAX_CHARACTERS_CLIENT)
         {
             OBJECT* memberObject = &CharactersClient[member.index].Object;
-            card.defenseBuff = g_isCharacterBuff(memberObject, eBuff_Defense);
+            card.defenseBuff = Network::Paris::PartyFinder::Data.showBuffs && g_isCharacterBuff(memberObject, eBuff_Defense);
         }
 
         const float nameBox = static_cast<float>(card.leader ? LeaderNameBoxWidth : MemberNameBoxWidth);
@@ -273,9 +301,10 @@ void CPartyListWindow::SyncCards()
                          !std::equal(cards.begin(), cards.end(), model.cards.begin(),
                                      [](const PartyListCardEntry& a, const PartyListCardEntry& b)
                                      {
-                                         return a.name == b.name && a.nameTextPx == b.nameTextPx &&
+                                         return a.buffs == b.buffs && a.name == b.name && a.nameTextPx == b.nameTextPx &&
                                                 a.absent == b.absent && a.defenseBuff == b.defenseBuff &&
                                                 a.selected == b.selected && a.showLeave == b.showLeave &&
+                                                a.canFollow == b.canFollow && a.following == b.following &&
                                                 a.healthLength == b.healthLength;
                                      });
     if (!changed)

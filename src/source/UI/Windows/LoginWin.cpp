@@ -4,6 +4,8 @@
 
 #include "stdafx.h"
 #include "UI/Windows/LoginWin.h"
+#include "UI/Windows/LoginMainWin.h"
+#include "UI/Windows/ServerSelWin.h"
 #include "Core/Input/Input.h"
 #include "UI/Core/SceneUICoordinator.h"
 #include "UI/Windows/CreditWin.h"
@@ -37,6 +39,8 @@
 #include "UI/RmlBridge/RmlDocumentVisibility.h"
 #include "UI/RmlBridge/RmlNativeText.h"
 #include "UI/RmlBridge/RmlTheme.h"
+#include "UI/RmlBridge/RmlPointer.h"
+#include "UI/RmlBridge/RmlPasswordField.h"
 #include "Core/Utilities/StringUtils.h"
 #include <RmlUi/Core/ElementDocument.h>
 #include <RmlUi/Core/Element.h>
@@ -140,16 +144,10 @@ void CLoginWin::Create()
 
 void CLoginWin::BindRmlModel(Rml::DataModelConstructor& c, LoginRmlModel& model)
 {
+    BindSavedAccounts(c, model);
     c.Bind("remember_me_checked", &model.rememberMeChecked);
     c.Bind("save_password_checked", &model.savePasswordChecked);
     c.Bind("server_name", &model.serverName);
-    c.Bind("account_label", &model.accountLabel);
-    c.Bind("password_label", &model.passwordLabel);
-    c.Bind("remember_me_label", &model.rememberMeLabel);
-    c.Bind("save_password_label", &model.savePasswordLabel);
-    c.Bind("trust_warning", &model.trustWarning);
-    c.Bind("ok_label", &model.okLabel);
-    c.Bind("cancel_label", &model.cancelLabel);
     c.Bind("username", &model.username);
     c.Bind("password", &model.password);
 
@@ -161,6 +159,35 @@ void CLoginWin::BindRmlModel(Rml::DataModelConstructor& c, LoginRmlModel& model)
         [this](Rml::DataModelHandle, Rml::Event&, const Rml::VariantList&) { RmlToggleRememberMe(); });
     c.BindEventCallback("login_toggle_save_password",
         [this](Rml::DataModelHandle, Rml::Event&, const Rml::VariantList&) { RmlToggleSavePassword(); });
+    c.BindEventCallback("login_toggle_password_visibility",
+        [this](Rml::DataModelHandle, Rml::Event&, const Rml::VariantList&) { TogglePasswordVisibility(); });
+}
+
+void CLoginWin::TogglePasswordVisibility()
+{
+    if (!IsVisible() || !m_RmlView.Document())
+        return;
+    SetPasswordVisible(!m_passwordVisible);
+    m_passwordFocusPending = true;
+}
+
+void CLoginWin::SetPasswordVisible(bool visible)
+{
+    m_passwordVisible = visible;
+    if (!m_RmlView.Document())
+        return;
+    UI::RmlBridge::SetPasswordVisible(m_RmlView.Document()->GetElementById("input_password"),
+        m_RmlView.Document()->GetElementById("input_password_visible"), visible);
+}
+
+void CLoginWin::FocusPendingPassword()
+{
+    if (!m_passwordFocusPending || !m_RmlView.Document())
+        return;
+    const char* id = m_passwordVisible ? "input_password_visible" : "input_password";
+    Rml::Element* field = m_RmlView.Document()->GetElementById(id);
+    if (field && field->IsVisible() && field->Focus())
+        m_passwordFocusPending = false;
 }
 
 void CLoginWin::OnRmlReloaded()
@@ -197,6 +224,9 @@ void CLoginWin::SetPosition(int x, int y)
 	{
 		if (Rml::Element* panel = m_RmlView.Document()->GetElementById("panel"))
 		{
+			// Responsive themes anchor the panel to the viewport in RCSS.
+			if (panel->IsClassSet("viewport-anchored"))
+				return;
 			panel->SetProperty("left", std::to_string(x) + "px");
 			panel->SetProperty("top", std::to_string(y) + "px");
 		}
@@ -211,14 +241,21 @@ void CLoginWin::Show(bool bShow)
     // text input now that the fields are RmlUi's -- no separate widget state to drive (#447).
     if (m_RmlView.Document())
     {
-        if (bShow) { SyncRmlModel(); m_RmlView.Document()->Show(); }
-        else       m_RmlView.Document()->Hide();
+        if (bShow) { RefreshSavedAccounts(); SyncRmlModel(); m_RmlView.Document()->Show(); }
+        else
+        {
+            SetPasswordVisible(false);
+            m_passwordFocusPending = false;
+            m_RmlView.Document()->Hide();
+        }
     }
 }
 
 void CLoginWin::Release()
 {
     // Hide, not unload -- the document/model are created once and reused.
+    SetPasswordVisible(false);
+    m_passwordFocusPending = false;
     m_RmlView.Hide();
 }
 
@@ -337,6 +374,7 @@ bool CLoginWin::UpdateWhileShown()
 
     ApplyRememberPasswordChoice();
     RevokeSavedCredentialsIfEdited();
+    FocusPendingPassword();
     return true;
 }
 
@@ -358,9 +396,8 @@ void CLoginWin::ApplyRememberPasswordChoice()
 
 void CLoginWin::RevokeSavedCredentialsIfEdited()
 {
-    // Editing the account or password drops any stored credentials and revokes
-    // the save-password consent, so an out-of-date password never lingers in
-    // config.ini for the next person on this machine.
+    // Drop the obsolete last-login credentials when editing, while retaining the
+    // checkbox choice the player explicitly accepted for this form's next login.
     const auto& model = m_RmlView.GetModel();
     const std::wstring curUser = StringUtils::NarrowToWide(model.username);
     const std::wstring curPass = StringUtils::NarrowToWide(model.password);
@@ -369,12 +406,10 @@ void CLoginWin::RevokeSavedCredentialsIfEdited()
         return;
 
     GameConfig& config = GameConfig::GetInstance();
-    const bool bHadStored = m_bSavePasswordChecked
-        || !config.GetEncryptedUsername().empty()
+    const bool bHadStored = !config.GetEncryptedUsername().empty()
         || !config.GetEncryptedPassword().empty();
     if (bHadStored)
     {
-        m_bSavePasswordChecked = false;
         config.ClearCredentials();
     }
 
@@ -423,6 +458,9 @@ void CLoginWin::ApplyCredentialLimits()
         account->SetAttribute("maxlength", static_cast<int>(MAX_USERNAME_SIZE));
     if (Rml::Element* password = m_RmlView.Document()->GetElementById("input_password"))
         password->SetAttribute("maxlength", static_cast<int>(MAX_PASSWORD_SIZE));
+    if (Rml::Element* plain = m_RmlView.Document()->GetElementById("input_password_visible"))
+        plain->SetAttribute("maxlength", static_cast<int>(MAX_PASSWORD_SIZE));
+    SetPasswordVisible(m_passwordVisible);
 }
 
 void CLoginWin::FocusCredentialField(const char* elementId, bool selectAll)
@@ -449,7 +487,7 @@ void CLoginWin::FocusUsername(bool selectAll)
 
 void CLoginWin::FocusPassword(bool selectAll)
 {
-    FocusCredentialField("input_password", selectAll);
+    FocusCredentialField(m_passwordVisible ? "input_password_visible" : "input_password", selectAll);
 }
 
 void CLoginWin::SyncRmlModel()
@@ -471,8 +509,8 @@ void CLoginWin::SyncRmlModel()
     }
 
     wchar_t szServerName[MAX_TEXT_LENGTH] = {};
-    const wchar_t* pServerStatus = g_ServerListManager->GetNonPVPInfo() ? I18N::Game::SDServer : I18N::Game::SDNonPvPServer;
-    mu_swprintf(szServerName, pServerStatus, g_ServerListManager->GetSelectServerName(), g_ServerListManager->GetSelectServerIndex());
+    constexpr wchar_t serverCaption[] = L"%ls-%d · Servidor";
+    mu_swprintf(szServerName, serverCaption, g_ServerListManager->GetSelectServerName(), g_ServerListManager->GetSelectServerIndex());
     const std::string serverNameUtf8 = StringUtils::WideToNarrow(szServerName);
     if (m_RmlView.GetModel().serverName != serverNameUtf8)
     {
@@ -480,37 +518,14 @@ void CLoginWin::SyncRmlModel()
         m_RmlView.MarkDirty("server_name");
     }
 
-    // Static (per-locale) labels; only dirties the model on an active locale change.
-    auto syncLabel = [this](Rml::String LoginRmlModel::* field, const char* boundName, const wchar_t* text)
-    {
-        const std::string utf8 = StringUtils::WideToNarrow(text);
-        if (m_RmlView.GetModel().*field != utf8)
-        {
-            m_RmlView.GetModel().*field = utf8;
-            m_RmlView.MarkDirty(boundName);
-        }
-    };
-    syncLabel(&LoginRmlModel::accountLabel, "account_label", I18N::Game::Account);
-    syncLabel(&LoginRmlModel::passwordLabel, "password_label", I18N::Game::Password);
-    syncLabel(&LoginRmlModel::rememberMeLabel, "remember_me_label", I18N::Game::LoginRememberUsername);
-    syncLabel(&LoginRmlModel::savePasswordLabel, "save_password_label", I18N::Game::LoginRememberPassword);
-    syncLabel(&LoginRmlModel::trustWarning, "trust_warning", I18N::Game::LoginTrustWarning);
-    syncLabel(&LoginRmlModel::okLabel, "ok_label", I18N::Game::OK);
-    syncLabel(&LoginRmlModel::cancelLabel, "cancel_label", I18N::Game::Cancel);
+
 }
 
 bool CLoginWin::UpdateMouseEvent()
 {
     if (!IsVisible())
         return true;
-
-    // Not modal: only claims a click within its own bounding box.
-    RECT rc;
-    ::SetRect(&rc, m_ptPos.x, m_ptPos.y, m_ptPos.x + m_Size.cx, m_ptPos.y + m_Size.cy);
-    if (::PtInRect(&rc, CInput::Instance().GetCursorPos()))
-        return false;
-
-    return true;
+    return !UI::RmlBridge::IsPointerOver(m_RmlView.Document());
 }
 
 void CLoginWin::RequestLogin()
@@ -518,35 +533,41 @@ void CLoginWin::RequestLogin()
     if (CurrentProtocolState == REQUEST_JOIN_SERVER)
         return;
 
-    Show(false);
-
     const auto& model = m_RmlView.GetModel();
     wcsncpy(m_Username, StringUtils::NarrowToWide(model.username).c_str(), _countof(m_Username) - 1);
     m_Username[_countof(m_Username) - 1] = L'\0';
     wcsncpy(m_Password, StringUtils::NarrowToWide(model.password).c_str(), _countof(m_Password) - 1);
     m_Password[_countof(m_Password) - 1] = L'\0';
 
-    // Handle credentials saving. The username is remembered when "remember me"
-    // is set; the password is only stored on top of that with explicit consent.
-    if (m_bRememberMeChecked)
-    {
-        GameConfig::GetInstance().SetSavePassword(m_bSavePasswordChecked);
-        GameConfig::GetInstance().EncryptAndSaveCredentials(m_Username, m_Password);
-    }
-    else
-    {
-        // Clear saved credentials if user unchecked "Remember Me"
-        GameConfig::GetInstance().ClearCredentials();
-    }
-
     if (wcslen(m_Username) <= 0)
+    {
+        Show(false);
         CSceneUICoordinator::Instance().PopUpMsgWin(MESSAGE_INPUT_ID);
+    }
     else if (wcslen(m_Password) <= 0)
+    {
+        Show(false);
         CSceneUICoordinator::Instance().PopUpMsgWin(MESSAGE_INPUT_PASSWORD);
+    }
     else
     {
+        SaveLoginPreferences();
         SubmitCredentials(m_Username, m_Password);
     }
+}
+
+void CLoginWin::SaveLoginPreferences()
+{
+    GameConfig& config = GameConfig::GetInstance();
+    config.SetRememberMe(m_bRememberMeChecked);
+    if (!m_bRememberMeChecked)
+    {
+        config.ClearCredentials();
+        return;
+    }
+    SaveCurrentAccount(true);
+    config.SetSavePassword(m_bSavePasswordChecked);
+    config.EncryptAndSaveCredentials(m_Username, m_Password);
 }
 
 void CLoginWin::SubmitCredentials(const wchar_t* pszUsername, const wchar_t* pszPassword)
@@ -591,6 +612,10 @@ void CLoginWin::CancelLogin()
     // Hide immediately, run the blocking reconnect on a background thread. Guard against ESC-spam
     // stacking threads: if one is already in flight, this press is a no-op.
     Show(false);
+    // Keep the animated login world and its menu visible. The selector is restored only
+    // when a fresh ConnectServer list arrives, so a stale server cannot be clicked.
+    g_ServerSelWin.Show(false);
+    g_LoginMainWin.Show(true);
 
     if (m_bConnectionReconnectInFlight.load())
         return;

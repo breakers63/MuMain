@@ -1,0 +1,41 @@
+<rml>
+<head>
+ <title>Paris Project Login</title>
+ <link type="text/rcss" href="base.rcss"/>
+ <link type="text/rcss" href="login.rcss"/>
+</head>
+<body class="scene-window-scale">
+ <div id="panel" class="viewport-anchored" data-model="login">
+  <img class="paris-login-frame" src="../../../ParisLogin/panel-v2.tga"/>
+  <span class="label-server">{{server_name}}</span>
+  <div class="section-title title-credentials">INICIAR SESIÓN</div>
+  <div class="section-title title-accounts">CUENTAS GUARDADAS</div>
+  <span class="account-count">{{saved_account_count}}</span>
+  <label class="label-account" for="input_account">Cuenta</label>
+  <input id="input_account" type="text" class="text-field login-field login-field-account" data-value="username"/>
+  <label class="label-password" for="input_password">Contraseña</label>
+  <input id="input_password" type="password" class="text-field login-field login-field-password" data-value="password"/>
+  <input id="input_password_visible" type="text" class="text-field login-field login-field-password password-hidden" data-value="password"/>
+  <button class="password-eye" data-event-click="login_toggle_password_visibility" data-hint="Mostrar u ocultar contraseña"></button>
+  <div class="checkbox-row checkbox-remember-me" data-event-click="login_toggle_remember_me">
+   <div class="checkbox-cover" data-class-checked="remember_me_checked"></div>
+   <span class="checkbox-label">Recordar cuenta</span>
+  </div>
+  <div class="checkbox-row checkbox-save-password" data-event-click="login_toggle_save_password">
+   <div class="checkbox-cover" data-class-checked="save_password_checked"></div>
+   <span class="checkbox-label">Guardar contraseña</span>
+  </div>
+  <button class="login-action btn-enter" data-event-click="login_ok_click">ENTRAR</button>
+  <button class="login-action btn-cancel" data-event-click="login_cancel_click">CANCELAR</button>
+  <div class="account-row" data-for="account : saved_accounts" data-class-row-0="account.index == 0" data-class-row-1="account.index == 1" data-class-row-2="account.index == 2" data-class-row-3="account.index == 3" data-class-row-4="account.index == 4" data-class-selected="account.selected" data-class-empty="!account.occupied">
+   <button class="account-select" data-event-click="login_select_account(account.index)"><span class="account-name">{{account.label}}</span></button>
+   <div class="account-lock-cover" data-if="!account.password_saved"></div>
+   <div class="account-delete-cover" data-if="!account.occupied"></div>
+   <button class="account-delete" data-if="account.occupied" data-event-click="login_delete_account(account.index)" data-hint="Eliminar de este equipo"></button>
+  </div>
+  <button class="login-action btn-save" data-event-click="login_save_account">GUARDAR CUENTA</button>
+  <div class="account-status" data-if="account_status != ''">{{account_status}}</div>
+  <div class="account-status" data-if="account_status == ''">Selecciona una cuenta para completar tus datos.</div>
+ </div>
+</body>
+</rml>

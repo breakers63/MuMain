@@ -386,7 +386,9 @@ void SdlGpuPostProcessing::DrawComposite(SDL_GPUCommandBuffer* commandBuffer, SD
     SDL_BindGPUGraphicsPipeline(pass, m_compositePipeline);
     SDL_BindGPUFragmentSamplers(pass, 0, bindings, static_cast<Uint32>(std::size(bindings)));
     const SdlGpuCompositeUniform uniform{
-        {1.0f / static_cast<float>(size.width), 1.0f / static_cast<float>(size.height)}, bloomScale, gradingStrength};
+        {1.0f / static_cast<float>(size.width), 1.0f / static_cast<float>(size.height)}, bloomScale, gradingStrength,
+        {view == PostProcessingView::Scene ? look.sharpness : 0.0f,
+         view == PostProcessingView::Scene ? look.naturalColors : 0.0f, 0.0f, 0.0f}};
     SDL_PushGPUFragmentUniformData(commandBuffer, 0, &uniform, sizeof(uniform));
     SDL_DrawGPUPrimitives(pass, FullscreenVertexCount, 1, 0, 0);
 }

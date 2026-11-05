@@ -325,3 +325,13 @@
 /* #panel.tall's buttons keep the same 20dp bottom margin the default 160dp panel already has
    (110 + 30 + 20 = 160). */
 
+
+/* Item-sale confirmation uses one continuous frame. */
+#panel.sale { width: 290dp; margin-left: -145dp; min-height: 200dp; background-color: #101010; border: 1dp solid #b78d32; }
+#panel.sale .gcd-sprite-back, #panel.sale .gcd-sprite-top, #panel.sale .gcd-sprite-middle, #panel.sale .gcd-sprite-bottom { display: none; }
+#panel.sale .gcd-body { margin: 38dp 20dp 58dp 20dp; flex-direction: column; }
+#panel.sale .gcd-item3d { width: 56dp; height: 52dp; margin-right: 0dp; margin-bottom: 10dp; }
+#panel.sale #gcd_item3d { left: 0dp; top: 0dp; width: 56dp; height: 52dp; }
+#panel.sale .gcd-text-col { width: 100%; }
+#panel.sale .gcd-line { line-height: 1.4; }
+#panel.sale .btn { decorator: none; background-color: #242017; border: 1dp solid #b78d32; color: #ffdc80; }

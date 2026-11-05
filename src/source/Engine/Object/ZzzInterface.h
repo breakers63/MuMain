@@ -96,6 +96,7 @@ bool MacroCooldownFraction(float& fraction);
 void RenderPartyHP();
 
 void SendMove(CHARACTER* c, OBJECT* o);
+void SendMoveTo(CHARACTER* c, OBJECT* o, int targetX, int targetY);
 void SetCharacterPos(CHARACTER* c, BYTE posX, BYTE posY, vec3_t position);
 
 bool CheckAttack();

@@ -1,6 +1,7 @@
-#pragma once
+﻿#pragma once
 
 #include <vector>
+#include <memory>
 
 #include "UI/Core/WindowObject.h"
 #include "UI/Core/WindowManager.h"
@@ -9,6 +10,7 @@
 #include "UI/Inventory/MyInventory.h"
 
 namespace Rml { class ElementDocument; }
+namespace UI::Character { class ParisStatAllocationController; }
 
 // Fully RmlUi-based (#panel, character_info.rml/.rcss) -- no permanently-native content (no live
 // 3D icon, no CUITextInputBox), unlike the inventory family it shares frame
@@ -83,9 +85,12 @@ namespace mu::ui::window
 
         // Invoked directly from RmlUi data-event-click bindings (see Create()), not polled.
         void RmlClickIncreaseStat(int stat);
+        void TogglePointAllocation();
+        void OpenPointAllocation();
+        void UpdatePointAllocation();
         void RmlClickQuest();
         void RmlClickPet();
-        void RmlClickMasterLevel();
+        void RmlClickVisualOptions();
 
     private:
         // Populates the shared IMAGE_LIST texture slots sibling windows alias onto (see IMAGE_LIST above).
@@ -124,6 +129,7 @@ namespace mu::ui::window
             Rml::String classNameText, serverNameText;
             float classNameOpacity = 1.f, serverNameOpacity = 0.f;
 
+            int levelValue = 0, pointsValue = 0;
             Rml::String levelText;
             Rml::String levelUpPointText;
             Rml::String expText;
@@ -145,13 +151,14 @@ namespace mu::ui::window
             std::vector<StatLine> vitLines;
             std::vector<StatLine> eneLines;
 
-            bool masterLevelEnabled = false;
-
             // Set once at Create() -- static tooltip text, no per-frame update needed.
-            Rml::String exitTooltip, questTooltip, petTooltip, masterLevelTooltip;
+            Rml::String exitTooltip, questTooltip, petTooltip, visualOptionsTooltip;
         };
 
+        void SyncLevelUpPoints();
+        void BindRmlActions(Rml::DataModelConstructor& c);
         void BindRmlModel(Rml::DataModelConstructor& c, CharacterInfoRmlModel& model);
+        std::unique_ptr<UI::Character::ParisStatAllocationController> m_allocation;
         UI::RmlBridge::ThemedView<CharacterInfoRmlModel> m_RmlView{"character_info",
             [this](Rml::DataModelConstructor& c, CharacterInfoRmlModel& model) { BindRmlModel(c, model); },
             {{"Data/Interface/RmlUi/character_info.rml"}}};

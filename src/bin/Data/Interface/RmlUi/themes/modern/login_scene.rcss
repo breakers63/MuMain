@@ -1,6 +1,7 @@
-/* Modern theme for the login scene lines: the logo is the game's own artwork and the lines are
-   the original's, so the modern theme keeps the legacy geometry, fade and colours (see the legacy
-   theme). */
+/* Legacy theme for the login scene lines, reproducing NewRenderLogInScene(): the MU logo drawn
+   under alpha test at its fade level (colour and alpha), over its glow image added to the world
+   (EnableAlphaBlend(), native Glow blend) at the glow's own level; the texts in the normal font,
+   white on a rgba(0, 0, 0, 128) box sized to the text. */
 
 /* The original's 640x480 screen, stretched over the window: positions are its fractions. */
 body {
@@ -45,3 +46,13 @@ body {
 	color: rgb(255, 255, 255);
 	background-color: rgba(0, 0, 0, 128);
 }
+
+/* Paris Project Eiffel emblem. Preserve its aspect ratio on wide and 4:3 displays. */
+#logo { left: 50%; top: 1%; width: 32%; max-width: 460dp; height: 29%; transform: translateX(-50%); }
+#logo-image { width: 100%; height: auto; }
+#logo-glow { display: none; }
+
+/* Paris Project Eiffel emblem. Preserve its aspect ratio on wide and 4:3 displays. */
+#logo { left: 50%; top: 1%; width: 32%; max-width: 460dp; height: 29%; transform: translateX(-50%); }
+#logo-image { width: 100%; height: auto; }
+#logo-glow { display: none; }

@@ -1,0 +1,8 @@
+<rml><head><title>Active Invasion</title><link type="text/rcss" href="base.rcss"/><link type="text/rcss" href="active_invasion.rcss"/></head><body data-model="active_invasion">
+<div class="invasion-launcher" data-class-open="open" data-if="active" data-event-click="invasion_toggle"></div>
+<div id="panel" class="invasion-panel" data-if="active &amp;&amp; open"><span class="invasion-title">{{title}}</span><div class="invasion-close" data-event-click="invasion_close">X</div><span class="invasion-time">{{time}}</span>
+<div class="invasion-rows"><div class="invasion-row" data-for="row : rows" data-attr-data-index="it_index"><span class="invasion-name">{{row.name}}</span><span class="invasion-count">{{row.count}}</span></div></div>
+<div class="invasion-summary">{{summary}}</div>
+<div class="invasion-preview" data-class-hidden="!preview_visible"><div class="invasion-preview-name">{{preview_name}}</div><img id="invasion-monster-preview" class="invasion-preview-image"/><div class="invasion-preview-count">Restantes / Total: {{preview_count}}</div></div>
+</div>
+</body></rml>

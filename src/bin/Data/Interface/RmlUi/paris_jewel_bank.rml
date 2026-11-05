@@ -1,0 +1,58 @@
+<rml>
+<head>
+    <title>Jewel Bank</title>
+    <link type="text/rcss" href="base.rcss" />
+    <link type="text/rcss" href="docked_panel_frame.rcss" />
+    <link type="text/rcss" href="paris_panel.rcss" />
+    <link type="text/rcss" href="paris_jewel_bank.rcss" />
+</head>
+<body data-model="paris_jewel_bank">
+    <div id="panel" class="paris-jewel-bank" data-class-pending="pending">
+        <div class="frame-piece frame-top"></div>
+        <div class="frame-piece frame-left"></div>
+        <div class="frame-piece frame-right"></div>
+        <div class="frame-piece frame-bottom"></div>
+        <span id="title" >Jewel Bank</span>
+        <div id="frame_corner_close" data-event-click="paris_bank_close"></div>
+        <div class="bank-search">
+            <input id="bank_search" type="text"  maxlength="31" data-value="search" />
+            <span class="bank-search-placeholder" data-if="search == ''">Buscar joya...</span>
+        </div>
+        <div class="bank-list">
+            <div class="bank-row" data-for="entry : entries" data-class-alternate="entry.alternate">
+                <div class="bank-row-shade"></div>
+                <img class="bank-item-icon" />
+                <span class="bank-name">{{entry.name}}</span>
+                <span class="bank-inventory-label">Inventario</span>
+                <span class="bank-balance-label">Banco</span>
+                <span class="bank-inventory-count">{{entry.inventory}}</span>
+                <span class="bank-balance-count">{{entry.balance}}</span>
+                <div class="bank-row-actions">
+                    <div class="bank-quantity bank-quantity-one">
+                        <span class="bank-quantity-label">x1</span>
+                        <div class="bank-small-button bank-deposit" data-event-click="paris_bank_deposit(entry.index, 1)"><span>+</span></div>
+                        <div class="bank-small-button bank-withdraw" data-event-click="paris_bank_withdraw(entry.index, 1)"><span>-</span></div>
+                    </div>
+                    <div class="bank-quantity bank-quantity-ten">
+                        <span class="bank-quantity-label">x10</span>
+                        <div class="bank-small-button bank-deposit" data-event-click="paris_bank_deposit(entry.index, 10)"><span>+</span></div>
+                        <div class="bank-small-button bank-withdraw" data-event-click="paris_bank_withdraw(entry.index, 10)"><span>-</span></div>
+                    </div>
+                    <div class="bank-quantity bank-quantity-all">
+                        <span class="bank-quantity-label">ALL</span>
+                        <div class="bank-small-button bank-deposit" data-event-click="paris_bank_deposit(entry.index, 0)"><span>+</span></div>
+                        <div class="bank-small-button bank-withdraw" data-event-click="paris_bank_withdraw(entry.index, 0)"><span>-</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="bank-empty" data-if="empty">{{status}}</div>
+        </div>
+        <div class="bank-status" data-class-pending="pending" data-event-click="paris_bank_refresh">{{status}}</div>
+        <div class="bank-close-button" data-event-click="paris_bank_close"></div>
+        <div class="bank-auto-pick" data-event-click="paris_bank_auto_pick">
+            <div class="bank-auto-checkbox" data-class-checked="auto_pick"><span data-if="auto_pick">✓</span></div>
+            <span class="bank-auto-label">Auto Pick</span>
+        </div>
+    </div>
+</body>
+</rml>

@@ -8,10 +8,14 @@
 #include "Render/Textures/ZzzTexture.h"
 #include "UI/HUD/ChatInputBox.h"
 #include "UI/RmlBridge/RmlThemedView.h"
+#include "UI/Inventory/ItemCameraTarget.h"
 
 #pragma warning(disable : 4786)
 #include <string>
 #include <vector>
+#include <memory>
+
+struct tagITEM;
 
 namespace Rml
 {
@@ -68,7 +72,15 @@ namespace mu::ui::window
     {
         Rml::String text;
         Rml::String kind;
+        Rml::String postDetails;
         bool hasId = false;
+        bool isPost = false;
+        int postItemType = -1;
+        int postItemLevel = 0;
+        int postExcellent = 0;
+        int postAncient = 0;
+        int postLuck = 0;
+        int postAdditionalOption = 0;
     };
 
     // RmlUi owns this window's whole presentation now: the background fill, every message line,
@@ -83,6 +95,10 @@ namespace mu::ui::window
         // the backdrop's colour is the theme's -- three separate owners, not one composed string.
         float backAlpha = 0.f;
         bool showFrame = false;
+        bool postHover = false;
+        float postHoverX = 0.f;
+        float postHoverY = 0.f;
+        Rml::String postDetails;
         // Index of the line under the cursor, or -1. Drives .chat-line--pointed; C++ resolves it
         // because the lines themselves are pointer-events:none (see chat_log.rcss).
         int pointedIndex = -1;
@@ -177,6 +193,8 @@ namespace mu::ui::window
         // tracks wherever the user dragged or scrolled to.
         void ApplyLogicalScroll();
         void SyncLogicalScrollFromView();
+        void DrawPostItem(const Rml::Vector2f& offset, const Rml::Vector2f& size);
+        void SyncPostItemPreview();
 
         void BindRmlModel(Rml::DataModelConstructor& c, ChatLogRmlModel& model);
         void OnRmlReloaded();
@@ -184,6 +202,10 @@ namespace mu::ui::window
             [this](Rml::DataModelConstructor& c, ChatLogRmlModel& model) { BindRmlModel(c, model); },
             {{"Data/Interface/RmlUi/chat_log.rml"}},
             {.afterReload = [this] { OnRmlReloaded(); }}};
+        std::unique_ptr<UI::Items::ItemCameraTarget> m_PostItemTarget;
+        tagITEM* m_PostItem = nullptr;
+        int m_PostItemIndex = -1;
+        bool m_PostTooltipShown = false;
         // The log's bottom edge (screen pixels) and scale where it is placed; the resize bands
         // measure from them.
         float m_PanelBottomPx = 0.f;

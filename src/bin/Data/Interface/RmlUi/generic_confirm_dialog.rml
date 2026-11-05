@@ -10,7 +10,7 @@
 	     (themes/modern/generic_confirm_dialog.rml) and never loads this shared copy. Keep ids/
 	     data-model/event names in sync with the modern fork, GenericConfirmDialog.cpp binds both
 	     by name. -->
-	<div id="panel" class="center-both" data-model="generic_confirm_dialog" data-class-tall="has_tall_panel"
+	<div id="panel" class="center-both" data-model="generic_confirm_dialog" data-class-tall="has_tall_panel" data-class-sale="severity_warning && has_item3d"
 	     data-style-margin-top="canvas_top + 'dp'"
 	     data-class-portrait="has_portrait2d_overlay">
 		<!-- Native CCommonMessageBox's sprite composite: back fill, top cap, middle fill, bottom cap. -->

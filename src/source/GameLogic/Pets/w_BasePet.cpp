@@ -1,4 +1,5 @@
-﻿// w_BasePet.cpp: implementation of the BasePet class.
+#include "World/Monsters/DressedNpcModels.h"
+// w_BasePet.cpp: implementation of the BasePet class.
 //////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
@@ -95,41 +96,42 @@ bool PetObject::Create(int itemType, int modelType, vec3_t Position, CHARACTER* 
 
 void PetObject::Release()
 {
-    if (NULL != m_obj)
-    {
-        m_obj->Live = FALSE;
-        delete m_obj;
-        m_obj = nullptr;
-    }
-
     for (ActionMap::iterator iter = m_actionMap.begin(); iter != m_actionMap.end(); iter++)
     {
         Weak_Ptr(PetAction) petAction = (*iter).second;
 
-        if (petAction.expired() == FALSE)
+        if (m_obj != nullptr && petAction.expired() == FALSE)
         {
             petAction.lock()->Release(m_obj, m_pOwner);
         }
     }
     m_actionMap.clear();
 
+    if (m_obj != nullptr)
+    {
+        m_obj->Live = FALSE;
+        delete m_obj;
+        m_obj = nullptr;
+    }
+
     m_speedMap.clear();
 
     if (m_timer)
     {
-        delete m_timer;
-        m_timer = nullptr;
+      delete m_timer;
+      m_timer = nullptr;
     }
 }
 
 void PetObject::Update(bool bForceRender)
 {
-    if (!m_obj->Live || NULL == m_obj->Owner || NULL == m_obj)
-        return;
+    if (m_obj == nullptr || !m_obj->Live || m_obj->Owner == nullptr) return;
 
     if (SceneFlag == MAIN_SCENE)
     {
-        if (!m_obj->Owner->Live || m_obj->Owner->Kind != KIND_PLAYER)
+        const bool dressedOwner = m_pOwner != nullptr && m_obj->Owner->Kind == KIND_NPC
+            && World::Monsters::Dressed::Find(m_pOwner->MonsterIndex) != nullptr;
+        if (!m_obj->Owner->Live || (m_obj->Owner->Kind != KIND_PLAYER && !dressedOwner))
         {
             m_obj->Live = FALSE;
             return;

@@ -28,6 +28,7 @@
 			<span class="col col-map">{{head_map}}</span>
 			<span class="col col-level">{{head_level}}</span>
 			<span class="col col-zen">{{head_zen}}</span>
+			<span class="col col-resets">{{head_resets}}</span>
 		</div>
 
 		<!-- The list's box in reference px; the scrolling pane inside it counter-scales. -->
@@ -48,6 +49,7 @@
 					<span class="col col-map">{{row.map_name}}</span>
 					<span class="col col-level" data-class-unmet="row.level_unmet">{{row.req_level}}</span>
 					<span class="col col-zen" data-class-unmet="row.zen_unmet">{{row.req_zen}}</span>
+					<span class="col col-resets" data-class-unmet="row.resets_unmet">{{row.req_resets}}</span>
 				</div>
 			</div>
 		</div>

@@ -1,4 +1,8 @@
-﻿#include "stdafx.h"
+#include "Render/Models/CustomMonsterColorRenderer.h"
+#include "Render/Items/SetTrails.h"
+#include "stdafx.h"
+#include "Render/Items/ItemHighlights.h"
+#include "GameLogic/Items/ParisColorPotions.h"
 #include "Render/Models/ZzzBMD.h"
 #include "Engine/Object/ZzzInfomation.h"
 #include "Engine/Object/ZzzObject.h"
@@ -7,6 +11,7 @@
 #include "Render/Terrain/ZzzLodTerrain.h"
 #include "Render/Textures/ZzzTexture.h"
 #include "Engine/Object/ZzzOpenData.h"
+#include "GameLogic/Items/SmallCape.h"
 #include "Engine/AI/ZzzAI.h"
 #include "Engine/Object/ZzzInventory.h"
 #include "Audio/DSPlaySound.h"
@@ -105,6 +110,9 @@ void OpenModels(int Model, wchar_t* FileName, int i)
 
 void OpenPlayers()
 {
+    Render::Items::SetTrails::Load();
+    Render::Items::Highlights::Load();
+    Render::Models::CustomMonsterColor::LoadMeshEffects();
     ModelsDump = new BMD[MAX_MODELS + 1024];
     Models = ModelsDump + (rand() % 1024);
     ZeroMemory(Models, MAX_MODELS * sizeof(BMD));
@@ -304,6 +312,7 @@ void OpenPlayerTextures()
     LoadBitmap(L"Item\\msword03.tga", BITMAP_ROBE + 8);
     LoadBitmap(L"Item\\dl_redwings02.tga", BITMAP_ROBE + 9);
     LoadBitmap(L"Item\\dl_redwings03.tga", BITMAP_ROBE + 10);
+    LoadBitmap(L"Item\\SmallCapeDL\\NBCcape.tga", GameLogic::Items::SmallCapeTexture);
 
     int nIndex;
 

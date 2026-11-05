@@ -1,0 +1,129 @@
+/* Behavior lives in the model. Frame textures remain in the selected theme. */
+/* Fixed logical geometry inside the existing 190 x 429 docked Party frame. */
+.party-finder { position: absolute; left: 12px; top: 46px; width: 166px; height: 326px; color: token(text-primary); font-size: 10px; }
+.party-finder h2 { position: absolute; left: 0; top: 0; width: 166px; height: 23px; margin: 0; color: token(accent-gold); font-size: 16px; text-align: center; }
+.party-finder button, .party-toolbar button, .party-follow-btn {
+    display: block; box-sizing: border-box; height: 23px; padding: 4px 2px;
+    color: token(text-warm); background-color: token(surface-control); border: 1px token(border-frame);
+    font-family: "token(font-body)"; font-size: 10px; text-align: center; pointer-events: auto; cursor: pointer;
+}
+.party-finder button:hover, .party-toolbar button:hover, .party-follow-btn:hover { border-color: token(accent-gold-hover); }
+.finder-random { position: absolute; left: 0; top: 29px; width: 166px; height: 29px; }
+.finder-heading { position: absolute; left: 0; top: 72px; width: 166px; height: 20px; text-align: center; color: token(accent-gold); border-bottom: 1px token(border-frame); }
+.finder-rows { position: absolute; left: 0; top: 101px; width: 166px; height: 140px; }
+.finder-row { position: relative; display: block; width: 166px; height: 28px; border-bottom: 1px token(border-frame); box-sizing: border-box; }
+.finder-leader { position: absolute; left: 3px; top: 2px; width: 90px; height: 12px; overflow: hidden; white-space: nowrap; }
+.finder-map { position: absolute; left: 3px; top: 14px; width: 85px; height: 12px; overflow: hidden; white-space: nowrap; font-size: 9px; color: token(text-muted); }
+.finder-slots { position: absolute; left: 91px; top: 8px; width: 29px; font-size: 9px; }
+.finder-row button { position: absolute; right: 0; top: 2px; width: 44px; height: 23px; font-size: 9px; padding: 4px 1px; }
+.finder-empty { position: absolute; left: 8px; top: 151px; width: 150px; text-align: center; color: token(text-muted); }
+.finder-pagination { position: absolute; left: 28px; top: 247px; width: 110px; height: 23px; }
+.finder-pagination span { position: absolute; left: 25px; top: 5px; width: 60px; text-align: center; }
+.finder-pagination button { position: absolute; left: 0; top: 0; width: 25px; }
+.finder-pagination button:last-child { left: 85px; }
+.finder-refresh { position: absolute; left: 33px; top: 277px; width: 100px; }
+.finder-publish { position: absolute; left: 0; top: 307px; width: 166px; }
+.finder-status { position: absolute; left: 12px; bottom: 32px; width: 166px; color: token(accent-gold); font-size: 10px; text-align: center; pointer-events: none; }
+.party-toolbar { position: absolute; left: 10px; top: 42px; width: 170px; text-align: center; }
+.party-toolbar button { width: 160px; }
+.party-list { top: 72px; }
+.party-row { height: 61px; }
+.party-follow-btn { position: absolute; left: 72px; top: 3px; width: 78px; height: 20px; font-size: 9px; }
+
+/* Hidden action buttons must override their visible control display rules. */
+.party-finder button.hidden, .party-toolbar button.hidden, .party-follow-btn.hidden { display: none; }
+.party-row { height: 63px; }
+.party-name { width: calc(70px * var(--root-scale, 1)); white-space: nowrap; overflow: hidden; }
+.party-map { width: calc(70px * var(--root-scale, 1)); white-space: nowrap; overflow: hidden; }
+.party-coord { width: calc(60px * var(--root-scale, 1)); white-space: nowrap; }
+.party-hp-text { top: 48px; left: 8px; width: calc(147px * var(--root-scale, 1)); white-space: nowrap; }
+.gbox-corner-bl, .gbox-corner-br, .party-edge-bottom { top: 49px; }
+.party-edge-right { height: 29px; }
+.party-edge-left { height: 49px; }
+.gbox-content-fill { height: 36px; }
+
+/* Tabs retain the inventory-sized panel and expose search while already grouped. */
+.party-tabs { position: absolute; left: 12px; top: 43px; width: 166px; height: 21px; }
+.party-tabs button, .party-settings button { display: block; box-sizing: border-box; color: token(text-warm); background-color: token(surface-control); border: 1px token(border-frame); font-family: "token(font-body)"; font-size: 9px; text-align: center; cursor: pointer; pointer-events: auto; padding: 4px 1px; }
+.party-tabs button { position: absolute; left: 0; top: 0; width: 54px; height: 21px; }
+.party-tabs button:nth-child(2) { left: 56px; }
+.party-tabs button:nth-child(3) { left: 112px; }
+.party-tabs button.selected { color: token(accent-gold); border-color: token(accent-gold); }
+.party-no-group { position: absolute; left: 15px; top: 100px; width: 160px; text-align: center; }
+.party-finder { top: 70px; height: 314px; }
+.finder-random { top: 25px; }
+.finder-join-blocked { position: absolute; top: 25px; left: 0; width: 166px; height: 29px; font-size: 10px; text-align: center; color: token(text-muted); }
+.finder-heading { top: 62px; }
+.finder-rows { top: 86px; }
+.finder-empty { top: 136px; }
+.finder-pagination { top: 231px; }
+.finder-refresh { top: 261px; }
+.finder-publish { top: 291px; }
+.party-toolbar { top: 70px; }
+.party-list { top: 100px; }
+.party-row { height: 54px; }
+.party-hp-bar { top: 35px; }
+.party-hp-text { top: 44px; }
+.gbox-corner-bl, .gbox-corner-br, .party-edge-bottom { top: 40px; }
+.party-edge-right { height: 20px; }
+.party-edge-left { height: 40px; }
+.gbox-content-fill { height: 27px; }
+.party-flag { pointer-events: none; }
+.party-flag.inactive { opacity: 0.35; }
+.party-flag.transfer { pointer-events: auto; cursor: pointer; }
+.party-flag.transfer:hover { opacity: 1; }
+.party-settings { position: absolute; left: 12px; top: 85px; width: 166px; height: 275px; font-size: 11px; text-align: center; }
+.party-settings button { position: absolute; left: 0; width: 166px; height: 27px; }
+.settings-heading { position: absolute; top: 0; width: 166px; color: token(accent-gold); }
+.settings-visibility { position: absolute; top: 25px; width: 166px; }
+.settings-privacy { top: 48px; }
+.settings-follow-value { position: absolute; top: 105px; width: 166px; }
+.settings-follow { top: 133px; }
+.settings-leader-only { position: absolute; top: 185px; width: 166px; color: token(text-muted); }
+.party-settings button.hidden { display: none; }
+
+.party-settings, .party-no-group { color: token(text-primary); }
+.party-toolbar { top: 68px; }
+.party-list { top: 94px; }
+.party-row { height: 58px; }
+.party-hp-bar { top: 39px; }
+.party-hp-text { top: 47px; font-size: 9px; }
+.party-map, .party-coord { font-size: 9px; }
+.gbox-corner-bl, .gbox-corner-br, .party-edge-bottom { top: 44px; }
+.party-edge-right { height: 24px; }
+.party-edge-left { height: 44px; }
+.gbox-content-fill { height: 31px; }
+
+/* The approved compact finder composition; all labels remain localized DOM controls. */
+.party-finder { top: 65px; height: 307px; }
+.party-finder h2 { top: 0; height: 22px; font-size: 18px; }
+.finder-intro { position: absolute; left: 8px; top: 24px; width: 150px; height: 30px; font-size: 8px; line-height: 10px; text-align: center; }
+.finder-random { top: 58px; width: 166px; height: 30px; padding: 9px 6px; font-size: 9px; }
+.finder-join-blocked { top: 91px; height: 10px; font-size: 7px; }
+.finder-divider { position: absolute; left: 0; top: 96px; width: 166px; height: 10px; pointer-events: none; }
+.finder-heading { top: 110px; font-size: 12px; border-width: 0; }
+.finder-help { position: absolute; left: 8px; top: 129px; width: 150px; height: 18px; line-height: 9px; font-size: 8px; text-align: center; }
+.finder-rows { top: 151px; height: 100px; }
+.finder-row { height: 25px; background-color: #0009; border: 1px #9b731f; }
+.finder-leader { left: 3px; top: 7px; width: 51px; height: 12px; font-size: 8px; }
+.finder-map { left: 56px; top: 7px; width: 44px; height: 12px; font-size: 8px; color: token(text-primary); }
+.finder-slots { left: 102px; top: 7px; width: 20px; font-size: 8px; }
+.finder-row button { right: 1px; top: 2px; width: 41px; height: 20px; padding: 5px 1px; font-size: 8px; }
+.finder-empty { top: 180px; font-size: 9px; }
+.finder-refresh { left: 39px; top: 255px; width: 88px; height: 23px; }
+.finder-pagination { left: 28px; top: 284px; }
+.finder-pagination span { border: 1px #9b731f; background-color: #000a; top: 0; padding-top: 5px; height: 23px; box-sizing: border-box; }
+.party-finder button.disabled { opacity: .55; cursor: default; }
+.finder-art-back { position: absolute; left: 0; top: 0; width: 166px; height: 307px; pointer-events: none; }
+.settings-auto-value { position: absolute; top: 190px; width: 166px; }
+.settings-auto { top: 218px; }
+.settings-leader-only { top: 258px; }
+.settings-create { top: 50px; }
+
+/* Reserve the complete results table even when the public list is empty. */
+.finder-rows { box-sizing: border-box; border: 1px #9b731f; background-color: #050504bb; }
+.finder-heading { color: token(accent-gold); height: 17px; }
+.finder-help { top: 131px; height: 18px; color: token(text-warm); }
+.finder-empty { top: 180px; left: 10px; width: 146px; line-height: 12px; }
+.party-settings button.disabled { opacity: .45; cursor: default; }
+.settings-leader-only { font-size: 9px; line-height: 11px; }

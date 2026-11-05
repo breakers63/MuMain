@@ -1,3 +1,4 @@
+#include "Render/Items/SetTrails.h"
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -24,6 +25,21 @@
 #include "GameLogic/Items/ItemCategories.h"
 
 using mu::PackABGR;
+
+namespace
+{
+    float FlareOrbitPhase(const JOINT* joint)
+    {
+        constexpr float OrbitPhaseScale = 0.1f;
+        constexpr float PairedOrbitSpeed = 2.0f;
+        if (joint->PKKey > 0)
+            return (joint->Direction[1] + joint->LifeTime) / static_cast<float>(joint->PKKey);
+        if (joint->SubType != 18)
+            return (joint->Direction[1] + joint->LifeTime) * OrbitPhaseScale;
+        const float phase = (joint->Direction[1] + joint->LifeTime * PairedOrbitSpeed) * OrbitPhaseScale;
+        return joint->Skill == 1 ? -phase : phase;
+    }
+}
 
 extern float g_fBoneSave[10][3][4];
 extern int EditFlag;
@@ -5374,23 +5390,7 @@ void MoveJoint(JOINT* o, int iIndex)
     case BITMAP_FLARE_BLUE:
         if (o->SubType == 0 || o->SubType == 10 || o->SubType == 18)
         {
-            float count;
-            if (o->PKKey != -1)
-            {
-                count = (o->Direction[1] + o->LifeTime) / (float)(o->PKKey);
-            }
-            else if (o->SubType == 18)
-            {
-                count = (o->Direction[1] + (o->LifeTime * 2)) * 0.1f;
-                if (o->Skill == 1)
-                {
-                    count *= powf(-1, FPS_ANIMATION_FACTOR);
-                }
-            }
-            else
-            {
-                count = (o->Direction[1] + o->LifeTime) * 0.1f;
-            }
+            const float count = FlareOrbitPhase(o);
             o->Position[0] = o->TargetPosition[0] + cosf(count) * o->Velocity;
             o->Position[1] = o->TargetPosition[1] - sinf(count) * o->Velocity;
 
@@ -5400,9 +5400,11 @@ void MoveJoint(JOINT* o, int iIndex)
                 o->Position[2] -= (o->Direction[2]) * FPS_ANIMATION_FACTOR;
             else if (o->SubType == 18)
             {
-                o->Position[2] += ((o->Direction[2] * 1.1f)) * FPS_ANIMATION_FACTOR;
-                o->Velocity += FPS_ANIMATION_FACTOR * 0.1f;
-                o->Scale += (0.2f) * FPS_ANIMATION_FACTOR;
+                const float speed = o->PKKey == Render::Items::SetTrails::Marker ? Render::Items::SetTrails::Speed() : 1.0f;
+                o->Position[2] += o->Direction[2] * 1.1f * FPS_ANIMATION_FACTOR * speed;
+                o->Velocity += FPS_ANIMATION_FACTOR * 0.1f * speed;
+                o->Scale += 0.2f * FPS_ANIMATION_FACTOR * speed;
+                o->LifeTime -= FPS_ANIMATION_FACTOR * (speed - 1.0f);
             }
         }
         else if (o->SubType == 20)
@@ -5427,7 +5429,7 @@ void MoveJoint(JOINT* o, int iIndex)
                 count = o->Direction[1] * 0.1f;
                 if (o->SubType == 15)
                 {
-                    count *= powf(-1, FPS_ANIMATION_FACTOR);
+                    count = -count;
                 }
                 o->Position[0] = o->TargetPosition[0] + cosf(count) * o->Velocity;
                 o->Position[1] = o->TargetPosition[1] - sinf(count) * o->Velocity;

@@ -233,3 +233,6 @@
 	pointer-events: auto;
 	/* decorator set per-instance via data-style-decorator (buff_strip.rml). */
 }
+
+/* Compact active effects: 80% of the original display size; atlas pixels stay unchanged. */
+.buff-slot, .buff-icon-art { width: 16dp; height: 22.4dp; }
