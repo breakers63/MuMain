@@ -3,6 +3,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
+#include "Network/Paris/ItemDyeProtocol.h"
 #include "Character/SelectionGreeting.h"
 #include "CharacterScene.h"
 #include "SceneCore.h"
@@ -202,6 +203,7 @@ void CreateCharacterScene()
 
 void NewMoveCharacterScene()
 {
+    Network::Paris::ItemDye::UpdateRefresh();
     if (CurrentProtocolState < RECEIVE_CHARACTERS_LIST)
     {
         return;

@@ -19,6 +19,7 @@ cbuffer FogUniforms : register(b0, space3)
     uint alphaToCoverage; // 1: the pipeline turns alpha into multisample coverage
     float fogStart;
     float fogEnd;
+    float neutralItemTexture;
     float4 fogColor;
 };
 cbuffer SceneLighting : register(b1, space3)
@@ -148,7 +149,12 @@ float4 main(FSInput input) : SV_Target
 
     // Rim and specular are light added on top of the surface, so dark textures still get an
     // outline; both are bounded by the object light.
-    const float4 texel = tex.Sample(s, input.uv);
+    float4 texel = tex.Sample(s, input.uv);
+    if (neutralItemTexture > 0.5)
+    {
+        const float shade = max(texel.r, max(texel.g, texel.b));
+        texel.rgb = lerp(shade, sqrt(shade), 0.25).xxx;
+    }
     float4 color = float4(texel.rgb * diffuse + rim + specular, texel.a * input.color.a);
     if (alphaToCoverage)
     {

@@ -107,3 +107,21 @@ body {width:100%;height:100%;pointer-events:none;font-family:"token(font-body)";
 .dye-values .dye-hex {width:37dp;}
 .dye-values .dye-channel {width:26dp;}
 .dye-current {width:13dp;height:13dp;}
+
+.dye-tabs { display:flex; justify-content:space-between; height:24dp; margin-bottom:3dp; }
+.dye-tabs .btn { width:48%; height:22dp; line-height:22dp; font-size:10dp; }
+.dye-panel { height:483dp; }
+.dye-panel.name-active .dye-body { margin-top:50dp; }
+.dye-panel.name-active .dye-right { margin-left:51%; }
+.name-rgb { position:absolute; top:85dp; left:24dp; width:144dp; color:#ddc676; text-align:center; }
+.name-rgb h3 { font-size:10dp; }
+#name_rgb_preview { font-size:18dp; margin-top:18dp; margin-bottom:18dp; white-space:nowrap; }
+.name-rgb .btn { margin:3dp 0; font-size:9dp; height:24dp; line-height:24dp; }
+.name-modes { display:flex; flex-wrap:wrap; }
+.name-modes .btn { width:100%; }
+
+.dye-panel.name-active .dye-footer { position:absolute; bottom:28dp; left:12dp; right:12dp; }
+.dye-panel.name-active .dye-status { position:absolute; bottom:10dp; left:12dp; right:12dp; }
+.name-speed { display:flex; align-items:center; justify-content:center; }
+.name-speed .btn { width:30dp; }
+.name-speed span { width:55dp; text-align:center; }

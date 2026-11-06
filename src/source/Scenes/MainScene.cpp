@@ -3,6 +3,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
+#include "Network/Paris/ItemDyeProtocol.h"
 #include "UI/SocialMusic/SocialMusic.h"
 #include "Render/Weather/WeatherRenderer.h"
 #include "App/Control/ControlTaps.h"
@@ -334,6 +335,7 @@ static void UpdateGameEntities()
  */
 void MoveMainScene()
 {
+    Network::Paris::ItemDye::UpdateRefresh();
     if (!InitMainScene)
     {
         InitializeMainScene();

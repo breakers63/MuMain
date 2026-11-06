@@ -24,8 +24,7 @@ namespace Render::Items::Highlights
                 || Strength <= 0.0f || (flags & RENDER_WAVE) || !g_pOption->GetRenderAllEffects()
                 || g_pOption->GetRenderLevel() < 4 || type < MODEL_HELM || type >= MODEL_BOOTS + MAX_ITEM_INDEX)
                 return false;
-            vec3_t white = {1.0f, 1.0f, 1.0f}, tint;
-            return !Render::ItemDye::Light(object, type, white, tint);
+            return true;
         }
     }
 

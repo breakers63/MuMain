@@ -11,6 +11,7 @@
 #include "Core/Utilities/StringUtils.h"
 #include "Engine/Object/ZzzInventory.h"
 #include "Render/Models/ItemDyeAppearance.h"
+#include "Render/Models/NameRgbAppearance.h"
 #include "Render/Items/ItemPreviewFit.h"
 #include <RmlUi/Core/Event.h>
 #include <algorithm>
@@ -78,6 +79,23 @@ void CParisItemDyeWindow::Bind(Rml::DataModelConstructor& constructor, Model& mo
     constructor.Bind("blue_count", &model.blueCount); constructor.Bind("multiple", &model.multiple);
     constructor.Bind("busy", &model.busy); constructor.Bind("can_apply", &model.canApply);
     constructor.Bind("can_restore", &model.canRestore);
+    constructor.Bind("name_tab", &model.nameTab); constructor.Bind("name", &model.name);
+    constructor.Bind("first_hex", &model.firstHex); constructor.Bind("last_hex", &model.lastHex);
+    constructor.Bind("name_mode", &model.nameMode); constructor.Bind("name_speed", &model.nameSpeed);
+    constructor.BindEventCallback("dye_tab", [this](auto, auto&, const Rml::VariantList& args) {
+        if(args.empty()||!queue.empty())return;
+        nameTab=args[0].Get<bool>();revision=0;Sync();
+    });
+    constructor.BindEventCallback("name_mode", [this](auto, auto&, const Rml::VariantList& args) {
+        if(!args.empty())nameMode=std::clamp(args[0].Get<int>(),1,3);revision=0;Sync();
+    });
+    constructor.BindEventCallback("name_color", [this](auto, auto&, const Rml::VariantList& args) {
+        if(!args.empty()) { if(args[0].Get<int>()==0)nameFirst=color;else nameLast=color; }
+        revision=0;Sync();
+    });
+    constructor.BindEventCallback("name_speed", [this](auto, auto&, const Rml::VariantList& args) {
+        if(!args.empty())nameSpeed=std::clamp(nameSpeed+args[0].Get<int>(),1,10);revision=0;Sync();
+    });
     model.palette.clear();
     for (int row = 0; row < 9; ++row) for (int column = 0; column < 14; ++column) {
         const float saturation = column == 13 ? 0.f : row < 5 ? 1.f : 1.f - (row - 4) * .2f;
@@ -109,6 +127,8 @@ void CParisItemDyeWindow::OpenWindow()
     }
     Show(true);
     g_pNewUISystem->Show(INTERFACE_INVENTORY);
+    const auto& profile=Render::NameRgb::Own;
+    nameMode=profile.Mode==0?1:profile.Mode;nameFirst=profile.First;nameLast=profile.Last;nameSpeed=profile.Speed;
     Dye::Request(); lastPoll = timeGetTime(); revision = 0; Sync();
 }
 void CParisItemDyeWindow::Show(bool show)
@@ -207,7 +227,7 @@ void CParisItemDyeWindow::DrawTarget(size_t index,const Rml::Vector2f& offset,co
     // Use the native red, antidote-green and mana-blue bottle artwork for the reagent indicators.
     constexpr int PotionPreviewTypes[] = {ITEM_POTION + 1, ITEM_POTION + 8, ITEM_POTION + 4};
     const int type = index >= 8 ? PotionPreviewTypes[index - 8] : item ? item->Type : -1;
-    if (type < 0) return;
+    if (type < 0 || nameTab) return;
     const int tint = index == 1 ? -1 : index < 8 ? color : -1;
     Render::ItemDye::PreviewScope previewTint(tint);
     Render::Items::Preview::ScopedFit fit(offset.x,offset.y,size.x,size.y);
@@ -217,7 +237,7 @@ void CParisItemDyeWindow::SyncTargets()
 {
     auto* document = view.Document();
     for (size_t index = 0; index < targets.size(); ++index) if (targets[index]) {
-        const bool enabled = index >= 8 || (index < 3 ? Find(selected) != nullptr : PieceAt(static_cast<int>(index - 3)) != nullptr);
+        const bool enabled = !nameTab && (index >= 8 || (index < 3 ? Find(selected) != nullptr : PieceAt(static_cast<int>(index - 3)) != nullptr));
         targets[index]->Sync(document->GetElementById(TargetIds[index]),enabled);
     }
 }
@@ -265,6 +285,12 @@ void CParisItemDyeWindow::SetColor(int rgb)
 void CParisItemDyeWindow::UpdatePicker()
 {
     const bool down = (GetAsyncKeyState(VK_LBUTTON) & 0x8000) != 0;
+    if (g_pGenericConfirmDialog && g_pGenericConfirmDialog->IsVisible())
+    {
+        drag = 0;
+        pointerDown = down;
+        return;
+    }
     auto* document = view.Document();
     if (!down) drag = 0;
     if (down && !pointerDown && queue.empty()) {
@@ -289,13 +315,29 @@ void CParisItemDyeWindow::Sync()
     selection.erase(std::remove_if(selection.begin(),selection.end(),[this](const auto& id) { return !Find(id); }),selection.end());
     if (!Find(selected)) selected = selection.empty() ? std::string() : selection.back();
     auto& model = view.GetModel(); model.pieces.clear();
+    model.nameTab=nameTab;model.name=Hero?StringUtils::WideToNarrow(Hero->ID):"";
+    model.firstHex=Hex(nameFirst);model.lastHex=Hex(nameLast);
+    model.nameMode=nameMode==1?"Color fijo":nameMode==2?"Degradado":"RGB animado";
+    model.nameSpeed=std::to_string(nameSpeed);
+    if(auto* preview=view.Document()->GetElementById("name_rgb_preview")) {
+        Rml::String markup;
+        const std::wstring name=Hero?Hero->ID:L"";
+        for(size_t index=0;index<name.size();++index) {
+            const wchar_t letter[2]={name[index],0};
+            auto escaped=StringUtils::WideToNarrow(letter);
+            if(escaped=="<")escaped="&lt;";else if(escaped==">")escaped="&gt;";else if(escaped=="&")escaped="&amp;";
+            const float position=name.size()>1?float(index)/float(name.size()-1):0.f;
+            markup+="<span style=\"color:"+Hex(Render::NameRgb::Color({nameMode,nameFirst,nameLast,nameSpeed},position,timeGetTime()))+";\">"+escaped+"</span>";
+        }
+        preview->SetInnerRML(markup);
+    }
     constexpr const char* names[] = {"CASCO","PECHERA","PANTALON","GUANTES","BOTAS"};
     for (int index = 0; index < PieceCount; ++index) {
         const auto* item = PieceAt(index);
         model.pieces.push_back({names[index],index,item != nullptr,item && item->Id == selected});
     }
     model.multiple = multiple; model.busy = Dye::Pending || !queue.empty();
-    model.canApply = !model.busy && MaterialsReady(); model.canRestore = !model.busy && !selection.empty();
+    model.canApply = !model.busy && (nameTab || MaterialsReady()); model.canRestore = !model.busy && (nameTab || !selection.empty());
     model.count = std::to_string(selection.size()) + " pieza(s) seleccionada(s)";
     model.itemName = Find(selected) ? StringUtils::WideToNarrow(Find(selected)->Name.c_str()) : "Clic derecho sobre una pieza del inventario";
     const int required = Dye::RequireReagents ? static_cast<int>(selection.size()) * Dye::PotionsPerColor : 0;
@@ -308,18 +350,30 @@ void CParisItemDyeWindow::Sync()
 }
 void CParisItemDyeWindow::ConfirmApply(bool restore)
 {
+    if(nameTab) {
+        if(!Dye::Pending)Dye::ApplyName(restore?0:nameMode,nameFirst,nameLast,nameSpeed);
+        revision=0;Sync();return;
+    }
     if (Dye::Pending || !queue.empty() || selection.empty() || (!restore && !MaterialsReady())) return;
     GenericDialogConfig config; config.title = restore ? L"Restaurar original" : L"Aplicar color";
     config.lines.push_back({restore ? L"Restaurar las piezas seleccionadas sin consumir pociones." :
         Dye::RequireReagents ? L"Se consumiran las pociones indicadas por cada pieza." : L"Prueba sin consumir pociones.",false});
     config.primaryLabel = L"Confirmar"; config.showCancel = true; config.cancelLabel = L"Cancelar";
-    config.onPrimary = [this,restore] { if (IsVisible()) BeginBatch(restore); };
+    const int selectedColor = color;
+    drag = 0;
+    pointerDown = true;
+    config.onPrimary = [this, restore, selectedColor]
+    {
+        pointerDown = true;
+        if (IsVisible()) BeginBatch(restore, selectedColor);
+    };
+    config.onCancel = [this] { pointerDown = true; };
     g_pGenericConfirmDialog->Show(std::move(config));
 }
-void CParisItemDyeWindow::BeginBatch(bool restore)
+void CParisItemDyeWindow::BeginBatch(bool restore, int selectedColor)
 {
     if (selection.empty() || (!restore && !MaterialsReady())) return;
-    queue = selection; queueIndex = 0; restoring = restore; queuedColor = color; awaiting = false; nextApply = timeGetTime();
+    queue = selection; queueIndex = 0; restoring = restore; queuedColor = selectedColor; awaiting = false; nextApply = timeGetTime();
     batchStatus = "Guardando piezas..."; revision = 0; Sync();
 }
 void CParisItemDyeWindow::UpdateBatch()
@@ -379,7 +433,7 @@ bool CParisItemDyeWindow::Update()
     if (!IsVisible()) return true;
     if (SceneFlag != MAIN_SCENE) { Show(false); return true; }
     if (timeGetTime() - lastPoll > PollInterval) { Dye::Request(); lastPoll = timeGetTime(); }
-    HandleInventoryPointer(); HandleItemDrop(); UpdateBatch(); UpdatePicker(); Sync(); SyncTargets(); return true;
+    if(!nameTab){HandleInventoryPointer(); HandleItemDrop();} UpdateBatch(); UpdatePicker(); if(nameTab)revision=0; Sync(); SyncTargets(); return true;
 }
 }
 

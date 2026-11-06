@@ -3,6 +3,7 @@
 #include "CharInfoBalloonMng.h"
 
 #include "CharInfoBalloon.h"
+#include "Render/Models/NameRgbAppearance.h"
 #include "Core/Globals/_enum.h"
 #include "Core/Utilities/StringUtils.h"
 #include "Render/RmlUi/RmlUiRuntime.h"
@@ -84,6 +85,7 @@ void CCharInfoBalloonMng::BindRmlModel(Rml::DataModelConstructor& c, BalloonList
     entry.RegisterMember("screen_y", &BalloonEntry::screenY);
     entry.RegisterMember("name_status", &BalloonEntry::nameStatus);
     entry.RegisterMember("name", &BalloonEntry::name);
+    entry.RegisterMember("name_markup", &BalloonEntry::nameMarkup);
     entry.RegisterMember("guild", &BalloonEntry::guild);
     entry.RegisterMember("klass", &BalloonEntry::klass);
     c.RegisterArray<std::vector<BalloonEntry>>();
@@ -153,6 +155,7 @@ void CCharInfoBalloonMng::SyncRmlModel()
         entry.screenY = balloon.GetYPos();
         entry.nameStatus = NameStatusKey(balloon.GetNameStatus());
         entry.name = StringUtils::WideToNarrow(balloon.GetName());
+        entry.nameMarkup = Render::NameRgb::Markup(balloon.GetName());
         entry.guild = StringUtils::WideToNarrow(balloon.GetGuildText());
         entry.klass = StringUtils::WideToNarrow(balloon.GetClassText());
     }

@@ -6466,9 +6466,23 @@ void RenderPartObjectBody(BMD* b, OBJECT* o, int Type, float Alpha, int RenderTy
         // Items are drawn with the render style of their model entry, after
         // the player transformations: a transformed Rage Fighter draws its
         // sword-form gloves with the look of the transformation.
-        if (!Render::Items::Styles::Render(b, o, Type, Alpha, RenderType))
+        vec3_t originalLight, dyedLight;
+        VectorCopy(b->BodyLight, originalLight);
+        const bool dyed = Render::ItemDye::Light(o, Type, originalLight, dyedLight);
+        auto& renderer = mu::GetRenderer();
+        if (dyed)
+        {
+            VectorCopy(dyedLight, b->BodyLight);
+            renderer.SetNeutralItemTexture(true);
+        }
+        if (dyed || !Render::Items::Styles::Render(b, o, Type, Alpha, RenderType))
         {
             RenderModelWithoutStyle(b, o, Type, Alpha, RenderType);
+        }
+        if (dyed)
+        {
+            renderer.SetNeutralItemTexture(false);
+            VectorCopy(originalLight, b->BodyLight);
         }
     }
 }
@@ -6522,6 +6536,9 @@ void RenderPartObjectBodyColor(BMD* b, OBJECT* o, int Type, float Alpha, int Ren
         PartObjectColor(Type, Alpha, Bright, b->BodyLight, (RenderType & RENDER_EXTRA) ? true : false);
     }
 
+    vec3_t dyedLight;
+    if (Render::ItemDye::Light(o, Type, b->BodyLight, dyedLight))
+        VectorCopy(dyedLight, b->BodyLight);
     Render::Items::Glow::RenderGlow(b, o, Type, Alpha, RenderType, Texture);
 }
 
@@ -6542,6 +6559,9 @@ void RenderPartObjectBodyColor2(BMD* b, OBJECT* o, int Type, float Alpha, int Re
     {
         PartObjectColor2(Type, Alpha, Bright, b->BodyLight, (RenderType & RENDER_EXTRA) ? true : false);
     }
+    vec3_t dyedLight;
+    if (Render::ItemDye::Light(o, Type, b->BodyLight, dyedLight))
+        VectorCopy(dyedLight, b->BodyLight);
     Render::Items::Glow::RenderShine(b, o, Type, Alpha, RenderType, Texture);
 }
 
@@ -6858,13 +6878,23 @@ void RenderPartObjectEffect(OBJECT* o, int Type, vec3_t Light, float Alpha, int 
         Level = std::min<int>(Level, g_pOption->GetRenderLevel() * 2 + 5);
     }
 
-    // A saved cosmetic replaces the level/excellent color passes, which otherwise paint
-    // their own gold/chrome colors over the chosen tint. Geometry and item stats stay intact.
-    if (Render::ItemDye::Resolve(o, Type) >= 0)
+    // Item previews have no character lighting or equipment overlays.
+    if (Render::ItemDye::IsPreview && Render::ItemDye::Preview >= 0)
     {
-        VectorCopy(Light, b->BodyLight);
-        RenderPartObjectBody(b, o, Type, Alpha, RenderType);
-        return;
+        vec3_t originalLight, dyedLight;
+        const vec3_t white = {1.0f, 1.0f, 1.0f};
+        VectorCopy(b->BodyLight, originalLight);
+        if (Render::ItemDye::Light(o, Type, white, dyedLight))
+        {
+            VectorCopy(dyedLight, b->BodyLight);
+            auto& renderer = mu::GetRenderer();
+            renderer.SetNeutralItemTexture(true);
+            b->RenderBody(RENDER_TEXTURE, Alpha, o->BlendMesh, 1.0f,
+                          o->BlendMeshTexCoordU, o->BlendMeshTexCoordV);
+            renderer.SetNeutralItemTexture(false);
+            VectorCopy(originalLight, b->BodyLight);
+            return;
+        }
     }
 
     if (ApplyPartObjectEffect(b, o, Type, Alpha, Level, ItemLevel) == Render::Items::ItemEffects::Result::Drawn)
@@ -7200,8 +7230,7 @@ void RenderPartObject(OBJECT* o, int Type, void* p2, vec3_t Light, float Alpha, 
         return;
     }
 
-    vec3_t dyeLight;
-    if (Render::ItemDye::Light(o, Type, Light, dyeLight)) Light = dyeLight;
+    Render::ItemDye::PreviewScope dye(Render::ItemDye::Resolve(o, Type), Render::ItemDye::IsPreview);
     auto* p = (PART_t*)p2;
 
     Type = Render::Items::Display::GetDrawnModel(Type, ItemLevel);
@@ -7259,9 +7288,6 @@ void RenderPartObject(OBJECT* o, int Type, void* p2, vec3_t Light, float Alpha, 
         RenderPartObjectEdge(b, o, RENDER_BRIGHT, Translate, Scale - 0.02f);
     }
     BodyLight(o, b);
-    vec3_t dyedBodyLight;
-    if (Render::ItemDye::Light(o, Type, b->BodyLight, dyedBodyLight))
-        VectorCopy(dyedBodyLight, b->BodyLight);
 
     if (GlobalTransform)
     {

@@ -35,15 +35,16 @@ using namespace mu::ui::window;
 namespace
 {
 
-void KeepLocalCharacterNameVisible()
+void KeepPlayerNamesVisible()
 {
-    if (GameConfig::GetInstance().GetHidePlayerNames()) return;
-    if (!Hero || Hero->Dead || !Hero->Object.Live || !Hero->Object.Visible)
-        return;
-    // Chaos Castle deliberately hides character identities.
-    if (gMapManager.InChaosCastle() || IsShopTitleVisible(Hero))
-        return;
-    UI::Chat::CreateChat(Hero->ID, L"", Hero);
+    if (GameConfig::GetInstance().GetHidePlayerNames() || gMapManager.InChaosCastle()) return;
+    for(int index=0;index<MAX_CHARACTERS_CLIENT;++index)
+    {
+        auto* character=&CharactersClient[index];
+        const auto& object=character->Object;
+        if(!object.Live||!object.Visible||character->Dead||object.Kind!=KIND_PLAYER||IsShopTitleVisible(character))continue;
+        UI::Chat::CreateChat(character->ID,L"",character);
+    }
 }
 
 void DrawOpenGLStyleHealthBar(int centerX,int screenY,bool player,float health,float shield)
@@ -255,7 +256,7 @@ void mu::ui::window::CNameWindow::RenderLabels()
 
 void mu::ui::window::CNameWindow::RenderName()
 {
-    KeepLocalCharacterNameVisible();
+    KeepPlayerNamesVisible();
     if (g_bGMObservation == true)
     {
         for (int i = 0; i < MAX_CHARACTERS_CLIENT; i++)

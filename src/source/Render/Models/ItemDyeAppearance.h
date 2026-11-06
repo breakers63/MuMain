@@ -6,11 +6,14 @@ struct Equipped { CHARACTER* Character=nullptr; short Key=-1; std::unordered_map
 inline std::unordered_map<DWORD,int> Inventory;
 inline std::unordered_map<const OBJECT*,Equipped> World;
 inline int Preview=-1;
+inline bool IsPreview=false;
 struct PreviewScope
 {
     int Previous;
-    explicit PreviewScope(int color):Previous(Preview){Preview=color;}
-    ~PreviewScope(){Preview=Previous;}
+    bool PreviousIsPreview;
+    explicit PreviewScope(int color, bool preview=true):Previous(Preview),PreviousIsPreview(IsPreview)
+    { Preview=color; IsPreview=preview; }
+    ~PreviewScope(){Preview=Previous; IsPreview=PreviousIsPreview;}
 };
 inline int Color(const ITEM* item)
 {
@@ -29,8 +32,12 @@ inline bool Light(const OBJECT* object,int modelType,const float* source,float* 
 {
     const int color=Resolve(object,modelType);
     if(color<0)return false;
-    for(int channel=0;channel<3;++channel)
-        target[channel]=source[channel]*((color >> ((2-channel)*8)) & 255)/255.f;
+    // Preserve light intensity without multiplying the dye by the old hue.
+    const float intensity = source[0] > source[1] ? source[0] : source[1];
+    const float neutralLight = intensity > source[2] ? intensity : source[2];
+    for (int channel = 0; channel < 3; ++channel)
+        target[channel] = (neutralLight + (1.0f - neutralLight) * 0.25f)
+            * ((color >> ((2 - channel) * 8)) & 255) / 255.f;
     return true;
 }
 inline void Clear(){Inventory.clear();World.clear();Preview=-1;}

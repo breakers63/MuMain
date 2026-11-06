@@ -11,12 +11,19 @@ cbuffer FogUniforms : register(b0, space3)
     uint alphaToCoverage; // 1: the pipeline turns alpha into multisample coverage
     float fogStart;
     float fogEnd;
+    float neutralItemTexture;
     float4 fogColor;
 };
 struct FSInput { float4 pos : SV_Position; float2 uv : TEXCOORD0; float4 color : TEXCOORD1; float fogFactor : TEXCOORD2; };
 float4 main(FSInput input) : SV_Target
 {
-    float4 color = tex.Sample(s, input.uv) * input.color;
+    float4 texel = tex.Sample(s, input.uv);
+    if (neutralItemTexture > 0.5)
+    {
+        const float shade = max(texel.r, max(texel.g, texel.b));
+        texel.rgb = lerp(shade, sqrt(shade), 0.25).xxx;
+    }
+    float4 color = texel * input.color;
     if (alphaToCoverage)
     {
         // Anti-aliased cutout. Alpha becomes multisample coverage, so a texel's

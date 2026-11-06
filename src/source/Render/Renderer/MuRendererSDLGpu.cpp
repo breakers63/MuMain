@@ -4823,6 +4823,11 @@ public:
         m_fogUniform.fogEnabled = enabled ? 1u : 0u;
         s_fogDirty = true;
     }
+    void SetNeutralItemTexture(bool enabled) override
+    {
+        m_fogUniform.fogPadding[0] = enabled ? 1.0f : 0.0f;
+    }
+
     void BindTexture(int texId) override
     {
         m_boundTextureId = texId;

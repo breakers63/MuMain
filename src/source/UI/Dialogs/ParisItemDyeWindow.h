@@ -36,7 +36,8 @@ private:
         Rml::String cursorX = "80%", cursorY = "0%", hueX = "50%";
         Rml::String count = "0 piezas seleccionadas", cost = "";
         Rml::String redCount, greenCount, blueCount;
-        bool multiple = true, busy = false, canApply = false, canRestore = false;
+        bool multiple = true, busy = false, canApply = false, canRestore = false, nameTab = false;
+        Rml::String name = "", firstHex = "#33FFFF", lastHex = "#CC55FF", nameMode = "Color fijo", nameSpeed = "4";
     };
     using Entry = Network::Paris::ItemDye::Entry;
     void Bind(Rml::DataModelConstructor&, Model&);
@@ -52,7 +53,7 @@ private:
     void FocusPiece(int column);
     void StepPreview(int direction);
     void ConfirmApply(bool restore);
-    void BeginBatch(bool restore);
+    void BeginBatch(bool restore, int selectedColor);
     void UpdateBatch();
     void InvalidateTargets();
     bool MaterialsReady() const;
@@ -66,6 +67,8 @@ private:
     std::vector<std::string> selection, queue;
     size_t queueIndex = 0;
     bool multiple = true, restoring = false, awaiting = false, pointerDown = false, rightPointerDown = false;
+    bool nameTab = false;
+    int nameMode = 1, nameFirst = 0x33FFFF, nameLast = 0xCC55FF, nameSpeed = 4;
     int drag = 0, color = 0x33FFFF, queuedColor = 0;
     float hue = .5f, saturation = .8f, value = 1.f;
     Rml::String batchStatus;

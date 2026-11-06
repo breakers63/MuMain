@@ -14,7 +14,7 @@ std::optional<PostedItemRecord> DecodePostedItem(const std::wstring& text)
     if (end == std::wstring::npos || end > MaximumTagLength) return std::nullopt;
     const auto tag = text.substr(0, end + 2);
     PostedItemRecord record;
-    int* fields[]{&record.Type, &record.Level, &record.Excellent, &record.Ancient, &record.Luck, &record.AdditionalOption};
+    int* fields[]{&record.Type, &record.Level, &record.Excellent, &record.Ancient, &record.Luck, &record.AdditionalOption, &record.DyeColor};
     const wchar_t* cursor = tag.c_str() + 5;
     int count = 0;
     for (int* field : fields)
@@ -27,13 +27,14 @@ std::optional<PostedItemRecord> DecodePostedItem(const std::wstring& text)
         ++count;
         cursor = next;
         if (*cursor != L',') break;
-        if (count == 6) return std::nullopt;
+        if (count == 7) return std::nullopt;
         ++cursor;
     }
-    if ((count != 4 && count != 6) || std::wcscmp(cursor, L"#]") != 0) return std::nullopt;
+    if ((count != 4 && count != 6 && count != 7) || std::wcscmp(cursor, L"#]") != 0) return std::nullopt;
     if (record.Type < 0 || record.Type > MaximumItemType || record.Level < 0 || record.Level > MaximumLevel
         || record.Excellent < 0 || record.Excellent > 63 || record.Ancient < 0 || record.Ancient > 255
-        || record.Luck < 0 || record.Luck > 1 || record.AdditionalOption < 0 || record.AdditionalOption > 7) return std::nullopt;
+        || record.Luck < 0 || record.Luck > 1 || record.AdditionalOption < 0 || record.AdditionalOption > 7
+        || record.DyeColor < -1 || record.DyeColor > 0xFFFFFF) return std::nullopt;
     record.Text = text.substr(end + 2);
     const auto first = record.Text.find_first_not_of(L' ');
     record.Text.erase(0, first == std::wstring::npos ? record.Text.size() : first);

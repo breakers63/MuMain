@@ -309,6 +309,7 @@ public:
 
     // Bind texture by game bitmap index. SDL_gpu resolves this to SDL_GPUTexture*
     // via the texture registry; OpenGL calls glBindTexture directly.
+    virtual void SetNeutralItemTexture(bool) {}
     virtual void BindTexture(int /*texId*/) {}
 
     // Configure hardware fog for the current scene.

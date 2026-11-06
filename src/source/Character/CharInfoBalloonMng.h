@@ -89,6 +89,7 @@ private:
         int screenY = 0;
         Rml::String nameStatus = "normal"; // NameStatusKey() in CharInfoBalloonMng.cpp
         Rml::String name;
+        Rml::String nameMarkup;
         Rml::String guild;
         Rml::String klass;
     };

@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "ItemDyeProtocol.h"
+#include "Render/Models/NameRgbAppearance.h"
 #include "Network/Server/WSclient.h"
 #include "Engine/Object/ZzzCharacter.h"
 #include "UI/Core/WindowSystem.h"
@@ -15,8 +16,12 @@ int Result=255;
 bool Pending=false;
 bool RequireReagents=true;
 int PotionsPerColor=1;
-namespace { unsigned sequence=0, pendingRequest=0, latestAccepted=0, pendingSince=0; }
-void Reset(){Inventory.clear();Received=0;Pending=false;Result=255;RequireReagents=true;Render::ItemDye::Clear();}
+namespace { unsigned sequence=0, pendingRequest=0, latestAccepted=0, pendingSince=0;
+constexpr unsigned RefreshDelay = 650;
+unsigned refreshScheduledAt = 0;
+bool refreshScheduled = false;
+}
+void Reset(){Inventory.clear();Received=0;Pending=false;Result=255;RequireReagents=true;Render::ItemDye::Clear();Render::NameRgb::Styles.clear();Render::NameRgb::Own={};}
 namespace {
 void Send(BYTE action,const Entry* item,const int* slots,int color)
 {
@@ -31,7 +36,7 @@ void Send(BYTE action,const Entry* item,const int* slots,int color)
         std::memcpy(packet+10,&color,4);std::memcpy(packet+18,item->Id.data(),32);
     }
     SocketClient->Send(packet,sizeof(packet));
-    if(action!=0){Pending=true;pendingRequest=request;pendingSince=timeGetTime();}
+    if(action==1||action==2){Pending=true;pendingRequest=request;pendingSince=timeGetTime();}
 }
 std::wstring Wide(const std::string& value)
 {
@@ -41,15 +46,49 @@ std::wstring Wide(const std::string& value)
 }
 }
 void Request(){if(Pending&&timeGetTime()-pendingSince>10000){Pending=false;Result=255;}Send(0,nullptr,nullptr,0);}
+void ApplyName(int mode,int first,int last,int speed)
+{
+    if(!SocketClient||Pending||mode<0||mode>3||speed<1||speed>10)return;
+    BYTE packet[50]={0xC1,50,0xFA,0xE8,1,4};
+    packet[6]=static_cast<BYTE>(mode);packet[7]=static_cast<BYTE>(speed);
+    std::memcpy(packet+10,&first,4);std::memcpy(packet+18,&last,4);
+    const unsigned request=++sequence;std::memcpy(packet+14,&request,4);
+    SocketClient->Send(packet,sizeof(packet));
+    Pending=true;pendingRequest=request;pendingSince=timeGetTime();
+}
+void ScheduleRefresh()
+{
+    refreshScheduledAt = timeGetTime();
+    refreshScheduled = true;
+}
+
+void UpdateRefresh()
+{
+    static unsigned lastPoll = 0;
+    const unsigned now = timeGetTime();
+    if (!SocketClient || (SceneFlag != MAIN_SCENE && SceneFlag != CHARACTER_SCENE)) return;
+    const bool due = refreshScheduled && now - refreshScheduledAt >= RefreshDelay;
+    if (!due && now - lastPoll < 1500) return;
+    if (Pending && now - pendingSince > 10000) { Pending = false; Result = 255; }
+    if (Pending) return;
+    lastPoll = now;
+    if (SceneFlag == CHARACTER_SCENE) Send(3, nullptr, nullptr, 0);
+    else Request();
+    refreshScheduled = false;
+}
+
 void Apply(const Entry& item,const int* reagentSlots,int color){Send(1,&item,reagentSlots,color);}
 void RestoreOriginal(const Entry& item){const int slots[3]={0,0,0};Send(2,&item,slots,0);}
 bool Receive(const BYTE* bytes,int size)
 {
     // A delayed snapshot may arrive while returning to login and destroying inventory windows.
-    if(!bytes||size<6||size>60006||bytes[5]!=1||SceneFlag!=MAIN_SCENE||!CharacterMachine||!g_pMyInventory)return false;
+    if(!bytes||size<6||size>60006||bytes[5]!=1||(SceneFlag!=MAIN_SCENE&&SceneFlag!=CHARACTER_SCENE))return false;
     try
     {
         const auto data=nlohmann::json::parse(bytes+6,bytes+size);
+        const bool selection = data.value("selection", false);
+        if (selection != (SceneFlag == CHARACTER_SCENE)) return false;
+        if (!selection && (!CharacterMachine || !g_pMyInventory)) return false;
         const unsigned responseRequest=data.at("request");
         if(static_cast<int>(responseRequest-latestAccepted)<=0)return false;
         if(!data.at("inventory").is_array()||data.at("inventory").size()>256||data.at("equipment").size()>100)return false;
@@ -69,7 +108,7 @@ bool Receive(const BYTE* bytes,int size)
         std::unordered_map<const OBJECT*,Render::ItemDye::Equipped> worldColors;
         for(const auto& row:data.at("equipment"))
         {
-            const int key=row.at("key");const int index=FindCharacterIndex(key);
+            const int key=row.at("key");const int index=selection ? key : FindCharacterIndex(key);
             if(index<0||index>=MAX_CHARACTERS_CLIENT)continue;
             auto* character=&CharactersClient[index];Render::ItemDye::Equipped equipped;equipped.Character=character;equipped.Key=character->Key;
             if(row.at("items").size()>12)return false;
@@ -82,11 +121,22 @@ bool Receive(const BYTE* bytes,int size)
             worldColors[&character->Object]=std::move(equipped);
         }
         // The owner's live inventory is authoritative even before the appearance cache rebuilds.
-        if(Hero)
+        if(Hero && !selection)
         {
             Render::ItemDye::Equipped own;own.Character=Hero;own.Key=Hero->Key;
             for(const auto& row:next)if(row.Slot<12&&row.Color>=0)own.Colors[MODEL_ITEM+row.Type]=row.Color;
             worldColors[&Hero->Object]=std::move(own);
+        }
+        Render::NameRgb::Map names;
+        if(data.contains("names"))for(const auto& row:data.at("names")) {
+            Render::NameRgb::Style style{row.at("mode"),row.at("first"),row.at("last"),row.at("speed")};
+            if(style.Mode<0||style.Mode>3||style.First<0||style.First>0xFFFFFF||style.Last<0||style.Last>0xFFFFFF||style.Speed<1||style.Speed>10)return false;
+            names[Wide(row.at("name"))]=style;
+        }
+        if(data.contains("names"))Render::NameRgb::Styles=std::move(names);
+        if(Hero&&!selection) {
+            const auto own=Render::NameRgb::Styles.find(Hero->ID);
+            Render::NameRgb::Own=own==Render::NameRgb::Styles.end()?Render::NameRgb::Style{}:own->second;
         }
         const unsigned request=data.at("request");const int result=data.at("result");
         if(Pending&&request==pendingRequest){Pending=false;Result=result;

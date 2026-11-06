@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "Render/Models/NameRgbAppearance.h"
 #include "Data/GameConfig/GameConfig.h"
 #include "UI/SocialMusic/SocialMusic.h"
 #include "Core/Text/TextLineWrap.h"
@@ -295,13 +296,15 @@ void RenderBoolean(int x, int y, CHAT* c)
     if (bGmMode)
     {
         g_pRenderText->SetFont(g_hFontBold);
-        g_pRenderText->RenderText(RenderPos.x, RenderPos.y, c->ID, RenderBoxSize.cx, iLineHeight, RT3_SORT_LEFT);
+        if (!Render::NameRgb::Draw(c->ID, RenderPos.x, RenderPos.y, RenderBoxSize.cx, iLineHeight))
+            g_pRenderText->RenderText(RenderPos.x, RenderPos.y, c->ID, RenderBoxSize.cx, iLineHeight, RT3_SORT_LEFT);
         RenderPos.y += iLineHeight;
         g_pRenderText->SetFont(g_hFont);
     }
     else
     {
-        g_pRenderText->RenderText(RenderPos.x, RenderPos.y, c->ID, RenderBoxSize.cx, iLineHeight, RT3_SORT_LEFT);
+        if (!Render::NameRgb::Draw(c->ID, RenderPos.x, RenderPos.y, RenderBoxSize.cx, iLineHeight))
+            g_pRenderText->RenderText(RenderPos.x, RenderPos.y, c->ID, RenderBoxSize.cx, iLineHeight, RT3_SORT_LEFT);
         RenderPos.y += iLineHeight;
     }
 

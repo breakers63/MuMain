@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 #include "UI/RmlBridge/RmlTooltip.h"
 #include "GameLogic/Items/ParisScreenMessages.h"
 #include "UI/Chat/ParisChatStyle.h"
@@ -11,6 +11,7 @@
 #include "UI/Core/WindowSystem.h"
 #include "UI/Core/WindowGeometry.h"
 #include "GameLogic/Social/PostedItemRecord.h"
+#include "Render/Models/ItemDyeAppearance.h"
 #include "Engine/Object/ZzzInventory.h"
 #include "UI/Inventory/ItemMng.h"
 #include "Render/Items/ItemPreviewFit.h"
@@ -173,7 +174,7 @@ void mu::ui::window::CChatLogWindow::ProcessAddText(const type_string& strID, co
     }
 
     int nScrollLines = 0;
-    if (strText.size() >= 20)
+    if (strText.size() >= 20 && strText.compare(0, 5, L"[#PI:") != 0)
     {
         type_string	strText1, strText2;
         SeparateText(strID, strText, MsgType, strText1, strText2);
@@ -683,6 +684,9 @@ void mu::ui::window::CChatLogWindow::SyncPostItemPreview()
 void mu::ui::window::CChatLogWindow::DrawPostItem(const Rml::Vector2f& offset, const Rml::Vector2f& size)
 {
     if (!m_PostItem) return;
+    const auto& lines = m_RmlView.GetModel().lines;
+    if (m_PostItemIndex < 0 || m_PostItemIndex >= static_cast<int>(lines.size())) return;
+    Render::ItemDye::PreviewScope dye(lines[m_PostItemIndex].postDyeColor);
     const Render::Items::Preview::ScopedFit fit(offset.x, offset.y, size.x, size.y);
     RenderItem3D(offset.x, offset.y, size.x, size.y, m_PostItem->Type, m_PostItem->Level,
         m_PostItem->ExcellentFlags, m_PostItem->AncientDiscriminator, false);
@@ -899,13 +903,9 @@ void mu::ui::window::CChatLogWindow::RebuildLineModel()
             entry.postAncient = item.Ancient;
             entry.postLuck = item.Luck;
             entry.postAdditionalOption = item.AdditionalOption;
+            entry.postDyeColor = item.DyeColor;
 
-            displayText = type_string(ItemAttribute[item.Type].Name) + L" +" + std::to_wstring(item.Level);
-            if (item.Ancient != 0) displayText += L" [ANCIENT]";
-            if (item.Excellent != 0) displayText += L" [EXCELLENT]";
-            if (item.Luck != 0) displayText += L" [LUCK]";
-            if (item.AdditionalOption != 0) displayText += L" [+" + std::to_wstring(item.AdditionalOption * 4) + L"]";
-            if (!item.Text.empty()) displayText += L" - " + item.Text;
+            displayText = item.Text;
 
             entry.postDetails.clear();
             if (item.Ancient != 0) entry.postDetails = "ANCIENT ITEM";

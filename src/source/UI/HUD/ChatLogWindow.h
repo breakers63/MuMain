@@ -81,6 +81,7 @@ namespace mu::ui::window
         int postAncient = 0;
         int postLuck = 0;
         int postAdditionalOption = 0;
+        int postDyeColor = -1;
     };
 
     // RmlUi owns this window's whole presentation now: the background fill, every message line,

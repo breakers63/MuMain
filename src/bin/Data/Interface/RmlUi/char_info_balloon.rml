@@ -14,7 +14,7 @@
 		<div class="balloon-name"
 		     data-class-name-blocked-character="balloon.name_status == 'blocked-character'"
 		     data-class-name-blocked-items="balloon.name_status == 'blocked-items'"
-		     data-class-name-operator="balloon.name_status == 'operator'">{{balloon.name}}</div>
+		     data-class-name-operator="balloon.name_status == 'operator'" data-rml="balloon.name_markup"></div>
 		<div class="balloon-guild">{{balloon.guild}}</div>
 		<div class="balloon-class">{{balloon.klass}}</div>
 	</div>
