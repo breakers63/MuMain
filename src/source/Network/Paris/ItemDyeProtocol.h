@@ -10,6 +10,12 @@ extern int Result;
 extern bool Pending;
 extern bool RequireReagents;
 extern int PotionsPerColor;
+// Pet levels share the byte field with equipment upgrades, but are not dye targets.
+inline constexpr bool IsSupportedInventoryLevel(int level,bool eligible)
+{
+    constexpr int MaximumDyeLevel=15,MaximumInventoryLevel=255;
+    return level>=0&&level<=(eligible?MaximumDyeLevel:MaximumInventoryLevel);
+}
 void Reset();
 void Request();
 void ApplyName(int mode,int first,int last,int speed);

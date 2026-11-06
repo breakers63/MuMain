@@ -38,3 +38,5 @@ Custom > RGB ofrece las pestanas Color de equipo y Nombre RGB. En Nombre RGB se 
 El servidor valida y guarda el perfil por identificador de personaje, y lo comparte con los jugadores cercanos. La seleccion de colores no modifica inventario, atributos, cuenta ni nombre. Los perfiles cosmeticos se guardan en Configuration/ParisNameRgbProfiles.json; PARIS_NAME_RGB_FILE permite elegir otra ubicacion persistente. Incluye este archivo en las copias de seguridad.
 
 Los clientes OpenGL y Vulkan comparten el formato del perfil. Se han verificado compilacion, guardado, aislamiento entre personajes, rechazo de valores invalidos y restauracion. La comprobacion visual final dentro del juego requiere probar ambos clientes.
+
+El caballo y el cuervo de nivel 50 no impiden sincronizar los colores del equipo y de los nombres de jugadores cercanos. Nombre RGB mantiene separados la vista previa, las opciones de color y los botones de velocidad en Vulkan.

@@ -96,7 +96,7 @@ bool Receive(const BYTE* bytes,int size)
         for(const auto& row:data.at("inventory"))
         {
             Entry item;item.Id=row.at("id");item.Name=Wide(row.at("name"));item.Slot=row.at("slot");item.Type=row.at("type");item.Level=row.at("level");item.Color=row.at("color");item.Eligible=row.at("eligible");
-            if(item.Id.size()!=32||item.Slot<0||item.Slot>255||item.Type<0||item.Type>=MAX_ITEM||item.Level<0||item.Level>15||item.Color < -1||item.Color>0xFFFFFF)return false;
+            if(item.Id.size()!=32||item.Slot<0||item.Slot>255||item.Type<0||item.Type>=MAX_ITEM||!IsSupportedInventoryLevel(item.Level,item.Eligible)||item.Color < -1||item.Color>0xFFFFFF)return false;
             next.push_back(std::move(item));
         }
         std::unordered_map<DWORD,int> inventoryColors;
