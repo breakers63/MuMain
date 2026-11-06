@@ -40,3 +40,5 @@ El servidor valida y guarda el perfil por identificador de personaje, y lo compa
 Los clientes OpenGL y Vulkan comparten el formato del perfil. Se han verificado compilacion, guardado, aislamiento entre personajes, rechazo de valores invalidos y restauracion. La comprobacion visual final dentro del juego requiere probar ambos clientes.
 
 El caballo y el cuervo de nivel 50 no impiden sincronizar los colores del equipo y de los nombres de jugadores cercanos. Nombre RGB mantiene separados la vista previa, las opciones de color y los botones de velocidad en Vulkan.
+
+El servidor entrega los colores antes de mostrar un jugador que entra en el campo de vision. El cliente conserva brevemente su apariencia para aplicarla al reconstruir el personaje tras un teletransporte. Los botones Inicial, Final y Velocidad de Vulkan reciben el clic sin quedar cubiertos por el selector.

@@ -421,6 +421,19 @@ TEST_CASE("RGB name controls remain separate in the native RmlUi layout [ui][rgb
         document->QuerySelector(".name-first")->SetInnerRML("INICIAL #33FFFF");
         document->QuerySelector(".name-last")->SetInnerRML("FINAL #CC55FF");
         fixture.Refresh();
+        panel->SetProperty("transform","none");
+        fixture.Refresh();
+        for(const auto* selector : {".name-first",".name-last",".name-speed .btn"})
+        {
+            CAPTURE(selector);
+            auto* button=document->QuerySelector(selector);
+            REQUIRE(button);
+            const auto offset=button->GetAbsoluteOffset();
+            const auto size=button->GetBox().GetSize(Rml::BoxArea::Border);
+            auto* hit=fixture.context->GetElementAtPoint(offset+size*.5f);
+            while(hit&&hit!=button)hit=hit->GetParentNode();
+            CHECK(hit==button);
+        }
         const char* selectors[]={".name-rgb h3","#name_rgb_preview",".name-first",".name-last",".name-speed-label",".name-speed",".name-help",".dye-footer"};
         float previousBottom=0;
         for(const auto* selector:selectors)
@@ -436,4 +449,25 @@ TEST_CASE("RGB name controls remain separate in the native RmlUi layout [ui][rgb
             previousBottom=top+size.y;
         }
     }
+}
+
+TEST_CASE("RGB applies a remembered appearance before a teleported avatar is drawn [ui][rgb]")
+{
+    Render::ItemDye::Clear();
+    constexpr int Model=MODEL_ITEM+3584,Color=0x33FFFF;
+    CHARACTER character{};character.Key=41;std::wcscpy(character.ID,L"loki");
+    Render::ItemDye::Remember(L"loki",{{Model,Color}});
+    Render::ItemDye::BindCharacter(&character);
+    CHECK(Render::ItemDye::Resolve(&character.Object,Model)==Color);
+    Render::ItemDye::World.clear();character.Key=42;
+    Render::ItemDye::BindCharacter(&character);
+    CHECK(Render::ItemDye::Resolve(&character.Object,Model)==Color);
+    Render::ItemDye::World.clear();std::wcscpy(character.ID,L"other");
+    Render::ItemDye::BindCharacter(&character);
+    CHECK(Render::ItemDye::Resolve(&character.Object,Model)==-1);
+    std::wcscpy(character.ID,L"loki");Render::ItemDye::Remember(L"loki",{});
+    Render::ItemDye::BindCharacter(&character);
+    CHECK(Render::ItemDye::Resolve(&character.Object,Model)==-1);
+    Render::ItemDye::Clear();
+    CHECK(Render::ItemDye::Remembered.empty());
 }

@@ -1,5 +1,6 @@
 #include "UI/NPCs/ServiceDialogState.h"
 #include "stdafx.h"
+#include "Render/Models/ItemDyeAppearance.h"
 #include "UI/Chat/ParisChatStyle.h"
 #include "Network/Paris/TvtHud.h"
 #include "Network/Paris/EventEntry.h"
@@ -49,6 +50,7 @@
 #include "Network/Reconnect/ReconnectManager.h"
 #include "Network/IncomingPacketQueue.h"
 #include "Network/Paris/ParisPacketDispatch.h"
+#include "Network/Paris/ItemDyeProtocol.h"
 #include "I18N/All.h"
 
 #include "Audio/DSPlaySound.h"
@@ -775,6 +777,7 @@ void ReceiveCharacterListExtended(const BYTE* ReceiveBuffer)
         Offset += sizeof(PRECEIVE_CHARACTER_LIST_EXTENDED);
     }
 
+    Network::Paris::ItemDye::ScheduleRefresh();
     CurrentProtocolState = RECEIVE_CHARACTERS_LIST;
 }
 
@@ -1719,6 +1722,7 @@ BOOL ReceiveInventoryExtended(std::span<const BYTE> ReceiveBuffer)
         Offset += length;
     }
 
+    Network::Paris::ItemDye::ScheduleRefresh();
     g_ConsoleDebug->Write(MCD_RECEIVE, L"0x10 [ReceiveInventory]");
 
     return (TRUE);
@@ -2624,6 +2628,7 @@ void ReceiveCreatePlayerViewportExtended(std::span<const BYTE> ReceiveBuffer)
     CHARACTER* c = CreateCharacter(Key, MODEL_PLAYER, Data->PositionX, Data->PositionY, 0);
     memset(c->ID, 0, sizeof c->ID);
     CMultiLanguage::ConvertFromUtf8(c->ID, Data->ID, MAX_USERNAME_SIZE);
+    Render::ItemDye::BindCharacter(c);
     OBJECT* o = &c->Object;
     // DeleteCloth(c, o);
     c->Class = gCharacterManager.ChangeServerClassTypeToClientClassType(Data->Class);
@@ -6314,6 +6319,7 @@ BOOL ReceiveEquipmentItemExtended(std::span<const BYTE> ReceiveBuffer)
 
         if (storageType == STORAGE_TYPE::INVENTORY)
         {
+            Network::Paris::ItemDye::ScheduleRefresh();
             if (!UI::Inventory::ReceivePlayerTransfer(Data->Index, itemData))
             {
                 RequestInventorySync();

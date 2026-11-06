@@ -87,6 +87,30 @@ bool Receive(const BYTE* bytes,int size)
     {
         const auto data=nlohmann::json::parse(bytes+6,bytes+size);
         const bool selection = data.value("selection", false);
+        if(data.value("appearanceOnly",false))
+        {
+            if(selection||!data.at("equipment").is_array()||data.at("equipment").size()>100||data.at("names").size()>100)return false;
+            for(const auto& row:data.at("equipment"))
+            {
+                const auto name=Wide(row.at("name"));if(name.empty()||row.at("items").size()>12)return false;
+                std::unordered_map<int,int> colors;
+                for(const auto& item:row.at("items")) {
+                    const int type=item.at("type"),color=item.at("color");
+                    if(type<0||type>=ITEM_WING||color<0||color>0xFFFFFF)return false;
+                    colors[MODEL_ITEM+type]=color;
+                }
+                Render::ItemDye::Remember(name.c_str(),colors);
+                const int index=FindCharacterIndex(row.at("key").get<int>());
+                if(index>=0&&index<MAX_CHARACTERS_CLIENT&&name==CharactersClient[index].ID)
+                    Render::ItemDye::BindCharacter(&CharactersClient[index]);
+            }
+            for(const auto& row:data.at("names")) {
+                Render::NameRgb::Style style{row.at("mode"),row.at("first"),row.at("last"),row.at("speed")};
+                if(style.Mode<0||style.Mode>3||style.First<0||style.First>0xFFFFFF||style.Last<0||style.Last>0xFFFFFF||style.Speed<1||style.Speed>10)return false;
+                Render::NameRgb::Styles[Wide(row.at("name"))]=style;
+            }
+            return true;
+        }
         if (selection != (SceneFlag == CHARACTER_SCENE)) return false;
         if (!selection && (!CharacterMachine || !g_pMyInventory)) return false;
         const unsigned responseRequest=data.at("request");
@@ -118,6 +142,7 @@ bool Receive(const BYTE* bytes,int size)
                 if(type<0||type>=ITEM_WING||color<0||color>0xFFFFFF)return false;
                 equipped.Colors[MODEL_ITEM+type]=color;
             }
+            Render::ItemDye::Remember(character->ID,equipped.Colors);
             worldColors[&character->Object]=std::move(equipped);
         }
         // The owner's live inventory is authoritative even before the appearance cache rebuilds.

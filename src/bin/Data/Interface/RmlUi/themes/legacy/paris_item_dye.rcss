@@ -111,8 +111,8 @@ body {width:100%;height:100%;pointer-events:none;font-family:"token(font-body)";
 .dye-tabs {display:flex;justify-content:space-between;height:24dp;margin-bottom:3dp;}
 .dye-tabs .btn {width:48%;height:22dp;line-height:22dp;font-size:10dp;}
 .dye-panel {height:456dp;}
-.dye-panel.name-active .dye-body {position:absolute;top:140dp;left:12dp;right:12dp;height:248dp;margin-top:0;}
-.dye-panel.name-active .dye-right {margin-left:51%;}
+.dye-panel.name-active .dye-body {pointer-events:none;position:absolute;top:140dp;left:12dp;right:12dp;height:248dp;margin-top:0;}
+.dye-panel.name-active .dye-right {pointer-events:auto;margin-left:51%;}
 .name-rgb {position:absolute;top:110dp;left:12dp;width:160dp;height:288dp;box-sizing:border-box;border:1dp #8f7328;background-color:#10110e;color:#ddc676;text-align:center;}
 .name-rgb h3 {display:block;position:absolute;top:4dp;left:6dp;width:146dp;height:18dp;line-height:18dp;margin:0;font-size:10dp;border-bottom:1dp #806829;}
 #name_rgb_preview {display:block;position:absolute;top:40dp;left:8dp;width:142dp;height:35dp;line-height:35dp;margin:0;font-size:18dp;white-space:nowrap;text-align:center;}
