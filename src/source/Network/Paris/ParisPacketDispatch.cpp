@@ -9,6 +9,7 @@
 #include "Network/Paris/GmEventsProtocol.h"
 #include "Network/Paris/MentorProtocol.h"
 #include "Network/Paris/ParisBattlePassProtocol.h"
+#include "Network/Paris/ParisBattlePassMissionsProtocol.h"
 #include "Network/Paris/ResetProtocol.h"
 #include "Network/Paris/RankUserProtocol.h"
 #include "Network/Paris/CustomRankingProtocol.h"
@@ -160,6 +161,13 @@ void Dispatch(const std::uint8_t* packet, int size)
             {
                 BattlePass::Data = std::move(*snapshot);
                 BattlePass::Received = timeGetTime();
+            }
+            break;
+        case 0xC9:
+            if (auto snapshot = BattlePass::DecodeMissions(std::span<const BYTE>(packet, static_cast<std::size_t>(size))))
+            {
+                BattlePass::Missions = std::move(snapshot);
+                BattlePass::MissionsReceived = timeGetTime();
             }
             break;
         case 0xB3:

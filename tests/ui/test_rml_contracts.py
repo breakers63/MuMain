@@ -301,6 +301,12 @@ class RmlContractTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "Undiscovered document ownership"):
             self.check()
 
+    def test_runtime_markup_has_no_utf8_byte_order_mark(self):
+        assets = REPO_ROOT / "src/bin/Data/Interface/RmlUi"
+        unexpected = [str(path.relative_to(assets)) for path in assets.rglob("*")
+                      if path.suffix in (".rml", ".rcss") and path.read_bytes().startswith(b"\xef\xbb\xbf")]
+        self.assertEqual(unexpected, [], "RmlUi can discard the first CSS rule when a BOM is present")
+
     def test_repository_contracts_have_nonzero_coverage(self):
         errors, documents, variants, files = check_contracts(REPO_ROOT / "src/source", REPO_ROOT / "src/bin/Data/Interface/RmlUi")
         self.assertEqual(errors, [])

@@ -5,6 +5,7 @@
 #include "Core/Utilities/StringUtils.h"
 #include "GameLogic/Social/BattlePassRewardState.h"
 #include "Network/Paris/ParisBattlePassProtocol.h"
+#include "Network/Paris/ParisBattlePassMissionsProtocol.h"
 #include "Network/Paris/ParisRequests.h"
 #include "UI/Core/WindowCommon.h"
 #include "UI/Core/WindowManager.h"
@@ -80,6 +81,7 @@ void CParisBattlePassWindow::BindModel(Rml::DataModelConstructor& c, Model& mode
     c.Bind("requirement", &model.requirement);
     c.Bind("premium_status", &model.premium_status);
     c.Bind("expires", &model.expires);
+    BindMissions(c, model);
     BindEvents(c);
 }
 
@@ -115,7 +117,7 @@ void CParisBattlePassWindow::BindEvents(Rml::DataModelConstructor& c)
     c.BindEventCallback("paris_bp_scroll", [this](Rml::DataModelHandle, Rml::Event& event, const Rml::VariantList&)
     {
         auto& model = m_RmlView.GetModel();
-        if (model.premium_dialog) return;
+        if (model.premium_dialog || model.show_missions) return;
         const float delta = event.GetParameter<float>("wheel_delta_y", 0.f);
         if (delta == 0.f) return;
         model.page = std::clamp(model.page + (delta > 0.f ? 1 : -1), 0, model.max_page);
@@ -138,6 +140,13 @@ void CParisBattlePassWindow::OpenWindow()
     m_lastPage = -1;
     auto& model = m_RmlView.GetModel();
     model.page = 0;
+    m_missionsAtOpen = Network::Paris::BattlePass::MissionsReceived;
+    m_missionRevision = 0;
+    model.show_missions = false;
+    model.daily.clear();
+    model.weekly.clear();
+    model.mission_status = "Consultando misiones...";
+    for (const char* field : {"show_missions", "daily", "weekly", "mission_status"}) m_RmlView.MarkDirty(field);
     model.message.clear();
     m_RmlView.MarkDirty("message");
     model.active = false;
@@ -204,7 +213,7 @@ void CParisBattlePassWindow::DrawItem(std::size_t index, const Rml::Vector2f& of
         RenderItem3D(offset.x, offset.y, size.x, size.y, item.type, item.level, item.excellent, item.ancient, false);
 }
 
-bool CParisBattlePassWindow::SendRequest(unsigned char operation, int level, bool premium)
+bool CParisBattlePassWindow::SendRequest(unsigned char operation, int level, bool premium, std::int64_t period)
 {
     if (m_pending) return false;
     if (operation != 0 && (!m_hasSnapshot || timeGetTime() - m_lastReceived >= SnapshotFreshness))
@@ -213,7 +222,7 @@ bool CParisBattlePassWindow::SendRequest(unsigned char operation, int level, boo
         return false;
     }
     m_receivedBeforeRequest = Network::Paris::BattlePass::Received;
-    if (!Network::Paris::RequestBattlePass(operation, level, premium)) return false;
+    if (!Network::Paris::RequestBattlePass(operation, level, premium, period)) return false;
     m_pending = true;
     m_operation = operation;
     m_requestedAt = timeGetTime();
@@ -361,5 +370,69 @@ void CParisBattlePassWindow::SyncModel()
         UpdatePremium();
     }
     if (model.page != m_lastPage) BuildRewards();
+    SyncMissions();
+}
+void CParisBattlePassWindow::BindMissions(Rml::DataModelConstructor& c, Model& model)
+{
+    auto row = c.RegisterStruct<MissionRow>();
+    row.RegisterMember("title", &MissionRow::title);
+    row.RegisterMember("objective", &MissionRow::objective);
+    row.RegisterMember("id", &MissionRow::id);
+    row.RegisterMember("progress", &MissionRow::progress);
+    row.RegisterMember("target", &MissionRow::target);
+    row.RegisterMember("points", &MissionRow::points);
+    row.RegisterMember("percent", &MissionRow::percent);
+    row.RegisterMember("claimed", &MissionRow::claimed);
+    row.RegisterMember("claimable", &MissionRow::claimable);
+    c.RegisterArray<std::vector<MissionRow>>();
+    c.Bind("daily", &model.daily);
+    c.Bind("weekly", &model.weekly);
+    c.Bind("show_missions", &model.show_missions);
+    c.Bind("mission_status", &model.mission_status);
+    c.BindEventCallback("paris_bp_tab", [this](Rml::DataModelHandle, Rml::Event&, const Rml::VariantList& args)
+    {
+        if (args.empty()) return;
+        auto& model = m_RmlView.GetModel();
+        model.show_missions = args[0].Get<bool>(false);
+        m_RmlView.MarkDirty("show_missions");
+        if (model.show_missions && !m_pending) SendRequest(0);
+    });
+    c.BindEventCallback("paris_bp_claim_mission", [this](Rml::DataModelHandle, Rml::Event&, const Rml::VariantList& args)
+    {
+        if (!args.empty()) ClaimMission(args[0].Get<int>(0));
+    });
+}
+
+void CParisBattlePassWindow::SyncMissions()
+{
+    using namespace Network::Paris::BattlePass;
+    if (!m_hasSnapshot || !Missions || MissionsReceived == m_missionsAtOpen || MissionsReceived == m_missionRevision
+        || Missions->Season != Data.Season || Missions->Token != Data.ConfigurationToken) return;
+    m_missionRevision = MissionsReceived;
+    auto& model = m_RmlView.GetModel();
+    model.daily.clear();
+    model.weekly.clear();
+    for (const auto& mission : Missions->Missions)
+    {
+        auto& rows = mission.Weekly ? model.weekly : model.daily;
+        rows.push_back({StringUtils::WideToNarrow(mission.Title.c_str()), StringUtils::WideToNarrow(mission.Objective.c_str()),
+            mission.Id, mission.Progress, mission.Target, mission.Points,
+            100.f * mission.Progress / mission.Target, mission.Claimed, !mission.Claimed && mission.Progress >= mission.Target});
+    }
+    model.mission_status = Missions->Active ? "" : "No hay una temporada activa.";
+    for (const char* field : {"daily", "weekly", "mission_status"}) m_RmlView.MarkDirty(field);
+}
+
+void CParisBattlePassWindow::ClaimMission(int id)
+{
+    using namespace Network::Paris::BattlePass;
+    if (!Missions || !Missions->Active || m_missionRevision != MissionsReceived
+        || Missions->Season != Data.Season || Missions->Token != Data.ConfigurationToken) return;
+    const auto& rows = Missions->Missions;
+    const auto mission = std::find_if(rows.begin(), rows.end(), [id](const auto& row) { return row.Id == id; });
+    if (mission == rows.end() || mission->Claimed || mission->Progress < mission->Target) return;
+    constexpr std::int64_t Day = 86400, Week = 7 * Day;
+    const auto period = mission->Weekly ? Missions->WeeklyReset - Week : Missions->DailyReset - Day;
+    SendRequest(3, id, false, period);
 }
 } // namespace mu::ui::window

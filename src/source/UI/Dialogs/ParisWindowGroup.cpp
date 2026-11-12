@@ -18,11 +18,20 @@
 #include "ParisMentorWindow.h"
 #include "ParisSoulWindow.h"
 #include "ParisItemDyeWindow.h"
+#include "UI/Core/WindowSystem.h"
 
 namespace mu::ui::window
 {
     void CloseOtherParisWindows(CObject* opening)
     {
+        const bool needsInventory = opening == g_pParisItemDyeWindow || opening == g_pParisJewelBankWindow;
+        if (g_pNewUISystem && !needsInventory)
+        {
+            if (g_pNewUISystem->IsVisible(INTERFACE_INVENTORY_EXT))
+                g_pNewUISystem->Hide(INTERFACE_INVENTORY_EXT);
+            if (g_pNewUISystem->IsVisible(INTERFACE_INVENTORY))
+                g_pNewUISystem->Hide(INTERFACE_INVENTORY);
+        }
         const std::array<CObject*, 16> panels = {
             g_pParisJewelBankWindow,
             g_pParisMarketWindow,

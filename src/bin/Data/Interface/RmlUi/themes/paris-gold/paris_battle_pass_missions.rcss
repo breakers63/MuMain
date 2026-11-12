@@ -1,0 +1,42 @@
+.bp-tabs { position: absolute; left: 47dp; top: 131dp; width: 215dp; height: 18dp; }
+.bp-tab { display: inline-block; box-sizing: border-box; width: 93dp; height: 18dp; line-height: 18dp; margin-right: 8dp; padding: 0; text-align: center; color: #ffffff; border: 1dp #b79036; background-color: #151514; cursor: pointer; font-size: 7dp; }
+.bp-tab-rewards { decorator: vertical-gradient(#2451a3 #0b2350); }
+.bp-tab-missions { decorator: vertical-gradient(#247735 #0a3516); }
+.bp-tab.chosen { border-color: #ffe078; }
+.bp-mission-column { position: absolute; top: 154dp; width: 240dp; height: 178dp; background-color: #0a0907; border: 1dp #85632e; }
+.bp-mission-column.daily { left: 24dp; }
+.bp-mission-column.weekly { left: 275dp; }
+.bp-mission-heading { display: block; color: #f2ca60; height: 18dp; line-height: 18dp; padding-left: 5dp; font-size: 7dp; }
+.bp-mission-list { display: block; position: relative; height: 156dp; overflow-y: scroll; overflow-x: hidden; }
+.bp-mission-list scrollbarvertical { width: 6dp; }
+.bp-mission-list scrollbarvertical slidertrack { background-color: #242015; }
+.bp-mission-list scrollbarvertical sliderbar { background-color: #d9aa43; }
+.bp-mission-row { display: block; position: relative; box-sizing: border-box; height: 31dp; width: 223dp; margin: 0 5dp; }
+.bp-mission-name { display: block; color: #efc863; height: 10dp; line-height: 10dp; width: 170dp; font-size: 7dp; white-space: nowrap; overflow: hidden; }
+.bp-mission-objective { display: block; color: #eee4c8; height: 10dp; line-height: 10dp; font-size: 7dp; width: 180dp; white-space: nowrap; overflow: hidden; }
+.bp-mission-points, .bp-mission-claimed, .bp-mission-claim, .bp-mission-count { position: absolute; right: 0; width: 47dp; font-size: 7dp; text-align: right; }
+.bp-mission-points, .bp-mission-claimed, .bp-mission-claim { top: 0; height: 10dp; }
+.bp-mission-count { top: 20dp; height: 9dp; }
+.bp-mission-claimed { color: #79cc7c; }
+.bp-mission-claim { display: block; color: #0a160a; background-color: #91cc79; border: 1dp #adcf8b; height: 12dp; padding: 0; cursor: pointer; }
+.bp-mission-gauge { display: block; position: absolute; top: 22dp; left: 0; width: 162dp; height: 3dp; border: 1dp #82602a; }
+.bp-mission-gauge div { display: block; height: 3dp; background-color: #e7b54d; }
+.bp-mission-note { position: absolute; left: 24dp; top: 208dp; width: 492dp; text-align: center; }
+/* Keep reward captions below the navigation tabs. */
+.bp-caption { top: 1dp; line-height: 10dp; }
+.bp-mission-list scrollbarvertical { width: 5dp; pointer-events: auto; background-color: #18150d; }
+.bp-mission-list scrollbarvertical slidertrack { background-color: #18150d; border: 1dp #665226; }
+.bp-mission-list scrollbarvertical sliderbar { height: 60dp; min-height: 60dp; max-height: 60dp; background-color: #dbad48; border: 1dp #ffdc7b; pointer-events: auto; }
+.bp-mission-list scrollbarvertical sliderarrowdec, .bp-mission-list scrollbarvertical sliderarrowinc { width: 5dp; height: 6dp; background-color: #b38c36; pointer-events: auto; }
+.bp-caption { top: 73dp; height: 12dp; line-height: 12dp; }
+@spritesheet bp-mission-scroll-sheet {
+ src: "bp-mission-scroll.tga";
+ bp-mission-up: 0px 0px 5px 10px;
+ bp-mission-down: 0px 10px 5px 10px;
+ bp-mission-thumb: 6px 0px 4px 65px;
+}
+.bp-mission-list scrollbarvertical { width: 5dp; background-color: transparent; }
+.bp-mission-list scrollbarvertical slidertrack { width: 2dp; margin-left: 1dp; background-color: #3d331c; border: 0; }
+.bp-mission-list scrollbarvertical sliderbar { width: 4dp; height: 65dp; min-height: 65dp; max-height: 65dp; margin-left: -1dp; background-color: transparent; border: 0; decorator: image(bp-mission-thumb); }
+.bp-mission-list scrollbarvertical sliderarrowdec { width: 5dp; height: 10dp; background-color: transparent; decorator: image(bp-mission-up); }
+.bp-mission-list scrollbarvertical sliderarrowinc { width: 5dp; height: 10dp; background-color: transparent; decorator: image(bp-mission-down); }

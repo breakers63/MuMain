@@ -13,6 +13,7 @@ cbuffer CompositeUniforms : register(b0, space3)
     float2 inverseTargetSize;
     float bloomScale;     // 0: no bloom
     float gradingStrength; // 0: ungraded; else blend of the graded colour with the ungraded one
+    float4 visualParameters;
 };
 struct FSInput
 {
@@ -32,6 +33,19 @@ float4 main(FSInput input) : SV_Target
 {
     const float2 uv = input.pos.xy * inverseTargetSize;
     float4 color = scene.Sample(sceneSampler, uv);
+    if (visualParameters.x > 0.0)
+    {
+        float3 nearby = scene.Sample(sceneSampler, uv + float2(inverseTargetSize.x, 0)).rgb;
+        nearby += scene.Sample(sceneSampler, uv - float2(inverseTargetSize.x, 0)).rgb;
+        nearby += scene.Sample(sceneSampler, uv + float2(0, inverseTargetSize.y)).rgb;
+        nearby += scene.Sample(sceneSampler, uv - float2(0, inverseTargetSize.y)).rgb;
+        color.rgb = saturate(color.rgb + (color.rgb - nearby * 0.25) * visualParameters.x);
+    }
+    if (visualParameters.y > 0.0)
+    {
+        float luminance = dot(color.rgb, float3(0.2126, 0.7152, 0.0722));
+        color.rgb = saturate(lerp(luminance.xxx, color.rgb, 1.0 + visualParameters.y));
+    }
     if (bloomScale > 0.0)
     {
         // Screen blend: a dark pixel gains about the glow's light, a bright one little, so glows

@@ -3,6 +3,7 @@
     <title>Paris Battle Pass</title>
     <link type="text/rcss" href="base.rcss" />
     <link type="text/rcss" href="paris_battle_pass.rcss" />
+    <link type="text/rcss" href="paris_battle_pass_missions.rcss" />
 </head>
 <body data-model="paris_battle_pass">
     <!-- bound-geometry: progress is the live server points gauge; visible_fraction sizes the scroll thumb for the server level count. -->
@@ -10,6 +11,11 @@
         <div class="bp-level">Level: {{level}} / {{max_level}}</div>
         <div class="bp-progress"><div class="bp-progress-interior"><div class="bp-progress-fill" data-style-width="progress + '%'"></div></div></div>
         <div class="bp-points">{{points}} / {{required_points}} Points</div>
+        <div class="bp-tabs">
+            <button class="bp-tab bp-tab-rewards" data-class-chosen="!show_missions" data-event-click="paris_bp_tab(false)">RECOMPENSAS</button>
+            <button class="bp-tab bp-tab-missions" data-class-chosen="show_missions" data-event-click="paris_bp_tab(true)">MISIONES</button>
+        </div>
+        <div data-if="!show_missions">
         <div class="bp-free-label"></div><div class="bp-premium-label"></div>
         <div class="bp-reward" data-for="reward : rewards" data-class-column-0="reward.column == 0" data-class-column-1="reward.column == 1" data-class-column-2="reward.column == 2" data-class-column-3="reward.column == 3" data-class-column-4="reward.column == 4" data-class-column-5="reward.column == 5"
              data-class-premium="reward.premium" data-attr-data-hint="reward.label"
@@ -23,6 +29,40 @@
         </div>
         <div class="bp-status" data-if="!active">{{status}}</div>
         <input class="bp-scroll" data-style---thumb-width="(visible_fraction * 100) + '%'" type="range" min="0" step="1" data-attr-max="max_page" data-value="page" />
+        </div>
+        <div data-if="show_missions">
+            <div class="bp-mission-note" data-if="mission_status != ''">{{mission_status}}</div>
+            <div class="bp-mission-column daily" data-if="mission_status == ''">
+                <div class="bp-mission-heading">MISIONES DIARIAS</div>
+                <div class="bp-mission-list">
+                    <div class="bp-mission-row" data-for="mission : daily">
+                        <div class="bp-mission-name">{{mission.title}}</div>
+                        <div class="bp-mission-objective">{{mission.objective}}</div>
+                        <div class="bp-mission-gauge"><div data-style-width="mission.percent + '%'"></div></div>
+                        <div class="bp-mission-count">{{mission.progress}} / {{mission.target}}</div>
+                        <div class="bp-mission-points" data-if="!mission.claimable &amp;&amp; !mission.claimed">+{{mission.points}} PT</div>
+                        <div class="bp-mission-claimed" data-if="mission.claimed">Reclamada</div>
+                        <button class="bp-mission-claim" data-if="mission.claimable &amp;&amp; !pending"
+                                data-event-click="paris_bp_claim_mission(mission.id)">Reclamar</button>
+                    </div>
+                </div>
+            </div>
+            <div class="bp-mission-column weekly" data-if="mission_status == ''">
+                <div class="bp-mission-heading">MISIONES SEMANALES</div>
+                <div class="bp-mission-list">
+                    <div class="bp-mission-row" data-for="mission : weekly">
+                        <div class="bp-mission-name">{{mission.title}}</div>
+                        <div class="bp-mission-objective">{{mission.objective}}</div>
+                        <div class="bp-mission-gauge"><div data-style-width="mission.percent + '%'"></div></div>
+                        <div class="bp-mission-count">{{mission.progress}} / {{mission.target}}</div>
+                        <div class="bp-mission-points" data-if="!mission.claimable &amp;&amp; !mission.claimed">+{{mission.points}} PT</div>
+                        <div class="bp-mission-claimed" data-if="mission.claimed">Reclamada</div>
+                        <button class="bp-mission-claim" data-if="mission.claimable &amp;&amp; !pending"
+                                data-event-click="paris_bp_claim_mission(mission.id)">Reclamar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="bp-button bp-activate" data-event-click="paris_bp_premium">Activar Premium</div>
         <div class="bp-message">{{message}}</div>
         <div class="bp-button bp-close" data-event-click="paris_bp_close">Close</div>

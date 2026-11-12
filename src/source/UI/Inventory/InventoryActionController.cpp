@@ -90,6 +90,7 @@ bool CInventoryActionController::HandlePickedItemPlacement(CInventoryCtrl* targe
 
     const bool bFromInventorySystem =
         (pPickedItem->GetOwnerInventory() == targetControl) ||
+        (g_pMyInventory != nullptr && pPickedItem->GetOwnerInventory() == g_pMyInventory->GetInventoryCtrl()) ||
         (g_pMyInventoryExt != nullptr && g_pMyInventoryExt->GetOwnerOf(pPickedItem) != nullptr);
 
     if (bFromInventorySystem)

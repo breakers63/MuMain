@@ -82,21 +82,24 @@ bool RequestAdvancedStats()
     return true;
 }
 
-bool RequestBattlePass(std::uint8_t operation, int level, bool premium)
+bool RequestBattlePass(std::uint8_t operation, int level, bool premium, std::int64_t period)
 {
     const auto& data = BattlePass::Data;
-    if (!Connected() || operation > 2 || level < 0 || level > 65535
+    if (!Connected() || operation > 3 || level < 0 || level > 65535
         || (operation != 0 && data.ConfigurationToken == 0))
         return false;
 
-    constexpr BYTE PacketSize = 33;
-    BYTE packet[PacketSize] = {ShortPacket, PacketSize, 0xFA, 0xB0, 1, operation};
+    constexpr BYTE StandardSize = 33;
+    constexpr BYTE MissionClaimSize = StandardSize + sizeof(period);
+    const BYTE size = operation == 3 ? MissionClaimSize : StandardSize;
+    BYTE packet[MissionClaimSize] = {ShortPacket, size, 0xFA, 0xB0, 1, operation};
+    if (operation == 3) std::memcpy(packet + StandardSize, &period, sizeof(period));
     std::copy(data.Season.begin(), data.Season.end(), packet + 6);
     packet[22] = static_cast<BYTE>(level & 0xFF);
     packet[23] = static_cast<BYTE>((level >> 8) & 0xFF);
     packet[24] = static_cast<BYTE>(premium);
     std::memcpy(packet + 25, &data.ConfigurationToken, sizeof(data.ConfigurationToken));
-    SocketClient->Send(packet, sizeof(packet));
+    SocketClient->Send(packet, size);
     return true;
 }
 } // namespace Network::Paris

@@ -1,4 +1,4 @@
-
+﻿
 #include "stdafx.h"
 #include "Render/Models/ItemDyeAppearance.h"
 #include "UI/Inventory/MyInventory.h"

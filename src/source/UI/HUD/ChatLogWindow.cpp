@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "UI/RmlBridge/RmlTooltip.h"
 #include "GameLogic/Items/ParisScreenMessages.h"
 #include "UI/Chat/ParisChatStyle.h"
