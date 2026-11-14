@@ -1,3 +1,6 @@
+Warning: truncated output (original token count: 17879)
+Total output lines: 1697
+
 
 #include "stdafx.h"
 #include "Data/GameConfig/GameConfig.h"
@@ -10,6 +13,7 @@
 #include "Data/GameConfig/GameConfig.h"
 #include "Data/GameConfig/GameConfigConstants.h"
 #include "Render/Look/LookPresetSetting.h"
+#include "Render/Look/LookProfileSetting.h"
 #include "Audio/AudioPlayer.h"
 #include "Render/RmlUi/RmlUiRuntime.h"
 #include "UI/RmlBridge/RmlDraggable.h"
@@ -35,6 +39,9 @@
 #include <RmlUi/Core/EventListener.h>
 #include <RmlUi/Core/ScrollTypes.h>
 #include <functional>
+#include <iomanip>
+#include <initializer_list>
+#include <sstream>
 
 extern int m_MusicOnOff;
 extern int m_SoundOnOff;
@@ -53,6 +60,57 @@ using namespace mu::ui::window;
 // resolution/language/font <select> change callbacks are ignored -- see m_rmlSyncCount's own
 // comment in OptionWindow.h.
 static constexpr int kRmlSelectSettleFrames = 5;
+
+namespace
+{
+using Data::Maps::LookValue;
+using TuningRow = mu::ui::window::LookTuningRow;
+
+struct TuningControlSpec
+{
+    LookValue value;
+    const char* label;
+};
+
+constexpr TuningControlSpec TuningControls[] = {
+    {LookValue::DiffuseScale, "Directional light"},
+    {LookValue::RimStrength, "Rim intensity"},
+    {LookValue::SpecularScale, "Metallic shine"},
+    {LookValue::DiffuseAmbient, "Ambient fill"},
+    {LookValue::DiffuseFloor, "Minimum light"},
+    {LookValue::RimPower, "Rim focus"},
+    {LookValue::DynamicEffectGain, "Dynamic light intensity"},
+    {LookValue::DynamicEffectRange, "Dynamic light range"},
+    {LookValue::DynamicEffectFade, "Dynamic light fade"},
+    {LookValue::DynamicMapSmoothing, "Light smoothing"},
+    {LookValue::HighlightKnee, "Map-light contrast"},
+    {LookValue::BloomStrength, "Bloom"},
+    {LookValue::GradingStrength, "Colour grading"},
+};
+
+std::string TuningNumber(double value)
+{
+    std::ostringstream text;
+    text << std::fixed << std::setprecision(2) << value;
+    return text.str();
+}
+
+TuningRow MakeTuningRow(int control)
+{
+    const auto& spec = TuningControls[control];
+    const auto& info = Data::Maps::Info(spec.value);
+    const double value = Render::Look::Value(spec.value);
+    const double fraction = info.max > info.min ? (value - info.min) / (info.max - info.min) : 0.0;
+    TuningRow row;
+    row.control = control;
+    row.level = std::clamp(static_cast<int>(fraction * 10.0 + 0.5), 0, 10);
+    row.label = spec.label;
+    row.valueText = TuningNumber(value);
+    row.minText = TuningNumber(info.min);
+    row.maxText = TuningNumber(info.max);
+    return row;
+}
+} // namespace
 
 std::vector<UI::Options::DisplayResolution>
 UI::Options::NormalizeDisplayResolutions(std::vector<DisplayResolution> resolutions)
@@ -330,6 +388,14 @@ void mu::ui::window::COptionWindow::BindRmlModel(Rml::DataModelConstructor& c, O
     c.Bind("render_level_label", &model.renderLevelLabel);
 
     c.RegisterArray<std::vector<Rml::String>>();
+    auto tuningRow = c.RegisterStruct<TuningRow>();
+    tuningRow.RegisterMember("control", &TuningRow::control);
+    tuningRow.RegisterMember("level", &TuningRow::level);
+    tuningRow.RegisterMember("label", &TuningRow::label);
+    tuningRow.RegisterMember("value_text", &TuningRow::valueText);
+    tuningRow.RegisterMember("min_text", &TuningRow::minText);
+    tuningRow.RegisterMember("max_text", &TuningRow::maxText);
+    c.RegisterArray<std::vector<TuningRow>>();
     c.Bind("resolution_labels", &model.resolutionLabels);
     c.Bind("resolution_index", &model.resolutionIndex);
     c.Bind("resolution_row_label", &model.resolutionRowLabel);
@@ -379,6 +445,18 @@ void mu::ui::window::COptionWindow::BindRmlModel(Rml::DataModelConstructor& c, O
     c.Bind("look_dynamic_lights_label", &model.lookDynamicLightsLabel);
     c.Bind("look_light_mood_label", &model.lookLightMoodLabel);
     c.Bind("look_post_processing_label", &model.lookPostProcessingLabel);
+    c.Bind("lighting_tuning_expanded", &model.lightingTuningExpanded);
+    c.Bind("lighting_more_expanded", &model.lightingMoreExpanded);
+    c.Bind("dynamic_tuning_expanded", &model.dynamicTuningExpanded);
+    c.Bind("dynamic_more_expanded", &model.dynamicMoreExpanded);
+    c.Bind("mood_tuning_expanded", &model.moodTuningExpanded);
+    c.Bind("post_tuning_expanded", &model.postTuningExpanded);
+    c.Bind("lighting_tuning_rows", &model.lightingTuningRows);
+    c.Bind("lighting_more_rows", &model.lightingMoreRows);
+    c.Bind("dynamic_tuning_rows", &model.dynamicTuningRows);
+    c.Bind("dynamic_more_rows", &model.dynamicMoreRows);
+    c.Bind("mood_tuning_rows", &model.moodTuningRows);
+    c.Bind("post_tuning_rows", &model.postTuningRows);
     c.Bind("enhanced_graphics_label", &model.enhancedGraphicsLabel);
     c.Bind("antialiasing_labels", &model.antialiasingLabels);
     c.Bind("antialiasing_index", &model.antialiasingIndex);
@@ -432,6 +510,18 @@ void mu::ui::window::COptionWindow::BindRmlModel(Rml::DataModelConstructor& c, O
         {
             if (args.size() == 1)
                 RmlGaugeEvent(ev, args[0].Get<int>(-1));
+        });
+    c.BindEventCallback("option_toggle_tuning_group",
+        [this](Rml::DataModelHandle, Rml::Event&, const Rml::VariantList& args)
+        {
+            if (args.size() == 1)
+                RmlToggleTuningGroup(args[0].Get<int>(-1));
+        });
+    c.BindEventCallback("option_tuning_gauge",
+        [this](Rml::DataModelHandle, Rml::Event& ev, const Rml::VariantList& args)
+        {
+            if (args.size() == 1)
+                RmlTuningGaugeEvent(ev, args[0].Get<int>(-1));
         });
     // .option-dropdown custom control (replaces the resolution/language/font/fps-cap/theme
     // native <select>s, see model.openDropdown's own comment) -- one shared toggle callback
@@ -692,176 +782,7 @@ void mu::ui::window::COptionWindow::SyncImpliedEffectRows(OptionRmlModel& model)
     };
     const bool noBodyShadows = !m_bRenderAllEffects;
     const bool noWingShadow = noBodyShadows || m_bDisableBodyShadows;
-    syncFlag(model.skillEffectModelsLocked, "skill_effect_models_locked", m_bDisableEffects);
-    syncFlag(model.boidsLocked, "boids_locked", m_bDisableEffects);
-    syncFlag(model.bodyShadowsLocked, "body_shadows_locked", noBodyShadows);
-    syncFlag(model.wingShadowLocked, "wing_shadow_locked", noWingShadow);
-    syncFlag(model.disableSkillEffectModels, "disable_skill_effect_models", m_bDisableSkillEffectModels || m_bDisableEffects);
-    syncFlag(model.disableBoids, "disable_boids", m_bDisableBoids || m_bDisableEffects);
-    syncFlag(model.disableBodyShadows, "disable_body_shadows", m_bDisableBodyShadows || noBodyShadows);
-    syncFlag(model.disableWingShadow, "disable_wing_shadow", m_bDisableWingShadow || noWingShadow);
-}
-
-void mu::ui::window::COptionWindow::RmlToggleDropdown(int dropdownId)
-{
-    if (dropdownId < 0 || dropdownId > 7)
-        return;
-    // Toggle: clicking the currently-open one's own value box closes it; clicking any other
-    // (including a different dropdown's) overwrites m_iOpenDropdown, which closes whatever else
-    // was open as a side effect -- see model.openDropdown's own comment for why a single field
-    // gives exclusivity for free.
-    m_iOpenDropdown = (m_iOpenDropdown == dropdownId) ? -1 : dropdownId;
-    m_bScrollDropdownPending = (m_iOpenDropdown != -1);
-    PlayBuffer(SOUND_CLICK01);
-}
-
-void mu::ui::window::COptionWindow::RmlDropdownOptionClick(int dropdownId, int optionIndex)
-{
-    switch (dropdownId)
-    {
-    case 0:
-        RmlResolutionChanged(optionIndex);
-        break;
-    case 1:
-        RmlFpsCapChanged(optionIndex);
-        break;
-    case 2:
-        RmlThemeChanged(optionIndex);
-        break;
-    case 3:
-        RmlLanguageChanged(optionIndex);
-        break;
-    case 4:
-        RmlFontChanged(optionIndex);
-        break;
-    case 5:
-        RmlUIScaleChanged(optionIndex);
-        break;
-    case 6:
-        RmlAntialiasingChanged(optionIndex);
-        break;
-    case 7:
-        RmlAnisotropyChanged(optionIndex);
-        break;
-    default:
-        break;
-    }
-    m_iOpenDropdown = -1;
-}
-
-void mu::ui::window::COptionWindow::RmlToggleAutoAttack()
-{
-    m_bAutoAttack = !m_bAutoAttack;
-}
-
-void mu::ui::window::COptionWindow::RmlToggleWhisperSound()
-{
-    m_bWhisperSound = !m_bWhisperSound;
-}
-
-void mu::ui::window::COptionWindow::RmlToggleSlideHelp()
-{
-    m_bSlideHelp = !m_bSlideHelp;
-}
-
-void mu::ui::window::COptionWindow::RmlToggleRenderAllEffects()
-{
-    m_bRenderAllEffects = !m_bRenderAllEffects;
-}
-
-void mu::ui::window::COptionWindow::RmlToggleWindowedMode()
-{
-    m_bWindowedMode = !m_bWindowedMode;
-    ApplyWindowModeToggle();
-}
-
-void mu::ui::window::COptionWindow::RmlSoundVolumeChanged(int value)
-{
-    m_iVolumeLevel = std::clamp(value, 0, 10);
-    OnSoundVolumeChanged();
-}
-
-void mu::ui::window::COptionWindow::RmlMusicVolumeChanged(int value)
-{
-    m_iMusicLevel = std::clamp(value, 0, 10);
-    OnMusicVolumeChanged();
-}
-
-void mu::ui::window::COptionWindow::RmlRenderLevelChanged(int value)
-{
-    // Five cells, levels 0..4; the game reads level 4 as everything on.
-    m_iRenderLevel = std::clamp(value, 0, 4);
-}
-
-void mu::ui::window::COptionWindow::RmlGaugeEvent(Rml::Event& event, int gauge)
-{
-    // Native's volume bars rounded to the nearest of 0..10, and a press left of the bar read 0.
-    const auto volumeFromPointer = [](float x, float width)
-    { return x < 0.f ? 0 : static_cast<int>(10.f * x / width + 0.5f); };
-    // The effect bar shows level + 1 cells, so the pointer's cell is the level.
-    const auto renderFromPointer = [](float x, float width)
-    { return x < 0.f ? 0 : static_cast<int>(5.f * x / width); };
-
-    switch (gauge)
-    {
-    case 0:
-        if (const auto next = UI::RmlBridge::ApplyLevelGaugeEvent(event, m_iVolumeLevel, 10, volumeFromPointer))
-            RmlSoundVolumeChanged(*next);
-        break;
-    case 1:
-        if (const auto next = UI::RmlBridge::ApplyLevelGaugeEvent(event, m_iMusicLevel, 10, volumeFromPointer))
-            RmlMusicVolumeChanged(*next);
-        break;
-    case 2:
-        if (const auto next = UI::RmlBridge::ApplyLevelGaugeEvent(event, m_iRenderLevel, 4, renderFromPointer))
-            RmlRenderLevelChanged(*next);
-        break;
-    default:
-        break;
-    }
-}
-
-void mu::ui::window::COptionWindow::RmlResolutionChanged(int index)
-{
-    // Only ever called from RmlDropdownOptionClick(), itself only reachable from an explicit
-    // option click -- no self-firing spurious-event risk the way RmlUi's native <select>
-    // (WidgetDropDown) had (this settle-frame guard predates the custom-dropdown rewrite, kept as
-    // a harmless no-op-this-early safety net rather than removed, see m_rmlSyncCount's own
-    // comment).
-    if (m_rmlSyncCount < kRmlSelectSettleFrames)
-        return;
-    if (index < 0 || index >= static_cast<int>(m_resolutions.size()))
-        return;
-    if (index == m_iResolutionIndex)
-        return;
-    m_iResolutionIndex = index;
-    ApplyResolution();
-}
-
-void mu::ui::window::COptionWindow::RmlLanguageChanged(int index)
-{
-    // See RmlResolutionChanged's own comment -- same settle-frame guard applies here.
-    if (m_rmlSyncCount < kRmlSelectSettleFrames)
-        return;
-    if (index < 0 || index >= s_NumLanguages)
-        return;
-    m_iLanguageIndex = index;
-    ApplyLanguage();
-}
-
-void mu::ui::window::COptionWindow::RmlFontChanged(int index)
-{
-    // See RmlResolutionChanged's own comment -- same settle-frame guard applies here.
-    if (m_rmlSyncCount < kRmlSelectSettleFrames)
-        return;
-    if (index < 0 || index >= s_NumFonts)
-        return;
-    m_iFontIndex = index;
-    // Deferred to Update() -- the font change rebuilds every RmlUi document, see m_bPendingThemeSwitch.
-    m_bPendingFontApply = true;
-}
-
-void mu::ui::window::COptionWindow::ApplyPendingFont()
+    syncFlag(model.skillEffectModelsLocked, "skill_effect_mod…1879 tokens truncated…COptionWindow::ApplyPendingFont()
 {
     if (!m_bPendingFontApply)
         return;
@@ -1497,6 +1418,25 @@ void mu::ui::window::COptionWindow::SyncRmlModel()
         syncFlag(model.lookFeaturesLocked, "look_features_locked", !enhancedGraphics);
         syncFlag(model.lookDynamicLightsLocked, "look_dynamic_lights_locked", !enhancedGraphics || !lighting);
     }
+
+    const auto syncTuningRows = [this](std::vector<TuningRow>& rows, const char* name, std::initializer_list<int> controls)
+    {
+        std::vector<TuningRow> updated;
+        updated.reserve(controls.size());
+        for (const int control : controls)
+            updated.push_back(MakeTuningRow(control));
+        if (rows != updated)
+        {
+            rows = std::move(updated);
+            m_RmlView.MarkDirty(name);
+        }
+    };
+    syncTuningRows(model.lightingTuningRows, "lighting_tuning_rows", {0, 1, 2});
+    syncTuningRows(model.lightingMoreRows, "lighting_more_rows", {3, 4, 5});
+    syncTuningRows(model.dynamicTuningRows, "dynamic_tuning_rows", {6, 7});
+    syncTuningRows(model.dynamicMoreRows, "dynamic_more_rows", {8, 9});
+    syncTuningRows(model.moodTuningRows, "mood_tuning_rows", {10});
+    syncTuningRows(model.postTuningRows, "post_tuning_rows", {11, 12});
 
     // Rebuilt every sync for the localized "Off", as the FPS Limit row's "Uncapped".
     const auto syncMultiplierRow = [&](std::vector<Rml::String>& labels, const char* labelsName, int& index,

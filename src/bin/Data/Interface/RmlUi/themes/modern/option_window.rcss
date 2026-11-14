@@ -520,3 +520,21 @@
 	opacity: 0.45;
 	cursor: default;
 }
+
+/* Expandable Enhanced look groups: the same persisted Look.json controls as Paris Gold, styled to
+   fit the modern glass panel while keeping its checkbox and slider primitives. */
+.option-feature-row { display:flex; align-items:center; min-height:30dp; margin:2dp 12dp; }
+.option-feature-expand { display:flex; align-items:center; flex:1 1 auto; min-width:0; cursor:pointer; pointer-events:auto; }
+.option-chevron { width:0; height:0; margin-right:7dp; flex-shrink:0; border-top:4dp solid transparent; border-bottom:4dp solid transparent; border-left:6dp solid token(accent-gold); transition:transform .12s ease-out; }
+.option-feature-expand.expanded .option-chevron, .look-tuning-more.expanded .option-chevron { transform:rotate(90deg); }
+.option-feature-row .checkbox-box { cursor:pointer; pointer-events:auto; }
+.look-tuning-group { display:flex; flex-direction:column; margin:0 12dp 6dp 24dp; padding:6dp 8dp; border-left:1dp token(accent-gold); background-color:rgba(0, 0, 0, 35); }
+.look-tuning-group.hidden { display:none; }
+.look-tuning-row { display:flex; flex-direction:column; flex-shrink:0; margin:2dp 0 6dp; }
+.look-tuning-label { display:flex; justify-content:space-between; width:100%; font-size:11dp; line-height:1.2em; color:token(text-primary); }
+.look-tuning-track { display:flex; align-items:center; justify-content:space-between; gap:5dp; width:100%; height:18dp; font-size:10dp; color:token(text-secondary); }
+.look-tuning-gauge { position:relative; flex:1 1 auto; min-width:35dp; height:14dp; }
+.look-tuning-gauge .level-gauge-fill { left:0; top:0; bottom:0; }
+.look-tuning-hit { left:-2dp; right:-2dp; }
+.look-tuning-more { display:flex; align-items:center; min-height:22dp; cursor:pointer; pointer-events:auto; color:token(text-primary); font-size:11dp; }
+.look-tuning-specialist { margin-left:0; }

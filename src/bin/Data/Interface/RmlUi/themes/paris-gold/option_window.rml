@@ -119,114 +119,37 @@
 	</div>
 
 	<div class="option-tab-panel" data-class-hidden="active_tab != 1">
-		<div class="option-section">{{section_quality_label}}</div>
-		<div class="option-row option-checkbox-row" data-event-click="option_toggle_enhanced_graphics">
-			<span class="option-row-label">{{enhanced_graphics_label}}</span>
-			<div class="checkbox-box" data-class-checked="enhanced_graphics">
-				<div class="checkbox-tick">✓</div>
-			</div>
-		</div>
-		<div class="option-row option-checkbox-row option-sub-row" data-class-locked="look_features_locked" data-event-click="option_toggle_enhanced_feature(0)">
-			<span class="option-row-label">{{look_lighting_label}}</span>
-			<div class="checkbox-box" data-class-checked="look_lighting">
-				<div class="checkbox-tick">✓</div>
-			</div>
-		</div>
-		<div class="option-row option-checkbox-row option-sub-row" data-class-locked="look_dynamic_lights_locked" data-event-click="option_toggle_enhanced_feature(1)">
-			<span class="option-row-label">{{look_dynamic_lights_label}}</span>
-			<div class="checkbox-box" data-class-checked="look_dynamic_lights">
-				<div class="checkbox-tick">✓</div>
-			</div>
-		</div>
-		<div class="option-row option-checkbox-row option-sub-row" data-class-locked="look_features_locked" data-event-click="option_toggle_enhanced_feature(2)">
-			<span class="option-row-label">{{look_light_mood_label}}</span>
-			<div class="checkbox-box" data-class-checked="look_light_mood">
-				<div class="checkbox-tick">✓</div>
-			</div>
-		</div>
-		<div class="option-row option-checkbox-row option-sub-row" data-class-locked="look_features_locked" data-event-click="option_toggle_enhanced_feature(3)">
-			<span class="option-row-label">{{look_post_processing_label}}</span>
-			<div class="checkbox-box" data-class-checked="look_post_processing">
-				<div class="checkbox-tick">✓</div>
-			</div>
-		</div>
-		<div class="option-row option-select-row option-row-tipped" data-attr-data-hint="antialiasing_tooltip">
-			<span class="option-row-label">{{antialiasing_row_label}}</span>
-			<div class="option-dropdown">
-				<div class="option-dropdown-value" data-event-click="option_toggle_dropdown(6)">{{antialiasing_value_label}}</div>
-				<div class="option-dropdown-list" data-class-hidden="open_dropdown != 6">
-					<div class="option-dropdown-option" data-for="label : antialiasing_labels"
-					     data-class-selected="it_index == antialiasing_index"
-					     data-event-click="option_dropdown_option_click(6, it_index)">{{label}}</div>
-				</div>
-			</div>
-		</div>
-		<div class="option-row option-select-row option-row-tipped" data-attr-data-hint="anisotropy_tooltip">
-			<span class="option-row-label">{{anisotropy_row_label}}</span>
-			<div class="option-dropdown">
-				<div class="option-dropdown-value" data-event-click="option_toggle_dropdown(7)">{{anisotropy_value_label}}</div>
-				<div class="option-dropdown-list" data-class-hidden="open_dropdown != 7">
-					<div class="option-dropdown-option" data-for="label : anisotropy_labels"
-					     data-class-selected="it_index == anisotropy_index"
-					     data-event-click="option_dropdown_option_click(7, it_index)">{{label}}</div>
-				</div>
-			</div>
-		</div>
-		<div class="option-row option-gauge-row">
-			<span class="option-row-label">{{render_level_label}}</span>
-			<div class="level-gauge option-gauge effect-gauge">
-				<div data-attr-class="'level-gauge-fill level-' + (render_level + 1)"></div>
-				<div class="level-gauge-hit option-gauge-hit" data-event-mousedown="option_gauge(2)"
-				     data-event-drag="option_gauge(2)" data-event-mousescroll="option_gauge(2)"></div>
-			</div>
-		</div>
-		<div class="option-section">{{section_effects_label}}</div>
-		<div class="option-row option-checkbox-row" data-event-click="option_toggle_render_all_effects">
-			<span class="option-row-label">{{render_all_effects_label}}</span>
-			<div class="checkbox-box" data-class-checked="render_all_effects">
-				<div class="checkbox-tick">✓</div>
-			</div>
-		</div>
-		<div class="option-row option-checkbox-row" data-event-click="option_toggle_disable_effects">
-			<span class="option-row-label">{{disable_effects_label}}</span>
-			<div class="checkbox-box" data-class-checked="disable_effects">
-				<div class="checkbox-tick">✓</div>
-			</div>
-		</div>
-		<div class="option-row option-checkbox-row" data-event-click="option_toggle_disable_particles">
-			<span class="option-row-label">{{disable_particles_label}}</span>
-			<div class="checkbox-box" data-class-checked="disable_particles">
-				<div class="checkbox-tick">✓</div>
-			</div>
-		</div>
-		<div class="option-row option-checkbox-row" data-class-locked="skill_effect_models_locked" data-event-click="option_toggle_disable_skill_effect_models">
-			<span class="option-row-label">{{disable_skill_effect_models_label}}</span>
-			<div class="checkbox-box" data-class-checked="disable_skill_effect_models">
-				<div class="checkbox-tick">✓</div>
-			</div>
-		</div>
-		<div class="option-row option-checkbox-row" data-class-locked="boids_locked" data-event-click="option_toggle_disable_boids">
-			<span class="option-row-label">{{disable_boids_label}}</span>
-			<div class="checkbox-box" data-class-checked="disable_boids">
-				<div class="checkbox-tick">✓</div>
-			</div>
-		</div>
-		<div class="option-section">{{section_shadows_label}}</div>
-		<div class="option-row option-checkbox-row" data-class-locked="body_shadows_locked" data-event-click="option_toggle_disable_body_shadows">
-			<span class="option-row-label">{{disable_body_shadows_label}}</span>
-			<div class="checkbox-box" data-class-checked="disable_body_shadows">
-				<div class="checkbox-tick">✓</div>
-			</div>
-		</div>
-		<div class="option-row option-checkbox-row" data-class-locked="wing_shadow_locked" data-event-click="option_toggle_disable_wing_shadow">
-			<span class="option-row-label">{{disable_wing_shadow_label}}</span>
-			<div class="checkbox-box" data-class-checked="disable_wing_shadow">
-				<div class="checkbox-tick">✓</div>
-			</div>
-		</div>
+	<div class="option-section">{{section_quality_label}}</div>
+	<div class="option-row option-checkbox-row" data-event-click="option_toggle_enhanced_graphics"><span class="option-row-label">{{enhanced_graphics_label}}</span><div class="checkbox-box" data-class-checked="enhanced_graphics"><div class="checkbox-tick">✓</div></div></div>
+	<div class="option-row option-feature-row"><div class="option-feature-expand" data-class-expanded="lighting_tuning_expanded" data-event-click="option_toggle_tuning_group(0)"><span class="option-chevron"></span><span>{{look_lighting_label}}</span></div><div class="checkbox-box" data-class-checked="look_lighting" data-class-locked="look_features_locked" data-event-click="option_toggle_enhanced_feature(0)"><div class="checkbox-tick">✓</div></div></div>
+	<div class="look-tuning-group" data-class-hidden="lighting_tuning_expanded == false">
+		<div class="look-tuning-row" data-for="row : lighting_tuning_rows"><div class="look-tuning-label"><span>{{row.label}}</span><span>{{row.value_text}}</span></div><div class="look-tuning-track"><span>{{row.min_text}}</span><div class="level-gauge look-tuning-gauge"><div data-attr-class="'level-gauge-fill level-' + row.level"></div><div class="level-gauge-hit option-gauge-hit look-tuning-hit" data-event-mousedown="option_tuning_gauge(row.control)" data-event-drag="option_tuning_gauge(row.control)" data-event-mousescroll="option_tuning_gauge(row.control)"></div></div><span>{{row.max_text}}</span></div></div>
+		<div class="look-tuning-more" data-class-expanded="lighting_more_expanded" data-event-click="option_toggle_tuning_group(1)"><span class="option-chevron"></span><span>More settings</span></div>
+		<div class="look-tuning-group look-tuning-specialist" data-class-hidden="lighting_more_expanded == false"><div class="look-tuning-row" data-for="row : lighting_more_rows"><div class="look-tuning-label"><span>{{row.label}}</span><span>{{row.value_text}}</span></div><div class="look-tuning-track"><span>{{row.min_text}}</span><div class="level-gauge look-tuning-gauge"><div data-attr-class="'level-gauge-fill level-' + row.level"></div><div class="level-gauge-hit option-gauge-hit look-tuning-hit" data-event-mousedown="option_tuning_gauge(row.control)" data-event-drag="option_tuning_gauge(row.control)" data-event-mousescroll="option_tuning_gauge(row.control)"></div></div><span>{{row.max_text}}</span></div></div></div>
 	</div>
-
-	<div class="option-tab-panel" data-class-hidden="active_tab != 2">
+	<div class="option-row option-feature-row"><div class="option-feature-expand" data-class-expanded="dynamic_tuning_expanded" data-event-click="option_toggle_tuning_group(2)"><span class="option-chevron"></span><span>{{look_dynamic_lights_label}}</span></div><div class="checkbox-box" data-class-checked="look_dynamic_lights" data-class-locked="look_dynamic_lights_locked" data-event-click="option_toggle_enhanced_feature(1)"><div class="checkbox-tick">✓</div></div></div>
+	<div class="look-tuning-group" data-class-hidden="dynamic_tuning_expanded == false">
+		<div class="look-tuning-row" data-for="row : dynamic_tuning_rows"><div class="look-tuning-label"><span>{{row.label}}</span><span>{{row.value_text}}</span></div><div class="look-tuning-track"><span>{{row.min_text}}</span><div class="level-gauge look-tuning-gauge"><div data-attr-class="'level-gauge-fill level-' + row.level"></div><div class="level-gauge-hit option-gauge-hit look-tuning-hit" data-event-mousedown="option_tuning_gauge(row.control)" data-event-drag="option_tuning_gauge(row.control)" data-event-mousescroll="option_tuning_gauge(row.control)"></div></div><span>{{row.max_text}}</span></div></div>
+		<div class="look-tuning-more" data-class-expanded="dynamic_more_expanded" data-event-click="option_toggle_tuning_group(3)"><span class="option-chevron"></span><span>More settings</span></div>
+		<div class="look-tuning-group look-tuning-specialist" data-class-hidden="dynamic_more_expanded == false"><div class="look-tuning-row" data-for="row : dynamic_more_rows"><div class="look-tuning-label"><span>{{row.label}}</span><span>{{row.value_text}}</span></div><div class="look-tuning-track"><span>{{row.min_text}}</span><div class="level-gauge look-tuning-gauge"><div data-attr-class="'level-gauge-fill level-' + row.level"></div><div class="level-gauge-hit option-gauge-hit look-tuning-hit" data-event-mousedown="option_tuning_gauge(row.control)" data-event-drag="option_tuning_gauge(row.control)" data-event-mousescroll="option_tuning_gauge(row.control)"></div></div><span>{{row.max_text}}</span></div></div></div>
+	</div>
+	<div class="option-row option-feature-row"><div class="option-feature-expand" data-class-expanded="mood_tuning_expanded" data-event-click="option_toggle_tuning_group(4)"><span class="option-chevron"></span><span>{{look_light_mood_label}}</span></div><div class="checkbox-box" data-class-checked="look_light_mood" data-class-locked="look_features_locked" data-event-click="option_toggle_enhanced_feature(2)"><div class="checkbox-tick">✓</div></div></div>
+	<div class="look-tuning-group" data-class-hidden="mood_tuning_expanded == false"><div class="look-tuning-row" data-for="row : mood_tuning_rows"><div class="look-tuning-label"><span>{{row.label}}</span><span>{{row.value_text}}</span></div><div class="look-tuning-track"><span>{{row.min_text}}</span><div class="level-gauge look-tuning-gauge"><div data-attr-class="'level-gauge-fill level-' + row.level"></div><div class="level-gauge-hit option-gauge-hit look-tuning-hit" data-event-mousedown="option_tuning_gauge(row.control)" data-event-drag="option_tuning_gauge(row.control)" data-event-mousescroll="option_tuning_gauge(row.control)"></div></div><span>{{row.max_text}}</span></div></div></div>
+	<div class="option-row option-feature-row"><div class="option-feature-expand" data-class-expanded="post_tuning_expanded" data-event-click="option_toggle_tuning_group(5)"><span class="option-chevron"></span><span>{{look_post_processing_label}}</span></div><div class="checkbox-box" data-class-checked="look_post_processing" data-class-locked="look_features_locked" data-event-click="option_toggle_enhanced_feature(3)"><div class="checkbox-tick">✓</div></div></div>
+	<div class="look-tuning-group" data-class-hidden="post_tuning_expanded == false"><div class="look-tuning-row" data-for="row : post_tuning_rows"><div class="look-tuning-label"><span>{{row.label}}</span><span>{{row.value_text}}</span></div><div class="look-tuning-track"><span>{{row.min_text}}</span><div class="level-gauge look-tuning-gauge"><div data-attr-class="'level-gauge-fill level-' + row.level"></div><div class="level-gauge-hit option-gauge-hit look-tuning-hit" data-event-mousedown="option_tuning_gauge(row.control)" data-event-drag="option_tuning_gauge(row.control)" data-event-mousescroll="option_tuning_gauge(row.control)"></div></div><span>{{row.max_text}}</span></div></div></div>
+	<div class="option-row option-select-row option-row-tipped" data-attr-data-hint="antialiasing_tooltip"><span class="option-row-label">{{antialiasing_row_label}}</span><div class="option-dropdown"><div class="option-dropdown-value" data-event-click="option_toggle_dropdown(6)">{{antialiasing_value_label}}</div><div class="option-dropdown-list" data-class-hidden="open_dropdown != 6"><div class="option-dropdown-option" data-for="label : antialiasing_labels" data-class-selected="it_index == antialiasing_index" data-event-click="option_dropdown_option_click(6, it_index)">{{label}}</div></div></div></div>
+	<div class="option-row option-select-row option-row-tipped" data-attr-data-hint="anisotropy_tooltip"><span class="option-row-label">{{anisotropy_row_label}}</span><div class="option-dropdown"><div class="option-dropdown-value" data-event-click="option_toggle_dropdown(7)">{{anisotropy_value_label}}</div><div class="option-dropdown-list" data-class-hidden="open_dropdown != 7"><div class="option-dropdown-option" data-for="label : anisotropy_labels" data-class-selected="it_index == anisotropy_index" data-event-click="option_dropdown_option_click(7, it_index)">{{label}}</div></div></div></div>
+	<div class="option-row option-gauge-row"><span class="option-row-label">{{render_level_label}}</span><div class="level-gauge option-gauge effect-gauge"><div data-attr-class="'level-gauge-fill level-' + (render_level + 1)"></div><div class="level-gauge-hit option-gauge-hit" data-event-mousedown="option_gauge(2)" data-event-drag="option_gauge(2)" data-event-mousescroll="option_gauge(2)"></div></div></div>
+	<div class="option-section">{{section_effects_label}}</div>
+	<div class="option-row option-checkbox-row" data-event-click="option_toggle_render_all_effects"><span class="option-row-label">{{render_all_effects_label}}</span><div class="checkbox-box" data-class-checked="render_all_effects"><div class="checkbox-tick">✓</div></div></div>
+	<div class="option-row option-checkbox-row" data-event-click="option_toggle_disable_effects"><span class="option-row-label">{{disable_effects_label}}</span><div class="checkbox-box" data-class-checked="disable_effects"><div class="checkbox-tick">✓</div></div></div>
+	<div class="option-row option-checkbox-row" data-event-click="option_toggle_disable_particles"><span class="option-row-label">{{disable_particles_label}}</span><div class="checkbox-box" data-class-checked="disable_particles"><div class="checkbox-tick">✓</div></div></div>
+	<div class="option-row option-checkbox-row" data-class-locked="skill_effect_models_locked" data-event-click="option_toggle_disable_skill_effect_models"><span class="option-row-label">{{disable_skill_effect_models_label}}</span><div class="checkbox-box" data-class-checked="disable_skill_effect_models"><div class="checkbox-tick">✓</div></div></div>
+	<div class="option-row option-checkbox-row" data-class-locked="boids_locked" data-event-click="option_toggle_disable_boids"><span class="option-row-label">{{disable_boids_label}}</span><div class="checkbox-box" data-class-checked="disable_boids"><div class="checkbox-tick">✓</div></div></div>
+	<div class="option-section">{{section_shadows_label}}</div>
+	<div class="option-row option-checkbox-row" data-class-locked="body_shadows_locked" data-event-click="option_toggle_disable_body_shadows"><span class="option-row-label">{{disable_body_shadows_label}}</span><div class="checkbox-box" data-class-checked="disable_body_shadows"><div class="checkbox-tick">✓</div></div></div>
+	<div class="option-row option-checkbox-row" data-class-locked="wing_shadow_locked" data-event-click="option_toggle_disable_wing_shadow"><span class="option-row-label">{{disable_wing_shadow_label}}</span><div class="checkbox-box" data-class-checked="disable_wing_shadow"><div class="checkbox-tick">✓</div></div></div>
+</div><div class="option-tab-panel" data-class-hidden="active_tab != 2">
 		<div class="option-row option-gauge-row">
 			<span class="option-row-label">{{sound_volume_label}}</span>
 			<div class="level-gauge option-gauge">

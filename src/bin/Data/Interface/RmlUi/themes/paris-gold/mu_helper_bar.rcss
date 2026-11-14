@@ -1,16 +1,125 @@
-/* Paris helper: compact 207x20 HUD units, top-left. Legacy remains in its own theme. */
+/* Legacy theme for the "Official MU Helper" mini control bar + hero position readout
+   (CMuHelperBar) -- fixed 207x25dp layout, anchored top-left via base.rcss's .anchor-top-left. */
+
+@spritesheet muhelper-seg-a-sheet
+{
+	src: "../../../Minimap_positionA.tga";
+	muhelper-seg-a-image: 0px 0px 22px 25px;
+}
+@spritesheet muhelper-seg-b-sheet
+{
+	src: "../../../Minimap_positionB.tga";
+	muhelper-seg-b-image: 3px 0px 19px 25px;
+}
+@spritesheet muhelper-seg-c-sheet
+{
+	src: "../../../MacroUI/Minimap_positionC.tga";
+	muhelper-seg-c-image: 0px 0px 73px 20px;
+}
+@spritesheet muhelper-config-sheet
+{
+	src: "../../../MacroUI/MacroUI_Setup.tga";
+	muhelper-config-image: 0px 0px 18px 13px;
+	muhelper-config-hover: 0px 13px 18px 13px;
+}
+@spritesheet muhelper-start-sheet
+{
+	src: "../../../MacroUI/MacroUI_Start.tga";
+	muhelper-start-image: 0px 0px 18px 13px;
+	muhelper-start-hover: 0px 13px 18px 13px;
+}
+@spritesheet muhelper-stop-sheet
+{
+	src: "../../../MacroUI/MacroUI_Stop.tga";
+	muhelper-stop-image: 0px 0px 18px 13px;
+	muhelper-stop-hover: 0px 13px 18px 13px;
+}
+
 #panel.workspace-placed { transform-origin: left top; }
-#panel { position: absolute; width: 207dp; height: 20dp; box-sizing: border-box;
- background-color: #0b0b09; border: 1dp #ad8437; border-radius: 3dp;
- font-family: "token(font-body)"; font-size: 10dp; pointer-events: auto; }
-#seg_a, #seg_b, #seg_c, .dot { display: none; }
-#text { position: absolute; left: 7dp; top: 3dp; width: 140dp; height: 14dp;
- line-height: 14dp; color: #f0d28c; text-align: center; white-space: nowrap; overflow: hidden; }
-.mu-btn { position: absolute; top: 3dp; width: 18dp; height: 14dp; box-sizing: border-box;
- border: 1dp #997329; border-radius: 2dp; background-color: #17130b; color: #f1cb6a;
- cursor: pointer; pointer-events: auto; text-align: center; }
-#btn_config { left: 153dp; }
-#btn_start, #btn_stop { left: 175dp; }
-.helper-label { display: block; line-height: 12dp; font-size: 11dp; pointer-events: none; }
-.mu-btn:hover { background-color: #3b2b0f; border-color: #efd584; color: #fff1ba; }
-#btn_stop { color: #ffb66a; }
+#panel {
+	position: absolute;
+	width: 207dp;
+	height: 25dp;
+	font-family: "token(font-body)";
+	font-size: 1rem;
+}
+
+#seg_a {
+	position: absolute;
+	left: 0dp;
+	top: 0dp;
+	width: 22dp;
+	height: 25dp;
+	decorator: image(muhelper-seg-a-image);
+	pointer-events: none;
+}
+#seg_b {
+	position: absolute;
+	left: 22dp;
+	top: 0dp;
+	width: 112dp;
+	height: 25dp;
+	decorator: image(muhelper-seg-b-image);
+	pointer-events: none;
+}
+#seg_c {
+	position: absolute;
+	left: 134dp;
+	top: 0dp;
+	width: 73dp;
+	height: 20dp;
+	decorator: image(muhelper-seg-c-image);
+	pointer-events: none;
+}
+
+/* The original normal-font readout: 1rem is the native text size (RmlNativeText.h); this panel has
+   no scale transform, so it rasterizes at the displayed size directly. */
+#text {
+	position: absolute;
+	font-family: "token(font-body)";
+	font-size: 1rem;
+	line-height: 9dp;
+	left: 10dp;
+	top: 5dp;
+	width: 132dp;
+	height: 9dp;
+	text-align: center;
+	color: #f0d28c;
+	white-space: nowrap;
+	pointer-events: none;
+}
+
+.mu-btn {
+	position: absolute;
+	top: 0dp;
+	width: 18dp;
+	height: 13dp;
+	cursor: pointer;
+	pointer-events: auto;
+}
+#btn_config {
+	left: 153dp;
+	decorator: image(muhelper-config-image);
+}
+#btn_start {
+	left: 171dp;
+	decorator: image(muhelper-start-image);
+}
+#btn_stop {
+	left: 171dp;
+	decorator: image(muhelper-stop-image);
+}
+/* Native SetButtonInfo(..., overflg 1, ...): the sheet's second 13px frame while hovered. */
+#btn_config:hover { decorator: image(muhelper-config-hover); }
+#btn_start:hover { decorator: image(muhelper-start-hover); }
+#btn_stop:hover { decorator: image(muhelper-stop-hover); }
+
+.dot {
+	display: none;
+}
+
+
+/* Paris Gold tint for the original ornate MU Helper bar. */
+#seg_a, #seg_b, #seg_c, #btn_config, #btn_start, #btn_stop { image-color: #d5ae56; }
+#btn_config:hover, #btn_start:hover, #btn_stop:hover { image-color: #ffe8aa; }
+.helper-label { display: none; }

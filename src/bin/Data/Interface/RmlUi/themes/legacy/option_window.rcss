@@ -340,3 +340,20 @@
 	opacity: 0.45;
 	cursor: default;
 }
+
+/* Expandable Enhanced look groups and their real Look.json tuning controls. */
+.option-feature-row { display:flex; align-items:center; min-height:20dp; margin-bottom:4dp; }
+.option-feature-expand { display:flex; align-items:center; flex:1 1 auto; min-width:0; cursor:pointer; pointer-events:auto; }
+.option-chevron { width:0; height:0; margin-right:7dp; flex-shrink:0; border-top:4dp solid transparent; border-bottom:4dp solid transparent; border-left:6dp solid token(accent-gold); transition:transform .12s ease-out; }
+.option-feature-expand.expanded .option-chevron, .look-tuning-more.expanded .option-chevron { transform:rotate(90deg); }
+.option-feature-row .checkbox-box { cursor:pointer; pointer-events:auto; }
+.look-tuning-group { display:flex; flex-direction:column; margin:0 0 4dp 12dp; padding-left:7dp; border-left:1dp #5a4a2a; }
+.look-tuning-group.hidden { display:none; }
+.look-tuning-row { display:flex; flex-direction:column; flex-shrink:0; margin:1dp 0 5dp; }
+.look-tuning-label { display:flex; justify-content:space-between; width:100%; font-size:.88rem; line-height:1.1em; color:token(text-input); }
+.look-tuning-track { display:flex; align-items:center; justify-content:space-between; gap:4dp; width:100%; height:16dp; font-size:.78rem; color:token(text-muted); }
+.look-tuning-gauge { position:relative; flex:1 1 auto; min-width:35dp; height:14dp; }
+.look-tuning-gauge .level-gauge-fill { left:0; top:0; bottom:0; }
+.look-tuning-hit { left:-2dp; right:-2dp; }
+.look-tuning-more { display:flex; align-items:center; min-height:18dp; cursor:pointer; pointer-events:auto; color:token(text-primary); font-size:.88rem; }
+.look-tuning-specialist { margin-left:0; }

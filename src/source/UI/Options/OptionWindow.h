@@ -34,6 +34,17 @@ int FindClosestUIScaleIndex(int percent);
 
 namespace mu::ui::window
 {
+    struct LookTuningRow
+    {
+        int control = 0;
+        int level = 0;
+        Rml::String label;
+        Rml::String valueText;
+        Rml::String minText;
+        Rml::String maxText;
+        bool operator==(const LookTuningRow&) const = default;
+    };
+
     class COptionWindow : public CObject
     {
     public:
@@ -135,6 +146,8 @@ namespace mu::ui::window
         void RmlRenderLevelChanged(int value);
         // The volume and effect-limit gauges' pointer and wheel events (0 sound, 1 music, 2 effects).
         void RmlGaugeEvent(Rml::Event& event, int gauge);
+        void RmlToggleTuningGroup(int group);
+        void RmlTuningGaugeEvent(Rml::Event& event, int control);
         void RmlResolutionChanged(int index);
         void RmlLanguageChanged(int index);
         void RmlFontChanged(int index);
@@ -284,6 +297,18 @@ namespace mu::ui::window
             Rml::String lookDynamicLightsLabel;
             Rml::String lookLightMoodLabel;
             Rml::String lookPostProcessingLabel;
+            bool lightingTuningExpanded = false;
+            bool lightingMoreExpanded = false;
+            bool dynamicTuningExpanded = false;
+            bool dynamicMoreExpanded = false;
+            bool moodTuningExpanded = false;
+            bool postTuningExpanded = false;
+            std::vector<mu::ui::window::LookTuningRow> lightingTuningRows;
+            std::vector<mu::ui::window::LookTuningRow> lightingMoreRows;
+            std::vector<mu::ui::window::LookTuningRow> dynamicTuningRows;
+            std::vector<mu::ui::window::LookTuningRow> dynamicMoreRows;
+            std::vector<mu::ui::window::LookTuningRow> moodTuningRows;
+            std::vector<mu::ui::window::LookTuningRow> postTuningRows;
             // [Render] Antialiasing (the Enhanced look's samples) and Anisotropy.
             std::vector<Rml::String> antialiasingLabels;
             int antialiasingIndex = 0;
