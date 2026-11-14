@@ -381,6 +381,7 @@
 /* Live coordinates inside the original lower-left well. */
 #hud_coordinates {position:absolute;display:block;left:50%;margin-left:-310dp;bottom:7dp;width:61dp;height:14dp;color:#f5edce;font-size:7dp;line-height:14dp;text-align:center;pointer-events:none;}
 #hud_coordinates span {display:inline-block;width:48%;height:100%;text-align:center;}
+
 #btn_window {top:-13dp;height:17dp;border:1dp #b68a29;background-color:#090b09d9;box-sizing:border-box;}
 #btn_window .btn-icon-label {position:absolute;left:0;top:0;width:100%;height:100%;line-height:15dp;font-size:8dp;color:#ffe396;text-align:center;}
 #btn_window:hover {border-color:#f4d36f;background-color:#473510e8;}

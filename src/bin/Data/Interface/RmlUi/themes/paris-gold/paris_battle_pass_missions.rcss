@@ -28,15 +28,3 @@
 .bp-mission-list scrollbarvertical slidertrack { background-color: #18150d; border: 1dp #665226; }
 .bp-mission-list scrollbarvertical sliderbar { height: 60dp; min-height: 60dp; max-height: 60dp; background-color: #dbad48; border: 1dp #ffdc7b; pointer-events: auto; }
 .bp-mission-list scrollbarvertical sliderarrowdec, .bp-mission-list scrollbarvertical sliderarrowinc { width: 5dp; height: 6dp; background-color: #b38c36; pointer-events: auto; }
-.bp-caption { top: 73dp; height: 12dp; line-height: 12dp; }
-@spritesheet bp-mission-scroll-sheet {
- src: "bp-mission-scroll.tga";
- bp-mission-up: 0px 0px 5px 10px;
- bp-mission-down: 0px 10px 5px 10px;
- bp-mission-thumb: 6px 0px 4px 65px;
-}
-.bp-mission-list scrollbarvertical { width: 5dp; background-color: transparent; }
-.bp-mission-list scrollbarvertical slidertrack { width: 2dp; margin-left: 1dp; background-color: #3d331c; border: 0; }
-.bp-mission-list scrollbarvertical sliderbar { width: 4dp; height: 65dp; min-height: 65dp; max-height: 65dp; margin-left: -1dp; background-color: transparent; border: 0; decorator: image(bp-mission-thumb); }
-.bp-mission-list scrollbarvertical sliderarrowdec { width: 5dp; height: 10dp; background-color: transparent; decorator: image(bp-mission-up); }
-.bp-mission-list scrollbarvertical sliderarrowinc { width: 5dp; height: 10dp; background-color: transparent; decorator: image(bp-mission-down); }
