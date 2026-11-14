@@ -10,6 +10,7 @@
 #include "Data/GameConfig/GameConfig.h"
 #include "Data/GameConfig/GameConfigConstants.h"
 #include "Render/Look/LookPresetSetting.h"
+#include "Render/Look/LookProfileSetting.h"
 #include "Audio/AudioPlayer.h"
 #include "Render/RmlUi/RmlUiRuntime.h"
 #include "UI/RmlBridge/RmlDraggable.h"
@@ -35,6 +36,9 @@
 #include <RmlUi/Core/EventListener.h>
 #include <RmlUi/Core/ScrollTypes.h>
 #include <functional>
+#include <iomanip>
+#include <initializer_list>
+#include <sstream>
 
 extern int m_MusicOnOff;
 extern int m_SoundOnOff;
@@ -53,6 +57,57 @@ using namespace mu::ui::window;
 // resolution/language/font <select> change callbacks are ignored -- see m_rmlSyncCount's own
 // comment in OptionWindow.h.
 static constexpr int kRmlSelectSettleFrames = 5;
+
+namespace
+{
+using Data::Maps::LookValue;
+using TuningRow = mu::ui::window::LookTuningRow;
+
+struct TuningControlSpec
+{
+    LookValue value;
+    const char* label;
+};
+
+constexpr TuningControlSpec TuningControls[] = {
+    {LookValue::DiffuseScale, "Directional light"},
+    {LookValue::RimStrength, "Rim intensity"},
+    {LookValue::SpecularScale, "Metallic shine"},
+    {LookValue::DiffuseAmbient, "Ambient fill"},
+    {LookValue::DiffuseFloor, "Minimum light"},
+    {LookValue::RimPower, "Rim focus"},
+    {LookValue::DynamicEffectGain, "Dynamic light intensity"},
+    {LookValue::DynamicEffectRange, "Dynamic light range"},
+    {LookValue::DynamicEffectFade, "Dynamic light fade"},
+    {LookValue::DynamicMapSmoothing, "Light smoothing"},
+    {LookValue::HighlightKnee, "Map-light contrast"},
+    {LookValue::BloomStrength, "Bloom"},
+    {LookValue::GradingStrength, "Colour grading"},
+};
+
+std::string TuningNumber(double value)
+{
+    std::ostringstream text;
+    text << std::fixed << std::setprecision(2) << value;
+    return text.str();
+}
+
+TuningRow MakeTuningRow(int control)
+{
+    const auto& spec = TuningControls[control];
+    const auto& info = Data::Maps::Info(spec.value);
+    const double value = Render::Look::Value(spec.value);
+    const double fraction = info.max > info.min ? (value - info.min) / (info.max - info.min) : 0.0;
+    TuningRow row;
+    row.control = control;
+    row.level = std::clamp(static_cast<int>(fraction * 10.0 + 0.5), 0, 10);
+    row.label = spec.label;
+    row.valueText = TuningNumber(value);
+    row.minText = TuningNumber(info.min);
+    row.maxText = TuningNumber(info.max);
+    return row;
+}
+} // namespace
 
 std::vector<UI::Options::DisplayResolution>
 UI::Options::NormalizeDisplayResolutions(std::vector<DisplayResolution> resolutions)
@@ -330,6 +385,14 @@ void mu::ui::window::COptionWindow::BindRmlModel(Rml::DataModelConstructor& c, O
     c.Bind("render_level_label", &model.renderLevelLabel);
 
     c.RegisterArray<std::vector<Rml::String>>();
+    auto tuningRow = c.RegisterStruct<TuningRow>();
+    tuningRow.RegisterMember("control", &TuningRow::control);
+    tuningRow.RegisterMember("level", &TuningRow::level);
+    tuningRow.RegisterMember("label", &TuningRow::label);
+    tuningRow.RegisterMember("value_text", &TuningRow::valueText);
+    tuningRow.RegisterMember("min_text", &TuningRow::minText);
+    tuningRow.RegisterMember("max_text", &TuningRow::maxText);
+    c.RegisterArray<std::vector<TuningRow>>();
     c.Bind("resolution_labels", &model.resolutionLabels);
     c.Bind("resolution_index", &model.resolutionIndex);
     c.Bind("resolution_row_label", &model.resolutionRowLabel);
@@ -379,6 +442,18 @@ void mu::ui::window::COptionWindow::BindRmlModel(Rml::DataModelConstructor& c, O
     c.Bind("look_dynamic_lights_label", &model.lookDynamicLightsLabel);
     c.Bind("look_light_mood_label", &model.lookLightMoodLabel);
     c.Bind("look_post_processing_label", &model.lookPostProcessingLabel);
+    c.Bind("lighting_tuning_expanded", &model.lightingTuningExpanded);
+    c.Bind("lighting_more_expanded", &model.lightingMoreExpanded);
+    c.Bind("dynamic_tuning_expanded", &model.dynamicTuningExpanded);
+    c.Bind("dynamic_more_expanded", &model.dynamicMoreExpanded);
+    c.Bind("mood_tuning_expanded", &model.moodTuningExpanded);
+    c.Bind("post_tuning_expanded", &model.postTuningExpanded);
+    c.Bind("lighting_tuning_rows", &model.lightingTuningRows);
+    c.Bind("lighting_more_rows", &model.lightingMoreRows);
+    c.Bind("dynamic_tuning_rows", &model.dynamicTuningRows);
+    c.Bind("dynamic_more_rows", &model.dynamicMoreRows);
+    c.Bind("mood_tuning_rows", &model.moodTuningRows);
+    c.Bind("post_tuning_rows", &model.postTuningRows);
     c.Bind("enhanced_graphics_label", &model.enhancedGraphicsLabel);
     c.Bind("antialiasing_labels", &model.antialiasingLabels);
     c.Bind("antialiasing_index", &model.antialiasingIndex);
@@ -432,6 +507,18 @@ void mu::ui::window::COptionWindow::BindRmlModel(Rml::DataModelConstructor& c, O
         {
             if (args.size() == 1)
                 RmlGaugeEvent(ev, args[0].Get<int>(-1));
+        });
+    c.BindEventCallback("option_toggle_tuning_group",
+        [this](Rml::DataModelHandle, Rml::Event&, const Rml::VariantList& args)
+        {
+            if (args.size() == 1)
+                RmlToggleTuningGroup(args[0].Get<int>(-1));
+        });
+    c.BindEventCallback("option_tuning_gauge",
+        [this](Rml::DataModelHandle, Rml::Event& ev, const Rml::VariantList& args)
+        {
+            if (args.size() == 1)
+                RmlTuningGaugeEvent(ev, args[0].Get<int>(-1));
         });
     // .option-dropdown custom control (replaces the resolution/language/font/fps-cap/theme
     // native <select>s, see model.openDropdown's own comment) -- one shared toggle callback
@@ -819,6 +906,46 @@ void mu::ui::window::COptionWindow::RmlGaugeEvent(Rml::Event& event, int gauge)
     default:
         break;
     }
+}
+
+void mu::ui::window::COptionWindow::RmlToggleTuningGroup(int group)
+{
+    auto& model = m_RmlView.GetModel();
+    bool* expanded = nullptr;
+    const char* dirty = nullptr;
+    switch (group)
+    {
+    case 0: expanded = &model.lightingTuningExpanded; dirty = "lighting_tuning_expanded"; break;
+    case 1: expanded = &model.lightingMoreExpanded; dirty = "lighting_more_expanded"; break;
+    case 2: expanded = &model.dynamicTuningExpanded; dirty = "dynamic_tuning_expanded"; break;
+    case 3: expanded = &model.dynamicMoreExpanded; dirty = "dynamic_more_expanded"; break;
+    case 4: expanded = &model.moodTuningExpanded; dirty = "mood_tuning_expanded"; break;
+    case 5: expanded = &model.postTuningExpanded; dirty = "post_tuning_expanded"; break;
+    default: return;
+    }
+    *expanded = !*expanded;
+    m_RmlView.MarkDirty(dirty);
+}
+
+void mu::ui::window::COptionWindow::RmlTuningGaugeEvent(Rml::Event& event, int control)
+{
+    if (m_rmlSyncCount < kRmlSelectSettleFrames || control < 0 || control >= std::size(TuningControls))
+        return;
+
+    const auto& spec = TuningControls[control];
+    const auto& info = Data::Maps::Info(spec.value);
+    const double current = Render::Look::Value(spec.value);
+    const int currentLevel = info.max > info.min
+        ? std::clamp(static_cast<int>((current - info.min) / (info.max - info.min) * 10.0 + 0.5), 0, 10)
+        : 0;
+    const auto levelFromPointer = [](float x, float width)
+    { return x < 0.f ? 0 : static_cast<int>(10.f * x / width + 0.5f); };
+    const auto next = UI::RmlBridge::ApplyLevelGaugeEvent(event, currentLevel, 10, levelFromPointer);
+    if (!next)
+        return;
+
+    const double value = info.min + (info.max - info.min) * static_cast<double>(*next) / 10.0;
+    (void)Render::Look::SetPlayerTuningValue(spec.value, value);
 }
 
 void mu::ui::window::COptionWindow::RmlResolutionChanged(int index)
@@ -1497,6 +1624,25 @@ void mu::ui::window::COptionWindow::SyncRmlModel()
         syncFlag(model.lookFeaturesLocked, "look_features_locked", !enhancedGraphics);
         syncFlag(model.lookDynamicLightsLocked, "look_dynamic_lights_locked", !enhancedGraphics || !lighting);
     }
+
+    const auto syncTuningRows = [this](std::vector<TuningRow>& rows, const char* name, std::initializer_list<int> controls)
+    {
+        std::vector<TuningRow> updated;
+        updated.reserve(controls.size());
+        for (const int control : controls)
+            updated.push_back(MakeTuningRow(control));
+        if (rows != updated)
+        {
+            rows = std::move(updated);
+            m_RmlView.MarkDirty(name);
+        }
+    };
+    syncTuningRows(model.lightingTuningRows, "lighting_tuning_rows", {0, 1, 2});
+    syncTuningRows(model.lightingMoreRows, "lighting_more_rows", {3, 4, 5});
+    syncTuningRows(model.dynamicTuningRows, "dynamic_tuning_rows", {6, 7});
+    syncTuningRows(model.dynamicMoreRows, "dynamic_more_rows", {8, 9});
+    syncTuningRows(model.moodTuningRows, "mood_tuning_rows", {10});
+    syncTuningRows(model.postTuningRows, "post_tuning_rows", {11, 12});
 
     // Rebuilt every sync for the localized "Off", as the FPS Limit row's "Uncapped".
     const auto syncMultiplierRow = [&](std::vector<Rml::String>& labels, const char* labelsName, int& index,

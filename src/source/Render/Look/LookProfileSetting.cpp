@@ -15,6 +15,7 @@
 #endif
 
 #include <limits>
+#include <array>
 #include <utility>
 
 namespace Render::Look
@@ -101,6 +102,29 @@ const LookValues& Active()
 float Value(LookValue value)
 {
     return static_cast<float>(Active()[value]);
+}
+
+bool SetPlayerTuningValue(LookValue value, double newValue)
+{
+    const LookFiles previous = s_state.live;
+    const std::array<LookEdit, 1> edits{{{Data::Maps::Info(value).name, newValue}}};
+    const LookEditResult edit = SetLookValues(s_state.live, edits, std::nullopt);
+    if (!edit.applied)
+    {
+        return false;
+    }
+
+    DiskLookFileSystem fileSystem;
+    const LookSaveResult save = SaveLookFiles(fileSystem, s_state.live, Data::Maps::LookProfileFile,
+                                               Data::Maps::LightMoodFile);
+    if (!save.saved)
+    {
+        s_state.live = previous;
+        return false;
+    }
+
+    Changed();
+    return true;
 }
 
 std::uint32_t Revision()

@@ -19,6 +19,10 @@ void LoadProfile();
 [[nodiscard]] const Data::Maps::LookValues& Active();
 [[nodiscard]] float Value(Data::Maps::LookValue value);
 
+// Changes and persists one default look value from the in-game graphics tuning controls.
+// The files are saved atomically; false leaves the live profile unchanged.
+[[nodiscard]] bool SetPlayerTuningValue(Data::Maps::LookValue value, double newValue);
+
 // Changes whenever the live profile changes (not with the world), so a cache of derived values
 // knows when to recompute.
 [[nodiscard]] std::uint32_t Revision();
