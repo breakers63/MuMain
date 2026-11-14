@@ -92,6 +92,7 @@
 #include "UI/Dialogs/ParisRankUserWindow.h"
 #include "UI/Dialogs/ParisRankingWindow.h"
 #include "UI/Dialogs/ParisActivityLogWindow.h"
+#include "UI/Dialogs/ParisBountyBoardWindow.h"
 #include "UI/Dialogs/ParisResetWindow.h"
 #include "UI/Dialogs/ParisVipWindow.h"
 #include "UI/Dialogs/ParisBattlePassWindow.h"
@@ -247,6 +248,7 @@ namespace mu::ui::window
         CParisRankUserWindow* m_pParisRankUserWindow;
         CParisRankingWindow* m_pParisRankingWindow;
         CParisActivityLogWindow* m_pParisActivityLogWindow;
+        CParisBountyBoardWindow* m_pParisBountyBoardWindow;
         CParisResetWindow* m_pParisResetWindow;
         CParisVipWindow* m_pParisVipWindow;
         CParisBattlePassWindow* m_pParisBattlePassWindow;

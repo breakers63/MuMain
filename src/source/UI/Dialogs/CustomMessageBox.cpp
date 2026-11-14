@@ -12,6 +12,7 @@
 #include "Network/Paris/ParisBattlePassProtocol.h"
 #include "Network/Paris/ParisRequests.h"
 #include "UI/Dialogs/ParisBattlePassWindow.h"
+#include "UI/Dialogs/ParisBountyBoardWindow.h"
 #include "UI/Dialogs/ParisGmEventsWindow.h"
 #include "Network/Paris/ResetProtocol.h"
 #include "Network/Paris/SoulProtocol.h"
@@ -836,11 +837,7 @@ void mu::ui::window::ShowParisCustomMenuDialog()
         {L"Soul System", [] { if (g_pParisSoulWindow) g_pParisSoulWindow->OpenWindow(); }},
         {L"Subastas", [] { if (g_pParisAuctionWindow) g_pParisAuctionWindow->OpenWindow(); }},
         {L"RGB", [] { if (g_pParisItemDyeWindow) g_pParisItemDyeWindow->OpenWindow(); }},
-        {L"Asesinatos", [] {
-            GenericDialogConfig notice; notice.title=L"Asesinatos";
-            notice.lines.push_back({L"Proximamente: sistema de Asesinatos.", false});
-            notice.primaryLabel=L"Cerrar";g_pGenericConfirmDialog->Show(std::move(notice));
-        }},
+        {L"Asesinatos", [] { if (g_pParisBountyBoardWindow) g_pParisBountyBoardWindow->OpenWindow(); }},
     };
 
     for (const Entry& entry : entries)

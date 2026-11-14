@@ -1,0 +1,73 @@
+<rml>
+<head>
+    <title>Cazarrecompensas</title>
+    <link type="text/rcss" href="base.rcss" />
+    <link type="text/rcss" href="paris_bounty_board.rcss" />
+</head>
+<body data-model="paris_bounty_board">
+    <div id="panel" class="bounty-panel">
+        <div class="bounty-title">Cazarrecompensas</div>
+        <div class="bounty-subtitle">Sistema de asesinatos</div>
+        <button class="bounty-close" data-event-click="bounty_close"><span class="bounty-button-label">X</span></button>
+
+        <div class="bounty-tabs">
+            <button data-class-active="mode == 0" data-event-click="bounty_mode(0)"><span class="bounty-button-label">Se busca</span></button>
+            <button data-class-active="mode == 1" data-event-click="bounty_mode(1)"><span class="bounty-button-label">Poner precio</span></button>
+            <button data-class-active="mode == 2" data-event-click="bounty_mode(2)"><span class="bounty-button-label">Historial</span></button>
+        </div>
+
+        <div class="bounty-feature-label" data-if="mode != 1">{{feature_label}}</div>
+        <div class="bounty-feature-name" data-if="mode != 1">{{feature_name}}</div>
+        <div class="bounty-feature-reward" data-if="mode != 1">{{feature_reward}}</div>
+        <div class="bounty-feature-time" data-if="mode != 1">{{feature_time}}</div>
+
+        <div class="bounty-feature-active" data-if="mode == 0">
+            <button class="bounty-update" data-event-click="bounty_refresh"><span class="bounty-button-label">Actualizar</span></button>
+        </div>
+        <div class="bounty-feature-publish" data-if="mode == 1">
+            <div class="bounty-feature-label">PONER PRECIO</div>
+            <div class="bounty-search">
+                <input id="bounty_query" type="text" maxlength="16" data-value="query" data-event-change="bounty_query_change" />
+                <span class="bounty-placeholder" data-if="query == ''">Nombre del personaje</span>
+                <div class="bounty-search-button" data-event-click="bounty_search">Buscar</div>
+            </div>
+            <div class="bounty-selected"><span data-if="selected == ''">Busca por nombre</span><span data-if="selected != ''">{{selected}}</span></div>
+            <div class="bounty-entry">
+                <div class="bounty-currency-wrap">
+                    <button class="bounty-currency" data-class-active="currency_open" data-event-click="bounty_currency"><span class="bounty-currency-label">{{currency}}</span><span class="bounty-currency-arrow">▼</span></button>
+                    <div class="bounty-currency-menu" data-if="currency_open">
+                        <button data-class-active="currency == 'Zen'" data-event-click="bounty_currency_select(0)"><span class="bounty-button-label">Zen</span></button>
+                        <button data-class-active="currency == 'Bless'" data-event-click="bounty_currency_select(1)"><span class="bounty-button-label">Bless</span></button>
+                        <button data-class-active="currency == 'Soul'" data-event-click="bounty_currency_select(2)"><span class="bounty-button-label">Soul</span></button>
+                        <button data-class-active="currency == 'Life'" data-event-click="bounty_currency_select(3)"><span class="bounty-button-label">Life</span></button>
+                        <button data-class-active="currency == 'Chaos'" data-event-click="bounty_currency_select(4)"><span class="bounty-button-label">Chaos</span></button>
+                    </div>
+                </div>
+                <button class="bounty-step bounty-minus" data-event-click="bounty_amount_step(-1)"><span class="bounty-button-label">-</span></button>
+                <input class="bounty-amount" type="text" maxlength="12" data-value="amount" />
+                <button class="bounty-step bounty-plus" data-event-click="bounty_amount_step(1)"><span class="bounty-button-label">+</span></button>
+                <button class="bounty-publish-button" data-attrif-disabled="!enabled" data-event-click="bounty_publish"><span class="bounty-button-label">Publicar cacería</span></button>
+                <div class="bounty-duration">Duración: 24 h</div>
+            </div>
+        </div>
+        <div class="bounty-feature-history" data-if="mode == 2">
+            <button class="bounty-update" data-event-click="bounty_refresh"><span class="bounty-button-label">Actualizar</span></button>
+        </div>
+
+        <div class="bounty-table-head">
+            <span class="bounty-index">#</span><span class="bounty-name">{{table_name_heading}}</span><span class="bounty-detail">{{table_status_heading}}</span><span class="bounty-reward">{{table_reward_heading}}</span>
+        </div>
+        <div class="bounty-list">
+            <div class="bounty-row" data-for="row : rows">
+                <span class="bounty-index">{{row.index_label}}</span>
+                <span class="bounty-name">{{row.name}}</span>
+                <span class="bounty-detail">{{row.detail}}</span>
+                <span class="bounty-reward">{{row.reward}}</span>
+                <button class="bounty-action" data-if="row.action != ''" data-class-disabled="!row.enabled" data-event-click="bounty_row_action(row.index)"><span class="bounty-button-label">{{row.action}}</span></button>
+            </div>
+        </div>
+        <div class="bounty-empty" data-if="empty"><span data-if="mode == 1 &amp;&amp; status != ''">{{status}}</span><span data-if="mode != 1 || status == ''">No hay resultados.</span></div>
+        <div class="bounty-status" data-attr-title="status"><span data-if="status == '' || (mode == 1 &amp;&amp; empty)">Gana quien consiga más bajas válidas en 24 horas.</span><span data-if="status != '' &amp;&amp; (mode != 1 || !empty)">{{status}}</span></div>
+    </div>
+</body>
+</rml>

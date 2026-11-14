@@ -6,6 +6,7 @@
 #include "Network/Paris/ParisPacketDispatch.h"
 #include "Network/Paris/EventTimerState.h"
 #include "Network/Paris/AuctionProtocol.h"
+#include "Network/Paris/BountyBoardProtocol.h"
 #include "Network/Paris/GmEventsProtocol.h"
 #include "Network/Paris/MentorProtocol.h"
 #include "Network/Paris/ParisBattlePassProtocol.h"
@@ -184,6 +185,9 @@ void Dispatch(const std::uint8_t* packet, int size)
             break;
         case 0xD6:
             (void)Auctions::Receive(packet, size);
+            break;
+        case 0xCF:
+            (void)BountyBoard::Receive(packet, size);
             break;
         case 0xE9:
             (void)ItemDye::Receive(packet, size);

@@ -9,6 +9,7 @@
 #include "ParisRankUserWindow.h"
 #include "ParisRankingWindow.h"
 #include "ParisActivityLogWindow.h"
+#include "ParisBountyBoardWindow.h"
 #include "ParisResetWindow.h"
 #include "ParisVipWindow.h"
 #include "ParisBattlePassWindow.h"
@@ -32,13 +33,14 @@ namespace mu::ui::window
             if (g_pNewUISystem->IsVisible(INTERFACE_INVENTORY))
                 g_pNewUISystem->Hide(INTERFACE_INVENTORY);
         }
-        const std::array<CObject*, 16> panels = {
+        const std::array<CObject*, 17> panels = {
             g_pParisJewelBankWindow,
             g_pParisMarketWindow,
             g_pParisAuctionWindow,
             g_pParisRankUserWindow,
             g_pParisRankingWindow,
             g_pParisActivityLogWindow,
+            g_pParisBountyBoardWindow,
             g_pParisResetWindow,
             g_pParisVipWindow,
             g_pParisBattlePassWindow,

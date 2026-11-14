@@ -34,14 +34,14 @@ namespace
     std::unique_ptr<CActiveInvasionWindow> activeInvasionWindow;
     std::unique_ptr<CParisStorePriceWindow> parisStorePriceWindow;
 
-    bool HasVisibleCustomPanel(const std::array<CObject*, 15>& panels)
+    bool HasVisibleCustomPanel(const std::array<CObject*, 16>& panels)
     {
         return (g_pGenericMenuDialog && g_pGenericMenuDialog->IsCustomMenu())
             || std::any_of(panels.begin(), panels.end(), [](const CObject* panel)
                 { return panel && panel->IsVisible(); });
     }
 
-    bool HandleCustomPanelShortcut(const std::array<CObject*, 15>& panels, CObject* hotkey)
+    bool HandleCustomPanelShortcut(const std::array<CObject*, 16>& panels, CObject* hotkey)
     {
         const bool customVisible = HasVisibleCustomPanel(panels);
         const bool nativeShortcut = IsPress('C') || IsPress('I') || IsPress('V')
@@ -158,6 +158,7 @@ CSystem::CSystem()
     m_pParisRankUserWindow = nullptr;
     m_pParisRankingWindow = nullptr;
     m_pParisActivityLogWindow = nullptr;
+    m_pParisBountyBoardWindow = nullptr;
     m_pParisResetWindow = nullptr;
     m_pParisVipWindow = nullptr;
     m_pParisBattlePassWindow = nullptr;
@@ -626,6 +627,11 @@ bool CSystem::LoadMainSceneInterface()
         return false;
     g_pParisActivityLogWindow = m_pParisActivityLogWindow;
 
+    m_pParisBountyBoardWindow = new CParisBountyBoardWindow;
+    if (!m_pParisBountyBoardWindow->Create(m_pNewUIMng))
+        return false;
+    g_pParisBountyBoardWindow = m_pParisBountyBoardWindow;
+
     m_pParisResetWindow = new CParisResetWindow;
     if (!m_pParisResetWindow->Create(m_pNewUIMng))
         return false;
@@ -854,6 +860,7 @@ void CSystem::UnloadMainSceneInterface()
     g_pParisRankUserWindow = nullptr;
     g_pParisRankingWindow = nullptr;
     g_pParisActivityLogWindow = nullptr;
+    g_pParisBountyBoardWindow = nullptr;
     g_pParisResetWindow = nullptr;
     g_pParisVipWindow = nullptr;
     g_pParisBattlePassWindow = nullptr;
@@ -869,6 +876,7 @@ void CSystem::UnloadMainSceneInterface()
     SAFE_DELETE(m_pParisAdvancedStatsWindow);
     SAFE_DELETE(m_pParisGmEventsWindow);
     SAFE_DELETE(m_pParisActivityLogWindow);
+    SAFE_DELETE(m_pParisBountyBoardWindow);
     SAFE_DELETE(m_pParisRankUserWindow);
     SAFE_DELETE(m_pParisRankingWindow);
     SAFE_DELETE(m_pParisMarketWindow);
@@ -904,9 +912,9 @@ void CSystem::Show(DWORD dwKey)
     }
 
     // A requested native window replaces any full custom panel that would cover it.
-    const std::array<CObject*, 15> customPanels = {
+    const std::array<CObject*, 16> customPanels = {
         m_pParisJewelBankWindow, m_pParisMarketWindow, m_pParisAuctionWindow,
-        m_pParisRankUserWindow, m_pParisRankingWindow, m_pParisActivityLogWindow,
+        m_pParisRankUserWindow, m_pParisRankingWindow, m_pParisActivityLogWindow, m_pParisBountyBoardWindow,
         m_pParisResetWindow, m_pParisVipWindow, m_pParisBattlePassWindow,
         m_pParisEventsWindow, m_pParisAdvancedStatsWindow, m_pParisGmEventsWindow,
         parisMentorWindow.get(), parisSoulWindow.get(), m_pGestureWheelWindow};
@@ -1698,9 +1706,9 @@ void CSystem::Hide(DWORD dwKey)
 
 void CSystem::Toggle(DWORD dwKey)
 {
-    const std::array<CObject*, 15> customPanels = {
+    const std::array<CObject*, 16> customPanels = {
         m_pParisJewelBankWindow, m_pParisMarketWindow, m_pParisAuctionWindow,
-        m_pParisRankUserWindow, m_pParisRankingWindow, m_pParisActivityLogWindow,
+        m_pParisRankUserWindow, m_pParisRankingWindow, m_pParisActivityLogWindow, m_pParisBountyBoardWindow,
         m_pParisResetWindow, m_pParisVipWindow, m_pParisBattlePassWindow,
         m_pParisEventsWindow, m_pParisAdvancedStatsWindow, m_pParisGmEventsWindow,
         parisMentorWindow.get(), parisSoulWindow.get(), m_pGestureWheelWindow};
@@ -1966,9 +1974,9 @@ bool CSystem::Update()
         }
 
         bool nativeShortcutHandled = false;
-        const std::array<CObject*, 15> customPanels = {
+        const std::array<CObject*, 16> customPanels = {
             m_pParisJewelBankWindow, m_pParisMarketWindow, m_pParisAuctionWindow,
-            m_pParisRankUserWindow, m_pParisRankingWindow, m_pParisActivityLogWindow,
+            m_pParisRankUserWindow, m_pParisRankingWindow, m_pParisActivityLogWindow, m_pParisBountyBoardWindow,
             m_pParisResetWindow, m_pParisVipWindow, m_pParisBattlePassWindow,
             m_pParisEventsWindow, m_pParisAdvancedStatsWindow, m_pParisGmEventsWindow,
             parisMentorWindow.get(), parisSoulWindow.get(), m_pGestureWheelWindow};
