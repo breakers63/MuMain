@@ -23,13 +23,40 @@
             <div class="vip-plan-name sharp-text">{{plan_name}}</div>
             <div class="vip-meta sharp-text"><span>Tiempo restante: {{selected_days}} días</span><span>Duración: {{duration}}</span></div>
             <div class="vip-divider vip-divider-benefits"></div>
-            <div class="vip-section-title sharp-text">BENEFICIOS</div>
-            <div class="vip-benefits">
-                <div class="vip-line" data-for="line : benefits"><span class="vip-benefit-label sharp-text">{{line.label}}</span><strong class="vip-benefit-value sharp-text">{{line.value}}</strong></div>
-            </div>
+            <tabset class="vip-page-set">
+                <tab class="vip-arrow vip-arrow-prev">&#8592; Anterior</tab>
+                <tab class="vip-arrow vip-arrow-next">Siguiente &#8594;</tab>
+                <panels>
+                    <panel>
+                        <div class="vip-section-title sharp-text">BENEFICIOS · 1 / 2</div>
+                        <div class="vip-benefits">
+                            <div data-for="line, index : benefits">
+                                <div class="vip-line" data-if="index &gt;= 5 || line.label == 'Experiencia' || line.label == 'Exp. Master' || line.label == 'Zen al matar' || line.label == 'Chance de drop'">
+                                    <span class="vip-benefit-label sharp-text">{{line.label}}</span><strong class="vip-benefit-value sharp-text">{{line.value}}</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </panel>
+                    <panel>
+                        <div class="vip-section-title sharp-text">JOYAS Y MÁQUINA CHAOS · 2 / 2</div>
+                        <div class="vip-benefits">
+                            <div data-for="line, index : benefits">
+                                <div class="vip-line" data-if="index &lt; 5 &amp;&amp; line.label != 'Experiencia' &amp;&amp; line.label != 'Exp. Master' &amp;&amp; line.label != 'Zen al matar' &amp;&amp; line.label != 'Chance de drop'">
+                                    <span class="vip-benefit-label sharp-text" data-if="line.value != ''">{{line.label}}</span><strong class="vip-benefit-value sharp-text" data-if="line.value != ''">{{line.value}}</strong>
+                                    <span class="vip-benefit-label sharp-text" data-if="line.text == 'Joyas (extra prom.): +3.33 pp' || line.text == 'Joyas (extra prom.): +6.67 pp' || line.text == 'Joyas (extra prom.): +11.67 pp'">Joyas (promedio)</span>
+                                    <strong class="vip-benefit-value sharp-text" data-if="line.text == 'Joyas (extra prom.): +3.33 pp' || line.text == 'Joyas (extra prom.): +6.67 pp' || line.text == 'Joyas (extra prom.): +11.67 pp'">{{line.text == 'Joyas (extra prom.): +3.33 pp' ? '+3.33 pp' : line.text == 'Joyas (extra prom.): +6.67 pp' ? '+6.67 pp' : line.text == 'Joyas (extra prom.): +11.67 pp' ? '+11.67 pp' : ''}}</strong>
+                                    <span class="vip-benefit-label sharp-text" data-if="line.text == 'Chaos (extra prom.): +5.86 pp' || line.text == 'Chaos (extra prom.): +9.68 pp' || line.text == 'Chaos (extra prom.): +13.64 pp'">Máquina Chaos (prom.)</span>
+                                    <strong class="vip-benefit-value sharp-text" data-if="line.text == 'Chaos (extra prom.): +5.86 pp' || line.text == 'Chaos (extra prom.): +9.68 pp' || line.text == 'Chaos (extra prom.): +13.64 pp'">{{line.text == 'Chaos (extra prom.): +5.86 pp' ? '+5.86 pp' : line.text == 'Chaos (extra prom.): +9.68 pp' ? '+9.68 pp' : line.text == 'Chaos (extra prom.): +13.64 pp' ? '+13.64 pp' : ''}}</strong>
+                                    <span class="vip-rate-summary sharp-text" data-if="line.value == '' &amp;&amp; line.text != 'Joyas (extra prom.): +3.33 pp' &amp;&amp; line.text != 'Joyas (extra prom.): +6.67 pp' &amp;&amp; line.text != 'Joyas (extra prom.): +11.67 pp' &amp;&amp; line.text != 'Chaos (extra prom.): +5.86 pp' &amp;&amp; line.text != 'Chaos (extra prom.): +9.68 pp' &amp;&amp; line.text != 'Chaos (extra prom.): +13.64 pp'">{{line.text}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </panel>
+                </panels>
+            </tabset>
             <div class="vip-divider vip-divider-costs"></div>
             <div class="vip-section-title cost-title sharp-text" data-if="!empty">COSTO</div>
-            <div class="vip-cost sharp-text" data-for="line : costs">{{line.text}}</div>
+            <div class="vip-costs"><div class="vip-cost sharp-text" data-for="line : costs">{{line.text}}</div></div>
             <div class="vip-empty sharp-text" data-if="empty">El servidor no envió detalles para este plan.</div>
         </div>
         <div class="vip-wait sharp-text" data-if="!has_data" data-event-click="paris_vip_refresh">{{status}}</div>

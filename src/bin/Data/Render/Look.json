@@ -1,14 +1,14 @@
 {
   "formatVersion": 1,
   "default": {
-    "lighting.diffuse.scale": 1.0,
-    "lighting.diffuse.ambient": 0.3,
-    "lighting.diffuse.floor": 0.15,
-    "lighting.highlightKnee": 0.8,
+    "lighting.diffuse.scale": 2.0,
+    "lighting.diffuse.ambient": 0.75,
+    "lighting.diffuse.floor": 0.4,
+    "lighting.highlightKnee": 0.72,
     "lighting.rim.strength": 0.4,
-    "lighting.rim.power": 3,
-    "lighting.specular.scale": 0.8,
-    "lighting.specular.power": 32,
+    "lighting.rim.power": 2.75,
+    "lighting.specular.scale": 1.1,
+    "lighting.specular.power": 66.0,
     "dynamic.wrap": 0.3,
     "dynamic.mapSmoothing": 0.5,
     "dynamic.effectGain": 0.5,
@@ -21,10 +21,7 @@
     "grading.strength": 1
   },
   "maps": [
-    {
-      "world": 10,
-      "name": "Icarus",
-      "bloom.strength": 0.3
-    }
+    { "world": 10, "name": "Icarus", "bloom.strength": 0.3 },
+    { "world": 0, "lighting.diffuse.scale": 2.0, "lighting.diffuse.ambient": 0.75, "lighting.diffuse.floor": 0.4, "lighting.rim.strength": 0.4, "lighting.specular.scale": 1.1, "lighting.specular.power": 66.0, "lighting.highlightKnee": 0.72, "lighting.rim.power": 2.75 }
   ]
 }
