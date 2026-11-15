@@ -73,12 +73,13 @@ namespace ParisPlatform
         for (size_t i = 0; i < Count; ++i)
         {
             const auto& badge = Frame[i];
-            glColor4f(0.67f, 0.48f, 0.19f, 1.f);
+            SetRenderColor(171, 122, 48, 255);
             RenderColor(badge.X, badge.Y, badge.Size, badge.Size);
-            glColor4f(0.05f, 0.05f, 0.05f, 1.f);
+            SetRenderColor(13, 13, 13, 255);
             RenderColor(badge.X + 0.7f, badge.Y + 0.7f, badge.Size - 1.4f, badge.Size - 1.4f);
             const auto* color = colors[badge.Platform - 1];
-            glColor4f(color[0], color[1], color[2], 1.f);
+            SetRenderColor(static_cast<BYTE>(color[0] * 255.f),
+                static_cast<BYTE>(color[1] * 255.f), static_cast<BYTE>(color[2] * 255.f), 255);
             const float pixel = (badge.Size - 3.f) / 12.f;
             for (int row = 0; row < 12; ++row)
             {
@@ -94,6 +95,7 @@ namespace ParisPlatform
                 }
             }
         }
+        SetRenderColor(255, 255, 255, 255);
         EndRenderColor();
         EnableAlphaTest();
         if (depth) glEnable(GL_DEPTH_TEST);
