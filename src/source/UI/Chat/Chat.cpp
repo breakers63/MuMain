@@ -52,6 +52,7 @@
 #include "GameLogic/Combat/DuelMgr.h"
 #include "Core/Text/WideString.h"
 #include "Render/Text/CUIRenderText.h"
+#include "Render/Models/PlatformBadges.h"
 
 namespace UI::Chat
 {
@@ -296,6 +297,7 @@ void RenderBoolean(int x, int y, CHAT* c)
     if (bGmMode)
     {
         g_pRenderText->SetFont(g_hFontBold);
+        ParisPlatform::Queue(c->ID, RenderPos.x, RenderPos.y, RenderBoxSize.cx, iLineHeight, c->Owner == Hero);
         if (!Render::NameRgb::Draw(c->ID, RenderPos.x, RenderPos.y, RenderBoxSize.cx, iLineHeight))
             g_pRenderText->RenderText(RenderPos.x, RenderPos.y, c->ID, RenderBoxSize.cx, iLineHeight, RT3_SORT_LEFT);
         RenderPos.y += iLineHeight;
@@ -303,6 +305,7 @@ void RenderBoolean(int x, int y, CHAT* c)
     }
     else
     {
+        ParisPlatform::Queue(c->ID, RenderPos.x, RenderPos.y, RenderBoxSize.cx, iLineHeight, c->Owner == Hero);
         if (!Render::NameRgb::Draw(c->ID, RenderPos.x, RenderPos.y, RenderBoxSize.cx, iLineHeight))
             g_pRenderText->RenderText(RenderPos.x, RenderPos.y, c->ID, RenderBoxSize.cx, iLineHeight, RT3_SORT_LEFT);
         RenderPos.y += iLineHeight;
@@ -615,6 +618,7 @@ void MoveChat()
 
 void RenderBooleans()
 {
+    ParisPlatform::BeginFrame();
     g_pRenderText->SetFont(g_hFont);
 
     for (int i = 0; i < MAX_CHAT; i++)
@@ -689,5 +693,6 @@ void RenderBooleans()
             RenderBoolean(ci->x, ci->y, ci);
         }
     }
+    ParisPlatform::Flush();
 }
 }

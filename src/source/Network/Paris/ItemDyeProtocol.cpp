@@ -8,6 +8,7 @@
 #include "Render/Models/ItemDyeAppearance.h"
 #include "../../../ThirdParty/json.hpp"
 #include <cstring>
+#include "Render/Models/PlatformBadges.h"
 namespace Network::Paris::ItemDye
 {
 std::vector<Entry> Inventory;
@@ -21,7 +22,7 @@ constexpr unsigned RefreshDelay = 650;
 unsigned refreshScheduledAt = 0;
 bool refreshScheduled = false;
 }
-void Reset(){Inventory.clear();Received=0;Pending=false;Result=255;RequireReagents=true;Render::ItemDye::Clear();Render::NameRgb::Styles.clear();Render::NameRgb::Own={};}
+void Reset(){ParisPlatform::Reset();Inventory.clear();Received=0;Pending=false;Result=255;RequireReagents=true;Render::ItemDye::Clear();Render::NameRgb::Styles.clear();Render::NameRgb::Own={};}
 namespace {
 void Send(BYTE action,const Entry* item,const int* slots,int color)
 {
@@ -64,6 +65,22 @@ void ScheduleRefresh()
 
 void UpdateRefresh()
 {
+        if (SceneFlag != MAIN_SCENE)
+        {
+            if (ParisPlatform::InWorld) ParisPlatform::Reset();
+        }
+        else if (Hero && Hero->ID[0])
+        {
+            ParisPlatform::InWorld = true;
+            const unsigned platformNow = timeGetTime();
+            if (!ParisPlatform::LastPoll || platformNow - ParisPlatform::LastPoll >= 3000)
+            {
+                ParisPlatform::LastPoll = platformNow;
+                BYTE platformPacket[6] = {0xC1, 6, 0xFA, 0xDB, 1, static_cast<BYTE>(ParisPlatform::Own())};
+                if (SocketClient && SocketClient->IsConnected()) SocketClient->Send(platformPacket, sizeof(platformPacket));
+            }
+        }
+
     static unsigned lastPoll = 0;
     const unsigned now = timeGetTime();
     if (!SocketClient || (SceneFlag != MAIN_SCENE && SceneFlag != CHARACTER_SCENE)) return;
@@ -86,6 +103,23 @@ bool Receive(const BYTE* bytes,int size)
     try
     {
         const auto data=nlohmann::json::parse(bytes+6,bytes+size);
+        if (data.contains("platforms"))
+        {
+            const auto& rows = data.at("platforms");
+            if (!rows.is_array() || rows.size() > 100) return false;
+            decltype(ParisPlatform::Players) nextPlatforms;
+            for (const auto& row : rows)
+            {
+                const auto name = Wide(row.at("name").get<std::string>());
+                const int platform = row.at("platform").get<int>();
+                if (name.empty() || name.size() > 100 || platform < 1 || platform > 4) return false;
+                nextPlatforms[name] = platform;
+            }
+            ParisPlatform::Players = std::move(nextPlatforms);
+            ParisPlatform::Received = timeGetTime();
+            return true;
+        }
+
         const bool selection = data.value("selection", false);
         if(data.value("appearanceOnly",false))
         {
