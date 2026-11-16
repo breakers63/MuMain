@@ -264,6 +264,7 @@ void RenderBoolean(int x, int y, CHAT* c)
     const bool hideName=c->Owner->Object.Kind==KIND_PLAYER && GameConfig::GetInstance().GetHidePlayerNames();
     if (!hideName)
     {
+    const int nameBlockTop = RenderPos.y;
     if (c->Union && c->Union[0])
     {
         g_pRenderText->RenderText(RenderPos.x, RenderPos.y, c->Union, RenderBoxSize.cx, iLineHeight, RT3_SORT_LEFT);
@@ -294,10 +295,12 @@ void RenderBoolean(int x, int y, CHAT* c)
         g_pRenderText->SetTextColor(Temp);
     }
 
+    ParisPlatform::Queue(c->ID, RenderPos.x, nameBlockTop, iLineHeight,
+        RenderPos.y - nameBlockTop + iLineHeight, c->Owner == Hero);
+
     if (bGmMode)
     {
         g_pRenderText->SetFont(g_hFontBold);
-        ParisPlatform::Queue(c->ID, RenderPos.x, RenderPos.y, RenderBoxSize.cx, iLineHeight, c->Owner == Hero);
         if (!Render::NameRgb::Draw(c->ID, RenderPos.x, RenderPos.y, RenderBoxSize.cx, iLineHeight))
             g_pRenderText->RenderText(RenderPos.x, RenderPos.y, c->ID, RenderBoxSize.cx, iLineHeight, RT3_SORT_LEFT);
         RenderPos.y += iLineHeight;
@@ -305,7 +308,6 @@ void RenderBoolean(int x, int y, CHAT* c)
     }
     else
     {
-        ParisPlatform::Queue(c->ID, RenderPos.x, RenderPos.y, RenderBoxSize.cx, iLineHeight, c->Owner == Hero);
         if (!Render::NameRgb::Draw(c->ID, RenderPos.x, RenderPos.y, RenderBoxSize.cx, iLineHeight))
             g_pRenderText->RenderText(RenderPos.x, RenderPos.y, c->ID, RenderBoxSize.cx, iLineHeight, RT3_SORT_LEFT);
         RenderPos.y += iLineHeight;

@@ -32,20 +32,14 @@ namespace ParisPlatform
 
     inline void BeginFrame() { Count = 0; }
 
-    inline void Queue(const wchar_t* name, int x, int y, int width, int height, bool own, bool centered = false)
+    inline void Queue(const wchar_t* name, int x, int top, int lineHeight, int blockHeight, bool own)
     {
         const unsigned now = timeGetTime();
         const auto found = Players.find(name);
         const int platform = own ? Own() : (found != Players.end() && now - Received < 12000 ? found->second : 0);
         if (platform < 1 || platform > 4 || Count >= Frame.size()) return;
-        const float size = (std::max)(10.f, static_cast<float>(height));
-        if (centered)
-        {
-            SIZE measured{};
-            measured = g_pRenderText->MeasureText(name, lstrlen(name));
-            x += (width - static_cast<int>(measured.cx / g_fScreenRate_x)) / 2;
-        }
-        Frame[Count++] = { (std::max)(0.f, x - size - 3.f), y + (height - size) * 0.5f, size, platform };
+        const float size = (std::max)(16.f, lineHeight * 1.35f);
+        Frame[Count++] = { (std::max)(0.f, x - size - 3.f), top + (blockHeight - size) * 0.5f, size, platform };
     }
 
     inline void Flush()
@@ -55,9 +49,9 @@ namespace ParisPlatform
         glDisable(GL_DEPTH_TEST);
         EnableAlphaTest();
         static constexpr const char* masks[4][12] = {
-            { "001000000100", "000100001000", "001111111100", "011011110110",
-              "011111111110", "011111111110", "011111111110", "001111111100",
-              "001111111100", "001111111100", "000110011000", "000110011000" },
+            { "001000000100", "000100001000", "000111111000", "001111111100",
+              "011011110110", "011011110110", "011111111110", "011111111110",
+              "011111111110", "011111111110", "011111111110", "000000000000" },
             { "000000110000", "000001100000", "001110011100", "011111111110",
               "111111111100", "111111111000", "111111111000", "111111111110",
               "011111111110", "011111111100", "001110111000", "000100010000" },
@@ -68,7 +62,7 @@ namespace ParisPlatform
               "100001100001", "111111111111", "111111111111", "100001100001",
               "100001100001", "010001100010", "001001100100", "000111111000" }
         };
-        static constexpr float colors[4][3] = { {0.55f,0.85f,0.20f}, {0.95f,0.95f,0.95f},
+        static constexpr float colors[4][3] = { {0.64f,0.90f,0.22f}, {0.95f,0.95f,0.95f},
             {0.08f,0.75f,0.94f}, {0.75f,0.50f,1.f} };
         for (size_t i = 0; i < Count; ++i)
         {
