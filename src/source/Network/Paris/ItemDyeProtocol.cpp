@@ -65,23 +65,12 @@ void ScheduleRefresh()
 
 void UpdateRefresh()
 {
-        if (SceneFlag == CHARACTER_SCENE)
+        if (SceneFlag != MAIN_SCENE)
         {
             if (ParisPlatform::InWorld) ParisPlatform::Reset();
-            if (!ParisPlatform::LastPoll && SocketClient && SocketClient->IsConnected())
-            {
-                BYTE platformPacket[6] = {0xC1, 6, 0xFA, 0xDB, 1, static_cast<BYTE>(ParisPlatform::Own())};
-                SocketClient->Send(platformPacket, sizeof(platformPacket));
-                ParisPlatform::LastPoll = 1;
-            }
-        }
-        else if (SceneFlag != MAIN_SCENE)
-        {
-            ParisPlatform::Reset();
         }
         else if (Hero && Hero->ID[0])
         {
-            if (!ParisPlatform::InWorld) ParisPlatform::LastPoll = 0;
             ParisPlatform::InWorld = true;
             const unsigned platformNow = timeGetTime();
             if (!ParisPlatform::LastPoll || platformNow - ParisPlatform::LastPoll >= 3000)
@@ -114,28 +103,19 @@ bool Receive(const BYTE* bytes,int size)
     try
     {
         const auto data=nlohmann::json::parse(bytes+6,bytes+size);
-        const bool platformUpdate = data.contains("platformUpdate");
-        if (platformUpdate || data.contains("platforms"))
+        if (data.contains("platforms"))
         {
-            const auto& rows = data.at(platformUpdate ? "platformUpdate" : "platforms");
+            const auto& rows = data.at("platforms");
             if (!rows.is_array() || rows.size() > 100) return false;
             decltype(ParisPlatform::Players) nextPlatforms;
             for (const auto& row : rows)
             {
                 const auto name = Wide(row.at("name").get<std::string>());
                 const int platform = row.at("platform").get<int>();
-                if (name.empty() || name.size() > 100 || platform < (platformUpdate ? 0 : 1) || platform > 4) return false;
+                if (name.empty() || name.size() > 100 || platform < 1 || platform > 4) return false;
                 nextPlatforms[name] = platform;
             }
-            if (platformUpdate)
-            {
-                for (const auto& [name, platform] : nextPlatforms)
-                {
-                    if (platform == 0) ParisPlatform::Players.erase(name);
-                    else ParisPlatform::Players[name] = platform;
-                }
-            }
-            else ParisPlatform::Players = std::move(nextPlatforms);
+            ParisPlatform::Players = std::move(nextPlatforms);
             ParisPlatform::Received = timeGetTime();
             return true;
         }
@@ -152,16 +132,6 @@ bool Receive(const BYTE* bytes,int size)
                     const int type=item.at("type"),color=item.at("color");
                     if(type<0||type>=ITEM_WING||color<0||color>0xFFFFFF)return false;
                     colors[MODEL_ITEM+type]=color;
-                }
-                const int platform = row.value("platform", 0);
-                if (row.contains("platform"))
-                {
-                    if (platform >= 1 && platform <= 4)
-                    {
-                        ParisPlatform::Players[name] = platform;
-                        ParisPlatform::Received = timeGetTime();
-                    }
-                    else ParisPlatform::Players.erase(name);
                 }
                 Render::ItemDye::Remember(name.c_str(),colors);
                 const int index=FindCharacterIndex(row.at("key").get<int>());
