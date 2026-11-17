@@ -77,7 +77,7 @@ public:
         const auto& source=data.at("trace");
         if(result.Enabled&&!source.is_null()) {
             auto& value=result.Value;value.Kind=Text(source,"Kind");
-            if(value.Kind!="monster"&&value.Kind!="box"&&value.Kind!="make"&&value.Kind!="editor")return false;
+            if(value.Kind!="monster"&&value.Kind!="box"&&value.Kind!="make"&&value.Kind!="editor"&&value.Kind!="npc"&&value.Kind!="craft")return false;
             value.Source=Text(source,"Source");value.Map=Text(source,"Map");value.Player=Text(source,"Player");
             value.Date=Text(source,"CreatedUtc");
             if(source.contains("X")&&!source["X"].is_null())value.X=source["X"].get<int>();
@@ -108,20 +108,26 @@ inline std::vector<Line> Lines(const Cached* record,int language) {
     constexpr const char* created[]={"Created in: ","Criado em: ","Creado en: ","Tao tai: "};
     constexpr const char* recipient[]={"Dropped for: ","Caiu para: ","Le cayó a: ","Nguoi nhan: "};
     constexpr const char* author[]={"Created by: ","Criado por: ","Creado por: ","Nguoi tao: "};
+    constexpr const char* vendor[]={"NPC: ","NPC: ","NPC: ","NPC: "};
+    constexpr const char* purchased[]={"Bought in: ","Comprado em: ","Comprado en: ","Mua tai: "};
+    constexpr const char* buyer[]={"Bought by: ","Comprado por: ","Comprado por: ","Nguoi mua: "};
+    constexpr const char* crafted[]={"Crafted in: ","Combinado em: ","Combinado en: ","Che tao tai: "};
+    constexpr const char* crafter[]={"Crafted by: ","Combinado por: ","Combinado por: ","Nguoi che tao: "};
+    constexpr const char* chaos[]={"Chaos Machine","Maquina Chaos","Máquina Chaos","May Chaos"};
     constexpr const char* date[]={"Date: ","Data: ","Fecha: ","Ngay: "};
     std::vector<Line> result{{headers[language],0}};
     const auto& value=record->Value;
     if(!value.Known){result.push_back({unknown[language],1});return result;}
     const bool administrative=value.Kind=="make"||value.Kind=="editor";
-    std::string origin=value.Kind=="monster" ? std::string(mob[language])+value.Source :
-        std::string(source[language])+(value.Kind=="editor"?"Editor":value.Kind=="make"?"Make (Admin)":value.Source);
+    std::string origin=value.Kind=="npc" ? std::string(vendor[language])+value.Source : value.Kind=="monster" ? std::string(mob[language])+value.Source :
+        std::string(source[language])+(value.Kind=="craft"&&value.Source=="Chaos Machine"?chaos[language]:value.Kind=="editor"?"Editor":value.Kind=="make"?"Make (Admin)":value.Source);
     result.push_back({origin,1});
     if(!value.Map.empty()) {
         std::string location=value.Map;
         if(value.X>=0&&value.Y>=0)location+=" ("+std::to_string(value.X)+", "+std::to_string(value.Y)+")";
-        result.push_back({std::string(administrative?created[language]:place[language])+location,0});
+        result.push_back({std::string(administrative?created[language]:value.Kind=="craft"?crafted[language]:value.Kind=="npc"?purchased[language]:place[language])+location,0});
     }
-    if(!value.Player.empty())result.push_back({std::string(administrative?author[language]:recipient[language])+value.Player,2});
+    if(!value.Player.empty())result.push_back({std::string(administrative?author[language]:value.Kind=="craft"?crafter[language]:value.Kind=="npc"?buyer[language]:recipient[language])+value.Player,2});
     if(value.Date.size()>=19) {
         const auto& d=value.Date;
         result.push_back({std::string(date[language])+d.substr(8,2)+"/"+d.substr(5,2)+"/"+d.substr(0,4)+" "+d.substr(11,8)+" UTC",3});
