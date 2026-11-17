@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include "ItemRarityTooltip.h"
+#include "Network/Paris/ItemTraceProtocol.h"
+#include "Network/Paris/ItemTraceState.h"
 #include "GameLogic/Items/ItemRarityConfig.h"
 #include "GameLogic/Items/ItemProgressionConfig.h"
 #include "Network/Paris/ItemRarityProtocol.h"
@@ -74,6 +76,23 @@ void AppendHeader(UI::RmlBridge::Tooltip::Config& tooltip, std::vector<Line>& ou
     }
 }
 
+void AppendTrace(std::vector<Line>& output,const tagITEM& item,int language)
+{
+    const auto trace = ParisItemTrace::Lines(Network::Paris::ItemTrace::Query(item), language);
+    if(!trace.empty())output.push_back({.kind=Line::Kind::HalfSpacer});
+    constexpr UI::RmlBridge::Tooltip::LineColor traceColors[] = {
+        UI::RmlBridge::Tooltip::LineColor::Yellow, UI::RmlBridge::Tooltip::LineColor::Blue,
+        UI::RmlBridge::Tooltip::LineColor::Orange, UI::RmlBridge::Tooltip::LineColor::Purple};
+    for(size_t i=0;i<trace.size();++i) {
+        output.push_back({.text=trace[i].Text,.color=traceColors[trace[i].Color],.bold=i==0});
+        if(i==0) {
+            const auto& heading=GameLogic::Items::Rarity::Current().Tiers[3];
+            output.back().customColor=Color(heading.Color);
+            output.back().customBackground=Color(heading.Background);
+        }
+    }
+}
+
 void AppendBonuses(std::vector<Line>& lines, const Category& category, const tagITEM& item, int tier, int language)
 {
     if (category.Bonuses.empty()) return;
@@ -123,6 +142,8 @@ void Decorate(UI::RmlBridge::Tooltip::Config& tooltip, const tagITEM& item)
         if (color >= 0 && color < static_cast<int>(config.Styles.size()))
             ApplyStyle(line, config.Styles[color]);
     }
+    AppendTrace(output,item,language);
     tooltip.lines = std::move(output);
 }
 }
+
