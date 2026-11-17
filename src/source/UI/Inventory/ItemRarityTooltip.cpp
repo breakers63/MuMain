@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "ItemRarityTooltip.h"
 #include "GameLogic/Items/ItemRarityConfig.h"
+#include "GameLogic/Items/ItemProgressionConfig.h"
 #include "Network/Paris/ItemRarityProtocol.h"
 #include "UI/RmlBridge/RmlTooltip.h"
 #include "Data/Translation/MultiLanguage.h"
@@ -58,6 +59,21 @@ void AppendLore(std::vector<Line>& lines, const Configuration& config, const tag
     }
 }
 
+void AppendHeader(UI::RmlBridge::Tooltip::Config& tooltip, std::vector<Line>& output,
+                  const Configuration& config, const tagITEM& item, int tier, int language, bool categorized)
+{
+    if ((categorized || GameLogic::Items::Progression::TierFor(item.Type) > 0) && !config.Tiers[tier].Name.empty())
+    {
+        const auto& style = config.Tiers[tier];
+        Line label{.text = StringUtils::WideToNarrow(TooltipLabel(item.Type, tier, language).c_str()), .bold = true};
+        label.customColor = Color(style.Color);
+        label.customBackground = Color(style.Background);
+        output.push_back(std::move(label));
+        tooltip.borderColor = Color(style.Border);
+        tooltip.borderWidth = style.BorderWidth;
+    }
+}
+
 void AppendBonuses(std::vector<Line>& lines, const Category& category, const tagITEM& item, int tier, int language)
 {
     if (category.Bonuses.empty()) return;
@@ -89,16 +105,7 @@ void Decorate(UI::RmlBridge::Tooltip::Config& tooltip, const tagITEM& item)
     const int tier = std::min(3, ExcellentCount(item.ExcellentFlags));
     const bool categorized = item.Type >= 0 && item.Type < MaximumItemTypes && config.CategoryByItem[item.Type] >= 0;
     std::vector<Line> output;
-    if (categorized && !config.Tiers[tier].Name.empty())
-    {
-        const auto& style = config.Tiers[tier];
-        Line label{.text = StringUtils::WideToNarrow(Localized(style.Name, style.NameTranslations, language).c_str()), .bold = true};
-        label.customColor = Color(style.Color);
-        label.customBackground = Color(style.Background);
-        output.push_back(std::move(label));
-        tooltip.borderColor = Color(style.Border);
-        tooltip.borderWidth = style.BorderWidth;
-    }
+    AppendHeader(tooltip, output, config, item, tier, language, categorized);
     AppendLore(output, config, item, 0);
     if (!tooltip.lines.empty())
     {

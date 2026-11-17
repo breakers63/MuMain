@@ -7,6 +7,7 @@ constexpr int MaximumConfigurationBytes = 60000;
 constexpr int MaximumItemTypes = 8192;
 struct Tier {
   std::wstring Name;
+  std::array<std::array<std::wstring, 9>, 3> TooltipLabels;
   std::array<std::wstring, 3> NameTranslations;
   std::array<int, 3> Color{}, Background{}, Border{};
   float BorderWidth = 1;
@@ -45,6 +46,7 @@ struct Configuration {
 const Configuration &Current();
 bool Replace(const char *bytes, int size);
 int ExcellentCount(unsigned char mask);
+const std::wstring &TooltipLabel(int itemType, int rarity, int language);
 const std::wstring &Localized(const std::wstring &fallback,
                               const std::array<std::wstring, 3> &translations,
                               int language);

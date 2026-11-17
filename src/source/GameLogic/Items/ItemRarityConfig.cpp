@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "ItemRarityConfig.h"
+#include "ItemProgressionConfig.h"
 #include "../../../ThirdParty/json.hpp"
 #include <cmath>
 #include <fstream>
@@ -168,6 +169,14 @@ void ReadLore(const nlohmann::json &root, Configuration &next) {
     next.Lore.push_back(std::move(line));
   }
 }
+void BuildTooltipLabels(Configuration &next) {
+  for (auto &rarity : next.Tiers)
+    for (int language = 0; language < 3; ++language)
+      for (int tier = 0; tier <= Progression::MaximumTier; ++tier)
+        rarity.TooltipLabels[language][tier] =
+            Localized(rarity.Name, rarity.NameTranslations, language) +
+            Progression::Suffix(tier);
+}
 } // namespace
 bool Replace(const char *bytes, int size) {
   if (!bytes || size <= 0 || size > MaximumConfigurationBytes)
@@ -221,6 +230,7 @@ bool Replace(const char *bytes, int size) {
     }
     ReadCategories(root, next);
     ReadLore(root, next);
+    BuildTooltipLabels(next);
     Config = std::move(next);
     Loaded = true;
     return true;
@@ -251,5 +261,12 @@ int ExcellentCount(unsigned char mask) {
   for (unsigned char flags = mask & ExcellentMask; flags; flags >>= 1)
     count += flags & 1;
   return count;
+}
+const std::wstring &TooltipLabel(int itemType, int rarity, int language) {
+  const auto &config = Current();
+  const int safeLanguage = language >= 0 && language < 3 ? language : 0;
+  const int safeRarity = rarity >= 0 && rarity < 4 ? rarity : 0;
+  return config.Tiers[safeRarity].TooltipLabels[safeLanguage]
+                    [Progression::TierFor(itemType)];
 }
 } // namespace GameLogic::Items::Rarity
