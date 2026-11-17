@@ -1,5 +1,6 @@
 #include "UI/NPCs/ServiceDialogState.h"
 #include "stdafx.h"
+#include "Network/Paris/ItemTraceProtocol.h"
 #include "Render/Models/ItemDyeAppearance.h"
 #include "UI/Chat/ParisChatStyle.h"
 #include "Network/Paris/TvtHud.h"
@@ -386,6 +387,7 @@ static int64_t SaturatingAddToUpper(const int64_t current, const int64_t add, in
 
 BOOL CreateSocket(const wchar_t* IpAddr, unsigned short Port)
 {
+    Network::Paris::ItemTrace::Reset();
     BOOL bResult = TRUE;
     g_ConsoleDebug->Write(MCD_NORMAL, L"[Connect to Server] ip address = %ls, port = %d", IpAddr, Port);
 
@@ -433,6 +435,7 @@ BOOL CreateSocket(const wchar_t* IpAddr, unsigned short Port)
 
 void DeleteSocket()
 {
+    Network::Paris::ItemTrace::Reset();
     if (SocketClient)
     {
         SocketClient->Close();
@@ -15821,3 +15824,4 @@ void UnRegisterBuff(eBuffState buff, OBJECT* o)
         }
     }
 }
+

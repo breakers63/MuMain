@@ -1,4 +1,5 @@
 #pragma once
+#include "WebPlatformBadge.h"
 
 #include <array>
 #include <map>
@@ -67,6 +68,12 @@ namespace ParisPlatform
         for (size_t i = 0; i < Count; ++i)
         {
             const auto& badge = Frame[i];
+            if (badge.Platform == 4) {
+                SetRenderColor(191, 128, 255, 255);
+                WebMark::Draw(badge.X, badge.Y, badge.Size,
+                    [](float x,float y,float width,float height) { RenderColor(x,y,width,height); });
+                continue;
+            }
             SetRenderColor(171, 122, 48, 255);
             RenderColor(badge.X, badge.Y, badge.Size, badge.Size);
             SetRenderColor(13, 13, 13, 255);
@@ -103,3 +110,4 @@ namespace ParisPlatform
         Count = 0;
     }
 }
+

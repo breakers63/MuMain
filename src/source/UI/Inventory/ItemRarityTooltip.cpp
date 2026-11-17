@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "ItemRarityTooltip.h"
+#include "Network/Paris/ItemTraceProtocol.h"
+#include "Network/Paris/ItemTraceState.h"
 #include "GameLogic/Items/ItemRarityConfig.h"
+#include "GameLogic/Items/ItemProgressionConfig.h"
 #include "Network/Paris/ItemRarityProtocol.h"
 #include "UI/RmlBridge/RmlTooltip.h"
 #include "Data/Translation/MultiLanguage.h"
@@ -58,6 +61,38 @@ void AppendLore(std::vector<Line>& lines, const Configuration& config, const tag
     }
 }
 
+void AppendHeader(UI::RmlBridge::Tooltip::Config& tooltip, std::vector<Line>& output,
+                  const Configuration& config, const tagITEM& item, int tier, int language, bool categorized)
+{
+    if ((categorized || GameLogic::Items::Progression::TierFor(item.Type, tier > 0) > 0) && !config.Tiers[tier].Name.empty())
+    {
+        const auto& style = config.Tiers[tier];
+        Line label{.text = StringUtils::WideToNarrow(TooltipLabel(item.Type, tier, language).c_str()), .bold = true};
+        label.customColor = Color(style.Color);
+        label.customBackground = Color(style.Background);
+        output.push_back(std::move(label));
+        tooltip.borderColor = Color(style.Border);
+        tooltip.borderWidth = style.BorderWidth;
+    }
+}
+
+void AppendTrace(std::vector<Line>& output,const tagITEM& item,int language)
+{
+    const auto trace = ParisItemTrace::Lines(Network::Paris::ItemTrace::Query(item), language);
+    if(!trace.empty())output.push_back({.kind=Line::Kind::HalfSpacer});
+    constexpr UI::RmlBridge::Tooltip::LineColor traceColors[] = {
+        UI::RmlBridge::Tooltip::LineColor::Yellow, UI::RmlBridge::Tooltip::LineColor::Blue,
+        UI::RmlBridge::Tooltip::LineColor::Orange, UI::RmlBridge::Tooltip::LineColor::Purple};
+    for(size_t i=0;i<trace.size();++i) {
+        output.push_back({.text=trace[i].Text,.color=traceColors[trace[i].Color],.bold=i==0});
+        if(i==0) {
+            const auto& heading=GameLogic::Items::Rarity::Current().Tiers[3];
+            output.back().customColor=Color(heading.Color);
+            output.back().customBackground=Color(heading.Background);
+        }
+    }
+}
+
 void AppendBonuses(std::vector<Line>& lines, const Category& category, const tagITEM& item, int tier, int language)
 {
     if (category.Bonuses.empty()) return;
@@ -89,16 +124,7 @@ void Decorate(UI::RmlBridge::Tooltip::Config& tooltip, const tagITEM& item)
     const int tier = std::min(3, ExcellentCount(item.ExcellentFlags));
     const bool categorized = item.Type >= 0 && item.Type < MaximumItemTypes && config.CategoryByItem[item.Type] >= 0;
     std::vector<Line> output;
-    if (categorized && !config.Tiers[tier].Name.empty())
-    {
-        const auto& style = config.Tiers[tier];
-        Line label{.text = StringUtils::WideToNarrow(Localized(style.Name, style.NameTranslations, language).c_str()), .bold = true};
-        label.customColor = Color(style.Color);
-        label.customBackground = Color(style.Background);
-        output.push_back(std::move(label));
-        tooltip.borderColor = Color(style.Border);
-        tooltip.borderWidth = style.BorderWidth;
-    }
+    AppendHeader(tooltip, output, config, item, tier, language, categorized);
     AppendLore(output, config, item, 0);
     if (!tooltip.lines.empty())
     {
@@ -116,6 +142,7 @@ void Decorate(UI::RmlBridge::Tooltip::Config& tooltip, const tagITEM& item)
         if (color >= 0 && color < static_cast<int>(config.Styles.size()))
             ApplyStyle(line, config.Styles[color]);
     }
+    AppendTrace(output,item,language);
     tooltip.lines = std::move(output);
 }
 }

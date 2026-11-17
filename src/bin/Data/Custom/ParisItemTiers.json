@@ -1,0 +1,1640 @@
+{
+  "Version": 1,
+  "Items": [
+    {
+      "ItemIndex": 0,
+      "Name": "Kris",
+      "Tier": 2
+    },
+    {
+      "ItemIndex": 1,
+      "Name": "Short Sword",
+      "Tier": 2
+    },
+    {
+      "ItemIndex": 2,
+      "Name": "Rapier",
+      "Tier": 2
+    },
+    {
+      "ItemIndex": 3,
+      "Name": "Katache",
+      "Tier": 2
+    },
+    {
+      "ItemIndex": 5,
+      "Name": "Blade",
+      "Tier": 2
+    },
+    {
+      "ItemIndex": 6,
+      "Name": "Gladius",
+      "Tier": 2
+    },
+    {
+      "ItemIndex": 7,
+      "Name": "Falchion",
+      "Tier": 2
+    },
+    {
+      "ItemIndex": 9,
+      "Name": "Sword of Salamander",
+      "Tier": 1
+    },
+    {
+      "ItemIndex": 10,
+      "Name": "Light Saber",
+      "Tier": 1
+    },
+    {
+      "ItemIndex": 11,
+      "Name": "Legendary Sword",
+      "Tier": 4
+    },
+    {
+      "ItemIndex": 12,
+      "Name": "Heliacal Sword",
+      "Tier": 4
+    },
+    {
+      "ItemIndex": 13,
+      "Name": "Double Blade",
+      "Tier": 4
+    },
+    {
+      "ItemIndex": 14,
+      "Name": "Lighting Sword",
+      "Tier": 4
+    },
+    {
+      "ItemIndex": 15,
+      "Name": "Giant Sword",
+      "Tier": 4
+    },
+    {
+      "ItemIndex": 17,
+      "Name": "Dark Breaker",
+      "Tier": 5
+    },
+    {
+      "ItemIndex": 18,
+      "Name": "Thunder Blade",
+      "Tier": 5
+    },
+    {
+      "ItemIndex": 20,
+      "Name": "Knight Blade",
+      "Tier": 6
+    },
+    {
+      "ItemIndex": 21,
+      "Name": "Dark Reign Blade",
+      "Tier": 6
+    },
+    {
+      "ItemIndex": 22,
+      "Name": "Bone Blade",
+      "Tier": 7
+    },
+    {
+      "ItemIndex": 23,
+      "Name": "Explosion Blade",
+      "Tier": 7
+    },
+    {
+      "ItemIndex": 24,
+      "Name": "Daybreak",
+      "Tier": 7
+    },
+    {
+      "ItemIndex": 25,
+      "Name": "Sword Dancer",
+      "Tier": 7
+    },
+    {
+      "ItemIndex": 26,
+      "Name": "Flamberge",
+      "Tier": 8
+    },
+    {
+      "ItemIndex": 27,
+      "Name": "Sword Breaker",
+      "Tier": 8
+    },
+    {
+      "ItemIndex": 28,
+      "Name": "Imperial Sword",
+      "Tier": 8
+    },
+    {
+      "ItemIndex": 31,
+      "Name": "Rune Blade",
+      "Tier": 8
+    },
+    {
+      "ItemIndex": 512,
+      "Name": "Small Axe",
+      "Tier": 3
+    },
+    {
+      "ItemIndex": 513,
+      "Name": "Hand Axe",
+      "Tier": 2
+    },
+    {
+      "ItemIndex": 514,
+      "Name": "Double Axe",
+      "Tier": 2
+    },
+    {
+      "ItemIndex": 515,
+      "Name": "Tomahawk",
+      "Tier": 3
+    },
+    {
+      "ItemIndex": 517,
+      "Name": "Battle Axe",
+      "Tier": 3
+    },
+    {
+      "ItemIndex": 518,
+      "Name": "Nikkea Axe",
+      "Tier": 3
+    },
+    {
+      "ItemIndex": 519,
+      "Name": "Larkan Axe",
+      "Tier": 4
+    },
+    {
+      "ItemIndex": 520,
+      "Name": "Crescent Axe",
+      "Tier": 4
+    },
+    {
+      "ItemIndex": 1024,
+      "Name": "Mace",
+      "Tier": 3
+    },
+    {
+      "ItemIndex": 1025,
+      "Name": "Morning Star",
+      "Tier": 3
+    },
+    {
+      "ItemIndex": 1026,
+      "Name": "Flail",
+      "Tier": 3
+    },
+    {
+      "ItemIndex": 1027,
+      "Name": "Great Hammer",
+      "Tier": 3
+    },
+    {
+      "ItemIndex": 1029,
+      "Name": "Crystal Sword",
+      "Tier": 5
+    },
+    {
+      "ItemIndex": 1030,
+      "Name": "Chaos Dragon Axe",
+      "Tier": 1
+    },
+    {
+      "ItemIndex": 1031,
+      "Name": "Elemental Mace",
+      "Tier": 3
+    },
+    {
+      "ItemIndex": 1032,
+      "Name": "Battle Scepter",
+      "Tier": 3
+    },
+    {
+      "ItemIndex": 1033,
+      "Name": "Master Scepter",
+      "Tier": 1
+    },
+    {
+      "ItemIndex": 1034,
+      "Name": "Great Scepter",
+      "Tier": 4
+    },
+    {
+      "ItemIndex": 1036,
+      "Name": "Great Lord Scepter",
+      "Tier": 6
+    },
+    {
+      "ItemIndex": 1037,
+      "Name": "Divine Scepter of Archangel",
+      "Tier": 7
+    },
+    {
+      "ItemIndex": 1038,
+      "Name": "Soleil Scepter",
+      "Tier": 7
+    },
+    {
+      "ItemIndex": 1040,
+      "Name": "Frost Mace",
+      "Tier": 8
+    },
+    {
+      "ItemIndex": 1041,
+      "Name": "Absolute Scepter",
+      "Tier": 8
+    },
+    {
+      "ItemIndex": 1042,
+      "Name": "Stryker Scepter",
+      "Tier": 8
+    },
+    {
+      "ItemIndex": 1536,
+      "Name": "Light Spear",
+      "Tier": 1
+    },
+    {
+      "ItemIndex": 1537,
+      "Name": "Spear",
+      "Tier": 1
+    },
+    {
+      "ItemIndex": 1539,
+      "Name": "Giant Trident",
+      "Tier": 1
+    },
+    {
+      "ItemIndex": 1540,
+      "Name": "Serpent Spear",
+      "Tier": 3
+    },
+    {
+      "ItemIndex": 1541,
+      "Name": "Double Poleaxe",
+      "Tier": 3
+    },
+    {
+      "ItemIndex": 1542,
+      "Name": "Halberd",
+      "Tier": 3
+    },
+    {
+      "ItemIndex": 1543,
+      "Name": "Berdysh",
+      "Tier": 3
+    },
+    {
+      "ItemIndex": 1544,
+      "Name": "Great Scythe",
+      "Tier": 3
+    },
+    {
+      "ItemIndex": 1545,
+      "Name": "Bill of Balrog",
+      "Tier": 4
+    },
+    {
+      "ItemIndex": 1546,
+      "Name": "Dragon Spear",
+      "Tier": 5
+    },
+    {
+      "ItemIndex": 2048,
+      "Name": "Short Bow",
+      "Tier": 2
+    },
+    {
+      "ItemIndex": 2049,
+      "Name": "Bow",
+      "Tier": 2
+    },
+    {
+      "ItemIndex": 2050,
+      "Name": "Elven Bow",
+      "Tier": 2
+    },
+    {
+      "ItemIndex": 2051,
+      "Name": "Battle Bow",
+      "Tier": 2
+    },
+    {
+      "ItemIndex": 2052,
+      "Name": "Tiger Bow",
+      "Tier": 1
+    },
+    {
+      "ItemIndex": 2053,
+      "Name": "Silver Bow",
+      "Tier": 4
+    },
+    {
+      "ItemIndex": 2054,
+      "Name": "Chaos Nature Bow",
+      "Tier": 1
+    },
+    {
+      "ItemIndex": 2055,
+      "Name": "Bolt",
+      "Tier": 1
+    },
+    {
+      "ItemIndex": 2056,
+      "Name": "Crossbow",
+      "Tier": 1
+    },
+    {
+      "ItemIndex": 2057,
+      "Name": "Golden Crossbow",
+      "Tier": 1
+    },
+    {
+      "ItemIndex": 2058,
+      "Name": "Arquebus",
+      "Tier": 1
+    },
+    {
+      "ItemIndex": 2059,
+      "Name": "Light Crossbow",
+      "Tier": 1
+    },
+    {
+      "ItemIndex": 2060,
+      "Name": "Serpent Crossbow",
+      "Tier": 3
+    },
+    {
+      "ItemIndex": 2061,
+      "Name": "Bluewing Crossbow",
+      "Tier": 3
+    },
+    {
+      "ItemIndex": 2062,
+      "Name": "Aquagold Crossbow",
+      "Tier": 3
+    },
+    {
+      "ItemIndex": 2063,
+      "Name": "Arrows",
+      "Tier": 1
+    },
+    {
+      "ItemIndex": 2065,
+      "Name": "Celestial Bow",
+      "Tier": 5
+    },
+    {
+      "ItemIndex": 2067,
+      "Name": "Great Reign Crossbow",
+      "Tier": 5
+    },
+    {
+      "ItemIndex": 2068,
+      "Name": "Arrow Viper Bow",
+      "Tier": 6
+    },
+    {
+      "ItemIndex": 2069,
+      "Name": "Sylph Wind Bow",
+      "Tier": 7
+    },
+    {
+      "ItemIndex": 2070,
+      "Name": "Albatross Bow",
+      "Tier": 7
+    },
+    {
+      "ItemIndex": 2071,
+      "Name": "Stinger Bow",
+      "Tier": 8
+    },
+    {
+      "ItemIndex": 2072,
+      "Name": "Air Lyn Bow",
+      "Tier": 8
+    },
+    {
+      "ItemIndex": 2560,
+      "Name": "Skull Staff",
+      "Tier": 2
+    },
+    {
+      "ItemIndex": 2561,
+      "Name": "Angelic Staff",
+      "Tier": 2
+    },
+    {
+      "ItemIndex": 2562,
+      "Name": "Serpent Staff",
+      "Tier": 2
+    },
+    {
+      "ItemIndex": 2563,
+      "Name": "Thunder Staff",
+      "Tier": 2
+    },
+    {
+      "ItemIndex": 2564,
+      "Name": "Gorgon Staff",
+      "Tier": 2
+    },
+    {
+      "ItemIndex": 2565,
+      "Name": "Legendary Staff",
+      "Tier": 4
+    },
+    {
+      "ItemIndex": 2566,
+      "Name": "Staff of Resurrection",
+      "Tier": 4
+    },
+    {
+      "ItemIndex": 2567,
+      "Name": "Chaos Lightning Staff",
+      "Tier": 1
+    },
+    {
+      "ItemIndex": 2571,
+      "Name": "Staff of Kundun",
+      "Tier": 6
+    },
+    {
+      "ItemIndex": 2572,
+      "Name": "Grand Viper Staff",
+      "Tier": 7
+    },
+    {
+      "ItemIndex": 2573,
+      "Name": "Platina Staff",
+      "Tier": 7
+    },
+    {
+      "ItemIndex": 2590,
+      "Name": "Deadly Staff",
+      "Tier": 8
+    },
+    {
+      "ItemIndex": 2591,
+      "Name": "Imperial Staff",
+      "Tier": 8
+    },
+    {
+      "ItemIndex": 2593,
+      "Name": "Chromatic Staff",
+      "Tier": 8
+    },
+    {
+      "ItemIndex": 3072,
+      "Name": "Small Shield",
+      "Tier": 2
+    },
+    {
+      "ItemIndex": 3073,
+      "Name": "Horn Shield",
+      "Tier": 2
+    },
+    {
+      "ItemIndex": 3074,
+      "Name": "Kite Shield",
+      "Tier": 2
+    },
+    {
+      "ItemIndex": 3075,
+      "Name": "Elven Shield",
+      "Tier": 2
+    },
+    {
+      "ItemIndex": 3076,
+      "Name": "Buckler",
+      "Tier": 1
+    },
+    {
+      "ItemIndex": 3077,
+      "Name": "Dragon Slayer Shield",
+      "Tier": 3
+    },
+    {
+      "ItemIndex": 3078,
+      "Name": "Skull Shield",
+      "Tier": 3
+    },
+    {
+      "ItemIndex": 3079,
+      "Name": "Spiked Shield",
+      "Tier": 3
+    },
+    {
+      "ItemIndex": 3080,
+      "Name": "Tower Shield",
+      "Tier": 3
+    },
+    {
+      "ItemIndex": 3081,
+      "Name": "Plate Shield",
+      "Tier": 4
+    },
+    {
+      "ItemIndex": 3082,
+      "Name": "Big Round Shield",
+      "Tier": 4
+    },
+    {
+      "ItemIndex": 3083,
+      "Name": "Serpent Shield",
+      "Tier": 4
+    },
+    {
+      "ItemIndex": 3084,
+      "Name": "Bronze Shield",
+      "Tier": 4
+    },
+    {
+      "ItemIndex": 3085,
+      "Name": "Dragon Shield",
+      "Tier": 4
+    },
+    {
+      "ItemIndex": 3086,
+      "Name": "Legendary Shield",
+      "Tier": 4
+    },
+    {
+      "ItemIndex": 3087,
+      "Name": "Grand Soul Shield",
+      "Tier": 6
+    },
+    {
+      "ItemIndex": 3088,
+      "Name": "Elemental Shield",
+      "Tier": 5
+    },
+    {
+      "ItemIndex": 3089,
+      "Name": "Crimson Glory",
+      "Tier": 8
+    },
+    {
+      "ItemIndex": 3090,
+      "Name": "Salamander Shield",
+      "Tier": 8
+    },
+    {
+      "ItemIndex": 3091,
+      "Name": "Frost Barrier",
+      "Tier": 8
+    },
+    {
+      "ItemIndex": 3092,
+      "Name": "Guardian Shield",
+      "Tier": 8
+    },
+    {
+      "ItemIndex": 3584,
+      "Name": "Bronze Helm",
+      "Tier": 3
+    },
+    {
+      "ItemIndex": 3585,
+      "Name": "Dragon Helm",
+      "Tier": 4
+    },
+    {
+      "ItemIndex": 3586,
+      "Name": "Pad Helm",
+      "Tier": 2
+    },
+    {
+      "ItemIndex": 3587,
+      "Name": "Legendary Helm",
+      "Tier": 4
+    },
+    {
+      "ItemIndex": 3588,
+      "Name": "Bone Helm",
+      "Tier": 3
+    },
+    {
+      "ItemIndex": 3589,
+      "Name": "Leather Helm",
+      "Tier": 2
+    },
+    {
+      "ItemIndex": 3590,
+      "Name": "Scale Helm",
+      "Tier": 3
+    },
+    {
+      "ItemIndex": 3591,
+      "Name": "Sphinx Mask",
+      "Tier": 3
+    },
+    {
+      "ItemIndex": 3593,
+      "Name": "Plate Helm",
+      "Tier": 4
+    },
+    {
+      "ItemIndex": 3594,
+      "Name": "Vine Helm",
+      "Tier": 2
+    },
+    {
+      "ItemIndex": 3595,
+      "Name": "Silk Helm",
+      "Tier": 2
+    },
+    {
+      "ItemIndex": 3596,
+      "Name": "Wind Helm",
+      "Tier": 3
+    },
+    {
+      "ItemIndex": 3597,
+      "Name": "Spirit Helm",
+      "Tier": 3
+    },
+    {
+      "ItemIndex": 3598,
+      "Name": "Guardian Helm",
+      "Tier": 4
+    },
+    {
+      "ItemIndex": 3600,
+      "Name": "Black Dragon Helm",
+      "Tier": 5
+    },
+    {
+      "ItemIndex": 3601,
+      "Name": "Dark Phoenix Helm",
+      "Tier": 5
+    },
+    {
+      "ItemIndex": 3602,
+      "Name": "Grand Soul Helm",
+      "Tier": 5
+    },
+    {
+      "ItemIndex": 3603,
+      "Name": "Divine Helm",
+      "Tier": 5
+    },
+    {
+      "ItemIndex": 3605,
+      "Name": "Great Dragon Helm",
+      "Tier": 6
+    },
+    {
+      "ItemIndex": 3606,
+      "Name": "Dark Soul Helm",
+      "Tier": 6
+    },
+    {
+      "ItemIndex": 3608,
+      "Name": "Red Spirit Helm",
+      "Tier": 6
+    },
+    {
+      "ItemIndex": 3609,
+      "Name": "Light Plate Mask",
+      "Tier": 3
+    },
+    {
+      "ItemIndex": 3610,
+      "Name": "Adamantine Mask",
+      "Tier": 4
+    },
+    {
+      "ItemIndex": 3611,
+      "Name": "Dark Steel Mask",
+      "Tier": 5
+    },
+    {
+      "ItemIndex": 3612,
+      "Name": "Dark Master Mask",
+      "Tier": 6
+    },
+    {
+      "ItemIndex": 3613,
+      "Name": "Dragon Knight Helm",
+      "Tier": 7
+    },
+    {
+      "ItemIndex": 3614,
+      "Name": "Venom Mist Helm",
+      "Tier": 7
+    },
+    {
+      "ItemIndex": 3615,
+      "Name": "Sylphid Ray Helm",
+      "Tier": 7
+    },
+    {
+      "ItemIndex": 3617,
+      "Name": "Sunlight Mask",
+      "Tier": 7
+    },
+    {
+      "ItemIndex": 3629,
+      "Name": "Titan Helm",
+      "Tier": 8
+    },
+    {
+      "ItemIndex": 3630,
+      "Name": "Brave Helm",
+      "Tier": 8
+    },
+    {
+      "ItemIndex": 3633,
+      "Name": "Seraphim Helm",
+      "Tier": 8
+    },
+    {
+      "ItemIndex": 3634,
+      "Name": "Faith Helm",
+      "Tier": 8
+    },
+    {
+      "ItemIndex": 3635,
+      "Name": "Paewang Mask",
+      "Tier": 8
+    },
+    {
+      "ItemIndex": 3636,
+      "Name": "Hades Helm",
+      "Tier": 8
+    },
+    {
+      "ItemIndex": 4096,
+      "Name": "Bronze Armor",
+      "Tier": 3
+    },
+    {
+      "ItemIndex": 4097,
+      "Name": "Dragon Armor",
+      "Tier": 4
+    },
+    {
+      "ItemIndex": 4098,
+      "Name": "Pad Armor",
+      "Tier": 2
+    },
+    {
+      "ItemIndex": 4099,
+      "Name": "Legendary Armor",
+      "Tier": 4
+    },
+    {
+      "ItemIndex": 4100,
+      "Name": "Bone Armor",
+      "Tier": 3
+    },
+    {
+      "ItemIndex": 4101,
+      "Name": "Leather Armor",
+      "Tier": 2
+    },
+    {
+      "ItemIndex": 4102,
+      "Name": "Scale Armor",
+      "Tier": 3
+    },
+    {
+      "ItemIndex": 4103,
+      "Name": "Sphinx Armor",
+      "Tier": 3
+    },
+    {
+      "ItemIndex": 4105,
+      "Name": "Plate Armor",
+      "Tier": 4
+    },
+    {
+      "ItemIndex": 4106,
+      "Name": "Vine Armor",
+      "Tier": 2
+    },
+    {
+      "ItemIndex": 4107,
+      "Name": "Silk Armor",
+      "Tier": 2
+    },
+    {
+      "ItemIndex": 4108,
+      "Name": "Wind Armor",
+      "Tier": 3
+    },
+    {
+      "ItemIndex": 4109,
+      "Name": "Spirit Armor",
+      "Tier": 3
+    },
+    {
+      "ItemIndex": 4110,
+      "Name": "Guardian Armor",
+      "Tier": 4
+    },
+    {
+      "ItemIndex": 4111,
+      "Name": "Storm Crow Armor",
+      "Tier": 4
+    },
+    {
+      "ItemIndex": 4112,
+      "Name": "Black Dragon Armor",
+      "Tier": 5
+    },
+    {
+      "ItemIndex": 4113,
+      "Name": "Dark Phoenix Armor",
+      "Tier": 5
+    },
+    {
+      "ItemIndex": 4114,
+      "Name": "Grand Soul Armor",
+      "Tier": 5
+    },
+    {
+      "ItemIndex": 4115,
+      "Name": "Divine Armor",
+      "Tier": 5
+    },
+    {
+      "ItemIndex": 4116,
+      "Name": "Thunder Hawk Armor",
+      "Tier": 5
+    },
+    {
+      "ItemIndex": 4117,
+      "Name": "Great Dragon Armor",
+      "Tier": 6
+    },
+    {
+      "ItemIndex": 4118,
+      "Name": "Dark Soul Armor",
+      "Tier": 6
+    },
+    {
+      "ItemIndex": 4119,
+      "Name": "Hurricane Armor",
+      "Tier": 6
+    },
+    {
+      "ItemIndex": 4120,
+      "Name": "Red Sprit Armor",
+      "Tier": 6
+    },
+    {
+      "ItemIndex": 4121,
+      "Name": "Light Plate Armor",
+      "Tier": 3
+    },
+    {
+      "ItemIndex": 4122,
+      "Name": "Adamantine Armor",
+      "Tier": 4
+    },
+    {
+      "ItemIndex": 4123,
+      "Name": "Dark Steel Armor",
+      "Tier": 5
+    },
+    {
+      "ItemIndex": 4124,
+      "Name": "Dark Master Armor",
+      "Tier": 6
+    },
+    {
+      "ItemIndex": 4125,
+      "Name": "Dragon Knight Armor",
+      "Tier": 7
+    },
+    {
+      "ItemIndex": 4126,
+      "Name": "Venom Mist Armor",
+      "Tier": 7
+    },
+    {
+      "ItemIndex": 4127,
+      "Name": "Sylphid Ray Armor",
+      "Tier": 7
+    },
+    {
+      "ItemIndex": 4128,
+      "Name": "Volcano Armor",
+      "Tier": 7
+    },
+    {
+      "ItemIndex": 4129,
+      "Name": "Sunlight Armor",
+      "Tier": 7
+    },
+    {
+      "ItemIndex": 4141,
+      "Name": "Titan Armor",
+      "Tier": 8
+    },
+    {
+      "ItemIndex": 4142,
+      "Name": "Brave Armor",
+      "Tier": 8
+    },
+    {
+      "ItemIndex": 4143,
+      "Name": "Destory Armor",
+      "Tier": 8
+    },
+    {
+      "ItemIndex": 4144,
+      "Name": "Phantom Armor",
+      "Tier": 8
+    },
+    {
+      "ItemIndex": 4145,
+      "Name": "Seraphim Armor",
+      "Tier": 8
+    },
+    {
+      "ItemIndex": 4146,
+      "Name": "Faith Armor",
+      "Tier": 8
+    },
+    {
+      "ItemIndex": 4147,
+      "Name": "Paewang Armor",
+      "Tier": 8
+    },
+    {
+      "ItemIndex": 4148,
+      "Name": "Hades Armor",
+      "Tier": 8
+    },
+    {
+      "ItemIndex": 4608,
+      "Name": "Bronze Pants",
+      "Tier": 3
+    },
+    {
+      "ItemIndex": 4609,
+      "Name": "Dragon Pants",
+      "Tier": 4
+    },
+    {
+      "ItemIndex": 4610,
+      "Name": "Pad Pants",
+      "Tier": 2
+    },
+    {
+      "ItemIndex": 4611,
+      "Name": "Legendary Pants",
+      "Tier": 4
+    },
+    {
+      "ItemIndex": 4612,
+      "Name": "Bone Pants",
+      "Tier": 3
+    },
+    {
+      "ItemIndex": 4613,
+      "Name": "Leather Pants",
+      "Tier": 2
+    },
+    {
+      "ItemIndex": 4614,
+      "Name": "Scale Pants",
+      "Tier": 3
+    },
+    {
+      "ItemIndex": 4615,
+      "Name": "Sphinx Pants",
+      "Tier": 3
+    },
+    {
+      "ItemIndex": 4617,
+      "Name": "Plate Pants",
+      "Tier": 4
+    },
+    {
+      "ItemIndex": 4618,
+      "Name": "Vine Pants",
+      "Tier": 2
+    },
+    {
+      "ItemIndex": 4619,
+      "Name": "Silk Pants",
+      "Tier": 2
+    },
+    {
+      "ItemIndex": 4620,
+      "Name": "Wind Pants",
+      "Tier": 3
+    },
+    {
+      "ItemIndex": 4621,
+      "Name": "Spirit Pants",
+      "Tier": 3
+    },
+    {
+      "ItemIndex": 4622,
+      "Name": "Guardian Pants",
+      "Tier": 4
+    },
+    {
+      "ItemIndex": 4623,
+      "Name": "Storm Crow Pants",
+      "Tier": 4
+    },
+    {
+      "ItemIndex": 4624,
+      "Name": "Black Dragon Pants",
+      "Tier": 5
+    },
+    {
+      "ItemIndex": 4625,
+      "Name": "Dark Phoenix Pants",
+      "Tier": 5
+    },
+    {
+      "ItemIndex": 4626,
+      "Name": "Grand Soul Pants",
+      "Tier": 5
+    },
+    {
+      "ItemIndex": 4627,
+      "Name": "Divine Pants",
+      "Tier": 5
+    },
+    {
+      "ItemIndex": 4628,
+      "Name": "Thunder Hawk Pants",
+      "Tier": 5
+    },
+    {
+      "ItemIndex": 4629,
+      "Name": "Great Dragon Pants",
+      "Tier": 6
+    },
+    {
+      "ItemIndex": 4630,
+      "Name": "Dark Soul Pants",
+      "Tier": 6
+    },
+    {
+      "ItemIndex": 4631,
+      "Name": "Hurricane Pants",
+      "Tier": 6
+    },
+    {
+      "ItemIndex": 4632,
+      "Name": "Red Spirit Pants",
+      "Tier": 6
+    },
+    {
+      "ItemIndex": 4633,
+      "Name": "Light Plate Pants",
+      "Tier": 3
+    },
+    {
+      "ItemIndex": 4634,
+      "Name": "Adamantine Pants",
+      "Tier": 4
+    },
+    {
+      "ItemIndex": 4635,
+      "Name": "Dark Steel Pants",
+      "Tier": 5
+    },
+    {
+      "ItemIndex": 4636,
+      "Name": "Dark Master Pants",
+      "Tier": 6
+    },
+    {
+      "ItemIndex": 4637,
+      "Name": "Dragon Knight Pants",
+      "Tier": 7
+    },
+    {
+      "ItemIndex": 4638,
+      "Name": "Venom Mist Pants",
+      "Tier": 7
+    },
+    {
+      "ItemIndex": 4639,
+      "Name": "Sylphid Ray Pants",
+      "Tier": 7
+    },
+    {
+      "ItemIndex": 4640,
+      "Name": "Volcano Pants",
+      "Tier": 7
+    },
+    {
+      "ItemIndex": 4641,
+      "Name": "Sunlight Pants",
+      "Tier": 7
+    },
+    {
+      "ItemIndex": 4653,
+      "Name": "Titan Pants",
+      "Tier": 8
+    },
+    {
+      "ItemIndex": 4654,
+      "Name": "Brave Pants",
+      "Tier": 8
+    },
+    {
+      "ItemIndex": 4655,
+      "Name": "Destory Pants",
+      "Tier": 8
+    },
+    {
+      "ItemIndex": 4656,
+      "Name": "Phantom Pants",
+      "Tier": 8
+    },
+    {
+      "ItemIndex": 4657,
+      "Name": "Seraphim Pants",
+      "Tier": 8
+    },
+    {
+      "ItemIndex": 4658,
+      "Name": "Faith Pants",
+      "Tier": 8
+    },
+    {
+      "ItemIndex": 4659,
+      "Name": "Paewang Pants",
+      "Tier": 8
+    },
+    {
+      "ItemIndex": 4660,
+      "Name": "Hades Pants",
+      "Tier": 8
+    },
+    {
+      "ItemIndex": 5120,
+      "Name": "Bronze Gloves",
+      "Tier": 3
+    },
+    {
+      "ItemIndex": 5121,
+      "Name": "Dragon Gloves",
+      "Tier": 4
+    },
+    {
+      "ItemIndex": 5122,
+      "Name": "Pad Gloves",
+      "Tier": 2
+    },
+    {
+      "ItemIndex": 5123,
+      "Name": "Legendary Gloves",
+      "Tier": 4
+    },
+    {
+      "ItemIndex": 5124,
+      "Name": "Bone Gloves",
+      "Tier": 3
+    },
+    {
+      "ItemIndex": 5125,
+      "Name": "Leather Gloves",
+      "Tier": 2
+    },
+    {
+      "ItemIndex": 5126,
+      "Name": "Scale Gloves",
+      "Tier": 3
+    },
+    {
+      "ItemIndex": 5127,
+      "Name": "Sphinx Gloves",
+      "Tier": 3
+    },
+    {
+      "ItemIndex": 5129,
+      "Name": "Plate Gloves",
+      "Tier": 4
+    },
+    {
+      "ItemIndex": 5130,
+      "Name": "Vine Gloves",
+      "Tier": 2
+    },
+    {
+      "ItemIndex": 5131,
+      "Name": "Silk Gloves",
+      "Tier": 2
+    },
+    {
+      "ItemIndex": 5132,
+      "Name": "Wind Gloves",
+      "Tier": 3
+    },
+    {
+      "ItemIndex": 5133,
+      "Name": "Spirit Gloves",
+      "Tier": 3
+    },
+    {
+      "ItemIndex": 5134,
+      "Name": "Guardian Gloves",
+      "Tier": 4
+    },
+    {
+      "ItemIndex": 5135,
+      "Name": "Storm Crow Gloves",
+      "Tier": 4
+    },
+    {
+      "ItemIndex": 5136,
+      "Name": "Black Dragon Gloves",
+      "Tier": 5
+    },
+    {
+      "ItemIndex": 5137,
+      "Name": "Dark Phoenix Gloves",
+      "Tier": 5
+    },
+    {
+      "ItemIndex": 5138,
+      "Name": "Grand Soul Gloves",
+      "Tier": 5
+    },
+    {
+      "ItemIndex": 5139,
+      "Name": "Divine Gloves",
+      "Tier": 5
+    },
+    {
+      "ItemIndex": 5140,
+      "Name": "Thunder Hawk Gloves",
+      "Tier": 5
+    },
+    {
+      "ItemIndex": 5141,
+      "Name": "Great Dragon Gloves",
+      "Tier": 6
+    },
+    {
+      "ItemIndex": 5142,
+      "Name": "Dark Soul Gloves",
+      "Tier": 6
+    },
+    {
+      "ItemIndex": 5143,
+      "Name": "Hurricane Gloves",
+      "Tier": 6
+    },
+    {
+      "ItemIndex": 5144,
+      "Name": "Red Spirit Gloves",
+      "Tier": 6
+    },
+    {
+      "ItemIndex": 5145,
+      "Name": "Light Plate Gloves",
+      "Tier": 3
+    },
+    {
+      "ItemIndex": 5146,
+      "Name": "Adamantine Gloves",
+      "Tier": 4
+    },
+    {
+      "ItemIndex": 5147,
+      "Name": "Dark Steel Gloves",
+      "Tier": 5
+    },
+    {
+      "ItemIndex": 5148,
+      "Name": "Dark Master Gloves",
+      "Tier": 6
+    },
+    {
+      "ItemIndex": 5149,
+      "Name": "Dragon Knight Gloves",
+      "Tier": 7
+    },
+    {
+      "ItemIndex": 5150,
+      "Name": "Venom Mist Gloves",
+      "Tier": 7
+    },
+    {
+      "ItemIndex": 5151,
+      "Name": "Sylphid Ray Gloves",
+      "Tier": 7
+    },
+    {
+      "ItemIndex": 5152,
+      "Name": "Volcano Gloves",
+      "Tier": 7
+    },
+    {
+      "ItemIndex": 5153,
+      "Name": "Sunlight Gloves",
+      "Tier": 7
+    },
+    {
+      "ItemIndex": 5165,
+      "Name": "Titan Gloves",
+      "Tier": 8
+    },
+    {
+      "ItemIndex": 5166,
+      "Name": "Brave Gloves",
+      "Tier": 8
+    },
+    {
+      "ItemIndex": 5167,
+      "Name": "Destroy Gloves",
+      "Tier": 8
+    },
+    {
+      "ItemIndex": 5168,
+      "Name": "Phantom Gloves",
+      "Tier": 8
+    },
+    {
+      "ItemIndex": 5169,
+      "Name": "Seraphim Gloves",
+      "Tier": 8
+    },
+    {
+      "ItemIndex": 5170,
+      "Name": "Faith Gloves",
+      "Tier": 8
+    },
+    {
+      "ItemIndex": 5171,
+      "Name": "Paewang Gloves",
+      "Tier": 8
+    },
+    {
+      "ItemIndex": 5172,
+      "Name": "Hades Gloves",
+      "Tier": 8
+    },
+    {
+      "ItemIndex": 5632,
+      "Name": "Bronze Boots",
+      "Tier": 3
+    },
+    {
+      "ItemIndex": 5633,
+      "Name": "Dragon Boots",
+      "Tier": 4
+    },
+    {
+      "ItemIndex": 5634,
+      "Name": "Pad Boots",
+      "Tier": 2
+    },
+    {
+      "ItemIndex": 5635,
+      "Name": "Legendary Boots",
+      "Tier": 4
+    },
+    {
+      "ItemIndex": 5636,
+      "Name": "Bone Boots",
+      "Tier": 3
+    },
+    {
+      "ItemIndex": 5637,
+      "Name": "Leather Boots",
+      "Tier": 2
+    },
+    {
+      "ItemIndex": 5638,
+      "Name": "Scale Boots",
+      "Tier": 3
+    },
+    {
+      "ItemIndex": 5639,
+      "Name": "Sphinx Boots",
+      "Tier": 3
+    },
+    {
+      "ItemIndex": 5641,
+      "Name": "Plate Boots",
+      "Tier": 4
+    },
+    {
+      "ItemIndex": 5642,
+      "Name": "Vine Boots",
+      "Tier": 2
+    },
+    {
+      "ItemIndex": 5643,
+      "Name": "Silk Boots",
+      "Tier": 2
+    },
+    {
+      "ItemIndex": 5644,
+      "Name": "Wind Boots",
+      "Tier": 3
+    },
+    {
+      "ItemIndex": 5645,
+      "Name": "Spirit Boots",
+      "Tier": 3
+    },
+    {
+      "ItemIndex": 5646,
+      "Name": "Guardian Boots",
+      "Tier": 4
+    },
+    {
+      "ItemIndex": 5647,
+      "Name": "Storm Crow Boots",
+      "Tier": 4
+    },
+    {
+      "ItemIndex": 5648,
+      "Name": "Black Dragon Boots",
+      "Tier": 5
+    },
+    {
+      "ItemIndex": 5649,
+      "Name": "Dark Phoenix Boots",
+      "Tier": 5
+    },
+    {
+      "ItemIndex": 5650,
+      "Name": "Grand Soul Boots",
+      "Tier": 5
+    },
+    {
+      "ItemIndex": 5651,
+      "Name": "Divine Boots",
+      "Tier": 5
+    },
+    {
+      "ItemIndex": 5652,
+      "Name": "Thunder Hawk Boots",
+      "Tier": 5
+    },
+    {
+      "ItemIndex": 5653,
+      "Name": "Great Dragon Boots",
+      "Tier": 6
+    },
+    {
+      "ItemIndex": 5654,
+      "Name": "Dark Soul Boots",
+      "Tier": 6
+    },
+    {
+      "ItemIndex": 5655,
+      "Name": "Hurricane Boots",
+      "Tier": 6
+    },
+    {
+      "ItemIndex": 5656,
+      "Name": "Red Spirit Boots",
+      "Tier": 6
+    },
+    {
+      "ItemIndex": 5657,
+      "Name": "Light Plate Boots",
+      "Tier": 3
+    },
+    {
+      "ItemIndex": 5658,
+      "Name": "Adamantine Boots",
+      "Tier": 4
+    },
+    {
+      "ItemIndex": 5659,
+      "Name": "Dark Steel Boots",
+      "Tier": 5
+    },
+    {
+      "ItemIndex": 5660,
+      "Name": "Dark Master Boots",
+      "Tier": 6
+    },
+    {
+      "ItemIndex": 5661,
+      "Name": "Dragon Knight Boots",
+      "Tier": 7
+    },
+    {
+      "ItemIndex": 5662,
+      "Name": "Venom Mist Boots",
+      "Tier": 7
+    },
+    {
+      "ItemIndex": 5663,
+      "Name": "Sylphid Ray Boots",
+      "Tier": 7
+    },
+    {
+      "ItemIndex": 5664,
+      "Name": "Volcano Boots",
+      "Tier": 7
+    },
+    {
+      "ItemIndex": 5665,
+      "Name": "Sunlight Boots",
+      "Tier": 7
+    },
+    {
+      "ItemIndex": 5677,
+      "Name": "Titan Boots",
+      "Tier": 8
+    },
+    {
+      "ItemIndex": 5678,
+      "Name": "Brave Boots",
+      "Tier": 8
+    },
+    {
+      "ItemIndex": 5679,
+      "Name": "Destory Boots",
+      "Tier": 8
+    },
+    {
+      "ItemIndex": 5680,
+      "Name": "Phantom Boots",
+      "Tier": 8
+    },
+    {
+      "ItemIndex": 5681,
+      "Name": "Seraphim Boots",
+      "Tier": 8
+    },
+    {
+      "ItemIndex": 5682,
+      "Name": "Faith Boots",
+      "Tier": 8
+    },
+    {
+      "ItemIndex": 5683,
+      "Name": "Phaewang Boots",
+      "Tier": 8
+    },
+    {
+      "ItemIndex": 5684,
+      "Name": "Hades Boots",
+      "Tier": 8
+    },
+    {
+      "ItemIndex": 6180,
+      "Name": "Wing of Storm",
+      "Tier": 8
+    },
+    {
+      "ItemIndex": 6181,
+      "Name": "Wing of Eternal",
+      "Tier": 8
+    },
+    {
+      "ItemIndex": 6182,
+      "Name": "Wing of Illusion",
+      "Tier": 8
+    },
+    {
+      "ItemIndex": 6183,
+      "Name": "Wing of Ruin",
+      "Tier": 8
+    },
+    {
+      "ItemIndex": 6184,
+      "Name": "Cape of Emperor",
+      "Tier": 8
+    },
+    {
+      "ItemIndex": 6274,
+      "Name": "Small Cape Paris",
+      "Tier": 1
+    },
+    {
+      "ItemIndex": 6276,
+      "Name": "Small Wings of Elf",
+      "Tier": 1
+    },
+    {
+      "ItemIndex": 6277,
+      "Name": "Small Wings of Heaven",
+      "Tier": 1
+    },
+    {
+      "ItemIndex": 6278,
+      "Name": "Small Wings of Satan",
+      "Tier": 1
+    },
+    {
+      "ItemIndex": 6661,
+      "Name": "Dark Raven",
+      "Tier": 1
+    }
+  ]
+}

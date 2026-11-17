@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "ItemTraceProtocol.h"
 #include "Network/Paris/BossDamageProtocol.h"
 #include "Engine/Object/ZzzCharacter.h"
 #include "ItemDyeProtocol.h"
@@ -144,6 +145,11 @@ void Dispatch(const std::uint8_t* packet, int size)
         }
         return;
     }
+    if (head == 0xFA && subcode == 0xDD)
+    {
+        (void)ItemTrace::Receive(packet, size);
+        return;
+    }
     if (head == 0xED && subcode == 0x67)
         (void)ItemRarity::Receive(packet, size);
     if (head == 0xFA)
@@ -218,3 +224,4 @@ void Dispatch(const std::uint8_t* packet, int size)
         handler(packet, size);
 }
 } // namespace Network::Paris
+
