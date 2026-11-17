@@ -267,6 +267,6 @@ const std::wstring &TooltipLabel(int itemType, int rarity, int language) {
   const int safeLanguage = language >= 0 && language < 3 ? language : 0;
   const int safeRarity = rarity >= 0 && rarity < 4 ? rarity : 0;
   return config.Tiers[safeRarity].TooltipLabels[safeLanguage]
-                    [Progression::TierFor(itemType)];
+                    [Progression::TierFor(itemType, safeRarity > 0)];
 }
 } // namespace GameLogic::Items::Rarity

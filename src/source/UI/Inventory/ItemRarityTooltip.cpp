@@ -62,7 +62,7 @@ void AppendLore(std::vector<Line>& lines, const Configuration& config, const tag
 void AppendHeader(UI::RmlBridge::Tooltip::Config& tooltip, std::vector<Line>& output,
                   const Configuration& config, const tagITEM& item, int tier, int language, bool categorized)
 {
-    if ((categorized || GameLogic::Items::Progression::TierFor(item.Type) > 0) && !config.Tiers[tier].Name.empty())
+    if ((categorized || GameLogic::Items::Progression::TierFor(item.Type, tier > 0) > 0) && !config.Tiers[tier].Name.empty())
     {
         const auto& style = config.Tiers[tier];
         Line label{.text = StringUtils::WideToNarrow(TooltipLabel(item.Type, tier, language).c_str()), .bold = true};

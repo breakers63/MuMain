@@ -37,9 +37,11 @@ TierMap Load() {
 }
 } // namespace
 
-int TierFor(int itemType) {
+int TierFor(int itemType, bool excellent) {
   static const TierMap tiers = Load();
-  return itemType >= 0 && itemType < MaximumItemTypes ? tiers[itemType] : 0;
+  if (itemType < 0 || itemType >= MaximumItemTypes || tiers[itemType] == 0)
+    return 0;
+  return excellent ? tiers[itemType] : 1;
 }
 
 const wchar_t* Suffix(int tier) {
