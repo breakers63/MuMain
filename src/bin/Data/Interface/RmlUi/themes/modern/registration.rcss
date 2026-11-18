@@ -1,0 +1,18 @@
+@spritesheet registration-art {src:"../../../ParisLogin/registration-frame.tga";registration-frame:0px 0px 1024px 1024px;}
+body {width:100%;height:100%;margin:0;pointer-events:none;}
+#panel.registration-panel {position:absolute;display:block;left:50%;top:250rem;margin-left:-250rem;width:500rem;height:390rem;padding:0;box-sizing:border-box;decorator:image(registration-frame);pointer-events:auto;color:#f1e4c5;font-family:"token(font-login-display)";font-size:15rem;}
+#registration_title {position:absolute;display:block;left:60rem;top:32rem;width:380rem;height:25rem;margin:0;line-height:25rem;text-align:center;font-size:18rem;color:#f5d18a;white-space:nowrap;}
+.registration-fields {position:absolute;display:block;left:0;top:0;width:500rem;height:280rem;}
+.registration-fields label {position:absolute;display:block;left:60rem;width:125rem;height:28rem;line-height:28rem;margin:0;font-size:15rem;}
+.registration-fields input {position:absolute;display:block;left:190rem;width:250rem;height:28rem;box-sizing:border-box;background-color:#080809;color:#f1e4c5;border:1rem #bd8c34;border-radius:4rem;padding:3rem 8rem;font-size:15rem;}
+#registration_label_user,#registration_user {top:87rem;}
+#registration_label_password,#registration_password {top:133rem;}
+#registration_label_confirmation,#registration_confirmation {top:179rem;}
+#registration_label_email,#registration_email {top:225rem;}
+.registration-message {position:absolute;display:block;left:60rem;top:272rem;width:380rem;height:42rem;text-align:center;line-height:17rem;font-size:13rem;color:#ffb487;}
+.registration-actions {position:absolute;display:block;left:0;top:0;width:500rem;height:390rem;pointer-events:none;}
+.registration-actions button {position:absolute;display:block;top:330rem;height:32rem;line-height:28rem;box-sizing:border-box;padding:0;margin:0;color:#f5d18a;background-color:#17120a;border:2rem #c69740;border-radius:6rem;text-align:center;font-size:15rem;pointer-events:auto;}
+#registration_submit {left:60rem;width:205rem;}
+#registration_close {left:280rem;width:160rem;}
+.registration-actions button:hover {background-color:#4c3b20;}
+.registration-panel.busy input,.registration-panel.busy button {opacity:0.6;pointer-events:none;}

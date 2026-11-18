@@ -1,0 +1,41 @@
+{
+  "Version": "2026.11.17.3",
+  "Files": [
+    {
+      "Path": "Data/Interface/ParisLogin/registration-frame.OZT",
+      "Url": "https://patch.hispanogaming.com/windows/releases/2026.11.17.3/Vulkan/Data/Interface/ParisLogin/registration-frame.OZT",
+      "Size": 4194352,
+      "Sha256": "a67199c90350fca8dee00cc393c1d6020c1c744b84f1595f575c120d65527caf"
+    },
+    {
+      "Path": "Data/Interface/ParisLogin/registration-frame.tga",
+      "Url": "https://patch.hispanogaming.com/windows/releases/2026.11.17.3/Vulkan/Data/Interface/ParisLogin/registration-frame.tga",
+      "Size": 4194348,
+      "Sha256": "cdc4e92b3bfbe858696a992d1a633161acc3649337b4db6181ad616f180f45f9"
+    },
+    {
+      "Path": "Data/Interface/ParisLogin/sell-confirm-frame.OZT",
+      "Url": "https://patch.hispanogaming.com/windows/releases/2026.11.17.3/Vulkan/Data/Interface/ParisLogin/sell-confirm-frame.OZT",
+      "Size": 4194352,
+      "Sha256": "7fa84fc09f0354f36bfd4e53a8126619d27ccc79fbf1cdff1be5472ec39b3508"
+    },
+    {
+      "Path": "Data/Interface/ParisLogin/sell-confirm-frame.tga",
+      "Url": "https://patch.hispanogaming.com/windows/releases/2026.11.17.3/Vulkan/Data/Interface/ParisLogin/sell-confirm-frame.tga",
+      "Size": 4194348,
+      "Sha256": "a3b575e648f2c68aa6cc9c47d2546736f1b0f6fdd65b4793c735ee594fa6bc8e"
+    },
+    {
+      "Path": "Data/Interface/ParisLogin/sell-confirm-buttons.OZT",
+      "Url": "https://patch.hispanogaming.com/windows/releases/2026.11.17.3/Vulkan/Data/Interface/ParisLogin/sell-confirm-buttons.OZT",
+      "Size": 1048624,
+      "Sha256": "cd3d0fbd5b54fecfa6bebb8aee5dfe9e71a001dfe5ea40a3e92c8d2f52d8374c"
+    },
+    {
+      "Path": "Data/Interface/ParisLogin/sell-confirm-buttons.tga",
+      "Url": "https://patch.hispanogaming.com/windows/releases/2026.11.17.3/Vulkan/Data/Interface/ParisLogin/sell-confirm-buttons.tga",
+      "Size": 1048620,
+      "Sha256": "d62b51cb6f713d7ab1a956b728d4638dba0e0e05aca106ecfb3e7516a75109bd"
+    }
+  ]
+}

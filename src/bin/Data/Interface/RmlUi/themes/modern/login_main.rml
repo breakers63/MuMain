@@ -7,8 +7,9 @@
 </head>
 <body class="scene-window-scale">
  <div id="panel">
-  <div id="btn_menu_item" class="btn-icon-item"><div id="btn_menu" class="btn-icon btn-icon-menu paris-small-button"><span class="paris-button-caption">MENÚ</span></div></div>
-  <div id="btn_credit_item" class="btn-icon-item"><div id="btn_credit" class="btn-icon btn-icon-credit paris-small-button"><span class="paris-button-caption">CRÉDITOS</span></div></div>
+  <div id="btn_menu_item" class="btn-icon-item"><div id="btn_menu" class="btn-icon btn-icon-menu paris-small-button"><span class="paris-button-caption">MENU</span></div></div>
+  <div id="btn_register_item" class="btn-icon-item"><div id="btn_register" class="btn-icon btn-icon-register paris-small-button"><span class="paris-button-caption">CREAR CUENTA</span></div></div>
+  <div id="btn_credit_item" class="btn-icon-item"><div id="btn_credit" class="btn-icon btn-icon-credit paris-small-button"><span class="paris-button-caption">CREDITOS</span></div></div>
  </div>
 </body>
 </rml>

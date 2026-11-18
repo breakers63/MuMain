@@ -9,3 +9,5 @@ body { width: 100%; height: 100%; margin: 0; pointer-events: none; }
 .btn-icon:hover .paris-button-caption { color: #fff3c6; }
 
 body { font-size: 0.625dp; }
+
+#btn_register { left: 50%; top: 0; margin-left: -65rem; width: 130rem; }

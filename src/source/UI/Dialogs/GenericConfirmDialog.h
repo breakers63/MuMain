@@ -114,6 +114,7 @@ namespace mu::ui::window
         // doesn't comfortably fit the default panel height where scrolling mid-interaction is bad
         // UX (a portrait2D, or Mode::NumericKeypad's digit pad). false (default) keeps today's size.
         bool tallPanel = false;
+        bool parisSale = false;
 
         std::function<void()> onPrimary;   // OK / Enter / progress-timer-elapsed
         std::function<void()> onSecondary; // fires only if secondaryLabel is set; never Esc-bound
@@ -266,6 +267,7 @@ namespace mu::ui::window
             // the bg document's #panel has no data model of its own, so it's kept in sync
             // imperatively instead, see Show()/ShowNext()).
             bool hasTallPanel = false;
+            bool parisSale = false;
         };
         void BindRmlModel(Rml::DataModelConstructor& c, GenericDialogRmlModel& model);
         UI::RmlBridge::ThemedView<GenericDialogRmlModel> m_RmlView{"generic_confirm_dialog",

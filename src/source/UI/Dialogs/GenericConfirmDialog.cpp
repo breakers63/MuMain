@@ -92,6 +92,7 @@ void CGenericConfirmDialog::BindRmlModel(Rml::DataModelConstructor& c, GenericDi
     c.Bind("portrait2d_text", &model.portrait2DText);
 
     c.Bind("has_tall_panel", &model.hasTallPanel);
+    c.Bind("paris_sale", &model.parisSale);
 
     c.BindEventCallback("gcd_primary_click",
         [this](Rml::DataModelHandle, Rml::Event&, const Rml::VariantList&) { m_bPrimaryClicked = true; });
@@ -695,6 +696,7 @@ void CGenericConfirmDialog::SyncRmlModel()
         m_RmlView.MarkDirty("portrait2d_text");
     }
 
+    if(model.parisSale!=m_Active.parisSale){model.parisSale=m_Active.parisSale;m_RmlView.MarkDirty("paris_sale");}
     const bool hasTallPanel = m_Active.tallPanel;
     if (model.hasTallPanel != hasTallPanel)
     {

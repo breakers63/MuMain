@@ -1,0 +1,28 @@
+<rml>
+<head>
+ <title>Crear cuenta - MU Paris</title>
+ <link type="text/rcss" href="base.rcss"/>
+ <link type="text/rcss" href="registration.rcss"/>
+</head>
+<body class="scene-window-scale">
+ <div id="panel" class="registration-panel" data-model="paris_registration" data-class-busy="busy" data-event-keydown="registration_key">
+  <h2 id="registration_title">CREAR CUENTA</h2>
+  
+  <div class="registration-fields" data-if="!done">
+   <label id="registration_label_user" for="registration_user">Usuario</label>
+   <input id="registration_user" class="text-field" type="text" maxlength="10" data-value="username"/>
+   <label id="registration_label_password" for="registration_password">Contrasena</label>
+   <input id="registration_password" class="text-field" type="password" maxlength="20" data-value="password"/>
+   <label id="registration_label_confirmation" for="registration_confirmation">Repetir contrasena</label>
+   <input id="registration_confirmation" class="text-field" type="password" maxlength="20" data-value="confirmation"/>
+   <label id="registration_label_email" for="registration_email">Correo electronico</label>
+   <input id="registration_email" class="text-field" type="text" maxlength="254" data-value="email"/>
+  </div>
+  <div class="registration-message">{{message}}</div>
+  <div class="registration-actions">
+   <button id="registration_submit" data-event-click="registration_submit">{{submit_text}}</button>
+   <button id="registration_close" data-event-click="registration_close">CANCELAR</button>
+  </div>
+ </div>
+</body>
+</rml>

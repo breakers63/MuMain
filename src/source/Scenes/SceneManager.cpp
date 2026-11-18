@@ -1,3 +1,4 @@
+#include "UI/Windows/RegistrationDialog.h"
 ///////////////////////////////////////////////////////////////////////////////
 // SceneManager.cpp - Scene management and rendering orchestration
 ///////////////////////////////////////////////////////////////////////////////
@@ -766,6 +767,7 @@ static void CheckServerConnection()
         g_ErrorReport.Write(L"> Connection closed. ");
         g_ErrorReport.WriteCurrentTime();
         g_ConsoleDebug->Write(MCD_NORMAL, L"Connection closed");
+        if(!UI::Login::Registration::Visible())
         CSceneUICoordinator::Instance().PopUpMsgWin(MESSAGE_SERVER_LOST);
     }
 }

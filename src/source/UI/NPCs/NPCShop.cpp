@@ -389,15 +389,17 @@ bool mu::ui::window::CNPCShop::InventoryProcess()
             mu::ui::window::GenericDialogConfig cfg;
             cfg.showCancel = true;
             cfg.item3D = *pItem;
-            cfg.title = L"Confirmar venta";
-            cfg.primaryLabel = L"Aceptar";
-            cfg.cancelLabel = L"Cancelar";
+            cfg.parisSale = true;
+            cfg.title = L"CONFIRMAR VENTA";
+            cfg.primaryLabel = L"VENDER";
+            cfg.cancelLabel = L"CANCELAR";
             cfg.severity = mu::ui::window::GenericDialogConfig::Severity::Warning;
             cfg.tallPanel = true;
             cfg.lines = {
-                { L"¿Deseas vender este objeto?", true },
-                { L"Este objeto es valioso. Confirma para continuar.", false },
-                };
+                { L"Articulo valioso", true, RGBA(255,210,103,255) },
+                { L"Revisa el item antes de venderlo", false, RGBA(245,234,203,255) },
+                { L"Esta venta no se puede deshacer", false, RGBA(245,234,203,255) },
+            };
             cfg.onPrimary = []
             {
                 CPickedItem* pPickedItem = mu::ui::window::CInventoryCtrl::GetPickedItem();

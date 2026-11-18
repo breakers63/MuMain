@@ -1,3 +1,4 @@
+#include "Network/Paris/RegistrationSession.h"
 #include "UI/NPCs/ServiceDialogState.h"
 #include "stdafx.h"
 #include "Network/Paris/ItemTraceProtocol.h"
@@ -541,6 +542,7 @@ void ReceiveServerList(const BYTE* ReceiveBuffer)
         Offset += sizeof(PRECEIVE_SERVER_LIST);
     }
 
+    if(Network::Paris::RegistrationSession::ServerList())return;
     UI::LoginScene::ServerListReceived();
 
     g_ErrorReport.Write(L"Success Receive Server List.\r\n");
@@ -638,6 +640,7 @@ void ReceiveJoinServer(const BYTE* ReceiveBuffer)
     //         }
     //     }
     // #endif
+    Network::Paris::RegistrationSession::Joined();
 }
 
 void ReceiveConfirmPassword(const BYTE* ReceiveBuffer)
@@ -15824,4 +15827,3 @@ void UnRegisterBuff(eBuffState buff, OBJECT* o)
         }
     }
 }
-

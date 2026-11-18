@@ -5,6 +5,7 @@
 #include "stdafx.h"
 #include "UI/Windows/LoginWin.h"
 #include "UI/Windows/LoginMainWin.h"
+#include "UI/Windows/RegistrationDialog.h"
 #include "UI/Windows/ServerSelWin.h"
 #include "Core/Input/Input.h"
 #include "UI/Core/SceneUICoordinator.h"
@@ -278,6 +279,7 @@ void CLoginWin::RmlToggleSavePassword()
 
 bool CLoginWin::UpdateWhileActive()
 {
+    if(UI::Login::Registration::Visible())return true;
 	if (CInput::Instance().IsKeyDown(VK_RETURN))
 	{
 		SubmitLogin();
@@ -509,7 +511,7 @@ void CLoginWin::SyncRmlModel()
     }
 
     wchar_t szServerName[MAX_TEXT_LENGTH] = {};
-    constexpr wchar_t serverCaption[] = L"%ls-%d · Servidor";
+    constexpr wchar_t serverCaption[] = L"%ls-%d  Servidor";
     mu_swprintf(szServerName, serverCaption, g_ServerListManager->GetSelectServerName(), g_ServerListManager->GetSelectServerIndex());
     const std::string serverNameUtf8 = StringUtils::WideToNarrow(szServerName);
     if (m_RmlView.GetModel().serverName != serverNameUtf8)

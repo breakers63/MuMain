@@ -4,6 +4,7 @@
 
 #include "stdafx.h"
 #include "UI/Windows/LoginMainWin.h"
+#include "UI/Windows/RegistrationDialog.h"
 
 #include "Core/Input/Input.h"
 #include "UI/Core/SceneUICoordinator.h"
@@ -79,6 +80,8 @@ void CLoginMainWin::OnRmlBuilt()
     Rml::ElementDocument* document = m_RmlView.Document();
     if (Rml::Element* e = document->GetElementById("btn_menu"))
         e->AddEventListener(Rml::EventId::Click, new ClickCallbackListener([this] { RmlClickMenu(); }));
+    if (Rml::Element* e = document->GetElementById("btn_register"))
+        e->AddEventListener(Rml::EventId::Click, new ClickCallbackListener([] { UI::Login::Registration::Open(); }));
     if (Rml::Element* e = document->GetElementById("btn_credit"))
         e->AddEventListener(Rml::EventId::Click, new ClickCallbackListener([this] { RmlClickCredit(); }));
 }
@@ -100,6 +103,7 @@ void CLoginMainWin::RefreshLayout()
 
 void CLoginMainWin::Release()
 {
+    UI::Login::Registration::Release();
     // Called explicitly at each scene transition; without it this bar's icons stay visible and
     // overlap the next scene's own UI. Hide, not unload -- the document is created once and reused.
     m_RmlView.Hide();

@@ -66,8 +66,8 @@ namespace
                 g_View.MarkDirty(boundName);
             }
         };
-        syncLabel(&PromptModel::titleText, "title_text", I18N::Game::LoginSavePasswordWarningTitle);
-        syncLabel(&PromptModel::bodyText, "body_text", I18N::Game::LoginSavePasswordWarningBody);
+        syncLabel(&PromptModel::titleText, "title_text", L"GUARDAR CONTRASENA");
+        syncLabel(&PromptModel::bodyText, "body_text", L"Guarda tu contrasena solo en un equipo personal");
         syncLabel(&PromptModel::okLabel, "ok_label", I18N::Game::OK);
         syncLabel(&PromptModel::cancelLabel, "cancel_label", I18N::Game::Cancel);
     }

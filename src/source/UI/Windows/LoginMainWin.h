@@ -8,6 +8,7 @@
 #pragma once
 
 #include "UI/Core/WindowObject.h"
+#include "UI/Windows/RegistrationDialog.h"
 #include "UI/RmlBridge/RmlThemedView.h"
 
 namespace Rml { class ElementDocument; }
@@ -53,6 +54,7 @@ public:
     }
     bool Update() override
     {
+        UI::Login::Registration::Tick();
         return true;
     }
     // Claims any click within its own bounding box. Not modal.

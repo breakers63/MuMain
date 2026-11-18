@@ -413,3 +413,28 @@
 #panel.sale .sale-edge-bottom { bottom:0dp; left:18dp; right:18dp; height:12dp; decorator:image(sale-edge-bottom); }
 #panel.sale .sale-edge-left { left:0dp; top:18dp; bottom:18dp; width:12dp; decorator:image(sale-edge-left); }
 #panel.sale .sale-edge-right { right:0dp; top:18dp; bottom:18dp; width:12dp; decorator:image(sale-edge-right); }
+
+/* MU Paris NPC sale confirmation from the approved mockup */
+@spritesheet paris-sell-confirm-art {src:"../../../ParisLogin/sell-confirm-frame.tga";paris-sell-confirm:0px 0px 1024px 1024px;}
+.sale-strip {display:none;}
+#panel.sale {width:380dp;height:231.8dp;min-height:231.8dp;margin-left:-190dp;padding:0;border-width:0;background-color:transparent;decorator:image(paris-sell-confirm);}
+#panel.sale .sale-corner,#panel.sale .sale-edge,#panel.sale .sale-backdrop,#panel.sale .sale-close,#panel.sale .sale-warning,#panel.sale .gcd-header-title {display:none;}
+#panel.sale .sale-title {display:block;position:absolute;left:30.4dp;right:auto;top:23.56dp;width:319.2dp;height:18.24dp;line-height:18.24dp;font-size:15.96dp;text-align:center;color:#ffd267;}
+#panel.sale .gcd-body {position:absolute;display:block;left:0;right:auto;top:0;width:380dp;height:174.8dp;margin:0;padding:0;}
+#panel.sale .gcd-content-row {position:absolute;display:block;left:0;top:0;width:380dp;height:174.8dp;margin:0;padding:0;}
+#panel.sale #gcd_item3d_slot {position:absolute;display:block;left:38dp;top:56.24dp;width:98.8dp;height:83.6dp;margin:0;border:0.76dp #bb8c32;border-radius:3.04dp;background-color:#050505;}
+#panel.sale #gcd_item3d {left:0;top:0;width:97.28dp;height:82.08dp;}
+#panel.sale .gcd-text-col {position:absolute;display:block;left:148.96dp;top:63.84dp;width:200.64dp;height:83.6dp;margin:0;padding:0;overflow:visible;}
+#panel.sale .gcd-line {display:block;width:200.64dp;margin:0 0 9.12dp;line-height:13.68dp;font-size:11.4dp;text-align:center;white-space:normal;}
+#panel.sale .gcd-line.bold {font-size:15.96dp;line-height:19dp;color:#ffd267;}
+#panel.sale .sale-strip {display:block;position:absolute;left:24.32dp;top:158.84dp;width:331.36dp;height:19dp;line-height:17.48dp;box-sizing:border-box;border:0.76dp #b98b2e;background-color:#1a1006;text-align:center;font-size:12.16dp;color:#f5eacb;}
+#panel.sale #gcd_btn_primary,#panel.sale #gcd_btn_cancel {display:block;position:absolute;top:190dp;bottom:auto;width:130.72dp;height:25.84dp;padding:0;margin:0;line-height:22.8dp;text-align:center;font-size:14.44dp;border:1.52dp #c9953b;border-radius:4.56dp;decorator:none;color:#f7e3a4;}
+#panel.sale #gcd_btn_primary {left:49.4dp;background-color:#67400b;}
+#panel.sale #gcd_btn_cancel {left:201.4dp;background-color:#171719;}
+#panel.sale #gcd_btn_primary:hover {background-color:#946313;}
+#panel.sale #gcd_btn_cancel:hover {background-color:#37302a;}
+
+@spritesheet paris-sell-buttons {src:"../../../ParisLogin/sell-confirm-buttons.tga";paris-sell-yes:0px 0px 512px 256px;paris-sell-no:512px 0px 512px 256px;}
+#panel.sale #gcd_btn_primary {decorator:image(paris-sell-yes);border-width:0;background-color:transparent;}
+#panel.sale #gcd_btn_cancel {decorator:image(paris-sell-no);border-width:0;background-color:transparent;}
+#panel.sale #gcd_btn_primary:hover,#panel.sale #gcd_btn_cancel:hover {background-color:transparent;color:#ffffff;}
