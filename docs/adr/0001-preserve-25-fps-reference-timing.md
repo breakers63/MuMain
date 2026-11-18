@@ -37,10 +37,58 @@ Below 25 FPS the factor remains capped at `1`. The simulation slows instead
 of taking oversized steps that can skip animation keys or destabilize legacy
 logic.
 
+## Ambient flock timing
+
+Ambient birds, bats, butterflies and fish use the same reference-time basis for flock steering.
+The turn limit is applied as degrees per reference frame multiplied by the frame factor.
+For a Lorencia bird's 13-degree reference step, this is 325 degrees per second at frame rates of at least 25 FPS.
+Below 25 FPS, each update remains capped at the reference step.
+Fractional headings are retained so small high-FPS turns are not rounded away.
+Butterflies steer only when `rand_fps_check(4)` passes, about every four reference frames at any frame rate.
+That gate already follows time, so each of their steers takes the whole reference step rather than a share of it.
+Normalized flock directions describe geometry, not elapsed time; only the turn step is time-scaled.
+Players do not need to change VSync or their FPS limit to keep the intended turning speed.
+
+## Head-turn smoothing
+
+Characters turn their heads toward their existing look targets by closing 20% of the remaining angular gap per 25-FPS reference frame.
+For a fractional reference frame, the blend is `1 - pow(0.8, FPS_ANIMATION_FACTOR)` rather than `0.2 * FPS_ANIMATION_FACTOR`.
+This preserves the exponential response over equal elapsed time at frame rates of at least 25 FPS.
+Below 25 FPS, each update remains capped at the original 20% blend.
+Yaw and pitch follow the shortest angular path; roll and look-target selection are unchanged.
+This also applies to helper NPCs using player models, such as Leo the Helper.
+No player configuration or FPS cap is required.
+
+## Dark Raven timing
+
+The Dark Lord's Dark Raven travels and turns using the same 25-FPS reference timing as other creatures.
+Its stored flight direction is a displacement per reference frame; rotating it into world space does not change that unit.
+Only the displacement applied to its position takes the frame factor.
+Random course changes already occur at the reference rate, so each event keeps its full random turn and averages the new speed with the full previous speed.
+Its recovery teleport places it 250 units above the owner regardless of frame rate.
+The opening attack trail emits its ten-joint batches at the reference rate rather than on every rendered frame.
+Animation playback and attack timers retain their existing elapsed-time scaling.
+Players do not need to change VSync or their FPS limit for the intended flight and attack presentation.
+
 ## Consequences
 
 - Raw per-frame increments are defects unless the value is intentionally
   frame-count based.
+- `rand_fps_check(n)` is the per-frame form of the original `rand() % n == 0`
+  and belongs only on chances rolled every frame. A pick between variants, or
+  a chance rolled once per event (spawn setup in `CreateEffect`,
+  `CreateJoint`, `CreateParticle`, packet handlers), stays a plain `rand()`
+  pick. A gate nested in another gate, or around a `*FpsChecked` spawn,
+  scales the chance twice. Where the original rolled `rand() % n`, keep that
+  `n`: it is the intended rate at 25 FPS.
+- An integer frame counter, or anything laid once per frame (trail tails,
+  weapon blurs), cannot take a fractional step. It steps by
+  `REFERENCE_FRAME_STEP`, the whole reference frames that passed this frame
+  (0 or 1), or keeps its own accumulator. A counter
+  compared with `==` needs care: between steps it holds its value for
+  several frames. Blurs age their trail on reference frames only; the
+  poses one frame submits replace the previous frame's poses until a
+  reference frame keeps them, so a multi-pose swing stays whole.
 - Changing `REFERENCE_FPS` changes global gameplay timing and requires
   asset calibration plus broad behavioral verification.
 - Frame caps remain performance and presentation controls, not correctness

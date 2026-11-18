@@ -10,6 +10,9 @@
  */
 constexpr double REFERENCE_FPS = 25.0;
 
+// Adds a frame's share of a reference frame and takes out the whole reference frames it completes.
+int TakeReferenceFrameSteps(float& referenceFrames, float frameFactor);
+
 int CalcAngle(float PositionX, float PositionY, float TargetX, float TargetY);
 float CreateAngle(float x1, float y1, float x2, float y2);
 float CreateAngle2D(const vec3_t from, const vec2_t to);
@@ -20,7 +23,7 @@ float MoveHumming(vec3_t Position, vec3_t Angle, vec3_t TargetPosition, float Tu
 void MovePosition(vec3_t Position, vec3_t Angle, vec3_t Speed);
 std::uint8_t CalcTargetPos(float x, float y, int Tx, int Ty);
 void Alpha(OBJECT* o);
-void MoveBoid(OBJECT* o, int i, OBJECT* Boids, int MAX);
+void MoveBoid(OBJECT* o, int i, OBJECT* Boids, int MAX, float referenceFrames);
 void PushObject(vec3_t PushPosition, vec3_t Position, float Power, vec3_t Angle);
 
 void SetAction(OBJECT* o, int Action, bool bBlending = true);
@@ -29,6 +32,7 @@ bool TestDistance(CHARACTER* c, vec3_t TargetPosition, float Range);
 
 void LookAtTarget(OBJECT* o, const CHARACTER* targetCharacter);
 void MoveHead(CHARACTER* c);
+void SmoothHeadAngles(vec3_t angles, const vec3_t targetAngles, float referenceFrames);
 void Damage(vec3_t soPosition, CHARACTER* tc, float AttackRange, int AttackPoint, bool Hit);
 
 bool MovePath(CHARACTER* c, bool Turn = true);

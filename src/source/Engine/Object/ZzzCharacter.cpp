@@ -5567,8 +5567,7 @@ void MoveCharacterVisual(CHARACTER* c, OBJECT* o)
                     if (o->HeadTargetAngle[i] < 0) o->HeadTargetAngle[i] += 360.f;
             }
 
-            for (int j = 0; j < 2; j++)
-                o->HeadAngle[j] = TurnAngle2(o->HeadAngle[j], o->HeadTargetAngle[j], FarAngle(o->HeadAngle[j], o->HeadTargetAngle[j]) * 0.2f);
+            SmoothHeadAngles(o->HeadAngle, o->HeadTargetAngle, FPS_ANIMATION_FACTOR);
         }
 
         vec3_t p, Position;
@@ -8926,7 +8925,7 @@ void RenderCharacter(CHARACTER* c, OBJECT* o, int Select)
 
         if (o->CurrentAction == MONSTER01_WALK)
         {
-            o->m_iAnimation++;
+            o->m_iAnimation += REFERENCE_FRAME_STEP;
             if (rand_fps_check(20))
                 PlayBuffer(SOUND_MOONRABBIT_WALK);
         }
@@ -10919,7 +10918,7 @@ void RenderCharacter(CHARACTER* c, OBJECT* o, int Select)
 
                     c->ExtendStateTime = 0;
                 }
-                c->ExtendStateTime++;
+                c->ExtendStateTime += REFERENCE_FRAME_STEP;
             }
 
             if (fullset && g_pOption->GetRenderLevel() >= 2)

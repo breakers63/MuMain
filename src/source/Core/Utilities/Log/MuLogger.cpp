@@ -26,10 +26,11 @@ struct LoggerState
     bool explicitlyInitialized = false;
 };
 
+// Process lifetime: other statics can log after Shutdown(), regardless of construction order.
 LoggerState& State()
 {
-    static LoggerState state;
-    return state;
+    static auto* const state = new LoggerState();
+    return *state;
 }
 
 std::shared_ptr<spdlog::logger> CreateLogger(LoggerState& state, const std::string& name)
@@ -37,7 +38,8 @@ std::shared_ptr<spdlog::logger> CreateLogger(LoggerState& state, const std::stri
     auto logger = std::make_shared<spdlog::logger>(name, state.sink);
     logger->set_level(spdlog::level::info);
     logger->flush_on(spdlog::level::err);
-    spdlog::register_logger(logger);
+    // Own the named loggers here: spdlog's global registry may already be destroyed
+    // when a global UI owner logs from its destructor.
     state.loggers.emplace(name, logger);
     return logger;
 }
@@ -83,7 +85,6 @@ void Shutdown()
         entry.second->flush();
     state.loggers.clear();
     state.sink->set_sinks({});
-    spdlog::shutdown();
     state.sinksInitialized = false;
     state.explicitlyInitialized = false;
 }
