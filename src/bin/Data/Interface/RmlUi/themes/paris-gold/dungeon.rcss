@@ -1,0 +1,400 @@
+/* MU Paris: centered live menu matching the supplied 1536x1024 gold skin.
+
+   Fixed aspect ratio, scaled by the shared dp system; artwork owns chrome only. */
+
+body { position:absolute;left:0;top:0;right:0;bottom:0;font-family:"token(font-body)";font-size:8dp;pointer-events:none;color:#eee9dc; }
+
+@spritesheet paris-dungeon-skin { src:"../../../Dungeon/paris-menu-gold.tga"; paris-dungeon-frame:0px 0px 1536px 1024px; }
+
+#dg_panel { position:absolute;left:50%;top:50%;width:600dp;height:400dp;margin-left:-300dp;margin-top:-212dp;pointer-events:auto; }
+
+#dg_frame { position:absolute;left:0;top:0;width:600dp;height:400dp;decorator:image(paris-dungeon-frame);pointer-events:none; }
+
+#dg_title {display:none;}
+
+#dg_close {position:absolute;left:543dp;top:30dp;width:24dp;height:20dp;pointer-events:auto;}
+
+#dg_close:hover {background-color:#ffd25725;}
+
+#dg_select_label,#dg_difficulty_label,.dg-box-title,#dg_power_label,#dg_page_previous,#dg_page_next,#dg_page,#dg_footer_close,#dg_join_label {font-family:"Cinzel";color:#f4d782;text-align:center;font-weight:bold;white-space:nowrap;}
+
+#dg_select_label {position:absolute;left:39dp;top:71dp;width:165dp;height:13dp;font-size:9dp;}
+
+#dg_list {position:absolute;left:35dp;top:93dp;width:170dp;height:185dp;}
+
+.dg-dungeon {position:relative;display:block;width:170dp;height:40dp;margin-bottom:8.2dp;pointer-events:auto;}
+
+.dg-dungeon-image {position:absolute;left:0;top:0;width:170dp;height:40dp;opacity:0.85;}
+
+.dg-dungeon:hover .dg-dungeon-image,.dg-dungeon.selected .dg-dungeon-image {opacity:1;}
+
+.dg-dungeon-frame {position:absolute;left:0;top:0;width:170dp;height:40dp;box-sizing:border-box;border:1dp #b18b32;pointer-events:none;}
+
+.dg-dungeon.selected .dg-dungeon-frame {border:1.5dp #ffe277;}
+
+.dg-dungeon-name {position:absolute;left:8dp;top:20dp;width:155dp;height:16dp;font-family:"Cinzel";font-size:11dp;font-weight:bold;color:#fff1ae;font-effect:outline(1px #000);white-space:nowrap;}
+
+.dg-dungeon.inactive .dg-dungeon-image {image-color:#707070;}
+
+#dg_art_box {position:absolute;left:225dp;top:69dp;width:339dp;height:102dp;}
+
+#dg_art {position:absolute;left:0;top:0;width:339dp;height:102dp;}
+
+#dg_desc_box {position:absolute;left:0;top:68dp;width:339dp;height:34dp;background-color:#00000099;}
+
+#dg_name {position:absolute;left:0;top:0;width:339dp;text-align:center;color:#ffe18a;font-family:"Cinzel";font-size:17dp;font-weight:bold;white-space:nowrap;font-effect:outline(1px #000);}
+
+#dg_desc {position:absolute;left:5dp;top:21dp;width:329dp;text-align:center;font-size:8dp;line-height:10dp;color:#f3f0e7;overflow:hidden;}
+
+#dg_difficulty_label {position:absolute;left:342dp;top:179dp;width:102dp;font-size:10dp;}
+
+#dg_difficulties {position:absolute;left:240dp;top:195dp;width:311dp;height:41dp;}
+
+.dg-difficulty {position:relative;display:inline-block;width:98dp;height:40dp;margin-right:8dp;box-sizing:border-box;pointer-events:auto;}
+
+.dg-difficulty:last-child {margin-right:0;}
+
+.dg-difficulty.selected {border:1dp #ffcb44;background-color:#d7a72d10;}
+
+.dg-difficulty:hover {background-color:#d7a72d18;}
+
+.dg-difficulty-icon {position:absolute;left:34dp;top:0;width:30dp;height:30dp;}
+
+.dg-difficulty-name {position:absolute;left:0;top:27dp;width:98dp;text-align:center;font-family:"Cinzel";font-size:11dp;font-weight:bold;color:#fff0b2;white-space:nowrap;}
+
+.dg-difficulty.locked .dg-difficulty-icon {image-color:#777;}
+
+.dg-box {position:absolute;top:244dp;height:81dp;}
+
+#dg_boost {left:226dp;width:157dp;}
+
+#dg_requirements {left:396dp;width:166dp;}
+
+.dg-box-title {position:absolute;left:0;top:1dp;width:100%;font-size:11dp;}
+
+.dg-stat-row {position:absolute;left:7dp;right:7dp;height:12dp;font-size:8dp;line-height:12dp;white-space:nowrap;}
+
+.dg-value {position:absolute;right:0;top:0;text-align:right;}
+
+#dg_boost .dg-row-1 {top:17dp;} #dg_boost .dg-row-2 {top:31dp;} #dg_boost .dg-row-3 {top:45dp;} #dg_boost .dg-row-4 {top:59dp;}
+
+#dg_requirements .dg-row-1 {top:17dp;} #dg_requirements .dg-row-2 {top:29dp;} #dg_requirements .dg-row-3 {top:41dp;} #dg_requirements .dg-row-4 {top:53dp;} #dg_requirements .dg-row-5 {top:65dp;}
+
+.dg-good {color:#8cff22;font-weight:bold;} .dg-bad {color:#ff4141;}
+
+#dg_page_previous {position:absolute;left:39dp;top:288dp;width:59dp;font-size:8dp;color:#ae985a;}
+
+#dg_page {position:absolute;left:114dp;top:287dp;width:24dp;font-size:11dp;}
+
+#dg_page_next {position:absolute;left:147dp;top:288dp;width:58dp;font-size:8dp;color:#ae985a;}
+
+#dg_power_label {position:absolute;left:58dp;top:324dp;width:130dp;font-size:9dp;}
+
+#dg_power {position:absolute;left:52dp;top:331dp;width:140dp;text-align:center;font-family:"Cinzel";font-size:17dp;font-weight:bold;color:#ffe58b;}
+
+#dg_status {position:absolute;left:231dp;top:343dp;width:160dp;line-height:10dp;font-size:8dp;color:#ff4b3d;}
+
+#dg_join {position:absolute;left:397dp;top:339dp;width:97dp;height:23dp;pointer-events:auto;}
+
+#dg_join:hover {background-color:#ffd25720;}
+
+#dg_join.disabled {background-color:#00000055;}
+
+#dg_join_label {position:absolute;left:0;top:4dp;width:97dp;font-size:13dp;}
+
+#dg_join.disabled #dg_join_label {color:#999;}
+
+#dg_footer_close {position:absolute;left:508dp;top:342dp;width:55dp;height:17dp;font-size:10dp;line-height:17dp;pointer-events:auto;}
+
+#dg_footer_close:hover {background-color:#ffd25725;}
+
+
+
+/* Exact source-image sprites: no regeneration or colour adjustment of reference pixels. */
+
+@spritesheet paris-dungeon-reference {
+
+ src:"../../../Dungeon/paris-menu-reference.tga";
+
+ dg-normal-icon:698px 487px 94px 77px;
+
+ dg-hard-icon:960px 487px 94px 77px;
+
+ dg-master-icon:1220px 487px 94px 77px;
+
+ dg-normal-caption:678px 562px 150px 29px;
+
+ dg-hard-caption:941px 562px 150px 29px;
+
+ dg-master-caption:1202px 562px 150px 29px;
+
+ dg-difficulty-base:880px 495px 240px 101px;
+
+ dg-card-top:105px 221px 449px 21px;
+
+ dg-card-bottom:105px 326px 449px 24px;
+
+ dg-card-left:105px 242px 21px 84px;
+
+ dg-card-right:533px 242px 21px 84px;
+
+ dg-level-top:613px 485px 254px 17px;
+
+ dg-level-bottom:613px 588px 254px 17px;
+
+ dg-level-left:613px 502px 16px 86px;
+
+ dg-level-right:851px 502px 16px 86px;
+
+}
+
+.dg-dungeon-image {opacity:1;}
+
+.dg-dungeon-frame,.dg-dungeon.selected .dg-dungeon-frame {border:0;}
+
+.dg-edge {position:absolute;display:none;pointer-events:none;}
+
+.dg-dungeon.selected .dg-edge,.dg-difficulty.selected .dg-edge {display:block;}
+
+.dg-dungeon-frame .dg-edge-top {left:-4dp;top:-5dp;width:178dp;height:8dp;decorator:image(dg-card-top);}
+
+.dg-dungeon-frame .dg-edge-bottom {left:-4dp;top:36dp;width:178dp;height:9dp;decorator:image(dg-card-bottom);}
+
+.dg-dungeon-frame .dg-edge-left {left:-4dp;top:3dp;width:8dp;height:33dp;decorator:image(dg-card-left);}
+
+.dg-dungeon-frame .dg-edge-right {left:166dp;top:3dp;width:8dp;height:33dp;decorator:image(dg-card-right);}
+
+#dg_difficulties {display:flex;flex-direction:row;justify-content:space-between;align-items:flex-start;width:311dp;}
+
+.dg-difficulty {display:block;flex-shrink:0;position:relative;width:98dp;height:40dp;margin:0;border:0;decorator:image(dg-difficulty-base);background-color:transparent;}
+
+.dg-difficulty.selected {border:0;background-color:transparent;}
+
+.dg-difficulty-icon,.dg-difficulty-name {display:none;}
+
+.dg-reference-icon {position:absolute;left:30dp;top:-1dp;width:38dp;height:31dp;pointer-events:none;}
+
+.dg-reference-caption {position:absolute;left:19dp;top:27dp;width:60dp;height:12dp;pointer-events:none;}
+
+.dg-difficulty.normal .dg-reference-icon {decorator:image(dg-normal-icon);}
+
+.dg-difficulty.hard .dg-reference-icon {decorator:image(dg-hard-icon);}
+
+.dg-difficulty.master .dg-reference-icon {decorator:image(dg-master-icon);}
+
+.dg-difficulty.normal .dg-reference-caption {decorator:image(dg-normal-caption);}
+
+.dg-difficulty.hard .dg-reference-caption {decorator:image(dg-hard-caption);}
+
+.dg-difficulty.master .dg-reference-caption {decorator:image(dg-master-caption);}
+
+.dg-difficulty-frame {position:absolute;left:0;top:0;width:98dp;height:40dp;pointer-events:none;}
+
+.dg-difficulty-frame .dg-edge-top {left:-3dp;top:-4dp;width:104dp;height:7dp;decorator:image(dg-level-top);}
+
+.dg-difficulty-frame .dg-edge-bottom {left:-3dp;top:36dp;width:104dp;height:7dp;decorator:image(dg-level-bottom);}
+
+.dg-difficulty-frame .dg-edge-left {left:-3dp;top:3dp;width:7dp;height:33dp;decorator:image(dg-level-left);}
+
+.dg-difficulty-frame .dg-edge-right {left:94dp;top:3dp;width:7dp;height:33dp;decorator:image(dg-level-right);}
+
+#dg_difficulty_label {left:329dp;top:179dp;width:127dp;text-align:center;}
+
+.dg-box-title {display:block;text-align:center;line-height:13dp;}
+
+.dg-stat-row {color:#ffffff;}
+
+.dg-value {color:#ffffff;}
+
+.dg-value.dg-good {color:#83ff17;}
+
+.dg-value.dg-bad {color:#ff2525;}
+
+#dg_desc {color:#ffffff;}
+
+
+
+@spritesheet paris-dungeon-reference-content {
+
+ src:"../../../Dungeon/paris-menu-reference.tga";
+
+ dg-reference-kanturu:117px 235px 422px 101px;
+
+ dg-reference-crywolf:117px 357px 422px 98px;
+
+ dg-reference-karutan:117px 477px 422px 100px;
+
+ dg-reference-kardamahal:117px 599px 422px 99px;
+
+ dg-reference-art-kanturu:580px 171px 837px 268px;
+
+ dg-normal-card-selected:618px 492px 244px 106px;
+
+}
+
+.dg-reference-card {position:absolute;left:0;top:0;width:170dp;height:40dp;display:none;pointer-events:none;}
+
+.dg-dungeon.kanturu .dg-reference-card {display:block;decorator:image(dg-reference-kanturu);}
+
+.dg-dungeon.crywolf .dg-reference-card {display:block;decorator:image(dg-reference-crywolf);}
+
+.dg-dungeon.karutan .dg-reference-card {display:block;decorator:image(dg-reference-karutan);}
+
+.dg-dungeon.kardamahal .dg-reference-card {display:block;decorator:image(dg-reference-kardamahal);}
+
+.dg-dungeon.kanturu .dg-dungeon-image,.dg-dungeon.kanturu .dg-dungeon-name,
+
+.dg-dungeon.crywolf .dg-dungeon-image,.dg-dungeon.crywolf .dg-dungeon-name,
+
+.dg-dungeon.karutan .dg-dungeon-image,.dg-dungeon.karutan .dg-dungeon-name,
+
+.dg-dungeon.kardamahal .dg-dungeon-image,.dg-dungeon.kardamahal .dg-dungeon-name {display:none;}
+
+#dg_reference_art {position:absolute;left:0;top:0;width:339dp;height:102dp;display:none;pointer-events:none;}
+
+#dg_art_box.kanturu #dg_reference_art {display:block;decorator:image(dg-reference-art-kanturu);}
+
+#dg_art_box.kanturu #dg_art,#dg_art_box.kanturu #dg_desc_box {display:none;}
+
+
+
+
+
+
+
+/* Selection never changes the card geometry or its base frame. */
+
+@spritesheet paris-dungeon-clean-table {
+
+ src:"../../../Dungeon/paris-menu-gold.tga";
+
+ dg-clean-table:595px 669px 370px 25px;
+
+}
+
+.dg-difficulty,.dg-difficulty.selected,.dg-difficulty.normal.selected {
+
+ width:98dp;min-width:98dp;max-width:98dp;height:40dp;min-height:40dp;max-height:40dp;
+
+ flex-basis:98dp;flex-grow:0;flex-shrink:0;padding:0;margin:0;border:0;
+
+ decorator:image(dg-difficulty-base);
+
+}
+
+.dg-difficulty.normal.selected .dg-reference-icon,.dg-difficulty.normal.selected .dg-reference-caption {display:block;}
+
+/* Exclude the permanently lit border baked into the reference's first card. */
+
+@spritesheet paris-dungeon-kanturu-interior {
+
+ src:"../../../Dungeon/paris-menu-reference.tga";
+
+ dg-kanturu-interior:129px 246px 400px 80px;
+
+}
+
+.dg-dungeon.kanturu .dg-reference-card {
+
+ left:4dp;top:4dp;width:162dp;height:32dp;decorator:image(dg-kanturu-interior);
+
+}
+
+/* Cover only the old baked separators; retain the title and outer gold frame. */
+
+.dg-table-background {position:absolute;left:5dp;right:5dp;top:15dp;bottom:3dp;background-color:#0a0a09;pointer-events:none;}
+
+.dg-stat-row {height:14dp;line-height:10dp;border-bottom:0.5dp #76602e;box-sizing:border-box;font-size:8dp;}
+
+.dg-value {height:10dp;line-height:10dp;}
+
+#dg_boost .dg-row-1 {top:17dp;} #dg_boost .dg-row-2 {top:32dp;} #dg_boost .dg-row-3 {top:47dp;} #dg_boost .dg-row-4 {top:62dp;border-bottom:0;}
+
+#dg_requirements .dg-stat-row {height:12dp;font-size:7.5dp;line-height:9dp;}
+
+#dg_requirements .dg-value {height:9dp;line-height:9dp;}
+
+#dg_requirements .dg-row-1 {top:16dp;} #dg_requirements .dg-row-2 {top:28.5dp;} #dg_requirements .dg-row-3 {top:41dp;} #dg_requirements .dg-row-4 {top:53.5dp;} #dg_requirements .dg-row-5 {top:66dp;border-bottom:0;}
+
+
+
+/* The same eight-piece frame is used for every difficulty and every state.
+
+   Neither frame nor emblem contains pieces of the other's texture. */
+
+@spritesheet dg-clean-icons {
+
+ src:"../../../Dungeon/paris-difficulty-icons.tga";
+
+ dg-clean-normal:0px 0px 512px 512px;
+
+ dg-clean-hard:512px 0px 512px 512px;
+
+ dg-clean-master:1024px 0px 512px 512px;
+
+}
+
+@spritesheet dg-fixed-frame-parts {
+
+ src:"../../../Dungeon/paris-menu-reference.tga";
+
+ dg-neutral-tl:877px 489px 24px 24px; dg-neutral-t:901px 490px 54px 12px; dg-neutral-tr:1101px 489px 24px 24px;
+
+ dg-neutral-l:877px 513px 12px 66px; dg-neutral-r:1113px 513px 12px 66px;
+
+ dg-neutral-bl:877px 579px 24px 24px; dg-neutral-b:901px 591px 200px 12px; dg-neutral-br:1101px 579px 24px 24px;
+
+ dg-glow-tl:613px 485px 28px 28px; dg-glow-t:641px 485px 62px 14px; dg-glow-tr:839px 485px 28px 28px;
+
+ dg-glow-l:613px 513px 14px 64px; dg-glow-r:853px 513px 14px 64px;
+
+ dg-glow-bl:613px 577px 28px 28px; dg-glow-b:641px 591px 198px 14px; dg-glow-br:839px 577px 28px 28px;
+
+}
+
+.dg-difficulty,.dg-difficulty.selected,.dg-difficulty.normal.selected {decorator:none;background-color:#0b0a09;}
+
+.dg-difficulty-frame {display:none;}
+
+.dg-clean-frame {position:absolute;left:0;top:0;width:98dp;height:40dp;pointer-events:none;}
+
+.dg-glow {display:none;left:-3dp;top:-3dp;width:104dp;height:46dp;}
+
+.dg-difficulty.selected .dg-glow {display:block;}
+
+.dg-piece {position:absolute;display:block;pointer-events:none;}
+
+.dg-piece-tl {left:0;top:0;width:9dp;height:9dp;} .dg-piece-tr {right:0;top:0;width:9dp;height:9dp;}
+
+.dg-piece-bl {left:0;bottom:0;width:9dp;height:9dp;} .dg-piece-br {right:0;bottom:0;width:9dp;height:9dp;}
+
+.dg-piece-t {left:9dp;right:9dp;top:0;height:5dp;} .dg-piece-b {left:9dp;right:9dp;bottom:0;height:5dp;}
+
+.dg-piece-l {left:0;top:9dp;bottom:9dp;width:5dp;} .dg-piece-r {right:0;top:9dp;bottom:9dp;width:5dp;}
+
+.dg-neutral .dg-piece-tl {decorator:image(dg-neutral-tl);} .dg-neutral .dg-piece-t {decorator:image(dg-neutral-t);} .dg-neutral .dg-piece-tr {decorator:image(dg-neutral-tr);}
+
+.dg-neutral .dg-piece-l {decorator:image(dg-neutral-l);} .dg-neutral .dg-piece-r {decorator:image(dg-neutral-r);}
+
+.dg-neutral .dg-piece-bl {decorator:image(dg-neutral-bl);} .dg-neutral .dg-piece-b {decorator:image(dg-neutral-b);} .dg-neutral .dg-piece-br {decorator:image(dg-neutral-br);}
+
+.dg-glow .dg-piece-tl {decorator:image(dg-glow-tl);} .dg-glow .dg-piece-t {decorator:image(dg-glow-t);} .dg-glow .dg-piece-tr {decorator:image(dg-glow-tr);}
+
+.dg-glow .dg-piece-l {decorator:image(dg-glow-l);} .dg-glow .dg-piece-r {decorator:image(dg-glow-r);}
+
+.dg-glow .dg-piece-bl {decorator:image(dg-glow-bl);} .dg-glow .dg-piece-b {decorator:image(dg-glow-b);} .dg-glow .dg-piece-br {decorator:image(dg-glow-br);}
+
+.dg-difficulty.normal .dg-reference-icon {decorator:image(dg-clean-normal);}
+
+.dg-difficulty.hard .dg-reference-icon {decorator:image(dg-clean-hard);}
+
+.dg-difficulty.master .dg-reference-icon {decorator:image(dg-clean-master);}
+
+.dg-reference-icon {left:30dp;top:-4dp;width:38dp;height:38dp;}
+
+
+
+/* Hide the static frames in the skin underneath the live difficulty controls. */
+
+#dg_difficulty_backdrop {position:absolute;left:237dp;top:191dp;width:317dp;height:49dp;background-color:#0a0a09;pointer-events:none;}
+

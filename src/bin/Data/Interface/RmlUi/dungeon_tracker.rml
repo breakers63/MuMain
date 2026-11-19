@@ -1,0 +1,66 @@
+<rml>
+
+<head>
+
+	<title>Dungeon Tracker</title>
+
+	<link type="text/rcss" href="base.rcss"/>
+
+	<link type="text/rcss" href="dungeon_tracker.rcss"/>
+
+</head>
+
+<body data-model="dungeon_tracker">
+
+	<!-- Breda: CDungeonTracker (UI/Breda/DungeonWindow.h). On screen while the hero is in a dungeon
+
+	     (plugin Breda.Dungeons): the stage, the monsters left and the players, the state and its time,
+
+	     Start now for the leader; and the result when the dungeon ends. Only the buttons take the pointer. -->
+
+	<div id="dgt_box" data-if="shown" data-class-collapsed="collapsed">
+
+        <handle id="dgt_drag" move_target="dgt_box" edge_margin="4px"/>
+
+		<span id="dgt_title">{{title}}</span>
+
+        <div class="dgt-toggle" data-event-click="dg_toggle"><span class="dgt-toggle-minus"/><span class="dgt-toggle-plus" data-if="collapsed"/></div>
+
+        <div class="dgt-content">
+
+		<span id="dgt_count">{{count_text}}</span>
+
+		<span id="dgt_state">{{state_text}}</span>
+
+		<span id="dgt_time">{{time_text}}</span>
+
+		<div id="dgt_start" class="dgt-button" data-if="can_start" data-event-click="dg_start"><span class="dgt-button-label">{{start_label}}</span></div>
+
+		<div id="dgt_leave" class="dgt-button" data-event-click="dg_leave"><span class="dgt-button-label">{{leave_label}}</span></div>
+
+        </div>
+
+	</div>
+
+
+
+	<div id="dgt_result" data-if="result_shown" data-class-success="result_success">
+
+		<span id="dgt_result_title">{{result_title}}</span>
+
+		<span id="dgt_result_line1">{{result_line1}}</span>
+
+		<span id="dgt_result_line2">{{result_line2}}</span>
+
+		<span id="dgt_result_time">{{result_time}}</span>
+
+		<span id="dgt_result_experience">{{result_experience}}</span>
+
+		<div id="dgt_ok" class="dgt-button" data-event-click="dg_result_ok"><span class="dgt-button-label">{{ok_label}}</span></div>
+
+	</div>
+
+</body>
+
+</rml>
+

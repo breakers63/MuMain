@@ -1,0 +1,216 @@
+@spritesheet bounty-board-sheet { src: "../../../Paris_BountyBoard.tga"; bounty-board-frame: 0px 0px 1448px 1086px; }
+
+@spritesheet bounty-scroll-sheet {
+
+    src: "../paris-gold/bp-mission-scroll.tga";
+
+    bounty-scroll-up: 0px 0px 5px 10px;
+
+    bounty-scroll-down: 0px 10px 5px 10px;
+
+    bounty-scroll-thumb: 6px 0px 4px 65px;
+
+}
+
+
+
+#panel.bounty-panel {
+
+    position: absolute; left: 50%; top: 50%; margin-left: -220dp; margin-top: -169dp;
+
+    width: 440dp; height: 338dp; overflow: hidden; pointer-events: auto;
+
+    background-color: #100d0b; decorator: image(bounty-board-frame);
+
+    color: #ead6a1; font-family: "token(font-body)"; font-size: 7dp;
+
+}
+
+.bounty-title, .bounty-subtitle, .bounty-feature-label, .bounty-feature-name,
+
+.bounty-feature-reward, .bounty-feature-time, .bounty-selected, .bounty-duration,
+
+.bounty-empty, .bounty-status { position: absolute; text-align: center; }
+
+.bounty-title {
+
+    left: 16%; top: 19dp; width: 68%; color: #f0cf77;
+
+    font-size: 13dp; line-height: 18dp; font-family: "token(font-title)";
+
+}
+
+.bounty-subtitle { left: 24%; top: 38dp; width: 52%; color: #e0c783; line-height: 10dp; }
+
+.bounty-panel button {
+
+    display: block; box-sizing: border-box; padding: 0; border: 1dp #a97620;
+
+    background-color: #100b08; color: #f1ce65; text-align: center;
+
+    font-family: "token(font-body)"; font-size: 7dp; cursor: pointer;
+
+}
+
+.bounty-tabs button, .bounty-update, .bounty-action,
+
+.bounty-currency-menu button { position: relative; }
+
+.bounty-button-label {
+
+    position: absolute; left: 0; top: 0; width: 100%; text-align: center; pointer-events: none;
+
+}
+
+.bounty-panel button:hover, .bounty-panel button.active { background-color: #521207; border-color: #db9e32; }
+
+.bounty-panel button:disabled, .bounty-panel button.disabled { opacity: 0.5; }
+
+.bounty-panel .bounty-close {
+
+    position: absolute; right: 9dp; top: 9dp; width: 18dp; height: 18dp; line-height: 16dp;
+
+    background-color: #521207; color: #fff1d2;
+
+}
+
+.bounty-tabs {
+
+    position: absolute; left: 11dp; top: 55dp; width: 418dp; display: flex; gap: 12dp;
+
+}
+
+.bounty-tabs button { flex: 1; height: 16dp; line-height: 14dp; }
+
+.bounty-feature-label { left: 226dp; top: 88dp; width: 192dp; color: #f2d16f; }
+
+.bounty-feature-name { left: 226dp; top: 118dp; width: 192dp; color: #f2e4c0; }
+
+.bounty-feature-reward { left: 226dp; top: 138dp; width: 192dp; color: #e9c54e; }
+
+.bounty-feature-time { left: 226dp; top: 155dp; width: 192dp; color: #eadfca; }
+
+.bounty-feature-active, .bounty-feature-history { position: absolute; left: 255dp; top: 180dp; width: 132dp; }
+
+.bounty-panel .bounty-update { width: 100%; height: 17dp; line-height: 15dp; }
+
+.bounty-feature-publish { position: absolute; left: 226dp; top: 88dp; width: 198dp; z-index: 2; }
+
+.bounty-feature-publish .bounty-feature-label { left: 0; top: 0; width: 100%; }
+
+.bounty-search { position: absolute; left: 0; top: 19dp; width: 100%; height: 17dp; }
+
+.bounty-search input, .bounty-amount {
+
+    box-sizing: border-box; height: 17dp; padding: 2dp 4dp; border: 1dp #a97620;
+
+    background-color: #100b08; color: #f5e8c3; font-family: "token(font-body)"; font-size: 7dp;
+
+}
+
+.bounty-search input { position: absolute; left: 0; top: 0; width: 130dp; }
+
+.bounty-search-button {
+
+    position: absolute; right: 0; top: 0; width: 63dp; height: 17dp; box-sizing: border-box;
+
+    border: 1dp #a97620; background-color: #100b08; color: #f1ce65;
+
+    text-align: center; line-height: 15dp; cursor: pointer;
+
+}
+
+.bounty-search-button:hover { background-color: #521207; border-color: #db9e32; }
+
+.bounty-placeholder { position: absolute; left: 5dp; top: 3dp; color: #a99975; pointer-events: none; }
+
+.bounty-selected { left: 0; top: 40dp; width: 100%; color: #eee0c1; }
+
+.bounty-entry { position: absolute; left: 0; top: 57dp; width: 100%; height: 55dp; }
+
+.bounty-currency-wrap { position: absolute; left: 0; top: 0; width: 82dp; z-index: 1; }
+
+.bounty-panel .bounty-currency { position: relative; width: 100%; height: 17dp; line-height: 15dp; }
+
+.bounty-currency-label { display: block; padding-right: 8dp; pointer-events: none; }
+
+.bounty-currency-arrow { position: absolute; right: 5dp; top: 0; line-height: 15dp; pointer-events: none; }
+
+.bounty-currency-menu { position: absolute; left: 0; top: 17dp; width: 100%; }
+
+.bounty-currency-menu button { width: 100%; height: 17dp; line-height: 15dp; }
+
+.bounty-panel .bounty-step { position: absolute; top: 0; width: 22dp; height: 17dp; line-height: 15dp; }
+
+.bounty-minus { left: 89dp; }
+
+.bounty-plus { right: 0; }
+
+.bounty-amount {
+
+    position: absolute; left: 113dp; top: 0; width: 61dp; padding-left: 0; padding-right: 0;
+
+    border: 0; background-color: transparent; text-align: center; color: #f1ce65;
+
+}
+
+.bounty-panel .bounty-publish-button {
+
+    position: absolute; left: 26dp; top: 24dp; width: 146dp; height: 17dp; line-height: 15dp;
+
+}
+
+.bounty-duration { left: 0; top: 47dp; width: 100%; color: #f1ce65; }
+
+.bounty-table-head {
+
+    position: absolute; left: 11dp; top: 214dp; width: 418dp; height: 16dp; box-sizing: border-box;
+
+    display: flex; align-items: center; border: 1dp #a97620; background-color: #521207;
+
+    color: #f1ce65; text-align: center;
+
+}
+
+.bounty-index { width: 7%; text-align: center; }
+
+.bounty-name { width: 33%; text-align: center; }
+
+.bounty-detail { width: 19%; text-align: center; }
+
+.bounty-reward { width: 35%; text-align: center; }
+
+.bounty-row .bounty-reward { color: #f1ce65; }
+
+.bounty-list {
+
+    position: absolute; left: 11dp; top: 231dp; width: 409dp; height: 72dp;
+
+    overflow-y: scroll; overflow-x: hidden; color: #eee0c1;
+
+}
+
+.bounty-row {
+
+    position: relative; display: flex; align-items: center; width: 100%; min-height: 13dp; box-sizing: border-box;
+
+    border: 1dp #98641e; background-color: #471007;
+
+}
+
+.bounty-panel .bounty-action { position: absolute; right: 2dp; top: 0; width: 13%; height: 12dp; line-height: 10dp; font-size: 6dp; }
+
+.bounty-list scrollbarvertical { width: 6dp; margin: 0; background-color: transparent; }
+
+.bounty-list scrollbarvertical slidertrack { width: 2dp; margin-left: 2dp; background-color: #57401b; }
+
+.bounty-list scrollbarvertical sliderbar { height: 28dp; decorator: image(bounty-scroll-thumb); }
+
+.bounty-list scrollbarvertical sliderarrowdec { height: 7dp; decorator: image(bounty-scroll-up); }
+
+.bounty-list scrollbarvertical sliderarrowinc { height: 7dp; decorator: image(bounty-scroll-down); }
+
+.bounty-empty { left: 11dp; top: 261dp; width: 418dp; color: #eee0c1; pointer-events: none; }
+
+.bounty-status { left: 18dp; top: 319dp; width: 404dp; color: #f0d067; line-height: 11dp; }
+

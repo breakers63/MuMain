@@ -1,0 +1,76 @@
+/* MU Paris tracker and result share the approved gold artwork. The tracker
+
+   stays at the left quarter of the viewport; the result is centered. */
+
+body {position:absolute;left:0;top:0;right:0;bottom:0;font-family:"token(font-body)";font-size:9dp;pointer-events:none;}
+
+@spritesheet dgt-paris-panel-sheet {src:"../../../Dungeon/paris-tracker-panel.tga";dgt-paris-panel:0px 0px 1639px 960px;}
+
+@spritesheet dgt-paris-button-sheet {src:"../../../Dungeon/paris-tracker-button-v2.tga";dgt-paris-button:34px 439px 1186px 379px;}
+
+#dgt_box {position:absolute;left:8dp;top:26%;width:240dp;height:140dp;decorator:image(dgt-paris-panel);}
+
+#dgt_title {position:absolute;left:14dp;top:20dp;width:212dp;height:15dp;text-align:center;font-family:"Cinzel";font-size:12dp;color:#ffe19a;font-weight:bold;white-space:nowrap;font-effect:outline(1px #000);}
+
+#dgt_count {position:absolute;left:20dp;top:41dp;width:204dp;color:#fff6e4;white-space:nowrap;font-effect:outline(1px #000);}
+
+#dgt_state {position:absolute;left:20dp;top:63dp;width:204dp;color:#17d3ef;font-family:"Cinzel";font-size:11dp;font-weight:bold;white-space:nowrap;font-effect:outline(1px #000);}
+
+#dgt_time {position:absolute;left:20dp;top:80dp;width:204dp;color:#ffc24e;white-space:nowrap;font-effect:outline(1px #000);}
+
+.dgt-button {position:absolute;width:100dp;height:30dp;decorator:image(dgt-paris-button);pointer-events:auto;}
+
+.dgt-button:hover {opacity:0.85;}
+
+.dgt-button:active {opacity:0.65;}
+
+.dgt-button-label {position:absolute;left:4dp;top:9dp;width:92dp;text-align:center;font-family:"Cinzel";font-size:9dp;color:#fff0c8;font-weight:bold;white-space:nowrap;font-effect:outline(1px #000);}
+
+#dgt_start {left:18dp;top:104dp;}
+
+#dgt_leave {left:122dp;top:104dp;}
+
+#dgt_result {position:absolute;left:50%;top:30%;width:300dp;height:176dp;margin-left:-150dp;decorator:image(dgt-paris-panel);pointer-events:auto;}
+
+#dgt_result_title {position:absolute;left:20dp;top:25dp;width:260dp;text-align:center;font-family:"Cinzel";color:#ffe19a;font-size:13dp;font-weight:bold;font-effect:outline(1px #000);}
+
+#dgt_result_line1 {position:absolute;left:18dp;top:50dp;width:264dp;text-align:center;color:#ff7070;font-size:10dp;font-weight:bold;font-effect:outline(1px #000);}
+
+#dgt_result.success #dgt_result_line1 {color:#7fe07f;}
+
+#dgt_result_line2 {position:absolute;left:18dp;top:80dp;width:264dp;text-align:center;color:#fff6e4;font-effect:outline(1px #000);}
+
+#dgt_result_time {position:absolute;left:18dp;top:98dp;width:264dp;text-align:center;color:#ffc24e;font-effect:outline(1px #000);}
+
+#dgt_result_experience {position:absolute;left:18dp;top:115dp;width:264dp;text-align:center;color:#17d3ef;font-effect:outline(1px #000);}
+
+#dgt_ok {left:100dp;top:137dp;}
+
+
+
+/* The gold bezel and geometric signs are shared with the OpenGL panel. */
+
+@spritesheet dgt-toggle-sheet {src:"../../../Dungeon/paris-tracker-toggle.tga";dgt-toggle:197px 235px 1018px 639px;}
+
+@spritesheet dgt-header-sheet {src:"../../../Dungeon/paris-tracker-panel.tga";dgt-header:0px 0px 1639px 247px;}
+
+#dgt_title {width:186dp;}
+
+#dgt_box.collapsed {height:36dp;decorator:image(dgt-header);}
+
+#dgt_box.collapsed .dgt-content {display:none;}
+
+.dgt-toggle {position:absolute;left:212dp;top:18dp;width:18dp;height:14dp;decorator:image(dgt-toggle);pointer-events:auto;cursor:pointer;}
+
+.dgt-toggle:hover {opacity:0.85;}
+
+.dgt-toggle-minus {position:absolute;left:4.5dp;top:6.2dp;width:9dp;height:1.5dp;background-color:#ffd65e;pointer-events:none;}
+
+.dgt-toggle-plus {position:absolute;left:8.2dp;top:3.5dp;width:1.5dp;height:7dp;background-color:#ffd65e;pointer-events:none;}
+
+
+
+#dgt_drag {position:absolute;left:8dp;top:12dp;width:200dp;height:24dp;pointer-events:auto;cursor:move;}
+
+#dgt_title {pointer-events:none;}
+
