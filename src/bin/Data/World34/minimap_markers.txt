@@ -1,0 +1,58 @@
+# Paris map markers: 1 NPC, 3 spot, 4 individual
+3	25	184	Bloody Golem x5
+3	25	184	Bloody Orc x5
+3	37	222	Bloody Orc x5
+3	39	55	Bloody Witch Queen x5
+3	44	220	Bloody Orc x5
+3	49	126	Bloody Orc x5
+3	50	120	Bloody Orc x5
+3	76	223	Bloody Death Rider x5
+3	77	222	Bloody Golem x5
+3	86	81	Blue Golem x5
+3	93	155	Hell Maine x4
+3	95	165	Blue Golem x5
+3	100	45	Witch Queen x5
+3	101	17	Death Tree x5
+3	119	107	Witch Queen x5
+3	124	68	Witch Queen x5
+3	127	27	Death Tree x5
+3	131	228	Bloody Golem x5
+3	133	15	Death Tree x5
+3	133	193	Bloody Golem x5
+3	145	40	Death Tree x5
+3	147	112	Witch Queen x5
+3	148	95	Witch Queen x5
+3	162	235	Bloody Death Rider x5
+3	166	118	Bloody Witch Queen x5
+3	167	56	Forest Orc x5
+3	167	80	Forest Orc x5
+3	169	206	Bloody Orc x5
+3	171	205	Bloody Orc x5
+3	173	11	Forest Orc x5
+3	173	149	Bloody Death Rider x5
+3	177	173	Bloody Orc x5
+3	185	95	Blue Golem x5
+3	186	24	Blue Golem x5
+3	191	148	Blue Golem x5
+3	199	110	Blue Golem x5
+3	203	11	Death Rider x5
+3	206	82	Blue Golem x5
+3	208	55	Forest Orc x5
+3	215	33	Blue Golem x5
+3	219	234	Bloody Orc x5
+3	229	12	Death Rider x5
+4	37	77	Bloody Witch Queen x1
+4	86	171	Forest Orc x1
+4	88	73	Witch Queen x1
+4	103	21	Death Tree x1
+4	108	147	Hell Maine x1
+4	112	47	Hell Maine x1
+4	123	103	Hell Maine x1
+4	168	82	Forest Orc x1
+4	230	91	Death Rider x1
+1	78	13	Osbourne
+1	80	16	Baz The Vault Keeper
+1	82	17	Chaos Goblin
+1	86	13	Jerridon
+1	90	13	Caren the Barmaid
+1	184	179	Silvia

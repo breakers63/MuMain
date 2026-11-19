@@ -1,0 +1,19 @@
+{
+  "status": "Banco de joyas actualizado",
+  "search": "",
+  "entries": [
+    { "name": "Jewel of Bless", "balance": "0", "inventory": "0", "index": 0, "item": 14, "level": 0, "alternate": false },
+    { "name": "Jewel of Soul", "balance": "0", "inventory": "0", "index": 1, "item": 1, "level": 0, "alternate": true },
+    { "name": "Jewel of Life", "balance": "0", "inventory": "0", "index": 2, "item": 2, "level": 0, "alternate": false },
+    { "name": "Jewel of Creation", "balance": "0", "inventory": "0", "index": 3, "item": 3, "level": 0, "alternate": true },
+    { "name": "Jewel of Guardian", "balance": "0", "inventory": "0", "index": 4, "item": 4, "level": 0, "alternate": false },
+    { "name": "Gemstone", "balance": "0", "inventory": "0", "index": 5, "item": 5, "level": 0, "alternate": true },
+    { "name": "Jewel of Harmony", "balance": "0", "inventory": "0", "index": 6, "item": 6, "level": 0, "alternate": false },
+    { "name": "Jewel of Chaos", "balance": "0", "inventory": "0", "index": 7, "item": 7, "level": 0, "alternate": true },
+    { "name": "Lower Stone", "balance": "0", "inventory": "0", "index": 8, "item": 8, "level": 0, "alternate": false },
+    { "name": "Higher Stone", "balance": "0", "inventory": "0", "index": 9, "item": 9, "level": 0, "alternate": true }
+  ],
+  "pending": false,
+  "empty": false,
+  "auto_pick": false
+}

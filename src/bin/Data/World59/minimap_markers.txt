@@ -1,0 +1,26 @@
+# Paris map markers: 1 NPC, 3 spot, 4 individual
+3	144	25	Coolutin / Spider Eggs 2 x2
+4	141	27	Spider Eggs 1 x1
+4	141	28	Spider Eggs 2 x1
+4	142	28	Spider Eggs 3 x1
+4	144	24	Spider Eggs 1 x1
+4	144	29	Coolutin x1
+4	144	32	Coolutin x1
+4	144	35	Coolutin x1
+4	144	38	Coolutin x1
+4	145	24	Spider Eggs 1 x1
+4	145	31	Selupan x1
+4	146	29	Spider Eggs 3 x1
+4	146	30	Spider Eggs 3 x1
+4	146	33	Spider Eggs 2 x1
+4	146	34	Spider Eggs 1 x1
+4	147	29	Spider Eggs 2 x1
+4	147	34	Spider Eggs 3 x1
+4	151	30	Spider Eggs 2 x1
+4	152	30	Spider Eggs 1 x1
+4	152	31	Spider Eggs 1 x1
+4	153	24	Coolutin x1
+4	153	28	Coolutin x1
+4	153	32	Coolutin x1
+4	153	35	Coolutin x1
+4	153	38	Coolutin x1

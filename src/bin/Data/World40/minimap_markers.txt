@@ -1,0 +1,2 @@
+# Paris map markers: 1 NPC, 3 spot, 4 individual
+1	77	177	Elphis

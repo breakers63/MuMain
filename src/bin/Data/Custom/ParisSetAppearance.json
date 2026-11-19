@@ -1,0 +1,16 @@
+{
+  "formatVersion": 1,
+  "enabled": true,
+  "minimumLevel": 13,
+  "highlightStrength": 0.0,
+  "auraStrength": 0.0,
+  "auraSize": 0.45,
+  "dressedNpcs": false,
+  "glintStrength": 0.55,
+  "glintSize": 0.45,
+  "glintSpeed": 1.5,
+  "trailPairsPerSecond": 1.25,
+  "trailWidth": 23.0,
+  "trailSpeed": 1.35,
+  "neutralHighlightStrength": 0.16
+}

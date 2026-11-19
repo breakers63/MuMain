@@ -1,0 +1,25 @@
+{
+  "status": "Consultando el servidor…",
+  "reset_count": "0",
+  "result": "",
+  "information": [
+    { "text": "Nivel: 400 / 400", "state": "" },
+    { "text": "Conservar estadísticas", "state": "" },
+    { "text": "Conservar inventario", "state": "" },
+    { "text": "Volver al mapa de inicio", "state": "" },
+    { "text": "Volver a la selección", "state": "" }
+  ],
+  "requirements": [
+    { "text": "Nivel: 400 / 400", "state": "good" },
+    { "text": "Zen: 1,905,305,268 / 10,000,000", "state": "good" }
+  ],
+  "rewards": [
+    { "text": "Puntos LevelUP: 1,500", "state": "" }
+  ],
+  "has_information": true,
+  "has_requirements": true,
+  "has_rewards": true,
+  "has_data": true,
+  "can_reset": true,
+  "pending": false
+}

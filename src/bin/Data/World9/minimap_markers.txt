@@ -1,0 +1,28 @@
+# Paris map markers: 1 NPC, 3 spot, 4 individual
+3	15	104	Chief Skeleton Warrior 4 / Magic Skeleton 3 x5
+3	28	120	Tantallos x5
+3	30	141	Tantallos x5
+3	44	164	Tantallos x5
+3	53	84	Chief Skeleton Warrior 4 / Magic Skeleton 3 x5
+3	67	152	Tantallos x5
+3	76	61	Bloody Wolf x5
+3	81	132	Tantallos x5
+3	86	119	Tantallos x5
+3	86	184	Tantallos x5
+3	95	37	Bloody Wolf x5
+3	98	67	Bloody Wolf x5
+3	102	154	Tantallos x5
+3	114	179	Tantallos x5
+3	118	80	Mutant x5
+3	133	20	Mutant x5
+3	135	39	Bloody Wolf x5
+3	139	53	Mutant x2
+3	148	55	Bloody Wolf x3
+3	155	101	Mutant x5
+3	155	145	Mutant x5
+3	187	114	Mutant x5
+3	198	104	Mutant x5
+1	157	59	Elf Soldier
+1	197	59	Baz The Vault Keeper
+1	197	73	Potion Girl Amy
+1	205	95	Elf Soldier

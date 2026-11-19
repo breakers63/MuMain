@@ -1,0 +1,56 @@
+# Paris map markers: 1 NPC, 3 spot, 4 individual
+3	34	90	Genocider x5
+3	36	61	Genocider x5
+3	41	236	Splinter Wolf x5
+3	44	35	Genocider x5
+3	53	151	Kentauros Warrior x2
+3	60	35	Gigantis x5
+3	63	235	Splinter Wolf x5
+3	64	131	Kentauros Warrior x2
+3	72	24	Gigantis x5
+3	72	92	Genocider x5
+3	78	59	Gigantis x5
+3	83	241	Splinter Wolf x5
+3	90	33	Gigantis x5
+3	90	66	Gigantis x5
+3	93	124	Kentauros Warrior x2
+3	97	155	Kentauros Warrior x5
+3	102	242	Splinter Wolf x5
+3	119	59	Gigantis x5
+3	120	137	Kentauros Warrior x5
+3	121	37	Kentauros x5
+3	124	240	Splinter Wolf x5
+3	129	227	Splinter Wolf x5
+3	130	107	Gigantis Warrior x5
+3	137	157	Kentauros Warrior x5
+3	138	43	Kentauros x5
+3	145	217	Iron Rider x5
+3	147	87	Gigantis Warrior x5
+3	150	125	Genocider Warrior x5
+3	150	240	Splinter Wolf x5
+3	152	12	Kentauros x5
+3	154	58	Kentauros x5
+3	155	201	Iron Rider x5
+3	168	47	Kentauros x5
+3	169	97	Genocider Warrior x5
+3	171	164	Iron Rider x5
+3	177	200	Iron Rider x5
+3	183	25	Kentauros x5
+3	183	178	Iron Rider x5
+3	184	225	Iron Rider x5
+3	189	210	Iron Rider x5
+3	190	39	Blade Hunter x5
+3	193	147	Iron Rider x5
+3	199	197	Iron Rider x5
+3	201	182	Iron Rider x5
+3	212	137	Iron Rider x5
+3	222	156	Iron Rider x5
+3	223	45	Blade Hunter x5
+3	225	115	Satyros x5
+3	229	83	Satyros x5
+3	235	100	Satyros x5
+3	237	137	Satyros x5
+1	56	34	Crossbow Guard
+1	92	64	Crossbow Guard
+1	121	55	Crossbow Guard
+1	127	20	Crossbow Guard

@@ -1,0 +1,65 @@
+# Paris map markers: 1 NPC, 3 spot, 4 individual
+3	7	16	Death Knight x5
+3	11	105	Death Knight x5
+3	15	52	Death Knight x5
+3	16	128	Death Knight x5
+3	29	11	Death Knight x5
+3	32	102	Death Gorgon x5
+3	37	32	Death Knight x5
+3	38	54	Death Knight x5
+3	53	92	Death Knight x5
+3	54	49	Death Knight x5
+3	54	112	Death Gorgon x5
+3	54	135	Death Knight x5
+3	84	185	Death Cow x2
+3	84	206	Death Cow x2
+3	84	224	Cursed Wizard x2
+3	84	247	Death Cow x2
+3	87	102	Death Cow / Devil x5
+3	87	128	Death Cow / Devil x5
+3	99	23	Death Knight x5
+3	100	229	Cursed Wizard / Death Cow x5
+3	102	87	Death Cow / Devil x5
+3	102	170	Death Cow x3
+3	103	170	Cursed Wizard x3
+3	110	8	Death Knight x5
+3	118	55	Devil x5
+3	119	109	Devil x5
+3	122	135	Death Cow / Devil x5
+3	130	8	Devil x5
+3	130	35	Devil x5
+3	167	248	Poison Shadow x5
+3	169	207	Poison Shadow x5
+3	192	102	Shadow x5
+3	195	126	Shadow x5
+3	205	248	Poison Shadow x5
+3	209	90	Shadow x5
+3	210	113	Shadow x5
+3	210	224	Poison Shadow x5
+3	218	64	Shadow x5
+3	227	127	Shadow x5
+3	227	248	Poison Shadow x5
+3	245	108	Shadow x5
+4	29	208	Death Gorgon x1
+4	33	206	Death Gorgon x1
+4	172	177	Cursed Wizard x1
+4	190	29	Shadow x1
+4	191	118	Shadow x1
+4	191	131	Shadow x1
+4	193	234	Shadow x1
+4	198	184	Poison Shadow x1
+4	202	38	Poison Shadow x1
+4	205	62	Shadow x1
+4	208	166	Poison Shadow x1
+4	209	190	Cursed Wizard x1
+4	210	26	Poison Shadow x1
+4	210	114	Shadow x1
+4	225	118	Shadow x1
+4	230	56	Shadow x1
+4	232	17	Poison Shadow x1
+4	234	53	Poison Shadow x1
+4	234	92	Poison Shadow x1
+4	234	125	Poison Shadow x1
+1	198	73	Baz The Vault Keeper
+1	202	83	Elf Soldier
+1	207	83	Potion Girl Amy

@@ -1,0 +1,10 @@
+# Paris map markers: 1 NPC, 3 spot, 4 individual
+4	82	190	Soram (Trainee Soldier) x1
+4	85	179	Death Spirit (Trainee Soldier) x1
+4	86	199	Death Spirit (Trainee Soldier) x1
+4	92	174	Soram (Trainee Soldier) x1
+4	94	202	Soram (Trainee Soldier) x1
+4	97	187	Dark Elf (Trainee Soldier) x1
+4	104	179	Death Spirit (Trainee Soldier) x1
+4	104	200	Death Spirit (Trainee Soldier) x1
+4	111	190	Soram (Trainee Soldier) x1

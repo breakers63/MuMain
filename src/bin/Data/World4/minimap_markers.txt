@@ -1,0 +1,26 @@
+# Paris map markers: 1 NPC, 3 spot, 4 individual
+3	131	99	Hunter x5
+3	137	122	Hunter x5
+3	145	111	Goblin x5
+3	154	125	Goblin x5
+3	155	93	Chain Scorpion x5
+3	160	76	Chain Scorpion x5
+3	163	129	Goblin x5
+3	167	51	Hunter x5
+3	175	145	Hunter x5
+3	189	148	Agon x5
+3	198	139	Stone Golem x5
+3	203	55	Agon x5
+3	210	144	Stone Golem x5
+3	217	157	Agon x5
+3	219	123	Beetle Monster x5
+3	221	139	Beetle Monster x5
+1	167	118	Elf Soldier
+1	171	100	Berdysh Guard
+1	171	104	Charon
+1	171	109	Hammer Man
+1	172	96	Baz The Vault Keeper
+1	173	125	Elf Lala
+1	178	102	Lumen the Barmaid
+1	180	103	Chaos Goblin
+1	195	124	Eo the Craftsman

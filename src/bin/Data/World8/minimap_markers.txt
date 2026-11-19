@@ -1,0 +1,362 @@
+# Paris map markers: 1 NPC, 3 spot, 4 individual
+3	16	158	Great Bahamut x5
+3	22	40	Bahamut x5
+3	26	230	Lizard King x5
+3	36	174	Silver Valkyrie x5
+3	43	35	Bahamut x5
+3	46	222	Lizard King x5
+3	48	20	Bahamut x5
+3	65	189	Great Bahamut x5
+3	66	55	Vepar x5
+3	67	32	Vepar x5
+3	69	147	Great Bahamut x5
+3	84	18	Vepar x5
+3	87	122	Great Bahamut x5
+3	93	210	Lizard King x5
+3	122	29	Valkyrie / Vepar x2
+3	142	64	Great Bahamut x5
+3	147	165	Lizard King x5
+3	147	200	Lizard King x5
+3	170	144	Lizard King x5
+3	173	184	Lizard King x5
+3	188	53	Great Bahamut x5
+3	195	26	Great Bahamut x5
+3	212	180	Lizard King x5
+3	219	67	Great Bahamut x5
+3	221	91	Great Bahamut x5
+3	224	132	Great Bahamut x5
+3	227	203	Lizard King x5
+3	234	24	Great Bahamut x5
+3	234	104	Great Bahamut x5
+3	239	49	Great Bahamut x5
+4	22	229	Lizard King x1
+4	23	126	Vepar x1
+4	24	125	Bahamut x1
+4	24	159	Great Bahamut x1
+4	24	218	Lizard King x1
+4	25	41	Bahamut x1
+4	25	48	Bahamut x1
+4	25	49	Great Bahamut x1
+4	25	75	Bahamut x1
+4	25	100	Vepar x1
+4	25	118	Vepar x1
+4	25	231	Lizard King x1
+4	26	33	Bahamut x1
+4	26	56	Bahamut x1
+4	26	64	Bahamut x1
+4	26	72	Vepar x1
+4	26	173	Silver Valkyrie x1
+4	26	213	Lizard King x1
+4	26	227	Lizard King x1
+4	26	228	Silver Valkyrie x1
+4	27	86	Bahamut x1
+4	27	90	Vepar x1
+4	27	105	Vepar x1
+4	27	204	Lizard King x1
+4	28	161	Great Bahamut x1
+4	28	209	Silver Valkyrie x1
+4	29	52	Bahamut x1
+4	29	75	Bahamut x1
+4	29	225	Lizard King x1
+4	29	228	Silver Valkyrie x1
+4	30	110	Vepar x1
+4	30	122	Vepar x1
+4	31	31	Bahamut x1
+4	31	53	Vepar x1
+4	33	108	Valkyrie x1
+4	33	169	Silver Valkyrie x1
+4	34	176	Lizard King x1
+4	34	200	Lizard King x1
+4	34	231	Lizard King x1
+4	35	70	Bahamut x1
+4	35	118	Valkyrie x1
+4	35	209	Lizard King x1
+4	36	205	Silver Valkyrie x1
+4	37	50	Bahamut x1
+4	38	117	Vepar x1
+4	38	228	Lizard King x1
+4	39	26	Bahamut x1
+4	39	35	Bahamut x1
+4	39	63	Bahamut x1
+4	40	48	Vepar x1
+4	40	210	Lizard King x1
+4	41	20	Bahamut x1
+4	41	109	Valkyrie x1
+4	41	222	Silver Valkyrie x1
+4	41	224	Lizard King x1
+4	42	152	Great Bahamut x1
+4	42	178	Great Bahamut x1
+4	45	70	Bahamut x1
+4	45	205	Lizard King x1
+4	46	24	Bahamut x1
+4	46	24	Vepar x1
+4	46	217	Lizard King x1
+4	47	41	Bahamut x1
+4	47	211	Lizard King x1
+4	47	224	Lizard King x1
+4	47	228	Lizard King x1
+4	48	19	Vepar x1
+4	48	57	Bahamut x1
+4	49	19	Bahamut x1
+4	49	64	Bahamut x1
+4	49	100	Valkyrie x1
+4	49	158	Silver Valkyrie x1
+4	50	65	Vepar x1
+4	50	93	Vepar x1
+4	51	70	Vepar x1
+4	53	220	Silver Valkyrie x1
+4	54	89	Valkyrie x1
+4	54	228	Lizard King x1
+4	55	27	Vepar x1
+4	55	44	Vepar x1
+4	55	181	Silver Valkyrie x1
+4	57	225	Lizard King x1
+4	59	34	Vepar x1
+4	61	20	Vepar x1
+4	61	147	Silver Valkyrie x1
+4	62	21	Vepar x1
+4	62	26	Bahamut x1
+4	62	87	Valkyrie x1
+4	62	140	Great Bahamut x1
+4	62	178	Great Bahamut x1
+4	63	44	Bahamut x1
+4	63	178	Silver Valkyrie x1
+4	63	218	Lizard King x1
+4	64	159	Great Bahamut x1
+4	65	51	Vepar x1
+4	65	59	Vepar x1
+4	65	187	Great Bahamut x1
+4	66	222	Lizard King x1
+4	67	28	Vepar x1
+4	67	36	Bahamut x1
+4	67	147	Silver Valkyrie x1
+4	67	186	Silver Valkyrie x1
+4	68	52	Bahamut x1
+4	69	24	Vepar x1
+4	69	87	Vepar x1
+4	70	38	Vepar x1
+4	70	133	Great Bahamut x1
+4	70	138	Silver Valkyrie x1
+4	70	168	Silver Valkyrie x1
+4	71	52	Vepar x1
+4	71	82	Valkyrie x1
+4	71	140	Silver Valkyrie x1
+4	72	42	Bahamut x1
+4	72	125	Great Bahamut x1
+4	72	128	Silver Valkyrie x1
+4	73	180	Silver Valkyrie x1
+4	75	22	Vepar x1
+4	75	76	Vepar x1
+4	76	174	Silver Valkyrie x1
+4	76	180	Great Bahamut x1
+4	76	215	Lizard King x1
+4	78	24	Bahamut x1
+4	78	26	Vepar x1
+4	78	44	Vepar x1
+4	78	145	Silver Valkyrie x1
+4	79	70	Valkyrie x1
+4	79	136	Silver Valkyrie x1
+4	80	33	Vepar x1
+4	81	116	Great Bahamut x1
+4	81	123	Great Bahamut x1
+4	81	164	Silver Valkyrie x1
+4	82	215	Lizard King x1
+4	83	22	Vepar x1
+4	83	155	Great Bahamut x1
+4	84	24	Vepar x1
+4	84	170	Great Bahamut x1
+4	85	64	Valkyrie x1
+4	85	185	Silver Valkyrie x1
+4	86	37	Vepar x1
+4	86	140	Silver Valkyrie x1
+4	87	132	Silver Valkyrie x1
+4	87	175	Silver Valkyrie x1
+4	87	214	Lizard King x1
+4	89	62	Vepar x1
+4	89	184	Silver Valkyrie x1
+4	90	148	Silver Valkyrie x1
+4	90	177	Great Bahamut x1
+4	91	115	Great Bahamut x1
+4	93	136	Silver Valkyrie x1
+4	94	60	Valkyrie x1
+4	94	210	Lizard King x1
+4	97	142	Silver Valkyrie x1
+4	99	108	Great Bahamut x1
+4	101	50	Valkyrie x1
+4	101	147	Silver Valkyrie x1
+4	101	183	Silver Valkyrie x1
+4	104	21	Vepar x1
+4	104	211	Lizard King x1
+4	105	137	Silver Valkyrie x1
+4	106	48	Valkyrie x1
+4	106	101	Great Bahamut x1
+4	107	24	Vepar x1
+4	108	40	Vepar x1
+4	109	38	Valkyrie x1
+4	109	211	Silver Valkyrie x1
+4	111	82	Great Bahamut x1
+4	111	174	Great Bahamut x1
+4	111	175	Silver Valkyrie x1
+4	111	183	Silver Valkyrie x1
+4	112	45	Valkyrie x1
+4	112	137	Silver Valkyrie x1
+4	113	28	Valkyrie x1
+4	114	28	Vepar x1
+4	115	21	Vepar x1
+4	115	210	Lizard King x1
+4	116	19	Valkyrie x1
+4	116	98	Great Bahamut x1
+4	117	74	Valkyrie x1
+4	117	130	Silver Valkyrie x1
+4	118	37	Valkyrie x1
+4	118	85	Great Bahamut x1
+4	118	167	Silver Valkyrie x1
+4	119	25	Valkyrie x1
+4	121	135	Silver Valkyrie x1
+4	122	66	Great Bahamut x1
+4	122	144	Silver Valkyrie x1
+4	122	178	Silver Valkyrie x1
+4	124	22	Valkyrie x1
+4	124	90	Great Bahamut x1
+4	124	125	Silver Valkyrie x1
+4	124	206	Lizard King x1
+4	125	78	Great Bahamut x1
+4	126	167	Great Bahamut x1
+4	127	23	Vepar x1
+4	128	24	Valkyrie x1
+4	129	130	Silver Valkyrie x1
+4	129	171	Silver Valkyrie x1
+4	131	207	Silver Valkyrie x1
+4	133	22	Valkyrie x1
+4	133	61	Great Bahamut x1
+4	133	70	Great Bahamut x1
+4	136	129	Great Bahamut x1
+4	137	205	Lizard King x1
+4	138	167	Silver Valkyrie x1
+4	138	176	Silver Valkyrie x1
+4	139	61	Valkyrie x1
+4	141	20	Vepar x1
+4	142	21	Valkyrie x1
+4	142	125	Silver Valkyrie x1
+4	144	63	Great Bahamut x1
+4	144	109	Silver Valkyrie x1
+4	144	132	Silver Valkyrie x1
+4	144	201	Lizard King x1
+4	147	114	Great Bahamut x1
+4	147	164	Silver Valkyrie x1
+4	150	22	Valkyrie x1
+4	150	120	Silver Valkyrie x1
+4	152	23	Valkyrie x1
+4	152	61	Valkyrie x1
+4	152	169	Silver Valkyrie x1
+4	152	201	Lizard King x1
+4	154	69	Great Bahamut x1
+4	155	196	Silver Valkyrie x1
+4	156	59	Great Bahamut x1
+4	156	122	Silver Valkyrie x1
+4	156	156	Silver Valkyrie x1
+4	159	112	Silver Valkyrie x1
+4	159	198	Lizard King x1
+4	161	20	Valkyrie x1
+4	162	141	Silver Valkyrie x1
+4	162	149	Silver Valkyrie x1
+4	163	139	Silver Valkyrie x1
+4	165	22	Valkyrie x1
+4	165	193	Lizard King x1
+4	166	117	Silver Valkyrie x1
+4	167	107	Silver Valkyrie x1
+4	167	154	Silver Valkyrie x1
+4	167	156	Lizard King x1
+4	168	54	Great Bahamut x1
+4	170	61	Great Bahamut x1
+4	170	145	Silver Valkyrie x1
+4	171	24	Valkyrie x1
+4	171	162	Lizard King x1
+4	171	187	Lizard King x1
+4	172	55	Valkyrie x1
+4	173	109	Silver Valkyrie x1
+4	173	179	Lizard King x1
+4	175	169	Lizard King x1
+4	177	24	Silver Valkyrie x1
+4	177	101	Silver Valkyrie x1
+4	177	146	Lizard King x1
+4	178	58	Great Bahamut x1
+4	178	174	Lizard King x1
+4	179	92	Silver Valkyrie x1
+4	182	22	Valkyrie x1
+4	184	52	Great Bahamut x1
+4	185	90	Great Bahamut x1
+4	186	99	Great Bahamut x1
+4	187	94	Silver Valkyrie x1
+4	189	56	Valkyrie x1
+4	190	27	Valkyrie x1
+4	192	101	Silver Valkyrie x1
+4	193	52	Great Bahamut x1
+4	196	28	Valkyrie x1
+4	200	22	Valkyrie x1
+4	200	49	Great Bahamut x1
+4	200	103	Silver Valkyrie x1
+4	206	55	Great Bahamut x1
+4	207	20	Great Bahamut x1
+4	208	19	Valkyrie x1
+4	208	104	Silver Valkyrie x1
+4	208	183	Silver Valkyrie x1
+4	208	198	Silver Valkyrie x1
+4	211	59	Silver Valkyrie x1
+4	212	96	Great Bahamut x1
+4	215	65	Great Bahamut x1
+4	215	86	Great Bahamut x1
+4	215	174	Silver Valkyrie x1
+4	215	182	Lizard King x1
+4	217	75	Great Bahamut x1
+4	217	197	Lizard King x1
+4	218	101	Great Bahamut x1
+4	219	56	Great Bahamut x1
+4	219	59	Valkyrie x1
+4	219	124	Lizard King x1
+4	219	133	Lizard King x1
+4	221	158	Lizard King x1
+4	222	22	Valkyrie x1
+4	222	190	Lizard King x1
+4	223	70	Silver Valkyrie x1
+4	223	89	Great Bahamut x1
+4	223	202	Lizard King x1
+4	224	108	Silver Valkyrie x1
+4	224	142	Silver Valkyrie x1
+4	224	184	Lizard King x1
+4	225	45	Great Bahamut x1
+4	225	52	Lizard King x1
+4	225	56	Valkyrie x1
+4	225	81	Great Bahamut x1
+4	225	117	Great Bahamut x1
+4	225	134	Lizard King x1
+4	225	154	Lizard King x1
+4	225	161	Silver Valkyrie x1
+4	226	22	Great Bahamut x1
+4	226	22	Valkyrie x1
+4	226	123	Lizard King x1
+4	227	74	Great Bahamut x1
+4	227	171	Lizard King x1
+4	227	181	Silver Valkyrie x1
+4	227	190	Lizard King x1
+4	228	55	Great Bahamut x1
+4	228	64	Great Bahamut x1
+4	228	86	Silver Valkyrie x1
+4	228	95	Great Bahamut x1
+4	228	103	Lizard King x1
+4	228	165	Lizard King x1
+4	228	176	Lizard King x1
+4	228	195	Lizard King x1
+4	228	206	Lizard King x1
+4	229	48	Great Bahamut x1
+4	229	124	Lizard King x1
+4	230	48	Great Bahamut x1
+4	230	106	Silver Valkyrie x1
+4	230	177	Lizard King x1
+4	231	23	Great Bahamut x1
+4	231	40	Great Bahamut x1
+4	231	71	Great Bahamut x1
+4	232	20	Valkyrie x1
+4	233	28	Great Bahamut x1
+1	16	18	Baz The Vault Keeper
+1	17	24	Elf Soldier

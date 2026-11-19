@@ -11,7 +11,7 @@
         "pt": "Pergaminho de veneno"
       },
       "width": 1,
-      "height": 2,
+      "height": 1,
       "level": 30,
       "damageMin": 30,
       "damageMax": 45,
@@ -34,7 +34,7 @@
         "pt": "Pergaminho de meteorito"
       },
       "width": 1,
-      "height": 2,
+      "height": 1,
       "level": 21,
       "damageMin": 21,
       "damageMax": 31,
@@ -58,7 +58,7 @@
         "pt": "Pergaminho de relâmpago"
       },
       "width": 1,
-      "height": 2,
+      "height": 1,
       "level": 13,
       "damageMin": 13,
       "damageMax": 19,
@@ -81,7 +81,7 @@
         "pt": "Pergaminho de bola de fogo"
       },
       "width": 1,
-      "height": 2,
+      "height": 1,
       "level": 5,
       "damageMin": 5,
       "damageMax": 7,
@@ -105,7 +105,7 @@
         "pt": "Pergaminho de chama"
       },
       "width": 1,
-      "height": 2,
+      "height": 1,
       "level": 35,
       "damageMin": 35,
       "damageMax": 52,
@@ -128,7 +128,7 @@
         "pt": "Pergaminho de teletransporte"
       },
       "width": 1,
-      "height": 2,
+      "height": 1,
       "level": 17,
       "damageMin": 17,
       "damageMax": 25,
@@ -150,7 +150,7 @@
         "pt": "Pergaminho de gelo"
       },
       "width": 1,
-      "height": 2,
+      "height": 1,
       "level": 25,
       "damageMin": 25,
       "damageMax": 37,
@@ -174,7 +174,7 @@
         "pt": "Pergaminho de ciclone"
       },
       "width": 1,
-      "height": 2,
+      "height": 1,
       "level": 40,
       "damageMin": 40,
       "damageMax": 60,
@@ -197,7 +197,7 @@
         "pt": "Pergaminho Espírito Diabólico"
       },
       "width": 1,
-      "height": 2,
+      "height": 1,
       "level": 50,
       "damageMin": 50,
       "damageMax": 75,
@@ -220,7 +220,7 @@
         "pt": "Pergaminho de fogo infernal"
       },
       "width": 1,
-      "height": 2,
+      "height": 1,
       "level": 60,
       "damageMin": 60,
       "damageMax": 90,
@@ -243,7 +243,7 @@
         "pt": "Pergaminho de onda poderosa"
       },
       "width": 1,
-      "height": 2,
+      "height": 1,
       "level": 9,
       "damageMin": 9,
       "damageMax": 13,
@@ -267,7 +267,7 @@
         "pt": "Pergaminho de raio de água"
       },
       "width": 1,
-      "height": 2,
+      "height": 1,
       "level": 74,
       "damageMin": 74,
       "damageMax": 111,
@@ -290,7 +290,7 @@
         "pt": "Pergaminho de queda de cometa"
       },
       "width": 1,
-      "height": 2,
+      "height": 1,
       "level": 80,
       "damageMin": 80,
       "damageMax": 120,
@@ -313,7 +313,7 @@
         "pt": "Pergaminho de inferno"
       },
       "width": 1,
-      "height": 2,
+      "height": 1,
       "level": 88,
       "damageMin": 88,
       "damageMax": 132,
@@ -336,7 +336,7 @@
         "pt": "Pergaminho Teletr. De Aliado"
       },
       "width": 1,
-      "height": 2,
+      "height": 1,
       "level": 83,
       "damageMin": 83,
       "damageMax": 124,
@@ -358,7 +358,7 @@
         "pt": "Pergaminho Barr. da Alma"
       },
       "width": 1,
-      "height": 2,
+      "height": 1,
       "level": 77,
       "damageMin": 77,
       "damageMax": 115,
@@ -380,7 +380,7 @@
         "pt": "Pergaminho de apodrecimento"
       },
       "width": 1,
-      "height": 2,
+      "height": 1,
       "level": 96,
       "damageMin": 96,
       "damageMax": 144,
@@ -402,7 +402,7 @@
         "pt": "Pergaminho Tempestade de Gelo"
       },
       "width": 1,
-      "height": 2,
+      "height": 1,
       "level": 93,
       "damageMin": 93,
       "damageMax": 139,
@@ -424,7 +424,7 @@
         "pt": "Pergaminho de nova"
       },
       "width": 1,
-      "height": 2,
+      "height": 1,
       "level": 100,
       "damageMin": 100,
       "damageMax": 150,
@@ -446,7 +446,7 @@
         "pt": "Pergaminho de raio em cadeia"
       },
       "width": 1,
-      "height": 2,
+      "height": 1,
       "level": 75,
       "damageMin": 75,
       "damageMax": 112,
@@ -468,7 +468,7 @@
         "pt": "Pergaminho de drenar vida"
       },
       "width": 1,
-      "height": 2,
+      "height": 1,
       "level": 35,
       "damageMin": 35,
       "damageMax": 52,
@@ -490,7 +490,7 @@
         "pt": "Pergaminho Choque Relâmpago"
       },
       "width": 1,
-      "height": 2,
+      "height": 1,
       "level": 93,
       "damageMin": 93,
       "damageMax": 139,
@@ -512,7 +512,7 @@
         "pt": "Pergaminho Reflexo de Dano"
       },
       "width": 1,
-      "height": 2,
+      "height": 1,
       "level": 80,
       "damageMin": 80,
       "damageMax": 120,
@@ -534,7 +534,7 @@
         "pt": "Pergaminho de berserker"
       },
       "width": 1,
-      "height": 2,
+      "height": 1,
       "level": 83,
       "damageMin": 83,
       "damageMax": 124,
@@ -556,7 +556,7 @@
         "pt": "Pergaminho de dormir"
       },
       "width": 1,
-      "height": 2,
+      "height": 1,
       "level": 40,
       "damageMin": 40,
       "damageMax": 60,
@@ -578,7 +578,7 @@
         "pt": "Pergaminho de fraqueza"
       },
       "width": 1,
-      "height": 2,
+      "height": 1,
       "level": 93,
       "damageMin": 93,
       "damageMax": 139,
@@ -600,7 +600,7 @@
         "pt": "Pergaminho de inovação"
       },
       "width": 1,
-      "height": 2,
+      "height": 1,
       "level": 111,
       "damageMin": 111,
       "damageMax": 166,
@@ -622,7 +622,7 @@
         "pt": "Perg. Aum. Poder de Magia"
       },
       "width": 1,
-      "height": 2,
+      "height": 1,
       "level": 100,
       "damageMin": 100,
       "damageMax": 150,
@@ -645,7 +645,7 @@
         "pt": "Perg. Tempestade Gigante"
       },
       "width": 1,
-      "height": 2,
+      "height": 1,
       "level": 100,
       "damageMin": 100,
       "damageMax": 150,
@@ -668,7 +668,7 @@
         "pt": "Pergaminho de Correia"
       },
       "width": 1,
-      "height": 2,
+      "height": 1,
       "level": 70,
       "damageMin": 70,
       "damageMax": 105,
@@ -690,7 +690,7 @@
         "pt": "Pergaminho do Lado Negro"
       },
       "width": 1,
-      "height": 2,
+      "height": 1,
       "level": 80,
       "damageMin": 80,
       "damageMax": 120,
@@ -712,7 +712,7 @@
         "pt": "Pergaminho do Rugido do Dragão"
       },
       "width": 1,
-      "height": 2,
+      "height": 1,
       "level": 70,
       "damageMin": 70,
       "damageMax": 105,
@@ -734,7 +734,7 @@
         "pt": "Pergaminho Retalhador de Dragões"
       },
       "width": 1,
-      "height": 2,
+      "height": 1,
       "level": 90,
       "damageMin": 90,
       "damageMax": 135,
@@ -756,7 +756,7 @@
         "pt": "Pergaminho de Ignorar Defesa"
       },
       "width": 1,
-      "height": 2,
+      "height": 1,
       "level": 80,
       "damageMin": 80,
       "damageMax": 120,
@@ -779,7 +779,7 @@
         "pt": "Pergaminho de Aumento de Vida"
       },
       "width": 1,
-      "height": 2,
+      "height": 1,
       "level": 50,
       "damageMin": 50,
       "damageMax": 75,
@@ -802,7 +802,7 @@
         "pt": "Pergaminho de Aumento de Bloqueio"
       },
       "width": 1,
-      "height": 2,
+      "height": 1,
       "level": 40,
       "damageMin": 40,
       "damageMax": 60,

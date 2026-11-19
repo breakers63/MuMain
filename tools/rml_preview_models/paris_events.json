@@ -1,0 +1,16 @@
+{
+  "status": "Horarios actualizados desde el servidor",
+  "tabs": [
+    { "label": "Eventos clásicos", "index": 0, "selected": false },
+    { "label": "Invasiones", "index": 1, "selected": true },
+    { "label": "Bonificaciones", "index": 2, "selected": false },
+    { "label": "Mini invasiones", "index": 3, "selected": false },
+    { "label": "Jefes", "index": 4, "selected": false }
+  ],
+  "events": [
+    { "name": "Golden Invasion", "state": "Activo", "seconds": 0, "active": true },
+    { "name": "Red Dragon Invasion", "state": "En 00:24:10", "seconds": 1450, "active": false },
+    { "name": "White Wizard", "state": "En 01:15:00", "seconds": 4500, "active": false }
+  ],
+  "empty": false
+}

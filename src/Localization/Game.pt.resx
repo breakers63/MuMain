@@ -13074,4 +13074,202 @@
   <data name="PartyFinderShowBuffs" xml:space="preserve"><value>Mostrar buffs da Party</value></data>
   <data name="PartyFinderBlockSummon" xml:space="preserve"><value>Bloquear invocação do Dark Lord</value></data>
   <data name="PartyFinderLevelResets" xml:space="preserve"><value>Nível: %d | R: %d</value></data>
+<data name="DungeonBoost" xml:space="preserve">
+    <value>Poder</value>
+  </data>
+  <data name="DungeonBossStage" xml:space="preserve">
+    <value>%ls (Chefe)</value>
+  </data>
+  <data name="DungeonComeBack" xml:space="preserve">
+    <value>Volte com forças renovadas.</value>
+  </data>
+  <data name="DungeonComingSoon" xml:space="preserve">
+    <value>Em breve</value>
+  </data>
+  <data name="DungeonCompleteTime" xml:space="preserve">
+    <value>Tempo: %ls</value>
+  </data>
+  <data name="DungeonDescription0" xml:space="preserve">
+    <value>A Zona de Elite do Templo Subterrâneo de Kardamahal é uma área mortal habitada por poderosos monstros de elite com habilidades e debuffs únicos. Cada passo é impregnado de magia antiga e esconde armadilhas. Só os aventureiros mais corajosos sobrevivem a estas ruínas e conquistam as recompensas.</value>
+  </data>
+  <data name="DungeonDescription1" xml:space="preserve">
+    <value>A Zona de Elite do Subterrâneo de Kanturu é uma área mortal habitada por poderosos monstros de elite com habilidades e debuffs únicos. As batalhas exigem habilidade, estratégia e um bom equipamento.</value>
+  </data>
+  <data name="DungeonDescription2" xml:space="preserve">
+    <value>O último representante de uma forma de vida híbrida criada pelo povo de Kanturu, a encarnação perfeita do terror. Nightmare estava selado em Maya; quando Kanturu caiu e Maya perdeu o controle, ele teve a chance de voltar a este mundo.</value>
+  </data>
+  <data name="DungeonDescription3" xml:space="preserve">
+    <value>A Zona de Elite de Crywolf é uma área mortal habitada por poderosos monstros de elite com habilidades e debuffs únicos. Cada passo esconde armadilhas; só os preparados sobrevivem.</value>
+  </data>
+  <data name="DungeonDescription4" xml:space="preserve">
+    <value>A Zona de Elite de Karutan é uma área mortal habitada por poderosos monstros de elite com habilidades e debuffs únicos. Só os aventureiros mais corajosos conquistam suas recompensas.</value>
+  </data>
+  <data name="DungeonDescription5" xml:space="preserve">
+    <value>Nas profundezas das ruínas do antigo império há uma fortaleza esquecida, antigo campo de treino dos Guardiões Imperiais. Hoje tomada por criaturas corrompidas, é preciso lutar por seus corredores, altares e armadilhas. Os guardiões não protegem mais esta terra: são sua maldição.</value>
+  </data>
+  <data name="DungeonDescription6" xml:space="preserve">
+    <value>Os Guardiões selaram o Abismo sob estes salões. O selo está quebrado.</value>
+  </data>
+  <data name="DungeonDifficulty" xml:space="preserve">
+    <value>Dificuldade</value>
+  </data>
+  <data name="DungeonDisabled" xml:space="preserve">
+    <value>As masmorras não estão ativas.</value>
+  </data>
+  <data name="DungeonEntranceCloses" xml:space="preserve">
+    <value>A entrada fecha em %d segundos</value>
+  </data>
+  <data name="DungeonEntries" xml:space="preserve">
+    <value>Entradas: %d / %d</value>
+  </data>
+  <data name="DungeonEntriesUnlimited" xml:space="preserve">
+    <value>Entradas: sem limite</value>
+  </data>
+  <data name="DungeonExperienceRate" xml:space="preserve">
+    <value>Experiência: %d%%</value>
+  </data>
+  <data name="DungeonFailed" xml:space="preserve">
+    <value>A masmorra falhou.</value>
+  </data>
+  <data name="DungeonItem" xml:space="preserve">
+    <value>Item: %ls</value>
+  </data>
+  <data name="DungeonJoin" xml:space="preserve">
+    <value>Entrar</value>
+  </data>
+  <data name="DungeonLeave" xml:space="preserve">
+    <value>Sair</value>
+  </data>
+  <data name="DungeonLoading" xml:space="preserve">
+    <value>Carregando...</value>
+  </data>
+  <data name="DungeonMessageAlready" xml:space="preserve">
+    <value>Você já está em uma masmorra ou evento.</value>
+  </data>
+  <data name="DungeonMessageFailed" xml:space="preserve">
+    <value>Você não pode entrar agora.</value>
+  </data>
+  <data name="DungeonMessageGrandResets" xml:space="preserve">
+    <value>Você precisa de mais grand resets para esta dificuldade.</value>
+  </data>
+  <data name="DungeonMessageInDungeon" xml:space="preserve">
+    <value>Seu grupo já está em uma masmorra.</value>
+  </data>
+  <data name="DungeonMessageItem" xml:space="preserve">
+    <value>Você precisa do item desta dificuldade.</value>
+  </data>
+  <data name="DungeonMessageLeftBehind" xml:space="preserve">
+    <value>%d membros do grupo não puderam entrar.</value>
+  </data>
+  <data name="DungeonMessageLevel" xml:space="preserve">
+    <value>Seu nível é baixo demais para esta dificuldade.</value>
+  </data>
+  <data name="DungeonMessageMaster" xml:space="preserve">
+    <value>Somente personagens de classe master podem entrar nesta dificuldade.</value>
+  </data>
+  <data name="DungeonMessageNoEntries" xml:space="preserve">
+    <value>Você não tem mais entradas hoje.</value>
+  </data>
+  <data name="DungeonMessageNotActive" xml:space="preserve">
+    <value>Esta masmorra não está disponível.</value>
+  </data>
+  <data name="DungeonMessageNotLeader" xml:space="preserve">
+    <value>Só o líder do grupo pode iniciar uma masmorra.</value>
+  </data>
+  <data name="DungeonMessageParty" xml:space="preserve">
+    <value>Você precisa de um grupo.</value>
+  </data>
+  <data name="DungeonMessageResetRange" xml:space="preserve">
+    <value>Seus resets não estão na faixa desta masmorra.</value>
+  </data>
+  <data name="DungeonMessageResets" xml:space="preserve">
+    <value>Você precisa de mais resets para esta dificuldade.</value>
+  </data>
+  <data name="DungeonMonstersDamage" xml:space="preserve">
+    <value>Dano dos monstros: %d%%</value>
+  </data>
+  <data name="DungeonMonstersDefense" xml:space="preserve">
+    <value>Defesa dos monstros: %d%%</value>
+  </data>
+  <data name="DungeonMonstersHealth" xml:space="preserve">
+    <value>Vida dos monstros: %d%%</value>
+  </data>
+  <data name="DungeonMonstersPlayers" xml:space="preserve">
+    <value>Monstros: %d, Jogadores: %d</value>
+  </data>
+  <data name="DungeonOk" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="DungeonPowerScore" xml:space="preserve">
+    <value>Poder: %ls</value>
+  </data>
+  <data name="DungeonRequiredGrandResets" xml:space="preserve">
+    <value>Grand resets: %d (você: %d)</value>
+  </data>
+  <data name="DungeonRequiredLevel" xml:space="preserve">
+    <value>Nível: %d (você: %d)</value>
+  </data>
+  <data name="DungeonRequiredMaster" xml:space="preserve">
+    <value>Requer classe master</value>
+  </data>
+  <data name="DungeonRequiredResets" xml:space="preserve">
+    <value>Resets: %d (você: %d)</value>
+  </data>
+  <data name="DungeonRequirements" xml:space="preserve">
+    <value>Requisitos</value>
+  </data>
+  <data name="DungeonResetRange" xml:space="preserve">
+    <value>Resets %d a %d (você: %d)</value>
+  </data>
+  <data name="DungeonResetRangeFrom" xml:space="preserve">
+    <value>Resets %d ou mais (você: %d)</value>
+  </data>
+  <data name="DungeonResult" xml:space="preserve">
+    <value>Resultado da masmorra</value>
+  </data>
+  <data name="DungeonSelect" xml:space="preserve">
+    <value>Escolher masmorra</value>
+  </data>
+  <data name="DungeonStage" xml:space="preserve">
+    <value>%ls (Etapa: %d)</value>
+  </data>
+  <data name="DungeonStartNow" xml:space="preserve">
+    <value>Começar já</value>
+  </data>
+  <data name="DungeonStateClear" xml:space="preserve">
+    <value>Concluída</value>
+  </data>
+  <data name="DungeonStateEntrance" xml:space="preserve">
+    <value>Entrada</value>
+  </data>
+  <data name="DungeonStateFinish" xml:space="preserve">
+    <value>Fim</value>
+  </data>
+  <data name="DungeonStateNone" xml:space="preserve">
+    <value>Nenhum</value>
+  </data>
+  <data name="DungeonStatePlay" xml:space="preserve">
+    <value>Em jogo</value>
+  </data>
+  <data name="DungeonStatePrepare" xml:space="preserve">
+    <value>Preparação</value>
+  </data>
+  <data name="DungeonSuccess" xml:space="preserve">
+    <value>Masmorra concluída com sucesso!</value>
+  </data>
+  <data name="DungeonTitle" xml:space="preserve">
+    <value>Masmorra</value>
+  </data>
+  <data name="MapCurseOfCrywolf" xml:space="preserve">
+    <value>Curse of Crywolf</value>
+  </data>
+  <data name="MapKanturuUnderground" xml:space="preserve">
+    <value>Subterrâneo de Kanturu</value>
+  </data>
+  <data name="MapKardamahal" xml:space="preserve">
+    <value>Kardamahal</value>
+  </data>
+  <data name="MapKarutanUnderground" xml:space="preserve">
+    <value>Subterrâneo de Karutan</value>
+  </data>
 </root>

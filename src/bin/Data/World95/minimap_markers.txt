@@ -1,0 +1,14 @@
+# Paris map markers: 1 NPC, 3 spot, 4 individual
+3	105	109	Necron 1 x5
+3	122	100	Necron 1 x5
+3	174	57	Death Centurion 1 x5
+3	191	229	Rogue Centurion 7 x5
+3	194	60	Death Centurion 1 x5
+3	194	225	Rogue Centurion 7 x5
+3	203	81	Death Centurion 1 x5
+3	204	209	Rogue Centurion 7 x5
+3	212	119	Death Centurion 7 x5
+3	214	81	Aegis 1 x5
+3	223	205	Rogue Centurion 7 x5
+3	224	75	Aegis 1 x5
+3	225	210	Blood Soldier 7 x5

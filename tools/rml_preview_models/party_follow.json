@@ -1,0 +1,46 @@
+{
+  "cards": [
+    {
+      "name": "Test123",
+      "name_text_px": 12,
+      "leader": true,
+      "absent": false,
+      "defense_buff": false,
+      "selected": false,
+      "show_leave": true,
+      "health_length": 65,
+      "index": 0,
+      "can_follow": false,
+      "following": false,
+      "follow_hint": "Seguir"
+    },
+    {
+      "name": "loki",
+      "name_text_px": 12,
+      "leader": false,
+      "absent": false,
+      "defense_buff": false,
+      "selected": false,
+      "show_leave": true,
+      "health_length": 65,
+      "index": 1,
+      "can_follow": true,
+      "following": true,
+      "follow_hint": "Dejar de seguir"
+    },
+    {
+      "name": "CONDOR",
+      "name_text_px": 12,
+      "leader": false,
+      "absent": false,
+      "defense_buff": false,
+      "selected": false,
+      "show_leave": true,
+      "health_length": 65,
+      "index": 2,
+      "can_follow": true,
+      "following": false,
+      "follow_hint": "Seguir"
+    }
+  ]
+}

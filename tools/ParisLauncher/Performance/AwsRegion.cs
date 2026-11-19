@@ -1,0 +1,10 @@
+namespace ParisLauncher.Performance;
+public sealed record AwsRegion(string Name,string Code,string Host)
+{
+    public override string ToString() => Label;
+    public string Country => Code switch { var c when c.StartsWith("us-")=>"us",var c when c.StartsWith("ca-")=>"ca","mx-central-1"=>"mx","sa-east-1"=>"br","eu-west-1"=>"ie","eu-west-2"=>"gb","eu-west-3"=>"fr","eu-central-1"=>"de","eu-central-2"=>"ch","eu-north-1"=>"se","eu-south-1"=>"it","eu-south-2"=>"es","ap-east-1"=>"hk","ap-east-2"=>"tw","ap-northeast-1" or "ap-northeast-3"=>"jp","ap-northeast-2"=>"kr",var c when c.StartsWith("ap-south-")=>"in","ap-southeast-1"=>"sg","ap-southeast-2" or "ap-southeast-4"=>"au","ap-southeast-3"=>"id","ap-southeast-5"=>"my","ap-southeast-6"=>"nz","ap-southeast-7"=>"th","af-south-1"=>"za","me-south-1"=>"bh","me-central-1"=>"ae","il-central-1"=>"il",_=>"us" };
+    public string FlagUri => "pack://application:,,,/Launcher;component/Assets/Flags/"+Country+".png";
+    public string Label => Name+" / "+Code;
+    public static IReadOnlyList<AwsRegion> All()=>new[]{
+("Virginia","us-east-1"),("Ohio","us-east-2"),("California","us-west-1"),("Oregón","us-west-2"),("Canadá Central","ca-central-1"),("Calgary","ca-west-1"),("México Central","mx-central-1"),("São Paulo","sa-east-1"),("Irlanda","eu-west-1"),("Londres","eu-west-2"),("París","eu-west-3"),("Fráncfort","eu-central-1"),("Zúrich","eu-central-2"),("Estocolmo","eu-north-1"),("Milán","eu-south-1"),("España","eu-south-2"),("Hong Kong","ap-east-1"),("Taipéi","ap-east-2"),("Tokio","ap-northeast-1"),("Seúl","ap-northeast-2"),("Osaka","ap-northeast-3"),("Mumbai","ap-south-1"),("Hyderabad","ap-south-2"),("Singapur","ap-southeast-1"),("Sídney","ap-southeast-2"),("Yakarta","ap-southeast-3"),("Melbourne","ap-southeast-4"),("Malasia","ap-southeast-5"),("Nueva Zelanda","ap-southeast-6"),("Tailandia","ap-southeast-7"),("Ciudad del Cabo","af-south-1"),("Bahréin","me-south-1"),("Emiratos Árabes","me-central-1"),("Tel Aviv","il-central-1"),("GovCloud Este","us-gov-east-1"),("GovCloud Oeste","us-gov-west-1")}.Select(r=>new AwsRegion(r.Item1,r.Item2,"ec2."+r.Item2+".amazonaws.com")).ToList();
+}

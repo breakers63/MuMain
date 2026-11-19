@@ -1,0 +1,10 @@
+# Paris map markers: 1 NPC, 3 spot, 4 individual
+1	192	24	Little Santa Red
+1	193	27	Little Santa Pink
+1	202	33	Little Santa Green
+1	202	41	Snowman
+1	207	9	Little Santa Blue
+1	216	19	Little Santa Orange
+1	222	24	Little Santa Yellow
+1	225	11	Little Santa White
+1	232	13	Little Santa Black

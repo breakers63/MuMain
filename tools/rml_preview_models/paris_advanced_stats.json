@@ -1,0 +1,134 @@
+{
+  "rows": [
+    {
+      "label": "OFFENSIVE",
+      "value": "",
+      "section": true,
+      "alternate": false
+    },
+    {
+      "label": "Damage increase",
+      "value": "68.30%",
+      "section": false,
+      "alternate": false
+    },
+    {
+      "label": "Critical DMG Rate",
+      "value": "40.00%",
+      "section": false,
+      "alternate": true
+    },
+    {
+      "label": "Critical DMG Bonus",
+      "value": "0",
+      "section": false,
+      "alternate": false
+    },
+    {
+      "label": "Excellent DMG Rate",
+      "value": "15.00%",
+      "section": false,
+      "alternate": true
+    },
+    {
+      "label": "Double DMG Rate",
+      "value": "0.00%",
+      "section": false,
+      "alternate": false
+    },
+    {
+      "label": "Ignore Defense",
+      "value": "0.00%",
+      "section": false,
+      "alternate": true
+    },
+    {
+      "label": "Min Physical DMG",
+      "value": "9773",
+      "section": false,
+      "alternate": false
+    },
+    {
+      "label": "Max Physical DMG",
+      "value": "14483",
+      "section": false,
+      "alternate": true
+    },
+    {
+      "label": "Min Magic DMG",
+      "value": "0",
+      "section": false,
+      "alternate": false
+    },
+    {
+      "label": "Max Magic DMG",
+      "value": "0",
+      "section": false,
+      "alternate": true
+    },
+    {
+      "label": "DEFENSIVE",
+      "value": "",
+      "section": true,
+      "alternate": false
+    },
+    {
+      "label": "Defense (PvM)",
+      "value": "7156",
+      "section": false,
+      "alternate": false
+    },
+    {
+      "label": "Critical resistance",
+      "value": "5.00%",
+      "section": false,
+      "alternate": true
+    },
+    {
+      "label": "Excellent resistance",
+      "value": "0.00%",
+      "section": false,
+      "alternate": false
+    },
+    {
+      "label": "Double DMG resistance",
+      "value": "0.00%",
+      "section": false,
+      "alternate": true
+    },
+    {
+      "label": "Stun resistance",
+      "value": "0.00%",
+      "section": false,
+      "alternate": false
+    },
+    {
+      "label": "Reflect DMG",
+      "value": "0.00%",
+      "section": false,
+      "alternate": true
+    },
+    {
+      "label": "Return Enemy Attack Power",
+      "value": "0.00%",
+      "section": false,
+      "alternate": false
+    },
+    {
+      "label": "Armor DMG Reduction",
+      "value": "54.00%",
+      "section": false,
+      "alternate": true
+    },
+    {
+      "label": "Soul Barrier Reduction",
+      "value": "0.00%",
+      "section": false,
+      "alternate": false
+    }
+  ],
+  "status": "Actualizado",
+  "totalPower": "Total Power: 14262",
+  "totalDefense": "Total Defense: 7596",
+  "text_px": 11.5
+}

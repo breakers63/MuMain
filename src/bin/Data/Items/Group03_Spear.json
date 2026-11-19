@@ -10,7 +10,7 @@
         "es": "Jabalina de Luz",
         "pt": "Lança de luz"
       },
-      "width": 2,
+      "width": 1,
       "height": 4,
       "slot": "mainHand",
       "twoHanded": true,
@@ -39,7 +39,7 @@
         "es": "Jabalina",
         "pt": "Lança"
       },
-      "width": 2,
+      "width": 1,
       "height": 4,
       "slot": "mainHand",
       "twoHanded": true,
@@ -67,7 +67,7 @@
         "es": "Lanza Dragón",
         "pt": "Lança do dragão"
       },
-      "width": 2,
+      "width": 1,
       "height": 4,
       "slot": "mainHand",
       "twoHanded": true,
@@ -95,7 +95,7 @@
         "es": "Tridente Gigante",
         "pt": "Tridente gigante"
       },
-      "width": 2,
+      "width": 1,
       "height": 4,
       "slot": "mainHand",
       "twoHanded": true,
@@ -123,7 +123,7 @@
         "es": "Jabalina Serpiente",
         "pt": "Lança da serpente"
       },
-      "width": 2,
+      "width": 1,
       "height": 4,
       "slot": "mainHand",
       "twoHanded": true,
@@ -152,7 +152,7 @@
         "es": "Hacha Doble de Mástil",
         "pt": "Gadanha dupla"
       },
-      "width": 2,
+      "width": 1,
       "height": 4,
       "slot": "mainHand",
       "twoHanded": true,
@@ -180,7 +180,7 @@
         "es": "Alabarda",
         "pt": "Alabarda"
       },
-      "width": 2,
+      "width": 1,
       "height": 4,
       "slot": "mainHand",
       "twoHanded": true,
@@ -207,7 +207,7 @@
         "de": "Berdysch",
         "es": "Berdiche"
       },
-      "width": 2,
+      "width": 1,
       "height": 4,
       "slot": "mainHand",
       "twoHanded": true,
@@ -236,7 +236,7 @@
         "es": "Gran Guadaña",
         "pt": "Grande foice"
       },
-      "width": 2,
+      "width": 1,
       "height": 4,
       "slot": "mainHand",
       "twoHanded": true,
@@ -265,7 +265,7 @@
         "es": "Pico de Balrog",
         "pt": "Gancho de Balrog"
       },
-      "width": 2,
+      "width": 1,
       "height": 4,
       "slot": "mainHand",
       "twoHanded": true,
@@ -294,7 +294,7 @@
         "es": "Jabalina Dragón",
         "pt": "Lança do dragão"
       },
-      "width": 2,
+      "width": 1,
       "height": 4,
       "slot": "mainHand",
       "twoHanded": true,
@@ -318,7 +318,7 @@
       "name": {
         "en": "Brova"
       },
-      "width": 2,
+      "width": 1,
       "height": 4,
       "slot": "mainHand",
       "twoHanded": true,

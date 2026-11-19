@@ -1,0 +1,3808 @@
+{
+  "kind": "vulkan",
+  "sourceBranch": "cliente-sdl3",
+  "baseCommit": "4f2ad4f25e79464282a33d8431ef48208ce243fd",
+  "date": "2026-11-19",
+  "files": [
+    {
+      "path": ".editorconfig",
+      "sha256": "e16f6c072d0b0e975c2006b5aca9ab0e2de5e7ab92a60143417635af9ad966fa",
+      "bytes": 800,
+      "previous": "e8c7757bc5f47951e80c72e81f69a698e881c7a7",
+      "storage": "git-text"
+    },
+    {
+      "path": "build-paris.cmd",
+      "sha256": "2bfba8653e6ecb14a96eaa4f7f746943016811c3023fdd0723668526223a858e",
+      "bytes": 884,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "stylecop.json",
+      "sha256": "9ad703b037db47955c4a463815a94df8d30bbe683712362112d4ce8125dae110",
+      "bytes": 484,
+      "previous": "2d68f3d8eadcd30301aee8068899054981ddf9ab",
+      "storage": "git-text"
+    },
+    {
+      "path": "ClientLibrary/Common.xslt",
+      "sha256": "68ad3bcce51276989ea43135c59de66df7858ecc1a4db71b020cd6328d937c85",
+      "bytes": 9298,
+      "previous": "a5de0cbfa069b1de078e5da1f19c0385e561c13a",
+      "storage": "git-text"
+    },
+    {
+      "path": "ClientLibrary/ConnectionManager.ChatServer.Custom.cs",
+      "sha256": "49f3fc690b5dfd1f30c8fe9940356ef947240d7ab41bcb3b4561ade69c0b9837",
+      "bytes": 4001,
+      "previous": "ddcc9c35df43bb541b1c5a2664bb0f23c2cb740b",
+      "storage": "git-text"
+    },
+    {
+      "path": "ClientLibrary/ConnectionManager.ChatServerFunctions.cs",
+      "sha256": "6685292bcfaa4aeae57cc2f5b227554795d4778bd465e6bb5befddce304b8980",
+      "bytes": 9515,
+      "previous": "a9808e21d70fc777f21f97788677aa3d8a34819c",
+      "storage": "git-text"
+    },
+    {
+      "path": "ClientLibrary/ConnectionManager.ClientToServer.Custom.cs",
+      "sha256": "cac0289a05110a1139a3b47bded4f728ef80dff95ab76ca2a148e67a3b94987e",
+      "bytes": 4208,
+      "previous": "1699211bc1020925d6cb5cf0fd2deee3401161e6",
+      "storage": "git-text"
+    },
+    {
+      "path": "ClientLibrary/ConnectionManager.ClientToServerFunctions.cs",
+      "sha256": "936fb769e7b05337ac6cc9efb10506ea5d27981704f27e45cadc61281ad7f5f3",
+      "bytes": 267806,
+      "previous": "77a6922db9f1946c6d09a410b7e12cd46f880f8a",
+      "storage": "git-text"
+    },
+    {
+      "path": "ClientLibrary/ConnectionManager.ConnectServerFunctions.cs",
+      "sha256": "904f0b63cf509a8d661d34f1d8fd5f0bfc4a8d057aa5176e8c85af06328a6580",
+      "bytes": 12654,
+      "previous": "4c4d25e96a4167cd8128a3dffb216217e14d63bf",
+      "storage": "git-text"
+    },
+    {
+      "path": "ClientLibrary/ConnectionManager.cs",
+      "sha256": "56a75ab62446e36d1feafa7dcb56cf1f6278da5c303376233ca3221aaa0147be",
+      "bytes": 10890,
+      "previous": "384c1625c998c8c46af03f81f64dc45163d0ecde",
+      "storage": "git-text"
+    },
+    {
+      "path": "ClientLibrary/ConnectionWrapper.cs",
+      "sha256": "8280d39940840ab79c5c777b644495b51ea6659f086185a616cae44ef108f361",
+      "bytes": 10803,
+      "previous": "6051542bba127bba079a1a3dba88e6e0604b3ddc",
+      "storage": "git-text"
+    },
+    {
+      "path": "ClientLibrary/GenerateBindingsHeader.xslt",
+      "sha256": "9d7cc70103ab1680cbdf73fb68b13bab35e33136d3d8d521f318649087a30df3",
+      "bytes": 2227,
+      "previous": "8e0e0c09a2882607e1f557228ade24b68b0e3445",
+      "storage": "git-text"
+    },
+    {
+      "path": "ClientLibrary/GenerateEnums.xslt",
+      "sha256": "df8e84847d9cb2d193b3c48951c586d248902df2f34dbfb0bc27bb82b325e3c0",
+      "bytes": 2495,
+      "previous": "38a3b8af5f233c959d87b6e5b6babf9f218152cf",
+      "storage": "git-text"
+    },
+    {
+      "path": "ClientLibrary/GenerateExtensionsDotNet.xslt",
+      "sha256": "ce7be4ab9b3988e6606f3ea03a2521c39f5ccd619edf8bc5a7be05c6261e543a",
+      "bytes": 10680,
+      "previous": "5502c66ec9a1eff14e1479920add4c5154744bad",
+      "storage": "git-text"
+    },
+    {
+      "path": "ClientLibrary/GenerateFunctions.xslt",
+      "sha256": "95f8dca1c256703a3c7e7b1b6df0600c71f190fb1f72bfa8afb2b9fa36666836",
+      "bytes": 3685,
+      "previous": "246b45ba1f03af88e24e6daa96a54bb510e98f0e",
+      "storage": "git-text"
+    },
+    {
+      "path": "ClientLibrary/GenerateFunctionsHeader.xslt",
+      "sha256": "9b3de2b47cd4d726375eb0a82cde769e613852fece7c273cb8eb04394f823448",
+      "bytes": 5020,
+      "previous": "bc5fc3b3df30f3c387747b09a9357eee9ae21111",
+      "storage": "git-text"
+    },
+    {
+      "path": "ClientLibrary/MUnique.Client.Library.csproj",
+      "sha256": "20f8db304113587c4f0baf8a0c52251d3d43315a0543bd6df455143085a325a1",
+      "bytes": 10087,
+      "previous": "e7fecc998ebe0a83e7ba356468aec8002202732a",
+      "storage": "git-text"
+    },
+    {
+      "path": "ClientLibrary/Properties/PublishProfiles/FolderProfile.pubxml",
+      "sha256": "b364a4ae2aeb8bc25947a4a02de3fe4c226e319a7dacaa79f505abb70333e361",
+      "bytes": 892,
+      "previous": "ccc40d79453e6bb95a37c41242c01c1b0149895c",
+      "storage": "git-text"
+    },
+    {
+      "path": "ConstantsReplacer/ConstantsReplacer.csproj",
+      "sha256": "3baaf632e9c213c1528368fc65bb3e2e4e6cd07380e4c72d8c6f737bb50d8b1b",
+      "bytes": 443,
+      "previous": "cd7010586ec94806af5f1f9c386b9e9fcb485bee",
+      "storage": "git-text"
+    },
+    {
+      "path": "ConstantsReplacer/FileEncoding.cs",
+      "sha256": "1cfe2d2fa547a7a421823a0bdfc38e700082b08395cfe2388ba030f8b442c730",
+      "bytes": 13953,
+      "previous": "3ed72f987d80672eea62020088ec22c6d8208826",
+      "storage": "git-text"
+    },
+    {
+      "path": "ConstantsReplacer/MainForm.Designer.cs",
+      "sha256": "9e0c2b17d687765a13931cf69ba364bf3e816abfa3249785bea273b98f455ab1",
+      "bytes": 7851,
+      "previous": "15f87e3b39e3455bfca72e75d104bc9e850a191d",
+      "storage": "git-text"
+    },
+    {
+      "path": "ConstantsReplacer/MainForm.resx",
+      "sha256": "53874e9d92efec233a9afdd772bb22d0b67720c488444266e9c7259de505edfd",
+      "bytes": 37557,
+      "previous": "88734c0aebc0dd068faa473e53b452a89590a3a7",
+      "storage": "git-text"
+    },
+    {
+      "path": "ConstantsReplacer/Replacer.cs",
+      "sha256": "3273357efa56f6a3e36e661222f658fa1639650359e427356cd34ad495ddae56",
+      "bytes": 2027,
+      "previous": "fe020d7c095b682060d2d2204de1b9c21430bb7a",
+      "storage": "git-text"
+    },
+    {
+      "path": "docs/camera-system.md",
+      "sha256": "c3b995958c5f577d49c523d24f97bc04a52252ab227d366fdf4c86032bc3f8a2",
+      "bytes": 3748,
+      "previous": "f548ccd60cea4c4a3d4221510b713094f0b34432",
+      "storage": "git-text"
+    },
+    {
+      "path": "docs/event-registration.md",
+      "sha256": "b21d91f6c4544f7740b06af546d248ff9c3de26894556701ad64eace5b95d0db",
+      "bytes": 1472,
+      "previous": "1d92328f55232670e2f77c14c4b248def0598b2f",
+      "storage": "git-text"
+    },
+    {
+      "path": "docs/item-tooltip-tiers.md",
+      "sha256": "f670ae2698b8c20972a2f1a8669aee6e300dd6a9f05228b4f656b2938b41d099",
+      "bytes": 913,
+      "previous": "012db3d9de3c1c8bd417876c041ffbb13f2c91fc",
+      "storage": "git-text"
+    },
+    {
+      "path": "docs/launcher_zip_updates.md",
+      "sha256": "58d7825c2637319a20b7029c1ae07cfc28fca96e16088125614da03a4391dab9",
+      "bytes": 1889,
+      "previous": "54ee5902ce760fa35994ae1f2fce6abd96081afa",
+      "storage": "git-text"
+    },
+    {
+      "path": "docs/minimap-markers.md",
+      "sha256": "8d3829f0ba00fe94d08849b3ecd45c18060c5dcb49da1494c6724fe26271af1a",
+      "bytes": 998,
+      "previous": "8af5a5ee17c6f1bf7fac04e89c3c4aea44a5f697",
+      "storage": "git-text"
+    },
+    {
+      "path": "docs/paris-bounty-board.md",
+      "sha256": "5e69b9d8b0398604d2c0ea5efcf2bc68b08cb50467a1d7247f1576e414df5a4c",
+      "bytes": 900,
+      "previous": "ba83367dc8a715557c27f159e12ad73ae9d16d81",
+      "storage": "git-text"
+    },
+    {
+      "path": "docs/paris-dressed-npcs.md",
+      "sha256": "e62ea30d97c9ddbebb16e414e0eea52b0d66e6454294b5f64b01350f1f755095",
+      "bytes": 7520,
+      "previous": "f0ccdbf6ccd4e9447e7a9e427d3582ee95e0a2fd",
+      "storage": "git-text"
+    },
+    {
+      "path": "docs/paris-launcher.md",
+      "sha256": "d46ef42f1011a7e877ce9b92987b61798d2d763c255b449172904017893d94fe",
+      "bytes": 15402,
+      "previous": "de9b7a09f233aabb2e4a2bc8c83574c61716a984",
+      "storage": "git-text"
+    },
+    {
+      "path": "docs/paris-release-20261025.md",
+      "sha256": "2b5b54c8fca12bcc61fb83c3b7a07f35d14d58d4f0b4138e34469e58065e6974",
+      "bytes": 6164,
+      "previous": "d57e586cd79927485883705920645506221cc721",
+      "storage": "git-text"
+    },
+    {
+      "path": "docs/paris-rmlui-migration.md",
+      "sha256": "3264d42f93d0452c8a1abf0f72d82b76c412f811db444893a2865854921392ae",
+      "bytes": 31273,
+      "previous": "361b55b763a874c84ad34d5c85c494ec8bbc4cfa",
+      "storage": "git-text"
+    },
+    {
+      "path": "docs/party-finder.md",
+      "sha256": "cf5045968216c9782acfc34173b5a4e0a755417ecf07fd96347abe0d8b8e9557",
+      "bytes": 4960,
+      "previous": "1d9f2f355e02e71e91b6b87eed62199dbbd2e733",
+      "storage": "git-text"
+    },
+    {
+      "path": "docs/pvp-status-notice.md",
+      "sha256": "4d56995431c06a0d74c3e9f18db8448f08ec1c6b9fd7f38a3bb6bbadeb14acc0",
+      "bytes": 459,
+      "previous": "bbe15634712d9c888f2ac3be20ddf78ae5b83521",
+      "storage": "git-text"
+    },
+    {
+      "path": "docs/rain-puddles.md",
+      "sha256": "98845fc2f78a5dce1eae0c257ce7b5117129936537becb503eaba94727787b61",
+      "bytes": 701,
+      "previous": "c91328902de5678e29e599e350f46e5cf0e48a8d",
+      "storage": "git-text"
+    },
+    {
+      "path": "docs/set-trails.md",
+      "sha256": "61ac2dcd7384f6d24ea784a4ddb73420abcf3e7a40309f8180bef7685ae1017f",
+      "bytes": 1396,
+      "previous": "2e67a3875d79395cfe03f24979126cda8cd0c314",
+      "storage": "git-text"
+    },
+    {
+      "path": "docs/social-music.md",
+      "sha256": "c23fe47bf737ed74d232a19e40c15d95d4e3a172b0c28924e094cec8eda86f8b",
+      "bytes": 1893,
+      "previous": "dfd38bab6c8fe9cfe5014a9b13be06a5446caa59",
+      "storage": "binary-archive"
+    },
+    {
+      "path": "docs/patches/README.md",
+      "sha256": "4c10561dac87c67fa21091d56af36fe6a903457a0575a42f45dc91bc9bc315af",
+      "bytes": 359,
+      "previous": "0b34637a13d1e85c3c987c732b5b164ec8e28bef",
+      "storage": "git-text"
+    },
+    {
+      "path": "docs/patches/rmlui-widget-slider-20261025.patch",
+      "sha256": "36c949590d93049dbfd30243e58f3059669398a93eed6b45bcbfa9329dbe3c11",
+      "bytes": 2350,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "docs/rmlui-ui-system/README.md",
+      "sha256": "990c16b359c4136846e01583123fd58e6c19a838ce43ec01cb989c88fe38a8ef",
+      "bytes": 18103,
+      "previous": "7a11a10342d518b7821d4f1e31e46379bf85b15b",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/config.ini.template",
+      "sha256": "9ce6d407922b6dfd1c8d8dcca190bc98fadf54fd0fb5cc9ad79be3501fd44693",
+      "bytes": 609,
+      "previous": "20921eb8c8cbed201e6003418d0fa0989cdd3998",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/Custom/BossDamageRank.txt",
+      "sha256": "05e0926b13c8352d1591be5202467a215a649a6e614d1f724261d1f1b1fb8988",
+      "bytes": 2270,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/Custom/Dressed.txt",
+      "sha256": "fd3e13fa1f352808717751a4b03ce17a85e405e469c8e24c3e83c31247975ded",
+      "bytes": 2795,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/Custom/Monsters.protector-backup.txt",
+      "sha256": "58d0cba993b3dd95e04f184c090d669c615160a22fd91ff1bb687e3babbeff45",
+      "bytes": 10884,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/Custom/Monsters.txt",
+      "sha256": "81eb0082d862a92552a471b0a939104d1c5f1917be813dfdd89cd8509852f4d1",
+      "bytes": 12193,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/Custom/ParisItemRarity.json",
+      "sha256": "d6d685a201a78199066f3eb99f2bd131caef50e4cd297535ec158c250b9d04c3",
+      "bytes": 47205,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/Custom/ParisMonsterMesh.json",
+      "sha256": "ee015e0ea4136ce7c53fba2214fa8f6bbf1be4d7d7f9630f18d0c31a83f77982",
+      "bytes": 393,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/Custom/ParisSetAppearance.json",
+      "sha256": "83b3f97545dd20bf9cf729c1c84091a2f9656f038fa33c43ec0629c973ca1908",
+      "bytes": 355,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/Grading/Pegasus/export.json",
+      "sha256": "b5bfbfbbf85cc64142b8cdbf6f132baec8b7bef3413796638531e23937f77973",
+      "bytes": 277,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/Interface/RmlUi/dungeon.rml",
+      "sha256": "1d7a2e5238370d81fb4ac08ef065069a7c2f4a0629b0d88684b095c2d5b4c4db",
+      "bytes": 5657,
+      "previous": "b682440735b3f2aa8b4996164534d07e337839c8",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/Interface/RmlUi/dungeon_tracker.rml",
+      "sha256": "6aa06ec5b2b2a35684b494bac2e912d76616994f4d97fd67205a589fa7d5c149",
+      "bytes": 1838,
+      "previous": "c69d4fe8144ddc4f34b6fa0f1f187cea818a7cc8",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/Interface/RmlUi/main_frame.rml",
+      "sha256": "fc21aded54de3c9366a27716b8924bb12b3876a202dacfd72f99a3b5b76879f8",
+      "bytes": 13924,
+      "previous": "906f0e0479dc1f35a39987a977bc17145ae40243",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/Interface/RmlUi/main_frame_top.rml",
+      "sha256": "25076803122e5b3cf48d94e4da2c78bfd67ef28be1eece249fc4a49ddd59dce8",
+      "bytes": 2059,
+      "previous": "5b471a48253d4da8f430a400377e1f52e230c5bc",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/Interface/RmlUi/option_window.rml",
+      "sha256": "83b747e8236d1bb0223959ad7e794fd2f5a72158ac2741baf192ea61062e9e86",
+      "bytes": 32004,
+      "previous": "842da724ab0b921ac287bd04315ee0fb27ddeb77",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/Interface/RmlUi/paris_bounty_board.rml",
+      "sha256": "bb3c1a0e3a354d47cbbe4265e1c7807b3ec5ec00c5a412ec999010a9726ca907",
+      "bytes": 5852,
+      "previous": "3c42c37ccb396e0f0a4ddb3cae22487bd10a2617",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/Interface/RmlUi/paris_shortcuts.rcss",
+      "sha256": "a27dc3539449d8d09e01063f4cc2c829f4724ca06201437dde5967daf4a8d32e",
+      "bytes": 1194,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/Interface/RmlUi/themes/legacy/dungeon.rcss",
+      "sha256": "cbf5e35825526940d5f7f9c113a0f06313fc61c2c537cf47ce8b8fbfe4a67026",
+      "bytes": 15330,
+      "previous": "d3e826e5908aeb5c408f72017ae4db5640474dcb",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/Interface/RmlUi/themes/legacy/dungeon_tracker.rcss",
+      "sha256": "3e436a6b092ac54d444fdd64a06a669ea379fa74bc6f298a7dbc49b0ee528657",
+      "bytes": 3290,
+      "previous": "c55e0c50fa92eabe64e5701cbcb2cc5d031c2333",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/Interface/RmlUi/themes/legacy/option_window.rcss",
+      "sha256": "152549ea80ac0284a21633c3fcb1b9cf5f85f1a8aa2cc56e29b290baa1bf0d84",
+      "bytes": 17422,
+      "previous": "612a7eab9fbd3fbb1cac5582b6f8123a78fe7d1e",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/Interface/RmlUi/themes/legacy/paris_bounty_board.rcss",
+      "sha256": "3d53484fd446b32db86d1470083e4ef0d7b5b5915cf53e1969dafcb07715eb58",
+      "bytes": 6628,
+      "previous": "e19c752a23f401cca470aa993cc896dac79a9c58",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/Interface/RmlUi/themes/legacy/paris_shortcuts.rcss",
+      "sha256": "0affe957c4ec049b783b0f392f22f8f7f5425c9782311e172fca17488ae6de4d",
+      "bytes": 1200,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/Interface/RmlUi/themes/legacy-inherited-test/paris_shortcuts.rcss",
+      "sha256": "0affe957c4ec049b783b0f392f22f8f7f5425c9782311e172fca17488ae6de4d",
+      "bytes": 1200,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/Interface/RmlUi/themes/modern/dungeon.rcss",
+      "sha256": "cbf5e35825526940d5f7f9c113a0f06313fc61c2c537cf47ce8b8fbfe4a67026",
+      "bytes": 15330,
+      "previous": "d3e826e5908aeb5c408f72017ae4db5640474dcb",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/Interface/RmlUi/themes/modern/dungeon_tracker.rcss",
+      "sha256": "3e436a6b092ac54d444fdd64a06a669ea379fa74bc6f298a7dbc49b0ee528657",
+      "bytes": 3290,
+      "previous": "c55e0c50fa92eabe64e5701cbcb2cc5d031c2333",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/Interface/RmlUi/themes/modern/option_window.rcss",
+      "sha256": "32456e35994431aef8f8ce37fc56997500f3143b9eb55ad4becc0dfbcb57cf91",
+      "bytes": 16703,
+      "previous": "a09343a0c45087738932e47094ab6c47c49fe414",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/Interface/RmlUi/themes/modern/option_window.rml",
+      "sha256": "53f0f1ea558a6ab84ab5ccda69a3643f2287127e9e915e1a0c2026fee1b3faef",
+      "bytes": 31040,
+      "previous": "ee4b43800acc3b70c4824a800bc66f641129f6ce",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/Interface/RmlUi/themes/modern/paris_bounty_board.rcss",
+      "sha256": "3d53484fd446b32db86d1470083e4ef0d7b5b5915cf53e1969dafcb07715eb58",
+      "bytes": 6628,
+      "previous": "e19c752a23f401cca470aa993cc896dac79a9c58",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/Interface/RmlUi/themes/modern/paris_shortcuts.rcss",
+      "sha256": "0affe957c4ec049b783b0f392f22f8f7f5425c9782311e172fca17488ae6de4d",
+      "bytes": 1200,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/Interface/RmlUi/themes/paris-gold/dungeon.rcss",
+      "sha256": "cbf5e35825526940d5f7f9c113a0f06313fc61c2c537cf47ce8b8fbfe4a67026",
+      "bytes": 15330,
+      "previous": "d3e826e5908aeb5c408f72017ae4db5640474dcb",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/Interface/RmlUi/themes/paris-gold/dungeon_tracker.rcss",
+      "sha256": "17a179e61fc39d255710c8cad940f19f9b0526b114dbb5adc08e92634d4f1b64",
+      "bytes": 3747,
+      "previous": "e287d8e4f72058c26139dd5bc91dd81e29480dab",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/Interface/RmlUi/themes/paris-gold/main_frame.rcss",
+      "sha256": "57ba2240f6e4bcb2215d0e787536fc6d39bc2e180e078d946084a4f97fcca845",
+      "bytes": 35264,
+      "previous": "515ea48cfe72071d6c75b40d2307609ef14565f4",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/Interface/RmlUi/themes/paris-gold/option_window.rcss",
+      "sha256": "ab3c6e2d51e9da30ba4f9d3173fb8444e834251759102901db9ba836063e61f8",
+      "bytes": 20214,
+      "previous": "c91fb4e81bf4eb584524d2fcad2051e84e70ed20",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/Interface/RmlUi/themes/paris-gold/option_window.rml",
+      "sha256": "550b818e915192203a384fba01e0b328eba32cadd252d089a22172d4fb726ad8",
+      "bytes": 32032,
+      "previous": "cf801670b2730a41947a083ab3b4af8ef19270d3",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/Interface/RmlUi/themes/paris-gold/paris_bounty_board.rcss",
+      "sha256": "3d53484fd446b32db86d1470083e4ef0d7b5b5915cf53e1969dafcb07715eb58",
+      "bytes": 6628,
+      "previous": "e19c752a23f401cca470aa993cc896dac79a9c58",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/Interface/RmlUi/themes/paris-gold/paris_shortcuts.rcss",
+      "sha256": "0affe957c4ec049b783b0f392f22f8f7f5425c9782311e172fca17488ae6de4d",
+      "bytes": 1200,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/Items/Group00_Sword.json",
+      "sha256": "6a17676cfeb498b0a32815c640c8e39a6a233d617523b82325f935644baf7873",
+      "bytes": 21999,
+      "previous": "5ea8ab979dfbbe600e583159fe2552fd4859ba97",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/Items/Group01_Axe.json",
+      "sha256": "60092ba89fcd584216466bc5adaabeb0a5fad4b85634a46d427cfff83dfca582",
+      "bytes": 5611,
+      "previous": "01fd71afb0cddfb393ed7993e7fbaa8e051e3c6d",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/Items/Group02_Mace.json",
+      "sha256": "c9d7899fb89a3be66f98c1ff1d58d433ccf970b2c6b65e27734568b52e371ccb",
+      "bytes": 12338,
+      "previous": "878f6bf79c92015296d734f1c80b6b45d611d3fa",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/Items/Group03_Spear.json",
+      "sha256": "147c17345aa0bc5410b99653c08f302e85e67612e92367fd7af959881266441d",
+      "bytes": 7508,
+      "previous": "97388db1cef1a4baa57e5869573bb2c4855409f8",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/Items/Group13_Helper.json",
+      "sha256": "a362cdce24e596bd9fe9af75e0407a94ba5a74518b25d4f919b564e355638c65",
+      "bytes": 86783,
+      "previous": "888a123e80529f2b91db9622fac7cd311dae08a9",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/Items/Group14_Potion.json",
+      "sha256": "c400f60dc94e8693eeee5bee5e3f5b3bc66f20f05d3cb1c3a62d4f0b831ef26a",
+      "bytes": 63645,
+      "previous": "f769a4ee667befeb204a22bdd4a4d0b9dbb8b04c",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/Items/Group15_Etc.json",
+      "sha256": "4b7e6bd908a75a2fa9195c8761de43a253cd7eab60a0f546728b48165e526544",
+      "bytes": 19109,
+      "previous": "5c919826f2bd5e05bd4b604c62ccdd4231568898",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/Items/Models/Group12_Wing.json",
+      "sha256": "b3586f22a6ef0fdbed3916267880fddf8939b140bc80f98f9ef59a9ea477e1fc",
+      "bytes": 29077,
+      "previous": "953df31588010b300796409c52ea88c8bdfc10b3",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/Items/Models/Group14_Potion.json",
+      "sha256": "8e982eb523deefb604569763f070ffa4f396d817e1d097f1d2fc7190efacd40e",
+      "bytes": 68312,
+      "previous": "b6d0ebb467efa5a6de3f1deab5ed89267599d125",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/Items/Models/SharedModels.json",
+      "sha256": "cf6d9a0f8a92e1f5e342ef70df391c048f5df8c56c8feec969a0a6c142f04d8a",
+      "bytes": 4481,
+      "previous": "e6ef4f1d38f13c78fb2fba2601dc5d25a024b76f",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/Object1/Desktop.ini",
+      "sha256": "914def435cdb6e7a285f75af748119e70da76a3f2c4f8ad52de9de51a0dd2390",
+      "bytes": 77,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/Object1/Leia-Me.txt",
+      "sha256": "f33b38a3f857d54f3c4c36f8be2ce0a1b37e44ddec758dcd9524e1b5fe23cb2c",
+      "bytes": 435,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/Object74/desktop.ini",
+      "sha256": "1a3559a9f5a4c126c1f0deb9310b9455c15e16c3337b06c7c32e557004b59dd8",
+      "bytes": 1276,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/Object95/Object09/meshes1.txt",
+      "sha256": "a5984a36453509462f67bf13cf0a624864ad3dc481fca94e66f2e398f8b109aa",
+      "bytes": 88,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/Object95/Object09/meshes2.txt",
+      "sha256": "88dfad552862bee4c02ae340d914e9c8cb5d6757557cb07714412775e0985532",
+      "bytes": 64,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/Object95/Object09/uvindex.txt",
+      "sha256": "1ac02d38340844e09ddb5d683278a438726b70982d163e3a2237c10e9aba2b17",
+      "bytes": 3547,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/Object95/Object09/Vertexlist.txt",
+      "sha256": "83aa2d1ae0da5572fed2526a8c630ec9aa2db096020b7cb5ead4f9fc8ca83549",
+      "bytes": 173,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World1/minimap_markers.txt",
+      "sha256": "56b6aeb68fe64f2749a949fcddf9fd84d08ff045c1505a7baaeab59e12149c5d",
+      "bytes": 2364,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World10/minimap_markers.txt",
+      "sha256": "f03295aa36aa385ce194c55feb1f51c9a04eb5afc976043b0ed850bd0a32d787",
+      "bytes": 463,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World11/minimap_markers.txt",
+      "sha256": "747e446fffbeb556c6bd046f2fe7cd99af6bf11bbcbe8673deb084d184d81358",
+      "bytes": 2444,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World12/minimap_markers.txt",
+      "sha256": "f75475c147fdb2a888f0486193694778f17c6c0610b178512228ea457070456b",
+      "bytes": 3226,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World13/minimap_markers.txt",
+      "sha256": "e0a1cd943d3c896efc0398084266f46cd72ad1f0fe506d685c2268ee49b27a2f",
+      "bytes": 3226,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World14/minimap_markers.txt",
+      "sha256": "326039ba488ee261694a5fbea7aba3ff351c9489f1dec4a72d2a019e7db53f26",
+      "bytes": 3226,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World15/minimap_markers.txt",
+      "sha256": "775efb221ee86700ecb4f9bbaf698cd3e088c0ae505e9b3215ee1c5286a33856",
+      "bytes": 3226,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World16/minimap_markers.txt",
+      "sha256": "98789e3d2cf1aa68bf4adc23f9f332763de33f01a6959fe62852123d49f9f08e",
+      "bytes": 3226,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World17/minimap_markers.txt",
+      "sha256": "116144758bdea40c4471902f0a08dce333cb029ea64a17d5872793aedc77eefc",
+      "bytes": 3226,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World18/minimap_markers.txt",
+      "sha256": "e76b9cb5e7f8a7ceadf49047bd87af302b5beff4c56c6d02e861ffb9381a5521",
+      "bytes": 3226,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World19/minimap_markers.txt",
+      "sha256": "83543dd5e73d7d8fdd41013f7bc9b3b330c0f36cd38fc437f1890f33021d71f3",
+      "bytes": 2744,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World2/minimap_markers.txt",
+      "sha256": "b25dcd935e21cb3e0bce1a74ca891bd92422b2cf79e7c8a933f7665ac367b305",
+      "bytes": 6461,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World20/minimap_markers.txt",
+      "sha256": "cfc0b0709737da47639377e7b4334602135e4e6ec89cb37c10c3cb0d7181624f",
+      "bytes": 2744,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World21/minimap_markers.txt",
+      "sha256": "8d8f594f48420bbc07f8e4720487c8ee9238a9028db68a242dc1bf33db2c87f0",
+      "bytes": 2744,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World22/minimap_markers.txt",
+      "sha256": "6015969bfdeb9978ab9b3bdf409c3d4454070e83f1693d885e4b9d02959aae61",
+      "bytes": 2744,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World23/minimap_markers.txt",
+      "sha256": "d7a3c01ab8c052bd3cb2575c3fa0fe09180df72293cc4685dc2d398e6cb46577",
+      "bytes": 2793,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World24/minimap_markers.txt",
+      "sha256": "203e5c8c42545d521c788b20e09eb9a9929c7ff2bf2a1711793fc2f3069dde1d",
+      "bytes": 2843,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World25/minimap_markers.txt",
+      "sha256": "7506949901fff381262ac39cf06e7f3fdf2bec0dc0583e869f84ccac695b4d5e",
+      "bytes": 1620,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World26/minimap_markers.txt",
+      "sha256": "413dda8554c645195ed24b4fee799f774646990438667984eab1a2c69d9a2256",
+      "bytes": 1620,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World27/minimap_markers.txt",
+      "sha256": "26b402827be61c768c912709857296180afb2ebb08f075dd6406b891e6a6e995",
+      "bytes": 1618,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World28/minimap_markers.txt",
+      "sha256": "bd497d5285b8cbadc0be9651fbe69e95ee0eb198d4bf7d9fdb9e000c49c8bd23",
+      "bytes": 1620,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World29/minimap_markers.txt",
+      "sha256": "6ee0503425c3c161c39dc2b345c90348aba453090b7e9665963cb2eaa840c5ff",
+      "bytes": 1620,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World3/minimap_markers.txt",
+      "sha256": "ff9d239b35e8bcecccf8ce98e09e48614354ffcfe58ea895b6f4d3dd770dd72d",
+      "bytes": 941,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World30/minimap_markers.txt",
+      "sha256": "13097d1d9b1cac226430c21bb9f1476c7aa7845d964c9059a4005bed13efe91c",
+      "bytes": 1620,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World31/minimap_markers.txt",
+      "sha256": "dbe4159649ba71d41e95ff527f197f5548727a44a98039d1382773bd7f625ffb",
+      "bytes": 176,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World32/minimap_markers.txt",
+      "sha256": "d3267fe7697d43e6f8d25222caee4ddd1cb9cace22246395cd3db6c58b9badef",
+      "bytes": 5214,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World33/minimap_markers.txt",
+      "sha256": "c072844753478437e00b9742b892e190f17b09d17744655d1fa3008d8866405b",
+      "bytes": 367,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World34/minimap_markers.txt",
+      "sha256": "169b6ec73118392a6f21281d9114f0b0961d091eedeaa2f3e444083fd618d91a",
+      "bytes": 1483,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World35/minimap_markers.txt",
+      "sha256": "6899543a053a0d9e33467043b86bf5302165fa3bcad4468bac1784373274e8f8",
+      "bytes": 4750,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World37/minimap_markers.txt",
+      "sha256": "4108017c45467fe59b5d4b38250085fa05acf4a57941cd7cecf7b557847d9e48",
+      "bytes": 2150,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World38/minimap_markers.txt",
+      "sha256": "dec3dd96a5b4877876a8ef079fe3571a3fc8af20c8f462452ef3d44309ce2295",
+      "bytes": 1445,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World39/minimap_markers.txt",
+      "sha256": "87f27a3403b34a3c12f3532fbad301bfc84e2f722af5f0381bc04cd8a9fef94f",
+      "bytes": 458,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World4/minimap_markers.txt",
+      "sha256": "0dc5f89bb007a2d47bd55c546dcb4659d1f63fffae1cbf600b6a31d311018cfc",
+      "bytes": 637,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World40/minimap_markers.txt",
+      "sha256": "02604534c82659823cb8a9ed69ec7f7332a3ae335ce910b269184d1d1c0386f6",
+      "bytes": 67,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World41/minimap_markers.txt",
+      "sha256": "f88fc9a71df20af68cbacdc22c1fdfbc25df5974fac8799d67a75981ac46ad0a",
+      "bytes": 50,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World42/minimap_markers.txt",
+      "sha256": "4ae73a7a0ca5d803a66545b5c9c0b79e5cef05e4b8ebaf539e942299bb3b6293",
+      "bytes": 1157,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World43/minimap_markers.txt",
+      "sha256": "4611fbcef375817cb0c0609c6534629e68b3c2ac9e72302ab5cb07730bbb28ee",
+      "bytes": 417,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World46/minimap_markers.txt",
+      "sha256": "f88fc9a71df20af68cbacdc22c1fdfbc25df5974fac8799d67a75981ac46ad0a",
+      "bytes": 50,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World47/minimap_markers.txt",
+      "sha256": "f88fc9a71df20af68cbacdc22c1fdfbc25df5974fac8799d67a75981ac46ad0a",
+      "bytes": 50,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World48/minimap_markers.txt",
+      "sha256": "f88fc9a71df20af68cbacdc22c1fdfbc25df5974fac8799d67a75981ac46ad0a",
+      "bytes": 50,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World49/minimap_markers.txt",
+      "sha256": "f88fc9a71df20af68cbacdc22c1fdfbc25df5974fac8799d67a75981ac46ad0a",
+      "bytes": 50,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World5/minimap_markers.txt",
+      "sha256": "3ad8562c900ee85c89bc095bf126926d261cf3755117fbbd6e6943b51bb34a94",
+      "bytes": 1649,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World50/minimap_markers.txt",
+      "sha256": "f88fc9a71df20af68cbacdc22c1fdfbc25df5974fac8799d67a75981ac46ad0a",
+      "bytes": 50,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World51/minimap_markers.txt",
+      "sha256": "f88fc9a71df20af68cbacdc22c1fdfbc25df5974fac8799d67a75981ac46ad0a",
+      "bytes": 50,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World52/minimap_markers.txt",
+      "sha256": "8d9142bb9f6567b90cea62b75f9cb8995c00b9b6763045c0ff7ad37e4779c5d3",
+      "bytes": 541,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World53/minimap_markers.txt",
+      "sha256": "09a50e2454a81b696cc256305b49b9085e4c193cbf38392d92a146da2d091f80",
+      "bytes": 3226,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World54/minimap_markers.txt",
+      "sha256": "df443192be6e0eb3e147d4f54e571a073546cb3cabb27b184312a57756db836b",
+      "bytes": 2843,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/world56/Shaders/PegasusPost/NCEmTOD/default.ini",
+      "sha256": "0a3caea2f0702f884bb70ed38045054beca4fd5c2eed35fa80208d2e8d385c81",
+      "bytes": 2639,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/world56/Shaders/PegasusPost/NCEmTOD/maps/map0.ini",
+      "sha256": "0a3caea2f0702f884bb70ed38045054beca4fd5c2eed35fa80208d2e8d385c81",
+      "bytes": 2639,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/world56/Shaders/PegasusPost/NCEmTOD/maps/map1.ini",
+      "sha256": "2930b19c6f60309d4ae6cd03f1ac94fa2746416106db4ac2909685b2ceae8cf9",
+      "bytes": 1292,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/world56/Shaders/PegasusPost/NCEmTOD/maps/map10.ini",
+      "sha256": "0413e087509f77583fe0e52dad1109e28efd72781e9dfffef5e213de30f1afb5",
+      "bytes": 2586,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/world56/Shaders/PegasusPost/NCEmTOD/maps/map100.ini",
+      "sha256": "78f90ede503d008681a0010227ad1de5bf21113398dccd8981de16b1ef0a42ec",
+      "bytes": 2607,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/world56/Shaders/PegasusPost/NCEmTOD/maps/map101.ini",
+      "sha256": "5f0a8d44fb77e76b88cfb3a4fc254ef1efa19860425240120ed287ba03be0841",
+      "bytes": 1178,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/world56/Shaders/PegasusPost/NCEmTOD/maps/map105.ini",
+      "sha256": "e0b5ae2ae37f4bc762f0f21353f2d54a4d93d138ca48612782acb03e3f3f1b71",
+      "bytes": 2722,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/world56/Shaders/PegasusPost/NCEmTOD/maps/map2.ini",
+      "sha256": "e83ef7e5a4ebe495c6991dcc775fc99b449740ef6155222bdde96f7d853c5603",
+      "bytes": 4010,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/world56/Shaders/PegasusPost/NCEmTOD/maps/map3.ini",
+      "sha256": "f432e0024b0b4cd8f0b1dc457f9b33bfb7f8d0778893fc7fa1a55f2609e8919a",
+      "bytes": 2616,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/world56/Shaders/PegasusPost/NCEmTOD/maps/map33.ini",
+      "sha256": "189066c14b63a371a6decc6fe6656c208aa19627a29d4ff6158c80eeef84ed90",
+      "bytes": 2630,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/world56/Shaders/PegasusPost/NCEmTOD/maps/map37.ini",
+      "sha256": "99058c66e9e4851d5c5a3772b4ebca1fdcd10fc2e41c0aafb26e5ec39b12c1ef",
+      "bytes": 2605,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/world56/Shaders/PegasusPost/NCEmTOD/maps/map38.ini",
+      "sha256": "9ca93558fd1abd23690c622ee2af049a7b1d02c10dc633b78c083e4b04b1f968",
+      "bytes": 2750,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/world56/Shaders/PegasusPost/NCEmTOD/maps/map4.ini",
+      "sha256": "55ce5e7060bdcfeaa4e14d5ef7e11fb651cba12187a45d383b62b763e4e626e8",
+      "bytes": 2674,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/world56/Shaders/PegasusPost/NCEmTOD/maps/map51.ini",
+      "sha256": "4c6926d47fa84f382558e34af1ac7bb050fd7165d9a9a3035162afcf7ec161e6",
+      "bytes": 2626,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/world56/Shaders/PegasusPost/NCEmTOD/maps/map53.ini",
+      "sha256": "57ce37df21eae0445cce9d7bf2cd8ca77dc49bc949dad9bd27b871491e1431db",
+      "bytes": 1180,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/world56/Shaders/PegasusPost/NCEmTOD/maps/map56.ini",
+      "sha256": "9e2abf78a374500ed917a5ce8d9b790cbc31b17b43bcd6677dbdfce479cedc23",
+      "bytes": 2582,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/world56/Shaders/PegasusPost/NCEmTOD/maps/map57.ini",
+      "sha256": "107aab16f04995ae6ef7231f964d519b959a5cbe5614882a6d6a0f2879dc09c4",
+      "bytes": 2627,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/world56/Shaders/PegasusPost/NCEmTOD/maps/map6.ini",
+      "sha256": "49e87939c15601f4be48e6eee79dca98552c5d9688e155393d41016fbab16587",
+      "bytes": 2722,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/world56/Shaders/PegasusPost/NCEmTOD/maps/map63.ini",
+      "sha256": "953d9112e22310a52b99f2f9cf26119f22a8275a881ae9f9d90a5a60a99a889b",
+      "bytes": 1191,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/world56/Shaders/PegasusPost/NCEmTOD/maps/map64.ini",
+      "sha256": "9d0aae2eb7c8dcd1e9cb0df1833d431d60caa4af68251555091dcd2c251978ab",
+      "bytes": 1184,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/world56/Shaders/PegasusPost/NCEmTOD/maps/map7.ini",
+      "sha256": "277ae4c410e56e2f4d547d10dab645c212ff4117fe15adacdb402cca4a127058",
+      "bytes": 1205,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/world56/Shaders/PegasusPost/NCEmTOD/maps/map73.ini",
+      "sha256": "0affd290078e49a88a27b16bdc0bb2bfe870655152e2f7523fdb658e7d3a1616",
+      "bytes": 1201,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/world56/Shaders/PegasusPost/NCEmTOD/maps/map74.ini",
+      "sha256": "d4633aa938a6afe2ff02de2c58faf6ed1a0567dfc8ffff350fd9c6fcda4ce02b",
+      "bytes": 1201,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/world56/Shaders/PegasusPost/NCEmTOD/maps/map79.ini",
+      "sha256": "9e65a1d3a6ef993f0cd3cab93077395d2d248bd53c19e448ec2c270368f50f4c",
+      "bytes": 2593,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/world56/Shaders/PegasusPost/NCEmTOD/maps/map8.ini",
+      "sha256": "fbd6228fd22f3e50f2b36e81c39237488f94d25a1f1e465dedbd3a464d8b9bba",
+      "bytes": 2624,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/world56/Shaders/PegasusPost/NCEmTOD/maps/map80.ini",
+      "sha256": "a5190fffb48de56a8bd68de4257bad4434e4469c3ec46c281b93fdf4319bddc5",
+      "bytes": 2616,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/world56/Shaders/PegasusPost/NCEmTOD/maps/map81.ini",
+      "sha256": "7c3e77f26545ddb2de54b96557ee898c0e20c645b4a154d6ade218d9ba555ea4",
+      "bytes": 2726,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/world56/Shaders/PegasusPost/NCEmWeather/SurfaceTrackProfiles.txt",
+      "sha256": "825ee75d150ce2209f23f415963de0422cee81488771c2e2bb6cb5dc448cb245",
+      "bytes": 167729,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World57/minimap_markers.txt",
+      "sha256": "d476fa53ab69cca83facd058e5ff46b8540f0f9b15d16ac613ea6acba176dc6a",
+      "bytes": 1520,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World58/minimap_markers.txt",
+      "sha256": "a56e89df2ab5d80227dccb3b8c79ab5bd3428740f6915338ed0e9c114ca5fde9",
+      "bytes": 1230,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World59/minimap_markers.txt",
+      "sha256": "8b73f84f9d7f257462976426cae6a8eed679a0a82f357401a8553825d1345a00",
+      "bytes": 685,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World6/minimap_markers.txt",
+      "sha256": "f88fc9a71df20af68cbacdc22c1fdfbc25df5974fac8799d67a75981ac46ad0a",
+      "bytes": 50,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World63/minimap_markers.txt",
+      "sha256": "db9d0b5918dab5d2461ba51553f7371767226097d7ff5899ea9709fa129d51a1",
+      "bytes": 297,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World64/minimap_markers.txt",
+      "sha256": "8db3e487ccdea125a0e5b1f26f29ff4f61f342f4959ac52bc3d084831fbc824d",
+      "bytes": 1789,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World65/minimap_markers.txt",
+      "sha256": "f88fc9a71df20af68cbacdc22c1fdfbc25df5974fac8799d67a75981ac46ad0a",
+      "bytes": 50,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World66/minimap_markers.txt",
+      "sha256": "f88fc9a71df20af68cbacdc22c1fdfbc25df5974fac8799d67a75981ac46ad0a",
+      "bytes": 50,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World67/minimap_markers.txt",
+      "sha256": "f88fc9a71df20af68cbacdc22c1fdfbc25df5974fac8799d67a75981ac46ad0a",
+      "bytes": 50,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World68/minimap_markers.txt",
+      "sha256": "f88fc9a71df20af68cbacdc22c1fdfbc25df5974fac8799d67a75981ac46ad0a",
+      "bytes": 50,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World69/minimap_markers.txt",
+      "sha256": "f88fc9a71df20af68cbacdc22c1fdfbc25df5974fac8799d67a75981ac46ad0a",
+      "bytes": 50,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World7/minimap_markers.txt",
+      "sha256": "cb283851c2522d3c43212fcf243fbe66b80603ff47592d4951d10655bbe5c386",
+      "bytes": 981,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World70/minimap_markers.txt",
+      "sha256": "87aa4fb4098b9b1c5cb1cb45567fde88f1e53afee140e12394470bb763ac15b0",
+      "bytes": 811,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World71/minimap_markers.txt",
+      "sha256": "fa4d39ced492a158e3dc8e9f5f7d6af33e67c62ace2a78ec4842790b0ad385af",
+      "bytes": 789,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World72/minimap_markers.txt",
+      "sha256": "2f4697defb398eedf920252325701535e03e146d65ef0713cc9a4b47c21edd22",
+      "bytes": 836,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World73/minimap_markers.txt",
+      "sha256": "89ab938ed9a19615d73cc2f9737ab838edb57fa4ce7db235d97dd3e1bb4a3aa2",
+      "bytes": 1425,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World8/minimap_markers.txt",
+      "sha256": "c5593b99ab6d509e3569118e2ede82f0ab62d869d86a85682ebec7b89e775cde",
+      "bytes": 9074,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World80/minimap_markers.txt",
+      "sha256": "0a438540a071a7a56a6bb529ac446863ba7f23f2e6eeddab9b398d119ca0169a",
+      "bytes": 159,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World81/minimap_markers.txt",
+      "sha256": "b4b80c9bb5f9febb2426beb339677fc3b55399f6e72e9b67204e535cdf7b4560",
+      "bytes": 3958,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World82/minimap_markers.txt",
+      "sha256": "4e6d0afe7236e5829a90afdc5dce63e60335f5f7be7994f091ed98f21fa8d3ac",
+      "bytes": 313,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World85/minimap_markers.txt",
+      "sha256": "f88fc9a71df20af68cbacdc22c1fdfbc25df5974fac8799d67a75981ac46ad0a",
+      "bytes": 50,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World9/minimap_markers.txt",
+      "sha256": "4647211aa5e2ca0c7a56786442d78c3744488c84ed8a1c5ecfc9f16d2723eae2",
+      "bytes": 739,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World91/minimap_markers.txt",
+      "sha256": "f88fc9a71df20af68cbacdc22c1fdfbc25df5974fac8799d67a75981ac46ad0a",
+      "bytes": 50,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/bin/Data/World95/minimap_markers.txt",
+      "sha256": "962a8879e62b4349c26b667c2e30bef01f908b1eddff400057bcfc70a07b634d",
+      "bytes": 421,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/Localization/Game.de.resx",
+      "sha256": "d0772b497f42ed16247237be9c46c06a652c2a9e0e25ccb9fd6d71e9e8107bde",
+      "bytes": 584972,
+      "previous": "eb7fadb4a9f70fae305ac45cba33a5fe3f6bb22f",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/Localization/Game.en.resx",
+      "sha256": "0b2738eb6008764a9238cc23c159a34b5bd0437f9089558f7c381de8267fb023",
+      "bytes": 569180,
+      "previous": "63c5d4bcb4d4036b08bdfabce74ee7ba7a1e5aab",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/Localization/Game.es.resx",
+      "sha256": "57f10bfc70ca1f2a8be371417c53c34f6ab4199f314d1c9d443516e3c0311d1c",
+      "bytes": 579347,
+      "previous": "30a8813757f0b9fef57b4840847d0e01867ab33b",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/Localization/Game.id.resx",
+      "sha256": "4f562cb1af6afd14c91a131709947b8c219c83a4f87395fea6c54be575840f0e",
+      "bytes": 571626,
+      "previous": "80cce05be90ff8667059059ad7cba441cd94d400",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/Localization/Game.ja.resx",
+      "sha256": "bb262e4d89c015a3f3f2bc2d7dc3636345946dc2fda74cc5d3edb97b08e5577a",
+      "bytes": 510899,
+      "previous": "5a6231f226db330ff68664970db708577d255903",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/Localization/Game.pl.resx",
+      "sha256": "fef54fa85e910b10fa75745704d2e2cbbe5ab4ec164e14ea38ada96ab2ccbba7",
+      "bytes": 576596,
+      "previous": "224729b60cf51198cbc76369928f26388a2c70e8",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/Localization/Game.pt.resx",
+      "sha256": "4d064b944115bbef437f5724c4debbf531d072fbd55214eb2da95fd6ed6fab36",
+      "bytes": 574898,
+      "previous": "345cbb4f65a764e73e5286f9daca9bf2e6bfed32",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/Localization/Game.ru.resx",
+      "sha256": "3942f41a0fc977a106cf4a8c76d72685e38d9dac74756510d3ca663c998d1e78",
+      "bytes": 660894,
+      "previous": "7b0bed0e02ae65cbf80e26b4d0e1de7b8f78bea9",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/Localization/Game.tl.resx",
+      "sha256": "ec029568e9d2ee3332aa2818cb18c8b9072dd5defaef36b5a91ae03bd36f8b50",
+      "bytes": 580482,
+      "previous": "444b6939d8d708708536da3928413048a8559dc8",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/Localization/Game.uk.resx",
+      "sha256": "43e4d13002779a9ebf49dbd72f0918a1e326b6b7ea382de61cd888e3b67516c6",
+      "bytes": 651326,
+      "previous": "8213695db49fa6e8b2f67ff052a2b88ac48b702d",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/Localization/Game.zh-TW.resx",
+      "sha256": "df2376bfb1cf2442814fabd0a8d2fa3f94c393326b0e72a015ed2944abb8c0a8",
+      "bytes": 549033,
+      "previous": "e2fb960cf58652f5e1cce46b83e9280d7d1d8aff",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/App/Platform/Windows/resource.rc",
+      "sha256": "0bcdc7210a72ecc847f71f7d7af6dc4e3c70e370a384958d5298e04a43a92141",
+      "bytes": 3253,
+      "previous": "8cfc8d0b016d8c4f4fa8573d9b4cf43ff09d87c0",
+      "storage": "binary-archive"
+    },
+    {
+      "path": "src/source/Camera/CameraMove.cpp",
+      "sha256": "7ecc79ba03a570bf8bbd7a256d61eb625f398fad2c888bef1c24be6477813875",
+      "bytes": 31233,
+      "previous": "99a042c10616f1d925efaad99ccacfe79d30bdc1",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/Character/CharacterManager.cpp",
+      "sha256": "65956c0004a018c3fb54f22415f583ceaaf3943d338e979bc2cd3117da5ca200",
+      "bytes": 11037,
+      "previous": "d8549bbf8717c5d59cb66baeab6498f08110aa56",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/Core/Globals/InterfaceList.h",
+      "sha256": "a8a21a8233cc87422a7e0570965a7caf777bb038790027db273eef2b1c4d4a5b",
+      "bytes": 5192,
+      "previous": "62489199d80758534925beb2f64d3c54f14a12a8",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/Core/Globals/_enum.h",
+      "sha256": "7c5008c30fab371cb961e0b532f34589bad4c3530f652e0b809e75d5b09088a0",
+      "bytes": 190703,
+      "previous": "85d6b3ada518ba0f0358bf1d222134a03dd89e5e",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/Core/Platform/GameWindow.cpp",
+      "sha256": "dde3140275942ad205abcb18ec7b7c598c4a44b7a4a862041d93a0f2050cdfed",
+      "bytes": 1765,
+      "previous": "0b88f305f1cd085aaea3694aed704571982ab456",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/Core/Utilities/BaseCls.h",
+      "sha256": "5e3f142fff2cadec555c6f2db67db2e1d27b67825e73e7c2fc96f899fcd36559",
+      "bytes": 19704,
+      "previous": "918dca0d12520bc28847321062c41284ab66fce1",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/Dotnet/PacketBindings_ChatServer.h",
+      "sha256": "2eb9993949e1509f9a1c0b1dedd37d12cd5a639d226eb0f3297915263a07f061",
+      "bytes": 1400,
+      "previous": "f7a1b26930d650baabafea1cae0fd33fa90c072a",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/Dotnet/PacketBindings_ClientToServer.h",
+      "sha256": "c278ddd7d94aa6d479333e3649dfc51783c273ee9a78dc50cb1858729f76ebbd",
+      "bytes": 19852,
+      "previous": "f5f976140e01777845af1527370fc3f57b6000a7",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/Dotnet/PacketBindings_ConnectServer.h",
+      "sha256": "b5d816fe7d61b9aa7866b6d52af64751a1ad4900bb34722d60f7084932540947",
+      "bytes": 1617,
+      "previous": "1532bdba6e722149150b43ee6ba4ea638bcbfafa",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/Dotnet/PacketFunctions_ChatServer.cpp",
+      "sha256": "26833484524743d1741b4ae0fbc9c2615e4834e465b650509035f2e44269d99a",
+      "bytes": 2979,
+      "previous": "1681ee8bb6f8c17e90c8e4c6499e4323a471f086",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/Dotnet/PacketFunctions_ChatServer.h",
+      "sha256": "05cba3d16d3051c8fad8cb460475ca03cb34dc50a88ff8f1c5f36aba80526d04",
+      "bytes": 4625,
+      "previous": "98bc3eff37d3db50232b814f469119d9f7b92dfa",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/Dotnet/PacketFunctions_ChatServer_Enums.h",
+      "sha256": "ec34cec6f04e65330ca000a5af54c48c22fab111fd4556f3cbd2b30d3a86cd64",
+      "bytes": 671,
+      "previous": "45f3b01fba5c4e2a79d784f33fe7477b39683ddb",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/Dotnet/PacketFunctions_ClientToServer.cpp",
+      "sha256": "bdd4b2e572cbce70ac0718c79c845eb05312b7ca4d6c0455914708270fd6c87a",
+      "bytes": 77528,
+      "previous": "7b060cad977dbe6b2e10a93f10308d3803054f47",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/Dotnet/PacketFunctions_ClientToServer.h",
+      "sha256": "eaadb2f35182e40961d9630cd35f244f9af295baf2b201f25aa5db0d8602f48a",
+      "bytes": 114609,
+      "previous": "fa78c881f99cc515a679fcf29bf3e60e9d720e0d",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/Dotnet/PacketFunctions_ClientToServer_Enums.h",
+      "sha256": "d9f5340b742cb60ef60ba86a8b2096afa9459747ffe07803a99d6ce1f550115a",
+      "bytes": 5160,
+      "previous": "26eb05bc76ab1e91c1e00c9c0daf0d45e8ef31f5",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/Dotnet/PacketFunctions_CommonEnums.h",
+      "sha256": "a2d0c7e2154b860715fbb010fa95e15bb0a6cfcf43b54eab9df67c882ed116c0",
+      "bytes": 4825,
+      "previous": "c1fac8a4ceffbd134827c9c518157be1fa59d18d",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/Dotnet/PacketFunctions_ConnectServer.cpp",
+      "sha256": "83c775a05012e3ab3c590a470f90a89ac7d0c90fc009fae60ea94149bf4e3a19",
+      "bytes": 3991,
+      "previous": "5ee78488eaec6eaf52898fea87ae437ff4aa7b4a",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/Dotnet/PacketFunctions_ConnectServer.h",
+      "sha256": "9e52260898539a3f82bc52369b559d066c97ffcde440d1f31c41b904117663ca",
+      "bytes": 5723,
+      "previous": "900b8336f7ec242b5c17d43705d1f4a64a45ce48",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/Dotnet/PacketFunctions_ConnectServer_Enums.h",
+      "sha256": "ec34cec6f04e65330ca000a5af54c48c22fab111fd4556f3cbd2b30d3a86cd64",
+      "bytes": 671,
+      "previous": "45f3b01fba5c4e2a79d784f33fe7477b39683ddb",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/Engine/AI/ZzzAI.cpp",
+      "sha256": "b275cf318e918fa35055d8240a10df65d329a517af9858dfeca664d9f30cf7cb",
+      "bytes": 22649,
+      "previous": "c11bbf890d1ced87b960c4a72457d208f10ab18d",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/Engine/Object/ZzzCharacter.cpp",
+      "sha256": "d1c6a2e547e2b6bda3d78144e9597c5c5b0e980386484746e09234444f801f00",
+      "bytes": 621253,
+      "previous": "a8e56a9f7876e9b449edd0b012701926a15bf50c",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/Engine/Object/ZzzInfomation.cpp",
+      "sha256": "f126fadf56055e41b248cf753806e413caab2c6a8a584c446cc29297e7232622",
+      "bytes": 126446,
+      "previous": "d3db925a0ca4b8ee1912f2672deb803efd9957dc",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/GameLogic/Character/StatAllocationState.h",
+      "sha256": "b8370e5d04fa18fdd2cca54ea496686514dcba18d29708ccfd57b6a1ece92fbc",
+      "bytes": 4119,
+      "previous": "7d91c1c1c68858314ffae372b3bc4684e5472241",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/GameLogic/Events/Event.cpp",
+      "sha256": "11dbd55699740b9ba6d0c94f957d77e6c31967d52364494d151eda19b7cd9a6b",
+      "bytes": 17374,
+      "previous": "6758f9ee19cad498fcb2856f9b03c64c2cb1e724",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/GameLogic/Events/w_CursedTemple.cpp",
+      "sha256": "d033ce25bc2b4140ab7feea125ae1faeaac733e3be6efc371cbf631c83edf91d",
+      "bytes": 45529,
+      "previous": "33d037188c3187f35aec3b4e2fd8016e3f451cc2",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/GameLogic/Events/Cinematic/CDirection.cpp",
+      "sha256": "96e1155af1c1c85fe19ffcbaf08770831b2fd7d668f03d28157c8dc5e427e316",
+      "bytes": 12741,
+      "previous": "5f27d4d1d8185fe17095cb2e2a70aa4609d5bdae",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/GameLogic/Items/CComGem.cpp",
+      "sha256": "c7f53fdb3050955e583665efda4daaf7bc3f53cd1cf289510d24e720c82df990",
+      "bytes": 13595,
+      "previous": "a3f5bab15cfcc5ebb9d63907436ddd66b7a33d1c",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/GameLogic/Items/ChangeRingManager.cpp",
+      "sha256": "e11d5ab29f8c8b222793101133d56ecf1a1625d621dcfc835de2c1aeea4a2620",
+      "bytes": 3056,
+      "previous": "f2c189b4cc0c0dc59b880011ad38a2b40fb65549",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/GameLogic/Items/MixMgr.cpp",
+      "sha256": "7357494f5e9393e22c07b375eedff98ba5337f660134ec95307310a8c3cad953",
+      "bytes": 45509,
+      "previous": "5224378cd83cddf6b1ceabf73a40cf7390aebff3",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/GameLogic/NPCs/npcBreeder.cpp",
+      "sha256": "c69bec93b0fea90e9b564677afa1cd2731748bb738cebf1fdb16c6304ed86da5",
+      "bytes": 3418,
+      "previous": "213938c93636e67be040ea6fda552f5d7eab28eb",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/GameLogic/Pets/GIPetManager.cpp",
+      "sha256": "b55c17750b211b0dc458f9606cd705017648678f08ba824870d47cb19bd6f7b6",
+      "bytes": 27863,
+      "previous": "c513ab13441bd3b0e9975149dc18324d985f00cd",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/GameLogic/Quests/GM3rdChangeUp.cpp",
+      "sha256": "726849a51e094dd9c65fc85f72d59ac1db58ecca4d732f01bbb708c3fa5e1fe9",
+      "bytes": 35430,
+      "previous": "1a995d44e31c72e0a940eb12430fdd91d024bdb5",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/GameLogic/Skills/SummonSystem.cpp",
+      "sha256": "73cb4765c9193efe2a7f9ec22e2c0ed241378e6281c11be66e30463a786e460c",
+      "bytes": 15189,
+      "previous": "b9d266781a4deabe681509d7958dc0d8bff4d758",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/GameLogic/Social/MonkSystem.cpp",
+      "sha256": "53d2ed41ff4953e9ccc9fec13d685687c7708dd1d86cd083f588b357b003c1e6",
+      "bytes": 47942,
+      "previous": "fe18cb74372b954318175c8c8826b215a5d13148",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/Network/Paris/BountyBoardProtocol.cpp",
+      "sha256": "00e172c451f36e05e052335c6619a59e8ae8950a68d5855fddeac9fd543a89fa",
+      "bytes": 4631,
+      "previous": "8fa38d839ebdc6ff884217c70f4bcb3049fa23d7",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/Network/Paris/GmEventsProtocol.h",
+      "sha256": "c79239707af0938505b4df3f31fa4303b1c93e78d8a4047536a38e3ab6dcbf62",
+      "bytes": 2979,
+      "previous": "6c97457607498dc9975381ccc055348ada67c855",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/Network/Paris/ItemDyeProtocol.cpp.before-platform-20261115.bak",
+      "sha256": "8e148ff637c4b426295b16c43995f33f16d8d1bd8f270a4e310cce632b628e6d",
+      "bytes": 9564,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/Network/Paris/ParisPacketDispatch.cpp",
+      "sha256": "a7d19bf502c5807fbd2148f099744209b731a34df5094a217992fe66091b4c0a",
+      "bytes": 7565,
+      "previous": "9e2747d2ba4b177b5487cfaf96505a95a7635031",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/Network/Paris/ParisPacketDispatch.cpp.before-monster-hp",
+      "sha256": "d86220eebc5290d5d94efe3075b0ba28feb49fbf15c961b225317cf80c3a572c",
+      "bytes": 5877,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/Network/Server/SocketSystem.cpp",
+      "sha256": "53425a5c8a75bcedc52cab8bac0a7ec966b3b032482e93b9948dd9b0278eb3a3",
+      "bytes": 23334,
+      "previous": "caf46d41f40993e1a9e2df3694c9e3f77e2e1325",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/Network/Server/WSclient.cpp",
+      "sha256": "65290014c88fd0463fa268fc439dc9b644d99971072ceff0c5a83bb281a1d924",
+      "bytes": 511243,
+      "previous": "e34e9e9dde8e59c03a0cd794c4b12ec1b560cd7c",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/Render/Look/LookProfileSetting.cpp",
+      "sha256": "3626c58e2de37743ba390a54d8230561e0651713633669c4f6874b8fc930a556",
+      "bytes": 13009,
+      "previous": "271086708b4c425cd1b82ae1c7f4fe734c5700b2",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/Render/Look/LookProfileSetting.h",
+      "sha256": "a86132207ab46527277de51d573944105737324823810b377960fefe82a89e99",
+      "bytes": 1983,
+      "previous": "b01d9eca6e1b2b5757c25c1470caa2bc94133df7",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/Render/Models/PlatformBadges.h",
+      "sha256": "5505ecf21539ec7127521efbca7192013566f2b8e719dc17025f17f025d9466c",
+      "bytes": 4649,
+      "previous": "8f76cc15f4034482343be464c0d16e1b1f9b72a6",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/Render/Models/ZzzBMD.cpp",
+      "sha256": "187af90459a9153851a22f7d80bb7895eb5b3c2b8bac939ecfe9ee76beeded2f",
+      "bytes": 135792,
+      "previous": "9c3ad28ffd6126c0426447b3277bdb813b754179",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/Render/RmlUi/RmlUiRuntime.cpp",
+      "sha256": "62eba1ea23a8cd28c19d4eb9165f200a187a29b59818083ff8bffae9409bca95",
+      "bytes": 18177,
+      "previous": "229fdfa59a57a230e7cdd0a9d8a91cd5dee4eef7",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/Render/Terrain/ZzzLodTerrain.cpp",
+      "sha256": "4743ab05dfc64afa434542e6f802415b0ec1846eaf19312634a68ddb2cf992ab",
+      "bytes": 127432,
+      "previous": "d4eb232afc4797ef42ce6448c8573de8517cb666",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/Scenes/LoginScene.cpp",
+      "sha256": "918b23e1e650735c4421610ce7fc52649b49c42887d883becad5c2d23999e5fc",
+      "bytes": 17474,
+      "previous": "19e36f97ad373f3be4c3a40fae8d3629ad675e02",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/Scenes/SceneCore.cpp",
+      "sha256": "d43418c3cc22a4feebfe97e6e4ccb385f3817c4e431fda607d80d6c23b89c8ba",
+      "bytes": 4051,
+      "previous": "30b751619caf31b38aa4b9239fe5d2f3e60a77c8",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/UI/Character/CharacterInfoWindow.cpp",
+      "sha256": "ea0f3820b6a148acf81bd8bc2e4e56b5b3e8c9b770ac82df5c275c29f8000365",
+      "bytes": 57347,
+      "previous": "2ca819f482b3b51f8764cca397480c15d9dfc8b8",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/UI/Character/CharacterInfoWindow.h",
+      "sha256": "e704e4b29003325836df89a2270b7a113b630391157e5d32617123492ea927e3",
+      "bytes": 7808,
+      "previous": "bae1a4f42acbf5cce4d7778c2818a79cd2cf89b3",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/UI/Character/ParisStatAllocationController.h",
+      "sha256": "7ab01039f0467147e592107e77b5c90d6c8953b7652b26dad85d0a25cc881aeb",
+      "bytes": 1772,
+      "previous": "4912ed1dc47287e017cbd5a92a381346cb3d99fd",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/UI/Chat/Chat.cpp.before-platform-20261115.bak",
+      "sha256": "37efa974235ab58f2784dbd0de9c92dfdfc13f760339273f6dcfd496f46ccc97",
+      "bytes": 24584,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/UI/Chat/ParisChatStyle.h",
+      "sha256": "969f9704627d382f340287704c86b1c105a63a2c62b4aeb8ca3d8718a59b0650",
+      "bytes": 1087,
+      "previous": "e25e6c85c81d6564560210d3492440d8f57a3f72",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/UI/Combat/SiegeWarCommander.cpp",
+      "sha256": "dcbe2ea54cfdc020e2be99b9651db1f3adcc078b6aad19a04fa47afd180dbf8d",
+      "bytes": 6372,
+      "previous": "89985a1a620708ad5128cfd48070788f48770436",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/UI/Combat/SiegeWarSoldier.cpp",
+      "sha256": "63204e9e1189b8de441355b36e5deab14e3ea0cba5dd8f4d788cd1eeb9d2c051",
+      "bytes": 2389,
+      "previous": "a7343d4673701cbdc8e5ddf0d866ba7116fb216e",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/UI/Core/WindowSystem.cpp",
+      "sha256": "899a28d89d69652f79db070709e1b39ec5c31a37dd571a007831ee88ab610790",
+      "bytes": 80867,
+      "previous": "f2ba40713a036427fdd41706f30d1211f5222ff0",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/UI/Core/WindowSystem.h",
+      "sha256": "cb28166bc9b863235da44ab2a684ca780400f4b0c8c4c08209621d8af60bed03",
+      "bytes": 23226,
+      "previous": "1536fb2a34c26b2ffb27e6a09e270004362e71fc",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/UI/Dialogs/CommonMessageBox.cpp",
+      "sha256": "54007d32f01ecb817e7fc4d8e17258dff4eedd3429b1bfcc177170509a96abf3",
+      "bytes": 3729,
+      "previous": "eed967d9747a7412be67eddd2d728c02550d26a3",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/UI/Dialogs/CustomMessageBox.cpp",
+      "sha256": "014eb14613e26752e8455fe63b7ffb5d0d00b9846785e8f219f72226e0c850e5",
+      "bytes": 85364,
+      "previous": "9780afcc382d9c72ac40f7c4f15546706bd82827",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/UI/Dialogs/ParisActivityLogWindow.cpp",
+      "sha256": "bc82932c58a23f1520cb495e416dcacfdabd864e85a65eb274b6a8c9a18f6725",
+      "bytes": 11187,
+      "previous": "8497d5b5583a9d33844f3619de2cd21a053fd234",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/UI/Dialogs/ParisActivityLogWindow.h",
+      "sha256": "1f41d2d278e82ff73e83542a1e12187c27723a72bd596538d2b7414fa73490f7",
+      "bytes": 2452,
+      "previous": "82477be8c079c3f1b59c9905c594ac197ed0f42c",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/UI/Dialogs/ParisBountyBoardWindow.cpp",
+      "sha256": "f4a2c7960b42061d6e031662436b2c46171ef20f447d2e208df8be31d363559d",
+      "bytes": 19602,
+      "previous": "83d04772c2bc1f3023a01bb09f9e00adcce383c1",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/UI/Dialogs/ParisBountyBoardWindow.h",
+      "sha256": "19affdc9a702e79cc7f2b2e7d0a168934454737d05f86f566458568469deff9e",
+      "bytes": 3192,
+      "previous": "3546178b5179ee801f86898fff6e7395aebcb37b",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/UI/Dialogs/ParisGmEventsWindow.cpp",
+      "sha256": "2236e4aa9fec44c68b0b1eae471eff94611ddf0be665c192037082d2c670abba",
+      "bytes": 12409,
+      "previous": "cfb5511a0165b56f8b63171a9b66596be7e3c8d3",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/UI/Dialogs/ParisWindowGroup.cpp",
+      "sha256": "b7210f3b09873cb934aaf9fe8581b3ed2addfa69c9f57260f6b54126c8360f2f",
+      "bytes": 2818,
+      "previous": "cb9cc7860c065eee820260e769957789781ddc21",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/UI/Dialogs/ParisWindowGroup.h",
+      "sha256": "fda16b660fe99410980b2ca4811f0d0deb556c9e09e295e5fbd39b67c4f431f9",
+      "bytes": 238,
+      "previous": "499451b88f28b14b2b1d21a6039ebd80b341a4ca",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/UI/Events/BloodCastleEnter.cpp",
+      "sha256": "8131fc8d42be508eccaee3efa0911ed0e9eb6ad188f1aea436dde11e722e48bb",
+      "bytes": 6663,
+      "previous": "e4d91d2d038a078879a443dcae41c2712bb93f97",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/UI/Events/CursedTempleEnter.cpp",
+      "sha256": "51afcd94b20c6b69b4167d768048c64eaa6c856f23851f7287dfb490a25123f9",
+      "bytes": 12014,
+      "previous": "8c3b158ffeb186e765869d98ab729b97142a54f2",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/UI/Events/CursedTempleSystem.cpp",
+      "sha256": "4427800999dbe9ad24a74af28c7cb6318d57e94e2312de321aca239c24cfccb6",
+      "bytes": 50301,
+      "previous": "9a874556690e84f9fe0692a9849278d728dbdf4e",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/UI/Events/DoppelGangerWindow.cpp",
+      "sha256": "9fa12d221a2ba12669301f4d0a049eb7d7d64837d3bc0c3cd5477ede5a21dbfe",
+      "bytes": 5595,
+      "previous": "8840b1028364edc17b346b1219091ab02397af9b",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/UI/Events/DungeonWindow.cpp",
+      "sha256": "b468729f51866c1c9cfd436540fb2d1899dc4aa12a274f838ba4087664b9b201",
+      "bytes": 36886,
+      "previous": "0530cde43dd3e75b65b6baa312bfc2a6680cd8b4",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/UI/Events/DungeonWindow.h",
+      "sha256": "f9392118a04e2bffd9be41a40f31c42d884a3dfc4c547ddf0db44282f1443b2a",
+      "bytes": 7512,
+      "previous": "8a71af8def4267ed4bf31766b54f5ca33a996985",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/UI/Events/EnterDevilSquare.cpp",
+      "sha256": "e11b5b2235ff3337a0b61d66f0010d7ef63d11d391f68e8cc55f531a3fd234f6",
+      "bytes": 7784,
+      "previous": "dbf1bc01ea13adff5975fee41ea681d64c223376",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/UI/Events/KanturuEvent.cpp",
+      "sha256": "65a1027cf7c7c65233589f8ebf2b72627337aff9ba37ae212d63415415311291",
+      "bytes": 26505,
+      "previous": "710ca1f66229c4885d6e5ec613103a607ea056a1",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/UI/HUD/ChatLogWindow.cpp",
+      "sha256": "3fc4729804885a67792c87224ec9cf16195033f1221e963d02673e04fac7e969",
+      "bytes": 50968,
+      "previous": "c9b5ed1232fd5a1d44b0d34436c2b0514ae457b5",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/UI/HUD/MainFrameWindow.cpp",
+      "sha256": "90f148b4422aa2505702bc50ffed2eab81f77e72adc05ece3ab416604dcd7b03",
+      "bytes": 50122,
+      "previous": "447e54bc32e15670f2578d6a00ce499a3da0f6fd",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/UI/HUD/MainFrameWindow.h",
+      "sha256": "5b51715c3ff8f2258dd398d097a8a035fba1035194687746558ec26a2b33022f",
+      "bytes": 9517,
+      "previous": "688ea80881755f06b7c0be45150c0869b186561e",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/UI/HUD/MasterLevel.cpp",
+      "sha256": "f0a5bc0f6ec68e0c63026ca6c9452d6c93b3455363ccd03f1db7c9418b6cbd21",
+      "bytes": 35613,
+      "previous": "b774e4750532a5ab937e78e80776aa0945e3b28a",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/UI/HUD/MuHelperBar.cpp",
+      "sha256": "98c28699d454d904d820616baf77097893a7a3ba0ac178de2453981643159a9b",
+      "bytes": 5909,
+      "previous": "76a3cc87a7ed45ed0da35880cb6bbc88dc06d989",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/UI/HUD/MuHelperBar.h",
+      "sha256": "2f5100a3b0ed3675da012ad2803b30baa9528ed629b04ea9dbc94137c9494c5a",
+      "bytes": 3273,
+      "previous": "3a6a03a99c58a0e41933c48c25ba23a7a2e3e2ed",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/UI/HUD/ParisShortcutBindings.h",
+      "sha256": "f6e6b36d22bea6c43ef4f136e8db73c57ac24d462c7659b5343392f24de29da7",
+      "bytes": 981,
+      "previous": "fcc3e31b59c8a9e684f6f7b4dce837a120d6ef1a",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/UI/Inventory/InventoryCtrl.cpp",
+      "sha256": "a06516f7d027543b6809f1b69bb9c84404c6ed3eae48215ef9c3d4e3d686297c",
+      "bytes": 55267,
+      "previous": "e1523d310fdab67718ffbcd296b553a1bf37f1a7",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/UI/Inventory/ItemEnduranceInfo.cpp",
+      "sha256": "b9dac22ed00159335200389ae63403ca678f660d0b28099dca0a1bcacf7afd65",
+      "bytes": 20426,
+      "previous": "3551259d74286487073c424a02d0f7e0c5542948",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/UI/Inventory/ItemExplanationWindow.cpp",
+      "sha256": "1a4beacba5e3f89c7a0a589d8c6f2a01251f09c6fba8becc80fc7271484a4bde",
+      "bytes": 8381,
+      "previous": "15f5e94ec8c18fd40916bb96cdf5ebfa7bfa3b0d",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/UI/Inventory/LuckyItemWnd.cpp",
+      "sha256": "33fd00294dd93c00fb513beb02a5aa624cf76d7e36497efe934ac3a0be7d6e95",
+      "bytes": 21263,
+      "previous": "1a6ebcfe93cf4839b412a09b89e02e8bff3dbd4b",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/UI/Inventory/MyInventory.cpp",
+      "sha256": "df06194f17ec0feb79f8d4710b6791c54d8b8102ed80c01edc5615f1787c1f45",
+      "bytes": 63840,
+      "previous": "5c6c2d1afd3abaa4f2fe7969eaa57926cbcca0d5",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/UI/Inventory/Trade.cpp",
+      "sha256": "858e4a9acf3573deffe83e6c7fece523cd6c0afa7f0a9393a1cb85cce1e699a1",
+      "bytes": 33195,
+      "previous": "beeb91062290919b024e899b115b9312a30e66c2",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/UI/NPCs/EmpireGuardianNPC.cpp",
+      "sha256": "2a478ea484d05fa1ae337a79ff8baf000103ee9839baf4dcd31900ede9605f82",
+      "bytes": 4861,
+      "previous": "671a93a99fc2d30c415a780133b820ac631b4d56",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/UI/Options/OptionWindow.cpp",
+      "sha256": "5729c3ab87bba038d31407821c64e30c9ba13f25563f3e08ac29da2f255738b4",
+      "bytes": 74122,
+      "previous": "85f37b2e3df49db063a59ab3fad46668e66c54e7",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/UI/Options/OptionWindow.cpp.before-monster-hp",
+      "sha256": "78e67d77621a7a41d8a47f708d6a7cd9816c9984fd194434ce64861a13ed3a81",
+      "bytes": 66756,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/UI/Options/OptionWindow.h",
+      "sha256": "1287b84210f0a37b69b3f771524f29c447dbc8e0630cfd930d977cc000004582",
+      "bytes": 21249,
+      "previous": "2f0de72c2e3d6fb428745913edf281b1ae04a84c",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/UI/RmlBridge/RmlLevelGauge.cpp",
+      "sha256": "336c49e4f2a0d8d69bb5e12849b873556f747dd4cf777335d5f10634ce73c3e2",
+      "bytes": 2622,
+      "previous": "11371afdcb99ef45ae321bf64c03e213069f450e",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/UI/RmlBridge/RmlLevelGauge.h",
+      "sha256": "2ce62905b9e4a63207c3c9d76de1b84507dfc05b314401d5fe479b5c89408913",
+      "bytes": 1155,
+      "previous": "928b84af666f0a8929b39f73762bc17c805c15a4",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/UI/RmlBridge/RmlStackingOrder.cpp",
+      "sha256": "6dcfa8c403c0bb82b561c925ead9623cddd11e0e8168e628952f8fd38044e562",
+      "bytes": 10445,
+      "previous": "795110332f1e6ea88dbedd74e20e976c7118d0ee",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/World/GameMaps/GMAida.cpp",
+      "sha256": "e4a09025290bfceef7b949a7dc2694e903e2f1b7cbe2a014a5333018dcac4067",
+      "bytes": 65194,
+      "previous": "d715a0e4ffca3f04f2134aadda0ac66b0bcc2996",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/World/GameMaps/GMBattleCastle.cpp",
+      "sha256": "477e76c5f20a0b70ce86298944fefae58d88fcfdf0e8c59ba53325cd1d70e0fd",
+      "bytes": 73495,
+      "previous": "26b01dcd28fe17074012388ece6034dbf5901b2b",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/World/GameMaps/GMCryingWolf2nd.cpp",
+      "sha256": "80dcee7b3c45caf438645d10d4c896d95b3359a76c30cefabc11a54f8f9eadc8",
+      "bytes": 13041,
+      "previous": "e63f7009fe650c5b4446670718279d2687940d9e",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/World/GameMaps/GMCrywolf1st.cpp",
+      "sha256": "63c7ddb36652b169bd6c762b35d178dd9e3a417bbff15c8e4bbe4ea0acb16d6f",
+      "bytes": 78230,
+      "previous": "1419db9357da5055ad2b2b2be33fecb4aff0d9fe",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/World/GameMaps/GMDoppelGanger1.cpp",
+      "sha256": "393ad48daf1b681a7775ca6235a113e13279246c96899f8b9fe0df9fceea467a",
+      "bytes": 26394,
+      "previous": "af5edcb83442f4285f5f108f2ae585b5310988f4",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/World/GameMaps/GMDoppelGanger2.cpp",
+      "sha256": "05b6654f801a863a2f21f4026d908dae15c4a266e75aa722654a2f37a7842b67",
+      "bytes": 25089,
+      "previous": "667e49d47ce2680c9f4b57becc18df8127bf2b74",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/World/GameMaps/GMDoppelGanger3.cpp",
+      "sha256": "2aa246b8e29256a9ef67653fdf81c6321485e1b793d981646bd582ba43c7a495",
+      "bytes": 17540,
+      "previous": "aabb3b66d09ba9df528877904626cf37ca6bf110",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/World/GameMaps/GMDoppelGanger4.cpp",
+      "sha256": "6a41861abb2976cd68edec47705e9d202d23ae68455972887633cecc8f42246f",
+      "bytes": 25943,
+      "previous": "914cc2f603834f677184ca732f276169e558776b",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/World/GameMaps/GMEmpireGuardian1.cpp",
+      "sha256": "55a8b64c9571a229d556b34d389bcc1b210d83357d58e49362359a8b008bd54c",
+      "bytes": 102148,
+      "previous": "b156e5f3b6520edb2c591c5e12ae40fcfef6b000",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/World/GameMaps/GMEmpireGuardian2.cpp",
+      "sha256": "e272ed1def14686ef2b77fda5a7b1d5c59d1854288757442de33a9faf4aa1462",
+      "bytes": 41737,
+      "previous": "432b002d515cd0070ef5d3275ebac51184a12000",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/World/GameMaps/GMEmpireGuardian3.cpp",
+      "sha256": "fb038b2fb06405165185b77c876c297002dab73167fd05c037510f10b5ac51dd",
+      "bytes": 48735,
+      "previous": "c254cab706cbfbd3ca65216fe82b969bcf67da62",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/World/GameMaps/GMEmpireGuardian4.cpp",
+      "sha256": "67e44a695e4933c97ca967ec6724d683de34bb811e878f1ce77c133b0ebdce11",
+      "bytes": 55383,
+      "previous": "b32c711d4447e9ccac3521ee859cbe2532d6592e",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/World/GameMaps/GMHellas.cpp",
+      "sha256": "689b8d9ce1f96eeb5f7a6dacb42daa9cf82c07547fbcbff70543966bf8177955",
+      "bytes": 84720,
+      "previous": "b88d1c5dba0d336c127112af4d57a5010efa5f91",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/World/GameMaps/GMHuntingGround.cpp",
+      "sha256": "bf95bd58a1504e8d20ce33c05c77d11c6ce9d3c72c61d0aa7271a6d031880b12",
+      "bytes": 42113,
+      "previous": "9b8d276ab825cc9901c4a671888d52d4f4fc70a9",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/World/GameMaps/GMKarutan1.cpp",
+      "sha256": "ca18f3aca3ac467de760fa6aae98079b0e4d04c2090bf2006ef22bc578829a18",
+      "bytes": 37286,
+      "previous": "441ff6954255cfd878c02129c6f4856d66fbf77c",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/World/GameMaps/GMNewTown.cpp",
+      "sha256": "0eaf9d3da041bb5e9597e8af11efb0c8eeb243332bed638a22507ab6bec50c88",
+      "bytes": 52589,
+      "previous": "914a63659df8d73ff4863cfe4cfdb9e665a1a6f7",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/World/GameMaps/GMSwampOfQuiet.cpp",
+      "sha256": "dd0614a51eef5f7313efbf5c47f4b4cfac1c3c424ef1bbeee4e8313815e87df6",
+      "bytes": 64880,
+      "previous": "c7c0ee1451f58f58ba64fa66e48622af1eb7d0be",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/World/GameMaps/GMUnitedMarketPlace.cpp",
+      "sha256": "bc93fe7973cfdac6aa532307c4d969512bad81287b06327e2bd9737822e525e6",
+      "bytes": 16831,
+      "previous": "fbd0e2a641f8ff9c7d185e8300d831c5e826491c",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/World/GameMaps/GM_Kanturu_1st.cpp",
+      "sha256": "a162fef77061d7e499031b6adf4de8b0af890a64554b61ccd5c4e0478d338753",
+      "bytes": 71683,
+      "previous": "6298e4395a6262197495f9d60a373621a2b1b004",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/World/GameMaps/GM_Kanturu_2nd.cpp",
+      "sha256": "002886cb574cfdf163af1b4622a8359725e2a7a3f29ee55d0eaa9c2fd3dc11f1",
+      "bytes": 51271,
+      "previous": "e25f1324cbd8cc95407a81e6722ab4aa9d70da05",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/World/GameMaps/GM_Kanturu_3rd.cpp",
+      "sha256": "47e701b3ccb32fb997cf2e006f856abae36c01785009b54bdc51d634430202c8",
+      "bytes": 69105,
+      "previous": "2fc58f31f373d40bf69e29be33695907bf693d75",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/World/GameMaps/GM_PK_Field.cpp",
+      "sha256": "aa6a54b51ed33492a43b9f4dc61297d9291780ac41e9a5fd139972df405e4f24",
+      "bytes": 41240,
+      "previous": "db3d8bd3bb547dfc98057d2412a3969271843ffc",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/World/GameMaps/GM_Raklion.cpp",
+      "sha256": "171b876413b25984fa70cf2332f26f60bde3dfa2f6735fff7d5ae274947381ab",
+      "bytes": 109246,
+      "previous": "704648e0af9a36372f3277d623adc49a61346877",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/World/MapInfra/MapManager.cpp",
+      "sha256": "aa600464d90ed40e0028dfe5c48a07af8f95c1a1328daa72e903f7722da4dc49",
+      "bytes": 99324,
+      "previous": "4ccb71fdf629e3951c18170d0e7ee98ef2daae90",
+      "storage": "git-text"
+    },
+    {
+      "path": "src/source/World/Monsters/CustomMonsterModels.cpp",
+      "sha256": "575b3edb2c889b8c3996d45af14cf35ab6176850beeb67b5fa40c08647812f12",
+      "bytes": 7366,
+      "previous": "6d597e8c734e882928a7e7bb076a17610536017a",
+      "storage": "git-text"
+    },
+    {
+      "path": "tests/gamelogic/CMakeLists.txt",
+      "sha256": "2b9bd693820675c26f1c9d67d88a1ce6c3dd155bf73d4ed9c112a7cb1e7ad51d",
+      "bytes": 1033,
+      "previous": "fd4092f751cfef24c3bea323624d97232b3ea702",
+      "storage": "git-text"
+    },
+    {
+      "path": "tests/gamelogic/test_advanced_stats_summary.cpp",
+      "sha256": "c47be5a87e22180307aa56f8af2dd282ba9e198b5b4b3229897685fd00ae8ce0",
+      "bytes": 1547,
+      "previous": "6b29d96f23b8b8fa17b29a837f688f94999e032b",
+      "storage": "git-text"
+    },
+    {
+      "path": "tests/gamelogic/test_market_price.cpp",
+      "sha256": "5927f10f7beeaf3f95d29af8a27ebc6c4bb9fc3c7f9ce7b1de5f004127554cb7",
+      "bytes": 1408,
+      "previous": "b35dfc221e12bef3a61612fea19109fe312a33fc",
+      "storage": "git-text"
+    },
+    {
+      "path": "tests/gamelogic/test_midi_song.cpp",
+      "sha256": "b0e5ebbbe01dedc764af4a0d7be370decb5c543e7df7d8ae0d2017bf6a414bf9",
+      "bytes": 753,
+      "previous": "458350cf529002bff0d886d8541dfa275b60a1f2",
+      "storage": "git-text"
+    },
+    {
+      "path": "tests/gamelogic/test_soul_allocation.cpp",
+      "sha256": "51fa01147332402beca70c1ac12ec5a2164777ff9730f6db38a9de236d943fb1",
+      "bytes": 2119,
+      "previous": "69b155733bf444b8029e25d9de41a1222985ebf6",
+      "storage": "git-text"
+    },
+    {
+      "path": "tests/launcher/BundleChecks.cs",
+      "sha256": "f8e543bbef42b549dfff4034fae7c917b6042241c974b7df2242ba40ea30c7e7",
+      "bytes": 4677,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tests/launcher/DownloadConcurrencyChecks.cs",
+      "sha256": "3af780f6233c497904e8766b96be104370e8c282c9e3dfcf6bd6c77b3422a3d0",
+      "bytes": 2592,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tests/launcher/ExperienceChecks.cs",
+      "sha256": "76cce8ff0d7e2cb7755a64152d87057e1ef1bc0775b010100bcf0d62b2843636",
+      "bytes": 2996,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tests/launcher/InstallationPromptChecks.cs",
+      "sha256": "03f3ce132b963507d950bf8ab0e29fba0366ddce11e33610325f4131e042a941",
+      "bytes": 1862,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tests/launcher/LauncherChecks.csproj",
+      "sha256": "e56af30fc7969768e633e250f91f93bd0f67fa8e9c1f9fd15a0a2062c2d59709",
+      "bytes": 757,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tests/launcher/MultiClientChecks.cs",
+      "sha256": "042a599e2e05c64c88e131b264b21a00afcafbf4fdbcae09fe5bdab3bf531192",
+      "bytes": 2504,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tests/launcher/Program.cs",
+      "sha256": "74a2aa213ad0dde7440139ef3aa3e1fd717bd1056b11e7a5cf6a62839924364e",
+      "bytes": 17057,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tests/launcher/test_manifest_validation.py",
+      "sha256": "55142316442683ac96ce260588c876ffcee39491a5c0de9731b19073f8c7ecc0",
+      "bytes": 1552,
+      "previous": "0bcf08b5c257c457dd7ec16910a1ab4ec8496309",
+      "storage": "git-text"
+    },
+    {
+      "path": "tests/network/CMakeLists.txt",
+      "sha256": "0f2bab214d64c91ac79fcc48fb5028cad36d87150d63a4b1414ac80db23f6885",
+      "bytes": 4348,
+      "previous": "493cf7f105476954dd1d5b8128bb6527b633a14b",
+      "storage": "git-text"
+    },
+    {
+      "path": "tests/network/test_active_invasion_protocol.cpp",
+      "sha256": "e460ff092ace625215ea98a1d194d520fd2109aacc427eda60dfe012b7054e05",
+      "bytes": 979,
+      "previous": "5411e5faa2f7daae4eea48c8c31d0a1a00886eac",
+      "storage": "git-text"
+    },
+    {
+      "path": "tests/network/test_advanced_stats_snapshot.cpp",
+      "sha256": "7fa489758ac6b2b485509090a3de63643d3516e5ef21bfb4fb57f92cc7c24317",
+      "bytes": 2872,
+      "previous": "35da8d7768aa9edfa146fec2afcff53c2cac30bd",
+      "storage": "git-text"
+    },
+    {
+      "path": "tests/network/test_party_finder_protocol.cpp",
+      "sha256": "a7d0abd74492635deb721a2ffa9be5cac191f87d61676df4f213be08f143cfea",
+      "bytes": 4431,
+      "previous": "7dcdf1f7449592ad0602ca5516f574f1f9f745b7",
+      "storage": "git-text"
+    },
+    {
+      "path": "tests/network/test_ranking_inspection.cpp",
+      "sha256": "02c9d80f2e320bdd795288f12cc9b9e4f113b5d1ae62ac9f76f6a5d50f279e8b",
+      "bytes": 2897,
+      "previous": "e01bbb8156133f2c208780aa8f90beacc41fa2d6",
+      "storage": "git-text"
+    },
+    {
+      "path": "tests/network/test_server_list_script.cpp",
+      "sha256": "ab0609d8d39715e1c868ed6a3afb91e3603e9b455d4e597f9b1dc5ee6645ea1b",
+      "bytes": 2352,
+      "previous": "e3f8f3810a6cd715ee6a018887bba6e670dbcb65",
+      "storage": "git-text"
+    },
+    {
+      "path": "tests/network/test_viewport_monster_type.cpp",
+      "sha256": "1e68db71f43fccd8f283da5cd1fb06aad3952b676c56b58c429229f85bfe490d",
+      "bytes": 762,
+      "previous": "0ea6ebe536de38db7a7fc3cd579b859eb20b7679",
+      "storage": "git-text"
+    },
+    {
+      "path": "tests/platform/test_sdl_window_flags.cpp",
+      "sha256": "6f5aee16479c96a29d5c5ce7aca07e26ca17c6c0f3010ff8fd573893c7b38d1b",
+      "bytes": 1901,
+      "previous": "3102054939f0190ab99091918cd549210c9ac8e6",
+      "storage": "git-text"
+    },
+    {
+      "path": "tests/render/CMakeLists.txt",
+      "sha256": "5b469a5ff520e87d5f2ab7a8d4334e5e51293426742d14375836fa4292794289",
+      "bytes": 14101,
+      "previous": "a95aa57c3665052194f820846ce5ef5564849a5d",
+      "storage": "git-text"
+    },
+    {
+      "path": "tests/render/test_display_refresh.cpp",
+      "sha256": "7421f791ed1c20a9d49249353de098707c0527f1f3378a068a26989bf5efb782",
+      "bytes": 929,
+      "previous": "a552244bea34701d228e5fa8febc9bd84fc57c61",
+      "storage": "git-text"
+    },
+    {
+      "path": "tests/render/test_gesture_wheel_texture.cpp",
+      "sha256": "2559dc083d6fe2941a2e5d3bd7f849c6dbd7df98031f0d5f1447a58122ed4420",
+      "bytes": 1015,
+      "previous": "d472e375179e8e96235875e48476a358a10c95f6",
+      "storage": "git-text"
+    },
+    {
+      "path": "tests/render/test_grass_burn.cpp",
+      "sha256": "f23114933e845df2e98a1ad462f5c0826c41739c7b60e26384dd76036cbc3638",
+      "bytes": 1303,
+      "previous": "68dfcf7c392406403396220e3babdc6d3023690b",
+      "storage": "git-text"
+    },
+    {
+      "path": "tests/render/test_look_profile.cpp",
+      "sha256": "8d565530fa9959dc60685b9b4f4d08a2a5c82116993d10d7e635f746fa172876",
+      "bytes": 12450,
+      "previous": "7029be294d7f224cd06f9225cf34a0e86850bc9e",
+      "storage": "git-text"
+    },
+    {
+      "path": "tests/render/test_ozt_file.cpp",
+      "sha256": "f66b04d0a88b683afb2c083ef739f2837b583179caf7ada55c11b3e821aafb9e",
+      "bytes": 8275,
+      "previous": "c92373478a88c3ea563463f574e4624f0ff36ce9",
+      "storage": "git-text"
+    },
+    {
+      "path": "tests/render/test_puddle_shape.cpp",
+      "sha256": "27b1e6538b4719fdc7b52424c8d6f48f8ddbf6c13ed6782be5a730857b2f97f6",
+      "bytes": 1306,
+      "previous": "01b7174d6553184fa1fcd08abca523c1a5bed78a",
+      "storage": "git-text"
+    },
+    {
+      "path": "tests/render/test_weather_cycle.cpp",
+      "sha256": "c74c61cf6158583187a52cad909ed5872253746e4ff9211b8c2132978475a150",
+      "bytes": 1623,
+      "previous": "692b6413a4004925bdb9898dfe083665183ebcb2",
+      "storage": "git-text"
+    },
+    {
+      "path": "tests/ui/CMakeLists.txt",
+      "sha256": "defe29207a7bcbb0e4bed2de198faf1a95f88145f12d7b5b3a3cbb3e0f281702",
+      "bytes": 11372,
+      "previous": "2385bba8c643b20813205952b1f0251963ce08ec",
+      "storage": "git-text"
+    },
+    {
+      "path": "tests/ui/RmlLayoutFixture.cpp",
+      "sha256": "a3acccd20d876ae54bdc8115fdbf7a522d001c62250c354e6deb4a0b8907720b",
+      "bytes": 3979,
+      "previous": "eb318ab8301723948fe99362aadc5e729cf33890",
+      "storage": "git-text"
+    },
+    {
+      "path": "tests/ui/test_chat_command_completion.cpp",
+      "sha256": "aab57732c99bb7e7491a60dd0e251fe886a467bd30cb637b1106e532b87d4cbe",
+      "bytes": 1651,
+      "previous": "21b5400eabc938cca00d323743f2cc129682e027",
+      "storage": "git-text"
+    },
+    {
+      "path": "tests/ui/test_gesture_wheel_geometry.cpp",
+      "sha256": "f020397555d89c3a21f9c1a5d60ec4369e2127a0b8a70da1eefbb262ccf0c9c6",
+      "bytes": 690,
+      "previous": "6522570a139c8ec1de06297c958ff45c16401045",
+      "storage": "git-text"
+    },
+    {
+      "path": "tests/ui/test_rml_party_trade_layout.cpp",
+      "sha256": "db25047f5f26428175221eecbe026d93858e57c17d61324cd8d21da9ed704b75",
+      "bytes": 16491,
+      "previous": "66b77eb6cb5e813e242b436a21ce301184c49a18",
+      "storage": "git-text"
+    },
+    {
+      "path": "tests/ui/test_rml_password_field.cpp",
+      "sha256": "1a17dde4b07095f00cae8d953a7cdc7517aa1b882bbdfa0475cecd614f12a92b",
+      "bytes": 4712,
+      "previous": "56eacf40bbd93c51f3fdffbfef0b51741bc7f9a0",
+      "storage": "git-text"
+    },
+    {
+      "path": "tests/ui/test_rml_preview.py",
+      "sha256": "558a6ff881b5d8c899fe5d0f0476db1cf768eb3e13c23ef0c780b8245b0294dc",
+      "bytes": 10503,
+      "previous": "1b67b2a379538bd240b70e3588d7bed03a59b40e",
+      "storage": "git-text"
+    },
+    {
+      "path": "tests/ui/test_rml_stacking_order.cpp",
+      "sha256": "b60ee49db306d723a5d1802d5fd754769413d85b3b2568be9a5337c3b7637639",
+      "bytes": 7493,
+      "previous": "c41f927d3089e7a433e86cbde879abac2b12a8c4",
+      "storage": "git-text"
+    },
+    {
+      "path": "tests/ui/test_window_placement_layout.cpp",
+      "sha256": "3d35497716e2a6216dc38ae4f8945c51b644c68b754f3d473a19fdf34b434d8c",
+      "bytes": 18118,
+      "previous": "5301a73110709d0b26f467f616963c0ea6ee39ab",
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/export_pegasus_graphics.py",
+      "sha256": "748f5a70e2507e4528ea4a3d2c520b18395e5d755516acfe4756bd2af81cf591",
+      "bytes": 4667,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/rml_preview.py",
+      "sha256": "fe00e2f1da81b6b0f93254a259783c3758b30a5722f86acae0182a2b1b4e7033",
+      "bytes": 49884,
+      "previous": "fc54e071c710d344065f126246cc90a7d38384fb",
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/sync_opengl_item_sizes.py",
+      "sha256": "c467009115e1027302c33d372482df68385acce9c29b76b17e377f412b67a93f",
+      "bytes": 2625,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/app.manifest",
+      "sha256": "f6cc701ad882678c8a038ac5db3d32612757c827ab652bb161924682a46a78a5",
+      "bytes": 595,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/App.xaml",
+      "sha256": "6a64209d486a17e2b1224a8737b0f958a9d17a162ced7d6b6d427a00f5dab179",
+      "bytes": 8692,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/App.xaml.bak",
+      "sha256": "90aba671cbdbbef09103ee22b28bbaa379868423bca110ca28f9954f7a33ad73",
+      "bytes": 3531,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/App.xaml.cs",
+      "sha256": "bcc9206ae1fdd4b0a23d2b2e360f0953e68c98dd786060c2a408bc1b591b938b",
+      "bytes": 1975,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/DefenderExclusion.cs",
+      "sha256": "16af08828b0290ec060fab5c1c3c000d9aaa34cab2ea26e18a61ce03c0783af7",
+      "bytes": 2610,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/DesktopShortcut.cs",
+      "sha256": "e0927513d1756153e788367f0cdbe5be78e950f79a29097e2b2232814e119ad7",
+      "bytes": 1182,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/InstallerLocation.cs",
+      "sha256": "f23163cc8eaae6b67e15bfa0e6b977a0d3135a0cc513908bab1834805ddfbee7",
+      "bytes": 1857,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/MainWindow.Community.cs",
+      "sha256": "1df3aee612e9517b439a02944c0a88c07889e23b5ddbce16bc393c1f9cbe6ac2",
+      "bytes": 3772,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/MainWindow.CounterStrike.cs",
+      "sha256": "52ff6a02388d90d50fe94e43678e41a043180bac39d58faa5ecde44f91c7f2e5",
+      "bytes": 2313,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/MainWindow.Experience.cs",
+      "sha256": "0e4dcf5971a9e24b92fb4dfeb2ca4b37ba54f58c3d869c832abe0027f676eb54",
+      "bytes": 7396,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/MainWindow.GeneralSettings.cs",
+      "sha256": "83a20d09191fe5169bc8bc1271478ea1b5475f24d66372e8d7794dd929755d3d",
+      "bytes": 2161,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/MainWindow.Header.cs",
+      "sha256": "d6d04b3472da2819fe04f307c6193a940bd52e6cd85a105835628925e2515f3b",
+      "bytes": 5830,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/MainWindow.Help.cs",
+      "sha256": "61484514362e056769152164de80c4e17a91afacb18cc903ae03ab29546ec4e5",
+      "bytes": 5759,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/MainWindow.Home.cs",
+      "sha256": "24a70641bd27c769e51267f1a1f9313829bb6fada24047ea4d51681cf29980e6",
+      "bytes": 2608,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/MainWindow.Network.cs",
+      "sha256": "487bc0076924d9c85a834ccdecadc8d9d207c2867c58754f68e063bd720f89d7",
+      "bytes": 1903,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/MainWindow.xaml",
+      "sha256": "47c6e564eeec22f8b2dead1226f921fc01b04955f81f35ae863b4a2a74c87f66",
+      "bytes": 50573,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/MainWindow.xaml.bak",
+      "sha256": "60941069461bb4e1c727465436fc8ff406b5701ee4382892d92c5d64d4a139f1",
+      "bytes": 6184,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/MainWindow.xaml.cs",
+      "sha256": "16d96fe0102ab39ed20987d663dca5adda6367c1d055901be169a9ca450fd1c5",
+      "bytes": 19433,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/MainWindow.xaml.cs.bak",
+      "sha256": "058dc3e441e642e1d630a4ade352ec24c2f0449acc5027146b270fcdd6bd0a5e",
+      "bytes": 10609,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/manifest_validation.py",
+      "sha256": "a83ae2b108f5ad7a3ee52f1df244eaf87f08c4f0c20c755cb8e826bdb7525d2c",
+      "bytes": 1319,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/ParisLauncher.csproj",
+      "sha256": "0b2e724b14a044cd49bc12730efdd02a0044368bfc9fe2ef86c48221de7068d8",
+      "bytes": 1614,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/ParisLauncher.csproj.bak",
+      "sha256": "ee609f09e3a1ea485ca0b9f5cf862c463b65d66e21cffe9bd95c91af2608dba6",
+      "bytes": 889,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/prepare_release.py",
+      "sha256": "72793a04f95afd6f9a21d2bf60880596937e270e348a929a90485368bd4d44c7",
+      "bytes": 5815,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/publish_r2.py",
+      "sha256": "17b688d63d1cbdbb9e086d2390fe21a0034f40587489ed4f9d2f40bb4aaf8c35",
+      "bytes": 2032,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Account/AccountClient.cs",
+      "sha256": "c1737992d61ef0a4c6d08d69e10d382620292d19b8248d49e5387616fb97c484",
+      "bytes": 3559,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Account/AccountProfile.cs",
+      "sha256": "98d4c1862e5dc51cf6b6bc3426c4ac9722dae90f31d0b0ee7792643577d880f0",
+      "bytes": 410,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Account/LauncherSession.cs",
+      "sha256": "0c8bd4500c1d49ad2ac780cb9da3253d5c78d823187b1ab44b6027a284ed6d35",
+      "bytes": 130,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Account/SessionStorage.cs",
+      "sha256": "28072f897fd17a07b0bfcab34690f82edd7e24127d0f3f6e09b3fec7345bbf87",
+      "bytes": 1057,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Assets/counter-strike-paris.png",
+      "sha256": "522177f2c9283ad24c0a66efc3bbddbfd5eb4abb22e6e61c2cca81960132c2b7",
+      "bytes": 2006465,
+      "previous": null,
+      "storage": "binary-archive"
+    },
+    {
+      "path": "tools/ParisLauncher/Assets/cs-classic-transparent.png",
+      "sha256": "d74102fe23640d539b22da75d84debb0bc643135b2c4e37160afad9cebd73e43",
+      "bytes": 283414,
+      "previous": null,
+      "storage": "binary-archive"
+    },
+    {
+      "path": "tools/ParisLauncher/Assets/home-cs-card-exact.png",
+      "sha256": "9c7a09acef4c2fc17bbfa338b697ad073853f33bab9b690c4ec9e99c109a4f03",
+      "bytes": 2006164,
+      "previous": null,
+      "storage": "binary-archive"
+    },
+    {
+      "path": "tools/ParisLauncher/Assets/home-cs-card-reference.png",
+      "sha256": "75e2724329c39e2e58dcfe8d6846d22a3a4637aabbcc7f39a6c3930e66b0f254",
+      "bytes": 282395,
+      "previous": null,
+      "storage": "binary-archive"
+    },
+    {
+      "path": "tools/ParisLauncher/Assets/home-hero-exact.png",
+      "sha256": "0e7b1f114460b23f5367151021a2f13b176c46d8305080175942666608b3709c",
+      "bytes": 2225549,
+      "previous": null,
+      "storage": "binary-archive"
+    },
+    {
+      "path": "tools/ParisLauncher/Assets/home-hero-v3.png",
+      "sha256": "2c298dbe52652ea325e35b61ef022abed4b1287d11ef92c43169ed6fe65a1a72",
+      "bytes": 2712190,
+      "previous": null,
+      "storage": "binary-archive"
+    },
+    {
+      "path": "tools/ParisLauncher/Assets/home-mu-card-exact.png",
+      "sha256": "46caba3a0602ab54487928edb1eaf10552c500c86e689be2bcbd22d7a45630d7",
+      "bytes": 2042973,
+      "previous": null,
+      "storage": "binary-archive"
+    },
+    {
+      "path": "tools/ParisLauncher/Assets/home-mu-card-hd.png",
+      "sha256": "ca6829154713ec1d5bec2903cd34f26c195b506ea883fef3d3f449df95c7eafb",
+      "bytes": 2107718,
+      "previous": null,
+      "storage": "binary-archive"
+    },
+    {
+      "path": "tools/ParisLauncher/Assets/launcher-art.png",
+      "sha256": "5615e0b32b2f2985b31f94fe38f7589e2c1d72b4980b7c052cb74f892b1f033c",
+      "bytes": 2588182,
+      "previous": null,
+      "storage": "binary-archive"
+    },
+    {
+      "path": "tools/ParisLauncher/Assets/launcher-icon.ico",
+      "sha256": "f04d148e4ba59000da6d07ea2f72ed3d460c1cb0cec6c0af838ed7f12f0e82bb",
+      "bytes": 153970,
+      "previous": null,
+      "storage": "binary-archive"
+    },
+    {
+      "path": "tools/ParisLauncher/Assets/launcher-icon.png",
+      "sha256": "a2e4e53b4c97dc462bbf783806eb4dbdc2a55a196a34a3f4a8f2c20edf7ee331",
+      "bytes": 1796295,
+      "previous": null,
+      "storage": "binary-archive"
+    },
+    {
+      "path": "tools/ParisLauncher/Assets/mu-classic-transparent.png",
+      "sha256": "35458b39fb1fe13da421a7590b0710bca10ac19d4d87a275eae6053c12b2c545",
+      "bytes": 1077147,
+      "previous": null,
+      "storage": "binary-archive"
+    },
+    {
+      "path": "tools/ParisLauncher/Assets/mu-paris-logo.png",
+      "sha256": "44ebbe079a342016c165f5ace954bd8500147883ab4e398ac24e75a5dca6fb7c",
+      "bytes": 2653701,
+      "previous": null,
+      "storage": "binary-archive"
+    },
+    {
+      "path": "tools/ParisLauncher/Assets/mu-wordmark-exact.png",
+      "sha256": "7aee95c7af7d2c9eae4bd1e256275235fcd79eb18aef4dc16fd902113ec8ffc7",
+      "bytes": 1221450,
+      "previous": null,
+      "storage": "binary-archive"
+    },
+    {
+      "path": "tools/ParisLauncher/Assets/paris-background-v2.png",
+      "sha256": "a511568683771cceaf5e119efd498729f27ef7d258b3e89c578600e0bfadeb5b",
+      "bytes": 2061743,
+      "previous": null,
+      "storage": "binary-archive"
+    },
+    {
+      "path": "tools/ParisLauncher/Assets/paris-elf-v2.png",
+      "sha256": "d2f325ed2b819439f932203f245a24dba3cbe32e82a4d573fc21010a478a3b0d",
+      "bytes": 2648157,
+      "previous": null,
+      "storage": "binary-archive"
+    },
+    {
+      "path": "tools/ParisLauncher/Assets/vpn-paris.png",
+      "sha256": "5b32f2c67d3f99782b4d8d556c82746e652d1a51dee6b21a488fcc044b6ffbf3",
+      "bytes": 570377,
+      "previous": null,
+      "storage": "binary-archive"
+    },
+    {
+      "path": "tools/ParisLauncher/Assets/Flags/ae.png",
+      "sha256": "77a9d61e1b4fd75884779089406ff11c9d1566c4b6fd575b370f4a207d153f67",
+      "bytes": 123,
+      "previous": null,
+      "storage": "binary-archive"
+    },
+    {
+      "path": "tools/ParisLauncher/Assets/Flags/ar.png",
+      "sha256": "e71678dff3b1ea5826f29439a74c10c144972e73604077d2c2e0baf562a2a3a6",
+      "bytes": 7499,
+      "previous": null,
+      "storage": "binary-archive"
+    },
+    {
+      "path": "tools/ParisLauncher/Assets/Flags/au.png",
+      "sha256": "027d7336f87964df31cec7c8c3aa1260104c8c9e68f0be532f7245eb7a4d74c3",
+      "bytes": 393,
+      "previous": null,
+      "storage": "binary-archive"
+    },
+    {
+      "path": "tools/ParisLauncher/Assets/Flags/bh.png",
+      "sha256": "362bee14842c48071be16be74dd996cbc7729105376787216bbb8993d2f56b5c",
+      "bytes": 228,
+      "previous": null,
+      "storage": "binary-archive"
+    },
+    {
+      "path": "tools/ParisLauncher/Assets/Flags/br.png",
+      "sha256": "12d4080ba2138d1a7b0cde97a52a0e5f26b314d48490cf6cebe24dde1227ab76",
+      "bytes": 452,
+      "previous": null,
+      "storage": "binary-archive"
+    },
+    {
+      "path": "tools/ParisLauncher/Assets/Flags/ca.png",
+      "sha256": "c239959c36c5316ff09b76cdb342732ee7ff12a5036ae602a1f82fcdc6a2da0b",
+      "bytes": 286,
+      "previous": null,
+      "storage": "binary-archive"
+    },
+    {
+      "path": "tools/ParisLauncher/Assets/Flags/ch.png",
+      "sha256": "2d807ed896b1aca7810cd8dc6968c6b5f23620da10ba0f0da40923dedb8aafb5",
+      "bytes": 141,
+      "previous": null,
+      "storage": "binary-archive"
+    },
+    {
+      "path": "tools/ParisLauncher/Assets/Flags/cl.png",
+      "sha256": "828843dbc19d857d72503bd6cc7c60c0a5d7c51035d45059f6c2744cb169d36f",
+      "bytes": 6739,
+      "previous": null,
+      "storage": "binary-archive"
+    },
+    {
+      "path": "tools/ParisLauncher/Assets/Flags/de.png",
+      "sha256": "4bf08b86243b0c5d79c196728100dd278a398ab57edaf56c871fceb9d879dbeb",
+      "bytes": 99,
+      "previous": null,
+      "storage": "binary-archive"
+    },
+    {
+      "path": "tools/ParisLauncher/Assets/Flags/es.png",
+      "sha256": "5a56dcaa46c8322da58e08ac0163f44e4f036fc82b866f7c2608f02e31ce0641",
+      "bytes": 381,
+      "previous": null,
+      "storage": "binary-archive"
+    },
+    {
+      "path": "tools/ParisLauncher/Assets/Flags/fr.png",
+      "sha256": "eec284175556a77e98f09db03f88aa064c2ff7500b56264dc119fbf8ee4ef6bc",
+      "bytes": 109,
+      "previous": null,
+      "storage": "binary-archive"
+    },
+    {
+      "path": "tools/ParisLauncher/Assets/Flags/gb.png",
+      "sha256": "e2e39a14b87527ab4893d3f17510fcf2d12c6078f15289a2289a6b96da0d7098",
+      "bytes": 288,
+      "previous": null,
+      "storage": "binary-archive"
+    },
+    {
+      "path": "tools/ParisLauncher/Assets/Flags/hk.png",
+      "sha256": "1d144d25e1862fc6ef5f69b428fa58c99c69bce509a91640ab073030b2f4e773",
+      "bytes": 306,
+      "previous": null,
+      "storage": "binary-archive"
+    },
+    {
+      "path": "tools/ParisLauncher/Assets/Flags/id.png",
+      "sha256": "b2cbe304f50cdb9dd976b9221512116318b608c2bd6dd44ab67b66f739e86064",
+      "bytes": 99,
+      "previous": null,
+      "storage": "binary-archive"
+    },
+    {
+      "path": "tools/ParisLauncher/Assets/Flags/ie.png",
+      "sha256": "0a5fdd70dccee8fdac679004f5657de96e7f3e925cc7d19018fb4cacd3844b79",
+      "bytes": 108,
+      "previous": null,
+      "storage": "binary-archive"
+    },
+    {
+      "path": "tools/ParisLauncher/Assets/Flags/il.png",
+      "sha256": "9e00c28aeb5964dad4e9df28ef7ee72094ff88aeb5b4a021c591e5df13f1ad43",
+      "bytes": 224,
+      "previous": null,
+      "storage": "binary-archive"
+    },
+    {
+      "path": "tools/ParisLauncher/Assets/Flags/in.png",
+      "sha256": "7402a78868940a6f52ae0e9793667a42fcd71945df8d763aca0fc186d1ab1241",
+      "bytes": 193,
+      "previous": null,
+      "storage": "binary-archive"
+    },
+    {
+      "path": "tools/ParisLauncher/Assets/Flags/it.png",
+      "sha256": "13ac00068b4541fdac777c9710eea64044c365df6a72a1a94bc0c5765b8ba123",
+      "bytes": 112,
+      "previous": null,
+      "storage": "binary-archive"
+    },
+    {
+      "path": "tools/ParisLauncher/Assets/Flags/jp.png",
+      "sha256": "ec7131f162be04e0c5ef2680ef5bd4b433e482f20913bab1fe9ae9f748ec3693",
+      "bytes": 239,
+      "previous": null,
+      "storage": "binary-archive"
+    },
+    {
+      "path": "tools/ParisLauncher/Assets/Flags/kr.png",
+      "sha256": "e4da4c40c5f0a6e69c2dfa07918d487fabcb9a2aa64165af04f8385afba79872",
+      "bytes": 556,
+      "previous": null,
+      "storage": "binary-archive"
+    },
+    {
+      "path": "tools/ParisLauncher/Assets/Flags/mx.png",
+      "sha256": "323c56a91a0e8db1fdb52bbace8b2088805259c9f3500e869df2d311d53d2c45",
+      "bytes": 328,
+      "previous": null,
+      "storage": "binary-archive"
+    },
+    {
+      "path": "tools/ParisLauncher/Assets/Flags/my.png",
+      "sha256": "a475af354399c26ac818dd263a32ec366bc7f26d940ee7d034b072471dc30cad",
+      "bytes": 268,
+      "previous": null,
+      "storage": "binary-archive"
+    },
+    {
+      "path": "tools/ParisLauncher/Assets/Flags/nz.png",
+      "sha256": "e6dcb54906c0cea5e1118ad3c615ddcdcb59948253a7dbe181ea730565c342ec",
+      "bytes": 367,
+      "previous": null,
+      "storage": "binary-archive"
+    },
+    {
+      "path": "tools/ParisLauncher/Assets/Flags/se.png",
+      "sha256": "8ca56d0b54b7370d3c0cc2c631e24a0d1a0aca4e3f858dd2de64f175bb6fa70c",
+      "bytes": 104,
+      "previous": null,
+      "storage": "binary-archive"
+    },
+    {
+      "path": "tools/ParisLauncher/Assets/Flags/sg.png",
+      "sha256": "c7e9a2be7a778650f8c11e0335b4ec070a4b2aba048abb726b27e69ccfe8b0dd",
+      "bytes": 252,
+      "previous": null,
+      "storage": "binary-archive"
+    },
+    {
+      "path": "tools/ParisLauncher/Assets/Flags/th.png",
+      "sha256": "f91dfd0057a2e7a4df04aaaffe89763f17687b70500682d1603ccc44934bcec4",
+      "bytes": 113,
+      "previous": null,
+      "storage": "binary-archive"
+    },
+    {
+      "path": "tools/ParisLauncher/Assets/Flags/tw.png",
+      "sha256": "71c8c267a0c40f39d84de53b46c7f7c9a893a3f14beb2a5968d8f781e213b234",
+      "bytes": 234,
+      "previous": null,
+      "storage": "binary-archive"
+    },
+    {
+      "path": "tools/ParisLauncher/Assets/Flags/us.png",
+      "sha256": "09dd59a3417221f62c23c3abb37e9b598357502643a0ea9ad6561a50b2dcc1dc",
+      "bytes": 252,
+      "previous": null,
+      "storage": "binary-archive"
+    },
+    {
+      "path": "tools/ParisLauncher/Assets/Flags/za.png",
+      "sha256": "8b4bf6a93680f7156356f109f664a7bd0e2df48e83bfc449f0d945378b06e9f0",
+      "bytes": 401,
+      "previous": null,
+      "storage": "binary-archive"
+    },
+    {
+      "path": "tools/ParisLauncher/Core/BundleDownload.cs",
+      "sha256": "7a33cc1c83ddf5e1c9d7c4b50699020943d6d2a9d132363d8255f9b075609b2a",
+      "bytes": 3985,
+      "previous": null,
+      "storage": "binary-archive"
+    },
+    {
+      "path": "tools/ParisLauncher/Core/BundleUpdates.cs",
+      "sha256": "5197113aa6f271314f7215e26c3d2bd2cb4b8fd498150adcd585da9c14f93093",
+      "bytes": 5386,
+      "previous": null,
+      "storage": "binary-archive"
+    },
+    {
+      "path": "tools/ParisLauncher/Core/ClientProcess.cs",
+      "sha256": "6ca87e567db0ed06b2cd75665355ac3b1626223912367f39c365213359d09639",
+      "bytes": 3161,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Core/GeneralPreferences.cs",
+      "sha256": "2c4748018096c0aa40d6409b262a9d03e34dff0649b9ba77d5951971751ba241",
+      "bytes": 1546,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Core/GpuDetector.cs",
+      "sha256": "afb8e722e23cf0bef18331c751818d3779aaba102175903600ae2809d31ad0d6",
+      "bytes": 2513,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Core/GpuInfo.cs",
+      "sha256": "90057761966e41df5025d32481c91460ceaccd88585b6762f44b3c99667ba5f6",
+      "bytes": 378,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Core/InstallationPrompts.cs",
+      "sha256": "64c2e23dfa1a6fbf93619f8cbe4e754b8b01a054ef6ea527e4a330d6b10339a9",
+      "bytes": 450,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Core/LatencyProbe.cs",
+      "sha256": "3cba9fb5a7a3d10136faf0b69df587c890b78fc36c4b2fdb2e6e0860f3120899",
+      "bytes": 2643,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Core/LatestProgress.cs",
+      "sha256": "da3a1c7967c8625516e03a2fe1449c12c03b40d06c731928b23c0558ad369adb",
+      "bytes": 400,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Core/LauncherSettings.cs",
+      "sha256": "6599a4f88fb1e83ec6b2773ef3d0ad9f7185a85ba90042e7559c96e76051b803",
+      "bytes": 2225,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Core/LauncherSettings.cs.bak",
+      "sha256": "74079eeb6cbea7ddfd2ff56628a27eec9dea1fe51d55eebe54b05d9f58cdebad",
+      "bytes": 1302,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Core/PlayerPreferences.cs",
+      "sha256": "034523fa2dad065e76ed138bc030a5457c0d6c2a3d5a661aa320001a1f34c8e4",
+      "bytes": 1022,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Core/SharedFiles.cs",
+      "sha256": "4c08a711492d62fadca82261ee6e46bc426e9ffb3f9ea9a0759681a9fa9f82c0",
+      "bytes": 630,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Core/UpdateBundle.cs",
+      "sha256": "fe1b3b30e58834c447cec3492891633af045288a4fae9b6a583806b462f1d291",
+      "bytes": 249,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Core/UpdateFile.cs",
+      "sha256": "92cdcbf61f02ba1bc95312c88daeffac6bfcf7085ce641598ebe1d810d9e366f",
+      "bytes": 341,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Core/UpdateJournalEntry.cs",
+      "sha256": "1a593f562d88e95e25403112f3766ef28cd8c1387870738308b4626330f42816",
+      "bytes": 118,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Core/UpdateManifest.cs",
+      "sha256": "7b8d309f5a2c377dc17cc92d6a272348333e7a1cca912dd5292e31ff55932b40",
+      "bytes": 236,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Core/UpdatePaths.cs",
+      "sha256": "76cbbdfb728510c2b9b2d5cd5389b0cb4f7ae4bfe4f5382c2a87c6f76228acf6",
+      "bytes": 3242,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Core/UpdateProgress.cs",
+      "sha256": "c77bdde9211134f00e72b050f3452b13084565659dfa49536ca9e54a615ef1b2",
+      "bytes": 128,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Core/UpdateService.cs",
+      "sha256": "3d8c0bf38f63bf54ff21996f3f5adddea506069f7c8aca5b8ac94ccd08339d8e",
+      "bytes": 13655,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Core/UpdateTransaction.cs",
+      "sha256": "ff5240b4dee70d24afa3b233fa284c9a8e3dc08126ba313bbe7d56c4d9498dfc",
+      "bytes": 3627,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Performance/AwsRegion.cs",
+      "sha256": "1aa26071ede2ada350b9f3f32196f92cec10b1a25607f6a625f42453d865f7d5",
+      "bytes": 2169,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Performance/BoostOption.cs",
+      "sha256": "247f5463aad044efa8022fec563fb4f0195c6bb09d93c57622214bf0b1e39c2c",
+      "bytes": 2990,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Performance/BoostPowerPlan.cs",
+      "sha256": "3bed9e6b491cf1a486da61e5ab4b48778f937f5dfb56fc8944e9568fe230bc14",
+      "bytes": 3136,
+      "previous": null,
+      "storage": "binary-archive"
+    },
+    {
+      "path": "tools/ParisLauncher/Performance/BoostPreferences.cs",
+      "sha256": "d737fe171b76091519269b6cb6b0aed6b68bc5e58d1c478f349633f14fd6c0f9",
+      "bytes": 1311,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Performance/BoostState.cs",
+      "sha256": "718d2e076807c122211b85ac0671d43afb17100de99a2d6b9e71ef429dfda698",
+      "bytes": 388,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Performance/CounterStrikeQuery.cs",
+      "sha256": "1d7dbf3e81c592d10c852f764d8a031f6ac030e2dec727d6be9807ea448e602d",
+      "bytes": 1682,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Performance/CpuSampler.cs",
+      "sha256": "ea7a3601d21c3506c630e46fbe03cd472ee15201bf1b40069cf4487620f128c6",
+      "bytes": 739,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Performance/DnsAdapter.cs",
+      "sha256": "21dd89213a4d4327e9de6ca6ee8eb284512bdc565df125d8e18690e542c2798b",
+      "bytes": 1205,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Performance/DnsBenchmark.cs",
+      "sha256": "1fc8e411aa991502c897a5ce6518ed81303b7a8992152a8830cb3ac4c26df1ac",
+      "bytes": 3082,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Performance/DnsProvider.cs",
+      "sha256": "fdee55972a7985812d47555ce444b4755f986a14f9450021cebe65e7edcc4364",
+      "bytes": 861,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Performance/DnsSettings.cs",
+      "sha256": "532a59854db2f9a9786c7ced9b54c2a2afd1fe34cc98521cb62cda71cd454559",
+      "bytes": 3433,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Performance/GpuSampler.cs",
+      "sha256": "8fc5943075f673c501054d761a4cc844ee5690217d39ff1e323d4947fe2e1afc",
+      "bytes": 1228,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Performance/IniProfile.cs",
+      "sha256": "e2af35ee50dd270e96a0be2a270af35fc211eeac80c26b7a4934c45aec4e4228",
+      "bytes": 3841,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Performance/KeyboardRepeat.cs",
+      "sha256": "811a48d7f5ce4284eae11d09d994dd75fb1339942163e93a543e70e353f16576",
+      "bytes": 1072,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Performance/LiveSpeedTest.cs",
+      "sha256": "6109a8469bc21b79d37e18cc9fe74a8109878bee3a600bc25db34d51c2ffc77d",
+      "bytes": 4617,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Performance/MeasuredUpload.cs",
+      "sha256": "96fc8716d5a52cd2a3d2e8d3d934389704e75017809d94f78a1a764b9ba92402",
+      "bytes": 1090,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Performance/MemoryApplication.cs",
+      "sha256": "55f6ae676186ccdc7a6db186c87c6cccc4149ccf2e746fe728070ba8ba5c8972",
+      "bytes": 366,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Performance/MemoryTools.cs",
+      "sha256": "69bf15b8c7da7f80e0cbef15e9b6132ff80e8e589805b161b3bc743db5cf8d17",
+      "bytes": 3811,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Performance/MemoryTrimPolicy.cs",
+      "sha256": "e8df4c72cc773c93376e53526f0e57d52f4433cc7be9cb3fffe9c50cc6aceed5",
+      "bytes": 246,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Performance/NetworkDiagnostics.cs",
+      "sha256": "69b06bb946466137e96cae4719905c20b86a9e01201e35f5c960f790bf785d1a",
+      "bytes": 961,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Performance/NetworkTests.cs",
+      "sha256": "e33d4fdb1b3910881c2e7dc3b958857882ffa8b35a05619f1d501df37f8338b5",
+      "bytes": 3389,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Performance/PowerProfile.cs",
+      "sha256": "8c897d0dbb74d546917a556a93ac32be395ddf6b5b60266cd1b7d11a49b54c92",
+      "bytes": 1796,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Performance/RegistryChange.cs",
+      "sha256": "92a4b46a61d4798de937de30244de7b2be49890a7c5ff7e3d907e474657d76d0",
+      "bytes": 2860,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Performance/StabilityTest.cs",
+      "sha256": "ce0fd1a39670713c00219fbf2071240037487521719d8098fc755590f009634a",
+      "bytes": 3185,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Performance/SystemBoost.cs",
+      "sha256": "f7e4e30ac0fac7d6060bcd6563eb96f13db6e9fa148d6dd56082a429e97ed351",
+      "bytes": 8550,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Performance/TrafficLimiter.cs",
+      "sha256": "a762a52d4e1f2ebdc7bb3eb13b43d3ac4f76cc91e3311926930692efe3532e7f",
+      "bytes": 3141,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Performance/WindowsCommand.cs",
+      "sha256": "e2665924ce540a6f37c95769268c1c4375306f7c69b71f5f518e0cda80080ca8",
+      "bytes": 2256,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Performance/WindowsVisualEffects.cs",
+      "sha256": "44f8b81cb088c5e12ad4ddc8c2ff5755ac7939463b1d74f73f11730625fc515b",
+      "bytes": 3044,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Platform/LauncherTray.cs",
+      "sha256": "1ee930a56777e47b2cae261ece976e1cdd90cc5cf25171b9f2ebceb3baaa6a19",
+      "bytes": 2301,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Views/AccountWindow.xaml",
+      "sha256": "c9eb9ff3b83664ca5067c75d6c8960b64d48a2bb0bdd70d91a4d45f92fba9346",
+      "bytes": 4051,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Views/AccountWindow.xaml.cs",
+      "sha256": "f2321893058ca769121440448ce83dec95eb575bd47535ff5c7983ce258c4d4b",
+      "bytes": 3930,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Views/BandwidthGauge.cs",
+      "sha256": "34e6334468756ad2a6a2e228167116a6ec86904f6548cdd1b1d3f0c96ecd5702",
+      "bytes": 1803,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Views/CounterStrikeWordmark.cs",
+      "sha256": "37afcf7d53e1d2545807d2702bccab1a816df5198dd7afc35e7ba25d1edd6ab6",
+      "bytes": 2321,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Views/DnsBoostView.cs",
+      "sha256": "6c4b7e749b5b0da59db8395286d0f4e4b39cda747ba4ec62404cf8a360be68fb",
+      "bytes": 6970,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Views/GeneralSettingsView.cs",
+      "sha256": "5358d851923dfbd10e448aec3b3933beb2708995d1682716fc621414a9d5d090",
+      "bytes": 6974,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Views/HardwareMonitorView.cs",
+      "sha256": "989d874c8a4330706d392481678a255c0192b0f2a7d3f2a98d6fb9f3beccdc9c",
+      "bytes": 2906,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Views/MemoryExclusionWindow.cs",
+      "sha256": "bc734627ce8d6b63edd6ff3d3bbc8db37ac61299c0e1d518d35a437bca75bab0",
+      "bytes": 3004,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Views/MuWordmark.cs",
+      "sha256": "a0654227127d2268731173dd8d69e5190aa1e55b8c6290fe54b5beb83c06d088",
+      "bytes": 441,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Views/NetworkAnalyzerView.cs",
+      "sha256": "18048df0ae2078c343e91e4120f03ff9ffb1653a554d2448a49d32e2345dfbc8",
+      "bytes": 11704,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Views/NetworkAnalyzerView.Measurements.cs",
+      "sha256": "20695fc06385de6de67e67601865fb1508437ebbc97bca79510883ae18a8be8e",
+      "bytes": 11268,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Views/NetworkAnalyzerView.Stability.cs",
+      "sha256": "b0441ea1445ac58a7b907a27e1da5d55f8299efb3bc7f41d42076532760cfb83",
+      "bytes": 2852,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Views/ParisVpnView.xaml",
+      "sha256": "b54727aa2923f9f9e6c27de0f06133a9d92ca629f1e5f071225b774ca4acceb1",
+      "bytes": 7020,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Views/ParisVpnView.xaml.cs",
+      "sha256": "ef1c2f1621c21b3a57d10cde16d0fbeb63a48ac5473a53fbd024b3e5e74abe4d",
+      "bytes": 1324,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Views/PcBoostView.cs",
+      "sha256": "c55b74c2ea7942a2705873588f953dea0be43c6827fbb28872d41f36ba71ecc1",
+      "bytes": 8251,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Views/RamBoostView.cs",
+      "sha256": "8e4776c6fa86fdd24a4574aaf2b5fcf8e68befd24af412e6175f348f846e9865",
+      "bytes": 10468,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Views/ResourceChartCard.cs",
+      "sha256": "247e9ca9d6452d6cb3ab3a171b3aec37038a23f32a841cccec1dcccae7301aea",
+      "bytes": 2081,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Views/ServerGameEmblem.cs",
+      "sha256": "8ce230bf6a8a496608809e1b8482a52c91dcc5a9355f2b2415f8fc5574ad8f40",
+      "bytes": 1749,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Views/SpeedTestPanel.cs",
+      "sha256": "d150394d95df9b5bb3f64d4ba90698b91f2f02434ce4ceff996cfc3db99d8368",
+      "bytes": 1906,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Views/TrafficLimiterView.cs",
+      "sha256": "a588179df698123d242a04fb15604161448a528abea95a4e8c2e6e98affe7f96",
+      "bytes": 5209,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Views/WelcomeWindow.xaml",
+      "sha256": "aebec35ccf684e8cd65808770fd830115649838152bfc3649e631bd2cdf040ff",
+      "bytes": 4940,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Views/WelcomeWindow.xaml.cs",
+      "sha256": "44662dd07b3336994ac096df3f838252a5a02d00cda502e8ff0bc53982137eda",
+      "bytes": 1583,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher/Views/WindowsEffectsView.cs",
+      "sha256": "54793725599b110816513e46dd53e0df24ce5484cc0aecba917803ac10e9f857",
+      "bytes": 3144,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher.Api/AccountAccess.cs",
+      "sha256": "30cd28eb2a19d21509e9d5c77184fc3a9d3dc9739d0e313647018fd6b2d894d4",
+      "bytes": 325,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher.Api/AccountProfile.cs",
+      "sha256": "f327ac6a9e97b4bb9b75d06dcb1b49fa66d9346ba6bb02cc35ca6af75dab0375",
+      "bytes": 671,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher.Api/AccountRequest.cs",
+      "sha256": "259699b36bbcb268214e7f012262b65a4d84dba1c715d73ae616e78ac6ce17af",
+      "bytes": 535,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher.Api/AccountStore.cs",
+      "sha256": "c7a91f4c6763c8a2954a0f91467e72ce90e39a0a4f3ce7a077df818c6633df42",
+      "bytes": 6115,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher.Api/ParisLauncher.Api.csproj",
+      "sha256": "e00fb626a5e711e5ff3de89145ced3624b7602cf4c87fef56eab4859aa1c237c",
+      "bytes": 331,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher.Api/Program.cs",
+      "sha256": "fe339269d77e163d6b9b21424597934a62ea511bb8a9329b7d984d9e356292d6",
+      "bytes": 3980,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/ParisLauncher.Api/ServerDirectory.cs",
+      "sha256": "48186f3a3d6ba165a642f326a774abad10f20a5193a7cd86034fb6ad7eee7f5c",
+      "bytes": 1711,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/rml_preview_models/chat_input.json",
+      "sha256": "aeba61380447290bab19b274654dc4c8d752f2faff7cf2e8ad98d762a9ace5a1",
+      "bytes": 1213,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/rml_preview_models/dungeon.json",
+      "sha256": "dce513dd21f20ba61fd91f7a59e7c5842f61db4fff49be075b6e3f4318a719dd",
+      "bytes": 2566,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/rml_preview_models/gesture_wheel.json",
+      "sha256": "3b8dc0f61e93014713d8a01cb2ab9ab00dcff6610ec09bc9d489bd889edf1590",
+      "bytes": 328,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/rml_preview_models/paris_advanced_stats.json",
+      "sha256": "b3a6af049eb5b33c73e1814b647269181709673e3216ed5788e7f8eea404bdec",
+      "bytes": 2788,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/rml_preview_models/paris_auction.json",
+      "sha256": "aaa14a8505de4c9d94098f0307bcdad5984895dba6294b3d9f05b501409fda94",
+      "bytes": 525,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/rml_preview_models/paris_battle_pass.json",
+      "sha256": "9ec0e1976a8808d1d527495dcea9e5bcfb0147714dee419ac9f101345806edcd",
+      "bytes": 3477,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/rml_preview_models/paris_character_info.json",
+      "sha256": "3c87a095ba4d40ee2f00e77b6e71839cb1ca1f9629eadbfb46842cabd68984cc",
+      "bytes": 2729,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/rml_preview_models/paris_events.json",
+      "sha256": "4edf2f36464898bddad3a35cb6d17358eb3ec5becbe38b4f14b58ae3a7d212a8",
+      "bytes": 701,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/rml_preview_models/paris_item_dye.json",
+      "sha256": "2f7441fda3a97499410e2da5557774043b0bad90c31deb037d52e9fd2e635aed",
+      "bytes": 5873,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/rml_preview_models/paris_jewel_bank.json",
+      "sha256": "ff8699c3571ae0e168f86bb6875ce663dd7259a17c79b339d236d68f14c726f0",
+      "bytes": 1361,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/rml_preview_models/paris_login.json",
+      "sha256": "427b5ca3d7623df01d1eea5853dc0f8c2d542573eb35de4477701f9f428a0f6f",
+      "bytes": 1258,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/rml_preview_models/paris_main_frame.json",
+      "sha256": "0471d2715ec85ac765faec4f684c1936f7198883a7474e623bf839e7e4ef4f40",
+      "bytes": 2123,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/rml_preview_models/paris_market.json",
+      "sha256": "b79534d68b78d30043578d81b0fbb74d53a200c52b2d1fc784a3cb3360e6744e",
+      "bytes": 1151,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/rml_preview_models/paris_ranking.json",
+      "sha256": "1a6f26a849693b9752fb6500368ff0f7b52d36caad49c61a63d416d8e1f91089",
+      "bytes": 346,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/rml_preview_models/paris_reset.json",
+      "sha256": "37f542e81dc53a34960d9d60e45780bb9bc27a0d1b09ebe09e085b134b8f7cc0",
+      "bytes": 733,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/rml_preview_models/paris_shortcuts.json",
+      "sha256": "1dbd85d7c253a49ee4cc919fbefcf3f0f67386f452ed74bd3a32e07b7664f2d5",
+      "bytes": 104,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/rml_preview_models/paris_vip.json",
+      "sha256": "0cbaa041f68ecd77f0d8e3479d1c7261a7888c20ce50ba2ade2841ed00ede90b",
+      "bytes": 659,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/rml_preview_models/party_finder.json",
+      "sha256": "eef218643a78c0132c909aea4bbaa183d947f3a917212e13c9ca9d42f03f2430",
+      "bytes": 12590,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/rml_preview_models/party_follow.json",
+      "sha256": "1ebe2a56ed1c58e2db6b4733e4d0f7bc87b6b61ce5c0a38fc90d4d07e22a5ef6",
+      "bytes": 1019,
+      "previous": null,
+      "storage": "git-text"
+    },
+    {
+      "path": "tools/rml_preview_models/registration.json",
+      "sha256": "e96702a780be2bb5e8a2775dc5f8c98df2d92abefff23e572ab50c529aa24795",
+      "bytes": 141,
+      "previous": null,
+      "storage": "git-text"
+    }
+  ],
+  "submodules": [
+    {
+      "path": "src/ThirdParty/RmlUi",
+      "repositoryBaseCommit": "afc25fecb70d1eff7753b15fc801835a4c0e155f",
+      "patchBaseCommit": "afc25fecb70d1eff7753b15fc801835a4c0e155f",
+      "localHead": "afc25fecb70d1eff7753b15fc801835a4c0e155f",
+      "patch": "source-backup/submodules/RmlUi.patch"
+    },
+    {
+      "path": "src/ThirdParty/SDL",
+      "repositoryBaseCommit": "d9d5536704d585616d4db3c8ba3c4ff6fc2757e1",
+      "patchBaseCommit": "d9d5536704d585616d4db3c8ba3c4ff6fc2757e1",
+      "localHead": "d9d5536704d585616d4db3c8ba3c4ff6fc2757e1",
+      "patch": null
+    },
+    {
+      "path": "src/ThirdParty/imgui",
+      "repositoryBaseCommit": "b1bcb12a624af7509894c8e77dd47416997777fa",
+      "patchBaseCommit": "b1bcb12a624af7509894c8e77dd47416997777fa",
+      "localHead": "b1bcb12a624af7509894c8e77dd47416997777fa",
+      "patch": null
+    }
+  ],
+  "binaryArchiveSha256": "b0126a8855874ce0d3938f756c8f05dbda7119a966be22567b8997d85106a172",
+  "binaryFiles": 51,
+  "skippedPrivateCandidates": [],
+  "remoteOnlyFilesPreserved": 6
+}

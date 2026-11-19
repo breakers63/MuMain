@@ -1,0 +1,269 @@
+# Paris map markers: 1 NPC, 3 spot, 4 individual
+3	9	58	Poison Bull x5
+3	9	73	Thunder Lich x5
+3	9	85	Thunder Lich x5
+3	25	29	Poison Bull x5
+3	30	120	Thunder Lich x5
+3	42	54	Poison Bull x5
+3	42	66	Thunder Lich x5
+3	42	77	Dark Knight x5
+3	42	87	Dark Knight x5
+3	42	108	Dark Knight x5
+3	42	120	Thunder Lich x5
+3	212	115	Cyclops x5
+3	229	112	Cyclops x5
+3	229	121	Cyclops x5
+4	16	78	Poison Bull x1
+4	16	219	Skeleton Warrior x1
+4	16	228	Skeleton Warrior x1
+4	16	235	Skeleton Warrior x1
+4	17	73	Poison Bull x1
+4	18	56	Gorgon x1
+4	18	219	Skeleton Warrior x1
+4	19	123	Gorgon x1
+4	20	68	Thunder Lich x1
+4	21	56	Poison Bull x1
+4	21	97	Poison Bull x1
+4	21	121	Thunder Lich x1
+4	21	229	Cyclops x1
+4	22	107	Dark Knight x1
+4	22	113	Poison Bull x1
+4	23	55	Poison Bull x1
+4	23	211	Skeleton Warrior x1
+4	23	226	Cyclops x1
+4	24	26	Thunder Lich x1
+4	24	29	Thunder Lich x1
+4	24	120	Dark Knight x1
+4	24	220	Cyclops x1
+4	25	82	Poison Bull x1
+4	26	17	Thunder Lich x1
+4	26	65	Dark Knight x1
+4	26	90	Thunder Lich x1
+4	27	100	Poison Bull x1
+4	27	220	Cyclops x1
+4	28	53	Thunder Lich x1
+4	28	67	Gorgon x1
+4	28	111	Poison Bull x1
+4	28	229	Cyclops x1
+4	29	24	Thunder Lich x1
+4	29	66	Dark Knight x1
+4	29	80	Elite Skeleton x1
+4	29	235	Skeleton Warrior x1
+4	30	105	Thunder Lich x1
+4	31	236	Skeleton Warrior x1
+4	33	78	Thunder Lich x1
+4	33	90	Thunder Lich x1
+4	33	209	Skeleton Warrior x1
+4	35	16	Thunder Lich x1
+4	35	55	Poison Bull x1
+4	37	98	Dark Knight x1
+4	38	26	Thunder Lich x1
+4	38	232	Cyclops x1
+4	39	77	Dark Knight x1
+4	39	112	Poison Bull x1
+4	41	88	Dark Knight x1
+4	42	117	Thunder Lich x1
+4	42	122	Poison Bull x1
+4	43	111	Gorgon x1
+4	44	56	Poison Bull x1
+4	44	162	Ghost x1
+4	45	180	Ghost x1
+4	45	183	Ghost x1
+4	45	188	Ghost x1
+4	45	201	Skeleton Warrior x1
+4	46	122	Poison Bull x1
+4	46	146	Ghost x1
+4	46	205	Larva x1
+4	46	210	Larva x1
+4	48	17	Elite Skeleton x1
+4	49	182	Ghost x1
+4	49	235	Larva x1
+4	50	211	Cyclops x1
+4	50	230	Cyclops x1
+4	52	166	Ghost x1
+4	52	222	Cyclops x1
+4	53	188	Ghost x1
+4	57	236	Larva x1
+4	61	169	Skeleton Archer x1
+4	61	213	Larva x1
+4	61	231	Skeleton Warrior x1
+4	62	154	Ghost x1
+4	62	181	Skeleton Warrior x1
+4	65	127	Hell Hound x1
+4	65	205	Larva x1
+4	68	110	Skeleton Archer x1
+4	68	125	Skeleton Archer x1
+4	68	226	Skeleton Warrior x1
+4	69	88	Hell Hound x1
+4	69	167	Ghost x1
+4	69	222	Larva x1
+4	70	76	Hell Hound x1
+4	70	154	Ghost x1
+4	70	195	Larva x1
+4	71	53	Hell Hound x1
+4	72	233	Larva x1
+4	72	236	Skeleton Warrior x1
+4	76	111	Skeleton Archer x1
+4	77	152	Ghost x1
+4	78	189	Larva x1
+4	79	154	Larva x1
+4	80	97	Skeleton Archer x1
+4	81	58	Hell Hound x1
+4	83	198	Skeleton Warrior x1
+4	84	220	Skeleton Warrior x1
+4	84	234	Skeleton Warrior x1
+4	85	208	Skeleton Warrior x1
+4	85	227	Skeleton Warrior x1
+4	86	105	Elite Skeleton x1
+4	86	150	Ghost x1
+4	86	196	Larva x1
+4	87	114	Hell Hound x1
+4	87	177	Larva x1
+4	88	104	Elite Skeleton x1
+4	90	16	Elite Skeleton x1
+4	90	187	Larva x1
+4	92	157	Ghost x1
+4	94	208	Skeleton Warrior x1
+4	94	233	Skeleton Warrior x1
+4	95	192	Larva x1
+4	97	187	Skeleton Warrior x1
+4	98	54	Skeleton Archer x1
+4	98	111	Hell Hound x1
+4	98	145	Ghost x1
+4	99	49	Skeleton Warrior x1
+4	100	198	Larva x1
+4	102	174	Ghost x1
+4	104	65	Hell Spider x1
+4	105	208	Skeleton Warrior x1
+4	107	227	Skeleton Warrior x1
+4	108	20	Elite Skeleton x1
+4	108	195	Skeleton Warrior x1
+4	110	145	Ghost x1
+4	111	188	Ghost x1
+4	112	93	Hell Spider x1
+4	113	166	Ghost x1
+4	114	25	Hell Spider x1
+4	114	110	Skeleton Archer x1
+4	115	20	Elite Skeleton x1
+4	115	20	Thunder Lich x1
+4	116	47	Poison Bull x1
+4	119	47	Poison Bull x1
+4	119	146	Ghost x1
+4	120	75	Hell Hound x1
+4	120	159	Ghost x1
+4	120	227	Skeleton Warrior x1
+4	120	234	Skeleton Warrior x1
+4	122	29	Elite Skeleton x1
+4	122	46	Poison Bull x1
+4	123	120	Hell Hound x1
+4	124	25	Elite Skeleton x1
+4	125	195	Ghost x1
+4	125	218	Ghost x1
+4	126	94	Hell Spider x1
+4	128	230	Cyclops x1
+4	130	234	Larva x1
+4	133	212	Ghost x1
+4	134	232	Larva x1
+4	135	196	Ghost x1
+4	135	212	Ghost x1
+4	136	149	Ghost x1
+4	137	33	Elite Skeleton x1
+4	137	233	Larva x1
+4	138	86	Hell Hound x1
+4	141	110	Skeleton Archer x1
+4	142	218	Ghost x1
+4	143	230	Cyclops x1
+4	144	187	Ghost x1
+4	145	118	Hell Hound x1
+4	148	149	Ghost x1
+4	149	94	Hell Spider x1
+4	150	193	Ghost x1
+4	150	236	Skeleton Warrior x1
+4	151	212	Ghost x1
+4	155	32	Elite Skeleton x1
+4	156	125	Skeleton Archer x1
+4	156	171	Cyclops x1
+4	156	234	Skeleton Warrior x1
+4	158	23	Poison Bull x1
+4	159	41	Elite Skeleton x1
+4	160	20	Thunder Lich x1
+4	163	114	Hell Hound x1
+4	163	125	Hell Hound x1
+4	163	184	Ghost x1
+4	164	186	Ghost x1
+4	164	231	Ghost x1
+4	165	171	Cyclops x1
+4	168	96	Hell Spider x1
+4	168	150	Cyclops x1
+4	168	220	Ghost x1
+4	170	126	Hell Hound x1
+4	173	200	Cyclops x1
+4	175	118	Skeleton Archer x1
+4	175	127	Skeleton Archer x1
+4	176	161	Cyclops x1
+4	176	188	Cyclops x1
+4	181	171	Cyclops x1
+4	181	235	Ghost x1
+4	183	28	Hell Spider x1
+4	183	123	Skeleton Archer x1
+4	183	128	Ghost x1
+4	185	161	Cyclops x1
+4	187	22	Poison Bull x1
+4	188	146	Skeleton Archer x1
+4	190	172	Cyclops x1
+4	193	30	Poison Bull x1
+4	193	148	Skeleton Archer x1
+4	193	224	Larva x1
+4	194	24	Thunder Lich x1
+4	194	221	Larva x1
+4	194	222	Larva x1
+4	196	100	Hell Spider x1
+4	196	235	Ghost x1
+4	198	168	Cyclops x1
+4	199	116	Ghost x1
+4	205	27	Poison Bull x1
+4	206	152	Skeleton Archer x1
+4	208	162	Cyclops x1
+4	209	175	Ghost x1
+4	211	90	Elite Skeleton x1
+4	212	83	Elite Skeleton x1
+4	212	151	Skeleton Archer x1
+4	213	19	Thunder Lich x1
+4	213	186	Ghost x1
+4	213	237	Ghost x1
+4	214	116	Cyclops x1
+4	217	227	Skeleton Archer x1
+4	220	161	Cyclops x1
+4	220	172	Cyclops x1
+4	221	19	Thunder Lich x1
+4	222	223	Ghost x1
+4	223	187	Ghost x1
+4	225	58	Elite Skeleton x1
+4	226	105	Cyclops x1
+4	226	237	Ghost x1
+4	227	19	Elite Skeleton x1
+4	227	173	Cyclops x1
+4	228	186	Ghost x1
+4	230	66	Thunder Lich x1
+4	230	108	Cyclops x1
+4	230	167	Cyclops x1
+4	232	18	Ghost x1
+4	232	56	Elite Skeleton x1
+4	232	236	Ghost x1
+4	233	19	Ghost x1
+4	233	26	Elite Skeleton x1
+4	233	173	Cyclops x1
+4	233	225	Ghost x1
+4	233	236	Ghost x1
+4	234	19	Elite Skeleton x1
+4	234	23	Thunder Lich x1
+4	234	190	Ghost x1
+4	234	223	Ghost x1
+4	236	18	Ghost x1
+4	236	25	Elite Skeleton x1
+4	236	87	Hell Spider x1
+4	236	168	Cyclops x1
+4	236	176	Skeleton Archer x1
+4	238	77	Elite Skeleton x1
+4	240	201	Ghost x1
+4	243	211	Ghost x1

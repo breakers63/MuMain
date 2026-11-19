@@ -1,0 +1,63 @@
+# Paris map markers: 1 NPC, 3 spot, 4 individual
+4	26	76	Illusion of Kundun 4 x1
+4	28	17	Aegis 4 x1
+4	29	65	Schriker 4 x1
+4	30	75	Aegis 4 x1
+4	32	50	Schriker 4 x1
+4	35	21	Aegis 4 x1
+4	35	87	Schriker 4 x1
+4	36	11	Aegis 4 x1
+4	37	109	Schriker 4 x1
+4	38	58	Schriker 4 x1
+4	42	12	Aegis 4 x1
+4	42	51	Schriker 4 x1
+4	42	97	Schriker 4 x1
+4	45	22	Aegis 4 x1
+4	46	66	Schriker 4 x1
+4	47	107	Schriker 4 x1
+4	51	11	Aegis 4 x1
+4	52	24	Aegis 4 x1
+4	53	17	Aegis 4 x1
+4	53	93	Schriker 4 x1
+4	57	71	Death Centurion 4 x1
+4	58	78	Death Centurion 4 x1
+4	60	9	Aegis 4 x1
+4	60	22	Aegis 4 x1
+4	63	72	Death Centurion 4 x1
+4	67	22	Rogue Centurion 4 x1
+4	68	77	Death Centurion 4 x1
+4	69	9	Rogue Centurion 4 x1
+4	74	14	Rogue Centurion 4 x1
+4	74	76	Necron 4 x1
+4	81	19	Rogue Centurion 4 x1
+4	82	8	Rogue Centurion 4 x1
+4	82	77	Necron 4 x1
+4	82	85	Necron 4 x1
+4	86	13	Rogue Centurion 4 x1
+4	87	90	Death Centurion 4 x1
+4	92	6	Rogue Centurion 4 x1
+4	93	84	Necron 4 x1
+4	93	96	Necron 4 x1
+4	96	16	Rogue Centurion 4 x1
+4	99	9	Rogue Centurion 4 x1
+4	104	101	Necron 4 x1
+4	105	54	Death Angel 4 x1
+4	105	86	Death Angel 4 x1
+4	108	28	Blood Soldier 4 x1
+4	109	19	Rogue Centurion 4 x1
+4	110	9	Blood Soldier 4 x1
+4	110	35	Blood Soldier 4 x1
+4	110	65	Death Angel 4 x1
+4	111	72	Death Angel 4 x1
+4	114	44	Blood Soldier 4 x1
+4	115	106	Necron 4 x1
+4	118	17	Blood Soldier 4 x1
+4	118	84	Necron 4 x1
+4	118	95	Death Angel 4 x1
+4	119	35	Blood Soldier 4 x1
+4	119	57	Death Angel 4 x1
+4	120	50	Death Angel 4 x1
+4	120	75	Death Angel 4 x1
+4	121	27	Blood Soldier 4 x1
+4	121	67	Death Angel 4 x1
+1	7	19	Oracle Layla

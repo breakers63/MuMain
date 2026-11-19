@@ -1,0 +1,197 @@
+//--------------------------------------------------------------------------------------------------------------------------
+// CustomMonster - MsProyecT
+// Version 1.0
+//--------------------------------------------------------------------------------------------------------------------------
+// MonsterID: ID del Monster (Igual que en el Monster.txt lado Servidor
+// Type:
+// 	0 - NPC
+//	1 - Monster
+// Name: Nombre que se muestra en el Juego
+// Folder: Desde donde se carga el BMD
+//	0 - Data\Monster
+//	1 - Data\NPC
+//	2 - Data\Custom\Monster
+//	3 - Data\Custom\NPC
+// BMD: Nombre del Archivo a Cargar
+// Size: Tamao a mostrar en el Juego
+//---------------------------------------------------------------------------------------------
+// MonsterID	Type	Name						Folder		BMD					Size			
+//---------------------------------------------------------------------------------------------
+0
+623     	0   	"Fake Machine"           	     	1    		"to3gate"		4.40
+624     	1   	"Nightmare"             	     	0    		"monster118"	1.90
+625     	1   	"Maya Right Hand"             	    0    		"monster120"	1.25
+626     	1   	"Maya Left Hand"             	    0    		"monster119"	1.25
+627     	1   	"Wipe"             	   				2    		"Monster49"	    0.01
+628     	1   	"Wipe"             	   				2    		"Monster49"	    0.01
+//DGL
+1100     	0   	"Panel Quest"                		3    		"NpcPanel"	    0.6
+1101		0	    "TVT EVENTO"  	   	        	    2   		"HammerMan"     1.50
+1102		0	    "Guild Batle"  	   	        	    2   		"Guard01203"    120.0
+526 1 "Torre Eiffel" 2 "Torre" 0.8
+1150		0	    "Torre Eiffel"  	   	        	2   		"TorreNPC"         0.8
+969     	0   	"Guerra De Generales"  	            2    		"Monster711"    1.75
+
+//
+	1700		0	    "Moss Exhanger"  	   	   1   		"gambler_moss"   		1.00
+	
+969     	0   	"Guerra De Generales"  	            2    		"Monster711"    1.75
+//repack
+
+
+//Event Custom MSPro
+	800     	0   	"Exchanger-RELIC ABSOLUTE" 	2    		"NPC_012"			1.70
+	801     	0   	"Exchanger-DIVINE STONE" 	2    		"NPC_425"   		1.70 
+	802     	0   	"Sword Blessed(RELIC)"   	2    		"monster302"   		1.10
+	803     	0   	"Sword Blessed(DIVINE)"    	0           "monster90"    		2.00
+	804     	0   	"Holy Sword(RELIC)"        	0           "karanebos"    		1.50
+	805     	0   	"Fugitivo De Paris"       	0           "Monster209"   		2.00
+	806     	0   	"Staff Blessed(RELIC)"     	0           "Monster193"   		1.50
+	807     	0   	"Staff Blessed(DIVINE)"    	0           "Monster199"   		1.50
+	808     	0   	"Holy Staff(RELIC)"        	0           "Monster159"   		1.50
+	809     	0   	"Holy Staff(DIVINE)"       	0           "Monster160"   		1.00
+	810     	0   	"Scepter Bleesed(RELIC)"   	0           "Monster125"   		1.50
+	811     	0   	"Scepter Bleesed(DIVINE)"  	0           "Monster126"   		2.50
+	812     	0   	"Holy Scepter(RELIC)"      	0           "Monster130"   		1.50
+	813     	0   	"Holy Scepter(DIVINE)"     	0           "Monster131"   		1.75
+	814     	0   	"Blessed CrossBow(RELIC)"  	0           "Monster140"   		1.50
+	815     	0   	"Blessed CrossBow(DIVINE)" 	0           "Monster141"   		1.70
+	816     	0   	"Holy Bow(RELIC)"          	0           "Monster145"   		1.10
+	817     	0   	"Holy Bow(DIVINE)"         	0           "Monster146"   		1.70
+	818     	0   	"Bleesed Stick(RELIC)"     	0           "Monster150"   		1.50
+	819     	0   	"Bleesed Stick(DIVINE)"    	0           "Monster156"   		2.50
+	820     	0   	"Holy Stick(RELIC)"        	0           "Monster182"   		1.50
+	821     	0   	"Holy Stick(DIVINE)"       	0           "Monster197"   		1.70
+	822     	0   	"BlessedMG Sword(RELIC)"   	0           "Monster167"   		1.50
+	823     	0   	"BlessedMG Sword(DIVINE)"  	0           "Monster168"   		1.70
+	824     	0   	"HolyMagic Sword(RELIC)"   	0           "Monster171"   		1.50
+	825     	0   	"HolyMagic Sword(DIVINE)"  	0           "Monster195"   		1.50
+//Deep Dungeon
+    876         1       "Deep D. Larva"              0         "Monster07"         1.00
+    877         1       "Deep D. Cyclops"            0         "Monster11"         1.00
+    878         1       "Deep D. Ghost"              0         "Monster08"         1.00
+    879         1       "Deep D. Hell Hound"         0         "Monster02"         1.00
+    880         1       "Deep D. Hell Spider"        0         "Monster09"         1.10
+    881         1       "Deep D. Thunder Lich"       0         "Monster05"         1.10
+    882         1       "Deep D. Poison Bull Fighte" 0         "Monster01"         1.00
+    883         1       "Deep D. Dark Knight"        0         "Monster04"         1.00
+    884         1       "Deep D. Gorgon"             0         "Monster12"         1.50
+//NP Varios
+	871     	0   	"Captian Slough"  			2           "slope"   			0.55
+	900     	0   	"Priest James"         		3    		"npcjames"          3.00
+//Varios
+	965     	1   	"Golden Kundun"  	     	2    		"Monster711"   		2.15	
+	966     	0   	"Exchenger Gold Coin" 	   	2			"NPC_426G"   		1.00
+	967     	0   	"Exchenger Silver Coin"    	2			"NPC_426S"   		1.00
+	968     	0   	"Exchenger Bronce Coin"    	2			"NPC_426B"   		1.00
+	972     	0   	"SkyEvent"         			2    		"skydragon"   		1.00
+	998     	0   	"The Spirit Of Nixon"       2    		"SpiritNixie"       2.80
+//
+	1000		1	    "Crimson Lycan"  	   	   2    		"Monster391_decrypted"   		0.50
+	1001		1	    "Crimson Minos"  	   	   2    		"Monster392_decrypted"   		0.50
+	1002		1	    "Crimson Harpy"  	   	   2    		"Monster393_decrypted"   		0.50
+//
+	1003		1	    "Red Alquamos"         	   	   0    		"Monster365"   		0.90
+	1004		1	    "Red Mega Crust"       	   	   0    		"Monster366"   		1.20
+	1005		1	    "Red Queen Rainer"     	   	   0    		"Monster367"   		1.40
+	1006		1	    "Red Alpha Crust"      	   	   0    		"Monster368"   		1.40
+	1007		1	    "Red Panthom Knight"   	   	   0    		"Monster369"   		1.60
+	1008		1	    "Red Giant Drakan(Elite)"  	   	   0    		"Monster370"   		1.00
+	1009		1	    "Red Dark Phoenix(Elite)"  	   	   0    		"Monster371"   		1.00
+//
+	1010		1	    "Storm Guard"    	   	   	   0    		"Monster432"   		0.50
+	1011		1	    "Storm Reaper"   	   	   	   0    		"Monster433"   		0.50
+	1012		1	    "Storm Fiend"    	   	   	   0    		"Monster434"   		0.50	
+//
+	1013		1	    "Underground Persona"     	   	   0    		"Monster407"   		1.00
+	1014		1	    "Underground Twin Tale"   	   	   0    		"Monster408"   		1.30
+	1015		1	    "Underground Dreadfear"   	   	   0    		"Monster406"   		1.30
+//                
+	1016		1	    "Underground Persona(Elite)"    	   	   0    		"Monster407"   		1.05
+	1017		1	    "Underground Twin Tale(Elite)"  	   	   0    		"Monster408"   		1.35
+	1018		1	    "Underground Dreadfear(Elite)"  	   	   0    		"Monster406"   		1.35
+//
+	1019		1	    "Old Crimson Lycan"     	   	   0    		"Monster391"   		0.50
+	1020		1	    "Old Crimson Minos"     	   	   0    		"Monster392"   		0.60
+	1021		1	    "Old Crimson Harpy"     	   	   0    		"Monster393"   		0.50
+//
+	1022		1	    "Crimson Lycan"     	   	   0    		"Monster391"   		0.50
+	1023		1	    "Crimson Minos"     	   	   0    		"Monster392"   		0.60
+	1024		1	    "Crimson Harpy"     	   	   0    		"Monster393"   		0.50
+//
+	1025		1	    "Temple Ogre"           	   	   0    		"Monster373"   		1.15
+	1026		1	    "Temple Gremlin"        	   	   0    		"Monster374"   		0.55
+	1027		1	    "Temple Gargoyle"       	   	   0    		"Monster375"   		1.15
+//                      
+	1028		1	    "Temple OgreE(Elite)"   	   	   0    		"Monster373"   		1.18
+	1029		1	    "Temple Gremlin(Elite)" 	   	   0    		"Monster374"   		0.55
+	1030		1	    "Temple Gargoyle(Elite)"	   	   0    		"Monster375"   		1.18
+//
+	1031		1	    "Storm Guard(Elite)"    	   	   	   0    		"Monster432"   		0.55
+	1032		1	    "Storm Reaper(Elite)"   	   	   	   0    		"Monster433"   		0.55
+	1033		1	    "Storm Fiend(Elite)"    	   	   	   0    		"Monster434"   		0.55
+//
+	1034		1	    "Magma Gladiator"           	   	   0    		"Monster418"   		0.55
+	1035		1	    "Magma Hook"                	   	   0    		"Monster419"   		0.55
+	1036		1	    "Magma Shaman"              	   	   0    		"Monster420"   		0.59
+	1037		1	    "Magma Gladiator(Elite)"        	   	   0    		"Monster418"   		0.57
+	1038		1	    "Magma Hook(Elite)"             	   	   0    		"Monster419"   		0.57
+	1039		1	    "Magma Shaman(Elite)"           	   	   0    		"Monster420"   		0.61
+//
+	1040        1       "Bloody Mutant"                0    		"Monster425"   		1.50
+	1041        1       "Bloody Wolf"                  0    		"Monster426"   		2.10
+	1042        1       "Bloody Beam Knight"           0    		"Monster427"   		1.50
+	1043        1       "Bloody Tantalos"        	   0    		"Monster428"   		1.80
+//                      
+	1044        1       "Bloody Wolf(Elite)"           0    		"Monster426"   		2.15
+	1045        1       "Bloody Beam Knight(Elite)"    0    		"Monster427"   		1.55
+	1046        1       "Bloody Tantalos(Elite)"       0    		"Monster428"   		1.85
+
+end
+
+//------------------------------------------------------------------------------------------------------
+// Custom Colors for Goldens
+//------------------------------------------------------------------------------------------------------
+// Aqui puedes setear si un Monster tiene Glow como si fuera un Golden con el color que quieras.
+//------------------------------------------------------------------------------------------------------
+// MonsterID	R		G		B
+//------------------------------------------------------------------------------------------------------
+1
+    624         0.250	0.185	0.040
+	965			1.00	0.55	0.02
+    966			1.00	1.0		0.40
+    967			0.62	0.62	0.62
+    968			0.60	0.29	0.00
+    969			1.00	0.55	0.02
+    972			0.74    0.74    0.74
+    735			1.00	1.00	1.00
+    747			0.11	0.65	1.00
+    882			0.00	1.00	0.29
+
+end
+
+//------------------------------------------------------------------------------------------------------
+// Custom Size for Webzen Default Monsters
+//------------------------------------------------------------------------------------------------------
+// Aqui puedes cambiar el tamao de los Monsters que vienen originales de Webzen (MonsterID: 0 a 579)
+//------------------------------------------------------------------------------------------------------
+// MonsterID	Size
+//------------------------------------------------------------------------------------------------------
+2
+end
+
+// Colores Golden del encoder original.
+1
+    624         0.250	0.185	0.040
+	965			1.00	0.55	0.02
+    966			1.00	1.0		0.40
+    967			0.62	0.62	0.62
+    968			0.60	0.29	0.00
+    969			1.00	0.55	0.02
+    972			0.74    0.74    0.74
+    735			1.00	1.00	1.00
+    747			0.11	0.65	1.00
+    882			0.00	1.00	0.29
+
+
+end

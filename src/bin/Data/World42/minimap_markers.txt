@@ -1,0 +1,29 @@
+# Paris map markers: 1 NPC, 3 spot, 4 individual
+4	39	101	Balram (Trainee Soldier) x1
+4	44	110	Balram (Trainee Soldier) x1
+4	44	127	Death Spirit (Trainee Soldier) x1
+4	52	134	Balram (Trainee Soldier) x1
+4	57	123	Death Spirit (Trainee Soldier) x1
+4	64	132	Balram (Trainee Soldier) x1
+4	67	112	Balram (Trainee Soldier) x1
+4	71	101	Balram (Trainee Soldier) x1
+4	79	86	Death Spirit (Trainee Soldier) x1
+4	87	90	Balram (Trainee Soldier) x1
+4	90	67	Balram (Trainee Soldier) x1
+4	90	78	Balram (Trainee Soldier) x1
+4	98	96	Death Spirit (Trainee Soldier) x1
+4	101	69	Death Spirit (Trainee Soldier) x1
+4	109	101	Balram (Trainee Soldier) x1
+4	116	103	Soram (Trainee Soldier) x1
+4	121	118	Death Spirit (Trainee Soldier) x1
+4	122	90	Death Spirit (Trainee Soldier) x1
+4	123	160	Soram (Trainee Soldier) x1
+4	125	99	Death Spirit (Trainee Soldier) x1
+4	126	164	Soram (Trainee Soldier) x1
+4	127	127	Soram (Trainee Soldier) x1
+4	129	146	Soram (Trainee Soldier) x1
+4	132	136	Soram (Trainee Soldier) x1
+4	132	156	Soram (Trainee Soldier) x1
+4	137	140	Death Spirit (Trainee Soldier) x1
+4	140	150	Death Spirit (Trainee Soldier) x1
+1	119	168	Gatekeeper

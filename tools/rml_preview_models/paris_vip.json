@@ -1,0 +1,18 @@
+{
+  "status": "Consultando plan y beneficios…",
+  "plan_name": "VIP Condor",
+  "duration": "50 días",
+  "benefits": [
+    { "text": "Experiencia: +50%", "label": "Experiencia", "value": "+50%" },
+    { "text": "Exp. Master: +50%", "label": "Exp. Master", "value": "+50%" },
+    { "text": "Zen al matar: +50%", "label": "Zen al matar", "value": "+50%" },
+    { "text": "Chance de drop: +50%", "label": "Chance de drop", "value": "+50%" }
+  ],
+  "costs": [{ "text": "Paris Coins: 0 / 100", "label": "Paris Coins", "value": "0 / 100" }],
+  "current_tier": "Normal",
+  "selected_days": 0,
+  "plan": 1,
+  "has_data": true,
+  "can_buy": true,
+  "empty": false
+}

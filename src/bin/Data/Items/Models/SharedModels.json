@@ -12,6 +12,11 @@
       "textureFolders": ["Item"]
     },
     {
+      "name": "smallCapeDl",
+      "file": "Data/Item/SmallCapeDL/Wing50.bmd",
+      "textureFolders": ["Item/SmallCapeDL"]
+    },
+    {
       "name": "chaosCard",
       "file": "Data/Item/partCharge3/juju.bmd",
       "textureFolders": ["Item/partCharge3"]

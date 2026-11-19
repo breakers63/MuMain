@@ -1,0 +1,33 @@
+# Paris map markers: 1 NPC, 3 spot, 4 individual
+3	89	111	Hammerize / Lucas x2
+4	19	65	Lion Gate x1
+4	24	62	Statue x1
+4	24	67	Statue x1
+4	32	99	Defender x1
+4	33	107	Forsaker x1
+4	37	93	Lion Gate x1
+4	38	101	Defender x1
+4	38	106	Dark Ghost x1
+4	39	110	Forsaker x1
+4	42	99	Defender x1
+4	44	107	Forsaker x1
+4	53	152	Statue x1
+4	55	154	Lion Gate x1
+4	56	58	Forsaker x1
+4	56	65	Forsaker x1
+4	56	71	Forsaker x1
+4	56	152	Statue x1
+4	59	65	Aticle's Head x1
+4	64	65	Ocelot the Lord x1
+4	66	59	Ocelot the Lord x1
+4	66	70	Ocelot the Lord x1
+4	75	67	Lion Gate x1
+4	85	107	Statue x1
+4	85	113	Statue x1
+4	92	112	Forsaker x1
+4	93	105	Forsaker x1
+4	93	118	Forsaker x1
+4	96	112	Eric the Guard x1
+4	98	107	Eric the Guard x1
+4	98	117	Eric the Guard x1
+4	107	112	Lion Gate x1

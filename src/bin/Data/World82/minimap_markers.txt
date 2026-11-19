@@ -1,0 +1,14 @@
+# Paris map markers: 1 NPC, 3 spot, 4 individual
+3	120	68	Orcus x5
+3	140	69	Orcus x5
+3	162	35	Condra x5
+3	162	71	Orcus x5
+3	181	28	Condra x5
+3	200	33	Condra x5
+3	201	80	Condra x5
+3	203	95	Condra x5
+3	207	151	Narcondra x5
+3	210	115	Condra x5
+3	213	69	Condra x5
+3	217	141	Condra x5
+3	223	50	Condra x5

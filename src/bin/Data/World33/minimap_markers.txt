@@ -1,0 +1,4 @@
+# Paris map markers: 1 NPC, 3 spot, 4 individual
+3	64	155	Balram (Trainee) / Berserk / Dark_Elf / Dreadfear / Gigantis / Persona / Soram (Trainee) x215
+3	135	97	Axe Warrior / Beam Knight / Bloody Wolf / Death Angel 4 / Drakan / Fire Golem / Mega Crust x215
+3	136	168	Alpha Crust / Illusion of Kundun 4 / Iron Wheel / Lizard Warrior / Poison Golem / Queen Bee / Q

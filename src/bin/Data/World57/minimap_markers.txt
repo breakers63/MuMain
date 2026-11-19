@@ -1,0 +1,62 @@
+# Paris map markers: 1 NPC, 3 spot, 4 individual
+3	9	34	Sapi-Unus x5
+3	10	45	Sapi-Unus x5
+3	10	183	Shadow Master x5
+3	12	77	Sapi-Duo x5
+3	13	112	Sapi-Duo x5
+3	13	233	Sapi Queen x5
+3	14	10	Sapi-Unus x5
+3	15	96	Sapi-Duo x5
+3	17	126	Sapi-Duo x5
+3	21	31	Sapi-Unus x5
+3	26	12	Sapi-Unus x5
+3	26	51	Sapi-Unus x5
+3	26	209	Sapi Queen x5
+3	29	119	Sapi-Tres x5
+3	30	82	Sapi-Tres x5
+3	36	184	Shadow Master x5
+3	38	232	Sapi Queen x5
+3	40	49	Sapi-Unus x5
+3	42	202	Ice Napin x5
+3	44	97	Sapi-Tres x5
+3	45	123	Sapi-Tres x5
+3	50	80	Sapi-Tres x5
+3	53	12	Sapi-Unus x5
+3	54	110	Sapi-Tres x5
+3	55	28	Sapi-Unus x5
+3	61	92	Sapi-Tres x5
+3	62	77	Sapi-Tres x5
+3	64	101	Dark Giant x5
+3	66	239	Ice Napin x5
+3	67	202	Ice Napin x5
+3	70	23	Sapi-Unus x5
+3	71	177	Ice Napin x5
+3	87	221	Ice Napin x5
+3	101	167	Sapi Queen x5
+3	109	216	Sapi Queen x5
+3	110	190	Sapi Queen x5
+3	125	23	Shadow Look x5
+3	133	168	Sapi Queen x5
+3	135	229	Sapi Queen x5
+3	144	45	Shadow Look x5
+3	155	15	Shadow Look x5
+3	173	29	Shadow Look x5
+3	173	221	Blaze Napin x5
+3	178	142	Ghost Napin x5
+3	182	123	Thunder Napin x5
+3	191	196	Blaze Napin x5
+3	196	109	Thunder Napin x5
+3	198	232	Blaze Napin x5
+3	203	12	Shadow Knight x5
+3	209	49	Shadow Pawn x5
+3	213	32	Shadow Knight x5
+3	217	138	Ghost Napin x5
+3	221	88	Shadow Pawn x5
+3	222	164	Ghost Napin x5
+3	223	191	Ghost Napin x5
+3	236	53	Shadow Pawn x5
+3	236	71	Shadow Pawn x5
+3	236	89	Shadow Pawn x5
+3	236	236	Blaze Napin x5
+3	237	14	Shadow Knight x5
+3	239	195	Blaze Napin x5

@@ -1,0 +1,5 @@
+# Paris map markers: 1 NPC, 3 spot, 4 individual
+3	64	155	Death Cow / Death Gorgon / Devil / Elite Orc / Metal Balrog / Orc Archer / Schriker 2 x215
+3	68	91	Axe Warrior / Bloody Wolf / Cursed King / Elite Orc / Iron Wheel / Orc Archer / Queen Rainer x2
+3	134	97	Cyclops / Gorgon / Hell Hound / Hell Spider / Poison Bull / Shadow / Skeleton Archer x215
+3	136	168	Cursed Wizard / Dark Knight / Death Cow / Death Gorgon / Death Knight / Hydra / Poison Shadow x

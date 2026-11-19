@@ -1,92 +1,46 @@
 /* Breda: the dungeon tracker (dungeon_tracker.rml): the run on the left of the screen and the result
-
    in the middle, with the images of MuDream (data/ui/dungeon/). The document covers the screen and
-
    takes no pointer, only its buttons do. Sizes in dp. */
 
-
-
 body {
-
 	position: absolute;
-
 	left: 0;
-
 	top: 0;
-
 	right: 0;
-
 	bottom: 0;
-
 	font-family: "token(font-body)";
-
 	font-size: 9dp;
-
 	pointer-events: none;
-
 }
 
-
-
 @spritesheet dgt-box-sheet { src: "../../../Dungeon/box_left.tga"; dgt-box: 0px 0px 428px 406px; }
-
 @spritesheet dgt-frame-sheet { src: "../../../Dungeon/frame.tga"; dgt-frame: 0px 0px 1084px 748px; }
-
 @spritesheet dgt-button-sheet { src: "../../../Dungeon/start.tga"; dgt-button: 0px 0px 252px 68px; dgt-button-hover: 0px 68px 252px 68px; dgt-button-down: 0px 136px 252px 68px; }
 
-
-
 /* The run: on the left, a quarter down the screen. */
-
 #dgt_box { position: absolute; left: 8dp; top: 26%; width: 190dp; height: 92dp; decorator: image(dgt-box); }
-
 #dgt_title { position: absolute; left: 0; top: 3dp; width: 190dp; text-align: center; color: #ffd27a; font-weight: bold; white-space: nowrap; font-effect: outline(1px #000000); }
-
 #dgt_count { position: absolute; left: 10dp; top: 22dp; color: #ffffff; white-space: nowrap; font-effect: outline(1px #000000); }
-
 #dgt_state { position: absolute; left: 10dp; top: 37dp; color: #7fd4ff; font-weight: bold; white-space: nowrap; font-effect: outline(1px #000000); }
-
 #dgt_time { position: absolute; left: 10dp; top: 52dp; width: 172dp; color: #ffb060; white-space: nowrap; font-effect: outline(1px #000000); }
 
-
-
 .dgt-button { position: absolute; width: 80dp; height: 21dp; decorator: image(dgt-button); pointer-events: auto; }
-
 .dgt-button:hover { decorator: image(dgt-button-hover); }
-
 .dgt-button:active { decorator: image(dgt-button-down); }
-
 .dgt-button-label { position: absolute; left: 0; top: 5dp; width: 80dp; text-align: center; color: #ffffff; font-weight: bold; white-space: nowrap; font-effect: outline(1px #000000); }
-
 #dgt_start { left: 10dp; top: 67dp; }
-
 #dgt_leave { left: 100dp; top: 67dp; }
 
-
-
 /* The result: in the middle of the screen. */
-
 #dgt_result { position: absolute; left: 50%; top: 30%; width: 300dp; height: 207dp; margin-left: -150dp; decorator: image(dgt-frame); background-color: #0b0a10e8; pointer-events: auto; }
-
 #dgt_result_title { position: absolute; left: 0; top: 5dp; width: 300dp; text-align: center; color: #e8d9a8; font-size: 10dp; font-weight: bold; font-effect: outline(1px #000000); }
-
 #dgt_result_line1 { position: absolute; left: 0; top: 46dp; width: 300dp; text-align: center; color: #ff7070; font-size: 11dp; font-weight: bold; font-effect: outline(1px #000000); }
-
 #dgt_result.success #dgt_result_line1 { color: #7fe07f; }
-
 #dgt_result_line2 { position: absolute; left: 0; top: 68dp; width: 300dp; text-align: center; color: #e0e0e0; font-effect: outline(1px #000000); }
-
 #dgt_result_time { position: absolute; left: 0; top: 98dp; width: 300dp; text-align: center; color: #ffd27a; font-effect: outline(1px #000000); }
-
 #dgt_result_experience { position: absolute; left: 0; top: 116dp; width: 300dp; text-align: center; color: #7fd4ff; font-effect: outline(1px #000000); }
-
 #dgt_ok { left: 110dp; top: 160dp; }
-
-
 
 .dgt-toggle {display:none;}
 
-
-
 #dgt_drag {display:none;}
-

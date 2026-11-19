@@ -1,0 +1,90 @@
+# Paris map markers: 1 NPC, 3 spot, 4 individual
+3	73	79	Elite Bull Fighter x5
+3	74	47	Elite Bull Fighter x5
+3	84	124	Giant x5
+3	98	92	Elite Bull Fighter x5
+3	100	42	Elite Bull Fighter x5
+3	129	195	Lich x5
+3	133	178	Skeleton Warrior x5
+3	140	217	Lich x5
+3	141	77	Bull Fighter x5
+3	144	189	Skeleton Warrior x5
+3	150	64	Hell Hound x5
+3	150	174	Skeleton Warrior x5
+3	167	68	Bull Fighter x5
+3	174	113	Spider x5
+3	178	133	Spider x5
+3	181	105	Budge Dragon x5
+3	188	119	Spider x5
+3	191	96	Budge Dragon x5
+3	193	152	Budge Dragon x5
+3	196	134	Budge Dragon x5
+3	198	91	Spider x5
+3	198	162	Budge Dragon x5
+3	202	102	Spider x5
+3	203	167	Spider x5
+3	207	115	Spider x5
+3	207	145	Spider x5
+4	29	76	Giant x1
+4	30	93	Giant x1
+4	30	186	Giant x1
+4	41	122	Elite Bull Fighter x1
+4	43	208	Giant x1
+4	48	140	Elite Bull Fighter x1
+4	50	87	Giant x1
+4	54	189	Elite Bull Fighter x1
+4	54	204	Elite Bull Fighter x1
+4	61	103	Elite Bull Fighter x1
+4	61	210	Giant x1
+4	68	131	Elite Bull Fighter x1
+4	77	201	Giant x1
+4	80	220	Giant x1
+4	89	59	Skeleton Warrior x1
+4	110	79	Skeleton Warrior x1
+4	114	70	Skeleton Warrior x1
+4	118	76	Skeleton Warrior x1
+4	124	201	Elite Bull Fighter x1
+4	129	211	Elite Bull Fighter x1
+4	138	199	Elite Bull Fighter x1
+4	154	178	Spider x1
+4	155	220	Elite Bull Fighter x1
+4	163	185	Spider x1
+4	181	149	Spider x1
+4	183	103	Spider x1
+4	187	151	Budge Dragon x1
+4	190	116	Spider x1
+4	190	146	Spider x1
+4	190	156	Spider x1
+4	193	116	Budge Dragon x1
+4	201	114	Spider x1
+4	211	110	Budge Dragon x1
+4	213	85	Budge Dragon x1
+4	215	95	Budge Dragon x1
+4	233	111	Budge Dragon x1
+1	62	130	Alex
+1	94	125	Berdysh Guard
+1	94	130	Berdysh Guard
+1	96	129	Elf Soldier
+1	116	141	Hanzo The Blacksmith
+1	118	113	Pasi The Mage
+1	123	110	Pet Trainer
+1	123	135	Lumen the Barmaid
+1	126	144	Wandering Merchant Martin
+1	127	86	Potion Girl Amy
+1	130	134	Wandering Merchant Harold
+1	131	88	Berdysh Guard
+1	131	127	Gatekeeper Titus
+1	131	130	GameMaster
+1	131	148	Berdysh Guard
+1	132	90	Elf Soldier
+1	132	165	Elf Soldier
+1	134	127	Leina the General Goods Merchant
+1	134	129	Fireworks Girl
+1	140	139	Rhea
+1	140	152	Leina the General Goods Merchant
+1	146	110	Baz The Vault Keeper
+1	147	145	Baz The Vault Keeper
+1	154	145	Berdysh Guard
+1	170	129	Elf Soldier
+1	173	125	Berdysh Guard
+1	183	137	Wandering Merchant Harold

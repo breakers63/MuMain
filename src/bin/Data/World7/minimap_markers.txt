@@ -1,0 +1,36 @@
+# Paris map markers: 1 NPC, 3 spot, 4 individual
+3	10	94	Red Skeleton Knight 3 x5
+3	11	38	Magic Skeleton 3 x5
+3	11	57	Red Skeleton Knight 3 x5
+3	11	75	Phantom Knight x5
+3	15	116	Drakan x5
+3	20	8	Drakan x5
+3	29	39	Alquamos x5
+3	29	76	Drakan x5
+3	29	93	Drakan x5
+3	30	57	Magic Skeleton 3 x5
+3	40	114	Mega Crust x5
+3	47	10	Drakan x5
+3	47	38	Magic Skeleton 3 x5
+3	47	86	Mutant x5
+3	48	57	Red Skeleton Knight 3 x5
+3	48	69	Mutant x5
+3	66	8	Red Skeleton Knight 3 x5
+3	66	62	Metal Balrog x5
+3	66	85	Metal Balrog x5
+3	69	101	Bloody Wolf x5
+3	76	113	Red Skeleton Knight 3 x5
+3	82	81	Red Skeleton Knight 3 x5
+3	83	14	Magic Skeleton 3 x5
+3	83	45	Magic Skeleton 3 x5
+3	88	96	Mega Crust x5
+3	97	116	Phantom Knight x5
+3	98	5	Red Skeleton Knight 3 x5
+3	98	24	Red Skeleton Knight 3 x5
+3	99	60	Magic Skeleton 3 x5
+4	29	150	Dummie Wizard x1
+4	29	160	Dummie Knight x1
+4	29	172	Dummie Elf x1
+4	29	183	Dummie Gladiator x1
+4	41	183	Dummie Lord x1
+1	61	118	Arena Guard

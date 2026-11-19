@@ -1,0 +1,4 @@
+# Paris map markers: 1 NPC, 3 spot, 4 individual
+1	113	116	Christine the General Goods Merchant
+1	123	140	Market Union Member Julia
+1	131	109	Jeweler Raul

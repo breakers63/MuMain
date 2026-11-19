@@ -1,0 +1,20 @@
+# Paris map markers: 1 NPC, 3 spot, 4 individual
+3	64	64	Hideous Rabbit / Werewolf x75
+3	67	176	Strange Rabbit x80
+3	125	186	Polluted Butterfly x45
+3	187	72	Captain Grizzly / Cursed Lich / Grizzly / Totem Golem x90
+1	20	214	David
+1	22	225	Moss The Merchant
+1	29	237	Rhea
+1	37	218	Marce
+1	37	242	Lahap
+1	44	189	Elf Soldier
+1	44	229	Silvia
+1	45	243	Seed Master
+1	49	216	Lugard
+1	49	243	Seed Researcher
+1	51	229	Baz The Vault Keeper
+1	55	199	Wandering Merchant Zyro
+1	55	243	Mirage
+1	57	231	Elf Soldier
+1	74	219	Elf Soldier

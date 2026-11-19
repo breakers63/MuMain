@@ -1,0 +1,60 @@
+# Paris map markers: 1 NPC, 3 spot, 4 individual
+4	21	198	Statue x1
+4	26	191	Eric the Guard x1
+4	29	186	Defender x1
+4	29	192	Forsaker x1
+4	32	90	Rush Gate x1
+4	32	195	Eric the Guard x1
+4	34	176	Rush Gate x1
+4	34	187	Defender x1
+4	34	194	Forsaker x1
+4	36	191	Raymond x1
+4	39	186	Defender x1
+4	39	192	Forsaker x1
+4	39	196	Eric the Guard x1
+4	47	199	Statue x1
+4	50	69	Star Gate x1
+4	52	77	Statue x1
+4	52	191	Star Gate x1
+4	53	61	Statue x1
+4	54	68	Eric the Guard x1
+4	55	66	Eric the Guard x1
+4	55	71	Eric the Guard x1
+4	57	69	Lucas x1
+4	61	64	Forsaker x1
+4	61	69	Forsaker x1
+4	61	74	Forsaker x1
+4	64	65	Defender x1
+4	64	69	Defender x1
+4	64	73	Defender x1
+4	69	166	Rush Gate x1
+4	81	69	Rush Gate x1
+4	156	132	Rush Gate x1
+4	161	127	Statue x1
+4	161	139	Statue x1
+4	170	133	Defender x1
+4	173	129	Defender x1
+4	173	137	Defender x1
+4	177	133	Jerry x1
+4	181	129	Forsaker x1
+4	181	133	Forsaker x1
+4	181	137	Forsaker x1
+4	183	21	Eric the Guard x1
+4	183	24	Gayion The Gladiator x1
+4	183	29	Eric the Guard x1
+4	184	129	Eric the Guard x1
+4	184	133	Eric the Guard x1
+4	184	137	Eric the Guard x1
+4	187	20	Eric the Guard x1
+4	187	32	Eric the Guard x1
+4	189	21	Forsaker x1
+4	189	26	Forsaker x1
+4	189	31	Forsaker x1
+4	192	21	Defender x1
+4	192	31	Defender x1
+4	194	26	Defender x1
+4	197	132	Star Gate x1
+4	207	20	Statue x1
+4	207	32	Statue x1
+4	214	24	Rush Gate x1
+4	224	159	Rush Gate x1

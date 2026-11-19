@@ -1,0 +1,33 @@
+# Paris map markers: 1 NPC, 3 spot, 4 individual
+3	180	95	Devil Lord / Fred x2
+4	152	30	Statue x1
+4	154	53	Lion Gate x1
+4	157	30	Statue x1
+4	173	26	Combat Instructor x1
+4	174	89	Eric the Guard x1
+4	174	95	Forsaker x1
+4	174	99	Statue x1
+4	177	26	Forsaker x1
+4	178	95	Forsaker x1
+4	179	19	Forsaker x1
+4	179	33	Forsaker x1
+4	180	79	Lion Gate x1
+4	180	91	Eric the Guard x1
+4	185	26	Defender x1
+4	186	90	Eric the Guard x1
+4	186	95	Forsaker x1
+4	186	100	Statue x1
+4	187	21	Defender x1
+4	187	31	Defender x1
+4	194	25	Lion Gate x1
+4	216	80	Lion Gate x1
+4	217	72	Statue x1
+4	218	85	Statue x1
+4	225	40	Ocelot the Lord x1
+4	225	48	Forsaker x1
+4	232	40	Ocelot the Lord x1
+4	232	45	Quarter Master x1
+4	232	48	Forsaker x1
+4	234	28	Lion Gate x1
+4	239	40	Ocelot the Lord x1
+4	239	48	Forsaker x1

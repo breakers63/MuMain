@@ -1,0 +1,19 @@
+# Paris map markers: 1 NPC, 3 spot, 4 individual
+3	99	106	Persona x5
+3	100	80	Persona x5
+3	108	156	Persona x5
+3	119	136	Persona x5
+3	120	80	Persona x5
+3	125	96	Persona x5
+3	140	80	Persona x5
+3	144	102	Persona x5
+3	154	149	Twin Tale x5
+3	155	130	Twin Tale x5
+3	156	114	Twin Tale x5
+3	169	97	Persona x5
+3	178	142	Persona x5
+3	189	104	Persona x5
+3	197	135	Persona x5
+1	138	148	Crossbow Guard
+1	155	101	Crossbow Guard
+1	196	125	Crossbow Guard

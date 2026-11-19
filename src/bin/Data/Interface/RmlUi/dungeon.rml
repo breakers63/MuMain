@@ -1,156 +1,78 @@
 <rml>
-
 <head>
-
 	<title>Dungeon</title>
-
 	<link type="text/rcss" href="base.rcss"/>
-
 	<link type="text/rcss" href="dungeon.rcss"/>
-
 </head>
-
 <body data-model="dungeon">
-
 	<!-- Breda: CDungeonWindow (UI/Breda/DungeonWindow.h), opened at the Dungeon Entrance NPC. The
-
 	     server (plugin Breda.Dungeons) sends the dungeons and the difficulties; the images are the
-
 	     ones of MuDream (data/ui/dungeon). -->
-
 	<div id="dg_panel" data-class-loading="waiting">
-
 		<div id="dg_frame"></div>
-
 		<span id="dg_title">{{title}}</span>
-
 		<div id="dg_close" data-event-click="window_close"></div>
 
-
-
 		<!-- Left: the dungeons. -->
-
 		<span id="dg_select_label">{{select_label}}</span>
-
 		<div id="dg_list">
-
 			<div class="dg-dungeon" data-for="d : dungeons" data-class-selected="d.selected" data-class-inactive="!d.active"
-
 			     data-class-party="d.party" data-class-kanturu="d.id == 1" data-class-crywolf="d.id == 3" data-class-karutan="d.id == 4" data-class-kardamahal="d.id == 0" data-event-click="dg_dungeon(d.index)">
-
 				<div class="dg-reference-card"></div>
-
                 <img class="dg-dungeon-image" data-attr-src="d.button_src"/>
-
 				<div class="dg-dungeon-frame"><span class="dg-edge dg-edge-top"></span><span class="dg-edge dg-edge-bottom"></span><span class="dg-edge dg-edge-left"></span><span class="dg-edge dg-edge-right"></span></div>
-
 				<span class="dg-dungeon-name">{{d.name}}</span>
-
 			</div>
-
 		</div>
-
-
 
 		<!-- Right: the selected dungeon. -->
-
 		<div id="dg_art_box" data-class-kanturu="dungeon_name == 'Kanturu'">
-
             <div id="dg_reference_art"></div>
-
 			<img id="dg_art" data-attr-src="art_src"/>
-
 			<div id="dg_desc_box">
-
 				<span id="dg_name">{{dungeon_name}}</span>
-
 				<span id="dg_desc">{{description}}</span>
-
 			</div>
-
 		</div>
-
-
 
 		<span id="dg_difficulty_label">{{difficulty_label}}</span>
-
 		<div id="dg_difficulty_backdrop"></div>
-
         <div id="dg_difficulties">
-
 			<div class="dg-difficulty" data-for="f : difficulties" data-class-selected="f.selected" data-class-locked="!f.meets"
-
 			     data-event-click="dg_difficulty(f.index)" data-class-normal="f.id == 0" data-class-hard="f.id == 1" data-class-master="f.id == 2">
-
                 <div class="dg-clean-frame dg-neutral"><span class="dg-piece dg-piece-tl"></span><span class="dg-piece dg-piece-t"></span><span class="dg-piece dg-piece-tr"></span><span class="dg-piece dg-piece-l"></span><span class="dg-piece dg-piece-r"></span><span class="dg-piece dg-piece-bl"></span><span class="dg-piece dg-piece-b"></span><span class="dg-piece dg-piece-br"></span></div><div class="dg-clean-frame dg-glow"><span class="dg-piece dg-piece-tl"></span><span class="dg-piece dg-piece-t"></span><span class="dg-piece dg-piece-tr"></span><span class="dg-piece dg-piece-l"></span><span class="dg-piece dg-piece-r"></span><span class="dg-piece dg-piece-bl"></span><span class="dg-piece dg-piece-b"></span><span class="dg-piece dg-piece-br"></span></div><div class="dg-reference-icon"></div><div class="dg-reference-caption"></div>
-
                 <div class="dg-difficulty-frame"><span class="dg-edge dg-edge-top"></span><span class="dg-edge dg-edge-bottom"></span><span class="dg-edge dg-edge-left"></span><span class="dg-edge dg-edge-right"></span></div>
-
 				<img class="dg-difficulty-icon" data-attr-src="f.icon_src"/>
-
 				<span class="dg-difficulty-name">{{f.name}}</span>
-
 			</div>
-
 		</div>
-
-
 
         <div id="dg_boost" class="dg-box">
-
             <div class="dg-table-background"></div>
-
             <span class="dg-box-title">{{boost_label}}</span>
-
             <div class="dg-stat-row dg-row-1"><span>Vida de monstruos</span><span class="dg-value dg-good">{{health_text}}</span></div>
-
             <div class="dg-stat-row dg-row-2"><span>Dano de monstruos</span><span class="dg-value dg-good">{{damage_text}}</span></div>
-
             <div class="dg-stat-row dg-row-3"><span>Defensa de monstruos</span><span class="dg-value dg-good">{{defense_text}}</span></div>
-
             <div class="dg-stat-row dg-row-4"><span>Experiencia</span><span class="dg-value dg-good">{{experience_text}}</span></div>
-
         </div>
-
         <div id="dg_requirements" class="dg-box" data-attr-title="requirement_text">
-
             <div class="dg-table-background"></div>
-
             <span class="dg-box-title">{{requirements_label}}</span>
-
             <div class="dg-stat-row dg-row-1"><span>Nivel minimo</span><span class="dg-value" data-class-dg-bad="!requirement_met">{{minimum_level}}</span></div>
-
             <div class="dg-stat-row dg-row-2"><span>Resets permitidos</span><span class="dg-value">{{resets_range}}</span></div>
-
             <div class="dg-stat-row dg-row-3"><span>Tus resets</span><span class="dg-value" data-class-dg-bad="!requirement_met">{{your_resets}}</span></div>
-
             <div class="dg-stat-row dg-row-4"><span>Entradas usadas</span><span class="dg-value" data-class-dg-bad="!entries_met">{{entries_text}}</span></div>
-
             <div class="dg-stat-row dg-row-5"><span>Objeto requerido</span><span class="dg-value" data-class-dg-bad="!item_met">{{item_text}}</span></div>
-
         </div>
-
-
 
         
-
 		<span id="dg_page_previous">&lt; Anterior</span><span id="dg_page">1 / 1</span><span id="dg_page_next">Siguiente &gt;</span>
-
         <span id="dg_power_label">PODER DE COMBATE</span><span id="dg_power">{{power_text}}</span>
-
         <div id="dg_footer_close" data-event-click="window_close">CERRAR</div>
-
 		<span id="dg_status">{{status_text}}</span>
-
 		<div id="dg_join" data-class-disabled="!can_join" data-event-click="dg_join">
-
 			<span id="dg_join_label">{{join_label}}</span>
-
 		</div>
-
 	</div>
-
 </body>
-
 </rml>
-

@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>Launcher</AssemblyName>
+    <RootNamespace>ParisLauncher</RootNamespace>
+    <Version>2.1.0</Version>
+    <ApplicationIcon>Assets/launcher-icon.ico</ApplicationIcon>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <PublishSingleFile>true</PublishSingleFile>
+    <SelfContained>true</SelfContained>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+    <DebugType>none</DebugType>
+  </PropertyGroup>
+  <ItemGroup><Resource Include="Assets/mu-classic-transparent.png" /><Resource Include="Assets/cs-classic-transparent.png" /><Resource Include="Assets/Flags/*.png" /><Resource Include="Assets/vpn-paris.png" /><Resource Include="Assets/home-hero-v3.png" /><Resource Include="Assets/home-hero-exact.png" /><Resource Include="Assets/home-mu-card-hd.png" /><Resource Include="Assets/home-cs-card-reference.png" /><Resource Include="Assets/mu-wordmark-exact.png" /><Resource Include="Assets/counter-strike-paris.png" /><Resource Include="Assets/launcher-art.png" /><Resource Include="Assets/paris-background-v2.png" /><Resource Include="Assets/paris-elf-v2.png" /><Resource Include="Assets/mu-paris-logo.png" /><Resource Include="Assets/launcher-icon.png" /></ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+</Project>

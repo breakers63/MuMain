@@ -1,0 +1,5 @@
+Magic number: 55
+x,y,z for first selected vertex: -110.425 -865.082 123.38 !
+total number of verts: 55
+number of unique verts found: 55
+number of selected vertices: 55

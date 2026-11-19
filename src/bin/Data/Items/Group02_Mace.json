@@ -93,7 +93,7 @@
         "es": "Gran Martillo",
         "pt": "Martelo grande"
       },
-      "width": 2,
+      "width": 1,
       "height": 3,
       "slot": "mainHand",
       "twoHanded": true,
@@ -121,7 +121,7 @@
         "es": "Estrella del Alba de Cristal",
         "pt": "Estrela da manhã de cristal"
       },
-      "width": 2,
+      "width": 1,
       "height": 3,
       "slot": "mainHand",
       "twoHanded": true,
@@ -151,7 +151,7 @@
         "es": "Espada de Cristal",
         "pt": "Espada de cristal"
       },
-      "width": 2,
+      "width": 1,
       "height": 4,
       "slot": "mainHand",
       "twoHanded": true,
@@ -368,7 +368,10 @@
         "es": "Cetro Divino de Arcángel",
         "pt": "Cetro divino do arcanjo"
       },
-      "tags": ["divineArchangelWeapon", "valuable"],
+      "tags": [
+        "divineArchangelWeapon",
+        "valuable"
+      ],
       "width": 1,
       "height": 4,
       "slot": "mainHand",

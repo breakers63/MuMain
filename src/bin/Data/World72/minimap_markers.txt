@@ -1,0 +1,33 @@
+# Paris map markers: 1 NPC, 3 spot, 4 individual
+3	166	233	Dual Berserker / Raymond x2
+4	89	195	Lion Gate x1
+4	111	192	Statue x1
+4	111	197	Statue x1
+4	124	192	Forsaker x1
+4	126	185	Forsaker x1
+4	126	199	Forsaker x1
+4	127	192	Banshee x1
+4	131	192	Ocelot the Lord x1
+4	132	185	Ocelot the Lord x1
+4	132	199	Ocelot the Lord x1
+4	146	191	Lion Gate x1
+4	158	236	Statue x1
+4	161	231	Forsaker x1
+4	162	226	Eric the Guard x1
+4	164	233	Forsaker x1
+4	166	228	Eric the Guard x1
+4	167	217	Lion Gate x1
+4	171	226	Eric the Guard x1
+4	171	233	Forsaker x1
+4	175	238	Statue x1
+4	217	140	Defender x1
+4	218	148	Forsaker x1
+4	220	173	Statue x1
+4	222	134	Lion Gate x1
+4	222	142	Defender x1
+4	222	147	Head Mounter x1
+4	222	152	Forsaker x1
+4	223	193	Lion Gate x1
+4	224	173	Statue x1
+4	227	148	Forsaker x1
+4	228	140	Defender x1

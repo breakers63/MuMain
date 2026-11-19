@@ -1,0 +1,46 @@
+# Paris map markers: 1 NPC, 3 spot, 4 individual
+3	26	213	Dark Iron Knight x5
+3	31	116	Dark Giant x5
+3	33	100	Dark Mammoth x5
+3	35	49	Dark Mammoth x5
+3	36	74	Dark Mammoth x5
+3	43	226	Dark Iron Knight x5
+3	47	150	Dark Giant x5
+3	56	90	Dark Mammoth x5
+3	57	184	Dark Iron Knight x5
+3	60	163	Dark Coolutin x5
+3	63	40	Dark Iron Knight x5
+3	66	25	Dark Iron Knight x5
+3	68	140	Dark Giant x5
+3	80	118	Iron Knight x5
+3	93	197	Ice Giant x5
+3	94	217	Ice Giant x5
+3	107	106	Iron Knight x5
+3	114	157	Ice Giant x5
+3	120	42	Dark Coolutin x5
+3	121	213	Giant Mammoth x5
+3	125	94	Coolutin x5
+3	137	23	Dark Coolutin x5
+3	139	107	Coolutin x5
+3	140	138	Coolutin x5
+3	147	221	Giant Mammoth x5
+3	156	118	Coolutin x5
+3	161	181	Ice Walker x5
+3	165	135	Coolutin x5
+3	165	186	Ice Walker x5
+3	167	78	Dark Iron Knight x5
+3	173	187	Ice Walker x5
+3	175	25	Dark Iron Knight x5
+3	175	220	Giant Mammoth x5
+3	191	58	Dark Iron Knight x5
+3	193	124	Dark Giant x5
+3	205	28	Dark Iron Knight x5
+3	212	161	Dark Coolutin x5
+3	220	61	Dark Iron Knight x5
+3	224	85	Dark Coolutin x5
+3	233	141	Dark Coolutin x5
+3	234	117	Dark Coolutin x5
+1	197	106	Crossbow Guard
+1	219	38	Marce
+1	221	38	Baz The Vault Keeper
+1	221	82	Crossbow Guard

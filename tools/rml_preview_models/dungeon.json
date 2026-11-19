@@ -1,0 +1,93 @@
+{
+  "states": {
+    "kanturu": {
+      "title": "MAZMORRAS MU PARIS",
+      "select_label": "Selecciona una mazmorra",
+      "difficulty_label": "Dificultad",
+      "boost_label": "Estadisticas de la dificultad",
+      "requirements_label": "Requisitos",
+      "art_src": "../Dungeon/art_2.png",
+      "dungeon_name": "Kanturu",
+      "description": "Completa las cuatro etapas y derrota al jefe de tu instancia",
+      "power_text": "Poder 15000",
+      "health_text": "Vida 100%",
+      "damage_text": "Dano 100%",
+      "defense_text": "Defensa 100%",
+      "experience_text": "Experiencia 100%",
+      "requirement_text": "Nivel 150",
+      "entries_text": "Entradas restantes 3 de 3",
+      "item_text": "Sin ticket",
+      "requirement_met": true,
+      "entries_met": true,
+      "item_met": true,
+      "join_label": "ENTRAR",
+      "can_join": true,
+      "status_text": "",
+      "waiting": false,
+      "dungeons": [
+        {
+          "index": 0,
+          "id": 1,
+          "name": "Kanturu",
+          "button_src": "../Dungeon/button_2.png",
+          "active": true,
+          "selected": true,
+          "party": false
+        },
+        {
+          "index": 1,
+          "id": 3,
+          "name": "Curse of Crywolf",
+          "button_src": "../Dungeon/button_4.png",
+          "active": true,
+          "selected": false,
+          "party": false
+        },
+        {
+          "index": 2,
+          "id": 4,
+          "name": "Karutan Underground",
+          "button_src": "../Dungeon/button_5.png",
+          "active": true,
+          "selected": false,
+          "party": false
+        },
+        {
+          "index": 3,
+          "id": 0,
+          "name": "Kardamahal",
+          "button_src": "../Dungeon/button_1.png",
+          "active": true,
+          "selected": false,
+          "party": false
+        }
+      ],
+      "difficulties": [
+        {
+          "index": 0,
+          "id": 0,
+          "name": "Normal",
+          "icon_src": "../Dungeon/difficulty_1.png",
+          "selected": true,
+          "meets": true
+        },
+        {
+          "index": 1,
+          "id": 1,
+          "name": "Hard",
+          "icon_src": "../Dungeon/difficulty_2.png",
+          "selected": false,
+          "meets": true
+        },
+        {
+          "index": 2,
+          "id": 2,
+          "name": "Master",
+          "icon_src": "../Dungeon/difficulty_3.png",
+          "selected": false,
+          "meets": true
+        }
+      ]
+    }
+  }
+}

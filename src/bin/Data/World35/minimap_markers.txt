@@ -1,0 +1,196 @@
+# Paris map markers: 1 NPC, 3 spot, 4 individual
+3	22	90	Bow Scout x5
+3	22	140	Werewolf x5
+3	46	200	Werewolf(Hero) x5
+3	82	8	Hammer Scout x5
+3	142	168	Soram x5
+3	145	222	Balram x5
+3	161	7	Lance Scout x5
+3	224	98	Scout(Hero) x5
+3	224	129	Scout(Hero) x5
+4	22	164	Soram x1
+4	23	156	Scout(Hero) x1
+4	24	131	Werewolf x1
+4	25	88	Bow Scout x1
+4	25	145	Werewolf x1
+4	26	100	Lance Scout x1
+4	26	115	Bow Scout x1
+4	27	164	Soram x1
+4	28	122	Lance Scout x1
+4	29	156	Scout(Hero) x1
+4	30	88	Bow Scout x1
+4	30	172	Werewolf(Hero) x1
+4	33	130	Werewolf x1
+4	35	78	Lance Scout x1
+4	41	171	Soram x1
+4	46	123	Werewolf x1
+4	47	53	Lance Scout x1
+4	47	65	Lance Scout x1
+4	47	184	Balram x1
+4	49	194	Werewolf(Hero) x1
+4	51	213	Werewolf(Hero) x1
+4	52	171	Werewolf(Hero) x1
+4	54	217	Balram x1
+4	56	115	Bow Scout x1
+4	56	164	Soram x1
+4	58	47	Hammer Scout x1
+4	59	211	Werewolf(Hero) x1
+4	60	38	Hammer Scout x1
+4	65	27	Hammer Scout x1
+4	65	148	Scout(Hero) x1
+4	65	229	Soram x1
+4	66	217	Balram x1
+4	68	115	Bow Scout x1
+4	68	224	Werewolf(Hero) x1
+4	70	37	Hammer Scout x1
+4	71	109	Werewolf x1
+4	73	210	Werewolf(Hero) x1
+4	74	25	Hammer Scout x1
+4	76	145	Werewolf x1
+4	77	32	Hammer Scout x1
+4	78	51	Hammer Scout x1
+4	78	88	Bow Scout x1
+4	79	43	Hammer Scout x1
+4	79	78	Lance Scout x1
+4	79	115	Bow Scout x1
+4	82	20	Hammer Scout x1
+4	82	67	Lance Scout x1
+4	82	107	Werewolf x1
+4	82	130	Werewolf x1
+4	83	101	Bow Scout x1
+4	83	217	Balram x1
+4	84	201	Balram x1
+4	85	227	Werewolf(Hero) x1
+4	88	50	Hammer Scout x1
+4	88	60	Hammer Scout x1
+4	88	144	Werewolf x1
+4	90	88	Bow Scout x1
+4	92	156	Scout(Hero) x1
+4	92	219	Werewolf(Hero) x1
+4	94	54	Hammer Scout x1
+4	95	78	Lance Scout x1
+4	96	164	Soram x1
+4	98	60	Hammer Scout x1
+4	100	88	Bow Scout x1
+4	100	182	Werewolf(Hero) x1
+4	100	217	Balram x1
+4	102	171	Werewolf(Hero) x1
+4	103	71	Lance Scout x1
+4	103	206	Soram x1
+4	104	194	Balram x1
+4	113	78	Lance Scout x1
+4	114	88	Bow Scout x1
+4	114	164	Soram x1
+4	115	35	Wolf Altar4 x1
+4	115	204	Werewolf(Hero) x1
+4	115	221	Soram x1
+4	116	172	Soram x1
+4	117	27	Wolf Altar5 x1
+4	117	99	Lance Scout x1
+4	117	184	Balram x1
+4	117	193	Werewolf(Hero) x1
+4	119	108	Werewolf x1
+4	119	156	Scout(Hero) x1
+4	120	38	Wolf Altar3 x1
+4	121	31	Wolf Status x1
+4	122	78	Lance Scout x1
+4	122	115	Bow Scout x1
+4	123	130	Werewolf x1
+4	123	145	Werewolf x1
+4	124	88	Bow Scout x1
+4	125	27	Wolf Altar1 x1
+4	126	35	Wolf Altar2 x1
+4	133	195	Werewolf(Hero) x1
+4	133	214	Werewolf(Hero) x1
+4	134	215	Balram x1
+4	135	69	Lance Scout x1
+4	135	88	Bow Scout x1
+4	138	78	Lance Scout x1
+4	140	227	Soram x1
+4	145	99	Bow Scout x1
+4	145	174	Soram x1
+4	145	208	Werewolf(Hero) x1
+4	146	68	Lance Scout x1
+4	146	88	Bow Scout x1
+4	146	184	Balram x1
+4	147	164	Soram x1
+4	148	195	Werewolf(Hero) x1
+4	149	110	Werewolf x1
+4	150	60	Hammer Scout x1
+4	153	215	Balram x1
+4	155	98	Werewolf x1
+4	155	115	Bow Scout x1
+4	156	69	Lance Scout x1
+4	156	84	Bow Scout x1
+4	157	78	Lance Scout x1
+4	159	49	Lance Scout x1
+4	159	60	Hammer Scout x1
+4	159	156	Scout(Hero) x1
+4	159	206	Werewolf(Hero) x1
+4	161	194	Balram x1
+4	162	41	Hammer Scout x1
+4	163	130	Werewolf x1
+4	164	24	Hammer Scout x1
+4	164	144	Werewolf x1
+4	168	88	Bow Scout x1
+4	168	227	Soram x1
+4	169	60	Hammer Scout x1
+4	170	47	Lance Scout x1
+4	170	78	Lance Scout x1
+4	170	208	Werewolf(Hero) x1
+4	171	148	Scout(Hero) x1
+4	173	97	Lance Scout x1
+4	173	184	Balram x1
+4	174	54	Lance Scout x1
+4	175	197	Werewolf(Hero) x1
+4	176	32	Hammer Scout x1
+4	177	78	Lance Scout x1
+4	177	156	Scout(Hero) x1
+4	177	167	Soram x1
+4	178	26	Hammer Scout x1
+4	178	88	Bow Scout x1
+4	179	48	Hammer Scout x1
+4	185	35	Hammer Scout x1
+4	191	28	Hammer Scout x1
+4	192	88	Bow Scout x1
+4	194	44	Hammer Scout x1
+4	195	33	Hammer Scout x1
+4	197	78	Lance Scout x1
+4	197	145	Werewolf x1
+4	199	60	Hammer Scout x1
+4	199	200	Werewolf(Hero) x1
+4	201	40	Hammer Scout x1
+4	201	89	Bow Scout x1
+4	202	98	Bow Scout x1
+4	204	130	Werewolf x1
+4	205	46	Hammer Scout x1
+4	206	45	Hammer Scout x1
+4	206	110	Werewolf x1
+4	210	88	Lance Scout x1
+4	211	69	Lance Scout x1
+4	212	193	Balram x1
+4	214	60	Hammer Scout x1
+4	217	94	Bow Scout x1
+4	218	110	Werewolf x1
+4	221	78	Lance Scout x1
+4	222	189	Werewolf(Hero) x1
+4	223	120	Lance Scout x1
+4	225	68	Lance Scout x1
+4	225	130	Werewolf x1
+4	226	180	Balram x1
+4	228	78	Lance Scout x1
+4	229	102	Bow Scout x1
+4	229	169	Soram x1
+4	230	88	Bow Scout x1
+4	230	110	Werewolf x1
+4	230	156	Scout(Hero) x1
+4	231	132	Werewolf x1
+4	231	144	Werewolf x1
+1	62	239	Werewolf Quarrel
+1	96	25	Lahap
+1	99	40	Wandering Merchant Martin
+1	113	56	Baz The Vault Keeper
+1	118	11	Guardsman
+1	135	47	Pet Trainer
+1	145	14	Hanzo The Blacksmith
+1	228	48	Priest Devin

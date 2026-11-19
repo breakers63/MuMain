@@ -1,0 +1,6 @@
+# Paris map markers: 1 NPC, 3 spot, 4 individual
+1	90	43	Pamela the Supplier
+1	90	218	Angela the Supplier
+1	167	194	Crown Switch1
+1	176	212	Crown
+1	184	195	Crown Switch2
