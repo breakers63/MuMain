@@ -3242,6 +3242,15 @@ int WaterTextureNumber = 0;
 
 
 
+static bool HasTerrainGrassCard(int layer)
+{
+    constexpr int KanturuDungeonMap = 137;
+    constexpr int KanturuGroundOnlyLayer = 1;
+    // World138/TileGrass02.OZT is an opaque 512x512 ground texture.
+    // The legacy grass pass would extrude it into 1024-unit solid walls.
+    return gMapManager.WorldActive != KanturuDungeonMap || layer != KanturuGroundOnlyLayer;
+}
+
 void RenderTerrainFace(float xf, float yf, int xi, int yi, float lodf)
 
 {
@@ -3361,6 +3370,7 @@ void RenderTerrainFace(float xf, float yf, int xi, int yi, float lodf)
         if (
 
             CurrentLayer == 0 && (gMapManager.InBloodCastle() == false)
+            && HasTerrainGrassCard(TerrainMappingLayer1[TerrainIndex1])
 
             )
 
