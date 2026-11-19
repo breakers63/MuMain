@@ -2,6 +2,9 @@
 #include "stdafx.h"
 #include "Core/Input/KeyState.h"
 #include "UI/Core/WindowCommon.h"
+#include "UI/Dialogs/ParisWindowGroup.h"
+#include "UI/Dialogs/ParisEventsWindow.h"
+#include "UI/Dialogs/ParisResetWindow.h"
 #include <algorithm>
 #include "I18N/All.h"
 
@@ -279,6 +282,7 @@ void mu::ui::window::CMainFrameWindow::BindRmlModel(Rml::DataModelConstructor& c
             m_ItemHotKey.OnHotkeySlotRightClick(args.empty() ? 0 : args[0].Get<int>());
         });
 
+    BindParisShortcuts(c);
     c.BindEventCallback("mainframe_cshop_click",
         [this](Rml::DataModelHandle, Rml::Event&, const Rml::VariantList&) { RmlClickCShop(); });
     c.BindEventCallback("mainframe_chainfo_click",
@@ -301,6 +305,40 @@ void mu::ui::window::CMainFrameWindow::BindRmlModel(Rml::DataModelConstructor& c
         });
     c.BindEventCallback("mainframe_window_click",
         [this](Rml::DataModelHandle, Rml::Event&, const Rml::VariantList&) { RmlClickWindow(); });
+}
+
+bool mu::ui::window::CMainFrameWindow::ParisShortcutsVisible() const
+{
+    if (!g_pNewUISystem || HasOpenParisWindow()) return false;
+    constexpr DWORD blockers[] = {INTERFACE_CHARACTER, INTERFACE_INVENTORY,
+        INTERFACE_STORAGE, INTERFACE_TRADE, INTERFACE_MYQUEST, INTERFACE_NPCQUEST,
+        INTERFACE_HELP, INTERFACE_GENERIC_CONFIRM_DIALOG,
+        INTERFACE_OPTION, INTERFACE_SYS_MENU, INTERFACE_NPCSHOP};
+    for (const auto key : blockers)
+        if (g_pNewUISystem->IsVisible(key)) return false;
+    return true;
+}
+
+void mu::ui::window::CMainFrameWindow::BindParisShortcuts(Rml::DataModelConstructor& constructor)
+{
+    constructor.Bind("paris_shortcuts_visible", &m_RmlView.GetModel().parisShortcutsVisible);
+    constructor.BindEventCallback("paris_shortcut",
+        [this](Rml::DataModelHandle, Rml::Event&, const Rml::VariantList& args)
+        {
+            if (args.empty() || !ParisShortcutsVisible()) return;
+            const auto action = args[0].Get<Rml::String>();
+            if (action == "menu") ShowParisCustomMenuDialog();
+            else if (action == "missions") g_pNewUISystem->Show(INTERFACE_MYQUEST);
+            else if (action == "events" && g_pParisEventsWindow) g_pParisEventsWindow->OpenWindow();
+            else if (action == "reset" && g_pParisResetWindow)
+            {
+                g_pNewUISystem->Show(INTERFACE_CHARACTER);
+                g_pParisResetWindow->OpenWindow();
+            }
+            m_RmlView.GetModel().parisShortcutsVisible = false;
+            m_RmlView.MarkDirty("paris_shortcuts_visible");
+            PlayBuffer(SOUND_CLICK01);
+        });
 }
 
 void mu::ui::window::CMainFrameWindow::OnRmlReloaded()
@@ -347,7 +385,9 @@ bool mu::ui::window::CMainFrameWindow::IsMouseOverHud() const
         return false;
     Rml::Context* context = m_RmlView.Document()->GetContext();
     Rml::Element* hover = context ? context->GetHoverElement() : nullptr;
-    return hover != nullptr && hover != m_RmlView.Document() && hover->GetOwnerDocument() == m_RmlView.Document();
+    if (!hover) return false;
+    const auto* owner = hover->GetOwnerDocument();
+    return hover != owner && (owner == m_RmlView.Document() || owner == m_RmlView.Document(1));
 }
 
 // RenderRightFrame()/RenderExperienceBackground()/RenderLifeMana()/RenderGuageAG()/RenderGuageSD()/
@@ -939,8 +979,18 @@ void mu::ui::window::CMainFrameWindow::SetBtnState(int iBtnType, bool bStateDown
 void mu::ui::window::CMainFrameWindow::SyncDocVisibility(bool sceneAllowsShow)
 {
     const bool show = IsVisible() && sceneAllowsShow;
+    const bool shortcutsVisible = show && ParisShortcutsVisible();
+    if (m_RmlView.GetModel().parisShortcutsVisible != shortcutsVisible)
+    {
+        m_RmlView.GetModel().parisShortcutsVisible = shortcutsVisible;
+        m_RmlView.MarkDirty("paris_shortcuts_visible");
+    }
+
+
+
 
     UI::RmlBridge::SyncDocumentVisibility(m_RmlView.Document(), show);
     m_ItemHotKey.SetSlotIconsShown(show);
     UI::RmlBridge::SyncDocumentVisibility(m_RmlView.Document(1), show);
 }
+

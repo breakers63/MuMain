@@ -3,6 +3,7 @@
 	<title>Main Frame Top</title>
 	<link type="text/rcss" href="base.rcss"/>
 	<link type="text/rcss" href="main_frame_top.rcss"/>
+	<link type="text/rcss" href="paris_shortcuts.rcss"/>
 </head>
 <body data-model="main_frame">
 	<!-- The corner buttons as a top-right panel, for a theme that wants them there instead of
@@ -34,3 +35,4 @@
 	</div>
 </body>
 </rml>
+

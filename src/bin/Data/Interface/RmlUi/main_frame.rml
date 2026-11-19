@@ -7,6 +7,7 @@
 	<link type="text/rcss" href="skill_icons.rcss"/>
 	<link type="text/rcss" href="master_skill_icons.rcss"/>
 	<link type="text/rcss" href="main_frame.rcss"/>
+	<link type="text/rcss" href="paris_shortcuts.rcss"/>
 </head>
 <body data-model="main_frame">
 	<!-- CMainFrameWindow's HUD, shared by every theme. #hud_layout is the one unit the workspace
@@ -153,5 +154,14 @@
 		</div>
 	</div>
 	</div>
+	<div id="paris_shortcut_anchor"><div id="paris_shortcuts" data-class-hidden="!paris_shortcuts_visible">
+		<div class="paris-shortcut shortcut-menu" data-hint="Menú" data-event-click="paris_shortcut('menu')"></div>
+		<div class="paris-shortcut shortcut-missions" data-hint="Misiones" data-event-click="paris_shortcut('missions')"></div>
+		<div class="paris-shortcut shortcut-events" data-hint="Eventos" data-event-click="paris_shortcut('events')"></div>
+		<div class="paris-shortcut shortcut-reset" data-hint="Reset" data-event-click="paris_shortcut('reset')"></div>
+	</div>
+
+</div>
 </body>
 </rml>
+

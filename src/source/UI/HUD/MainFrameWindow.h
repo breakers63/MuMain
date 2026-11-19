@@ -92,6 +92,8 @@ namespace mu::ui::window
     private:
         void SyncRmlModel();
         void SyncPerformanceModel();
+        void BindParisShortcuts(Rml::DataModelConstructor& constructor);
+        bool ParisShortcutsVisible() const;
         std::uint64_t m_nextPerformanceSample = 0;
         void BuildRmlUi();
 
@@ -132,6 +134,7 @@ namespace mu::ui::window
             Rml::String expTooltip;
 
             // Corner buttons: "Open" mirrors SetBtnState()'s bStateDown; tooltips are static strings pushed once.
+            bool parisShortcutsVisible = false;
             bool cShopOpen = false, chaInfoOpen = false, myInvenOpen = false, friendOpen = false, windowOpen = false;
             Rml::String cShopTooltip, chaInfoTooltip, myInvenTooltip, friendTooltip, windowTooltip;
 
@@ -199,3 +202,4 @@ namespace mu::ui::window
 }
 
 #endif // !defined(AFX_NEWUIMAINFRAMEWINDOW_H__46A029CA_44A5_4050_9216_FA8A25EC4629__INCLUDED_)
+
