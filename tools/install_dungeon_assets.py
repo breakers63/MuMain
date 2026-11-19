@@ -34,7 +34,12 @@ with tempfile.TemporaryFile() as download:
                 raise ValueError('Invalid archive path')
             if (entry.external_attr >> 16) & 0o170000 == 0o120000:
                 raise ValueError('Archive link rejected')
-            if not member.parts or member.parts[0] != manifest['ArchivePrefix']:
+            if not member.parts:
+                continue
+            direct = member.parts[0] == manifest['ArchivePrefix']
+            shared = (member.parts[0] == manifest.get('SharedArchivePrefix')
+                      and len(member.parts) > 1 and member.parts[1] == 'Data')
+            if not direct and not shared:
                 continue
             relative = PurePosixPath(*member.parts[1:])
             if not relative.parts or relative.parts[0] not in ('Data', 'fonts', 'shaders'):

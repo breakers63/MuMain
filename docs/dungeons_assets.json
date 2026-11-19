@@ -1,8 +1,9 @@
 {
   "Kind": "vulkan",
-  "Version": "2026.11.19.1",
+  "Version": "2026.11.19.2",
   "ArchivePrefix": "Vulkan",
-  "Url": "https://patch.hispanogaming.com/windows/releases/2026.11.19.1/actualizacion-vulkan.zip",
+  "SharedArchivePrefix": "Vulkan",
+  "Url": "https://patch.hispanogaming.com/windows/releases/2026.11.19.2/actualizacion-vulkan.zip",
   "Sha256": "dd731914810f8f81f89f8dd4794b5e5578c8971f555c99981784aa6ca9eb1cb5",
   "Bytes": 150843417
 }
