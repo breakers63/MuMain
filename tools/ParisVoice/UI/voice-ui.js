@@ -2,6 +2,8 @@ import {VoiceMediaSession} from './voice-media.js';
 const $=id=>document.getElementById(id),host=window.chrome?.webview;
 let endpoint='',receiving=false,state=null,deviceId='',privateTab=false,joining=null,creating=false;
 let localTest=null,testEpoch=0,testPending=false;
+let receptionWanted=true,reconnectTimer;
+function reconnect(){clearTimeout(reconnectTimer);if(receptionWanted)reconnectTimer=setTimeout(()=>{if(receptionWanted)beginListening();},10000);}
 const names={proximity:'Cercanos',party:'Party',guild:'Guild',room:'Sala personal'};
 const errorText={'connection-failed':'No se pudo conectar la voz','microphone-denied':'Permiso del micrófono denegado','microphone-unavailable':'No se pudo abrir el micrófono','room-full':'La sala está llena','room-unavailable':'No se pudo abrir esa sala','room-access-denied':'PIN incorrecto o demasiados intentos. Espera un minuto.'};
 function post(type,data={}){host?.postMessage({type,...data});}
@@ -17,7 +19,7 @@ const media=new VoiceMediaSession({
   if(value==='off'||value==='disconnected'){state=null;document.body.classList.remove('connected','microphone-on');$('activate-mic').disabled=true;}
   if(value==='connected'){document.body.classList.add('connected');$('activate-mic').disabled=false;$('retry').hidden=true;status('Voz conectada');}
   else if(value==='connecting')status('Conectando recepción…');
-  else if(value==='disconnected'){status('Voz desconectada',true);$('retry').hidden=false;receiving=false;$('enabled').checked=false;post('revoke');}
+  else if(value==='disconnected'){status('Voz desconectada',true);$('retry').hidden=false;receiving=false;$('enabled').checked=false;post('revoke');reconnect();}
   else if(!receiving)status('Recepción desactivada');
   refreshAudio();
  },
@@ -48,11 +50,12 @@ function refreshAudio(){
  if(!mic&&!localTest)displayLevel(0,false);
 }
 function beginListening(){
+ receptionWanted=true;clearTimeout(reconnectTimer);
  if(!host||!endpoint){status('Abre este panel desde el cliente del juego',true);return;}
  if(receiving&&media.socket)return;
  receiving=true;$('enabled').checked=true;$('retry').hidden=true;status('Solicitando sesión al servidor…');post('requestTicket');
 }
-function stopListening(){receiving=false;$('enabled').checked=false;state=null;void media.stop();post('revoke');refreshAudio();}
+function stopListening(){receptionWanted=false;clearTimeout(reconnectTimer);receiving=false;$('enabled').checked=false;state=null;void media.stop();post('revoke');refreshAudio();}
 $('enabled').onchange=()=>{$('enabled').checked?beginListening():stopListening();};$('retry').onclick=()=>{stopListening();beginListening();};
 async function toggleMicrophone(){
  if(!state){status('Espera a que conecte la recepción',true);return;}
@@ -106,7 +109,7 @@ host?.addEventListener('message',event=>{
  if(message.type==='config'){endpoint=message.endpoint;minimize(!!message.minimized);beginListening();void listDevices();post('ready');}
  else if(message.type==='control'){media.setSettings({focused:message.focused,ptt:message.ptt});refreshAudio();}
  else if(message.type==='ticket'&&receiving&&/^[a-f0-9]{64}$/.test(message.ticket))void media.start({endpoint,ticket:message.ticket});
- else if(message.type==='unavailable'){stopListening();status('El servidor no pudo autorizar la sesión',true);$('retry').hidden=false;}
+ else if(message.type==='unavailable'){const wanted=receptionWanted;stopListening();receptionWanted=wanted;status('Reintentando conexión de voz…',true);$('retry').hidden=false;reconnect();}
  else if(message.type==='restore')minimize(false);
  else if(message.type==='diagnostics')void media.diagnostics().then(peers=>post('diagnostics',{metrics:{at:Date.now(),connected:!!media.state,uiConnected:!!state,context:media.context?.state??'closed',error:media.lastError??null,microphone:!!media.input,transmitting:!!media.transmitting,volume:media.settings.volume,deafen:media.settings.deafen,peers:peers.map(({state,bytesReceived,bytesSent,audioEnergy,sourceEnergy,outgoingEnabled,incomingMuted,playback})=>({state,bytesReceived,bytesSent,audioEnergy,sourceEnergy,outgoingEnabled,incomingMuted,playback}))}}));
 });

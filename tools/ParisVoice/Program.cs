@@ -142,6 +142,7 @@ internal sealed class VoiceForm : Form
                     var directory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "ParisProject", "Voice");
                     Directory.CreateDirectory(directory);
                     // Only counters and connection states; never audio, names or tickets.
+                    File.WriteAllText(Path.Combine(directory, "ipc-" + parentPid + ".json"), JsonSerializer.Serialize(new { status = Marshal.ReadInt32(view, 28), command = Marshal.ReadInt32(view, 20), generation = Marshal.ReadInt32(view, 24) }));
                     var metrics = message.GetProperty("metrics").GetRawText();
                     if (metrics.Length < 16384) File.WriteAllText(Path.Combine(directory, "metrics-" + parentPid + ".json"), metrics);
                     break;

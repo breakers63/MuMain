@@ -24,6 +24,7 @@ HANDLE mapping = nullptr;
 volatile LONG* control = nullptr;
 HANDLE process = nullptr;
 DWORD requestedAt = 0;
+DWORD nextAutomaticLaunch = 0;
 
 
 void SendAction(BYTE action)
@@ -58,7 +59,7 @@ bool CanTalk()
         && !g_pNewUISystem->IsVisible(mu::ui::window::INTERFACE_WINDOW_MENU);
 }
 
-bool Launch()
+bool Launch(bool showPanel = true)
 {
     std::array<wchar_t, MAX_PATH> path{};
     if (!GetModuleFileNameW(nullptr, path.data(), static_cast<DWORD>(path.size()))) return false;
@@ -75,7 +76,7 @@ bool Launch()
     ZeroMemory(const_cast<LONG*>(control), ControlSize);
     InterlockedExchange(control, 0x3156504D);
     InterlockedExchange(control + 1, 1);
-    InterlockedExchange(control + 25, 1); // Restore the panel on the user's first click.
+    InterlockedExchange(control + 25, showPanel ? 1 : 0); // Automatic reception keeps the panel hidden.
     InterlockedExchange(control + 2, static_cast<LONG>(GetTickCount()));
     std::wstring command = L"\"" + executable + L"\" "
         + std::to_wstring(reinterpret_cast<UINT_PTR>(mapping)) + L" "
@@ -154,6 +155,14 @@ void Receive(const BYTE* packet, int size)
 
 void Update()
 {
+    // Listen upon character entry, without opening UI or enabling microphone capture.
+    const DWORD now = GetTickCount();
+    if (SceneFlag != MAIN_SCENE) nextAutomaticLaunch = 0;
+    else if (!control && (!nextAutomaticLaunch || static_cast<LONG>(now - nextAutomaticLaunch) >= 0))
+    {
+        nextAutomaticLaunch = now + 30000;
+        Launch(false);
+    }
     if (requestedAt && GetTickCount() - requestedAt > LaunchTimeoutMs)
     {
         requestedAt = 0;
