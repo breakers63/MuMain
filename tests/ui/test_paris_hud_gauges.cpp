@@ -3,6 +3,62 @@
 #include "RmlLayoutFixture.h"
 #include <RmlUi/Core/ElementUtilities.h>
 #include <cmath>
+#include <array>
+#include <regex>
+
+namespace
+{
+// Retain the real artwork bindings, without requiring unrelated networked HUD models.
+std::string BoundArtworkMarkup()
+{
+    auto markup=UI::Tests::AssetMarkup("paris-gold","main_frame");
+    const auto original=UI::Tests::ReadFile(std::filesystem::path(MU_RMLUI_DIR)/"main_frame.rml");
+    const std::regex artwork(R"art(<div class="(?:gauge-art|exp-art)"[^>]*>)art");
+    size_t cursor=0;
+    for(auto it=std::sregex_iterator(original.begin(),original.end(),artwork);it!=std::sregex_iterator();++it)
+    {
+        std::smatch stripped;
+        const auto remaining=markup.substr(cursor);
+        REQUIRE(std::regex_search(remaining,stripped,artwork));
+        const auto position=cursor+static_cast<size_t>(stripped.position());
+        markup.replace(position,static_cast<size_t>(stripped.length()),it->str());
+        cursor=position+it->str().size();
+    }
+    const auto body=markup.find("<body");
+    REQUIRE(body!=std::string::npos);
+    markup.insert(body+5," data-model=\"main_frame\"");
+    return markup;
+}
+}
+
+TEST_CASE("Paris dragon empty artwork follows live resource bindings [ui][hud]")
+{
+    UI::Tests::RmlLayoutFixture fixture;
+    fixture.Configure({1024,768},100);
+    auto constructor=fixture.context->CreateDataModel("main_frame");
+    REQUIRE(constructor);
+    constexpr std::array names={"hp_fraction","mp_fraction","sd_fraction","ag_fraction","exp_level_fraction"};
+    constexpr std::array selectors={"#bar_hp .gauge-art","#bar_mp .gauge-art","#bar_sd .gauge-art","#bar_ag .gauge-art","#exp_level_fill .exp-art"};
+    std::array<float,names.size()> values={1.f,1.f,1.f,1.f,1.f};
+    for(size_t i=0;i<names.size();++i) REQUIRE(constructor.Bind(names[i],&values[i]));
+    auto handle=constructor.GetModelHandle();
+    auto* document=fixture.LoadMarkup(BoundArtworkMarkup());
+    // Include depletion, initial empty state and recovery, independently for each gauge.
+    for(size_t i=0;i<names.size();++i)
+    {
+        auto* art=document->QuerySelector(selectors[i]);
+        REQUIRE(art);
+        for(const float value:{1.f,.25f,0.f,0.f,.5f,1.f})
+        {
+            CAPTURE(names[i]); CAPTURE(value);
+            values[i]=value;
+            handle.DirtyVariable(names[i]);
+            fixture.Refresh();fixture.Refresh();
+            CHECK(art->IsVisible(true)==(value>0.f));
+            CHECK(art->GetParentNode()->IsVisible(true));
+        }
+    }
+}
 
 TEST_CASE("Paris dragon resources clip fixed artwork to the current value [ui][hud]")
 {

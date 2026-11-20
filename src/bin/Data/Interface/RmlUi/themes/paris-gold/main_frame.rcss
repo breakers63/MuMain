@@ -582,6 +582,7 @@
 .gauge-fill-vertical { overflow:hidden; clip:always; }
 .gauge-fill-hp, .gauge-fill-hp.poisoned, .gauge-fill-mp, .gauge-fill-sd, .gauge-fill-ag { decorator:none; background-color:transparent; }
 .gauge-art { position:absolute; left:0; bottom:0; width:100%; pointer-events:none; }
+.gauge-art.empty, #exp_level_fill .exp-art.empty { visibility:hidden; }
 .gauge-fill-hp .gauge-art { height:55.407407dp; decorator:image(dragon-hp); }
 .gauge-fill-mp .gauge-art { height:57.481481dp; decorator:image(dragon-mp); }
 .gauge-fill-sd .gauge-art { height:31.407407dp; decorator:image(dragon-sd); }
