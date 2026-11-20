@@ -1,19 +1,718 @@
-/* Original events: narrow stone panel, three aligned columns, five pages. */
-@spritesheet event-close { src: "../paris-gold/stats-close.tga"; event-close: 0px 0px 74px 64px; }
-#panel.paris-events { position: absolute; left: auto; right: 0; top: 0; margin-left: 0; width: 190dp; height: 429dp; pointer-events: auto; color: #eee8dc; font-family: "token(font-body)"; font-size: 7dp; }
-#panel.paris-events #title { position: absolute; left: 0; top: 30dp; width: 100%; height: 15dp; line-height: 15dp; text-align: center; color: #edd449; font-size: 7dp; }
-#panel.paris-events #frame_corner_close { position: absolute; top: 18dp; right: 8dp; width: 17dp; height: 20dp; decorator: image(event-close); cursor: pointer; }
-.event-head { position: absolute; left: 10dp; top: 66dp; width: 170dp; height: 24dp; color: #eed740; }
-.event-list { position: absolute; left: 10dp; top: 96dp; width: 170dp; height: 275dp; }
-.event-row { display: block; position: relative; width: 100%; height: 28dp; }
-.event-row.alternate { background-color: #56565638; }
-.event-name, .event-remaining, .event-state { position: absolute; top: 0; height: 100%; line-height: 28dp; }
-.event-name { left: 3dp; width: 70dp; } .event-remaining { left: 76dp; width: 48dp; text-align: center; } .event-state { left: 128dp; width: 42dp; text-align: center; }
-.event-row .event-remaining { color: #e8c642; } .event-row.active .event-remaining, .event-row.active .event-state { color: #00ec72; }
-.event-prev, .event-next { position: absolute; top: 378dp; width: 18dp; height: 20dp; line-height: 20dp; border: 1dp #69572e; background-color: #242826; text-align: center; color: #b8a269; cursor: pointer; font-size: 10dp; }
-.event-prev { left: 34dp; } .event-next { right: 34dp; } .event-page { position: absolute; top: 378dp; left: 53dp; width: 84dp; height: 20dp; line-height: 20dp; text-align: center; }
-.event-status { position: absolute; left: 8dp; bottom: 8dp; width: 174dp; text-align: center; color: #a6a29a; font-size: 6.5dp; }
-.event-empty { text-align: center; }
-.event-hidden-tabs { display: none; }
+/* Approved event panel: uniformly reduced to 90 percent. */
+/* RmlUi layout: each repeated row has an explicit block width; no browser defaults. */
+#panel.paris-event-guide {position:absolute;left:50%;top:1%;margin-left:-270dp;width:540dp;height:372.6dp;box-sizing:border-box;background-color:#0c0d0b;border:1.8dp #ba8c25;pointer-events:auto;color:#ede3c8;font-family:"token(font-body)";font-size:7.2dp;}
+.paris-event-guide div,.paris-event-guide p,.paris-event-guide h3 {display:block;box-sizing:border-box;}
+.paris-event-guide * {font-family:"token(font-body)";}
+.paris-event-guide button {display:block;box-sizing:border-box;color:#ead099;background-color:#18150e;border:0.9dp #8e7036;cursor:pointer;padding:0;font-size:7.2dp;}
+.paris-event-guide button:disabled {opacity:0.45;cursor:default;}
+.paris-event-guide button:hover {border-color:#ffe5a3;background-color:#3a2c17;}
+.paris-event-guide button.selected {border-color:#ffe5a3;background-color:#433013;}
+.paris-event-guide .live {color:#9cde75;}.paris-event-guide .unmet {color:#ef917b;}
+.paris-event-guide h3 {margin:0;padding:0;color:#efd18d;font-size:8.1dp;font-weight:bold;}
+.paris-event-guide p {margin:0;}
+.guide-header {position:absolute;left:12.6dp;top:4.5dp;width:511.2dp;height:42.3dp;border-bottom:0.9dp #b38a3e;text-align:center;cursor:move;}
+.guide-brand {position:absolute;left:135dp;top:3.6dp;width:241.2dp;height:9dp;color:#e6c97e;font-size:6.3dp;letter-spacing:1.8dp;text-align:center;}
+.guide-heading {position:absolute;left:135dp;top:12.6dp;width:241.2dp;height:27dp;line-height:27dp;font-size:22.5dp;font-weight:bold;color:#ffe4a0;text-align:center;}
+.paris-event-guide .guide-x {position:absolute;right:12.6dp;top:9dp;width:20.7dp;height:22.5dp;line-height:20.7dp;text-align:center;color:#ffdb78;background-color:#35170d;z-index:5;}
+.guide-categories {position:absolute;left:14.4dp;top:50.4dp;width:509.4dp;height:18.9dp;}
+.guide-categories button {position:absolute;top:0;width:81.9dp;height:18dp;line-height:16.2dp;text-align:center;}
+.guide-categories button:nth-child(1) {left:0;}.guide-categories button:nth-child(2) {left:85.5dp;}.guide-categories button:nth-child(3) {left:171dp;}.guide-categories button:nth-child(4) {left:256.5dp;}.guide-categories button:nth-child(5) {left:342dp;}.guide-categories button:nth-child(6) {left:427.5dp;}
+.guide-sidebar {position:absolute;left:14.4dp;top:75.6dp;width:158.4dp;height:275.4dp;border:0.9dp #b18b41;background-color:#090a08;}
+.guide-list-title {position:absolute;left:4.5dp;top:3.6dp;width:147.6dp;height:17.1dp;line-height:14.4dp;font-size:8.1dp;font-weight:bold;color:#f3d18a;border-bottom:0.9dp #866a31;}
+.guide-list-title span {position:absolute;right:1.8dp;top:0;}
+.guide-events {position:absolute;left:4.5dp;top:23.4dp;width:147.6dp;height:227.7dp;overflow:hidden;}
+.paris-event-guide .guide-event {position:relative;display:block;width:147.6dp;height:23.4dp;margin:0 0 1.8dp 0;text-align:left;}
+.guide-event span {display:block;position:absolute;left:4.5dp;top:2.7dp;width:86.4dp;height:18dp;line-height:9dp;font-size:7.2dp;white-space:normal;overflow:hidden;}
+.guide-event strong {display:block;position:absolute;left:92.7dp;top:6.3dp;width:48.6dp;height:10.8dp;line-height:10.8dp;font-size:6.3dp;font-weight:normal;color:#f0cb61;text-align:right;white-space:nowrap;}
+.guide-events p {width:142.2dp;font-size:7.2dp;padding:10.8dp 2.7dp;}
+.guide-paging {position:absolute;left:4.5dp;bottom:3.6dp;width:147.6dp;height:16.2dp;text-align:center;}
+.guide-paging button {position:absolute;top:0;width:24.3dp;height:16.2dp;line-height:14.4dp;text-align:center;}
+.guide-paging button:first-child {left:0;}.guide-paging button:last-child {right:0;}
+.guide-paging>span {display:block;position:absolute;left:27dp;top:0;width:93.6dp;height:16.2dp;line-height:16.2dp;text-align:center;}
+.guide-detail {position:absolute;left:180dp;top:75.6dp;width:343.8dp;height:275.4dp;}
+.guide-content {position:absolute;left:0;top:0;width:343.8dp;height:275.4dp;}
+.guide-detail-title {position:absolute;left:0;top:0;width:343.8dp;height:22.5dp;border:0.9dp #af8d43;background-color:#1d1a10;}
+.guide-detail-title h3 {position:absolute;left:4.5dp;top:3.6dp;width:209.7dp;height:16.2dp;line-height:16.2dp;font-size:10.8dp;white-space:nowrap;overflow:hidden;}
+.guide-detail-title>span {display:block;position:absolute;right:4.5dp;top:6.3dp;width:117dp;height:10.8dp;line-height:10.8dp;color:#9cde75;text-align:right;font-size:6.3dp;}
+.guide-banner {position:absolute;left:0;top:25.2dp;width:343.8dp;height:70.2dp;border:0.9dp #af8d43;background-color:#101b24;}
+#guide-boss-model {position:absolute;left:55.8dp;top:0;width:230.4dp;height:57.6dp;}
+.guide-boss-caption {position:absolute;left:0;bottom:0;width:342dp;height:12.6dp;line-height:12.6dp;text-align:center;background-color:#10110d;color:#edce84;font-size:8.1dp;font-weight:bold;}
+.guide-metrics {position:absolute;left:0;top:98.1dp;width:343.8dp;height:25.2dp;border:0.9dp #af8d43;background-color:#11130f;}
+.guide-metrics>div {position:absolute;top:0;width:171dp;height:23.4dp;text-align:center;}
+.guide-metrics>div:first-child {left:0;border-right:0.9dp #6b542b;}.guide-metrics>div:last-child {right:0;}
+.guide-metrics span,.guide-metrics strong {display:block;position:absolute;left:0;width:169.2dp;text-align:center;}
+.guide-metrics span {top:1.8dp;height:8.1dp;font-size:6.3dp;color:#d9c798;}.guide-metrics strong {top:9.9dp;height:12.6dp;font-size:9dp;color:#f5d57e;}
+.guide-info {position:absolute;left:0;top:126.9dp;width:343.8dp;height:101.7dp;}
+.guide-requirements {position:absolute;left:0;top:0;width:196.2dp;height:101.7dp;border:0.9dp #a68541;background-color:#10110d;}
+.guide-requirements h3,.guide-monsters h3 {position:absolute;left:0;top:0;width:194.4dp;height:16.2dp;line-height:16.2dp;border-bottom:0.9dp #8c713b;text-align:center;font-size:7.2dp;}
+.guide-scroll {position:absolute;left:3.6dp;top:18dp;width:187.2dp;height:81dp;overflow-y:auto;overflow-x:hidden;}
+.guide-requirement {position:relative;display:block;width:178.2dp;height:22.5dp;border-bottom:0.9dp #393527;margin:0 0 1.8dp 0;}
+.guide-requirement span,.guide-requirement strong {display:block;position:absolute;top:1.8dp;height:19.8dp;line-height:9dp;font-size:6.75dp;white-space:normal;overflow:hidden;}
+.guide-requirement span {left:0;width:71.1dp;color:#e2d6bb;}.guide-requirement strong {left:74.7dp;width:101.7dp;text-align:right;font-weight:normal;}
+.guide-monsters {position:absolute;left:199.8dp;top:0;width:144dp;height:101.7dp;border:0.9dp #a68541;background-color:#0e1110;}
+.guide-monsters h3 {width:142.2dp;font-size:6.75dp;}
+.guide-monster-cards {position:absolute;left:2.7dp;top:18.9dp;width:136.8dp;height:60.3dp;}
+.guide-monster {position:absolute;top:0;width:44.1dp;height:60.3dp;border:0.9dp #695535;text-align:center;}
+.guide-monster:nth-child(1) {left:0;}.guide-monster:nth-child(2) {left:45.9dp;}.guide-monster:nth-child(3) {left:91.8dp;}
+.guide-monster-model {position:absolute;left:0.9dp;top:0;width:40.5dp;height:45dp;}
+.guide-monster>span {display:block;position:absolute;left:0.9dp;top:44.1dp;width:40.5dp;height:14.4dp;line-height:7.2dp;font-size:5.85dp;overflow:hidden;}
+.guide-monsters .guide-paging {left:2.7dp;bottom:2.7dp;width:136.8dp;height:14.4dp;}.guide-monsters .guide-paging button {height:14.4dp;line-height:12.6dp;}.guide-monsters .guide-paging>span {left:25.2dp;width:86.4dp;height:14.4dp;line-height:14.4dp;}
+.guide-footer {position:absolute;left:0;top:232.2dp;width:343.8dp;height:43.2dp;border:0.9dp #a68541;background-color:#0e100c;}
+.guide-rewards {position:absolute;left:3.6dp;top:2.7dp;width:200.7dp;height:36.9dp;}
+.guide-rewards h3 {height:10.8dp;line-height:10.8dp;font-size:7.2dp;}
+.guide-reward-scroll {position:absolute;left:0;top:11.7dp;width:198dp;height:24.3dp;overflow-y:auto;overflow-x:hidden;font-size:6.3dp;}
+.guide-rewards p {display:block;width:184.5dp;line-height:9dp;margin:0 0 2.7dp 0;}
+.guide-actions {position:absolute;right:3.6dp;top:3.6dp;width:129.6dp;height:36dp;}
+.guide-actions button {position:absolute;left:0;top:18.9dp;width:129.6dp;height:16.2dp;line-height:14.4dp;text-align:center;font-size:7.2dp;}
+.guide-actions .guide-enter {top:0;height:18dp;line-height:16.2dp;background-color:#4c3714;color:#ffe4a1;font-weight:bold;}
+.guide-wait {position:absolute;left:22.5dp;top:81dp;width:297dp;height:72dp;line-height:12.6dp;text-align:center;color:#d4c08f;}
+.guide-status {position:absolute;left:14.4dp;top:355.5dp;width:509.4dp;height:10.8dp;line-height:10.8dp;text-align:center;color:#bba879;font-size:6.3dp;}
+.guide-corner,.guide-dragon {position:absolute;pointer-events:none;}
+.guide-corner {width:18dp;height:30.6dp;z-index:4;}.guide-corner.tl {left:-1.8dp;top:-1.8dp;}.guide-corner.tr {right:-1.8dp;top:-1.8dp;}.guide-corner.bl {left:-1.8dp;bottom:-1.8dp;}.guide-corner.br {right:-1.8dp;bottom:-1.8dp;}
+.guide-dragon {top:0;width:52.2dp;height:38.7dp;}.guide-dragon.left {left:68.4dp;}.guide-dragon.right {right:68.4dp;}
 
-#panel.paris-events #title { cursor: move; }
+@spritesheet guide-frame-corners {src:"paris-frame.tga";guide-tl:0px 20px 50px 86px;guide-bl:0px 938px 50px 86px;guide-stone:60px 160px 128px 128px;}
+@spritesheet guide-dragon-head {src:"../../../Paris_HudDragons37.tga";guide-dragon-left:8px 28px 154px 110px;guide-dragon-right:1886px 28px 154px 110px;}
+.guide-corner.tl {decorator:image(guide-tl contain);}.guide-corner.tr {decorator:image(guide-tl flip-horizontal contain);}
+.guide-corner.bl {decorator:image(guide-bl contain);}.guide-corner.br {decorator:image(guide-bl flip-horizontal contain);}
+.guide-dragon.left {decorator:image(guide-dragon-left contain);}.guide-dragon.right {decorator:image(guide-dragon-right contain);}
+
+
+
+/* Paris reference skin. Artwork contains chrome only; all data remains live. */
+@spritesheet event-skin {src:"../../../EventGuide/frame.tga";event-skin:0px 0px 1536px 1024px;}
+@spritesheet event-backdrop {src:"../../../EventGuide/raklion.tga";event-backdrop:0px 0px 1920px 640px;}
+@spritesheet event-ornaments {
+ src:"../../../EventGuide/reference.tga";
+ ev-tl:497px 510px 25px 25px;ev-t:539px 510px 60px 8px;ev-tr:912px 510px 24px 25px;
+ ev-l:497px 557px 9px 50px;ev-r:927px 557px 9px 50px;
+ ev-bl:497px 810px 25px 22px;ev-b:540px 824px 60px 8px;ev-br:912px 810px 24px 22px;
+ ev-row-tl:97px 285px 14px 14px;ev-row-t:145px 285px 30px 7px;ev-row-tr:452px 285px 14px 14px;
+ ev-row-l:97px 300px 7px 15px;ev-row-r:459px 300px 7px 15px;
+ ev-row-bl:97px 319px 14px 14px;ev-row-b:145px 326px 30px 7px;ev-row-br:452px 319px 14px 14px;
+}
+#panel.paris-event-guide {height:360dp;border:0;background-color:transparent;}
+.guide-skin {position:absolute;left:0;top:0;width:540dp;height:360dp;decorator:image(event-skin);pointer-events:none;}
+.paris-event-guide .guide-header {left:58.5dp;top:0;width:423dp;height:67.5dp;border:0;background-color:transparent;}
+#panel .guide-brand,#panel .guide-heading,#panel .guide-dragon,#panel .guide-corner {display:none;}
+.paris-event-guide .guide-x {left:489.6dp;top:40.5dp;width:20.7dp;height:19.8dp;right:auto;background-color:transparent;border:0;color:transparent;}
+.paris-event-guide .guide-x:hover {background-color:#ffd25730;}
+.guide-categories {left:28.8dp;top:72dp;width:482.4dp;height:10.8dp;}
+.guide-categories button {width:77.4dp;height:10.8dp;line-height:9dp;font-size:6.3dp;border:0.45dp #806227;background-color:#12110ddd;}
+.guide-categories button:nth-child(1) {left:0;}.guide-categories button:nth-child(2) {left:81dp;}.guide-categories button:nth-child(3) {left:162dp;}.guide-categories button:nth-child(4) {left:243dp;}.guide-categories button:nth-child(5) {left:324dp;}.guide-categories button:nth-child(6) {left:405dp;}
+.guide-sidebar {left:27.9dp;top:86.4dp;width:142.2dp;height:252.9dp;border:0;background-color:#080909b8;}
+.guide-list-title {left:5.4dp;top:4.5dp;width:131.4dp;font-family:Cinzel;font-size:8.1dp;}
+.guide-events {left:5.4dp;top:25.2dp;width:131.4dp;height:205.2dp;}
+.paris-event-guide .guide-event {width:131.4dp;height:21.6dp;margin-bottom:1.17dp;border:0;background-color:#10100ddb;}
+.paris-event-guide .guide-event:hover,.paris-event-guide .guide-event.selected {background-color:#68400a88;}
+.guide-event span {left:6.3dp;top:1.8dp;width:77.4dp;height:18dp;font-size:6.75dp;line-height:9dp;}
+.guide-event strong {left:86.4dp;top:6.3dp;width:38.7dp;font-size:5.85dp;}
+.guide-sidebar>.guide-paging {left:6.3dp;bottom:6.3dp;width:129.6dp;height:14.4dp;}
+.guide-sidebar>.guide-paging>span {left:27dp;width:75.6dp;}
+.guide-detail {left:174.6dp;top:86.4dp;width:337.5dp;height:252.9dp;}
+.guide-content {width:337.5dp;height:252.9dp;}
+.guide-detail-title {width:337.5dp;height:19.8dp;border:0.9dp #bc943e;background-color:#17120d;}
+.guide-detail-title h3 {font-family:Cinzel;top:1.8dp;left:7.2dp;width:202.5dp;font-size:10.8dp;}
+.guide-detail-title>span {top:4.5dp;width:119.7dp;}
+.guide-banner {top:21.6dp;width:337.5dp;height:57.6dp;border:0.9dp #d2ad55;background-color:transparent;}
+.guide-landscape {position:absolute;left:0;top:0;width:100%;height:100%;decorator:image(event-backdrop);pointer-events:none;}
+#guide-boss-model {left:54dp;top:-1.8dp;width:227.7dp;height:55.8dp;}
+.guide-boss-caption {width:335.7dp;height:10.8dp;line-height:10.8dp;font-family:Cinzel;font-size:7.2dp;}
+.guide-metrics {top:81.9dp;width:337.5dp;height:23.4dp;border:0.9dp #c6a051;background-color:#060708b0;}
+.guide-metrics>div {width:167.4dp;height:21.6dp;}.guide-metrics span,.guide-metrics strong {width:166.5dp;}
+.guide-info {top:105.3dp;width:337.5dp;height:110.7dp;}
+.guide-requirements {width:201.6dp;height:110.7dp;border:0;background-color:#080909c0;}
+.guide-requirements h3 {left:4.5dp;top:2.7dp;width:192.6dp;height:14.4dp;line-height:14.4dp;border:0;font-family:Cinzel;font-size:7.2dp;}
+.guide-scroll {left:5.4dp;top:18.9dp;width:190.8dp;height:86.4dp;overflow-y:auto;}
+.paris-event-guide .guide-requirement {display:inline-block;vertical-align:top;width:84.6dp;height:20.7dp;margin:0 3.6dp 0.9dp 0;padding:0;border-bottom:0.45dp #635033;background-color:#0b0c09;}
+.guide-requirement span,.guide-requirement strong {left:2.7dp;width:79.2dp;text-align:left;white-space:normal;font-size:6.12dp;overflow:hidden;}
+.guide-requirement span {top:0.9dp;height:8.1dp;line-height:8.1dp;color:#d5bd88;}
+.guide-requirement strong {top:9dp;height:10.8dp;line-height:5.4dp;color:#f2efe4;}
+.guide-requirement .live {color:#9eef55;}.guide-requirement .unmet {color:#ff9270;}
+.guide-monsters {left:205.2dp;width:132.3dp;height:110.7dp;border:0;background-color:#080909c0;}
+.guide-monsters h3 {left:4.5dp;top:2.7dp;width:123.3dp;height:14.4dp;line-height:14.4dp;border:0;font-family:Cinzel;font-size:6.3dp;}
+.guide-monster-cards {left:4.5dp;top:20.7dp;width:123.3dp;height:58.5dp;}
+.guide-monster {width:39.6dp;height:58.5dp;overflow:hidden;border:0.63dp #c2a05b;}
+.guide-monster:nth-child(1) {left:0;}.guide-monster:nth-child(2) {left:41.4dp;}.guide-monster:nth-child(3) {left:82.8dp;}
+.guide-monster-model {left:0;top:0.9dp;width:37.8dp;height:43.2dp;}
+.guide-monster>span {left:0;top:44.1dp;width:37.8dp;height:12.6dp;line-height:6.3dp;background-color:#000c;font-size:5.4dp;}
+.guide-monsters .guide-paging {left:5.4dp;bottom:6.3dp;width:121.5dp;}.guide-monsters .guide-paging>span {width:71.1dp;}
+.guide-footer {top:219.6dp;width:337.5dp;height:33.3dp;border:0;background-color:#080909c0;}
+.guide-rewards {left:6.3dp;top:5.4dp;width:189.9dp;height:26.1dp;}.guide-rewards h3 {font-family:Cinzel;}
+.guide-reward-scroll {top:10.8dp;width:189dp;height:18dp;font-size:6.03dp;}.guide-rewards p {width:180.9dp;line-height:8.1dp;}
+.guide-actions {right:5.4dp;top:5.4dp;width:130.5dp;height:26.1dp;}
+.guide-actions .guide-enter {width:130.5dp;top:0;height:15.3dp;line-height:13.5dp;font-family:Cinzel;font-size:7.2dp;}
+.guide-actions button {top:18dp;width:130.5dp;height:10.8dp;line-height:9dp;font-size:6.3dp;}
+.guide-status {left:28.8dp;top:341.1dp;width:482.4dp;height:8.1dp;line-height:8.1dp;font-size:5.4dp;}
+.guide-ornament {position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;}
+.guide-ornament i {position:absolute;display:block;pointer-events:none;}
+.guide-ornament .edge-tl {left:0;top:0;width:9dp;height:9dp;decorator:image(ev-tl);}
+.guide-ornament .edge-tr {right:0;top:0;width:9dp;height:9dp;decorator:image(ev-tr);}
+.guide-ornament .edge-bl {left:0;bottom:0;width:9dp;height:8.1dp;decorator:image(ev-bl);}
+.guide-ornament .edge-br {right:0;bottom:0;width:9dp;height:8.1dp;decorator:image(ev-br);}
+.guide-ornament .edge-t {left:9dp;right:9dp;top:0;height:2.7dp;decorator:image(ev-t);}
+.guide-ornament .edge-b {left:9dp;right:9dp;bottom:0;height:2.7dp;decorator:image(ev-b);}
+.guide-ornament .edge-l {left:0;top:9dp;bottom:8.1dp;width:3.15dp;decorator:image(ev-l);}
+.guide-ornament .edge-r {right:0;top:9dp;bottom:8.1dp;width:3.15dp;decorator:image(ev-r);}
+.guide-event .edge-tl {decorator:image(ev-row-tl);}
+.guide-event .edge-t {decorator:image(ev-row-t);}
+.guide-event .edge-tr {decorator:image(ev-row-tr);}
+.guide-event .edge-l {decorator:image(ev-row-l);}
+.guide-event .edge-r {decorator:image(ev-row-r);}
+.guide-event .edge-bl {decorator:image(ev-row-bl);}
+.guide-event .edge-b {decorator:image(ev-row-b);}
+.guide-event .edge-br {decorator:image(ev-row-br);}
+
+/* Event-specific HD art and reference interaction states. */
+.guide-landscape.art-devil-square {decorator:image(art-devil-square cover);}
+.guide-landscape.art-blood-castle {decorator:image(art-blood-castle cover);}
+.guide-landscape.art-chaos-castle {decorator:image(art-chaos-castle cover);}
+.guide-landscape.art-illusion-temple {decorator:image(art-illusion-temple cover);}
+.guide-landscape.art-doppelganger {decorator:image(art-doppelganger cover);}
+.guide-landscape.art-imperial-guardian {decorator:image(art-imperial-guardian cover);}
+.guide-landscape.art-raklion {decorator:image(art-raklion cover);}
+
+@spritesheet event-actions {
+ src:"../../../EventGuide/reference.tga";
+ ev-enter:1007px 879px 302px 67px;ev-close:1310px 885px 137px 57px;
+ ev-selected-tl:92px 514px 22px 22px;ev-selected-t:164px 514px 55px 9px;ev-selected-tr:452px 514px 24px 22px;
+ ev-selected-l:92px 537px 10px 14px;ev-selected-r:466px 537px 10px 14px;
+ ev-selected-bl:92px 548px 22px 22px;ev-selected-b:164px 561px 55px 9px;ev-selected-br:452px 548px 24px 22px;
+}
+.guide-scroll {overflow:hidden;width:190.8dp;height:86.4dp;}
+.guide-requirement-column {position:absolute;top:0;width:93.6dp;height:86.4dp;overflow-y:auto;overflow-x:hidden;}
+.guide-requirement-column.left {left:0;}.guide-requirement-column.right {right:0;}
+.paris-event-guide .guide-requirement {display:block;width:84.6dp;height:16.2dp;margin:0 0 0.9dp 0;background-color:#080908;}
+.guide-requirement span {top:0;height:6.3dp;font-size:5.67dp;line-height:6.3dp;}
+.guide-requirement strong {top:6.3dp;height:9dp;font-size:5.85dp;line-height:5.4dp;}
+.guide-actions {right:5.4dp;top:8.1dp;width:141.3dp;height:21.6dp;}
+.paris-event-guide .guide-actions .guide-enter {left:0;top:0;width:96.3dp;height:21.6dp;background-color:transparent;border:0;decorator:image(ev-enter);color:transparent;}
+.paris-event-guide .guide-actions button {left:98.1dp;top:1.8dp;width:42.3dp;height:18dp;background-color:transparent;border:0;decorator:image(ev-close);color:transparent;}
+.paris-event-guide .guide-actions button:hover {background-color:#ffd25720;}
+.paris-event-guide .guide-actions button:disabled {opacity:0.65;}
+.guide-rewards {width:177.3dp;}.guide-reward-scroll {width:176.4dp;}.guide-rewards p {width:166.5dp;}
+.guide-event.selected {background-color:#6d440a70;}
+.guide-status {top:342dp;font-size:5.22dp;}
+.guide-event.selected .edge-tl,.guide-event:hover .edge-tl {decorator:image(ev-selected-tl);}
+.guide-event.selected .edge-t,.guide-event:hover .edge-t {decorator:image(ev-selected-t);}
+.guide-event.selected .edge-tr,.guide-event:hover .edge-tr {decorator:image(ev-selected-tr);}
+.guide-event.selected .edge-l,.guide-event:hover .edge-l {decorator:image(ev-selected-l);}
+.guide-event.selected .edge-r,.guide-event:hover .edge-r {decorator:image(ev-selected-r);}
+.guide-event.selected .edge-bl,.guide-event:hover .edge-bl {decorator:image(ev-selected-bl);}
+.guide-event.selected .edge-b,.guide-event:hover .edge-b {decorator:image(ev-selected-b);}
+.guide-event.selected .edge-br,.guide-event:hover .edge-br {decorator:image(ev-selected-br);}
+.guide-rewards {top:2.7dp;}
+.guide-reward-scroll {height:16.2dp;}
+.guide-requirement strong {height:9.45dp;line-height:4.5dp;}
+
+/* Complete event artwork catalog. */
+@spritesheet art-arena-0 {src:"../../../EventGuide/arena-0.tga";art-arena-0:0px 0px 1920px 640px;}
+.guide-landscape.art-arena-0 {decorator:image(art-arena-0 cover);}
+@spritesheet art-arena-1 {src:"../../../EventGuide/arena-1.tga";art-arena-1:0px 0px 1920px 640px;}
+.guide-landscape.art-arena-1 {decorator:image(art-arena-1 cover);}
+@spritesheet art-arena-2 {src:"../../../EventGuide/arena-2.tga";art-arena-2:0px 0px 1920px 640px;}
+.guide-landscape.art-arena-2 {decorator:image(art-arena-2 cover);}
+@spritesheet art-arena-3 {src:"../../../EventGuide/arena-3.tga";art-arena-3:0px 0px 1920px 640px;}
+.guide-landscape.art-arena-3 {decorator:image(art-arena-3 cover);}
+@spritesheet art-arena-5 {src:"../../../EventGuide/arena-5.tga";art-arena-5:0px 0px 1920px 640px;}
+.guide-landscape.art-arena-5 {decorator:image(art-arena-5 cover);}
+@spritesheet art-arena-6 {src:"../../../EventGuide/arena-6.tga";art-arena-6:0px 0px 1920px 640px;}
+.guide-landscape.art-arena-6 {decorator:image(art-arena-6 cover);}
+@spritesheet art-blood-castle {src:"../../../EventGuide/blood-castle.tga";art-blood-castle:0px 0px 1920px 640px;}
+.guide-landscape.art-blood-castle {decorator:image(art-blood-castle cover);}
+@spritesheet art-castle-siege {src:"../../../EventGuide/castle-siege.tga";art-castle-siege:0px 0px 1920px 640px;}
+.guide-landscape.art-castle-siege {decorator:image(art-castle-siege cover);}
+@spritesheet art-chaos-castle {src:"../../../EventGuide/chaos-castle.tga";art-chaos-castle:0px 0px 1920px 640px;}
+.guide-landscape.art-chaos-castle {decorator:image(art-chaos-castle cover);}
+@spritesheet art-crywolf {src:"../../../EventGuide/crywolf.tga";art-crywolf:0px 0px 1920px 640px;}
+.guide-landscape.art-crywolf {decorator:image(art-crywolf cover);}
+@spritesheet art-devil-square {src:"../../../EventGuide/devil-square.tga";art-devil-square:0px 0px 1920px 640px;}
+.guide-landscape.art-devil-square {decorator:image(art-devil-square cover);}
+@spritesheet art-doppelganger {src:"../../../EventGuide/doppelganger.tga";art-doppelganger:0px 0px 1920px 640px;}
+.guide-landscape.art-doppelganger {decorator:image(art-doppelganger cover);}
+@spritesheet art-erohim {src:"../../../EventGuide/erohim.tga";art-erohim:0px 0px 1920px 640px;}
+.guide-landscape.art-erohim {decorator:image(art-erohim cover);}
+@spritesheet art-fortune {src:"../../../EventGuide/fortune.tga";art-fortune:0px 0px 1920px 640px;}
+.guide-landscape.art-fortune {decorator:image(art-fortune cover);}
+@spritesheet art-fugitive {src:"../../../EventGuide/fugitive.tga";art-fugitive:0px 0px 1920px 640px;}
+.guide-landscape.art-fugitive {decorator:image(art-fugitive cover);}
+@spritesheet art-gaion {src:"../../../EventGuide/gaion.tga";art-gaion:0px 0px 1920px 640px;}
+.guide-landscape.art-gaion {decorator:image(art-gaion cover);}
+@spritesheet art-generals {src:"../../../EventGuide/generals.tga";art-generals:0px 0px 1920px 640px;}
+.guide-landscape.art-generals {decorator:image(art-generals cover);}
+@spritesheet art-golden-invasion {src:"../../../EventGuide/golden-invasion.tga";art-golden-invasion:0px 0px 1920px 640px;}
+.guide-landscape.art-golden-invasion {decorator:image(art-golden-invasion cover);}
+@spritesheet art-guild-battle {src:"../../../EventGuide/guild-battle.tga";art-guild-battle:0px 0px 1920px 640px;}
+.guide-landscape.art-guild-battle {decorator:image(art-guild-battle cover);}
+@spritesheet art-happy-hour {src:"../../../EventGuide/happy-hour.tga";art-happy-hour:0px 0px 1920px 640px;}
+.guide-landscape.art-happy-hour {decorator:image(art-happy-hour cover);}
+@spritesheet art-illusion-temple {src:"../../../EventGuide/illusion-temple.tga";art-illusion-temple:0px 0px 1920px 640px;}
+.guide-landscape.art-illusion-temple {decorator:image(art-illusion-temple cover);}
+@spritesheet art-imperial-guardian {src:"../../../EventGuide/imperial-guardian.tga";art-imperial-guardian:0px 0px 1920px 640px;}
+.guide-landscape.art-imperial-guardian {decorator:image(art-imperial-guardian cover);}
+@spritesheet art-kanturu {src:"../../../EventGuide/kanturu.tga";art-kanturu:0px 0px 1920px 640px;}
+.guide-landscape.art-kanturu {decorator:image(art-kanturu cover);}
+@spritesheet art-kardamahal {src:"../../../EventGuide/kardamahal.tga";art-kardamahal:0px 0px 1920px 640px;}
+.guide-landscape.art-kardamahal {decorator:image(art-kardamahal cover);}
+@spritesheet art-karutan {src:"../../../EventGuide/karutan.tga";art-karutan:0px 0px 1920px 640px;}
+.guide-landscape.art-karutan {decorator:image(art-karutan cover);}
+@spritesheet art-king {src:"../../../EventGuide/king.tga";art-king:0px 0px 1920px 640px;}
+.guide-landscape.art-king {decorator:image(art-king cover);}
+@spritesheet art-kundun {src:"../../../EventGuide/kundun.tga";art-kundun:0px 0px 1920px 640px;}
+.guide-landscape.art-kundun {decorator:image(art-kundun cover);}
+@spritesheet art-medusa {src:"../../../EventGuide/medusa.tga";art-medusa:0px 0px 1920px 640px;}
+.guide-landscape.art-medusa {decorator:image(art-medusa cover);}
+@spritesheet art-mini-1 {src:"../../../EventGuide/mini-1.tga";art-mini-1:0px 0px 1920px 640px;}
+.guide-landscape.art-mini-1 {decorator:image(art-mini-1 cover);}
+@spritesheet art-mini-2 {src:"../../../EventGuide/mini-2.tga";art-mini-2:0px 0px 1920px 640px;}
+.guide-landscape.art-mini-2 {decorator:image(art-mini-2 cover);}
+@spritesheet art-mini-3 {src:"../../../EventGuide/mini-3.tga";art-mini-3:0px 0px 1920px 640px;}
+.guide-landscape.art-mini-3 {decorator:image(art-mini-3 cover);}
+@spritesheet art-mini-4 {src:"../../../EventGuide/mini-4.tga";art-mini-4:0px 0px 1920px 640px;}
+.guide-landscape.art-mini-4 {decorator:image(art-mini-4 cover);}
+@spritesheet art-mini-5 {src:"../../../EventGuide/mini-5.tga";art-mini-5:0px 0px 1920px 640px;}
+.guide-landscape.art-mini-5 {decorator:image(art-mini-5 cover);}
+@spritesheet art-race {src:"../../../EventGuide/race.tga";art-race:0px 0px 1920px 640px;}
+.guide-landscape.art-race {decorator:image(art-race cover);}
+@spritesheet art-raklion {src:"../../../EventGuide/raklion.tga";art-raklion:0px 0px 1920px 640px;}
+.guide-landscape.art-raklion {decorator:image(art-raklion cover);}
+@spritesheet art-red-dragon {src:"../../../EventGuide/red-dragon.tga";art-red-dragon:0px 0px 1920px 640px;}
+.guide-landscape.art-red-dragon {decorator:image(art-red-dragon cover);}
+@spritesheet art-sky {src:"../../../EventGuide/sky.tga";art-sky:0px 0px 1920px 640px;}
+.guide-landscape.art-sky {decorator:image(art-sky cover);}
+@spritesheet art-tower {src:"../../../EventGuide/tower.tga";art-tower:0px 0px 1920px 640px;}
+.guide-landscape.art-tower {decorator:image(art-tower cover);}
+@spritesheet art-tvt {src:"../../../EventGuide/tvt.tga";art-tvt:0px 0px 1920px 640px;}
+.guide-landscape.art-tvt {decorator:image(art-tvt cover);}
+@spritesheet art-white-wizard {src:"../../../EventGuide/white-wizard.tga";art-white-wizard:0px 0px 1920px 640px;}
+.guide-landscape.art-white-wizard {decorator:image(art-white-wizard cover);}
+
+
+/* Reference hierarchy and event pictograms. */
+@spritesheet event-pictograms {src:"../../../EventGuide/reference.tga";
+icon-castle:111px 292px 43px 38px;
+icon-devil:110px 348px 44px 40px;
+icon-chaos:111px 406px 43px 40px;
+icon-temple:110px 462px 45px 40px;
+icon-boss:111px 520px 44px 40px;
+icon-kanturu:112px 577px 42px 42px;
+icon-sky:112px 635px 42px 42px;
+icon-battle:110px 693px 44px 43px;
+icon-generals:110px 751px 44px 43px;
+icon-bonus:110px 807px 44px 40px;
+title-left:497px 204px 43px 51px;title-top:600px 204px 70px 8px;title-bottom:600px 247px 70px 9px;title-right:974px 204px 42px 51px;}
+.guide-event-icon.icon-castle {decorator:image(icon-castle contain);}
+.guide-event-icon.icon-devil {decorator:image(icon-devil contain);}
+.guide-event-icon.icon-chaos {decorator:image(icon-chaos contain);}
+.guide-event-icon.icon-temple {decorator:image(icon-temple contain);}
+.guide-event-icon.icon-boss {decorator:image(icon-boss contain);}
+.guide-event-icon.icon-kanturu {decorator:image(icon-kanturu contain);}
+.guide-event-icon.icon-sky {decorator:image(icon-sky contain);}
+.guide-event-icon.icon-battle {decorator:image(icon-battle contain);}
+.guide-event-icon.icon-generals {decorator:image(icon-generals contain);}
+.guide-event-icon.icon-bonus {decorator:image(icon-bonus contain);}
+
+.guide-event-icon {display:block;position:absolute;left:5.4dp;top:2.7dp;width:16.2dp;height:16.2dp;pointer-events:none;}
+.guide-event .guide-event-name {left:25.2dp;top:2.7dp;width:58.5dp;height:17.1dp;font-family:Cinzel;font-size:6.75dp;line-height:8.1dp;}
+.guide-event strong {top:6.3dp;font-size:6.3dp;}
+.guide-title-frame {position:absolute;left:0;top:0;width:212.4dp;height:21.6dp;pointer-events:none;}
+.guide-title-frame i {display:block;position:absolute;pointer-events:none;}
+.title-left {left:0;top:0;width:18dp;height:21.6dp;decorator:image(title-left);}
+.title-right {right:0;top:0;width:18dp;height:21.6dp;decorator:image(title-right);}
+.title-top {left:18dp;right:18dp;top:0;height:3.6dp;decorator:image(title-top);}
+.title-bottom {left:18dp;right:18dp;bottom:0;height:3.6dp;decorator:image(title-bottom);}
+.guide-detail-title {border:0;background-color:transparent;height:21.6dp;}
+.guide-detail-title h3 {left:18dp;top:2.7dp;width:176.4dp;height:16.2dp;font-size:9.9dp;line-height:16.2dp;text-align:center;}
+.guide-detail-title>.guide-phase {display:block;left:214.2dp;right:auto;top:1.8dp;width:119.7dp;height:18dp;line-height:17.1dp;text-align:center;font-family:Cinzel;font-size:6.75dp;color:#d7bc80;background-color:#161511;border:0.63dp #aa8334;}
+.guide-detail-title>.guide-phase.live {color:#9eff70;background-color:#0c2a0b;}
+.guide-banner {top:24.3dp;height:63dp;}
+#guide-boss-model {top:0;height:59.4dp;}
+.guide-metrics {top:90dp;}
+.guide-info {top:113.4dp;height:102.6dp;}
+.guide-requirements,.guide-monsters {height:102.6dp;}
+.guide-scroll,.guide-requirement-column {height:78.3dp;}
+.paris-event-guide .guide-requirement {height:14.4dp;}
+.guide-requirement span {height:5.4dp;line-height:5.4dp;}
+.guide-requirement strong {top:5.4dp;height:9dp;line-height:4.5dp;}
+.guide-monster-cards,.guide-monster {height:53.1dp;}
+.guide-monster-model {height:38.7dp;}
+.guide-monster>span {top:39.6dp;}
+.guide-rewards {top:2.7dp;}
+.guide-reward-scroll {height:16.2dp;}
+
+
+/* Category pages: the lower arrows replace the top filters. */
+.guide-sidebar {top:72dp;height:267.3dp;}
+.guide-category-title {position:absolute;left:5.4dp;top:4.5dp;width:131.4dp;height:14.4dp;line-height:14.4dp;text-align:center;font-family:Cinzel;font-size:9dp;color:#ffe29a;}
+.guide-list-title {top:19.8dp;height:14.4dp;line-height:13.5dp;font-size:7.2dp;}
+.guide-events {top:36.9dp;height:206.1dp;}
+.guide-detail {top:72dp;height:267.3dp;}
+.guide-content {height:267.3dp;}
+.guide-banner {top:24.3dp;height:84.6dp;overflow:hidden;}
+#guide-boss-model {left:54dp;top:0;width:227.7dp;height:79.2dp;}
+.guide-boss-caption {height:11.7dp;line-height:11.7dp;font-size:7.65dp;background-color:#080a0be8;}
+.guide-metrics {top:112.5dp;height:24.3dp;}
+.guide-metrics>div {width:167.4dp;height:22.5dp;}
+.guide-metrics>div:first-child {left:0;right:auto;}
+.guide-metrics>div:last-child {left:168.3dp;right:auto;}
+.guide-metrics span,.guide-metrics strong {width:166.5dp;}
+.guide-info {top:140.4dp;height:90.9dp;}
+.guide-requirements,.guide-monsters {height:90.9dp;}
+.guide-scroll {top:18dp;height:68.4dp;}
+.guide-requirement-column {height:68.4dp;}
+.paris-event-guide .guide-requirement {height:18.9dp;margin-bottom:1.8dp;width:89.1dp;}
+.guide-requirement span,.guide-requirement strong {left:1.8dp;width:85.5dp;}
+.guide-requirement span {top:0;height:7.2dp;line-height:7.2dp;font-size:6.12dp;}
+.guide-requirement strong {top:7.2dp;height:10.8dp;line-height:5.4dp;font-size:6.3dp;}
+.guide-monster-cards {top:18dp;height:53.1dp;}
+.guide-monsters .guide-paging {bottom:3.6dp;}
+.guide-footer {top:234.9dp;height:32.4dp;}
+.guide-rewards {top:3.6dp;}
+.guide-actions {top:6.3dp;}
+.guide-event-portrait {position:absolute;left:5.4dp;top:1.8dp;width:18.9dp;height:18.9dp;border:0.45dp #795f2b;background-color:#080b10;overflow:hidden;pointer-events:none;}
+.guide-event-portrait>i {display:block;position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;}
+.guide-event-model {position:absolute;left:0;top:0;width:18dp;height:18dp;pointer-events:none;}
+.guide-event-model.hidden {display:none;}
+.guide-event .guide-event-name {left:27dp;width:57.6dp;top:2.7dp;font-size:6.75dp;}
+.guide-event-portrait>.art-devil-square {decorator:image(art-devil-square cover);}
+.guide-event-portrait>.art-blood-castle {decorator:image(art-blood-castle cover);}
+.guide-event-portrait>.art-chaos-castle {decorator:image(art-chaos-castle cover);}
+.guide-event-portrait>.art-illusion-temple {decorator:image(art-illusion-temple cover);}
+.guide-event-portrait>.art-doppelganger {decorator:image(art-doppelganger cover);}
+.guide-event-portrait>.art-imperial-guardian {decorator:image(art-imperial-guardian cover);}
+.guide-event-portrait>.art-raklion {decorator:image(art-raklion cover);}
+.guide-event-portrait>.art-kanturu {decorator:image(art-kanturu cover);}
+.guide-event-portrait>.art-castle-siege {decorator:image(art-castle-siege cover);}
+.guide-event-portrait>.art-red-dragon {decorator:image(art-red-dragon cover);}
+.guide-event-portrait>.art-golden-invasion {decorator:image(art-golden-invasion cover);}
+.guide-event-portrait>.art-white-wizard {decorator:image(art-white-wizard cover);}
+.guide-event-portrait>.art-erohim {decorator:image(art-erohim cover);}
+.guide-event-portrait>.art-kundun {decorator:image(art-kundun cover);}
+.guide-event-portrait>.art-happy-hour {decorator:image(art-happy-hour cover);}
+.guide-event-portrait>.art-medusa {decorator:image(art-medusa cover);}
+.guide-event-portrait>.art-gaion {decorator:image(art-gaion cover);}
+.guide-event-portrait>.art-fortune {decorator:image(art-fortune cover);}
+.guide-event-portrait>.art-mini-1 {decorator:image(art-mini-1 cover);}
+.guide-event-portrait>.art-mini-2 {decorator:image(art-mini-2 cover);}
+.guide-event-portrait>.art-mini-3 {decorator:image(art-mini-3 cover);}
+.guide-event-portrait>.art-mini-4 {decorator:image(art-mini-4 cover);}
+.guide-event-portrait>.art-mini-5 {decorator:image(art-mini-5 cover);}
+.guide-event-portrait>.art-kardamahal {decorator:image(art-kardamahal cover);}
+.guide-event-portrait>.art-kanturu {decorator:image(art-kanturu cover);}
+.guide-event-portrait>.art-crywolf {decorator:image(art-crywolf cover);}
+.guide-event-portrait>.art-karutan {decorator:image(art-karutan cover);}
+.guide-event-portrait>.art-generals {decorator:image(art-generals cover);}
+.guide-event-portrait>.art-race {decorator:image(art-race cover);}
+.guide-event-portrait>.art-fugitive {decorator:image(art-fugitive cover);}
+.guide-event-portrait>.art-tower {decorator:image(art-tower cover);}
+.guide-event-portrait>.art-tvt {decorator:image(art-tvt cover);}
+.guide-event-portrait>.art-guild-battle {decorator:image(art-guild-battle cover);}
+.guide-event-portrait>.art-king {decorator:image(art-king cover);}
+.guide-event-portrait>.art-sky {decorator:image(art-sky cover);}
+.guide-event-portrait>.art-arena-0 {decorator:image(art-arena-0 cover);}
+.guide-event-portrait>.art-arena-1 {decorator:image(art-arena-1 cover);}
+.guide-event-portrait>.art-arena-2 {decorator:image(art-arena-2 cover);}
+.guide-event-portrait>.art-arena-3 {decorator:image(art-arena-3 cover);}
+.guide-event-portrait>.art-arena-5 {decorator:image(art-arena-5 cover);}
+.guide-event-portrait>.art-arena-6 {decorator:image(art-arena-6 cover);}
+
+/* Three live summary counters, as in the reference. */
+.guide-metrics>div {width:111.6dp;height:22.5dp;border-right:0.45dp #80622c;}
+.guide-metrics>div:first-child {left:0;}
+.guide-metrics>div:nth-child(2) {left:112.5dp;}
+.guide-metrics>div:last-child {left:225dp;border-right:0;}
+.guide-metrics span,.guide-metrics strong {width:110.7dp;}
+
+/* Portraits for custom events without a monster model. */
+@spritesheet custom-event-portraits {src:"../../../EventGuide/miniature-reference.tga";
+portrait-generals:1162px 482px 64px 64px;
+portrait-race:1162px 551px 64px 64px;
+portrait-fugitive:1162px 621px 64px 64px;
+portrait-tower:1162px 689px 64px 64px;
+portrait-arena-0:1162px 759px 64px 64px;
+portrait-king:1162px 759px 64px 64px;
+}
+.guide-event-portrait>.art-generals {decorator:image(portrait-generals contain);}
+.guide-event-portrait>.art-race {decorator:image(portrait-race contain);}
+.guide-event-portrait>.art-fugitive {decorator:image(portrait-fugitive contain);}
+.guide-event-portrait>.art-tower {decorator:image(portrait-tower contain);}
+.guide-event-portrait>.art-arena-0 {decorator:image(portrait-arena-0 contain);}
+.guide-event-portrait>.art-king {decorator:image(portrait-king contain);}
+
+/* Keep ten access requirements visible as five compact rows per column. */
+.guide-scroll.compact .guide-requirement {height:12.6dp;margin-bottom:0.9dp;}
+.guide-scroll.compact .guide-requirement span {height:5.4dp;line-height:5.4dp;font-size:5.58dp;}
+.guide-scroll.compact .guide-requirement strong {top:5.4dp;height:7.2dp;line-height:6.3dp;font-size:5.85dp;}
+
+/* Approved mockups: original frame pieces and portrait crops, with live text. */
+@spritesheet approved-event-chrome {src:"../../../EventGuide/reference-cutout.tga";
+approved-top:0px 0px 1536px 205px; approved-left:48px 198px 37px 770px; approved-right:1452px 198px 42px 770px; approved-bottom:0px 955px 1536px 69px;
+metric-ticket:551px 444px 65px 47px; metric-players:902px 448px 53px 40px; metric-clock:1220px 443px 40px 49px;
+}
+@spritesheet approved-event-cards {src:"../../../EventGuide/miniature-reference.tga";
+category-left:159px 83px 44px 53px; category-right:444px 83px 47px 53px;
+card-tl:57px 212px 15px 15px; card-t:180px 212px 80px 6px; card-tr:520px 212px 16px 15px;
+card-l:57px 235px 8px 24px; card-r:529px 235px 7px 24px;
+card-bl:57px 269px 15px 16px; card-b:180px 279px 80px 6px; card-br:520px 269px 16px 16px;
+portrait-erohim:69px 216px 90px 66px;
+portrait-gaion:69px 297px 90px 66px;
+portrait-kundun:69px 379px 90px 66px;
+portrait-medusa:69px 460px 90px 66px;
+portrait-raklion:69px 542px 90px 66px;
+portrait-golden-invasion:607px 216px 84px 66px;
+portrait-mini-1:607px 296px 84px 64px;
+portrait-mini-2:607px 372px 84px 64px;
+portrait-mini-3:607px 448px 84px 64px;
+portrait-mini-4:607px 522px 84px 64px;
+portrait-mini-5:607px 598px 84px 64px;
+portrait-red-dragon:607px 674px 84px 64px;
+portrait-white-wizard:607px 750px 84px 64px;
+portrait-kanturu:1150px 210px 86px 54px;
+portrait-crywolf:1150px 279px 86px 54px;
+portrait-karutan:1150px 348px 86px 54px;
+portrait-kardamahal:1150px 417px 86px 54px;
+portrait-generals:1150px 487px 86px 54px;
+portrait-race:1150px 556px 86px 54px;
+portrait-fugitive:1150px 625px 86px 54px;
+portrait-tower:1150px 694px 86px 54px;
+portrait-arena-0:1150px 764px 86px 54px;
+portrait-king:1150px 764px 86px 54px;
+}
+
+.guide-skin {display:none;}
+.guide-panel-fill {position:absolute;left:27.9dp;top:69.3dp;width:484.2dp;height:270.9dp;background-color:#080909;pointer-events:none;}
+.guide-chrome-top,.guide-chrome-left,.guide-chrome-right,.guide-chrome-bottom {position:absolute;pointer-events:none;}
+.guide-chrome-top {left:0;top:0;width:540dp;height:72dp;decorator:image(approved-top);}
+.guide-chrome-left {left:16.875dp;top:69.615dp;width:13.005dp;height:270.702dp;decorator:image(approved-left);}
+.guide-chrome-right {left:510.462dp;top:69.615dp;width:14.76dp;height:270.702dp;decorator:image(approved-right);}
+.guide-chrome-bottom {left:0;top:335.7dp;width:540dp;height:24.3dp;decorator:image(approved-bottom);}
+.paris-event-guide .guide-x {left:489.6dp;top:40.5dp;width:20.7dp;height:19.8dp;}
+.guide-sidebar {top:73.8dp;height:259.2dp;}
+.guide-category-title {left:3.6dp;top:-0.9dp;width:135dp;height:19.8dp;border-top:0.63dp #d7aa4b;border-bottom:0.63dp #d7aa4b;background-color:#12100b;}
+.guide-category-title>span {display:block;position:absolute;left:10.8dp;top:0.9dp;width:113.4dp;height:17.1dp;line-height:17.1dp;text-align:center;font-family:Cinzel;font-size:9dp;color:#ffe29a;}
+.category-cap {position:absolute;top:-0.9dp;width:16.2dp;height:20.7dp;pointer-events:none;}
+.category-cap.left {left:-0.9dp;decorator:image(category-left);}.category-cap.right {right:-0.9dp;decorator:image(category-right);}
+.guide-list-title {top:22.5dp;height:15.3dp;line-height:13.5dp;font-size:7.92dp;}
+.guide-events {top:40.5dp;height:201.6dp;}
+.paris-event-guide .guide-event {height:21.15dp;margin-bottom:1.17dp;}
+.guide-event-portrait {left:2.7dp;top:0.9dp;width:27dp;height:19.8dp;border:0;background-color:transparent;}
+.guide-event-portrait>i {width:27dp;height:19.8dp;}
+.guide-event .guide-event-name {left:31.5dp;top:1.8dp;width:58.5dp;height:18.9dp;line-height:9dp;font-size:6.84dp;color:#f0dab0;}
+.guide-event strong {left:90dp;top:6.3dp;width:37.8dp;height:10.8dp;line-height:10.8dp;font-size:6.3dp;}
+.guide-event .edge-tl {decorator:image(card-tl);}.guide-event .edge-t {decorator:image(card-t);}.guide-event .edge-tr {decorator:image(card-tr);}
+.guide-event .edge-l {decorator:image(card-l);}.guide-event .edge-r {decorator:image(card-r);}
+.guide-event .edge-bl {decorator:image(card-bl);}.guide-event .edge-b {decorator:image(card-b);}.guide-event .edge-br {decorator:image(card-br);}
+.guide-boss-showcase {position:absolute;left:6.3dp;top:183.6dp;width:129.6dp;height:54.9dp;}
+.guide-boss-showcase button {position:absolute;top:0;width:39.6dp;height:54dp;background-color:transparent;border:0;}
+.guide-boss-showcase button:nth-child(1) {left:0;}.guide-boss-showcase button:nth-child(2) {left:45dp;}.guide-boss-showcase button:nth-child(3) {left:90dp;}
+.guide-boss-showcase i {display:block;position:absolute;left:0;top:0;width:39.6dp;height:39.6dp;border:0.72dp #d9b85d;}
+.guide-boss-showcase span {display:block;position:absolute;left:0;top:41.4dp;width:39.6dp;height:10.8dp;line-height:10.8dp;text-align:center;font-family:Cinzel;font-size:7.2dp;color:#f1d17a;}
+.guide-detail {top:73.8dp;height:262.8dp;}.guide-content {height:262.8dp;}
+.guide-detail-title {height:19.8dp;}.guide-detail-title h3 {font-size:10.8dp;}
+.guide-banner {top:20.7dp;height:64.8dp;}
+#guide-boss-model {left:69.3dp;top:0;width:198dp;height:62.1dp;}
+.guide-boss-caption {height:10.8dp;line-height:10.8dp;font-size:8.1dp;}
+.guide-metrics {top:88.2dp;height:22.5dp;}
+.guide-metrics>div {height:20.7dp;}
+.guide-metrics i {position:absolute;left:7.2dp;top:2.7dp;width:18.9dp;height:17.1dp;}
+.metric-ticket {decorator:image(metric-ticket contain);}.metric-players {decorator:image(metric-players contain);}.metric-clock {decorator:image(metric-clock contain);}
+.guide-metrics span,.guide-metrics strong {left:27.9dp;width:81dp;}
+.guide-metrics span {top:0.9dp;font-family:Cinzel;font-size:6.66dp;}.guide-metrics strong {top:9dp;font-size:9.45dp;}
+.guide-info {top:114.3dp;height:110.7dp;}
+.guide-requirements {width:156.6dp;height:110.7dp;}.guide-requirements h3 {left:4.5dp;top:2.7dp;width:147.6dp;font-size:7.65dp;}
+.guide-scroll {left:4.5dp;top:20.7dp;width:147.6dp;height:85.5dp;}
+.guide-requirement-column {width:72dp;height:85.5dp;}.guide-requirement-column.left {left:0;}.guide-requirement-column.right {left:75.6dp;}
+.paris-event-guide .guide-requirement {width:72dp;height:25.2dp;margin:0 0 2.7dp 0;}
+.guide-requirement span,.guide-requirement strong {left:1.8dp;width:68.4dp;}
+.guide-requirement span {top:0;height:8.1dp;line-height:7.2dp;font-size:6.12dp;}
+.guide-requirement strong {top:9dp;height:15.3dp;line-height:7.2dp;font-size:6.57dp;}
+.guide-scroll.compact .guide-requirement {height:16.2dp;margin-bottom:0.9dp;}
+.guide-scroll.compact .guide-requirement span {height:6.3dp;line-height:6.3dp;font-size:5.76dp;}
+.guide-scroll.compact .guide-requirement strong {top:6.3dp;height:9.9dp;line-height:5.4dp;font-size:5.94dp;}
+.guide-monsters {left:160.2dp;width:177.3dp;height:110.7dp;}
+.guide-monsters h3 {left:3.6dp;top:2.7dp;width:130.5dp;height:15.3dp;font-size:6.93dp;text-align:left;}
+.guide-monster-cards {left:3.6dp;top:20.7dp;width:170.1dp;height:42.3dp;}
+.guide-monster {width:54.9dp;height:42.3dp;}.guide-monster:nth-child(1) {left:0;}.guide-monster:nth-child(2) {left:57.6dp;}.guide-monster:nth-child(3) {left:115.2dp;}
+.guide-monster-model {left:1.8dp;top:0;width:50.4dp;height:32.4dp;}.guide-monster>span {left:0;top:31.5dp;width:53.1dp;height:9.9dp;line-height:9dp;font-size:6.03dp;background-color:#070a0ddd;}
+.guide-secondary-boss {position:absolute;left:3.6dp;top:66.6dp;width:170.1dp;height:39.6dp;border:0.63dp #d1ad55;overflow:hidden;}
+#guide-secondary-boss-model {position:absolute;left:22.5dp;top:0;width:124.2dp;height:38.7dp;}
+.guide-secondary-boss>span {display:block;position:absolute;left:0;bottom:0;width:169.2dp;height:9dp;line-height:9dp;text-align:center;background-color:#0c0a05dd;color:#edce84;font-family:Cinzel;font-size:7.2dp;}
+.guide-monsters .guide-paging {left:135dp;top:3.6dp;bottom:auto;width:38.7dp;height:10.8dp;}
+.guide-monsters .guide-paging button {width:9dp;height:10.8dp;line-height:9dp;font-size:6.3dp;}
+.guide-monsters .guide-paging>span {left:9dp;width:20.7dp;height:10.8dp;line-height:10.8dp;font-size:5.4dp;}
+.guide-footer {top:228.6dp;height:34.2dp;}
+.guide-rewards {left:4.5dp;top:3.6dp;width:161.1dp;height:27dp;}.guide-rewards h3 {font-family:Cinzel;font-size:8.1dp;}
+.guide-reward-scroll {top:10.8dp;width:158.4dp;height:17.1dp;}.guide-rewards p {width:154.8dp;font-size:6.12dp;line-height:8.1dp;}
+.guide-eligibility {position:absolute;left:171dp;top:2.7dp;width:160.2dp;height:8.1dp;line-height:8.1dp;font-size:6.66dp;color:#a4f54e;text-align:center;}
+.guide-actions {left:171dp;right:auto;top:11.7dp;width:162dp;height:19.8dp;}
+.guide-actions .guide-enter {left:0;top:0;width:117dp;height:19.8dp;line-height:19.8dp;font-size:7.29dp;}
+.guide-actions button:last-child {left:120.6dp;top:0.9dp;width:41.4dp;height:18dp;line-height:18dp;font-size:6.75dp;}
+.guide-status {top:341.1dp;height:8.1dp;line-height:8.1dp;font-size:5.4dp;}
+.guide-event-portrait>.art-erohim {decorator:image(portrait-erohim cover);}
+.guide-event-portrait>.art-gaion {decorator:image(portrait-gaion cover);}
+.guide-event-portrait>.art-kundun {decorator:image(portrait-kundun cover);}
+.guide-event-portrait>.art-medusa {decorator:image(portrait-medusa cover);}
+.guide-event-portrait>.art-raklion {decorator:image(portrait-raklion cover);}
+.guide-event-portrait>.art-golden-invasion {decorator:image(portrait-golden-invasion cover);}
+.guide-event-portrait>.art-mini-1 {decorator:image(portrait-mini-1 cover);}
+.guide-event-portrait>.art-mini-2 {decorator:image(portrait-mini-2 cover);}
+.guide-event-portrait>.art-mini-3 {decorator:image(portrait-mini-3 cover);}
+.guide-event-portrait>.art-mini-4 {decorator:image(portrait-mini-4 cover);}
+.guide-event-portrait>.art-mini-5 {decorator:image(portrait-mini-5 cover);}
+.guide-event-portrait>.art-red-dragon {decorator:image(portrait-red-dragon cover);}
+.guide-event-portrait>.art-white-wizard {decorator:image(portrait-white-wizard cover);}
+.guide-event-portrait>.art-kanturu {decorator:image(portrait-kanturu cover);}
+.guide-event-portrait>.art-crywolf {decorator:image(portrait-crywolf cover);}
+.guide-event-portrait>.art-karutan {decorator:image(portrait-karutan cover);}
+.guide-event-portrait>.art-kardamahal {decorator:image(portrait-kardamahal cover);}
+.guide-event-portrait>.art-generals {decorator:image(portrait-generals cover);}
+.guide-event-portrait>.art-race {decorator:image(portrait-race cover);}
+.guide-event-portrait>.art-fugitive {decorator:image(portrait-fugitive cover);}
+.guide-event-portrait>.art-tower {decorator:image(portrait-tower cover);}
+.guide-event-portrait>.art-arena-0 {decorator:image(portrait-arena-0 cover);}
+.guide-event-portrait>.art-king {decorator:image(portrait-king cover);}
+.guide-boss-showcase .portrait-erohim {decorator:image(portrait-erohim cover);}
+.guide-boss-showcase .portrait-medusa {decorator:image(portrait-medusa cover);}
+.guide-boss-showcase .portrait-raklion {decorator:image(portrait-raklion cover);}
+
+/* Category frame from the approved miniature card mockup. */
+@spritesheet approved-category-panel {src:"../../../EventGuide/miniature-reference.tga";
+category-tl:28px 113px 35px 36px; category-t:68px 113px 55px 22px; category-tr:525px 113px 35px 36px;
+category-l:28px 180px 20px 60px; category-r:540px 180px 20px 60px;
+category-bl:28px 835px 35px 35px; category-b:68px 849px 80px 22px; category-br:525px 835px 35px 35px;
+}
+.guide-sidebar>.guide-ornament .edge-tl {width:9.9dp;height:10.8dp;decorator:image(category-tl);}
+.guide-sidebar>.guide-ornament .edge-t {left:9dp;right:9dp;height:6.3dp;decorator:image(category-t);}
+.guide-sidebar>.guide-ornament .edge-tr {width:9.9dp;height:10.8dp;decorator:image(category-tr);}
+.guide-sidebar>.guide-ornament .edge-l {top:9.9dp;bottom:9.9dp;width:5.4dp;decorator:image(category-l);}
+.guide-sidebar>.guide-ornament .edge-r {top:9.9dp;bottom:9.9dp;width:5.4dp;decorator:image(category-r);}
+.guide-sidebar>.guide-ornament .edge-bl {width:9.9dp;height:10.8dp;decorator:image(category-bl);}
+.guide-sidebar>.guide-ornament .edge-b {left:9dp;right:9dp;height:6.3dp;decorator:image(category-b);}
+.guide-sidebar>.guide-ornament .edge-br {width:9.9dp;height:10.8dp;decorator:image(category-br);}
+.guide-category-title {left:20.7dp;top:-3.6dp;width:100.8dp;height:18.9dp;z-index:2;}
+.guide-category-title>span {left:10.8dp;top:0;width:79.2dp;height:17.1dp;line-height:17.1dp;font-size:9dp;}
+.guide-category-title.wide {left:5.4dp;width:131.4dp;}
+.guide-category-title.wide>span {width:109.8dp;font-size:7.47dp;}
+.guide-event .guide-event-name {font-size:7.29dp;line-height:9.45dp;}
+.guide-scroll.compact .guide-requirement strong {height:9dp;}
+#guide-secondary-boss-model {visibility:hidden;}
+
+/* Live requirement values wrap in normal flow, without per-row clipping. */
+.guide-scroll {top:18.9dp;height:88.2dp;}
+.guide-requirement-column {height:88.2dp;}
+.paris-event-guide .guide-requirement,
+.guide-scroll.compact .guide-requirement {
+    height:auto;min-height:0;margin:0 0 0.9dp 0;padding:0 0 0.9dp 0;
+}
+.guide-requirement span,.guide-requirement strong,
+.guide-scroll.compact .guide-requirement span,
+.guide-scroll.compact .guide-requirement strong {
+    position:static;display:block;left:auto;top:auto;width:68.4dp;height:auto;
+    margin:0 1.8dp;white-space:normal;word-break:break-word;overflow:visible;
+}
+.guide-requirement span,.guide-scroll.compact .guide-requirement span {
+    font-size:5.76dp;line-height:6.3dp;
+}
+.guide-requirement strong,.guide-scroll.compact .guide-requirement strong {
+    font-size:5.94dp;line-height:6.75dp;
+}
+.guide-rewards {top:2.7dp;height:28.8dp;}
+.guide-rewards h3 {height:9dp;line-height:9dp;font-size:7.65dp;}
+.guide-reward-scroll {top:9.9dp;height:18.9dp;overflow-y:auto;overflow-x:hidden;}
+.guide-rewards p {height:auto;margin:0 0 0.9dp 0;line-height:7.65dp;white-space:normal;word-break:break-word;}
+.guide-requirement-column scrollbarvertical,.guide-reward-scroll scrollbarvertical {width:3.6dp;}
+.guide-requirement-column scrollbarvertical slidertrack,.guide-reward-scroll scrollbarvertical slidertrack {background-color:#19160c;}
+.guide-requirement-column scrollbarvertical sliderbar,.guide-reward-scroll scrollbarvertical sliderbar {background-color:#c69c35;min-height:7.2dp;}
+
+/* A larger reading area preserves the approved central composition. */
+#panel.paris-event-guide {width:558dp;height:405dp;margin-left:-279dp;}
+.guide-panel-fill {left:14.4dp;width:525.6dp;height:328.5dp;}
+.guide-chrome-top {width:558dp;}
+.guide-chrome-left {left:2.7dp;height:328.5dp;}
+.guide-chrome-right {left:539.1dp;height:328.5dp;}
+.guide-chrome-bottom {top:391.5dp;width:558dp;height:13.5dp;}
+.paris-event-guide .guide-x {left:506.7dp;}
+.guide-sidebar {left:14.4dp;width:184.5dp;height:315.9dp;}
+.guide-list-title {left:7.2dp;top:23.4dp;width:170.1dp;height:17.1dp;line-height:15.3dp;font-size:9.45dp;font-family:Cinzel;}
+.guide-list-title>span {font-family:Cinzel;}
+.guide-events {left:7.2dp;top:44.1dp;width:170.1dp;height:250.2dp;}
+.paris-event-guide .guide-event {width:170.1dp;height:26.1dp;margin-bottom:1.62dp;background-color:#090a09;}
+.paris-event-guide .guide-event:hover,.paris-event-guide .guide-event.selected {background-color:#090a09;border-color:transparent;}
+.guide-event .guide-event-name {left:36.9dp;top:1.8dp;width:84.6dp;height:22.5dp;font-family:Cinzel;font-size:8.28dp;line-height:10.8dp;}
+.guide-event strong {left:122.4dp;top:8.1dp;width:42.3dp;height:10.8dp;line-height:10.8dp;font-size:7.2dp;}
+.guide-event-portrait {left:2.7dp;top:1.8dp;width:31.5dp;height:22.5dp;}
+.guide-event-portrait>i {width:31.5dp;height:22.5dp;}
+.guide-event .guide-ornament .edge-tl,.guide-event .guide-ornament .edge-tr,
+.guide-event .guide-ornament .edge-bl,.guide-event .guide-ornament .edge-br {width:5.4dp;height:5.4dp;}
+.guide-event .guide-ornament .edge-t,.guide-event .guide-ornament .edge-b {left:5.4dp;right:5.4dp;height:1.35dp;}
+.guide-event .guide-ornament .edge-l,.guide-event .guide-ornament .edge-r {top:5.4dp;bottom:5.4dp;width:1.53dp;}
+.guide-sidebar>.guide-paging {left:7.2dp;bottom:6.3dp;width:170.1dp;height:15.3dp;}
+.guide-sidebar>.guide-paging>span {left:27dp;width:116.1dp;}
+.guide-category-title {left:23.4dp;top:-3.6dp;width:137.7dp;height:22.5dp;}
+.guide-category-title>span {left:17.1dp;top:0;width:103.5dp;height:20.7dp;line-height:20.7dp;font-size:10.8dp;}
+.guide-category-title.wide {left:2.7dp;width:179.1dp;}
+.guide-category-title.wide>span {left:17.1dp;width:144.9dp;font-size:9dp;}
+.category-cap {width:17.1dp;height:23.4dp;}
+@spritesheet approved-category-headings {src:"../../../EventGuide/miniature-reference.tga";
+heading-bosses:143px 82px 348px 57px; heading-invasions:650px 82px 459px 57px; heading-dungeons:1120px 82px 529px 57px;
+}
+.guide-category-title.bosses {left:26.1dp;width:132.3dp;decorator:image(heading-bosses);}
+.guide-category-title.invasions {left:8.1dp;width:168.3dp;decorator:image(heading-invasions);}
+.guide-category-title.dungeons {left:0;width:184.5dp;decorator:image(heading-dungeons);}
+.guide-category-title.bosses,.guide-category-title.invasions,.guide-category-title.dungeons {border:0;background-color:transparent;}
+.guide-category-title.bosses>span,.guide-category-title.invasions>span,.guide-category-title.dungeons>span,
+.guide-category-title.bosses>.category-cap,.guide-category-title.invasions>.category-cap,.guide-category-title.dungeons>.category-cap {visibility:hidden;}
+.guide-boss-showcase {left:8.1dp;top:214.2dp;width:168.3dp;height:70.2dp;}
+.guide-boss-showcase button {width:50.4dp;height:69.3dp;}
+.guide-boss-showcase button:nth-child(2) {left:58.5dp;}.guide-boss-showcase button:nth-child(3) {left:117dp;}
+.guide-boss-showcase i {width:50.4dp;height:50.4dp;}
+.guide-boss-showcase span {top:52.2dp;width:50.4dp;font-size:8.1dp;}
+.guide-detail {left:202.5dp;height:315.9dp;}.guide-content {height:315.9dp;}
+.guide-info,.guide-requirements,.guide-monsters {height:156.6dp;}
+.guide-scroll {top:19.8dp;height:130.5dp;}.guide-requirement-column {height:130.5dp;}
+.guide-requirement span,.guide-scroll.compact .guide-requirement span {font-size:6.3dp;line-height:8.1dp;}
+.guide-requirement strong,.guide-scroll.compact .guide-requirement strong {font-size:6.48dp;line-height:8.1dp;}
+.paris-event-guide .guide-requirement,.guide-scroll.compact .guide-requirement {margin-bottom:1.8dp;padding-bottom:0.9dp;}
+.guide-monster-cards {height:55.8dp;}.guide-monster {height:55.8dp;}
+.guide-monster-model {height:43.2dp;}.guide-monster>span {top:43.2dp;height:10.8dp;line-height:9dp;}
+.guide-secondary-boss {top:81dp;height:70.2dp;}
+#guide-secondary-boss-model {left:21.6dp;top:0;width:126dp;height:67.5dp;}
+.guide-footer {top:274.5dp;height:40.5dp;}
+.guide-rewards {height:35.1dp;}.guide-reward-scroll {height:25.2dp;}
+.guide-status {left:14.4dp;top:394.2dp;width:525.6dp;}
+
+/* Approved classic/custom portrait atlas; the existing King of MU is retained. */
+@spritesheet approved-classic-custom-portraits {src:"../../../EventGuide/classic-custom-portraits.tga";
+approved-devil-square: 58px 211px 128px 78px;
+approved-blood-castle: 58px 306px 128px 76px;
+approved-chaos-castle: 58px 400px 128px 76px;
+approved-doppelganger: 58px 492px 128px 68px;
+approved-imperial-guardian: 58px 579px 128px 68px;
+approved-refinery: 58px 668px 128px 72px;
+approved-castle-siege: 58px 762px 128px 72px;
+approved-arena-0: 602px 211px 126px 80px;
+approved-arena-1: 602px 311px 126px 76px;
+approved-arena-2: 602px 406px 126px 76px;
+approved-arena-3: 602px 502px 126px 76px;
+approved-arena-5: 602px 597px 126px 76px;
+approved-arena-6: 602px 693px 126px 76px;
+approved-tvt: 1138px 212px 150px 78px;
+approved-guild-battle: 1138px 307px 150px 74px;
+approved-sky: 1138px 495px 150px 76px;
+}
+.guide-event-portrait>.art-devil-square {decorator:image(approved-devil-square cover);}
+.guide-event-portrait>.art-blood-castle {decorator:image(approved-blood-castle cover);}
+.guide-event-portrait>.art-chaos-castle {decorator:image(approved-chaos-castle cover);}
+.guide-event-portrait>.art-doppelganger {decorator:image(approved-doppelganger cover);}
+.guide-event-portrait>.art-imperial-guardian {decorator:image(approved-imperial-guardian cover);}
+.guide-event-portrait>.art-refinery {decorator:image(approved-refinery cover);}
+.guide-event-portrait>.art-castle-siege {decorator:image(approved-castle-siege cover);}
+.guide-event-portrait>.art-arena-0 {decorator:image(approved-arena-0 cover);}
+.guide-event-portrait>.art-arena-1 {decorator:image(approved-arena-1 cover);}
+.guide-event-portrait>.art-arena-2 {decorator:image(approved-arena-2 cover);}
+.guide-event-portrait>.art-arena-3 {decorator:image(approved-arena-3 cover);}
+.guide-event-portrait>.art-arena-5 {decorator:image(approved-arena-5 cover);}
+.guide-event-portrait>.art-arena-6 {decorator:image(approved-arena-6 cover);}
+.guide-event-portrait>.art-tvt {decorator:image(approved-tvt cover);}
+.guide-event-portrait>.art-guild-battle {decorator:image(approved-guild-battle cover);}
+.guide-event-portrait>.art-sky {decorator:image(approved-sky cover);}

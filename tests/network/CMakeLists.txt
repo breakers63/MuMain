@@ -264,3 +264,10 @@ mu_add_test(
 
 mu_add_test(NAME test_server_list_script SOURCES test_server_list_script.cpp)
 
+
+mu_add_test(
+    NAME test_event_guide_protocol
+    SOURCES
+        test_event_guide_protocol.cpp
+        ${CMAKE_SOURCE_DIR}/src/source/Network/Paris/EventGuideProtocol.cpp
+)

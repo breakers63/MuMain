@@ -773,6 +773,7 @@ mu_add_test(
     SOURCES
 
         test_rml_styling_regressions.cpp
+        test_paris_event_guide_layout.cpp
 
         RmlLayoutFixture.cpp
 
