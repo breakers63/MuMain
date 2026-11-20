@@ -1,17 +1,22 @@
 
 #include "stdafx.h"
+#include "Network/Paris/VoiceProtocol.h"
 #include "Network/Paris/TvtHud.h"
 #include "UI/RmlBridge/RmlDraggable.h"
 #include "Network/Paris/BloodPvpNotice.h"
 #include "Network/Paris/EventTimer.h"
 #include "Core/Input/KeyState.h"
 #include "UI/Core/WindowCommon.h"
+#include "UI/Dialogs/ParisWindowGroup.h"
+#include "UI/Dialogs/ParisEventsWindow.h"
+#include "UI/Dialogs/ParisResetWindow.h"
 #include <algorithm>
 #include "I18N/All.h"
 
 #include "UI/HUD/MainFrameWindow.h"	// self
 #include "UI/HUD/PerformanceQuality.h"
 #include "UI/HUD/ResourceGauge.h"
+#include "UI/HUD/ExperienceProgress.h"
 #include "UI/Options/OptionWindow.h"
 #include "UI/Core/WindowSystem.h"
 #include "UI/Widgets/UIBaseDef.h"
@@ -161,6 +166,7 @@ void mu::ui::window::CMainFrameWindow::BindRmlModel(Rml::DataModelConstructor& c
     c.Bind("pvp_notice_opacity", &model.pvpNoticeOpacity);
 
     c.Bind("exp_fraction", &model.expFraction);
+    c.Bind("exp_level_fraction", &model.expLevelFraction);
     c.Bind("exp_digit", &model.expDigit);
     c.Bind("exp_tooltip", &model.expTooltip);
 
@@ -291,6 +297,7 @@ void mu::ui::window::CMainFrameWindow::BindRmlModel(Rml::DataModelConstructor& c
             m_ItemHotKey.OnHotkeySlotRightClick(args.empty() ? 0 : args[0].Get<int>());
         });
 
+    BindParisShortcuts(c);
     c.BindEventCallback("mainframe_cshop_click",
         [this](Rml::DataModelHandle, Rml::Event&, const Rml::VariantList&) { RmlClickCShop(); });
     c.BindEventCallback("mainframe_chainfo_click",
@@ -313,6 +320,42 @@ void mu::ui::window::CMainFrameWindow::BindRmlModel(Rml::DataModelConstructor& c
         });
     c.BindEventCallback("mainframe_window_click",
         [this](Rml::DataModelHandle, Rml::Event&, const Rml::VariantList&) { RmlClickWindow(); });
+}
+
+bool mu::ui::window::CMainFrameWindow::ParisShortcutsVisible() const
+{
+    if (!g_pNewUISystem || HasOpenParisWindow()) return false;
+    constexpr DWORD blockers[] = {INTERFACE_CHARACTER, INTERFACE_INVENTORY,
+        INTERFACE_STORAGE, INTERFACE_TRADE, INTERFACE_MYQUEST, INTERFACE_NPCQUEST,
+        INTERFACE_HELP, INTERFACE_DUNGEON, INTERFACE_GENERIC_CONFIRM_DIALOG,
+        INTERFACE_OPTION, INTERFACE_SYS_MENU, INTERFACE_NPCSHOP};
+    for (const auto key : blockers)
+        if (g_pNewUISystem->IsVisible(key)) return false;
+    return true;
+}
+
+void mu::ui::window::CMainFrameWindow::BindParisShortcuts(Rml::DataModelConstructor& constructor)
+{
+    constructor.Bind("paris_shortcuts_visible", &m_RmlView.GetModel().parisShortcutsVisible);
+    constructor.Bind("voice_microphone_enabled", &m_RmlView.GetModel().voiceMicrophoneEnabled);
+    constructor.BindEventCallback("paris_shortcut",
+        [this](Rml::DataModelHandle, Rml::Event&, const Rml::VariantList& args)
+        {
+            if (args.empty() || !ParisShortcutsVisible()) return;
+            const auto action = args[0].Get<Rml::String>();
+            if (action == "voice") { Network::Paris::Voice::Toggle(); return; }
+            if (action == "menu") ShowParisCustomMenuDialog();
+            else if (action == "missions") g_pNewUISystem->Show(INTERFACE_MYQUEST);
+            else if (action == "events" && g_pParisEventsWindow) g_pParisEventsWindow->OpenWindow();
+            else if (action == "reset" && g_pParisResetWindow)
+            {
+                g_pNewUISystem->Show(INTERFACE_CHARACTER);
+                g_pParisResetWindow->OpenWindow();
+            }
+            m_RmlView.GetModel().parisShortcutsVisible = false;
+            m_RmlView.MarkDirty("paris_shortcuts_visible");
+            PlayBuffer(SOUND_CLICK01);
+        });
 }
 
 void mu::ui::window::CMainFrameWindow::OnRmlReloaded()
@@ -360,7 +403,9 @@ bool mu::ui::window::CMainFrameWindow::IsMouseOverHud() const
         return false;
     Rml::Context* context = m_RmlView.Document()->GetContext();
     Rml::Element* hover = context ? context->GetHoverElement() : nullptr;
-    return hover != nullptr && hover != m_RmlView.Document() && hover->GetOwnerDocument() == m_RmlView.Document();
+    if (!hover) return false;
+    const auto* owner = hover->GetOwnerDocument();
+    return hover != owner && (owner == m_RmlView.Document() || owner == m_RmlView.Document(1));
 }
 
 // RenderRightFrame()/RenderExperienceBackground()/RenderLifeMana()/RenderGuageAG()/RenderGuageSD()/
@@ -699,22 +744,11 @@ void mu::ui::window::CMainFrameWindow::SyncRmlModel()
             lowerBound = iPriorExperience;
         }
 
-        __int64 upperBound = dwNexExperience;
-        if (upperBound < lowerBound)
-            upperBound = lowerBound;
-
-        const double fNeedExp = static_cast<double>(upperBound - lowerBound);
-        const double fClampedExp = std::clamp(static_cast<double>(dwExperience), static_cast<double>(lowerBound), static_cast<double>(upperBound));
-        const double fRatio = (fNeedExp > 0.0) ? std::clamp((fClampedExp - static_cast<double>(lowerBound)) / fNeedExp, 0.0, 1.0) : 0.0;
-
-        const double scaled = std::clamp(fRatio, 0.0, 1.0) * 10.0;
-        int iExp = std::clamp(static_cast<int>(scaled), 0, 9);
-        double fProgress = std::clamp(scaled - static_cast<double>(static_cast<long long>(scaled)), 0.0, 1.0);
-        if (fRatio >= 1.0) { iExp = 9; fProgress = 1.0; }
-
-        syncFloat(&MainFrameRmlModel::expFraction, "exp_fraction", static_cast<float>(fProgress));
+        const auto progress = UI::HUD::MakeExperienceProgress(dwExperience,lowerBound,dwNexExperience);
+        syncFloat(&MainFrameRmlModel::expFraction, "exp_fraction", progress.segmentFraction);
+        syncFloat(&MainFrameRmlModel::expLevelFraction, "exp_level_fraction", progress.levelFraction);
         wchar_t szExp[8] = {};
-        mu_swprintf(szExp, L"%d", iExp);
+        mu_swprintf(szExp, L"%d", progress.segment);
         syncWide(&MainFrameRmlModel::expDigit, "exp_digit", szExp);
         mu_swprintf(szTip, I18N::Game::EXPI64dI64d, static_cast<unsigned long long>(dwExperience),
                     static_cast<unsigned long long>(dwNexExperience));
@@ -1006,6 +1040,25 @@ void mu::ui::window::CMainFrameWindow::SetBtnState(int iBtnType, bool bStateDown
 void mu::ui::window::CMainFrameWindow::SyncDocVisibility(bool sceneAllowsShow)
 {
     const bool show = IsVisible() && sceneAllowsShow;
+    const bool shortcutsVisible = show && ParisShortcutsVisible();
+    const bool microphoneEnabled = Network::Paris::Voice::IsMicrophoneEnabled();
+    if (m_RmlView.GetModel().voiceMicrophoneEnabled != microphoneEnabled)
+    {
+        m_RmlView.GetModel().voiceMicrophoneEnabled = microphoneEnabled;
+        m_RmlView.MarkDirty("voice_microphone_enabled");
+    }
+    static int previousShortcutVisibility = -1;
+    if (previousShortcutVisibility != static_cast<int>(shortcutsVisible))
+    {
+        previousShortcutVisibility = static_cast<int>(shortcutsVisible);
+        mu::log::Get("ui")->info("Paris shortcuts visible={} customPanel={}", shortcutsVisible, HasOpenParisWindow());
+    }
+    if (m_RmlView.GetModel().parisShortcutsVisible != shortcutsVisible)
+    {
+        m_RmlView.GetModel().parisShortcutsVisible = shortcutsVisible;
+        m_RmlView.MarkDirty("paris_shortcuts_visible");
+    }
+
 
     UI::RmlBridge::SyncDocumentVisibility(m_RmlView.Document(), show);
     m_ItemHotKey.SetSlotIconsShown(show);

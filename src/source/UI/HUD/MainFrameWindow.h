@@ -92,6 +92,8 @@ namespace mu::ui::window
     private:
         void SyncRmlModel();
         void SyncPerformanceModel();
+        void BindParisShortcuts(Rml::DataModelConstructor& constructor);
+        bool ParisShortcutsVisible() const;
         void SyncPvpNotice();
         bool m_lastPvpState = false;
         std::uint64_t m_pvpNoticeStarted = 0;
@@ -137,10 +139,13 @@ namespace mu::ui::window
             // expFraction is progress within the current 10%-of-level decile (0..1), not overall
             // level progress; expDigit (0-9) is that decile number.
             float expFraction = 0.f;
+            float expLevelFraction = 0.f;
             Rml::String expDigit;
             Rml::String expTooltip;
 
             // Corner buttons: "Open" mirrors SetBtnState()'s bStateDown; tooltips are static strings pushed once.
+            bool parisShortcutsVisible = false;
+            bool voiceMicrophoneEnabled = false;
             bool cShopOpen = false, chaInfoOpen = false, myInvenOpen = false, friendOpen = false, windowOpen = false;
             Rml::String cShopTooltip, chaInfoTooltip, myInvenTooltip, friendTooltip, windowTooltip;
 

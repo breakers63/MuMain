@@ -7,9 +7,10 @@
 	<link type="text/rcss" href="skill_icons.rcss"/>
 	<link type="text/rcss" href="master_skill_icons.rcss"/>
 	<link type="text/rcss" href="main_frame.rcss"/>
+	<link type="text/rcss" href="paris_shortcuts.rcss"/>
 </head>
 <body data-model="main_frame">
-    <div id="tvt_hud" data-if="tvt_visible" data-class-minimized="tvt_minimized"><div id="tvt_drag"></div><div class="tvt-data" data-rml="event_timer_text"></div><div class="tvt-toggle" data-event-click="tvt_minimize">− / +</div></div>
+    <div id="tvt_hud" data-if="tvt_visible" data-class-minimized="tvt_minimized"><div id="tvt_drag"></div><div class="tvt-data" data-rml="event_timer_text"></div><div class="tvt-toggle" data-event-click="tvt_minimize">âˆ’ / +</div></div>
     <div id="event_timer" data-if="event_timer_visible" data-rml="event_timer_text"></div>
     <div id="pvp_notice" data-if="pvp_notice_visible" data-class-enabled="pvp_notice_active"
          data-style-opacity="pvp_notice_opacity">{{pvp_notice_text}}</div>
@@ -44,13 +45,13 @@
 	     (.value-full); a theme shows one. -->
 	<div id="gauges_left" class="hud-part">
 		<div id="bar_hp" class="gauge-slot slot-frame slot-fill" data-attr-data-hint="hp_tooltip">
-			<div id="bar_hp_fill" class="gauge-fill gauge-fill-hp gauge-fill-vertical" data-class-poisoned="poisoned" data-style-height="hp_fraction * 100 + '%'"></div>
+			<div id="bar_hp_fill" class="gauge-fill gauge-fill-hp gauge-fill-vertical" data-class-poisoned="poisoned" data-style-height="hp_fraction * 100 + '%'"><div class="gauge-art" data-class-empty="hp_fraction &lt;= 0"></div></div>
 			<div class="gauge-fill gauge-fill-hp gauge-fill-horizontal" data-class-poisoned="poisoned" data-style-width="hp_fraction * 100 + '%'"></div>
 			<span class="gauge-num value-current">{{hp_current_text}}</span>
 			<span class="gauge-num value-full">{{hp_text}}</span>
 		</div>
 		<div id="bar_sd" class="gauge-slot slot-frame slot-fill" data-attr-data-hint="sd_tooltip">
-			<div class="gauge-fill gauge-fill-sd gauge-fill-vertical" data-style-height="sd_fraction * 100 + '%'"></div>
+			<div class="gauge-fill gauge-fill-sd gauge-fill-vertical" data-style-height="sd_fraction * 100 + '%'"><div class="gauge-art" data-class-empty="sd_fraction &lt;= 0"></div></div>
 			<div class="gauge-fill gauge-fill-sd gauge-fill-horizontal" data-style-width="sd_fraction * 100 + '%'"></div>
 			<span class="gauge-num value-current">{{sd_current_text}}</span>
 			<span class="gauge-num value-full">{{sd_text}}</span>
@@ -58,13 +59,13 @@
 	</div>
 	<div id="gauges_right" class="hud-part">
 		<div id="bar_ag" class="gauge-slot slot-frame slot-fill" data-attr-data-hint="ag_tooltip">
-			<div class="gauge-fill gauge-fill-ag gauge-fill-vertical" data-style-height="ag_fraction * 100 + '%'"></div>
+			<div class="gauge-fill gauge-fill-ag gauge-fill-vertical" data-style-height="ag_fraction * 100 + '%'"><div class="gauge-art" data-class-empty="ag_fraction &lt;= 0"></div></div>
 			<div class="gauge-fill gauge-fill-ag gauge-fill-horizontal" data-style-width="ag_fraction * 100 + '%'"></div>
 			<span class="gauge-num value-current">{{ag_current_text}}</span>
 			<span class="gauge-num value-full">{{ag_text}}</span>
 		</div>
 		<div id="bar_mp" class="gauge-slot slot-frame slot-fill" data-attr-data-hint="mp_tooltip">
-			<div class="gauge-fill gauge-fill-mp gauge-fill-vertical" data-style-height="mp_fraction * 100 + '%'"></div>
+			<div class="gauge-fill gauge-fill-mp gauge-fill-vertical" data-style-height="mp_fraction * 100 + '%'"><div class="gauge-art" data-class-empty="mp_fraction &lt;= 0"></div></div>
 			<div class="gauge-fill gauge-fill-mp gauge-fill-horizontal" data-style-width="mp_fraction * 100 + '%'"></div>
 			<span class="gauge-num value-current">{{mp_current_text}}</span>
 			<span class="gauge-num value-full">{{mp_text}}</span>
@@ -101,7 +102,8 @@
 		<div id="exp_frame_middle" class="exp-frame"></div>
 		<div id="exp_frame_right" class="exp-frame"></div>
 		<div id="exp_track" class="slot-frame slot-fill">
-			<div id="exp_fill" data-style-width="exp_fraction * 100 + '%'"></div>
+			<div id="exp_fill" data-style-width="exp_fraction * 100 + '%'"><div class="exp-art"></div></div>
+            <div id="exp_level_fill" data-style-width="exp_level_fraction * 100 + '%'"><div class="exp-art" data-class-empty="exp_level_fraction &lt;= 0"></div></div>
 		</div>
 		<span id="exp_digit">{{exp_digit}}</span>
 	</div>
@@ -157,5 +159,15 @@
 		</div>
 	</div>
 	</div>
+
+	<div id="paris_shortcut_anchor"><div id="paris_shortcuts" data-class-hidden="!paris_shortcuts_visible">
+		<div class="paris-shortcut shortcut-menu" data-hint="Menú" data-event-click="paris_shortcut('menu')"></div>
+		<div class="paris-shortcut shortcut-missions" data-hint="Misiones" data-event-click="paris_shortcut('missions')"></div>
+		<div class="paris-shortcut shortcut-events" data-hint="Eventos" data-event-click="paris_shortcut('events')"></div>
+		<div class="paris-shortcut shortcut-reset" data-hint="Reset" data-event-click="paris_shortcut('reset')"></div>
+		<div class="paris-shortcut shortcut-voice" data-class-microphone-on="voice_microphone_enabled" data-hint="Chat de voz" data-event-click="paris_shortcut('voice')"><div class="voice-shortcut-glyph"></div></div>
+	</div>
+
+</div>
 </body>
 </rml>

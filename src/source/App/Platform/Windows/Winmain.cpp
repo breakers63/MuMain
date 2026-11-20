@@ -1,6 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 #include "stdafx.h"
+#include "Network/Paris/VoiceProtocol.h"
 #include "Core/Platform/sdl3/SDLFullscreenMode.h"
 #include "Core/Input/KeyState.h"
 #include "Core/Utilities/FrameProfiler.h"
@@ -942,6 +943,7 @@ void RecordCpuUsage()
 
     while (!Destroy)
     {
+        Network::Paris::Voice::Update();
         double currentUsage = CpuUsage::Instance()->GetUsage() * 100.0;
 
         currentUsage = std::clamp(currentUsage, 0.0, 100.0);

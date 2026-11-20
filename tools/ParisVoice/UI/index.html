@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Paris Project · Salas de voz</title><link rel="stylesheet" href="voice.css"></head><body>
+<main id="voice-panel" class="voice-panel">
+<header id="drag-handle"><h1 id="panel-title">CHAT DE VOZ</h1><button id="minimize" title="Minimizar" aria-label="Minimizar">−</button></header>
+<div class="separator"></div>
+<section id="chat-view" class="view">
+ <div class="room-summary"><button id="mic-symbol" class="mic-badge" title="Activar o apagar el micrófono" aria-label="Activar o apagar el micrófono"><svg viewBox="0 0 24 24"><use href="#microphone-icon"/></svg><i class="mic-slash"></i></button><div><strong id="current-room">Cercanos</strong><p><span id="receive-dot" class="dot"></span><span id="receive-state">Conectando recepción…</span></p></div></div>
+ <nav class="channels" aria-label="Canal de voz"><button data-channel="proximity">Cercanos</button><button data-channel="party" disabled>Party</button><button data-channel="guild" disabled>Guild</button><button id="show-rooms">Salas</button></nav>
+ <div id="guild-controls" hidden><select id="guild-room" aria-label="Sala de guild"></select></div>
+ <button id="activate-mic" class="primary" disabled>ACTIVAR MICRÓFONO</button>
+ <p id="send-state" class="caption">Solo escuchas: nadie te oye.</p>
+ <div class="input-line"><span>Entrada</span><div id="level" class="level" aria-label="Nivel del micrófono"><i></i><i></i><i></i><i></i></div><span id="input-state">Apagado</span></div>
+ <select id="microphone" aria-label="Micrófono"><option value="">Micrófono predeterminado</option></select>
+ <label class="slider-label" for="gain">Ganancia del micrófono <output id="gain-value">100%</output></label><input id="gain" type="range" min="0" max="100" value="100">
+ <label class="slider-label" for="volume">Volumen de las voces <output id="volume-value">100%</output></label><input id="volume" type="range" min="0" max="100" value="100">
+ <div class="receive-controls"><label><input id="enabled" type="checkbox" checked> Recepción activada</label><button id="deafen" title="Silenciar las voces" aria-label="Silenciar las voces">Silenciar</button></div>
+ <details id="devices"><summary>Pruebas y jugadores <span id="peer-count">0</span></summary><select id="mode" aria-label="Modo del micrófono"><option value="open">Micrófono abierto al activarlo</option><option value="ptt">Mantener K para hablar</option></select><button id="talk" hidden>HABLAR · mantener pulsado</button><button id="test-microphone">Probar mi micrófono</button><button id="test-connection">Probar conexión: tono al otro cliente</button><p class="hint">Prueba local con auriculares. No transmite a otros.</p><ul id="peers"></ul></details>
+</section>
+<section id="rooms-view" class="view" hidden>
+ <nav class="room-tabs"><button id="public-rooms" class="selected">Públicas</button><button id="private-rooms">Privadas</button></nav>
+ <button id="show-create" class="primary">+ Crear sala</button><div class="table-heading"><span>SALA</span><span>JUGADORES</span></div><ul id="room-list" class="room-list"></ul><p id="empty-rooms" class="caption">No hay salas. Puedes crear una.</p>
+ <form id="join-form" hidden><label for="join-pin">PIN de la sala</label><input id="join-pin" type="password" inputmode="numeric" maxlength="8" pattern="[0-9]{4,8}" autocomplete="off" required><button type="submit" class="primary">ENTRAR</button></form>
+ <button id="back-chat" class="secondary">VOLVER AL CHAT</button>
+</section>
+<section id="create-view" class="view" hidden>
+ <form id="room-form"><label for="room-name">Nombre de la sala</label><input id="room-name" maxlength="24" autocomplete="off" placeholder="Ej. Clan Paris" required><label class="privacy"><input id="room-private" type="checkbox" checked> Sala privada</label><div id="pin-fields"><label for="room-pin">PIN (4 a 8 números)</label><input id="room-pin" type="password" inputmode="numeric" maxlength="8" pattern="[0-9]{4,8}" autocomplete="new-password" required><p class="caption">Solo entra quien conozca el PIN.</p></div><div class="notice">Si queda una sola persona durante 5 minutos, la sala se cierra automáticamente.</div><div class="actions"><button type="submit" class="primary">CREAR SALA</button><button id="cancel-create" type="button">CANCELAR</button></div></form>
+</section>
+<div class="separator"></div><footer><span id="connection-dot" class="dot"></span><span id="status" role="status">Conectando recepción…</span><button id="retry" hidden>Reintentar</button></footer>
+</main>
+<svg class="symbols" xmlns="http://www.w3.org/2000/svg"><symbol id="microphone-icon" viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10v2a7 7 0 0 0 14 0v-2M12 19v3M8 22h8"/></symbol></svg>
+<script type="module" src="voice-ui.js"></script></body></html>

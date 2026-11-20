@@ -1,0 +1,41 @@
+{
+  "release": "2026.11.19.9",
+  "archive": "https://patch.hispanogaming.com/windows/releases/2026.11.19.9/paris-voz-vulkan-parche.zip",
+  "files": [
+    {
+      "path": "src/bin/Data/Interface/Paris_VoiceButton.OZT",
+      "zipPath": "Vulkan/Data/Interface/Paris_VoiceButton.OZT",
+      "sha256": "e5a584f6d7db52af72ab82be68afcd895bad56dd69dde21c7031046d5c2f9fea"
+    },
+    {
+      "path": "src/bin/Data/Interface/Paris_VoiceButtonOff.OZT",
+      "zipPath": "Vulkan/Data/Interface/Paris_VoiceButtonOff.OZT",
+      "sha256": "f474d4eb5287f0fe7c1b2e9511b66b56a804d81e6b0a64beda354d91265b71cb"
+    },
+    {
+      "path": "src/bin/Data/Interface/Paris_VoiceButtonOn.OZT",
+      "zipPath": "Vulkan/Data/Interface/Paris_VoiceButtonOn.OZT",
+      "sha256": "494c36ec289611786907fc26f1da378e158bc07fcb07f90834dc34fbb1df8959"
+    },
+    {
+      "path": "src/bin/Data/Interface/RmlUi/themes/Paris_VoiceButton.OZT",
+      "zipPath": "Vulkan/Data/Interface/RmlUi/themes/Paris_VoiceButton.OZT",
+      "sha256": "e5a584f6d7db52af72ab82be68afcd895bad56dd69dde21c7031046d5c2f9fea"
+    },
+    {
+      "path": "src/bin/Data/Interface/RmlUi/themes/Paris_VoiceButtonOff.OZT",
+      "zipPath": "Vulkan/Data/Interface/RmlUi/themes/Paris_VoiceButtonOff.OZT",
+      "sha256": "f474d4eb5287f0fe7c1b2e9511b66b56a804d81e6b0a64beda354d91265b71cb"
+    },
+    {
+      "path": "src/bin/Data/Interface/RmlUi/themes/Paris_VoiceButtonOn.OZT",
+      "zipPath": "Vulkan/Data/Interface/RmlUi/themes/Paris_VoiceButtonOn.OZT",
+      "sha256": "494c36ec289611786907fc26f1da378e158bc07fcb07f90834dc34fbb1df8959"
+    },
+    {
+      "path": "tools/ParisVoice/UI/assets/panel.png",
+      "zipPath": "Vulkan/ParisVoice/UI/assets/panel.png",
+      "sha256": "daabfb7f9ea364097986e0a47fd6c03f66f1df265b409b385012dd716b800bcf"
+    }
+  ]
+}
