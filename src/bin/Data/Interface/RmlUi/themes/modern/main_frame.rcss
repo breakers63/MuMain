@@ -495,3 +495,7 @@
 #btn_pvp.active {background-color:transparent;}
 #btn_pvp .pvp-fill {position:absolute;left:3dp;right:3dp;top:3dp;bottom:3dp;pointer-events:none;background-color:transparent;}
 #btn_pvp.active .pvp-fill {background-color:transparent;}
+
+
+/* This theme keeps the original ten-segment experience bar. */
+#exp_level_fill { display:none; }

@@ -130,6 +130,7 @@ namespace mu::ui::window
             // expFraction is progress within the current 10%-of-level decile (0..1), not overall
             // level progress; expDigit (0-9) is that decile number.
             float expFraction = 0.f;
+            float expLevelFraction = 0.f;
             Rml::String expDigit;
             Rml::String expTooltip;
 
@@ -202,4 +203,5 @@ namespace mu::ui::window
 }
 
 #endif // !defined(AFX_NEWUIMAINFRAMEWINDOW_H__46A029CA_44A5_4050_9216_FA8A25EC4629__INCLUDED_)
+
 

@@ -386,6 +386,7 @@ mu_add_test(
     NAME rml_styling_regression_tests
     SOURCES
         test_rml_styling_regressions.cpp
+        test_paris_hud_gauges.cpp
         RmlLayoutFixture.cpp
         ${CMAKE_SOURCE_DIR}/src/source/App/Platform/Windows/Winmain.cpp
     LINK_LIBS MuClient
@@ -396,3 +397,4 @@ target_compile_definitions(rml_styling_regression_tests PRIVATE
 )
 # Paris HUD values and quality thresholds are independent of the renderer.
 mu_add_test(NAME test_hud_resource_gauge SOURCES test_hud_resource_gauge.cpp)
+

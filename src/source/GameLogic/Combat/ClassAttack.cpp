@@ -67,6 +67,21 @@ extern DWORD g_dwLatestZoneMoving;
 
 namespace GameLogic::Combat
 {
+namespace
+{
+WORD CurrentGroundCastTarget(CHARACTER* character)
+{
+    constexpr WORD NoTarget = 0xffff;
+    if (SelectedCharacter < 0 || SelectedCharacter >= MAX_CHARACTERS_CLIENT
+        || g_MovementSkill.m_iTarget != SelectedCharacter || !CheckAttack())
+    {
+        return NoTarget;
+    }
+
+    return getTargetCharacterKey(character, SelectedCharacter);
+}
+}
+
 void AttackElf(CHARACTER* c, int Skill, float Distance)
 {
     OBJECT* o = &c->Object;
@@ -1384,11 +1399,7 @@ void AttackWizard(CHARACTER* c, int Skill, float Distance)
             case AT_SKILL_DECAY_STR:
             case AT_SKILL_ICE_STORM:
             {
-                WORD TKey = 0xffff;
-                if (g_MovementSkill.m_iTarget != -1)
-                {
-                    TKey = getTargetCharacterKey(c, g_MovementSkill.m_iTarget);
-                }
+                WORD TKey = CurrentGroundCastTarget(c);
                 SendRequestMagicContinue(Skill, (BYTE)(c->TargetPosition[0] / TERRAIN_SCALE), (BYTE)(c->TargetPosition[1] / TERRAIN_SCALE), (BYTE)(o->Angle[2] / 360.f * 256.f), 0, 0, TKey, 0);
                 SetPlayerMagic(c);
                 c->Movement = 0;

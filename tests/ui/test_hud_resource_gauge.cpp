@@ -1,7 +1,22 @@
 #include "doctest.h"
 #include "UI/HUD/ResourceGauge.h"
+#include "UI/HUD/ExperienceProgress.h"
 #include "UI/HUD/PerformanceQuality.h"
 #include <limits>
+
+TEST_CASE("Experience fills once per level and restarts at the next lower bound")
+{
+    CHECK(UI::HUD::MakeExperienceProgress(125000,100000,200000).levelFraction == doctest::Approx(.25));
+    CHECK(UI::HUD::MakeExperienceProgress(200000,100000,200000).levelFraction == 1.f);
+    CHECK(UI::HUD::MakeExperienceProgress(200000,200000,350000).levelFraction == 0.f);
+    CHECK(UI::HUD::MakeExperienceProgress(215000,200000,350000).levelFraction == doctest::Approx(.1));
+    CHECK(UI::HUD::MakeExperienceProgress(100,200000,350000).levelFraction == 0.f);
+    CHECK(UI::HUD::MakeExperienceProgress(100,0,0).levelFraction == 0.f);
+    const auto master=UI::HUD::MakeExperienceProgress(5000000000LL,4000000000LL,8000000000LL);
+    CHECK(master.levelFraction == doctest::Approx(.25));
+    CHECK(master.segmentFraction == doctest::Approx(.5));
+    CHECK(master.segment == 2);
+}
 
 TEST_CASE("HUD resources retain server precision and show an empty depleted gauge")
 {

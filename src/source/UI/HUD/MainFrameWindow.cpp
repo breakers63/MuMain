@@ -11,6 +11,7 @@
 #include "UI/HUD/MainFrameWindow.h"	// self
 #include "UI/HUD/PerformanceQuality.h"
 #include "UI/HUD/ResourceGauge.h"
+#include "UI/HUD/ExperienceProgress.h"
 #include "UI/Options/OptionWindow.h"
 #include "UI/Core/WindowSystem.h"
 #include "UI/Widgets/UIBaseDef.h"
@@ -152,6 +153,7 @@ void mu::ui::window::CMainFrameWindow::BindRmlModel(Rml::DataModelConstructor& c
     c.Bind("poisoned", &model.poisoned);
 
     c.Bind("exp_fraction", &model.expFraction);
+    c.Bind("exp_level_fraction", &model.expLevelFraction);
     c.Bind("exp_digit", &model.expDigit);
     c.Bind("exp_tooltip", &model.expTooltip);
 
@@ -672,22 +674,11 @@ void mu::ui::window::CMainFrameWindow::SyncRmlModel()
             lowerBound = iPriorExperience;
         }
 
-        __int64 upperBound = dwNexExperience;
-        if (upperBound < lowerBound)
-            upperBound = lowerBound;
-
-        const double fNeedExp = static_cast<double>(upperBound - lowerBound);
-        const double fClampedExp = std::clamp(static_cast<double>(dwExperience), static_cast<double>(lowerBound), static_cast<double>(upperBound));
-        const double fRatio = (fNeedExp > 0.0) ? std::clamp((fClampedExp - static_cast<double>(lowerBound)) / fNeedExp, 0.0, 1.0) : 0.0;
-
-        const double scaled = std::clamp(fRatio, 0.0, 1.0) * 10.0;
-        int iExp = std::clamp(static_cast<int>(scaled), 0, 9);
-        double fProgress = std::clamp(scaled - static_cast<double>(static_cast<long long>(scaled)), 0.0, 1.0);
-        if (fRatio >= 1.0) { iExp = 9; fProgress = 1.0; }
-
-        syncFloat(&MainFrameRmlModel::expFraction, "exp_fraction", static_cast<float>(fProgress));
+        const auto progress = UI::HUD::MakeExperienceProgress(dwExperience,lowerBound,dwNexExperience);
+        syncFloat(&MainFrameRmlModel::expFraction, "exp_fraction", progress.segmentFraction);
+        syncFloat(&MainFrameRmlModel::expLevelFraction, "exp_level_fraction", progress.levelFraction);
         wchar_t szExp[8] = {};
-        mu_swprintf(szExp, L"%d", iExp);
+        mu_swprintf(szExp, L"%d", progress.segment);
         syncWide(&MainFrameRmlModel::expDigit, "exp_digit", szExp);
         mu_swprintf(szTip, I18N::Game::EXPI64dI64d, static_cast<unsigned long long>(dwExperience),
                     static_cast<unsigned long long>(dwNexExperience));
@@ -993,4 +984,5 @@ void mu::ui::window::CMainFrameWindow::SyncDocVisibility(bool sceneAllowsShow)
     m_ItemHotKey.SetSlotIconsShown(show);
     UI::RmlBridge::SyncDocumentVisibility(m_RmlView.Document(1), show);
 }
+
 

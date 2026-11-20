@@ -41,13 +41,13 @@
 	     (.value-full); a theme shows one. -->
 	<div id="gauges_left" class="hud-part">
 		<div id="bar_hp" class="gauge-slot slot-frame slot-fill" data-attr-data-hint="hp_tooltip">
-			<div id="bar_hp_fill" class="gauge-fill gauge-fill-hp gauge-fill-vertical" data-class-poisoned="poisoned" data-style-height="hp_fraction * 100 + '%'"></div>
+			<div id="bar_hp_fill" class="gauge-fill gauge-fill-hp gauge-fill-vertical" data-class-poisoned="poisoned" data-style-height="hp_fraction * 100 + '%'"><div class="gauge-art"></div></div>
 			<div class="gauge-fill gauge-fill-hp gauge-fill-horizontal" data-class-poisoned="poisoned" data-style-width="hp_fraction * 100 + '%'"></div>
 			<span class="gauge-num value-current">{{hp_current_text}}</span>
 			<span class="gauge-num value-full">{{hp_text}}</span>
 		</div>
 		<div id="bar_sd" class="gauge-slot slot-frame slot-fill" data-attr-data-hint="sd_tooltip">
-			<div class="gauge-fill gauge-fill-sd gauge-fill-vertical" data-style-height="sd_fraction * 100 + '%'"></div>
+			<div class="gauge-fill gauge-fill-sd gauge-fill-vertical" data-style-height="sd_fraction * 100 + '%'"><div class="gauge-art"></div></div>
 			<div class="gauge-fill gauge-fill-sd gauge-fill-horizontal" data-style-width="sd_fraction * 100 + '%'"></div>
 			<span class="gauge-num value-current">{{sd_current_text}}</span>
 			<span class="gauge-num value-full">{{sd_text}}</span>
@@ -55,13 +55,13 @@
 	</div>
 	<div id="gauges_right" class="hud-part">
 		<div id="bar_ag" class="gauge-slot slot-frame slot-fill" data-attr-data-hint="ag_tooltip">
-			<div class="gauge-fill gauge-fill-ag gauge-fill-vertical" data-style-height="ag_fraction * 100 + '%'"></div>
+			<div class="gauge-fill gauge-fill-ag gauge-fill-vertical" data-style-height="ag_fraction * 100 + '%'"><div class="gauge-art"></div></div>
 			<div class="gauge-fill gauge-fill-ag gauge-fill-horizontal" data-style-width="ag_fraction * 100 + '%'"></div>
 			<span class="gauge-num value-current">{{ag_current_text}}</span>
 			<span class="gauge-num value-full">{{ag_text}}</span>
 		</div>
 		<div id="bar_mp" class="gauge-slot slot-frame slot-fill" data-attr-data-hint="mp_tooltip">
-			<div class="gauge-fill gauge-fill-mp gauge-fill-vertical" data-style-height="mp_fraction * 100 + '%'"></div>
+			<div class="gauge-fill gauge-fill-mp gauge-fill-vertical" data-style-height="mp_fraction * 100 + '%'"><div class="gauge-art"></div></div>
 			<div class="gauge-fill gauge-fill-mp gauge-fill-horizontal" data-style-width="mp_fraction * 100 + '%'"></div>
 			<span class="gauge-num value-current">{{mp_current_text}}</span>
 			<span class="gauge-num value-full">{{mp_text}}</span>
@@ -99,6 +99,7 @@
 		<div id="exp_frame_right" class="exp-frame"></div>
 		<div id="exp_track" class="slot-frame slot-fill">
 			<div id="exp_fill" data-style-width="exp_fraction * 100 + '%'"></div>
+            <div id="exp_level_fill" data-style-width="exp_level_fraction * 100 + '%'"><div class="exp-art"></div></div>
 		</div>
 		<span id="exp_digit">{{exp_digit}}</span>
 	</div>
@@ -164,4 +165,5 @@
 </div>
 </body>
 </rml>
+
 
