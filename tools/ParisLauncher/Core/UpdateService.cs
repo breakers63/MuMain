@@ -24,6 +24,12 @@ public sealed class UpdateService(HttpClient http, string root, Action ensureCli
             throw new InvalidDataException("Configura una dirección HTTPS válida para las actualizaciones.");
         progress.Report(new("Buscando actualizaciones…", 0, true));
         UpdateManifest manifest = await FetchManifest(uri, cancellation);
+        if (uri.Host.Equals("patch.hispanogaming.com", StringComparison.OrdinalIgnoreCase) && uri.AbsolutePath == "/windows/manifest.json")
+        {
+            var catalog = await FetchManifest(new Uri(uri, "manifest-zip.json"), cancellation);
+            BundleUpdates.Validate(catalog, root);
+            BundleUpdates.MergeCatalog(manifest, catalog);
+        }
         var files = ValidateManifest(manifest, classic, both);
         string workspace = await Task.Run(transaction.Prepare, cancellation);
         var changed = await FindChanges(files, progress, cancellation);

@@ -30,6 +30,25 @@ public static class BundleUpdates
         }
     }
 
+    public static void MergeCatalog(UpdateManifest current, UpdateManifest catalog)
+    {
+        var latest = current.Files.ToDictionary(f => f.Path, StringComparer.OrdinalIgnoreCase);
+        var baseFiles = catalog.Files.ToDictionary(f => f.Path, StringComparer.OrdinalIgnoreCase);
+        var urls = current.Bundles.Select(b => b.Url).ToHashSet(StringComparer.OrdinalIgnoreCase);
+        foreach (var bundle in catalog.Bundles)
+        {
+            if (!urls.Add(bundle.Url)) continue;
+            var map = bundle.EntryMap ?? bundle.Files.ToDictionary(p => p, p => p, StringComparer.OrdinalIgnoreCase);
+            var usable = map.Where(e => latest.TryGetValue(e.Value, out var file)
+                && baseFiles.TryGetValue(e.Value, out var old) && file.Size == old.Size
+                && string.Equals(file.Sha256, old.Sha256, StringComparison.OrdinalIgnoreCase))
+                .ToDictionary(e => e.Key, e => e.Value, StringComparer.OrdinalIgnoreCase);
+            if (usable.Count == 0) continue;
+            current.Bundles.Add(new UpdateBundle { Url = bundle.Url, Size = bundle.Size,
+                Sha256 = bundle.Sha256, Files = usable.Values.ToList(), EntryMap = usable });
+        }
+    }
+
     public static List<UpdateBundle> Select(IReadOnlyList<UpdateBundle> bundles, List<UpdateFile> changed)
     {
         var remaining = changed.ToDictionary(f => f.Path, StringComparer.OrdinalIgnoreCase);
