@@ -1,3 +1,5 @@
+/* RmlUi has no browser user-agent stylesheet. */
+.paris-event-guide div,.paris-event-guide p,.paris-event-guide h3 {display:block;}
 /* The H guide owns one responsive, draggable 600x414 logical-unit panel. */
 #panel.paris-event-guide {position:absolute;left:50%;top:1%;margin-left:-300dp;width:600dp;height:414dp;box-sizing:border-box;background-color:#0c0c0a;border:2dp #ba8c25;pointer-events:auto;color:#ede3c8;font-family:"token(font-body)";font-size:7.5dp;padding:6dp;}
 .paris-event-guide button {color:#f4d372;background-color:#16140f;border:1dp #907137;cursor:pointer;padding:3dp 6dp;font-size:7.5dp;}
@@ -27,7 +29,7 @@
 .guide-detail-title h3 {border-width:0;text-align:left;max-width:64%;font-size:12dp;overflow:hidden;white-space:nowrap;}
 .guide-detail-title span {padding:4dp;color:#91ee66;}
 .guide-banner {height:87dp;position:relative;overflow:hidden;border:1dp #a9863f;background-color:#111c26;margin-bottom:3dp;box-sizing:border-box;}
-#guide-boss-model {position:absolute;left:45dp;right:45dp;top:0;height:76dp;width:auto;}
+#guide-boss-model {position:absolute;left:10%;top:0;height:65dp;width:80%;}
 .guide-boss-caption {position:absolute;bottom:0;left:0;right:0;background-color:#080b0e;color:#f9d57a;text-align:center;font-size:9dp;font-weight:bold;padding:2dp;}
 .guide-metrics {display:flex;height:28dp;border:1dp #a9863f;background-color:#0d0e0b;margin-bottom:3dp;box-sizing:border-box;}
 .guide-metrics>div {width:50%;text-align:center;border-right:1dp #654d24;} .guide-metrics span,.guide-metrics strong {display:block;} .guide-metrics span {color:#ead7aa;font-size:7dp;} .guide-metrics strong {color:#fbe56a;font-size:10dp;}
