@@ -122,3 +122,9 @@ mu_add_test(
 )
 
 mu_add_test(NAME test_ranking_inspection SOURCES test_ranking_inspection.cpp LINK_LIBS MuClient)
+
+mu_add_test(
+    NAME test_event_guide_protocol
+    SOURCES test_event_guide_protocol.cpp
+        ${CMAKE_SOURCE_DIR}/src/source/Network/Paris/EventGuideProtocol.cpp
+)

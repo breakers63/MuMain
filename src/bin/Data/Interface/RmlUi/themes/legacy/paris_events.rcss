@@ -1,19 +1,51 @@
-/* Original events: narrow stone panel, three aligned columns, five pages. */
-@spritesheet event-close { src: "../paris-gold/stats-close.tga"; event-close: 0px 0px 74px 64px; }
-#panel.paris-events { position: absolute; left: auto; right: 0; top: 0; margin-left: 0; width: 190dp; height: 429dp; pointer-events: auto; color: #eee8dc; font-family: "token(font-body)"; font-size: 7dp; }
-#panel.paris-events #title { position: absolute; left: 0; top: 30dp; width: 100%; height: 15dp; line-height: 15dp; text-align: center; color: #edd449; font-size: 7dp; }
-#panel.paris-events #frame_corner_close { position: absolute; top: 18dp; right: 8dp; width: 17dp; height: 20dp; decorator: image(event-close); cursor: pointer; }
-.event-head { position: absolute; left: 10dp; top: 66dp; width: 170dp; height: 24dp; color: #eed740; }
-.event-list { position: absolute; left: 10dp; top: 96dp; width: 170dp; height: 275dp; }
-.event-row { display: block; position: relative; width: 100%; height: 28dp; }
-.event-row.alternate { background-color: #56565638; }
-.event-name, .event-remaining, .event-state { position: absolute; top: 0; height: 100%; line-height: 28dp; }
-.event-name { left: 3dp; width: 70dp; } .event-remaining { left: 76dp; width: 48dp; text-align: center; } .event-state { left: 128dp; width: 42dp; text-align: center; }
-.event-row .event-remaining { color: #e8c642; } .event-row.active .event-remaining, .event-row.active .event-state { color: #00ec72; }
-.event-prev, .event-next { position: absolute; top: 378dp; width: 18dp; height: 20dp; line-height: 20dp; border: 1dp #69572e; background-color: #242826; text-align: center; color: #b8a269; cursor: pointer; font-size: 10dp; }
-.event-prev { left: 34dp; } .event-next { right: 34dp; } .event-page { position: absolute; top: 378dp; left: 53dp; width: 84dp; height: 20dp; line-height: 20dp; text-align: center; }
-.event-status { position: absolute; left: 8dp; bottom: 8dp; width: 174dp; text-align: center; color: #a6a29a; font-size: 6.5dp; }
-.event-empty { text-align: center; }
-.event-hidden-tabs { display: none; }
+/* The H guide owns one responsive, draggable 600x414 logical-unit panel. */
+#panel.paris-event-guide {position:absolute;left:50%;top:1%;margin-left:-300dp;width:600dp;height:414dp;box-sizing:border-box;background-color:#0c0c0a;border:2dp #ba8c25;pointer-events:auto;color:#ede3c8;font-family:"token(font-body)";font-size:7.5dp;padding:6dp;}
+.paris-event-guide button {color:#f4d372;background-color:#16140f;border:1dp #907137;cursor:pointer;padding:3dp 6dp;font-size:7.5dp;}
+.paris-event-guide button:disabled {opacity:0.45;cursor:default;}
+.paris-event-guide button:hover {border-color:#ffe5a3;background-color:#403018;}
+.paris-event-guide .selected {border-color:#ffe5a3;background-color:#3b2d15;}
+.paris-event-guide .live {color:#91ee66;} .paris-event-guide .unmet {color:#f38b69;}
+.paris-event-guide h3 {color:#f5d781;margin:0;padding:4dp;text-align:center;background-color:#211b12;border-bottom:1dp #9d7d38;font-size:9dp;font-weight:bold;}
+.paris-event-guide p {margin:5dp;}
+.guide-header {height:47dp;position:relative;border-bottom:2dp #bd9546;text-align:center;background-color:#17150f;cursor:move;}
+.guide-brand {padding-top:4dp;letter-spacing:3dp;color:#e6c97e;}
+.guide-heading {font-size:25dp;font-weight:bold;color:#ffe4a0;}
+.guide-x {position:absolute;right:9dp;top:8dp;width:22dp;height:24dp;padding:0;color:#ffdb48;}
+.guide-categories {height:22dp;display:flex;justify-content:space-between;padding:3dp 0;}
+.guide-categories button {width:16%;padding:0 3dp;text-align:center;}
+.guide-sidebar {position:absolute;left:8dp;top:78dp;width:174dp;height:314dp;border:1dp #c29948;background-color:#080909;padding:4dp;box-sizing:border-box;}
+.guide-list-title {height:20dp;font-size:9dp;font-weight:bold;color:#f6d87f;border-bottom:1dp #9c783a;padding:3dp;box-sizing:border-box;}
+.guide-list-title span {float:right;}
+.guide-events {height:260dp;overflow-y:auto;}
+.guide-event {width:100%;height:27dp;display:flex;align-items:center;justify-content:space-between;margin:2dp 0;text-align:left;box-sizing:border-box;}
+.guide-event span {width:64%;} .guide-event strong {font-size:7dp;color:#ffdc57;white-space:nowrap;}
+.guide-paging {display:flex;justify-content:space-between;align-items:center;height:17dp;}
+.guide-paging button {height:15dp;min-width:23dp;padding:0;text-align:center;}
+.guide-detail {position:absolute;left:190dp;right:8dp;top:78dp;height:314dp;}
+.guide-content {display:flex;flex-direction:column;height:100%;}
+.guide-detail-title {height:23dp;display:flex;align-items:center;justify-content:space-between;border:1dp #ba9347;box-sizing:border-box;margin-bottom:3dp;}
+.guide-detail-title h3 {border-width:0;text-align:left;max-width:64%;font-size:12dp;overflow:hidden;white-space:nowrap;}
+.guide-detail-title span {padding:4dp;color:#91ee66;}
+.guide-banner {height:87dp;position:relative;overflow:hidden;border:1dp #a9863f;background-color:#111c26;margin-bottom:3dp;box-sizing:border-box;}
+#guide-boss-model {position:absolute;left:45dp;right:45dp;top:0;height:76dp;width:auto;}
+.guide-boss-caption {position:absolute;bottom:0;left:0;right:0;background-color:#080b0e;color:#f9d57a;text-align:center;font-size:9dp;font-weight:bold;padding:2dp;}
+.guide-metrics {display:flex;height:28dp;border:1dp #a9863f;background-color:#0d0e0b;margin-bottom:3dp;box-sizing:border-box;}
+.guide-metrics>div {width:50%;text-align:center;border-right:1dp #654d24;} .guide-metrics span,.guide-metrics strong {display:block;} .guide-metrics span {color:#ead7aa;font-size:7dp;} .guide-metrics strong {color:#fbe56a;font-size:10dp;}
+.guide-info {display:flex;height:123dp;margin-bottom:3dp;}
+.guide-requirements {width:58%;border:1dp #9e7b38;margin-right:4dp;box-sizing:border-box;}
+.guide-scroll {height:100dp;overflow-y:auto;padding:2dp 4dp;box-sizing:border-box;}
+.guide-requirement {display:flex;justify-content:space-between;min-height:15dp;padding:2dp 0;border-bottom:1dp #45402c;}
+.guide-requirement span {width:42%;} .guide-requirement strong {width:58%;text-align:right;font-weight:normal;}
+.guide-monsters {width:42%;border:1dp #9e7b38;box-sizing:border-box;} .guide-monsters h3 {font-size:8dp;}
+.guide-monster-cards {display:flex;height:80dp;padding:2dp;box-sizing:border-box;}
+.guide-monster {width:33.33%;text-align:center;border:1dp #6f552a;display:flex;flex-direction:column;margin-right:2dp;box-sizing:border-box;}
+.guide-monster span {font-size:6.5dp;} .guide-monster-model {height:58dp;width:100%;}
+.guide-monsters .guide-paging {padding:0 3dp;}
+.guide-footer {display:flex;height:49dp;border:1dp #af873d;padding:3dp;box-sizing:border-box;}
+.guide-rewards {width:60%;margin-right:5dp;} .guide-rewards h3 {text-align:left;font-size:8dp;padding:1dp;border-width:0;}
+.guide-reward-scroll {height:29dp;overflow-y:auto;font-size:7dp;} .guide-rewards p {margin:1dp 0;}
+.guide-actions {width:40%;display:flex;flex-direction:column;justify-content:center;} .guide-actions button {height:19dp;padding:1dp;margin-bottom:2dp;text-align:center;}
+.guide-enter {background-color:#664314;color:#ffe8a6;font-weight:bold;}
+.guide-wait {padding:75dp 25dp;text-align:center;color:#d4c08f;}
+.guide-status {position:absolute;bottom:7dp;left:12dp;right:12dp;text-align:center;color:#bca778;font-size:7dp;}
 
-#panel.paris-events #title { cursor: move; }

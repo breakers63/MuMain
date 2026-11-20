@@ -1,16 +1,131 @@
 {
-  "status": "Horarios actualizados desde el servidor",
+  "status": "VISTA LOCAL · DATOS DE PRUEBA",
   "tabs": [
-    { "label": "Eventos clásicos", "index": 0, "selected": false },
-    { "label": "Invasiones", "index": 1, "selected": true },
-    { "label": "Bonificaciones", "index": 2, "selected": false },
-    { "label": "Mini invasiones", "index": 3, "selected": false },
-    { "label": "Jefes", "index": 4, "selected": false }
+    {
+      "key": "all",
+      "name": "Todos",
+      "selected": true
+    },
+    {
+      "key": "classic",
+      "name": "Clásicos",
+      "selected": false
+    },
+    {
+      "key": "invasion",
+      "name": "Invasiones",
+      "selected": false
+    },
+    {
+      "key": "boss",
+      "name": "Jefes",
+      "selected": false
+    },
+    {
+      "key": "bonus",
+      "name": "Bonos",
+      "selected": false
+    },
+    {
+      "key": "custom",
+      "name": "Customs",
+      "selected": false
+    }
   ],
   "events": [
-    { "name": "Golden Invasion", "state": "Activo", "seconds": 0, "active": true },
-    { "name": "Red Dragon Invasion", "state": "En 00:24:10", "seconds": 1450, "active": false },
-    { "name": "White Wizard", "state": "En 01:15:00", "seconds": 4500, "active": false }
+    {
+      "key": "mini-1",
+      "name": "Blood Castle",
+      "value": "00:04:59",
+      "state": 1,
+      "selected": false
+    },
+    {
+      "key": "mini-0",
+      "name": "Devil Square",
+      "value": "00:04:59",
+      "state": 1,
+      "selected": false
+    },
+    {
+      "key": "raklion",
+      "name": "Raklion",
+      "value": "00:04:59",
+      "state": 1,
+      "selected": true
+    },
+    {
+      "key": "custom-sky",
+      "name": "Sky Event",
+      "value": "00:04:59",
+      "state": 1,
+      "selected": false
+    }
   ],
-  "empty": false
+  "title": "Raklion",
+  "phase": "Disponible",
+  "countdown": "00:04:59",
+  "players": "-- / --",
+  "boss": "JEFE: Selupan",
+  "page": 1,
+  "pages": 1,
+  "monster_page": 1,
+  "monster_pages": 1,
+  "empty": false,
+  "has_detail": true,
+  "can_join": false,
+  "requirements": [
+    {
+      "name": "Acceso",
+      "value": "Portal de Raklion; sin objeto de entrada",
+      "state": -1
+    },
+    {
+      "name": "Nivel requerido",
+      "value": "400",
+      "state": 1
+    },
+    {
+      "name": "Tu nivel",
+      "value": "400",
+      "state": -1
+    },
+    {
+      "name": "Entrada necesaria",
+      "value": "Sin objeto de entrada",
+      "state": -1
+    },
+    {
+      "name": "Mapa",
+      "value": "Hatchery",
+      "state": -1
+    },
+    {
+      "name": "Portal",
+      "value": "Abierto",
+      "state": -1
+    },
+    {
+      "name": "Ejemplo largo",
+      "value": "Requisitos configurados por el servidor",
+      "state": 0
+    }
+  ],
+  "monsters": [
+    {
+      "key": "459",
+      "name": "Selupan",
+      "state": 1
+    },
+    {
+      "key": "460",
+      "name": "Coolutin",
+      "state": -1
+    }
+  ],
+  "rewards": [
+    {
+      "name": "Datos de prueba visual"
+    }
+  ]
 }

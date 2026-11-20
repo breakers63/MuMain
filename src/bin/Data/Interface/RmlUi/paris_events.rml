@@ -1,1 +1,29 @@
-<rml><head><title>Eventos</title><link type="text/rcss" href="base.rcss"/><link type="text/rcss" href="docked_panel_frame.rcss"/><link type="text/rcss" href="paris_panel.rcss"/><link type="text/rcss" href="paris_events.rcss"/></head><body data-model="paris_events"><div id="panel" class="paris-events"><div class="frame-piece frame-top"></div><div class="frame-piece frame-left"></div><div class="frame-piece frame-right"></div><div class="frame-piece frame-bottom"></div><span id="title">{{title}}</span><div id="frame_corner_close" data-event-click="paris_event_close"></div><div class="event-head"><span class="event-name">Evento</span><span class="event-remaining">Restante</span><span class="event-state">Estado</span></div><div class="event-list"><div class="event-row" data-for="event : events" data-class-active="event.active" data-class-alternate="event.index % 2 == 0"><span class="event-name">{{event.name}}</span><span class="event-remaining">{{event.remaining}}</span><span class="event-state">{{event.state}}</span></div><div class="event-empty" data-if="empty">No hay eventos en esta categoría.</div></div><div class="event-prev" data-event-click="paris_event_page(-1)">◀</div><div class="event-page">Página {{page}}/5</div><div class="event-next" data-event-click="paris_event_page(1)">▶</div><div class="event-status" data-attr-title="status">H o ESC para cerrar</div><div class="event-hidden-tabs"><span data-for="tab : tabs" data-event-click="paris_event_tab(tab.index)">{{tab.label}}</span></div></div></body></rml>
+<rml>
+<head><title>Eventos Paris</title><link type="text/rcss" href="base.rcss"/><link type="text/rcss" href="paris_events.rcss"/></head>
+<body data-model="paris_events">
+<div id="panel" class="paris-event-guide">
+ <div class="guide-corner tl"></div><div class="guide-corner tr"></div><div class="guide-corner bl"></div><div class="guide-corner br"></div>
+ <div class="guide-header" id="title"><div class="guide-dragon left"></div><div class="guide-brand">PARIS PROJECT</div><div class="guide-heading">EVENTOS</div><div class="guide-dragon right"></div></div>
+ <button class="guide-x" data-event-click="paris_event_close">X</button>
+ <div class="guide-categories"><button data-for="tab : tabs" data-class-selected="tab.selected" data-event-click="paris_event_tab(tab.key)">{{tab.name}}</button></div>
+ <div class="guide-sidebar">
+  <div class="guide-list-title">EVENTO <span>ESTADO</span></div>
+  <div class="guide-events"><button class="guide-event" data-for="event : events" data-class-selected="event.selected" data-event-click="paris_event_select(event.key)"><span>{{event.name}}</span><strong data-class-live="event.state == 1">{{event.value}}</strong></button><p data-if="empty">Consultando al servidor...</p></div>
+  <div class="guide-paging"><button data-event-click="paris_event_page(-1)">&lt;</button><span>{{page}} / {{pages}}</span><button data-event-click="paris_event_page(1)">&gt;</button></div>
+ </div>
+ <div class="guide-detail">
+  <p class="guide-wait" data-if="!has_detail">Consultando eventos, requisitos y horarios del servidor...</p>
+  <div class="guide-content" data-if="has_detail">
+   <div class="guide-detail-title"><h3>{{title}}</h3><span>{{phase}}</span></div>
+   <div class="guide-banner"><img id="guide-boss-model"/><div class="guide-boss-caption">{{boss}}</div></div>
+   <div class="guide-metrics"><div><span>JUGADORES</span><strong>{{players}}</strong></div><div><span>TIEMPO RESTANTE</span><strong>{{countdown}}</strong></div></div>
+   <div class="guide-info">
+    <div class="guide-requirements"><h3>REQUISITOS DE ACCESO</h3><div class="guide-scroll"><div class="guide-requirement" data-for="row : requirements"><span>{{row.name}}</span><strong data-class-live="row.state == 1" data-class-unmet="row.state == 0">{{row.value}}</strong></div></div></div>
+    <div class="guide-monsters"><h3>MONSTRUOS DEL EVENTO</h3><div class="guide-monster-cards"><div class="guide-monster" data-for="monster : monsters"><img class="guide-monster-model"/><span>{{monster.name}}</span></div></div><div class="guide-paging"><button data-event-click="paris_monster_page(-1)">&lt;</button><span>{{monster_page}} / {{monster_pages}}</span><button data-event-click="paris_monster_page(1)">&gt;</button></div></div>
+   </div>
+   <div class="guide-footer"><div class="guide-rewards"><h3>RECOMPENSAS</h3><div class="guide-reward-scroll"><p data-for="reward : rewards">{{reward.name}}</p></div></div><div class="guide-actions"><button class="guide-enter" data-attr-disabled="!can_join" data-event-click="paris_event_join">ENTRAR AL EVENTO</button><button data-event-click="paris_event_close">CERRAR</button></div></div>
+  </div>
+ </div>
+ <div class="guide-status">{{status}} · H o ESC para cerrar</div>
+</div>
+</body></rml>
