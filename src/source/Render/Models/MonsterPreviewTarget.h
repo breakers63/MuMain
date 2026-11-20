@@ -9,7 +9,7 @@ namespace Render::MonsterPreviews
 class MonsterPreviewTarget
 {
 public:
-    MonsterPreviewTarget();
+    explicit MonsterPreviewTarget(bool thumbnail = false);
     ~MonsterPreviewTarget();
     void Sync(Rml::Element* image, int monster);
     void Disable();
@@ -18,6 +18,7 @@ private:
     void MeasureModel();
     void Clear();
     void Draw(std::uint32_t width, std::uint32_t height);
+    bool m_thumbnail = false;
     int m_monster = -1;
     std::array<float, 3> m_center{};
     std::array<float, 3> m_halfExtents{50.f, 50.f, 50.f};

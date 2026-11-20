@@ -18,7 +18,7 @@
 
 namespace Render::MonsterPreviews
 {
-MonsterPreviewTarget::MonsterPreviewTarget() : m_target([this](auto width, auto height) { Draw(width, height); }) {}
+MonsterPreviewTarget::MonsterPreviewTarget(bool thumbnail) : m_thumbnail(thumbnail), m_target([this](auto width, auto height) { Draw(width, height); }) { m_target.SetContinuous(!thumbnail); }
 MonsterPreviewTarget::~MonsterPreviewTarget() { Clear(); }
 void MonsterPreviewTarget::Clear()
 {
@@ -35,7 +35,7 @@ void MonsterPreviewTarget::Clear()
 void MonsterPreviewTarget::Disable() { m_target.SetEnabled(false); }
 bool MonsterPreviewTarget::Build(int monster)
 {
-    Clear(); m_monster = monster;
+    Clear(); m_monster = monster; m_target.Invalidate();
     if (!Hero || monster < 0 || monster > 32767) return false;
     // Match the original detached preview: obtain the native configured model once,
     // clone its appearance, then immediately remove the temporary world source.
@@ -127,7 +127,7 @@ void MonsterPreviewTarget::Draw(std::uint32_t width, std::uint32_t height)
     auto& character = *m_character; auto& object = character.Object;
     constexpr std::uint64_t RotationPeriodMilliseconds = 12000;
     constexpr float FullTurn = 360.f, DegreesToRadians = .01745329252f;
-    const float rotation = static_cast<float>(GetTickCount64() % RotationPeriodMilliseconds) * FullTurn / RotationPeriodMilliseconds;
+    const float rotation = m_thumbnail ? 25.f : static_cast<float>(GetTickCount64() % RotationPeriodMilliseconds) * FullTurn / RotationPeriodMilliseconds;
     const float sine = std::sin(rotation * DegreesToRadians), cosine = std::cos(rotation * DegreesToRadians);
     const float depth = std::abs(cosine) * m_halfExtents[0] + std::abs(sine) * m_halfExtents[1];
     const float horizontal = std::abs(sine) * m_halfExtents[0] + std::abs(cosine) * m_halfExtents[1];
