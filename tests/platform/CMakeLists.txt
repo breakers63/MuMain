@@ -41,6 +41,20 @@ mu_add_test(
 )
 
 mu_add_test(
+    NAME win_nls_tests
+    SOURCES
+        test_win_nls.cpp
+        ${CMAKE_SOURCE_DIR}/src/source/Core/Platform/WinNls.cpp
+)
+
+mu_add_test(
+    NAME win_guid_tests
+    SOURCES
+        test_win_guid.cpp
+        ${CMAKE_SOURCE_DIR}/src/source/Core/Platform/WinGuid.cpp
+)
+
+mu_add_test(
     NAME bundled_font_role_tests
     SOURCES
         test_bundled_font_roles.cpp

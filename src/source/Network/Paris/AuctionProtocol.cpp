@@ -3,7 +3,7 @@
 #include "Network/Server/WSclient.h"
 #include "Network/Server/ExtendedItemData.h"
 #include "../../../ThirdParty/json.hpp"
-#include <objbase.h>
+#include "Core/Platform/WinGuid.h"
 #include <cstring>
 #include <cstdio>
 
@@ -161,7 +161,7 @@ namespace Network::Paris::Auctions
         {
             GUID identity{}; if (FAILED(CoCreateGuid(&identity))) return false;
             std::snprintf(reinterpret_cast<char*>(packet + 72), 37, "%08lX-%04X-%04X-%02X%02X-%02X%02X%02X%02X%02X%02X",
-                identity.Data1, identity.Data2, identity.Data3, identity.Data4[0], identity.Data4[1], identity.Data4[2], identity.Data4[3],
+                static_cast<unsigned long>(identity.Data1), identity.Data2, identity.Data3, identity.Data4[0], identity.Data4[1], identity.Data4[2], identity.Data4[3],
                 identity.Data4[4], identity.Data4[5], identity.Data4[6], identity.Data4[7]);
         }
         SocketClient->Send(packet, sizeof(packet)); return true;

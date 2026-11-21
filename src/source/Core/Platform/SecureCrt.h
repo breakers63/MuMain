@@ -214,4 +214,13 @@ inline errno_t _wfopen_s(FILE** pFile, const wchar_t* path, const wchar_t* mode)
     return (*pFile != nullptr) ? 0 : errno;
 }
 
+// ---- fopen_s -----------------------------------------------------------------
+// Narrow-path counterpart of _wfopen_s, through the same case-correcting resolver.
+inline errno_t fopen_s(FILE** pFile, const char* path, const char* mode)
+{
+    if (pFile == nullptr || path == nullptr || mode == nullptr) return mu__einval();
+    *pFile = fopen(MuResolvePath(path).c_str(), mode);
+    return (*pFile != nullptr) ? 0 : errno;
+}
+
 #endif // !_WIN32
