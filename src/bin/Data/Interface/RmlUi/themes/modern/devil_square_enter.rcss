@@ -6,7 +6,7 @@
 }
 
 /* Charon: readable title below the crest and full-height gold level buttons. */
-#title {top:31px;color:#f5d36f;}
+#title {top:31px;left:6px;--flow-w:178px;color:#f5d36f;}
 .entry-lines {top:62px;height:calc(84px * var(--root-scale));}
 .entry-buttons {top:155px;height:calc(230px * var(--root-scale));}
 .entry-btn-art {decorator:none;background-color:#1d1709;border:calc(1px * var(--root-scale)) #876d2c;}
@@ -17,11 +17,10 @@
 
 /* OpenGL Charon: six prose rows and all seven gold level bands fit above the exit. */
 .entry-lines {top:55px;height:calc(90px * var(--root-scale));}
-.entry-line {line-height:calc(15px * var(--root-scale));white-space:nowrap;word-break:normal;padding:0;}
+.entry-line {line-height:calc(15px * var(--root-scale));padding:0;}
 .entry-line + .entry-line {margin-top:0;}
 .entry-buttons {top:150px;height:calc(218px * var(--root-scale));}
-.entry-btn {height:calc(24px * var(--root-scale));min-height:calc(24px * var(--root-scale));padding:0;}
+.entry-btn {min-height:calc(24px * var(--root-scale));padding:0;}
 .entry-btn + .entry-btn {margin-top:calc(7px * var(--root-scale));}
 #btn_exit {left:14px;bottom:24px;width:28px;height:31px;}
 
-.entry-label {white-space:nowrap;word-break:normal;}
