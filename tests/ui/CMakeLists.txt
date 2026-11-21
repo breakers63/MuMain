@@ -182,6 +182,8 @@ mu_add_test(
         test_ui_scaling.cpp
         ${CMAKE_SOURCE_DIR}/src/source/App/Platform/Windows/Winmain.cpp
     LINK_LIBS MuClient
+    # GameConfig reads and writes the config.ini beside this executable.
+    RESOURCE_LOCK ui_scaling_tests_config_ini
 )
 
 mu_add_test(
