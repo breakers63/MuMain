@@ -9,7 +9,9 @@ Cargar MIDI permite seleccionar `.mid` o `.midi`, Tocar, Pausa, Detener y Repeti
 controlan la canción. Guardar retira el instrumento. Moverse, morir o cambiar de
 mapa detiene la reproducción. ESC cierra la ventana.
 
-El audio es LOCAL y usa el sintetizador MIDI de Windows. Las bandas y la escucha
+El audio es LOCAL y usa el sintetizador MIDI de Windows. En Linux y macOS no hay
+sintetizador MIDI del sistema: Cargar MIDI no abre nada y la ventana indica que
+la reproduccion solo esta disponible en Windows. Las bandas y la escucha
 compartida con la web todavía no están conectadas. La interfaz lo indica.
 Límites: 2 MB, 30 minutos, formato MIDI 0/1 con tiempo por pulsos.
 Batería reproduce el canal 10; los demás instrumentos los canales melódicos.

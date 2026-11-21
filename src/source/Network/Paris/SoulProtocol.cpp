@@ -5,7 +5,7 @@
 #include <cmath>
 #include <cstring>
 #include <cstdio>
-#include <objbase.h>
+#include "Core/Platform/WinGuid.h"
 
 namespace Network::Paris::Soul
 {
@@ -108,7 +108,7 @@ namespace Network::Paris::Soul
             GUID identity{};
             if (FAILED(CoCreateGuid(&identity))) return false;
             std::snprintf(reinterpret_cast<char*>(packet + 88), 37, "%08lX-%04X-%04X-%02X%02X-%02X%02X%02X%02X%02X%02X",
-                identity.Data1, identity.Data2, identity.Data3, identity.Data4[0], identity.Data4[1], identity.Data4[2],
+                static_cast<unsigned long>(identity.Data1), identity.Data2, identity.Data3, identity.Data4[0], identity.Data4[1], identity.Data4[2],
                 identity.Data4[3], identity.Data4[4], identity.Data4[5], identity.Data4[6], identity.Data4[7]);
         }
         SocketClient->Send(packet, sizeof(packet));

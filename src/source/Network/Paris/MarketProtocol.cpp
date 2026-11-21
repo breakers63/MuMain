@@ -8,7 +8,7 @@
 
 #include <algorithm>
 #include <cstring>
-#include <objbase.h>
+#include "Core/Platform/WinGuid.h"
 
 namespace Network::Paris::Market
 {

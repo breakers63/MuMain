@@ -24,6 +24,22 @@ namespace
 constexpr DWORD InterfaceId = 0x50425053u;
 constexpr DWORD SnapshotFreshness = 30000, RequestTimeout = 6000;
 constexpr int VisibleLevels = 6, RewardTargets = VisibleLevels * 2;
+
+// "dd/mm/yyyy" for a UTC Unix timestamp; empty when the timestamp is unset or out of range.
+std::string FormatUtcDate(std::int64_t secondsSinceEpoch)
+{
+    if (secondsSinceEpoch <= 0) return {};
+    const std::time_t stamp = static_cast<std::time_t>(secondsSinceEpoch);
+    std::tm utc{};
+#ifdef _WIN32
+    if (gmtime_s(&utc, &stamp) != 0) return {};
+#else
+    if (!gmtime_r(&stamp, &utc)) return {};
+#endif
+    char date[32]{};
+    std::strftime(date, sizeof(date), "%d/%m/%Y", &utc);
+    return date;
+}
 }
 
 CParisBattlePassWindow* g_pParisBattlePassWindow = nullptr;
@@ -304,15 +320,8 @@ void CParisBattlePassWindow::UpdatePremium()
         : !m_hasSnapshot || !data.Active ? "Sin temporada activa" : data.Premium ? "Premium ya activo"
         : !data.PremiumTermsKnown ? "Confirmar activacion"
         : data.PremiumRequirementReady ? "Ready to Activate!" : "Falta el requisito";
-    model.expires = "No publicado";
-    __time64_t stamp = m_hasSnapshot ? data.PremiumExpiresUtc : 0;
-    tm utc{};
-    if (stamp > 0 && _gmtime64_s(&utc, &stamp) == 0)
-    {
-        char date[32]{};
-        strftime(date, sizeof(date), "%d/%m/%Y", &utc);
-        model.expires = date;
-    }
+    const std::string expires = FormatUtcDate(m_hasSnapshot ? data.PremiumExpiresUtc : 0);
+    model.expires = expires.empty() ? "No publicado" : expires;
     for (const char* field : {"requirement", "premium_status", "expires"}) m_RmlView.MarkDirty(field);
 }
 

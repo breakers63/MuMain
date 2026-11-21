@@ -12,8 +12,10 @@
 #include "Scenes/SceneCore.h"
 #include "Network/Server/WSclient.h"
 #include "Core/Math/ZzzMathLib.h"
+#ifdef _WIN32
 #include <commdlg.h>
 #include <mmsystem.h>
+#endif
 #include <array>
 #include <fstream>
 #include <filesystem>
@@ -34,6 +36,36 @@ constexpr std::array<const wchar_t*,7> EmojiTokens={L">:(",L"<3",L"zzz",L"(!)",L
 constexpr std::array<const wchar_t*,12> Names={L"Enfado",L"Amor",L"Sueno",L"Alerta",L"Duda",L"Sorpresa",L"Mareo",L"Guitarra",L"Flauta",L"Ocarina",L"Arpa",L"Bateria"};
 constexpr std::array<const wchar_t*,6> MeshNames={L"Guitar",L"Flute",L"Ocarina",L"Harp",L"Drumstick",L"DrumKit"};
 constexpr std::array<int,5> Programs={24,73,79,46,0};
+// Local playback goes through the system MIDI synthesizer and the MIDI file comes from the
+// system file picker. Both are Windows-only; elsewhere no device opens and no file is picked,
+// so the window reports that playback is unavailable instead of failing to build.
+#ifdef _WIN32
+using MidiDevice=HMIDIOUT;
+MidiDevice OpenMidiDevice()
+{
+    HMIDIOUT device=nullptr;
+    if(midiOutOpen(&device,MIDI_MAPPER,0,0,CALLBACK_NULL)!=MMSYSERR_NOERROR)return nullptr;
+    return device;
+}
+void ResetMidiDevice(MidiDevice device){midiOutReset(device);}
+void CloseMidiDevice(MidiDevice device){midiOutClose(device);}
+void SendMidiMessage(MidiDevice device,std::uint32_t message){midiOutShortMsg(device,message);}
+bool PickMidiFile(wchar_t (&path)[MAX_PATH])
+{
+    OPENFILENAMEW dialog{};dialog.lStructSize=sizeof(dialog);dialog.hwndOwner=g_hWnd;
+    dialog.lpstrFilter=L"Archivos MIDI (*.mid;*.midi)\0*.mid;*.midi\0\0";
+    dialog.lpstrFile=path;dialog.nMaxFile=MAX_PATH;dialog.Flags=OFN_FILEMUSTEXIST|OFN_PATHMUSTEXIST|OFN_NOCHANGEDIR;
+    return GetOpenFileNameW(&dialog)!=FALSE;
+}
+#else
+using MidiDevice=void*;
+MidiDevice OpenMidiDevice(){return nullptr;}
+void ResetMidiDevice(MidiDevice){}
+void CloseMidiDevice(MidiDevice){}
+void SendMidiMessage(MidiDevice,std::uint32_t){}
+bool PickMidiFile(wchar_t (&)[MAX_PATH]){return false;}
+constexpr const wchar_t* MidiUnavailableStatus=L"La reproduccion MIDI solo esta disponible en Windows";
+#endif
 struct Bubble { CHARACTER* owner=nullptr; int emoji=-1; DWORD start=0; std::wstring name; };
 struct AssetVertex { float x,y,z,u,v; };
 struct Mesh { std::vector<AssetVertex> vertices; GLuint texture=BITMAP_UNKNOWN; };
@@ -41,8 +73,8 @@ std::array<Bubble,64> bubbles;
 std::array<GLuint,7> emojiTextures;
 std::array<Mesh,6> meshes;
 GameLogic::Music::MidiSong song;
-HMIDIOUT output=nullptr;
-std::future<HMIDIOUT> pendingOutput;
+MidiDevice output=nullptr;
+std::future<MidiDevice> pendingOutput;
 bool wantPlay=false;
 int instrument=-1,map=-1;
 bool playing=false,paused=false,loop=false;
@@ -53,12 +85,12 @@ std::vector<mu::Vertex3D> drawVertices;
 void Silence()
 {
     if(!output)return;
-    midiOutReset(output);
+    ResetMidiDevice(output);
 }
 void CloseOutput()
 {
     if(!output)return;
-    Silence();midiOutClose(output);output=nullptr;
+    Silence();CloseMidiDevice(output);output=nullptr;
 }
 bool OpenOutput()
 {
@@ -71,12 +103,7 @@ bool OpenOutput()
         return true;
     }
     status=L"Iniciando sintetizador MIDI...";
-    pendingOutput=std::async(std::launch::async,[]
-    {
-        HMIDIOUT device=nullptr;
-        if(midiOutOpen(&device,MIDI_MAPPER,0,0,CALLBACK_NULL)!=MMSYSERR_NOERROR)return static_cast<HMIDIOUT>(nullptr);
-        return device;
-    });
+    pendingOutput=std::async(std::launch::async,OpenMidiDevice);
     return false;
 }
 void Send(std::uint32_t message)
@@ -87,19 +114,19 @@ void Send(std::uint32_t message)
     if(kind==0xc0)return;
     const int channel=message&15;
     if((instrument==4)!=(channel==9))return;
-    midiOutShortMsg(output,message);
+    SendMidiMessage(output,message);
 }
 void Program()
 {
     if(!OpenOutput())return;
     for(int channel=0;channel<16;++channel)
-        if(channel!=9)midiOutShortMsg(output,0xc0|channel|(Programs[instrument]<<8));
+        if(channel!=9)SendMidiMessage(output,0xc0|channel|(Programs[instrument]<<8));
 }
 void LoadMesh(int index)
 {
     auto& mesh=meshes[index];if(!mesh.vertices.empty())return;
     const auto base=std::filesystem::path(L"Data/Interface/Instruments")/MeshNames[index];
-    std::ifstream file(base.wstring()+L".pin",std::ios::binary);
+    std::ifstream file(std::filesystem::path(base.wstring()+L".pin"),std::ios::binary);
     char magic[4]{};std::uint32_t count=0;
     file.read(magic,4);file.read(reinterpret_cast<char*>(&count),4);
     if(!file || std::memcmp(magic,"PIN1",4)!=0 || count>30000 || count%3)return;
@@ -218,7 +245,7 @@ void Load()
 void Unload()
 {
     PutAway();CloseOutput();
-    if(pendingOutput.valid()){auto device=pendingOutput.get();if(device)midiOutClose(device);}
+    if(pendingOutput.valid()){auto device=pendingOutput.get();if(device)CloseMidiDevice(device);}
     for(auto& id:emojiTextures){if(id!=BITMAP_UNKNOWN)DeleteBitmap(id);id=BITMAP_UNKNOWN;}
     for(auto& mesh:meshes){if(mesh.texture!=BITMAP_UNKNOWN)DeleteBitmap(mesh.texture);mesh={};}
     bubbles.fill({});song={};
@@ -255,13 +282,14 @@ void Activate(int index)
 void OpenMidi()
 {
     if(instrument<0)return;
-    wchar_t path[MAX_PATH]{};OPENFILENAMEW dialog{};dialog.lStructSize=sizeof(dialog);dialog.hwndOwner=g_hWnd;
-    dialog.lpstrFilter=L"Archivos MIDI (*.mid;*.midi)\0*.mid;*.midi\0\0";
-    dialog.lpstrFile=path;dialog.nMaxFile=MAX_PATH;dialog.Flags=OFN_FILEMUSTEXIST|OFN_PATHMUSTEXIST|OFN_NOCHANGEDIR;
-    if(!GetOpenFileNameW(&dialog))return;
+    wchar_t path[MAX_PATH]{};
+#ifndef _WIN32
+    status=MidiUnavailableStatus;
+#endif
+    if(!PickMidiFile(path))return;
     std::error_code ec;const auto size=std::filesystem::file_size(path,ec);
     if(ec||size>MaximumMidiBytes){status=L"El MIDI supera 2 MB o no se puede leer";return;}
-    std::ifstream file(path,std::ios::binary);std::vector<std::uint8_t> bytes((std::istreambuf_iterator<char>(file)),{});
+    std::ifstream file(std::filesystem::path(path),std::ios::binary);std::vector<std::uint8_t> bytes((std::istreambuf_iterator<char>(file)),{});
     GameLogic::Music::MidiSong parsed;std::string error;
     if(!GameLogic::Music::ParseMidi(bytes,parsed,error)){status=std::wstring(error.begin(),error.end());return;}
     Stop();song=std::move(parsed);songName=std::filesystem::path(path).filename().wstring();status=L"MIDI listo - pulsa Tocar";
