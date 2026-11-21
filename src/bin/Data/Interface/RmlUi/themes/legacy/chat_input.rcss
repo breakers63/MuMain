@@ -112,3 +112,28 @@
 	background-color: rgba(128, 51, 51, 51);
 	pointer-events: none;
 }
+
+/* Command completion list: opens upward from the bar's top edge (47dp = the bar's height), as
+   wide as the bar, one row per matching command. */
+#cib_commands {
+	position: absolute;
+	left: 0;
+	bottom: 47dp;
+	width: 281dp;
+	background-color: rgba(0, 0, 0, 200);
+	border: 1dp rgb(90, 75, 50);
+	pointer-events: auto;
+}
+.cib-command {
+	display: block;
+	padding: 1dp 4dp;
+	font-size: 1rem;
+	white-space: nowrap;
+	overflow: hidden;
+	cursor: pointer;
+}
+.cib-command:hover   { background-color: rgba(255, 255, 255, 30); }
+.cib-command.selected { background-color: rgba(200, 160, 80, 90); }
+.cib-command-name        { color: rgb(255, 230, 210); }
+.cib-command-usage       { color: rgb(150, 150, 150); padding-left: 4dp; }
+.cib-command-description { color: rgb(200, 200, 200); padding-left: 6dp; }

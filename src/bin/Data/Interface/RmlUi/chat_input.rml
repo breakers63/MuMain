@@ -46,6 +46,18 @@
 		<div id="whisper_block" data-class-hidden="whisper_send"></div>
 
 		<input id="chat_field" type="text" class="text-field cib-chat-field" data-value="chat_text"/>
+
+		<!-- Command completion: while the message starts with "/", the matching commands open
+		     above the bar. C++ filters and scrolls the list (Up / Down move the selection); a
+		     click on a row puts that command in the message field. -->
+		<div id="cib_commands" data-if="show_commands">
+			<div class="cib-command" data-for="c : commands" data-class-selected="c.selected"
+			     data-event-click="chat_complete(c.index)">
+				<span class="cib-command-name">{{c.name}}</span>
+				<span class="cib-command-usage">{{c.usage}}</span>
+				<span class="cib-command-description">{{c.description}}</span>
+			</div>
+		</div>
 	</div>
 </body>
 </rml>
