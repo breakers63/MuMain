@@ -121,7 +121,16 @@ mu_add_test(
         ${CMAKE_SOURCE_DIR}/src/source/Network/Paris/StatLimitsSnapshot.cpp
 )
 
-mu_add_test(NAME test_ranking_inspection SOURCES test_ranking_inspection.cpp LINK_LIBS MuClient)
+# The protocol sends through WSclient, which pulls in client globals defined in
+# Winmain.cpp, so it is linked here (same as test_item_database_files).
+mu_add_test(
+    NAME test_ranking_inspection
+    SOURCES
+        test_ranking_inspection.cpp
+        ${CMAKE_SOURCE_DIR}/src/source/App/Platform/Windows/Winmain.cpp
+    LINK_LIBS
+        MuClient
+)
 
 mu_add_test(
     NAME test_event_guide_protocol
