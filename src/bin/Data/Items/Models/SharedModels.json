@@ -12,11 +12,6 @@
       "textureFolders": ["Item"]
     },
     {
-      "name": "smallCapeDl",
-      "file": "Data/Item/SmallCapeDL/Wing50.bmd",
-      "textureFolders": ["Item/SmallCapeDL"]
-    },
-    {
       "name": "chaosCard",
       "file": "Data/Item/partCharge3/juju.bmd",
       "textureFolders": ["Item/partCharge3"]
@@ -160,6 +155,11 @@
       "name": "skillParchment",
       "file": "Data/Item/rollofpaper.bmd",
       "textureFolders": ["Item"]
+    },
+    {
+      "name": "smallCapeDl",
+      "file": "Data/Item/SmallCapeDL/Wing50.bmd",
+      "textureFolders": ["Item/SmallCapeDL"]
     },
     {
       "name": "socketSeed",

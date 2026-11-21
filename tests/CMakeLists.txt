@@ -38,11 +38,13 @@ endif()
 set(MU_TEST_CASE_TIMEOUT_SECONDS 120)
 
 # Helper for module CMakeLists. Usage:
-#   mu_add_test(NAME <test_name> SOURCES a.cpp b.cpp LINK_LIBS lib1 lib2)
+#   mu_add_test(NAME <test_name> SOURCES a.cpp b.cpp LINK_LIBS lib1 lib2 [RESOURCE_LOCK <name>])
 # Registers each TEST_CASE inside the binary as its own CTest entry, so
-# failures point at the specific case in CI logs.
+# failures point at the specific case in CI logs. Those entries run as parallel
+# processes under ctest -j; RESOURCE_LOCK keeps the cases of a binary that share
+# one file (e.g. config.ini beside the executable) from running at the same time.
 function(mu_add_test)
-    cmake_parse_arguments(MAT "" "NAME" "SOURCES;LINK_LIBS" ${ARGN})
+    cmake_parse_arguments(MAT "" "NAME;RESOURCE_LOCK" "SOURCES;LINK_LIBS" ${ARGN})
     add_executable(${MAT_NAME} ${MAT_SOURCES})
     target_link_libraries(${MAT_NAME} PRIVATE mu_test_main ${MAT_LINK_LIBS})
     target_include_directories(${MAT_NAME} PRIVATE
@@ -52,7 +54,11 @@ function(mu_add_test)
     if(MSVC)
         target_compile_options(${MAT_NAME} PRIVATE /utf-8)
     endif()
-    doctest_discover_tests(${MAT_NAME} PROPERTIES TIMEOUT ${MU_TEST_CASE_TIMEOUT_SECONDS})
+    set(case_properties TIMEOUT ${MU_TEST_CASE_TIMEOUT_SECONDS})
+    if(MAT_RESOURCE_LOCK)
+        list(APPEND case_properties RESOURCE_LOCK ${MAT_RESOURCE_LOCK})
+    endif()
+    doctest_discover_tests(${MAT_NAME} PROPERTIES ${case_properties})
 endfunction()
 
 find_package(Python3 COMPONENTS Interpreter REQUIRED)

@@ -56,11 +56,21 @@ def translation(symbol, keys, localized):
     return value
 
 
+# An event's description lines are translated symbols (I18N::Game::Name) or, where a
+# server ships its own text, wide string literals (L"..."); both are kept in source order.
+EVENT_LINE = re.compile(r'I18N::Game::(\w+)|L"((?:[^"\\]|\\.)*)"')
+
+
+def description_lines(block, keys, localized):
+    return [translation(symbol, keys, localized) if symbol else literal.replace('\\"', '"')
+            for symbol, literal in EVENT_LINE.findall(block)]
+
+
 def event_state(window, source, keys, localized):
     title = "MessengerOfArchangel" if window == "blood_castle_enter" else "DevilSquare"
     lines = re.search(r'const std::vector<std::wstring> lines = \{(.*?)\};', source, re.S)
-    symbols = re.findall(r'I18N::Game::(\w+)', lines[1]) if lines else ["YourWillToHelpTheArchangel"]
-    description = [translation(symbol, keys, localized) for symbol in symbols]
+    description = (description_lines(lines[1], keys, localized) if lines
+                   else [translation("YourWillToHelpTheArchangel", keys, localized)])
     blood = window == "blood_castle_enter"
     pattern = "CastleDLevelDD" if blood else "TheDSquareDDLevel"
     master = "CastleNoDMasterLevel" if blood else "SquareNoDMasterLevel"

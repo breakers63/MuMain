@@ -61,7 +61,10 @@ public:
         REQUIRE(context != nullptr);
         resolved = context;
         UI::RmlBridge::SetContextResolver([this](std::string_view) { return resolved; });
-        m_Folder = std::filesystem::temp_directory_path() / "rml_themed_view_tests";
+        // CTest runs every case as its own process, in parallel: each needs its own folder.
+        m_Folder = std::filesystem::temp_directory_path() /
+            ("rml_themed_view_tests_" +
+             std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()));
         std::filesystem::remove_all(m_Folder);
         std::filesystem::create_directories(m_Folder);
         m_PreviousDirectory = std::filesystem::current_path();

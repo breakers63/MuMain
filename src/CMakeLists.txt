@@ -87,6 +87,19 @@ set(RMLUI_LUA_BINDINGS OFF CACHE BOOL "" FORCE)
 set(RMLUI_INSTALL OFF CACHE BOOL "" FORCE)
 # calc(), min(), max() and clamp(): the themes size the item grids from their --item-cell pitch.
 set(RMLUI_MATH_EXPRESSIONS ON CACHE BOOL "" FORCE)
+# The shipped client carries a local RmlUi slider fix (patches/README.md): a thumb whose size is
+# bound from a model follows that size after the first layout. Applying it here keeps every
+# checkout and CI build on the same behaviour; the script does nothing once the patch is in.
+execute_process(
+  COMMAND "${CMAKE_COMMAND}"
+          "-DSOURCE_DIR=${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty/RmlUi"
+          "-DPATCH_FILE=${REPO_ROOT}/patches/rmlui-paris-slider.patch"
+          -P "${REPO_ROOT}/cmake/ApplyGitPatch.cmake"
+  RESULT_VARIABLE RMLUI_PATCH_RESULT
+)
+if(NOT RMLUI_PATCH_RESULT EQUAL 0)
+  message(FATAL_ERROR "Could not apply patches/rmlui-paris-slider.patch to ThirdParty/RmlUi")
+endif()
 add_subdirectory(ThirdParty/RmlUi EXCLUDE_FROM_ALL)
 
 # Determine architecture if CMAKE_SIZEOF_VOID_P isn't set
