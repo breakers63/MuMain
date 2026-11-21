@@ -75,3 +75,28 @@
 	border-radius: token(radius-sm)px;
 	pointer-events: none;
 }
+
+/* Command completion list: same placement as legacy's (above the bar, as wide as it), drawn in
+   this theme's panel tokens instead of fixed colours. */
+#cib_commands {
+	position: absolute;
+	left: 0;
+	bottom: 47dp;
+	width: 281dp;
+	background-color: token(surface-panel);
+	border: 1dp token(metal-edge);
+	border-radius: token(radius-sm)px;
+	pointer-events: auto;
+}
+.cib-command {
+	display: block;
+	padding: 1dp 4dp;
+	font-size: 11dp;
+	white-space: nowrap;
+	overflow: hidden;
+	cursor: pointer;
+}
+.cib-command:hover    { background-color: token(metal-rail-dark); }
+.cib-command.selected { background-color: token(accent-gold); }
+.cib-command-usage       { color: token(text-disabled); padding-left: 4dp; }
+.cib-command-description { padding-left: 6dp; }
